@@ -1,0 +1,86 @@
+[
+  {
+    "artifact": "torch",
+    "version": "2.8.0+cu128",
+    "released_on": "2025-08-06",
+    "release_evidence": "https://pypi.org/pypi/torch/2.8.0/json",
+    "age_days_at_2026_09_09": 399
+  },
+  {
+    "artifact": "torchaudio",
+    "version": "2.8.0+cu128",
+    "released_on": "2025-08-06",
+    "release_evidence": "https://pypi.org/pypi/torchaudio/2.8.0/json",
+    "age_days_at_2026_09_09": 399
+  },
+  {
+    "artifact": "speechbrain",
+    "version": "1.1.1",
+    "released_on": "2026-08-27",
+    "release_evidence": "https://pypi.org/pypi/speechbrain/1.1.1/json",
+    "age_days_at_2026_09_09": 13
+  },
+  {
+    "artifact": "silero-vad",
+    "version": "6.2.1",
+    "released_on": "2026-02-24",
+    "release_evidence": "https://pypi.org/pypi/silero-vad/6.2.1/json",
+    "age_days_at_2026_09_09": 197
+  },
+  {
+    "artifact": "numpy",
+    "version": "2.4.3",
+    "released_on": "2026-03-09",
+    "release_evidence": "https://pypi.org/pypi/numpy/2.4.3/json",
+    "age_days_at_2026_09_09": 184
+  },
+  {
+    "artifact": "scipy",
+    "version": "1.17.1",
+    "released_on": "2026-02-23",
+    "release_evidence": "https://pypi.org/pypi/scipy/1.17.1/json",
+    "age_days_at_2026_09_09": 198
+  },
+  {
+    "artifact": "soundfile",
+    "version": "0.14.0",
+    "released_on": "2026-06-06",
+    "release_evidence": "https://pypi.org/pypi/soundfile/0.14.0/json",
+    "age_days_at_2026_09_09": 95
+  },
+  {
+    "artifact": "fastapi",
+    "version": "0.141.1",
+    "released_on": "2026-07-29",
+    "release_evidence": "https://pypi.org/pypi/fastapi/0.141.1/json",
+    "age_days_at_2026_09_09": 42
+  },
+  {
+    "artifact": "uvicorn",
+    "version": "0.52.1",
+    "released_on": "2026-08-01",
+    "release_evidence": "https://pypi.org/pypi/uvicorn/0.52.1/json",
+    "age_days_at_2026_09_09": 39
+  },
+  {
+    "artifact": "pydantic",
+    "version": "2.13.4",
+    "released_on": "2026-05-06",
+    "release_evidence": "https://pypi.org/pypi/pydantic/2.13.4/json",
+    "age_days_at_2026_09_09": 126
+  },
+  {
+    "artifact": "pydantic-settings",
+    "version": "2.14.2",
+    "released_on": "2026-06-19",
+    "release_evidence": "https://pypi.org/pypi/pydantic-settings/2.14.2/json",
+    "age_days_at_2026_09_09": 82
+  },
+  {
+    "artifact": "huggingface-hub",
+    "version": "0.36.2",
+    "released_on": "2026-02-06",
+    "release_evidence": "https://pypi.org/pypi/huggingface-hub/0.36.2/json",
+    "age_days_at_2026_09_09": 215
+  }
+]

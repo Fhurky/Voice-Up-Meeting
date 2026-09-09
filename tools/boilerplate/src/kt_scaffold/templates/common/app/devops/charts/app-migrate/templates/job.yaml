@@ -1,0 +1,46 @@
+{{- $revision := required "revision is required" .Values.revision -}}
+{{- if not (regexMatch "^([0-9a-f]{40}|[0-9a-f]{64})$" $revision) -}}
+{{- fail "revision must be a full lowercase 40- or 64-character source hash" -}}
+{{- end -}}
+{{- if regexMatch "^0+$" $revision -}}
+{{- fail "revision must not be the all-zero source hash" -}}
+{{- end -}}
+{{- $revisionIdentity := sha256sum $revision | trunc 12 -}}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ .Release.Name }}-{{ $revisionIdentity }}"
+  labels: {app.kubernetes.io/part-of: "@@PRODUCT_SLUG@@", app.kubernetes.io/component: migrate}
+  annotations: {scaffold.kt.internal/source-revision: "{{ $revision }}"}
+spec:
+  backoffLimit: 1
+  ttlSecondsAfterFinished: 86400
+  template:
+    metadata:
+      labels: {app.kubernetes.io/part-of: "@@PRODUCT_SLUG@@", app.kubernetes.io/component: migrate}
+    spec:
+      restartPolicy: Never
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        fsGroup: 10001
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile: {type: RuntimeDefault}
+      containers:
+        - name: migrate
+          image: "{{ .Values.image.repository }}@{{ .Values.image.digest }}"
+          command: {{ toJson .Values.command }}
+          envFrom:
+            - secretRef: {name: "{{ .Values.existingSecret }}"}
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: {drop: ["ALL"]}
+          volumeMounts:
+            - {name: tmp, mountPath: /tmp}
+          resources: {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: tmp
+          emptyDir: {sizeLimit: 64Mi}

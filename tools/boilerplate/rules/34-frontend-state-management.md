@@ -1,0 +1,38 @@
+---
+id: "34-frontend-state-management"
+title: "Keep shared state small and synchronize JWT and RBAC session semantics"
+scope: frontend
+priority: 70
+trigger: path-match
+applies_to:
+  - "app/frontend/src/contexts/**"
+  - "app/frontend/src/hooks/**"
+  - "app/frontend/src/lib/authStorage.*"
+gate: "auth-contract"
+---
+
+# Frontend state management
+
+Use component-local state unless multiple routes or distant components need the same value. Split
+contexts by concern; the baseline provides authentication/session and locale contexts. Every context
+exports a typed consumer hook, throws when used outside its provider, and memoizes a stable value.
+Do not create one application-wide context containing unrelated domain state.
+
+`AuthContext` represents the JWT-backed current session returned by `/me`: actor public identity,
+active tenant, roles, canonical permissions or their documented short codes, and the explicit
+`super_admin` flag. Schema seeds, backend expansion/guards, and frontend interpretation must agree.
+Add or rename a role/permission in all owning surfaces and protect the agreement with an auth contract
+test.
+
+Frontend route/menu gates improve usability but never grant authority. The backend is the source of
+truth. `super_admin` may reveal every application route, but this flag must not imply database,
+container, or cluster privileges. Store and clear access tokens only through `authStorage`; never log
+them or place them in URLs.
+
+Log out automatically only on a proven session-expiry response as defined by
+`31-frontend-api-integration.md`. Preserve the session on network, proxy, upstream, and unrelated
+authorization failures.
+
+For asynchronous effects, cancel or ignore stale completions on unmount/key change. Dependency arrays
+contain stable identifiers; do not add a fresh translation or notification closure that retriggers a
+load on every render. Model loading, empty, error, and success states explicitly.

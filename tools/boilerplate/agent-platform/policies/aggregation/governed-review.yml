@@ -1,0 +1,43 @@
+schema_version: "1.0"
+kind: DeterministicDecisionPolicy
+metadata:
+  id: policy:governed-review-aggregation
+  version: 1.0.0
+  owner: team:ai-governance
+  lifecycle: draft
+lineage:
+  source: external-seed:desktop-agents/supervisor
+  authoritative: false
+  normalization_status: canonical-normalized
+
+claim_boundary:
+  runtime_admission: false
+  production_decision: false
+  note: Thresholds are imported research hypotheses and require representative calibration and owner acceptance.
+
+required_workers:
+  - agent:requirements-scope
+  - agent:code-review
+  - agent:application-security
+  - agent:test-automation
+
+weights:
+  agent:requirements-scope: 0.6
+  agent:code-review: 0.8
+  agent:application-security: 1.4
+  agent:test-automation: 0.6
+
+thresholds:
+  fail_score: 60
+  warning_score: 25
+  confidence_floor: 0.55
+  compliance_baseline: 100
+
+fail_closed:
+  missing_worker: MANUAL_REVIEW
+  timeout: MANUAL_REVIEW
+  invalid_schema: MANUAL_REVIEW
+  integrity_failure: MANUAL_REVIEW
+  unknown_policy_version: MANUAL_REVIEW
+
+decisions: [PASS, WARNING, FAIL, MANUAL_REVIEW]

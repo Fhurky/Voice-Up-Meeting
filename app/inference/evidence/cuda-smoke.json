@@ -1,0 +1,184 @@
+{
+  "purpose": "Real CUDA HTTP software smoke; constructed public fixtures are not accuracy evidence",
+  "python": "3.13.14",
+  "torch": "2.8.0+cu128",
+  "cuda_build": "12.8",
+  "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+  "startup_seconds": 3.415464716000315,
+  "startup_scope": "In-process HTTP startup including model verification/load/warmup; excludes container creation and initial Python imports",
+  "request_order": "First constructed enrollment request precedes repeated warm identify requests; CUDA readiness already performed synthetic warmup",
+  "checks": [
+    {
+      "case": "live",
+      "status": 200,
+      "http_seconds": 0.024273429000459146,
+      "alive": true
+    },
+    {
+      "case": "ready",
+      "status": 200,
+      "http_seconds": 0.0017755919998307945,
+      "ready": true,
+      "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+      "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+      "dimensions": 192,
+      "device": "cuda:0"
+    },
+    {
+      "case": "invalid_audio",
+      "status": 400,
+      "http_seconds": 0.004621504000169807,
+      "error_code": "invalid_audio"
+    },
+    {
+      "case": "unsupported_audio",
+      "status": 415,
+      "http_seconds": 0.00164436500017473,
+      "error_code": "unsupported_audio"
+    },
+    {
+      "case": "invalid_key",
+      "status": 401,
+      "http_seconds": 0.001586659000167856,
+      "error_code": "unauthorized"
+    },
+    {
+      "case": "silence_quality_rejection",
+      "status": 422,
+      "http_seconds": 0.2816524219997518,
+      "error_code": "insufficient_speech"
+    },
+    {
+      "case": "constructed_fixture_repeated-public-sample-30s.wav_enroll",
+      "status": 200,
+      "http_seconds": 0.6745078020003348,
+      "speech_seconds": 26.886,
+      "windows_count": 5,
+      "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+      "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+      "dimensions": 192,
+      "device": "cuda:0",
+      "quality": {
+        "input_seconds": 30.0,
+        "vad_speech_seconds": 29.666,
+        "min_pair_similarity": 0.9415121155051799,
+        "single_speaker_assumption": true,
+        "execution_seconds": 0.6688197650000802,
+        "gpu_peak_allocated_bytes": 188786688,
+        "gpu_peak_reserved_bytes": 211812352,
+        "gpu_memory_scope": "pytorch_process_including_resident_models"
+      },
+      "embedding_norm": 0.9999999999999999
+    },
+    {
+      "case": "constructed_fixture_repeated-public-sample-30s.wav_identify",
+      "status": 200,
+      "http_seconds": 0.7102612560001944,
+      "speech_seconds": 26.886,
+      "windows_count": 5,
+      "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+      "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+      "dimensions": 192,
+      "device": "cuda:0",
+      "quality": {
+        "input_seconds": 30.0,
+        "vad_speech_seconds": 29.666,
+        "min_pair_similarity": 0.9415121155051799,
+        "single_speaker_assumption": true,
+        "execution_seconds": 0.7064081059997989,
+        "gpu_peak_allocated_bytes": 188786688,
+        "gpu_peak_reserved_bytes": 211812352,
+        "gpu_memory_scope": "pytorch_process_including_resident_models"
+      },
+      "embedding_norm": 0.9999999999999999
+    },
+    {
+      "case": "constructed_fixture_repeated-public-sample-30s.wav_flac_identify",
+      "status": 200,
+      "http_seconds": 0.6771360630000345,
+      "speech_seconds": 26.886,
+      "windows_count": 5,
+      "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+      "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+      "dimensions": 192,
+      "device": "cuda:0",
+      "quality": {
+        "input_seconds": 30.0,
+        "vad_speech_seconds": 29.666,
+        "min_pair_similarity": 0.9415121155051799,
+        "single_speaker_assumption": true,
+        "execution_seconds": 0.6738632010001311,
+        "gpu_peak_allocated_bytes": 188786688,
+        "gpu_peak_reserved_bytes": 211812352,
+        "gpu_memory_scope": "pytorch_process_including_resident_models"
+      },
+      "embedding_norm": 0.9999999999999999
+    },
+    {
+      "case": "constructed_fixture_repeated-other-public-sample-30s.wav_enroll",
+      "status": 200,
+      "http_seconds": 0.6146752320000815,
+      "speech_seconds": 30.0,
+      "windows_count": 4,
+      "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+      "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+      "dimensions": 192,
+      "device": "cuda:0",
+      "quality": {
+        "input_seconds": 30.0,
+        "vad_speech_seconds": 30.0,
+        "min_pair_similarity": 0.9924484890568963,
+        "single_speaker_assumption": true,
+        "execution_seconds": 0.6098899769995114,
+        "gpu_peak_allocated_bytes": 199446016,
+        "gpu_peak_reserved_bytes": 272629760,
+        "gpu_memory_scope": "pytorch_process_including_resident_models"
+      },
+      "embedding_norm": 0.9999999999999999
+    },
+    {
+      "case": "constructed_fixture_repeated-other-public-sample-30s.wav_identify",
+      "status": 200,
+      "http_seconds": 0.6316848739998022,
+      "speech_seconds": 30.0,
+      "windows_count": 4,
+      "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+      "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+      "dimensions": 192,
+      "device": "cuda:0",
+      "quality": {
+        "input_seconds": 30.0,
+        "vad_speech_seconds": 30.0,
+        "min_pair_similarity": 0.9924484890568963,
+        "single_speaker_assumption": true,
+        "execution_seconds": 0.6281905610003378,
+        "gpu_peak_allocated_bytes": 199446016,
+        "gpu_peak_reserved_bytes": 272629760,
+        "gpu_memory_scope": "pytorch_process_including_resident_models"
+      },
+      "embedding_norm": 0.9999999999999999
+    },
+    {
+      "case": "constructed_fixture_repeated-other-public-sample-30s.wav_flac_identify",
+      "status": 200,
+      "http_seconds": 0.6103272540003672,
+      "speech_seconds": 30.0,
+      "windows_count": 4,
+      "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+      "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+      "dimensions": 192,
+      "device": "cuda:0",
+      "quality": {
+        "input_seconds": 30.0,
+        "vad_speech_seconds": 30.0,
+        "min_pair_similarity": 0.9924484890568963,
+        "single_speaker_assumption": true,
+        "execution_seconds": 0.6068232739999075,
+        "gpu_peak_allocated_bytes": 199446016,
+        "gpu_peak_reserved_bytes": 272629760,
+        "gpu_memory_scope": "pytorch_process_including_resident_models"
+      },
+      "embedding_norm": 0.9999999999999999
+    }
+  ]
+}

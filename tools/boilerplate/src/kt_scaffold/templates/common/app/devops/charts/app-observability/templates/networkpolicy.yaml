@@ -1,0 +1,75 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: "{{ .Release.Name }}-collector"}
+spec:
+  podSelector: {matchLabels: {app.kubernetes.io/part-of: "@@PRODUCT_SLUG@@", app.kubernetes.io/component: observability}}
+  policyTypes: [Ingress, Egress]
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels: {app.kubernetes.io/part-of: "@@PRODUCT_SLUG@@"}
+            matchExpressions: [{key: app.kubernetes.io/component, operator: In, values: [backend, worker]}]
+      ports: [{protocol: TCP, port: 4317}, {protocol: TCP, port: 4318}]
+  egress:
+    - to: [{podSelector: {matchLabels: {app.kubernetes.io/part-of: "@@PRODUCT_SLUG@@", app.kubernetes.io/component: tempo}}}]
+      ports: [{protocol: TCP, port: 4317}]
+    - to: [{podSelector: {matchLabels: {app.kubernetes.io/part-of: "@@PRODUCT_SLUG@@", app.kubernetes.io/component: prometheus}}}]
+      ports: [{protocol: TCP, port: 9090}]
+    - to: [{podSelector: {matchLabels: {app.kubernetes.io/part-of: "@@PRODUCT_SLUG@@", app.kubernetes.io/component: loki}}}]
+      ports: [{protocol: TCP, port: 3100}]
+    - to:
+        - namespaceSelector: {matchLabels: {kubernetes.io/metadata.name: "{{ .Values.dns.namespace }}"}}
+          podSelector: {matchLabels: {k8s-app: "{{ .Values.dns.component }}"}}
+      ports: [{protocol: UDP, port: 53}, {protocol: TCP, port: 53}]
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: "{{ .Release.Name }}-tempo"}
+spec:
+  podSelector: {matchLabels: {app.kubernetes.io/part-of: "@@PRODUCT_SLUG@@", app.kubernetes.io/component: tempo}}
+  policyTypes: [Ingress, Egress]
+  ingress:
+    - from: [{podSelector: {matchLabels: {app.kubernetes.io/part-of: "@@PRODUCT_SLUG@@"}, matchExpressions: [{key: app.kubernetes.io/component, operator: In, values: [observability, grafana]}]}}]
+      ports: [{protocol: TCP, port: 3200}, {protocol: TCP, port: 4317}]
+  egress: []
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: "{{ .Release.Name }}-prometheus"}
+spec:
+  podSelector: {matchLabels: {app.kubernetes.io/part-of: "@@PRODUCT_SLUG@@", app.kubernetes.io/component: prometheus}}
+  policyTypes: [Ingress, Egress]
+  ingress:
+    - from: [{podSelector: {matchLabels: {app.kubernetes.io/part-of: "@@PRODUCT_SLUG@@"}, matchExpressions: [{key: app.kubernetes.io/component, operator: In, values: [observability, grafana]}]}}]
+      ports: [{protocol: TCP, port: 9090}]
+  egress: []
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: "{{ .Release.Name }}-loki"}
+spec:
+  podSelector: {matchLabels: {app.kubernetes.io/part-of: "@@PRODUCT_SLUG@@", app.kubernetes.io/component: loki}}
+  policyTypes: [Ingress, Egress]
+  ingress:
+    - from: [{podSelector: {matchLabels: {app.kubernetes.io/part-of: "@@PRODUCT_SLUG@@"}, matchExpressions: [{key: app.kubernetes.io/component, operator: In, values: [observability, grafana]}]}}]
+      ports: [{protocol: TCP, port: 3100}]
+  egress: []
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: "{{ .Release.Name }}-grafana"}
+spec:
+  podSelector: {matchLabels: {app.kubernetes.io/part-of: "@@PRODUCT_SLUG@@", app.kubernetes.io/component: grafana}}
+  policyTypes: [Ingress, Egress]
+  ingress:
+    - from:
+        - namespaceSelector: {matchLabels: {kubernetes.io/metadata.name: "{{ .Values.ingressController.namespace }}"}}
+          podSelector: {matchLabels: {app.kubernetes.io/name: "{{ .Values.ingressController.component }}"}}
+      ports: [{protocol: TCP, port: 3000}]
+  egress:
+    - to: [{podSelector: {matchLabels: {app.kubernetes.io/part-of: "@@PRODUCT_SLUG@@"}, matchExpressions: [{key: app.kubernetes.io/component, operator: In, values: [tempo, prometheus, loki]}]}}]
+      ports: [{protocol: TCP, port: 3200}, {protocol: TCP, port: 9090}, {protocol: TCP, port: 3100}]
+    - to:
+        - namespaceSelector: {matchLabels: {kubernetes.io/metadata.name: "{{ .Values.dns.namespace }}"}}
+          podSelector: {matchLabels: {k8s-app: "{{ .Values.dns.component }}"}}
+      ports: [{protocol: UDP, port: 53}, {protocol: TCP, port: 53}]

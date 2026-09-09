@@ -1,0 +1,16 @@
+image:
+  repository: registry.internal.invalid/platform/postgres
+  digest: sha256:724a4041afdb1750446e3f6b5cfa8f3b0ac5a2cf538ddfa6bfee4f94c2fa85c6
+existingSecret: app-database
+storage:
+  className: local-path
+  size: 8Gi
+backup: {enabled: false}
+restore: {enabled: false}
+storageProbe: {enabled: false}
+dns:
+  namespace: kube-system
+  component: kube-dns
+resources:
+  requests: {cpu: 100m, memory: 256Mi}
+  limits: {cpu: 2000m, memory: 2Gi}

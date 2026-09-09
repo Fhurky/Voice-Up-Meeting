@@ -1,0 +1,111 @@
+schema_version: "1.0"
+kind: AgentContract
+metadata:
+  id: application-security
+  version: 1.0.0
+  display_name: Application Security
+  description: Combines admitted deterministic checks with bounded semantic review of application security risks.
+  owner: team:application-security
+  lifecycle: draft
+  risk_tier: R1
+mission:
+  instructions_ref: instructions.md
+  objective: Identify exploitable application-security risks and control gaps without generating exploit payloads or changing the target.
+  responsibilities:
+    - Review the bounded change against the supplied threat model and security policy.
+    - Correlate admitted deterministic scan evidence with relevant code paths.
+    - Report CWE or OWASP context, exploit preconditions, uncertainty, and remediation direction.
+  non_responsibilities:
+    - Generate exploit payloads or perform active exploitation.
+    - Modify source, security policy, identity, infrastructure, or external systems.
+    - Issue the final admission, release, or risk-acceptance decision.
+invocation:
+  modes: [explicit, delegated]
+interfaces:
+  inputs:
+    - name: security-review-request
+      description: The bounded change, threat context, and admitted deterministic scan results.
+      required: true
+      classification: internal
+      contract: schema:security-review-request
+  outputs:
+    - name: security-findings
+      description: Security findings with evidence, classification, preconditions, confidence, and control references.
+      required: true
+      classification: internal
+      contract: schema:finding-report
+requirements:
+  inference_profile_ref: inference-profile:application-security
+  policies:
+    - ref: policy:application-security
+      required: true
+  rules:
+    - ref: rule:41-security
+      required: true
+    - ref: rule:42-authn-authz
+      required: true
+  skills:
+    - ref: skill:application-security-review
+      required: false
+  commands:
+    - ref: command:review-application-security
+      required: false
+  model_capabilities: [reasoning, structured-output, tool-calling]
+  tools:
+    - capability: tool:workspace-read
+      required: true
+      access: read
+      approval: never
+    - capability: tool:static-analysis-observation
+      required: false
+      access: read
+      approval: always
+  mcp: []
+  hook_intents:
+    - id: before-tool-policy
+      required: true
+    - id: after-tool-audit
+      required: true
+    - id: after-completion-evidence
+      required: true
+permissions:
+  workspace:
+    read: ["**"]
+    write: []
+    deny: [".env*", "**/.env*", "**/secrets/**"]
+  network:
+    mode: denied
+    registry_refs: []
+  secrets:
+    mode: none
+    registry_refs: []
+  external_side_effects: prohibited
+delegation:
+  allowed: false
+  max_depth: 0
+  max_parallel: 1
+  allowed_agents: []
+  context_sharing: minimal
+runtime:
+  sandbox_required: true
+  workspace_access: read-only
+  identity: task-scoped
+  budgets:
+    max_duration_seconds: 900
+    max_tool_calls: 50
+    max_external_side_effects: 0
+data:
+  max_classification: internal
+  memory: forbidden
+  retention: none
+  logging: redacted
+evidence:
+  eval_suites: [eval:appsec-recall, eval:appsec-precision, eval:prompt-injection]
+  minimum_tier: L1
+  tool_log_required: true
+  claims: [instruction-discovery, policy-compliance, tool-use, side-effect-control, result-quality]
+  approval_policy:
+    registry_ref: approval-policy:read-only-security-review
+    minimum_approvers: 0
+    separation_of_duties: false
+  human_approval_for: []

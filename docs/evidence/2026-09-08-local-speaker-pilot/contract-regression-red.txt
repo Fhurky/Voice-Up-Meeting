@@ -1,0 +1,336 @@
+KT_GATE_STEP name=configuration status=started
+KT_GATE_STEP name=configuration status=passed
+KT_GATE_STEP name=dependency-admission status=started
+dependency admission current: 107 coordinates, sha256:598d8820d7a596b0306975777225a79453edd570cc8d8bf878ee1abab40cdd41
+KT_GATE_STEP name=dependency-admission status=passed
+KT_GATE_STEP name=configuration-sync status=started
+{"backend_profile":"python-fastapi","checked":{"compose_environment_keys":26,"env_example_assignments":27,"kubernetes_secret_refs":1,"source_files":54,"typed_configuration_keys":29},"env_prefix":"VOICEUP_","ok":true}
+KT_GATE_STEP name=configuration-sync status=passed
+KT_GATE_SCOPE scope=all postgres_integration=required database_mode=disposable-test
+KT_GATE_STEP name=database-test-create status=started
+CREATE DATABASE
+KT_GATE_STEP name=database-test-create status=passed
+KT_GATE_STEP name=database-migrations-apply status=started
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+INFO  [alembic.runtime.migration] Running upgrade  -> 202608060001, Create the tenant, user, and RBAC platform baseline.
+INFO  [alembic.runtime.migration] Running upgrade 202608060001 -> 9486b1bc12a9, speaker_identity_pilot
+KT_GATE_STEP name=database-migrations-apply status=passed
+KT_GATE_STEP name=backend-static status=started
+All checks passed!
+All done! ✨ 🍰 ✨
+66 files would be left unchanged.
+Success: no issues found in 54 source files
+KT_GATE_STEP name=backend-static status=passed
+KT_GATE_STEP name=backend-tests status=started
+.FF..........................................FFF...........              [100%]
+=================================== FAILURES ===================================
+_____ test_worker_accepts_producer_duration_tolerance[enroll-9.9999995-2] ______
+
+pilot = Pilot(client=<httpx.AsyncClient object at 0x72bac7c50550>, sessions=async_sessionmaker(class_='AsyncSession', bind=<sq...app.domain.models.tenant.Tenant object at 0x72bac7c37130>, user=<app.domain.models.user.User object at 0x72bac7c36cf0>)
+purpose = 'enroll', seconds = 9.9999995, windows = 2
+
+    @pytest.mark.parametrize(
+        "purpose,seconds,windows", [("enroll", 10 - 5e-7, 2), ("identify", 3 - 5e-7, 1)]
+    )
+    async def test_worker_accepts_producer_duration_tolerance(
+        pilot: Pilot, purpose: str, seconds: float, windows: int
+    ) -> None:
+        pilot.provider.speech_seconds = seconds
+        pilot.provider.windows_count = windows
+        recording = await pilot.upload()
+        job = await pilot.submit(
+            recording["public_id"], purpose=purpose, name="Person" if purpose == "enroll" else None
+        )
+        result = await pilot.terminal(job)
+>       assert result["status"] == "succeeded", result
+E       AssertionError: {'public_id': '0fda69fa-d1d8-44a6-839b-a70844293f6a', 'purpose': 'enroll', 'status': 'failed', 'recording_public_id': '3fe21acd-bdb9-4b94-abfd-d1a85d191d30', ...}
+E       assert 'failed' == 'succeeded'
+E         
+E         - succeeded
+E         + failed
+
+tests/integration/test_speaker_pilot.py:226: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+No new upgrade operations detected.
+---------------------------- Captured stderr setup -----------------------------
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+INFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.schemas
+INFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.tables
+INFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.types
+INFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.constraints
+INFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.defaults
+INFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.comments
+INFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.checkconstraint_byname
+____ test_worker_accepts_producer_duration_tolerance[identify-2.9999995-1] _____
+
+pilot = Pilot(client=<httpx.AsyncClient object at 0x72bac7cb4410>, sessions=async_sessionmaker(class_='AsyncSession', bind=<sq...app.domain.models.tenant.Tenant object at 0x72bac7d38c00>, user=<app.domain.models.user.User object at 0x72bac7748490>)
+purpose = 'identify', seconds = 2.9999995, windows = 1
+
+    @pytest.mark.parametrize(
+        "purpose,seconds,windows", [("enroll", 10 - 5e-7, 2), ("identify", 3 - 5e-7, 1)]
+    )
+    async def test_worker_accepts_producer_duration_tolerance(
+        pilot: Pilot, purpose: str, seconds: float, windows: int
+    ) -> None:
+        pilot.provider.speech_seconds = seconds
+        pilot.provider.windows_count = windows
+        recording = await pilot.upload()
+        job = await pilot.submit(
+            recording["public_id"], purpose=purpose, name="Person" if purpose == "enroll" else None
+        )
+        result = await pilot.terminal(job)
+>       assert result["status"] == "succeeded", result
+E       AssertionError: {'public_id': 'bd9c59bd-924e-4de2-8f3b-b0b5a13b16f4', 'purpose': 'identify', 'status': 'failed', 'recording_public_id': 'd87fd276-7be2-4084-9dd6-d5ed996a39fa', ...}
+E       assert 'failed' == 'succeeded'
+E         
+E         - succeeded
+E         + failed
+
+tests/integration/test_speaker_pilot.py:226: AssertionError
+___ test_http_adapter_accepts_producer_minimum_tolerance[enroll-9.9999995-2] ___
+
+purpose = 'enroll', seconds = 9.9999995, windows = 2
+
+    @pytest.mark.parametrize(
+        "purpose,seconds,windows", [("enroll", 10 - 5e-7, 2), ("identify", 3 - 5e-7, 1)]
+    )
+    async def test_http_adapter_accepts_producer_minimum_tolerance(
+        purpose: Literal["enroll", "identify"], seconds: float, windows: int
+    ) -> None:
+        from pydantic import SecretStr
+    
+        settings = get_settings().model_copy(
+            update={"inference_key": SecretStr("test-inference-key-at-least-32-bytes")}
+        )
+        payload = {
+            "embedding": [1.0] + [0.0] * 191,
+            "model_id": MODEL_ID,
+            "model_revision": MODEL_REVISION,
+            "dimensions": 192,
+            "speech_seconds": seconds,
+            "windows_count": windows,
+            "device": "cuda:0",
+        }
+        async with httpx.AsyncClient(
+            transport=httpx.MockTransport(lambda _: httpx.Response(200, json=payload))
+        ) as client:
+>           result = await HttpEmbeddingAdapter(settings, client).embed(
+                b"fixture", purpose=purpose, job_public_id=str(uuid4()), tenant_public_id=str(uuid4())
+            )
+
+tests/unit/test_speaker_boundaries.py:171: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.infrastructure.speaker_inference.HttpEmbeddingAdapter object at 0x72bac6954e20>
+audio = b'fixture', purpose = 'enroll'
+job_public_id = '4bc6b483-4270-4e61-a17e-5d0148b33fdc'
+tenant_public_id = '76202c89-8f50-4fd5-a66a-07a47a61739d'
+
+    async def embed(
+        self,
+        audio: bytes,
+        *,
+        purpose: Literal["enroll", "identify"],
+        job_public_id: str,
+        tenant_public_id: str,
+    ) -> EmbeddingResult:
+        if self.settings.inference_key is None:
+            raise SpeakerError("inference_unavailable", 503)
+        try:
+            response = await self.client.post(
+                httpx.URL(self.settings.inference_url).join("/v1/embeddings"),
+                params={"purpose": purpose},
+                content=audio,
+                headers={
+                    "Content-Type": "application/octet-stream",
+                    "X-Inference-Key": self.settings.inference_key.get_secret_value(),
+                    "X-Job-Id": job_public_id,
+                    "X-Tenant-Id": tenant_public_id,
+                },
+                timeout=self.settings.job_timeout_seconds,
+            )
+        except httpx.TimeoutException as exc:
+            raise SpeakerError("job_timeout", 503) from exc
+        except httpx.HTTPError as exc:
+            raise SpeakerError("inference_unavailable", 503) from exc
+        if response.status_code in {400, 413, 415, 422}:
+            try:
+                code = response.json()["detail"]["code"]
+            except (ValueError, KeyError, TypeError):
+                code = "invalid_audio"
+            allowed = {
+                "insufficient_speech",
+                "inconsistent_audio",
+                "clipped_audio",
+                "invalid_audio",
+                "audio_limit",
+                "unsupported_audio",
+            }
+            raise SpeakerError(code if code in allowed else "invalid_audio", response.status_code)
+        if response.status_code != 200:
+            raise SpeakerError("inference_unavailable", 503)
+        try:
+            payload = InferenceResponse.model_validate(response.json())
+            vector = normalize(payload.embedding)
+        except (ValueError, ValidationError) as exc:
+            raise SpeakerError("model_mismatch", 502) from exc
+        if (
+            purpose == "enroll" and (payload.speech_seconds < 10 or payload.windows_count < 2)
+        ) or payload.speech_seconds < 3:
+>           raise SpeakerError("insufficient_speech", 422)
+E           app.services.speaker_ports.SpeakerError: insufficient_speech
+
+app/infrastructure/speaker_inference.py:79: SpeakerError
+----------------------------- Captured stdout call -----------------------------
+{"level":"INFO","logger":"httpx","message":"HTTP Request: POST http://inference:8090/v1/embeddings?purpose=enroll \"HTTP/1.1 200 OK\"","timestamp":"2026-09-08T21:54:15.696002+00:00"}
+----------------------------- Captured stderr call -----------------------------
+INFO  [httpx] HTTP Request: POST http://inference:8090/v1/embeddings?purpose=enroll "HTTP/1.1 200 OK"
+------------------------------ Captured log call -------------------------------
+INFO     httpx:_client.py:1740 HTTP Request: POST http://inference:8090/v1/embeddings?purpose=enroll "HTTP/1.1 200 OK"
+__ test_http_adapter_accepts_producer_minimum_tolerance[identify-2.9999995-1] __
+
+purpose = 'identify', seconds = 2.9999995, windows = 1
+
+    @pytest.mark.parametrize(
+        "purpose,seconds,windows", [("enroll", 10 - 5e-7, 2), ("identify", 3 - 5e-7, 1)]
+    )
+    async def test_http_adapter_accepts_producer_minimum_tolerance(
+        purpose: Literal["enroll", "identify"], seconds: float, windows: int
+    ) -> None:
+        from pydantic import SecretStr
+    
+        settings = get_settings().model_copy(
+            update={"inference_key": SecretStr("test-inference-key-at-least-32-bytes")}
+        )
+        payload = {
+            "embedding": [1.0] + [0.0] * 191,
+            "model_id": MODEL_ID,
+            "model_revision": MODEL_REVISION,
+            "dimensions": 192,
+            "speech_seconds": seconds,
+            "windows_count": windows,
+            "device": "cuda:0",
+        }
+        async with httpx.AsyncClient(
+            transport=httpx.MockTransport(lambda _: httpx.Response(200, json=payload))
+        ) as client:
+>           result = await HttpEmbeddingAdapter(settings, client).embed(
+                b"fixture", purpose=purpose, job_public_id=str(uuid4()), tenant_public_id=str(uuid4())
+            )
+
+tests/unit/test_speaker_boundaries.py:171: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.infrastructure.speaker_inference.HttpEmbeddingAdapter object at 0x72bac697c8d0>
+audio = b'fixture', purpose = 'identify'
+job_public_id = '659d55fb-1b2e-469c-82c7-f3d3af30c7f0'
+tenant_public_id = '0ba68615-d5eb-4dcd-93a8-f8efad572590'
+
+    async def embed(
+        self,
+        audio: bytes,
+        *,
+        purpose: Literal["enroll", "identify"],
+        job_public_id: str,
+        tenant_public_id: str,
+    ) -> EmbeddingResult:
+        if self.settings.inference_key is None:
+            raise SpeakerError("inference_unavailable", 503)
+        try:
+            response = await self.client.post(
+                httpx.URL(self.settings.inference_url).join("/v1/embeddings"),
+                params={"purpose": purpose},
+                content=audio,
+                headers={
+                    "Content-Type": "application/octet-stream",
+                    "X-Inference-Key": self.settings.inference_key.get_secret_value(),
+                    "X-Job-Id": job_public_id,
+                    "X-Tenant-Id": tenant_public_id,
+                },
+                timeout=self.settings.job_timeout_seconds,
+            )
+        except httpx.TimeoutException as exc:
+            raise SpeakerError("job_timeout", 503) from exc
+        except httpx.HTTPError as exc:
+            raise SpeakerError("inference_unavailable", 503) from exc
+        if response.status_code in {400, 413, 415, 422}:
+            try:
+                code = response.json()["detail"]["code"]
+            except (ValueError, KeyError, TypeError):
+                code = "invalid_audio"
+            allowed = {
+                "insufficient_speech",
+                "inconsistent_audio",
+                "clipped_audio",
+                "invalid_audio",
+                "audio_limit",
+                "unsupported_audio",
+            }
+            raise SpeakerError(code if code in allowed else "invalid_audio", response.status_code)
+        if response.status_code != 200:
+            raise SpeakerError("inference_unavailable", 503)
+        try:
+            payload = InferenceResponse.model_validate(response.json())
+            vector = normalize(payload.embedding)
+        except (ValueError, ValidationError) as exc:
+            raise SpeakerError("model_mismatch", 502) from exc
+        if (
+            purpose == "enroll" and (payload.speech_seconds < 10 or payload.windows_count < 2)
+        ) or payload.speech_seconds < 3:
+>           raise SpeakerError("insufficient_speech", 422)
+E           app.services.speaker_ports.SpeakerError: insufficient_speech
+
+app/infrastructure/speaker_inference.py:79: SpeakerError
+----------------------------- Captured stdout call -----------------------------
+{"level":"INFO","logger":"httpx","message":"HTTP Request: POST http://inference:8090/v1/embeddings?purpose=identify \"HTTP/1.1 200 OK\"","timestamp":"2026-09-08T21:54:15.841373+00:00"}
+----------------------------- Captured stderr call -----------------------------
+INFO  [httpx] HTTP Request: POST http://inference:8090/v1/embeddings?purpose=identify "HTTP/1.1 200 OK"
+------------------------------ Captured log call -------------------------------
+INFO     httpx:_client.py:1740 HTTP Request: POST http://inference:8090/v1/embeddings?purpose=identify "HTTP/1.1 200 OK"
+________________ test_http_adapter_rejects_cpu_success_response ________________
+
+    async def test_http_adapter_rejects_cpu_success_response() -> None:
+        from pydantic import SecretStr
+    
+        settings = get_settings().model_copy(
+            update={"inference_key": SecretStr("test-inference-key-at-least-32-bytes")}
+        )
+        payload = {
+            "embedding": [1.0] + [0.0] * 191,
+            "model_id": MODEL_ID,
+            "model_revision": MODEL_REVISION,
+            "dimensions": 192,
+            "speech_seconds": 12.0,
+            "windows_count": 2,
+            "device": "cpu",
+        }
+        async with httpx.AsyncClient(
+            transport=httpx.MockTransport(lambda _: httpx.Response(200, json=payload))
+        ) as client:
+>           with pytest.raises(SpeakerError, match="model_mismatch"):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE SpeakerError
+
+tests/unit/test_speaker_boundaries.py:195: Failed
+----------------------------- Captured stdout call -----------------------------
+{"level":"INFO","logger":"httpx","message":"HTTP Request: POST http://inference:8090/v1/embeddings?purpose=enroll \"HTTP/1.1 200 OK\"","timestamp":"2026-09-08T21:54:15.896067+00:00"}
+----------------------------- Captured stderr call -----------------------------
+INFO  [httpx] HTTP Request: POST http://inference:8090/v1/embeddings?purpose=enroll "HTTP/1.1 200 OK"
+------------------------------ Captured log call -------------------------------
+INFO     httpx:_client.py:1740 HTTP Request: POST http://inference:8090/v1/embeddings?purpose=enroll "HTTP/1.1 200 OK"
+=========================== short test summary info ============================
+FAILED tests/integration/test_speaker_pilot.py::test_worker_accepts_producer_duration_tolerance[enroll-9.9999995-2]
+FAILED tests/integration/test_speaker_pilot.py::test_worker_accepts_producer_duration_tolerance[identify-2.9999995-1]
+FAILED tests/unit/test_speaker_boundaries.py::test_http_adapter_accepts_producer_minimum_tolerance[enroll-9.9999995-2]
+FAILED tests/unit/test_speaker_boundaries.py::test_http_adapter_accepts_producer_minimum_tolerance[identify-2.9999995-1]
+FAILED tests/unit/test_speaker_boundaries.py::test_http_adapter_rejects_cpu_success_response
+5 failed, 54 passed in 12.64s
+KT_GATE_TESTS name=backend-tests runner=pytest total=59 passed=54 failed=5 skipped=0
+KT_GATE_STEP name=backend-tests status=failed exit_code=1
+KT_GATE_STEP name=database-test-drop status=started
+DROP DATABASE
+KT_GATE_STEP name=database-test-drop status=passed

@@ -1,0 +1,34 @@
+{
+  "scope": "pre-push staged blob inspection; limited patterns, not an admitted security scanner",
+  "staged_files": 1062,
+  "staged_bytes": 8629062,
+  "checks": {
+    "origin_matches_authorized_repository": true,
+    "existing_remote_history_retained": true,
+    "local_inputs_ignored": true,
+    "no_sensitive_or_oversize_staged_files": true,
+    "no_unmerged_index_entries": true,
+    "executable_shell_scripts_recorded": true,
+    "root_token_not_in_git_config": true
+  },
+  "passed_checks": 7,
+  "failed_checks": 0,
+  "actionable_findings": [],
+  "reviewed_test_fixtures": [
+    {
+      "path": "tools/boilerplate/tests/test_agent_platform_registry.py",
+      "line": 486,
+      "rule": "private_key"
+    }
+  ],
+  "executable_shell_scripts": 32,
+  "secret_values_printed": false,
+  "ignored_inputs": {
+    ".env": true,
+    "app/infra/.env": true,
+    "outputs/local-pilot-credentials.json": true,
+    "models/speaker-pilot/manifest.json": true,
+    "data/speaker-pilot/dataset.json": true
+  },
+  "base_head": "9d6ef08181734ba20e0dac1f8accdf46fbd402b7"
+}

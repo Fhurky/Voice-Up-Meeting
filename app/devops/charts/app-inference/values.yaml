@@ -1,0 +1,13 @@
+replicaCount: 1
+image:
+  repository: registry.internal.invalid/app/inference
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+existingSecret: speaker-inference
+service: {port: 8090}
+modelStorage:
+  claimName: speaker-models
+  className: local-path
+  size: 2Gi
+resources:
+  requests: {cpu: 1000m, memory: 2Gi, nvidia.com/gpu: 1}
+  limits: {cpu: 4000m, memory: 8Gi, nvidia.com/gpu: 1}

@@ -1,0 +1,295 @@
+{
+  "schema_version": 1,
+  "dataset_id": "speaker-pilot-cross-session-v1",
+  "language": "tr",
+  "recordings": [
+    {
+      "id": "P01_enrollment",
+      "speaker_id": "P01",
+      "role": "enrollment",
+      "session_id": "session_A",
+      "source_recording_id": "P01_enrollment",
+      "path": "P01/enrollment.wav",
+      "natural_single_speaker": false
+    },
+    {
+      "id": "P01_query_1",
+      "speaker_id": "P01",
+      "role": "known_query",
+      "session_id": "session_B",
+      "source_recording_id": "P01_query_1",
+      "path": "P01/query_1.wav",
+      "natural_single_speaker": false
+    },
+    {
+      "id": "P01_query_2",
+      "speaker_id": "P01",
+      "role": "known_query",
+      "session_id": "session_C",
+      "source_recording_id": "P01_query_2",
+      "path": "P01/query_2.wav",
+      "natural_single_speaker": false
+    },
+    {
+      "id": "P01_query_3",
+      "speaker_id": "P01",
+      "role": "known_query",
+      "session_id": "session_D",
+      "source_recording_id": "P01_query_3",
+      "path": "P01/query_3.wav",
+      "natural_single_speaker": false
+    },
+    {
+      "id": "P02_enrollment",
+      "speaker_id": "P02",
+      "role": "enrollment",
+      "session_id": "session_A",
+      "source_recording_id": "P02_enrollment",
+      "path": "P02/enrollment.wav",
+      "natural_single_speaker": false
+    },
+    {
+      "id": "P02_query_1",
+      "speaker_id": "P02",
+      "role": "known_query",
+      "session_id": "session_B",
+      "source_recording_id": "P02_query_1",
+      "path": "P02/query_1.wav",
+      "natural_single_speaker": false
+    },
+    {
+      "id": "P02_query_2",
+      "speaker_id": "P02",
+      "role": "known_query",
+      "session_id": "session_C",
+      "source_recording_id": "P02_query_2",
+      "path": "P02/query_2.wav",
+      "natural_single_speaker": false
+    },
+    {
+      "id": "P02_query_3",
+      "speaker_id": "P02",
+      "role": "known_query",
+      "session_id": "session_D",
+      "source_recording_id": "P02_query_3",
+      "path": "P02/query_3.wav",
+      "natural_single_speaker": false
+    },
+    {
+      "id": "P03_enrollment",
+      "speaker_id": "P03",
+      "role": "enrollment",
+      "session_id": "session_A",
+      "source_recording_id": "P03_enrollment",
+      "path": "P03/enrollment.wav",
+      "natural_single_speaker": false
+    },
+    {
+      "id": "P03_query_1",
+      "speaker_id": "P03",
+      "role": "known_query",
+      "session_id": "session_B",
+      "source_recording_id": "P03_query_1",
+      "path": "P03/query_1.wav",
+      "natural_single_speaker": false
+    },
+    {
+      "id": "P03_query_2",
+      "speaker_id": "P03",
+      "role": "known_query",
+      "session_id": "session_C",
+      "source_recording_id": "P03_query_2",
+      "path": "P03/query_2.wav",
+      "natural_single_speaker": false
+    },
+    {
+      "id": "P03_query_3",
+      "speaker_id": "P03",
+      "role": "known_query",
+      "session_id": "session_D",
+      "source_recording_id": "P03_query_3",
+      "path": "P03/query_3.wav",
+      "natural_single_speaker": false
+    },
+    {
+      "id": "P04_enrollment",
+      "speaker_id": "P04",
+      "role": "enrollment",
+      "session_id": "session_A",
+      "source_recording_id": "P04_enrollment",
+      "path": "P04/enrollment.wav",
+      "natural_single_speaker": false
+    },
+    {
+      "id": "P04_query_1",
+      "speaker_id": "P04",
+      "role": "known_query",
+      "session_id": "session_B",
+      "source_recording_id": "P04_query_1",
+      "path": "P04/query_1.wav",
+      "natural_single_speaker": false
+    },
+    {
+      "id": "P04_query_2",
+      "speaker_id": "P04",
+      "role": "known_query",
+      "session_id": "session_C",
+      "source_recording_id": "P04_query_2",
+      "path": "P04/query_2.wav",
+      "natural_single_speaker": false
+    },
+    {
+      "id": "P04_query_3",
+      "speaker_id": "P04",
+      "role": "known_query",
+      "session_id": "session_D",
+      "source_recording_id": "P04_query_3",
+      "path": "P04/query_3.wav",
+      "natural_single_speaker": false
+    },
+    {
+      "id": "P05_enrollment",
+      "speaker_id": "P05",
+      "role": "enrollment",
+      "session_id": "session_A",
+      "source_recording_id": "P05_enrollment",
+      "path": "P05/enrollment.wav",
+      "natural_single_speaker": false
+    },
+    {
+      "id": "P05_query_1",
+      "speaker_id": "P05",
+      "role": "known_query",
+      "session_id": "session_B",
+      "source_recording_id": "P05_query_1",
+      "path": "P05/query_1.wav",
+      "natural_single_speaker": false
+    },
+    {
+      "id": "P05_query_2",
+      "speaker_id": "P05",
+      "role": "known_query",
+      "session_id": "session_C",
+      "source_recording_id": "P05_query_2",
+      "path": "P05/query_2.wav",
+      "natural_single_speaker": false
+    },
+    {
+      "id": "P05_query_3",
+      "speaker_id": "P05",
+      "role": "known_query",
+      "session_id": "session_D",
+      "source_recording_id": "P05_query_3",
+      "path": "P05/query_3.wav",
+      "natural_single_speaker": false
+    },
+    {
+      "id": "U01_unknown_1",
+      "speaker_id": "U01",
+      "role": "unknown_query",
+      "session_id": "session_A",
+      "source_recording_id": "U01_unknown_1",
+      "path": "U01/unknown_1.wav",
+      "natural_single_speaker": false
+    },
+    {
+      "id": "U01_unknown_2",
+      "speaker_id": "U01",
+      "role": "unknown_query",
+      "session_id": "session_B",
+      "source_recording_id": "U01_unknown_2",
+      "path": "U01/unknown_2.wav",
+      "natural_single_speaker": false
+    },
+    {
+      "id": "U01_unknown_3",
+      "speaker_id": "U01",
+      "role": "unknown_query",
+      "session_id": "session_C",
+      "source_recording_id": "U01_unknown_3",
+      "path": "U01/unknown_3.wav",
+      "natural_single_speaker": false
+    },
+    {
+      "id": "U01_unknown_4",
+      "speaker_id": "U01",
+      "role": "unknown_query",
+      "session_id": "session_D",
+      "source_recording_id": "U01_unknown_4",
+      "path": "U01/unknown_4.wav",
+      "natural_single_speaker": false
+    },
+    {
+      "id": "U01_unknown_5",
+      "speaker_id": "U01",
+      "role": "unknown_query",
+      "session_id": "session_E",
+      "source_recording_id": "U01_unknown_5",
+      "path": "U01/unknown_5.wav",
+      "natural_single_speaker": false
+    },
+    {
+      "id": "U02_unknown_1",
+      "speaker_id": "U02",
+      "role": "unknown_query",
+      "session_id": "session_A",
+      "source_recording_id": "U02_unknown_1",
+      "path": "U02/unknown_1.wav",
+      "natural_single_speaker": false
+    },
+    {
+      "id": "U02_unknown_2",
+      "speaker_id": "U02",
+      "role": "unknown_query",
+      "session_id": "session_B",
+      "source_recording_id": "U02_unknown_2",
+      "path": "U02/unknown_2.wav",
+      "natural_single_speaker": false
+    },
+    {
+      "id": "U02_unknown_3",
+      "speaker_id": "U02",
+      "role": "unknown_query",
+      "session_id": "session_C",
+      "source_recording_id": "U02_unknown_3",
+      "path": "U02/unknown_3.wav",
+      "natural_single_speaker": false
+    },
+    {
+      "id": "U02_unknown_4",
+      "speaker_id": "U02",
+      "role": "unknown_query",
+      "session_id": "session_D",
+      "source_recording_id": "U02_unknown_4",
+      "path": "U02/unknown_4.wav",
+      "natural_single_speaker": false
+    },
+    {
+      "id": "U02_unknown_5",
+      "speaker_id": "U02",
+      "role": "unknown_query",
+      "session_id": "session_E",
+      "source_recording_id": "U02_unknown_5",
+      "path": "U02/unknown_5.wav",
+      "natural_single_speaker": false
+    },
+    {
+      "id": "U01_new_enrollment",
+      "speaker_id": "U01",
+      "role": "new_enrollment",
+      "session_id": "session_F",
+      "source_recording_id": "U01_new_enrollment",
+      "path": "U01/new_enrollment.wav",
+      "natural_single_speaker": false
+    },
+    {
+      "id": "U01_return",
+      "speaker_id": "U01",
+      "role": "return_query",
+      "session_id": "session_G",
+      "source_recording_id": "U01_return",
+      "path": "U01/return.wav",
+      "natural_single_speaker": false
+    }
+  ]
+}

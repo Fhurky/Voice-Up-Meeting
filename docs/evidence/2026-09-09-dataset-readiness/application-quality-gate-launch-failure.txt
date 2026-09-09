@@ -1,0 +1,5 @@
+KT_GATE_STEP name=configuration status=started
+KT_GATE_STEP name=configuration status=passed
+KT_GATE_STEP name=dependency-admission status=started
+C:\Users\furko\AppData\Local\Programs\Python\Python312\python3.exe: can't open file 'C:\\c\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\check-dependency-admission.py': [Errno 2] No such file or directory
+KT_GATE_STEP name=dependency-admission status=failed exit_code=2

@@ -1,0 +1,423 @@
+{
+  "artifacts": [
+    {
+      "artifact_id": "rule:00-project-overview",
+      "authority": "recommended",
+      "kind": "rule",
+      "sha256": "fb1ea894f80b6741f67eb65f4a2e66bdd67d9dc019b7a906031a8b44dc18592b",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "rule:01-architecture-principles",
+      "authority": "recommended",
+      "kind": "rule",
+      "sha256": "aabb6e0f295714d32eac9c982677405d2eecc61486a287bdbfe1e078b713a33d",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "rule:10-spec-first",
+      "authority": "mandatory",
+      "kind": "rule",
+      "sha256": "f3d9a2f818bfc850e17e27385e7787b5d6011dc6be7928b826ba8f763366a54e",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "rule:02-communication-style",
+      "authority": "recommended",
+      "kind": "rule",
+      "sha256": "5312d7e798cffd9cb2bc828a4964af8695441917f2ab4c280a40a8737ec598f5",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "rule:11-plan-driven",
+      "authority": "recommended",
+      "kind": "rule",
+      "sha256": "072a2941c54e2cde0a09027e4d6b5fff6ba9620af1ec6089e6ec6721e268d1e5",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "rule:20-backend-structure",
+      "authority": "recommended",
+      "kind": "rule",
+      "sha256": "dd6dfec6a1ba4ed0c6cc1069645a7f8c4cf52aa0842a067a3a085dd4fefd9d1b",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "rule:03-workflow-hygiene",
+      "authority": "mandatory",
+      "kind": "rule",
+      "sha256": "d369d873114fc7c29b3226579362797c91b94d5f246a849e1e472964d0bcab48",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "rule:12-tdd",
+      "authority": "recommended",
+      "kind": "rule",
+      "sha256": "f06a9b50e586c9bb7acb161b9291e3694b013ebfdfe87c0eb1cd26ac583f5b58",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "rule:21-backend-api-standards",
+      "authority": "recommended",
+      "kind": "rule",
+      "sha256": "34bd5cfdd4a68d39cf5153309bd3567fd1e030d516cb55e1b6b28e525097e61a",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "rule:30-frontend-structure",
+      "authority": "recommended",
+      "kind": "rule",
+      "sha256": "0dd4f978c489fb1f30442f4b18fdea5a21d4810f7c278092d2785f740bf433a2",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "rule:04-policy-conflict",
+      "authority": "mandatory",
+      "kind": "rule",
+      "sha256": "bb3db3ac61fc155084ccfa22505b80d5c82941aec043d5502e746bcf452a3dbb",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "rule:13-definition-of-done",
+      "authority": "mandatory",
+      "kind": "rule",
+      "sha256": "80903dc7af60a927630285ba62e5d228225da4dfc6a8ec820d738e0107a74653",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "rule:22-backend-configuration",
+      "authority": "mandatory",
+      "kind": "rule",
+      "sha256": "41b6861f0873bf2f69e56909169b72c60ef1ecebc430721fd14677111462bca8",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "rule:31-frontend-api-integration",
+      "authority": "mandatory",
+      "kind": "rule",
+      "sha256": "dd17b957f7d34b65c60065cbf4c4184af1eee07ef7194aae5a5df6c18b6c1282",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "rule:40-persistence-source",
+      "authority": "mandatory",
+      "kind": "rule",
+      "sha256": "2e5540bcf5821c060c4ee4d217617a20fc7ef4a9a8d58f5704ad862b759644d4",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "rule:45-deployment-target",
+      "authority": "mandatory",
+      "kind": "rule",
+      "sha256": "b325069d9d2e15d5a3bcce733d9b5b0115356780d82e4a27684d6289b0cab12d",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "rule:14-browser-verification",
+      "authority": "recommended",
+      "kind": "rule",
+      "sha256": "556f18d5235162664ce8406509c640b20fdcaadf76db1238db46ecc33a49475f",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "rule:23-backend-caching",
+      "authority": "recommended",
+      "kind": "rule",
+      "sha256": "ba4a7b88a149705e44145c75883b73d2259645dd09777a88c8c01942004f0548",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "rule:32-frontend-styling",
+      "authority": "recommended",
+      "kind": "rule",
+      "sha256": "f6eb5ffc993535e53b0dee39519e775d2b6e9dd8fc8b70ea0456f97ba76aafda",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "rule:41-schema-mandatory-columns",
+      "authority": "mandatory",
+      "kind": "rule",
+      "sha256": "e150b0e1a55f664fffc55987aa586ed027d096c4a06b42c2e18bbb495d145bbe",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "rule:50-quality-gate",
+      "authority": "mandatory",
+      "kind": "rule",
+      "sha256": "f211bc759b4595a21775062362a222011b4bd4e109ed7e821ee7dd0762fa4a21",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "rule:54-dependency-currency",
+      "authority": "mandatory",
+      "kind": "rule",
+      "sha256": "ecd9fad5ec48bda7a8a80c7b717e453bbd1ab8bd938a9a557f3b899295521600",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "rule:24-backend-testing",
+      "authority": "mandatory",
+      "kind": "rule",
+      "sha256": "2671998cdf8ae101d93ddabdff541d62340e812f92229b45376531541a9b1412",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "rule:33-frontend-localization",
+      "authority": "mandatory",
+      "kind": "rule",
+      "sha256": "31cd8b57351ea52a0f1b2508cf4585ca51bd260752e613ca1a8dd8a643d2b2d9",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "rule:42-reference-integrity",
+      "authority": "mandatory",
+      "kind": "rule",
+      "sha256": "bed2821e0b3dae3bae97b65af3fb0c721a4b5343a406c641353c1c7b5c53e075",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "rule:51-metrics-before-claims",
+      "authority": "recommended",
+      "kind": "rule",
+      "sha256": "71c80ecd2b0b2cea7c810436b9985f87b35198d576699e5eb7016699a2937c9a",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "rule:25-backend-observability",
+      "authority": "mandatory",
+      "kind": "rule",
+      "sha256": "f5f8435caf860827aefb245906ea2692fa902285dea4a26c461b766ab179c1d9",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "rule:34-frontend-state-management",
+      "authority": "recommended",
+      "kind": "rule",
+      "sha256": "32323e330a9de31673d4424959af4eff508c2dbf6e29fdcc9bde061e06a85452",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "rule:43-schema-comments",
+      "authority": "recommended",
+      "kind": "rule",
+      "sha256": "9d13706093d5c0153069b91c76d5bbd75bb37c7d7b7d17e8ba576075d224bdb1",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "rule:52-end-to-end-feature",
+      "authority": "mandatory",
+      "kind": "rule",
+      "sha256": "d970e7dc36627d3c26e377b4b7fe6454c7a1d33baa576d8ad04d76402d2de7fa",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "rule:44-schema-engine-boundary",
+      "authority": "recommended",
+      "kind": "rule",
+      "sha256": "5ec160281fedb3c314dfa9a2fa49ae17c14627dc0161723161d210031871d9a9",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "rule:53-test-run-report",
+      "authority": "mandatory",
+      "kind": "rule",
+      "sha256": "58dbc45e1c8e184d72da0daeaaecc24bec841e07a01c34add656c7f3e1e2f355",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "rule:46-vector-embedding-boundary",
+      "authority": "mandatory",
+      "kind": "rule",
+      "sha256": "45449300a7050f805dca1a2b0dadd13bb42f21c34edce53cd9d8eaa57d1ea021",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "skill:kt-init",
+      "authority": "recommended",
+      "kind": "skill",
+      "sha256": "c4b0519b94f96b7712ee783332cf59834069a81ffee9cf5484bb06387633579a",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "skill:kt-baslat",
+      "authority": "recommended",
+      "kind": "skill",
+      "sha256": "56a6b10b6867dac4cd4a299ee4d92f132a241341e5332db7c8c1eaa6a52e31f8",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "skill:kt-update",
+      "authority": "recommended",
+      "kind": "skill",
+      "sha256": "d1d28e65113b251bbe77e958949af51b44d1991f36b3769cf5ff397235086a39",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "skill:kt-guncelle",
+      "authority": "recommended",
+      "kind": "skill",
+      "sha256": "26bf80c78919e83f31fac67a917d8de46a8f0d9bce340017708c691175cebd42",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "skill:kt-rules",
+      "authority": "recommended",
+      "kind": "skill",
+      "sha256": "e923239acc928ec7ae89c82c1176cfcf244332ebad1e79a3d4919dcc8fd37d3e",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "skill:kt-kurallar",
+      "authority": "recommended",
+      "kind": "skill",
+      "sha256": "835df202c3e0f07d6b41d095d7e5bac77962fc0dd160c73672baf974e14980f4",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "skill:kt-rule",
+      "authority": "recommended",
+      "kind": "skill",
+      "sha256": "04594950e99ce44494642b1c80d5ad82a80857ccc128080ae3b79e62ad80c712",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "skill:kt-kural",
+      "authority": "recommended",
+      "kind": "skill",
+      "sha256": "c4c5a194524f02e1735774dc9da937743464b1e4c6950a1e4f3adbe8af32fc20",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "skill:kt-render",
+      "authority": "recommended",
+      "kind": "skill",
+      "sha256": "53342b146c1e049bb512e71816ce5033e1ad178023768438852dc1657329622b",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "skill:kt-yansit",
+      "authority": "recommended",
+      "kind": "skill",
+      "sha256": "962406101ac6dbab585c1580a1b4cbee3e645b7fadb1f062cfc996d9b5327420",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "skill:kt-spec",
+      "authority": "recommended",
+      "kind": "skill",
+      "sha256": "570f7701e0f08dd82f310e738c5898e6cf07f496b4d41a26d49e068535159488",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "skill:kt-spesifikasyon",
+      "authority": "recommended",
+      "kind": "skill",
+      "sha256": "ea962035aac6aef491665c7dadb0a38e8263d0dba657747abbc594a1dd6bd047",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "skill:kt-domain",
+      "authority": "recommended",
+      "kind": "skill",
+      "sha256": "75c641870413260c1898db11e52cb60b288b2cd0ff868cba49b46932be3086d6",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "skill:kt-alan",
+      "authority": "recommended",
+      "kind": "skill",
+      "sha256": "60195ed61849a6868b3644231900f8c0f3ca4f5e8d89f2db9ebb2b8e21cba3cf",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "skill:kt-page",
+      "authority": "recommended",
+      "kind": "skill",
+      "sha256": "8f06dfbe32414ff72fb180f4c95e665dc9dd66b047b0731bdfe01a37486e4192",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "skill:kt-sayfa",
+      "authority": "recommended",
+      "kind": "skill",
+      "sha256": "e11bc80d3f5b37d50fe207755f2cf80fcd4c5b1ee3ffdbc4db07d655cfe54aae",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "skill:kt-schema",
+      "authority": "recommended",
+      "kind": "skill",
+      "sha256": "7396f6256ff2bf9a295a059d41cc8d1c341e2d02deba8730e1844bcdf20fa915",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "skill:kt-sema",
+      "authority": "recommended",
+      "kind": "skill",
+      "sha256": "9e1c27136c27a2cfcb0ae7b1f424ce8856d99f6c92f1b670db0be89d343bca74",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "skill:kt-gate",
+      "authority": "recommended",
+      "kind": "skill",
+      "sha256": "2c01dde2d4112165bc01d9d7705819ff5dcda20c74094d101cea6eecab1cf729",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "skill:kt-kalite-kapisi",
+      "authority": "recommended",
+      "kind": "skill",
+      "sha256": "c49038074e59cfe3925fa0cc6f928dacd01a146d3950090702346d99b18a944d",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "skill:kt-scenario",
+      "authority": "recommended",
+      "kind": "skill",
+      "sha256": "4ad1e89136755e1fefc8ea9151249a34bfe18c91ccd1c897600b7f9ca85d5a1c",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "skill:kt-senaryo",
+      "authority": "recommended",
+      "kind": "skill",
+      "sha256": "faf12024a8669e0e7a5bf32d4e86cebbb04663d69be0d08f2a16611eb5cf4769",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "skill:kt-done",
+      "authority": "recommended",
+      "kind": "skill",
+      "sha256": "8b391a69ff70804364a67182212ec18c61dd3468e231684d3301cef4e3c88d39",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "skill:kt-tamamla",
+      "authority": "recommended",
+      "kind": "skill",
+      "sha256": "35b1e601cd34507abd1e9da27e25021f81962b65a650a825b5740b11b44acad6",
+      "version": "0.3.0"
+    },
+    {
+      "artifact_id": "guidance:local-reconciliation",
+      "authority": "mandatory",
+      "kind": "guidance",
+      "sha256": "c318d9ea0ecaf02c6c31db007a735c5e55c48f9ab42e118199c54ff44a3810fb",
+      "version": "0.3.0"
+    }
+  ],
+  "backend_profile": "python-fastapi",
+  "blueprint_id": "kt-vibecoding",
+  "blueprint_version": "0.3.0",
+  "format": 1,
+  "governance_digest": "3ee6bb0292c68ffddee9f937784695b91d9a70c10660d9f675eba6d6aa6e2597",
+  "governance_version": "0.3.0",
+  "locales": [
+    "tr",
+    "en"
+  ],
+  "persistence_profile": "sqlalchemy-alembic",
+  "primary_domain": "speaker-identity",
+  "project_intent": "VoiceUp: farklı toplantılarda konuşmacıları kalıcı ses profilleriyle tanıyan, yeni kişileri ayırt eden ve konuşmaları kişilere bağlayan yerel toplantı analiz ürünü."
+}

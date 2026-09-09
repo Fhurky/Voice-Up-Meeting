@@ -1,0 +1,25 @@
+schema_version: "1.0"
+kind: AgentPolicyPack
+metadata:
+  id: policy:application-security
+  version: 1.0.0
+  owner: team:application-security
+  lifecycle: draft
+lineage:
+  source: external-seed:desktop-agents/application-security
+  authoritative: false
+  normalization_status: canonical-normalized
+failure_mode: manual-review
+controls:
+  - id: APPSEC-001
+    statement: Injection, authentication bypass, unsafe deserialization, and TLS verification findings require concrete code evidence.
+    enforcement: deterministic-check
+    on_failure: finding
+  - id: APPSEC-002
+    statement: The agent must not generate exploit payloads, actively exploit a target, retrieve secrets, or alter security controls.
+    enforcement: deterministic-check
+    on_failure: manual-review
+  - id: APPSEC-003
+    statement: Missing policy, invalid scan evidence, or unresolved security-critical uncertainty must route to manual review.
+    enforcement: human-gate
+    on_failure: manual-review

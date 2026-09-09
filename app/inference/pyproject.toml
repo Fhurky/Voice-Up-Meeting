@@ -1,0 +1,19 @@
+[project]
+name = "voiceup-inference"
+version = "0.1.0"
+requires-python = ">=3.13,<3.14"
+dynamic = ["dependencies"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.ruff]
+target-version = "py313"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["voiceup", "voiceup_inference"]

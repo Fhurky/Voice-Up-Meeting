@@ -1,0 +1,25 @@
+schema_version: "1.0"
+kind: AgentPolicyPack
+metadata:
+  id: policy:test-automation
+  version: 1.0.0
+  owner: team:quality-engineering
+  lifecycle: draft
+lineage:
+  source: external-seed:desktop-agents/test-automation
+  authoritative: false
+  normalization_status: canonical-normalized
+failure_mode: manual-review
+controls:
+  - id: TEST-001
+    statement: Generated code may execute only in a disposable admitted runner with denied network and no inherited secrets.
+    enforcement: isolated-runner
+    on_failure: manual-review
+  - id: TEST-002
+    statement: Every execution must enforce a hard timeout and bounded CPU, memory, process, and filesystem resources.
+    enforcement: isolated-runner
+    on_failure: manual-review
+  - id: TEST-003
+    statement: Unexecuted, timed-out, skipped, or failed tests must be reported distinctly and cannot be represented as passing evidence.
+    enforcement: schema
+    on_failure: finding

@@ -1,0 +1,20 @@
+KT_GATE_STEP name=configuration status=started
+KT_GATE_STEP name=configuration status=passed
+KT_GATE_STEP name=dependency-admission status=started
+dependency admission current: 72 coordinates, sha256:e39cc9210d7bf6a56d335ada0f52cdc3bdb642d17dd8be9761dd4d77dd32a880
+KT_GATE_STEP name=dependency-admission status=passed
+KT_GATE_STEP name=configuration-sync status=started
+{"backend_profile":"python-fastapi","checked":{"compose_environment_keys":13,"env_example_assignments":15,"kubernetes_secret_refs":1,"source_files":40,"typed_configuration_keys":16},"env_prefix":"VOICEUP_","ok":true}
+KT_GATE_STEP name=configuration-sync status=passed
+KT_GATE_SCOPE scope=all postgres_integration=required database_mode=disposable-test
+KT_GATE_STEP name=database-test-create status=started
+service "postgres" is not running
+service "postgres" is not running
+KT_GATE_STEP name=database-test-create status=passed
+KT_GATE_STEP name=database-migrations-apply status=started
+service "backend" is not running
+KT_GATE_STEP name=database-migrations-apply status=failed exit_code=1
+KT_GATE_STEP name=database-test-drop status=started
+service "postgres" is not running
+KT_GATE_STEP name=database-test-drop status=failed exit_code=1
+

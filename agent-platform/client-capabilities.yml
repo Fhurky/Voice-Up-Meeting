@@ -1,0 +1,841 @@
+schema_version: "1.0"
+kind: ClientCapabilityMatrix
+as_of: "2026-08-18"
+status: research
+
+contract:
+  schema_version: "1.0"
+  schema_path: agent-platform/agent-contract.schema.json
+
+runtime_candidate_inventory:
+  schema_path: agent-platform/runtime-candidate.schema.json
+  data_path: agent-platform/conformance/candidates/macos-arm64-2026-08-19.yml
+  claim_boundary: >-
+    The inventory proves only that exact client artifacts were installed and identified. It does not
+    prove adapter generation, native discovery, effective permissions, runtime conformance, or owner
+    admission; those states are evaluated and recorded independently.
+
+policy:
+  mapping_claim_only: true
+  support_values:
+    - supported
+    - degraded
+    - unmapped
+    - forbidden
+  projection_values:
+    - native
+    - compatible
+    - transformed
+    - none
+  maturity_values:
+    - ga
+    - preview
+    - beta
+    - experimental
+    - unspecified
+  lifecycle_values:
+    - current
+    - legacy
+    - deprecated
+  adapter_strategy_values:
+    - emit
+    - import-wrapper
+    - translate
+    - omit
+  lossiness_values:
+    - none
+    - bounded
+    - material
+  conformance_values:
+    - not_run
+    - passed
+    - failed
+    - expired
+  admission_values:
+    - research
+    - candidate
+    - admitted
+    - denied
+  generation_values:
+    - not_implemented
+    - candidate
+    - implemented
+  semantics:
+    supported: A documented native or compatible surface exists with no identified semantic loss; runtime acceptance is separate.
+    degraded: A safe projection may exist, but limitations and non-zero semantic loss must be declared.
+    unmapped: No reliable projection exists; generation fails when the capability is required.
+    forbidden: Enterprise policy prohibits the projection; generation and admission always fail.
+  external_controls:
+    - inference-profile resolution and provider/model admission
+    - identity, credentials, secret brokerage, and data-loss prevention
+    - filesystem sandbox and network egress enforcement
+    - tool and MCP registry admission with pinned provenance
+    - privileged and external-side-effect approval
+    - CI rulesets, release signing, and deployment admission
+  admission_rule: >-
+    A tuple cannot be admitted if a required capability is unmapped or forbidden, a required mapping
+    has material loss, any required conformance case is not passed, evidence is expired, or external
+    policy denies the requested risk tier.
+  requirement_semantics: >-
+    A capability marked required below is the platform default. A manifest-level required rule,
+    skill, command, tool, MCP registry, hook intent, permission, delegation, data, or evidence
+    requirement can only strengthen that default and must be evaluated by the corresponding mapping.
+    A required lifecycle intent may use a bounded degraded mapping only when the projection manifest
+    records the omission and binds the intent to a mandatory fail-closed external control; an unmapped
+    or instruction-only required lifecycle intent still fails generation.
+  maturity_rule: >-
+    Use ga only when an exact vendor release/version source explicitly labels the surface stable or GA.
+    A documented surface without that evidence is unspecified and volatile.
+  lifecycle_rule: >-
+    current means the surface appears in the dated documentation snapshot; it is not a verified client
+    version guarantee. A candidate mapping additionally requires an exact client version, source
+    locator or digest, and real-runtime conformance evidence.
+  state_boundary: >-
+    Adapter generation status, installed-candidate evidence, runtime conformance, and owner admission
+    are independent states. Implemented generation and an exact installed artifact do not change a
+    not_run conformance result or research admission state.
+  manifest_capability_bindings:
+    mission.instructions_ref: custom-agents
+    requirements.policies: permission-policy
+    requirements.rules: project-instructions
+    requirements.skills: agent-skills
+    requirements.commands: reusable-commands
+    requirements.hook_intents: lifecycle-hooks
+    requirements.mcp: mcp-tools
+    delegation: custom-agents
+    permissions: permission-policy
+
+capabilities:
+  - id: project-instructions
+    required: true
+    intent: Discover project-wide canonical instructions with deterministic precedence.
+  - id: path-scoped-rules
+    required: true
+    intent: Apply additional rules only to the intended repository paths.
+  - id: agent-skills
+    required: true
+    intent: Discover reusable skill packages with instructions and bounded resources.
+  - id: reusable-commands
+    required: false
+    intent: Expose explicit user-invoked workflow entry points without granting hidden authority.
+  - id: custom-agents
+    required: true
+    intent: Define specialized agent roles, isolation, invocation, and delegation behavior.
+  - id: lifecycle-hooks
+    required: false
+    intent: Bind semantic lifecycle intents to admitted client convenience hooks; authorization remains external.
+  - id: mcp-tools
+    required: true
+    intent: Configure approved MCP capabilities through environment-resolved registry entries.
+  - id: permission-policy
+    required: true
+    intent: Request least privilege while relying on external enforcement for durable prevention.
+
+sources:
+  codex-instructions:
+    url: https://learn.chatgpt.com/docs/agent-configuration/agents-md
+    retrieved_at: "2026-08-18"
+  codex-skills:
+    url: https://learn.chatgpt.com/docs/build-skills
+    retrieved_at: "2026-08-18"
+  codex-agents:
+    url: https://learn.chatgpt.com/docs/agent-configuration/subagents
+    retrieved_at: "2026-08-18"
+  codex-hooks:
+    url: https://learn.chatgpt.com/docs/hooks
+    retrieved_at: "2026-08-18"
+  codex-mcp:
+    url: https://learn.chatgpt.com/docs/extend/mcp
+    retrieved_at: "2026-08-18"
+  codex-rules:
+    url: https://learn.chatgpt.com/docs/agent-configuration/rules
+    retrieved_at: "2026-08-18"
+  codex-sandboxing:
+    url: https://learn.chatgpt.com/docs/sandboxing
+    retrieved_at: "2026-08-18"
+  claude-instructions:
+    url: https://code.claude.com/docs/en/memory
+    retrieved_at: "2026-08-18"
+  claude-skills:
+    url: https://code.claude.com/docs/en/skills
+    retrieved_at: "2026-08-18"
+  claude-agents:
+    url: https://code.claude.com/docs/en/sub-agents
+    retrieved_at: "2026-08-18"
+  claude-hooks:
+    url: https://code.claude.com/docs/en/hooks
+    retrieved_at: "2026-08-18"
+  claude-mcp:
+    url: https://code.claude.com/docs/en/mcp
+    retrieved_at: "2026-08-18"
+  claude-permissions:
+    url: https://code.claude.com/docs/en/permissions
+    retrieved_at: "2026-08-18"
+  vscode-instructions:
+    url: https://code.visualstudio.com/docs/agent-customization/custom-instructions
+    retrieved_at: "2026-08-18"
+  vscode-skills:
+    url: https://code.visualstudio.com/docs/agent-customization/agent-skills
+    retrieved_at: "2026-08-18"
+  vscode-prompts:
+    url: https://code.visualstudio.com/docs/agent-customization/prompt-files
+    retrieved_at: "2026-08-18"
+  vscode-agents:
+    url: https://code.visualstudio.com/docs/agent-customization/custom-agents
+    retrieved_at: "2026-08-18"
+  vscode-hooks:
+    url: https://code.visualstudio.com/docs/agent-customization/hooks
+    retrieved_at: "2026-08-18"
+  vscode-mcp:
+    url: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
+    retrieved_at: "2026-08-18"
+  vscode-approvals:
+    url: https://code.visualstudio.com/docs/agents/run/approvals
+    retrieved_at: "2026-08-18"
+  cursor-rules:
+    url: https://cursor.com/docs/rules
+    retrieved_at: "2026-08-18"
+  cursor-skills:
+    url: https://cursor.com/docs/skills
+    retrieved_at: "2026-08-18"
+  cursor-agents:
+    url: https://cursor.com/docs/subagents
+    retrieved_at: "2026-08-18"
+  cursor-hooks:
+    url: https://cursor.com/docs/hooks
+    retrieved_at: "2026-08-18"
+  cursor-mcp:
+    url: https://cursor.com/docs/mcp
+    retrieved_at: "2026-08-18"
+
+clients:
+  - id: codex
+    vendor: OpenAI
+    product: Codex CLI and IDE extension
+    surfaces:
+      - cli
+      - ide-extension
+    adapter:
+      id: codex
+      version: 1.0.2
+      generation_status: implemented
+      client_version_range: "==0.147.0"
+      candidate_inventory_ref: client:codex
+    admission:
+      state: research
+      reason: Documentation mapping only; no exact client/model/tool tuple has run the conformance suite.
+    conformance:
+      status: not_run
+      runtime_version: null
+      model_profile_digest: null
+      projection_digest: null
+      test_run_id: null
+    mappings:
+      - capability: project-instructions
+        applies_to_surfaces: [cli, ide-extension]
+        status: supported
+        projection: native
+        maturity: unspecified
+        lifecycle: current
+        volatile: true
+        adapter_strategy: emit
+        format: AGENTS.md with documented hierarchy and override precedence
+        lossiness: none
+        discovery:
+          - scope: project
+            location: AGENTS.md
+          - scope: nested
+            location: AGENTS.override.md or nested AGENTS.md
+        limitations: []
+        source_ids: [codex-instructions]
+        conformance_status: not_run
+      - capability: path-scoped-rules
+        applies_to_surfaces: [cli, ide-extension]
+        status: degraded
+        projection: transformed
+        maturity: unspecified
+        lifecycle: current
+        volatile: true
+        adapter_strategy: translate
+        format: nested AGENTS.md hierarchy
+        lossiness: bounded
+        discovery:
+          - scope: directory
+            location: nested AGENTS.md
+        limitations:
+          - Arbitrary glob conditions must be decomposed into directory hierarchy and may not preserve every overlap.
+        source_ids: [codex-instructions]
+        conformance_status: not_run
+      - capability: agent-skills
+        applies_to_surfaces: [cli, ide-extension]
+        status: supported
+        projection: native
+        maturity: unspecified
+        lifecycle: current
+        volatile: true
+        adapter_strategy: emit
+        format: Agent Skills package
+        lossiness: none
+        discovery:
+          - scope: project
+            location: .agents/skills/<name>/SKILL.md
+        limitations: []
+        source_ids: [codex-skills]
+        conformance_status: not_run
+      - capability: reusable-commands
+        applies_to_surfaces: [cli, ide-extension]
+        status: degraded
+        projection: transformed
+        maturity: unspecified
+        lifecycle: current
+        volatile: true
+        adapter_strategy: translate
+        format: explicit-invocation skill
+        lossiness: bounded
+        discovery:
+          - scope: project
+            location: .agents/skills/<name>/SKILL.md
+        limitations:
+          - No separate current project custom-command file surface is credited; command intent is translated into a skill.
+        source_ids: [codex-skills]
+        conformance_status: not_run
+      - capability: custom-agents
+        applies_to_surfaces: [cli, ide-extension]
+        status: supported
+        projection: native
+        maturity: unspecified
+        lifecycle: current
+        volatile: true
+        adapter_strategy: emit
+        format: Codex agent TOML
+        lossiness: none
+        discovery:
+          - scope: project
+            location: .codex/agents/*.toml
+        limitations: []
+        source_ids: [codex-agents]
+        conformance_status: not_run
+      - capability: lifecycle-hooks
+        applies_to_surfaces: [cli, ide-extension]
+        status: degraded
+        projection: native
+        maturity: unspecified
+        lifecycle: current
+        volatile: true
+        adapter_strategy: emit
+        format: Codex hooks JSON or inline TOML configuration
+        lossiness: bounded
+        discovery:
+          - scope: project
+            location: .codex/hooks.json
+          - scope: configuration
+            location: .codex/config.toml
+        limitations:
+          - Current handlers are command based and cannot substitute for an external authorization control.
+          - Project-local hooks execute only after the project is trusted.
+        source_ids: [codex-hooks]
+        conformance_status: not_run
+      - capability: mcp-tools
+        applies_to_surfaces: [cli, ide-extension]
+        status: supported
+        projection: native
+        maturity: unspecified
+        lifecycle: current
+        volatile: true
+        adapter_strategy: emit
+        format: Codex MCP configuration
+        lossiness: none
+        discovery:
+          - scope: project
+            location: .codex/config.toml
+        limitations: []
+        source_ids: [codex-mcp]
+        conformance_status: not_run
+      - capability: permission-policy
+        applies_to_surfaces: [cli, ide-extension]
+        status: degraded
+        projection: transformed
+        maturity: unspecified
+        lifecycle: current
+        volatile: true
+        adapter_strategy: translate
+        format: stable sandbox and approval request plus external authorization policy
+        lossiness: bounded
+        discovery:
+          - scope: configuration
+            location: .codex/config.toml and higher-precedence managed policy
+        limitations:
+          - Experimental execution rules are not emitted by the production adapter and are external-only.
+          - Workspace reads use the inherited local shell/tool surface under the read-only sandbox; effective tool availability and parent overrides require runtime evidence.
+          - Effective policy depends on sandbox, approval mode, and higher-precedence managed configuration.
+        source_ids: [codex-sandboxing, codex-rules]
+        conformance_status: not_run
+  - id: claude-code
+    vendor: Anthropic
+    product: Claude Code
+    surfaces:
+      - cli
+      - ide-integration
+    adapter:
+      id: claude-code
+      version: 1.0.1
+      generation_status: implemented
+      client_version_range: "==2.1.227"
+      candidate_inventory_ref: client:claude-code
+    admission:
+      state: research
+      reason: Documentation mapping only; no exact client/model/tool tuple has run the conformance suite.
+    conformance:
+      status: not_run
+      runtime_version: null
+      model_profile_digest: null
+      projection_digest: null
+      test_run_id: null
+    mappings:
+      - capability: project-instructions
+        applies_to_surfaces: [cli, ide-integration]
+        status: supported
+        projection: native
+        maturity: unspecified
+        lifecycle: current
+        volatile: true
+        adapter_strategy: emit
+        format: Claude memory file
+        lossiness: none
+        discovery:
+          - scope: project
+            location: CLAUDE.md
+        limitations: []
+        source_ids: [claude-instructions]
+        conformance_status: not_run
+      - capability: path-scoped-rules
+        applies_to_surfaces: [cli, ide-integration]
+        status: supported
+        projection: native
+        maturity: unspecified
+        lifecycle: current
+        volatile: true
+        adapter_strategy: emit
+        format: Claude path-scoped rule Markdown
+        lossiness: none
+        discovery:
+          - scope: project
+            location: .claude/rules/**/*.md
+        limitations: []
+        source_ids: [claude-instructions]
+        conformance_status: not_run
+      - capability: agent-skills
+        applies_to_surfaces: [cli, ide-integration]
+        status: supported
+        projection: native
+        maturity: unspecified
+        lifecycle: current
+        volatile: true
+        adapter_strategy: emit
+        format: Agent Skills package
+        lossiness: none
+        discovery:
+          - scope: project
+            location: .claude/skills/<name>/SKILL.md
+        limitations: []
+        source_ids: [claude-skills]
+        conformance_status: not_run
+      - capability: reusable-commands
+        applies_to_surfaces: [cli, ide-integration]
+        status: degraded
+        projection: transformed
+        maturity: unspecified
+        lifecycle: current
+        volatile: true
+        adapter_strategy: translate
+        format: explicit-invocation Claude skill
+        lossiness: bounded
+        discovery:
+          - scope: project
+            location: .claude/skills/<name>/SKILL.md
+        limitations:
+          - Legacy command files are not emitted; reusable command intent is translated to a stable skill.
+        source_ids: [claude-skills]
+        conformance_status: not_run
+      - capability: custom-agents
+        applies_to_surfaces: [cli, ide-integration]
+        status: supported
+        projection: native
+        maturity: unspecified
+        lifecycle: current
+        volatile: true
+        adapter_strategy: emit
+        format: >-
+          Claude subagent Markdown using documented name, description, tools, disallowedTools, model,
+          permissionMode, mcpServers, hooks, maxTurns, skills, initialPrompt, memory, effort, background,
+          and isolation fields only
+        lossiness: none
+        discovery:
+          - scope: project
+            location: .claude/agents/**/*.md
+        limitations: []
+        source_ids: [claude-agents]
+        conformance_status: not_run
+      - capability: lifecycle-hooks
+        applies_to_surfaces: [cli, ide-integration]
+        status: supported
+        projection: native
+        maturity: unspecified
+        lifecycle: current
+        volatile: true
+        adapter_strategy: emit
+        format: Claude hook settings
+        lossiness: none
+        discovery:
+          - scope: project
+            location: .claude/settings.json
+        limitations:
+          - Client hooks remain convenience controls and are not credited as immutable authorization.
+        source_ids: [claude-hooks]
+        conformance_status: not_run
+      - capability: mcp-tools
+        applies_to_surfaces: [cli, ide-integration]
+        status: supported
+        projection: native
+        maturity: unspecified
+        lifecycle: current
+        volatile: true
+        adapter_strategy: emit
+        format: Claude MCP configuration
+        lossiness: none
+        discovery:
+          - scope: project
+            location: .mcp.json
+        limitations: []
+        source_ids: [claude-mcp]
+        conformance_status: not_run
+      - capability: permission-policy
+        applies_to_surfaces: [cli, ide-integration]
+        status: supported
+        projection: native
+        maturity: unspecified
+        lifecycle: current
+        volatile: true
+        adapter_strategy: emit
+        format: Claude permission settings
+        lossiness: none
+        discovery:
+          - scope: project
+            location: .claude/settings.json
+        limitations:
+          - Repository permission settings remain subordinate to managed enterprise and environment controls.
+        source_ids: [claude-permissions]
+        conformance_status: not_run
+
+  - id: github-copilot-vscode
+    vendor: Microsoft and GitHub
+    product: GitHub Copilot in Visual Studio Code
+    surfaces:
+      - ide
+    adapter:
+      id: github-copilot-vscode
+      version: 1.0.1
+      generation_status: implemented
+      client_version_range: "vscode==1.133.0;copilot==0.61.0"
+      candidate_inventory_ref: client:github-copilot-vscode
+    admission:
+      state: research
+      reason: Documentation mapping only; no exact editor/extension/model/tool tuple has run the conformance suite.
+    conformance:
+      status: not_run
+      runtime_version: null
+      model_profile_digest: null
+      projection_digest: null
+      test_run_id: null
+    mappings:
+      - capability: project-instructions
+        applies_to_surfaces: [ide]
+        status: supported
+        projection: native
+        maturity: unspecified
+        lifecycle: current
+        volatile: true
+        adapter_strategy: emit
+        format: Copilot instructions Markdown
+        lossiness: none
+        discovery:
+          - scope: project
+            location: .github/copilot-instructions.md
+        limitations: []
+        source_ids: [vscode-instructions]
+        conformance_status: not_run
+      - capability: path-scoped-rules
+        applies_to_surfaces: [ide]
+        status: supported
+        projection: native
+        maturity: unspecified
+        lifecycle: current
+        volatile: true
+        adapter_strategy: emit
+        format: applyTo-scoped instruction Markdown
+        lossiness: none
+        discovery:
+          - scope: project
+            location: .github/instructions/**/*.instructions.md
+        limitations: []
+        source_ids: [vscode-instructions]
+        conformance_status: not_run
+      - capability: agent-skills
+        applies_to_surfaces: [ide]
+        status: supported
+        projection: compatible
+        maturity: unspecified
+        lifecycle: current
+        volatile: true
+        adapter_strategy: import-wrapper
+        format: Agent Skills package
+        lossiness: none
+        discovery:
+          - scope: shared
+            location: .agents/skills/<name>/SKILL.md
+          - scope: project
+            location: .github/skills/<name>/SKILL.md
+        limitations: []
+        source_ids: [vscode-skills]
+        conformance_status: not_run
+      - capability: reusable-commands
+        applies_to_surfaces: [ide]
+        status: supported
+        projection: native
+        maturity: unspecified
+        lifecycle: current
+        volatile: true
+        adapter_strategy: emit
+        format: VS Code prompt file
+        lossiness: none
+        discovery:
+          - scope: project
+            location: .github/prompts/*.prompt.md
+        limitations: []
+        source_ids: [vscode-prompts]
+        conformance_status: not_run
+      - capability: custom-agents
+        applies_to_surfaces: [ide]
+        status: supported
+        projection: native
+        maturity: unspecified
+        lifecycle: current
+        volatile: true
+        adapter_strategy: emit
+        format: VS Code custom-agent Markdown
+        lossiness: none
+        discovery:
+          - scope: project
+            location: .github/agents/*.agent.md
+        limitations: []
+        source_ids: [vscode-agents]
+        conformance_status: not_run
+      - capability: lifecycle-hooks
+        applies_to_surfaces: [ide]
+        status: degraded
+        projection: none
+        maturity: preview
+        lifecycle: current
+        volatile: true
+        adapter_strategy: omit
+        format: not emitted; lifecycle intent remains external
+        lossiness: bounded
+        discovery: []
+        limitations:
+          - The documented hook surface is Preview and is excluded from the production adapter.
+          - Lifecycle authorization and required audit behavior remain external controls.
+        source_ids: [vscode-hooks]
+        conformance_status: not_run
+      - capability: mcp-tools
+        applies_to_surfaces: [ide]
+        status: supported
+        projection: native
+        maturity: unspecified
+        lifecycle: current
+        volatile: true
+        adapter_strategy: emit
+        format: VS Code MCP configuration
+        lossiness: none
+        discovery:
+          - scope: project
+            location: .vscode/mcp.json
+        limitations: []
+        source_ids: [vscode-mcp]
+        conformance_status: not_run
+      - capability: permission-policy
+        applies_to_surfaces: [ide]
+        status: supported
+        projection: native
+        maturity: unspecified
+        lifecycle: current
+        volatile: true
+        adapter_strategy: emit
+        format: VS Code approval controls and managed settings
+        lossiness: none
+        discovery:
+          - scope: runtime
+            location: VS Code approval UI and settings policy
+        limitations:
+          - Durable enterprise enforcement must use managed policy and environment controls, not workspace settings alone.
+        source_ids: [vscode-approvals]
+        conformance_status: not_run
+
+  - id: cursor
+    vendor: Cursor
+    product: Cursor IDE; auto-updating headless CLI inventoried as exploratory only
+    surfaces:
+      - ide
+    adapter:
+      id: cursor
+      version: 1.0.1
+      generation_status: implemented
+      client_version_range: "ide==3.15.19"
+      candidate_inventory_ref: client:cursor
+    admission:
+      state: research
+      reason: Documentation mapping only; no exact IDE/model/tool tuple has run the conformance suite.
+    conformance:
+      status: not_run
+      runtime_version: null
+      model_profile_digest: null
+      projection_digest: null
+      test_run_id: null
+    mappings:
+      - capability: project-instructions
+        applies_to_surfaces: [ide]
+        status: supported
+        projection: compatible
+        maturity: unspecified
+        lifecycle: current
+        volatile: true
+        adapter_strategy: import-wrapper
+        format: compatible AGENTS.md or Cursor rule
+        lossiness: none
+        discovery:
+          - scope: project
+            location: AGENTS.md
+          - scope: project
+            location: .cursor/rules/**/*.mdc
+        limitations: []
+        source_ids: [cursor-rules]
+        conformance_status: not_run
+      - capability: path-scoped-rules
+        applies_to_surfaces: [ide]
+        status: supported
+        projection: native
+        maturity: unspecified
+        lifecycle: current
+        volatile: true
+        adapter_strategy: emit
+        format: Cursor MDC rule with path scope
+        lossiness: none
+        discovery:
+          - scope: project
+            location: .cursor/rules/**/*.mdc
+        limitations: []
+        source_ids: [cursor-rules]
+        conformance_status: not_run
+      - capability: agent-skills
+        applies_to_surfaces: [ide]
+        status: supported
+        projection: compatible
+        maturity: unspecified
+        lifecycle: current
+        volatile: true
+        adapter_strategy: import-wrapper
+        format: Agent Skills package
+        lossiness: none
+        discovery:
+          - scope: shared
+            location: .agents/skills/<name>/SKILL.md
+          - scope: project
+            location: .cursor/skills/<name>/SKILL.md
+        limitations: []
+        source_ids: [cursor-skills]
+        conformance_status: not_run
+      - capability: reusable-commands
+        applies_to_surfaces: [ide]
+        status: degraded
+        projection: transformed
+        maturity: unspecified
+        lifecycle: current
+        volatile: true
+        adapter_strategy: translate
+        format: Explicit-invocation Cursor skill
+        lossiness: bounded
+        discovery:
+          - scope: project
+            location: .cursor/skills/<name>/SKILL.md with disable-model-invocation
+        limitations:
+          - Current documentation migrates workspace commands to explicitly invoked skills; no legacy command path is credited.
+        source_ids: [cursor-skills]
+        conformance_status: not_run
+      - capability: custom-agents
+        applies_to_surfaces: [ide]
+        status: degraded
+        projection: native
+        maturity: unspecified
+        lifecycle: current
+        volatile: true
+        adapter_strategy: emit
+        format: Cursor subagent Markdown with name, description, model, readonly, and is_background only
+        lossiness: bounded
+        discovery:
+          - scope: project
+            location: .cursor/agents/*.md
+        limitations:
+          - The documented five-field schema has no per-agent tool, MCP, or delegation allowlist field.
+          - Codex TOML definitions cannot be copied into this Markdown surface without translation.
+        source_ids: [cursor-agents]
+        conformance_status: not_run
+      - capability: lifecycle-hooks
+        applies_to_surfaces: [ide]
+        status: degraded
+        projection: native
+        maturity: unspecified
+        lifecycle: current
+        volatile: true
+        adapter_strategy: emit
+        format: Cursor hook JSON
+        lossiness: bounded
+        discovery:
+          - scope: project
+            location: .cursor/hooks.json
+        limitations:
+          - Some failure behavior can be fail-open; external policy must own authorization and audit guarantees.
+        source_ids: [cursor-hooks]
+        conformance_status: not_run
+      - capability: mcp-tools
+        applies_to_surfaces: [ide]
+        status: supported
+        projection: native
+        maturity: unspecified
+        lifecycle: current
+        volatile: true
+        adapter_strategy: emit
+        format: Cursor MCP configuration
+        lossiness: none
+        discovery:
+          - scope: project
+            location: .cursor/mcp.json
+        limitations: []
+        source_ids: [cursor-mcp]
+        conformance_status: not_run
+      - capability: permission-policy
+        applies_to_surfaces: [ide]
+        status: degraded
+        projection: native
+        maturity: unspecified
+        lifecycle: current
+        volatile: true
+        adapter_strategy: emit
+        format: Cursor readonly request plus external authorization controls
+        lossiness: bounded
+        discovery:
+          - scope: project
+            location: .cursor/agents/*.md readonly field
+        limitations:
+          - The auto-updating headless CLI is exploratory and excluded from this exact-version adapter.
+          - Workspace configuration is not credited as immutable enterprise enforcement.
+        source_ids: [cursor-agents]
+        conformance_status: not_run

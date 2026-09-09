@@ -1,0 +1,4 @@
+interface:
+  display_name: "Start KT LAB"
+  short_description: "Start and verify the local Rancher LAB"
+  default_prompt: "Use $kt-lab-start to start and verify the local Rancher/RKE2 LAB and MCP endpoint."

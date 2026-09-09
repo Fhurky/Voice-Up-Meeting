@@ -1,0 +1,13 @@
+schedule: "0 * * * *"
+suspend: true
+image:
+  repository: registry.internal.invalid/app/backend
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+existingSecret: app-runtime
+dns:
+  namespace: kube-system
+  component: kube-dns
+command: ["sh", "-lc", "echo configure-an-accepted-domain-worker"]
+resources:
+  requests: {cpu: 50m, memory: 64Mi}
+  limits: {cpu: 500m, memory: 256Mi}

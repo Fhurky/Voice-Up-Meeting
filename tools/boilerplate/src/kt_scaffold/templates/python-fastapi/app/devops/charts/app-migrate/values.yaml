@@ -1,0 +1,12 @@
+revision: ""
+image:
+  repository: registry.internal.invalid/app/migrate
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+existingSecret: app-migration
+dns:
+  namespace: kube-system
+  component: kube-dns
+command: ["alembic", "upgrade", "head"]
+resources:
+  requests: {cpu: 50m, memory: 64Mi}
+  limits: {cpu: 500m, memory: 256Mi}

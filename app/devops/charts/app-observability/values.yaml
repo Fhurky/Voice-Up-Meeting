@@ -1,0 +1,42 @@
+collector:
+  image:
+    repository: registry.internal.invalid/platform/otel-collector
+    digest: sha256:c5918f78992ee73b0d6f0e599423ac5ec52dd5d9726733114d6eca53d5a32ed5
+  resources:
+    requests: {cpu: 50m, memory: 64Mi}
+    limits: {cpu: 500m, memory: 256Mi}
+tempo:
+  image:
+    repository: registry.internal.invalid/platform/tempo
+    digest: sha256:3ecdaa1af90b3068e77e4fb4b11d9f26201c3a57d5740d34965a323173a4f1aa
+  resources:
+    requests: {cpu: 50m, memory: 128Mi}
+    limits: {cpu: 500m, memory: 512Mi}
+prometheus:
+  image:
+    repository: registry.internal.invalid/platform/prometheus
+    digest: sha256:508729e0e2d18e11fd742a5a5ca70e557b940a93948c3c95fd0123a6fd538b69
+  resources:
+    requests: {cpu: 50m, memory: 128Mi}
+    limits: {cpu: 500m, memory: 512Mi}
+loki:
+  image:
+    repository: registry.internal.invalid/platform/loki
+    digest: sha256:efd47c67f9bac88ca29bcf8cb997d9ab29d1848bd0aff579282295542a745952
+  resources:
+    requests: {cpu: 50m, memory: 128Mi}
+    limits: {cpu: 500m, memory: 512Mi}
+grafana:
+  image:
+    repository: registry.internal.invalid/platform/grafana
+    digest: sha256:d177053ab62253815f130d81504f77063baf5fd4ca93299d6048453bd31e047a
+  existingSecret: app-grafana
+  resources:
+    requests: {cpu: 50m, memory: 128Mi}
+    limits: {cpu: 500m, memory: 512Mi}
+ingressController:
+  namespace: ingress-nginx
+  component: ingress-nginx
+dns:
+  namespace: kube-system
+  component: kube-dns

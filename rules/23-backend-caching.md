@@ -1,0 +1,39 @@
+---
+id: "23-backend-caching"
+title: "Make caching scoped, canonical, stampede-safe, and disposable"
+scope: backend
+priority: 50
+trigger: path-match
+applies_to:
+  - "app/backend/**/cache*"
+  - "app/backend/**/services/**"
+  - "specs/**/PRDs/**"
+gate: "cache-contract"
+---
+
+# Backend caching
+
+The platform baseline ships only the local/deployment Redis socket: it has neither an application
+cache adapter nor a cache call site. A business domain may introduce both only when its accepted PRD
+defines the cached operation, correctness boundary, invalidation or time-to-live policy, and
+evidence. The cache is never a system of record; every value must be reproducible from an
+authoritative source.
+
+For structured request payloads:
+
+1. Normalize semantic equivalents: trim values, case-fold only where semantics allow, sort set-like
+   lists, normalize dates to UTC, and apply explicit defaults.
+2. Canonicalize to stable bytes with deterministic field, map, and set-like-list ordering.
+3. Hash the canonical bytes with a stable cryptographic digest.
+
+Every key includes all output-changing dimensions: tenant, permission scope or actor, locale,
+timezone/currency when relevant, API version, pagination, sorting, projection, and the canonical
+request digest. When uncertain about authorization variance, scope per actor.
+
+Prevent a miss storm with a per-key lock, bounded wait/retry, lock expiry, and jitter. Cache operations
+fail open: an unavailable cache may reduce performance but must not corrupt or block authoritative
+behavior. Never cache authentication secrets, raw access tokens, or an authorization decision beyond
+the claims/version boundary that made it valid.
+
+Tests prove semantic-equivalent inputs share a key, permission/tenant variants do not, only one
+computation wins a concurrent miss, and cache failure falls back to the authoritative path.

@@ -1,0 +1,25 @@
+schema_version: "1.0"
+kind: AgentPolicyPack
+metadata:
+  id: policy:requirements-scope
+  version: 1.0.0
+  owner: team:product-engineering
+  lifecycle: draft
+lineage:
+  source: external-seed:desktop-agents/requirements-scope
+  authoritative: false
+  normalization_status: canonical-normalized
+failure_mode: manual-review
+controls:
+  - id: REQ-001
+    statement: Material ambiguity must produce clarifying questions instead of invented requirements or acceptance criteria.
+    enforcement: instruction
+    on_failure: manual-review
+  - id: REQ-002
+    statement: Post-hoc findings must cite the supplied specification or explicitly state that traceability evidence is unavailable.
+    enforcement: schema
+    on_failure: finding
+  - id: REQ-003
+    statement: Security-critical implementation claims require a human review and documented threat-model checkpoint.
+    enforcement: human-gate
+    on_failure: manual-review

@@ -1,0 +1,127 @@
+name: generator-package
+
+"on":
+  pull_request:
+  push:
+    branches:
+      - staging
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: generator-package-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CI: "true"
+  KT_SCAFFOLD_CI_BUNDLE: ${{ vars.KT_SCAFFOLD_CI_BUNDLE }}
+  PIP_DISABLE_PIP_VERSION_CHECK: "1"
+  PIP_NO_INDEX: "1"
+  PYTHONDONTWRITEBYTECODE: "1"
+
+jobs:
+  package:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: [self-hosted, linux, x64, bank-offline, python-3.13, security-toolchain]
+    timeout-minutes: 20
+    steps:
+      - name: Check out the reviewed source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+
+      - name: Verify admitted offline inputs
+        run: |
+          test -n "$KT_SCAFFOLD_CI_BUNDLE"
+          test -f "$KT_SCAFFOLD_CI_BUNDLE/SHA256SUMS"
+          test -d "$KT_SCAFFOLD_CI_BUNDLE/wheelhouse/generator"
+          (cd "$KT_SCAFFOLD_CI_BUNDLE" && sha256sum --check SHA256SUMS)
+
+      - name: Verify dependency admission and scan the generator repository
+        env:
+          KT_SECURITY_ROOT: ${{ github.workspace }}
+          KT_DEPENDENCY_ADMISSION_LEDGER: ${{ github.workspace }}/dependency-admission.json
+          INTERNAL_SCANNER_MATERIAL_DIR: ${{ vars.INTERNAL_SCANNER_MATERIAL_DIR }}
+          INTERNAL_SCANNER_SHA256SUMS: ${{ vars.INTERNAL_SCANNER_SHA256SUMS }}
+          INTERNAL_SCANNER_SHA256SUMS_SHA256: ${{ vars.INTERNAL_SCANNER_SHA256SUMS_SHA256 }}
+          INTERNAL_SCANNER_ADMITTED_ON: ${{ vars.INTERNAL_SCANNER_ADMITTED_ON }}
+          INTERNAL_SCANNER_MAX_AGE_DAYS: "7"
+          INTERNAL_SEMGREP_RULESET: ${{ vars.INTERNAL_SEMGREP_RULESET }}
+          TRIVY_CACHE_DIR: ${{ vars.TRIVY_CACHE_DIR }}
+        run: src/kt_scaffold/templates/common/scripts/security-gate.sh
+
+      - name: Create an isolated generator environment
+        run: |
+          ci_root="$(mktemp -d "$RUNNER_TEMP/kt-scaffold-package.XXXXXX")"
+          ci_venv="$ci_root/venv"
+          python3.13 -m venv "$ci_venv"
+          "$ci_venv/bin/python" -m pip install \
+            --no-index \
+            --find-links "$KT_SCAFFOLD_CI_BUNDLE/wheelhouse/generator" \
+            setuptools==83.0.0 wheel==0.47.0
+          "$ci_venv/bin/python" -m pip install \
+            --no-build-isolation \
+            --no-index \
+            --find-links "$KT_SCAFFOLD_CI_BUNDLE/wheelhouse/generator" \
+            --editable '.[test]'
+          printf 'CI_ROOT=%s\nCI_VENV=%s\n' "$ci_root" "$ci_venv" >> "$GITHUB_ENV"
+
+      - name: Ruff lint and format
+        run: |
+          "$CI_VENV/bin/ruff" check .
+          "$CI_VENV/bin/ruff" format --check src tests scripts/ci
+
+      - name: Strict type check
+        run: |
+          "$CI_VENV/bin/mypy"
+
+      - name: Unit and contract tests
+        run: |
+          "$CI_VENV/bin/pytest" -q \
+            --cov=kt_scaffold \
+            --cov-report=term-missing \
+            --cov-fail-under=85
+
+      - name: Build the release wheel without network isolation
+        run: |
+          ci_dist="$CI_ROOT/dist"
+          mkdir -p "$ci_dist"
+          SOURCE_DATE_EPOCH=315532800 \
+            "$CI_VENV/bin/python" -m build \
+              --wheel \
+              --no-isolation \
+              --outdir "$ci_dist"
+          set -- "$ci_dist"/kt_scaffold-*.whl
+          test "$#" -eq 1
+          test -f "$1"
+          printf 'CI_WHEEL=%s\n' "$1" >> "$GITHUB_ENV"
+
+      - name: Inspect the wheel payload
+        run: |
+          "$CI_VENV/bin/python" scripts/ci/assert_wheel.py "$CI_WHEEL"
+
+      - name: Smoke-test the installed wheel and bundled templates
+        run: |
+          smoke_venv="$CI_ROOT/smoke-venv"
+          smoke_target="$CI_ROOT/smoke-project"
+          python3.13 -m venv "$smoke_venv"
+          "$smoke_venv/bin/python" -m pip install \
+            --no-index \
+            --find-links "$KT_SCAFFOLD_CI_BUNDLE/wheelhouse/generator" \
+            "$CI_WHEEL"
+          "$smoke_venv/bin/kt-scaffold" --version
+          "$smoke_venv/bin/kt-scaffold" init \
+            --target-dir "$smoke_target" \
+            --intent "Verify the installed release wheel and its bundled templates" \
+            --primary-domain verification \
+            --product-name "Wheel Smoke" \
+            --product-slug wheel-smoke \
+            --no-observability >/dev/null
+          "$smoke_venv/bin/kt-scaffold" render \
+            --target-dir "$smoke_target" \
+            --mode check >/dev/null
+          test ! -e "$smoke_target/src/kt_scaffold"
+          test ! -e "$smoke_target/tools/kt-scaffold"

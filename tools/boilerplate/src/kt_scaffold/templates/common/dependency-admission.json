@@ -1,0 +1,156 @@
+{
+  "schema_version": 1,
+  "policy": {
+    "minimum_release_age_days": 30
+  },
+  "authorities": [
+    {"kind": "npm", "path": "app/frontend/package.json"},
+    {"kind": "npm", "path": "e2e/package.json"},
+    {"kind": "requirements", "path": "app/backend/requirements.in"},
+    {"kind": "requirements", "path": "app/backend/requirements-dev.in"},
+    {"kind": "images-yaml", "path": "app/devops/images.yaml"},
+    {
+      "kind": "oci",
+      "patterns": [
+        "app/frontend/Dockerfile.dev",
+        "app/infra/.env.example",
+        "app/infra/Dockerfile*.release",
+        "app/infra/docker-compose*.yml",
+        "app/devops/charts/**/values.yaml"
+      ]
+    },
+    {"kind": "github-actions", "patterns": [".github/workflows/*.yml"]}
+  ],
+  "decision": {
+    "id": "KT-DEPENDENCY-BASELINE-2026-08-11",
+    "reviewed_on": "2026-08-11",
+    "inventory_sha256_by_variant": {
+      "observability-enabled": "e39cc9210d7bf6a56d335ada0f52cdc3bdb642d17dd8be9761dd4d77dd32a880",
+      "observability-disabled": "e39cc9210d7bf6a56d335ada0f52cdc3bdb642d17dd8be9761dd4d77dd32a880"
+    },
+    "compatibility_evidence": [
+      "pytest: complete generator suite",
+      "fresh scaffold: npm ci, ESLint, Vitest, TypeScript 7 typecheck and Vite production build",
+      "fresh scaffold: backend hash-locked installation and tests",
+      "fresh scaffold: stdio and Streamable HTTP MCP protocol tests"
+    ]
+  },
+  "exceptions": [
+    {
+      "artifact": "node",
+      "version": "22.23.2",
+      "released_on": "2026-07-28",
+      "release_evidence": "https://nodejs.org/en/blog/release/v22.23.2",
+      "reason": "security",
+      "advisory_ids": [
+        "CVE-2026-56846", "CVE-2026-56847", "CVE-2026-56848", "CVE-2026-56850",
+        "CVE-2026-58039", "CVE-2026-58040", "CVE-2026-58042", "CVE-2026-58043",
+        "CVE-2026-58044", "CVE-2026-58045"
+      ]
+    },
+    {
+      "artifact": "python-backend-refresh",
+      "version": "alembic=1.19.0,cffi=2.1.1,fastapi=0.141.1,mypy=2.3.0,pip=26.2,pip-tools=7.6.0,ruff=0.16.1,uvicorn=0.52.1",
+      "released_on": "2026-08-04",
+      "release_evidence": [
+        "https://pypi.org/pypi/alembic/1.19.0/json",
+        "https://pypi.org/pypi/cffi/2.1.1/json",
+        "https://pypi.org/pypi/fastapi/0.141.1/json",
+        "https://pypi.org/pypi/mypy/2.3.0/json",
+        "https://pypi.org/pypi/pip/26.2/json",
+        "https://pypi.org/pypi/pip-tools/7.6.0/json",
+        "https://pypi.org/pypi/ruff/0.16.1/json",
+        "https://pypi.org/pypi/uvicorn/0.52.1/json"
+      ],
+      "reason": "governance-exception",
+      "exception_id": "KT-GOV-EXCEPTION-2026-08-11-TESTED-BASELINE",
+      "compatibility_evidence": ["hash-locked backend install, static analysis, unit and PostgreSQL integration gates"]
+    },
+    {
+      "artifact": "frontend-runtime-refresh",
+      "version": "react=19.2.8,react-dom=19.2.8,react-router=8.3.0",
+      "released_on": "2026-07-22",
+      "release_evidence": [
+        "https://registry.npmjs.org/react/19.2.8",
+        "https://registry.npmjs.org/react-dom/19.2.8",
+        "https://registry.npmjs.org/react-router/8.3.0"
+      ],
+      "reason": "governance-exception",
+      "exception_id": "KT-GOV-EXCEPTION-2026-08-06-TESTED-BASELINE",
+      "compatibility_evidence": ["Vitest component tests and Vite production build"]
+    },
+    {
+      "artifact": "frontend-toolchain-refresh",
+      "version": "vite=8.2.0,typescript-eslint=8.66.0,eslint=10.8.0,typescript7=7.0.2,vite-plugin-react=6.0.5",
+      "released_on": "2026-08-03",
+      "release_evidence": [
+        "https://registry.npmjs.org/vite/8.2.0",
+        "https://registry.npmjs.org/typescript-eslint/8.66.0",
+        "https://registry.npmjs.org/eslint/10.8.0",
+        "https://registry.npmjs.org/typescript/7.0.2",
+        "https://registry.npmjs.org/%40vitejs%2Fplugin-react/6.0.5"
+      ],
+      "reason": "governance-exception",
+      "exception_id": "KT-GOV-EXCEPTION-2026-08-06-TESTED-BASELINE",
+      "compatibility_evidence": ["ESLint, TypeScript 7 strict typecheck, Vitest and Vite production build"]
+    },
+    {
+      "artifact": "frontend-test-types-refresh",
+      "version": "jest-dom=7.0.0,types-node=26.1.2,types-react=19.2.18,types-react-dom=19.2.4,happy-dom=20.11.1,globals=17.9.0",
+      "released_on": "2026-08-02",
+      "release_evidence": [
+        "https://registry.npmjs.org/%40testing-library%2Fjest-dom/7.0.0",
+        "https://registry.npmjs.org/%40types%2Fnode/26.1.2",
+        "https://registry.npmjs.org/%40types%2Freact/19.2.18",
+        "https://registry.npmjs.org/%40types%2Freact-dom/19.2.4",
+        "https://registry.npmjs.org/happy-dom/20.11.1",
+        "https://registry.npmjs.org/globals/17.9.0"
+      ],
+      "reason": "governance-exception",
+      "exception_id": "KT-GOV-EXCEPTION-2026-08-06-TESTED-BASELINE",
+      "compatibility_evidence": ["frontend lint, DOM unit tests and strict typecheck"]
+    },
+    {
+      "artifact": "playwright",
+      "version": "1.62.1",
+      "released_on": "2026-07-30",
+      "release_evidence": "https://registry.npmjs.org/%40playwright%2Ftest/1.62.1",
+      "reason": "governance-exception",
+      "exception_id": "KT-GOV-EXCEPTION-2026-08-06-TESTED-BASELINE",
+      "compatibility_evidence": ["offline Chromium walking-skeleton authentication scenario"]
+    },
+    {
+      "artifact": "js-yaml",
+      "version": "4.3.1",
+      "released_on": "2026-07-31",
+      "release_evidence": "https://registry.npmjs.org/js-yaml/4.3.1",
+      "reason": "security",
+      "advisory_ids": ["GHSA-5p4m-2wfm-xmqj"]
+    },
+    {
+      "artifact": "python-runtime-base",
+      "version": "3.13.15-alpine3.23",
+      "released_on": "2026-08-10",
+      "release_evidence": "https://hub.docker.com/_/python",
+      "reason": "governance-exception",
+      "exception_id": "KT-GOV-EXCEPTION-2026-08-11-APPSEC-BASELINE",
+      "compatibility_evidence": [
+        "CPython 3.13 musllinux hash-lock resolution, container smoke test and Trivy HIGH/CRITICAL scan"
+      ]
+    },
+    {
+      "artifact": "runtime-images-refresh",
+      "version": "postgres=17.10,otel=0.158.0,loki=3.7.6,grafana=13.1.2",
+      "released_on": "2026-08-06",
+      "release_evidence": [
+        "https://registry.hub.docker.com/v2/repositories/library/postgres/tags/17.10",
+        "https://registry.hub.docker.com/v2/repositories/otel/opentelemetry-collector-contrib/tags/0.158.0",
+        "https://registry.hub.docker.com/v2/repositories/grafana/loki/tags/3.7.6",
+        "https://registry.hub.docker.com/v2/repositories/grafana/grafana/tags/13.1.2"
+      ],
+      "reason": "governance-exception",
+      "exception_id": "KT-GOV-EXCEPTION-2026-08-06-TESTED-BASELINE",
+      "compatibility_evidence": ["digest identity verification, chart render and local Compose service contracts"]
+    }
+  ]
+}

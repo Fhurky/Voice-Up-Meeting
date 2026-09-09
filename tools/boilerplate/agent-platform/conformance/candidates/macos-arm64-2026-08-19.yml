@@ -1,0 +1,103 @@
+schema_version: "1.0"
+kind: AgentRuntimeCandidateInventory
+captured_at: "2026-08-20T10:47:12+03:00"
+host:
+  os: macOS
+  version: 26.5.2
+  build: 25F84
+  architecture: arm64
+clients:
+  - id: codex
+    version: 0.147.0
+    release_channel: stable
+    candidate_state: r0-candidate
+    artifact_locator: standalone-release:0.147.0-aarch64-apple-darwin
+    digests:
+      - artifact: codex
+        sha256: 19c4f144c5226a9f17c58e6f0fa854843b0f77a6eb420f40e2745a12f10f5d37
+    signing:
+      verified: true
+      team_id: 2DC432GLL2
+      cdhash: 95686307357ad315175f553a68dce5c62d0ff435
+    related_exploratory_artifacts:
+      - name: Codex desktop app executable
+        version: 26.818.21641
+        sha256: fe6ca79e9099fe1507ed851fd34307254da7ba0695df0908e8bf1bbde54ec61c
+        reason_not_candidate: Owner-observed desktop conformance passed, but this surface bundles a pre-release Codex CLI and is not the stable R0 candidate.
+      - name: Codex desktop bundled codex
+        version: 0.148.0-alpha.21
+        sha256: 5e508bd40c1bdd2d9798a269839c16935c71941e5709c097b0a527bee52977ab
+        reason_not_candidate: Pre-release binary is excluded from admission.
+      - name: VS Code OpenAI extension bundled codex
+        version: 0.148.0-alpha.15
+        sha256: eb2cd2ee6119b46c4af9051713865970011e67d00660c1c1aadec92ad29edae8
+        reason_not_candidate: Pre-release binary is excluded from admission.
+    conformance: not_run
+    admission: research
+    unresolved_runtime_bindings:
+      - effective parent sandbox and approval overrides
+      - inference profile and model resolution
+      - live discovery, invocation, denial, audit, and rollback evidence
+  - id: claude-code
+    version: 2.1.227
+    release_channel: stable
+    candidate_state: r1-candidate
+    artifact_locator: native-release:2.1.227-darwin-arm64
+    digests:
+      - artifact: claude
+        sha256: 7432511ba3be818e01f23f6eef8630d214a8b618451e188c3c7d61a987eef6c7
+    signing:
+      verified: true
+      team_id: Q6L2SF6YDW
+      cdhash: 900a2046c173842b9b8e2a5ab3c99318065c2bed
+    conformance: not_run
+    admission: research
+    unresolved_runtime_bindings:
+      - vendor-supported exact maximum version enforcement is not documented
+      - effective parent permission mode and managed-policy precedence
+      - inference profile, model, tool, hook, audit, and rollback evidence
+  - id: github-copilot-vscode
+    version: 1.133.0+copilot.0.61.0
+    release_channel: stable
+    candidate_state: inventory-only
+    artifact_locator: vscode:1.133.0-darwin-arm64+bundled-copilot-chat:0.61.0
+    digests:
+      - artifact: VS Code executable
+        sha256: 33fe4c45b9da4bd51758cc4dd7f8176da9fc9357c6ba0d36eba4c5f00470ae2c
+      - artifact: bundled Copilot package
+        sha256: 44e86d14583229c3caeddd9fb7e1d3cf6cdcf38bed268e194858fed1aacfd9c6
+      - artifact: bundled Copilot extension
+        sha256: 656dc2d01fadd9aa1a5bb1c7c5e98c4335f162b5fad47f5beeac389a55b6d043
+    signing:
+      verified: true
+      team_id: UBF8T346G9
+      cdhash: baf591c1ece209712ae937572229f01521917160
+    conformance: not_run
+    admission: research
+    unresolved_runtime_bindings:
+      - Copilot authentication and entitlement
+      - effective Agent Host and experiment flags
+      - resolved tool inventory, prompt-file overrides, permission denial, and audit evidence
+  - id: cursor
+    version: 3.15.19
+    release_channel: stable-editor
+    candidate_state: inventory-only
+    artifact_locator: cursor-editor:3.15.19-darwin-arm64
+    digests:
+      - artifact: Cursor executable
+        sha256: 66025c10e901bd1d4bd29f50b2b480c74326fcf023eec27399c270e8c5d0cfae
+    signing:
+      verified: true
+      team_id: VDXQ22DGB9
+      cdhash: 85eea0bc7f9bc0c9892e1142c94007f89fbf01c6
+    related_exploratory_artifacts:
+      - name: cursor-agent headless CLI
+        version: 2026.08.11-e8db854
+        sha256: eed61c5224668c9236334c4c68936a16aecc37374b592f59e31eb50433817831
+        reason_not_candidate: Vendor-documented auto-update has no exact pin contract.
+    conformance: not_run
+    admission: research
+    unresolved_runtime_bindings:
+      - granular per-agent tool, MCP, and delegation controls are not documented
+      - effective model fallback and inherited parent capabilities
+      - fail-closed project hook, readonly denial, discovery, and audit evidence

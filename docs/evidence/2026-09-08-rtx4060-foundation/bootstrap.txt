@@ -1,0 +1,2 @@
+bootstrap ok: global Streamable HTTP MCP (project expects kt-scaffold 0.3.0), Docker reachable, governance and dependency admission current
+

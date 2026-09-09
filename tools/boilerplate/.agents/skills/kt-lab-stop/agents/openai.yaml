@@ -1,0 +1,4 @@
+interface:
+  display_name: "Stop KT LAB"
+  short_description: "Stop the LAB and release its VM resources"
+  default_prompt: "Use $kt-lab-stop to stop the local Rancher/RKE2 LAB and release its VM resources safely."

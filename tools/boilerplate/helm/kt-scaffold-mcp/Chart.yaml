@@ -1,0 +1,7 @@
+apiVersion: v2
+name: kt-scaffold-mcp
+description: Local/LAB workspace-blind governance MCP over Streamable HTTP
+type: application
+version: 0.3.0
+appVersion: "0.3.0"
+kubeVersion: ">=1.30.0-0 <1.34.0-0"

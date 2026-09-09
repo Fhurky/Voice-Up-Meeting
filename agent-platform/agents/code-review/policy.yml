@@ -1,0 +1,25 @@
+schema_version: "1.0"
+kind: AgentPolicyPack
+metadata:
+  id: policy:code-review
+  version: 1.0.0
+  owner: team:developer-experience
+  lifecycle: draft
+lineage:
+  source: external-seed:desktop-agents/code-review
+  authoritative: false
+  normalization_status: canonical-normalized
+failure_mode: finding
+controls:
+  - id: REVIEW-001
+    statement: Every reported defect must include a repository location and evidence that supports the claimed impact.
+    enforcement: schema
+    on_failure: finding
+  - id: REVIEW-002
+    statement: Hypotheses and unexecuted validation paths must be labeled as uncertainty rather than confirmed defects.
+    enforcement: instruction
+    on_failure: finding
+  - id: REVIEW-003
+    statement: The reviewer must remain read-only and cannot approve, merge, publish, deploy, or communicate externally.
+    enforcement: deterministic-check
+    on_failure: manual-review

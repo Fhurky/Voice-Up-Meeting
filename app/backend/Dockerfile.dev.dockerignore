@@ -1,0 +1,7 @@
+**
+!app/backend/requirements.txt
+!app/backend/requirements-dev.txt
+!app/backend/entrypoint.dev.sh
+
+!app/infra/backend-apk.lock
+!scripts/install-backend-apks.py

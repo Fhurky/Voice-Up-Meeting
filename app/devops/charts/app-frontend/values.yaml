@@ -1,0 +1,17 @@
+replicaCount: 1
+image:
+  repository: registry.internal.invalid/app/frontend
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+service:
+  port: 8080
+backendService: app-backend
+ingress:
+  enabled: false
+  className: nginx
+  host: app.internal.invalid
+  tlsSecretName: app-tls
+  controllerNamespace: ingress-nginx
+  controllerComponent: ingress-nginx
+resources:
+  requests: {cpu: 50m, memory: 64Mi}
+  limits: {cpu: 500m, memory: 256Mi}

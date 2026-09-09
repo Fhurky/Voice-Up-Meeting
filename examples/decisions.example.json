@@ -1,0 +1,6 @@
+[
+  {"ground_truth": "spk_a", "predicted_id": "spk_a", "status": "recognized"},
+  {"ground_truth": "spk_b", "predicted_id": null, "status": "ambiguous"},
+  {"ground_truth": null, "predicted_id": null, "status": "unknown"},
+  {"ground_truth": null, "predicted_id": "spk_a", "status": "recognized"}
+]

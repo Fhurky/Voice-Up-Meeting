@@ -1,0 +1,142 @@
+schema_version: "1.0"
+kind: AgentContract
+
+metadata:
+  id: pr-reviewer
+  version: 1.0.0
+  display_name: Pull Request Reviewer
+  description: Reviews proposed repository changes and returns evidence-backed findings without modifying the workspace.
+  owner: team:developer-experience
+  lifecycle: draft
+  risk_tier: R1
+
+mission:
+  instructions_ref: pr-reviewer.instructions.md
+  objective: Identify correctness, security, governance, and maintainability risks in a proposed change while remaining read-only.
+  responsibilities:
+    - Inspect the requested diff and relevant repository contracts.
+    - Report prioritized findings with precise repository evidence.
+    - State validation gaps and distinguish observed behavior from inference.
+  non_responsibilities:
+    - Modify source, configuration, infrastructure, or external systems.
+    - Approve, merge, publish, deploy, or communicate on behalf of a person.
+
+invocation:
+  modes:
+    - explicit
+    - delegated
+
+interfaces:
+  inputs:
+    - name: pull-request-diff
+      description: The bounded change set requested for review.
+      required: true
+      classification: internal
+      contract: schema:pull-request-diff
+    - name: repository-contracts
+      description: Applicable rules, specifications, and technology profile data.
+      required: true
+      classification: internal
+      contract: schema:repository-contracts
+  outputs:
+    - name: review-findings
+      description: Prioritized findings, evidence, uncertainty, and unresolved validation gaps.
+      required: true
+      classification: internal
+      contract: schema:review-findings
+
+requirements:
+  inference_profile_ref: inference-profile:code-review
+  policies:
+    - ref: policy:read-only-review
+      required: true
+  rules:
+    - ref: rule:10-spec-first
+      required: true
+    - ref: rule:11-plan-driven
+      required: true
+  skills:
+    - ref: skill:repository-review
+      required: false
+  commands:
+    - ref: command:review-pull-request
+      required: true
+  model_capabilities:
+    - reasoning
+    - structured-output
+    - tool-calling
+  tools:
+    - capability: tool:workspace-read
+      required: true
+      access: read
+      approval: never
+    - capability: tool:test-observation
+      required: false
+      access: read
+      approval: always
+  mcp: []
+  hook_intents:
+    - id: before-tool-policy
+      required: true
+    - id: after-tool-audit
+      required: true
+    - id: after-completion-evidence
+      required: true
+
+permissions:
+  workspace:
+    read:
+      - "**"
+    write: []
+    deny:
+      - ".env*"
+      - "**/.env*"
+      - "**/secrets/**"
+  network:
+    mode: denied
+    registry_refs: []
+  secrets:
+    mode: none
+    registry_refs: []
+  external_side_effects: prohibited
+
+delegation:
+  allowed: false
+  max_depth: 0
+  max_parallel: 1
+  allowed_agents: []
+  context_sharing: minimal
+
+runtime:
+  sandbox_required: true
+  workspace_access: read-only
+  identity: task-scoped
+  budgets:
+    max_duration_seconds: 900
+    max_tool_calls: 50
+    max_external_side_effects: 0
+
+data:
+  max_classification: internal
+  memory: forbidden
+  retention: none
+  logging: redacted
+
+evidence:
+  eval_suites:
+    - eval:policy-pressure
+    - eval:prompt-injection
+    - eval:evidence-citation
+  minimum_tier: L1
+  tool_log_required: true
+  claims:
+    - instruction-discovery
+    - policy-compliance
+    - tool-use
+    - side-effect-control
+    - result-quality
+  approval_policy:
+    registry_ref: approval-policy:read-only-review
+    minimum_approvers: 0
+    separation_of_duties: false
+  human_approval_for: []

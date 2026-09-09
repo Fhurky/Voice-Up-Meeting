@@ -1,0 +1,943 @@
+{
+  "started_at_utc": "2026-09-08T22:11:21.419391+00:00",
+  "status": "measured",
+  "protocol": "One upload, one excluded warm-up, 20 sequential single-attempt CUDA identification jobs",
+  "accuracy_evidence": false,
+  "jobs": [
+    {
+      "job_public_id": "ae8eeb12-a380-41d0-9c51-41c27c934e29",
+      "attempt_count": 1,
+      "queue_seconds": 1.886359,
+      "execution_seconds": 0.818192,
+      "server_total_seconds": 2.704551,
+      "observed_round_trip_seconds": 3.1300744000000122,
+      "device": "cuda:0",
+      "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+      "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+      "speech_seconds": 26.886,
+      "windows_count": 5,
+      "decision": "recognized"
+    },
+    {
+      "job_public_id": "ad6133dd-6547-4dec-be18-d3aeb2e193d4",
+      "attempt_count": 1,
+      "queue_seconds": 1.579847,
+      "execution_seconds": 0.770928,
+      "server_total_seconds": 2.350775,
+      "observed_round_trip_seconds": 2.571968399999605,
+      "device": "cuda:0",
+      "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+      "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+      "speech_seconds": 26.886,
+      "windows_count": 5,
+      "decision": "recognized"
+    },
+    {
+      "job_public_id": "9d70fd7f-8b86-41b9-b92d-8f2bb746a478",
+      "attempt_count": 1,
+      "queue_seconds": 1.765366,
+      "execution_seconds": 0.714575,
+      "server_total_seconds": 2.479941,
+      "observed_round_trip_seconds": 2.6385134999982256,
+      "device": "cuda:0",
+      "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+      "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+      "speech_seconds": 26.886,
+      "windows_count": 5,
+      "decision": "recognized"
+    },
+    {
+      "job_public_id": "c4ea5c5c-be45-44d5-9f98-9e981b95e69c",
+      "attempt_count": 1,
+      "queue_seconds": 1.865777,
+      "execution_seconds": 0.824946,
+      "server_total_seconds": 2.690723,
+      "observed_round_trip_seconds": 3.1358265000017127,
+      "device": "cuda:0",
+      "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+      "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+      "speech_seconds": 26.886,
+      "windows_count": 5,
+      "decision": "recognized"
+    },
+    {
+      "job_public_id": "5627ccbe-ede2-4ffe-94b9-982b6cb895b1",
+      "attempt_count": 1,
+      "queue_seconds": 1.564702,
+      "execution_seconds": 0.884823,
+      "server_total_seconds": 2.449525,
+      "observed_round_trip_seconds": 2.634298900000431,
+      "device": "cuda:0",
+      "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+      "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+      "speech_seconds": 26.886,
+      "windows_count": 5,
+      "decision": "recognized"
+    },
+    {
+      "job_public_id": "3cc9f64c-0bd4-45a8-aab4-31a84bd206f7",
+      "attempt_count": 1,
+      "queue_seconds": 1.800159,
+      "execution_seconds": 0.763928,
+      "server_total_seconds": 2.564087,
+      "observed_round_trip_seconds": 2.6441264000022784,
+      "device": "cuda:0",
+      "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+      "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+      "speech_seconds": 26.886,
+      "windows_count": 5,
+      "decision": "recognized"
+    },
+    {
+      "job_public_id": "2cf62c83-ccdf-45c5-ad49-6aa62768f4b8",
+      "attempt_count": 1,
+      "queue_seconds": 1.948294,
+      "execution_seconds": 0.715837,
+      "server_total_seconds": 2.664131,
+      "observed_round_trip_seconds": 3.101740999998583,
+      "device": "cuda:0",
+      "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+      "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+      "speech_seconds": 26.886,
+      "windows_count": 5,
+      "decision": "recognized"
+    },
+    {
+      "job_public_id": "090f4351-92e0-479d-8426-d4ee42b2e6bb",
+      "attempt_count": 1,
+      "queue_seconds": 1.569898,
+      "execution_seconds": 0.788005,
+      "server_total_seconds": 2.357903,
+      "observed_round_trip_seconds": 2.608253700000205,
+      "device": "cuda:0",
+      "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+      "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+      "speech_seconds": 26.886,
+      "windows_count": 5,
+      "decision": "recognized"
+    },
+    {
+      "job_public_id": "f036b7d8-6213-457c-a53d-dbb4341a892a",
+      "attempt_count": 1,
+      "queue_seconds": 1.734078,
+      "execution_seconds": 0.805202,
+      "server_total_seconds": 2.53928,
+      "observed_round_trip_seconds": 2.6057595999991463,
+      "device": "cuda:0",
+      "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+      "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+      "speech_seconds": 26.886,
+      "windows_count": 5,
+      "decision": "recognized"
+    },
+    {
+      "job_public_id": "97625c8f-968a-4664-b154-0b0060364187",
+      "attempt_count": 1,
+      "queue_seconds": 1.95123,
+      "execution_seconds": 0.769397,
+      "server_total_seconds": 2.720627,
+      "observed_round_trip_seconds": 3.1250809999983176,
+      "device": "cuda:0",
+      "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+      "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+      "speech_seconds": 26.886,
+      "windows_count": 5,
+      "decision": "recognized"
+    },
+    {
+      "job_public_id": "b0e8c954-5b09-45d5-b0ac-5658dea6cb9b",
+      "attempt_count": 1,
+      "queue_seconds": 1.612198,
+      "execution_seconds": 0.778697,
+      "server_total_seconds": 2.390895,
+      "observed_round_trip_seconds": 2.626674600000115,
+      "device": "cuda:0",
+      "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+      "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+      "speech_seconds": 26.886,
+      "windows_count": 5,
+      "decision": "recognized"
+    },
+    {
+      "job_public_id": "6619a4c5-53c7-42ef-af91-4e8756e621c3",
+      "attempt_count": 1,
+      "queue_seconds": 1.770031,
+      "execution_seconds": 0.838967,
+      "server_total_seconds": 2.608998,
+      "observed_round_trip_seconds": 3.1461058000022604,
+      "device": "cuda:0",
+      "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+      "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+      "speech_seconds": 26.886,
+      "windows_count": 5,
+      "decision": "recognized"
+    },
+    {
+      "job_public_id": "0a592a29-0431-41ed-be9c-bbbf960190eb",
+      "attempt_count": 1,
+      "queue_seconds": 1.470203,
+      "execution_seconds": 0.786395,
+      "server_total_seconds": 2.256598,
+      "observed_round_trip_seconds": 2.5765624000014213,
+      "device": "cuda:0",
+      "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+      "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+      "speech_seconds": 26.886,
+      "windows_count": 5,
+      "decision": "recognized"
+    },
+    {
+      "job_public_id": "b984fcad-c353-4453-8e80-41e1efe4b743",
+      "attempt_count": 1,
+      "queue_seconds": 1.671299,
+      "execution_seconds": 0.821611,
+      "server_total_seconds": 2.49291,
+      "observed_round_trip_seconds": 2.6120454000010795,
+      "device": "cuda:0",
+      "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+      "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+      "speech_seconds": 26.886,
+      "windows_count": 5,
+      "decision": "recognized"
+    },
+    {
+      "job_public_id": "bba27c3e-6b7d-4dc5-b203-f0dd4433a34d",
+      "attempt_count": 1,
+      "queue_seconds": 1.90259,
+      "execution_seconds": 0.789133,
+      "server_total_seconds": 2.691723,
+      "observed_round_trip_seconds": 3.088227600001119,
+      "device": "cuda:0",
+      "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+      "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+      "speech_seconds": 26.886,
+      "windows_count": 5,
+      "decision": "recognized"
+    },
+    {
+      "job_public_id": "7aa40acc-c2ec-481c-9eca-1b2e97430258",
+      "attempt_count": 1,
+      "queue_seconds": 1.611204,
+      "execution_seconds": 0.726908,
+      "server_total_seconds": 2.338112,
+      "observed_round_trip_seconds": 2.6382596000003105,
+      "device": "cuda:0",
+      "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+      "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+      "speech_seconds": 26.886,
+      "windows_count": 5,
+      "decision": "recognized"
+    },
+    {
+      "job_public_id": "6636c07e-c957-4bdd-9186-8ec488c241a5",
+      "attempt_count": 1,
+      "queue_seconds": 1.706884,
+      "execution_seconds": 0.868519,
+      "server_total_seconds": 2.575403,
+      "observed_round_trip_seconds": 2.5920761999987008,
+      "device": "cuda:0",
+      "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+      "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+      "speech_seconds": 26.886,
+      "windows_count": 5,
+      "decision": "recognized"
+    },
+    {
+      "job_public_id": "dc88c3d2-69f4-4f55-96e5-598db865edcf",
+      "attempt_count": 1,
+      "queue_seconds": 1.968304,
+      "execution_seconds": 0.778258,
+      "server_total_seconds": 2.746562,
+      "observed_round_trip_seconds": 3.2101828000013484,
+      "device": "cuda:0",
+      "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+      "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+      "speech_seconds": 26.886,
+      "windows_count": 5,
+      "decision": "recognized"
+    },
+    {
+      "job_public_id": "a3d12183-7ff2-44cf-bb80-9d36bd264bcc",
+      "attempt_count": 1,
+      "queue_seconds": 1.553022,
+      "execution_seconds": 0.765129,
+      "server_total_seconds": 2.318151,
+      "observed_round_trip_seconds": 2.5969564000006358,
+      "device": "cuda:0",
+      "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+      "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+      "speech_seconds": 26.886,
+      "windows_count": 5,
+      "decision": "recognized"
+    },
+    {
+      "job_public_id": "b339d2ef-3e7d-45d2-a305-39fc03e7f271",
+      "attempt_count": 1,
+      "queue_seconds": 1.740664,
+      "execution_seconds": 0.851127,
+      "server_total_seconds": 2.591791,
+      "observed_round_trip_seconds": 3.0915552000005846,
+      "device": "cuda:0",
+      "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+      "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+      "speech_seconds": 26.886,
+      "windows_count": 5,
+      "decision": "recognized"
+    }
+  ],
+  "source": {
+    "sha256": "bdc68e3362aed22d18a5b9f50b7467323ed13db7871452c3c6972bb1a7f13ff9",
+    "duration_seconds": 30.0,
+    "classification": "Repeated public speech fixture; not held-out speaker accuracy data",
+    "accuracy_evidence": false
+  },
+  "upload_seconds": 0.024338100000022678,
+  "recording_public_id": "25767094-956b-4c99-87c8-23d14f0c8e4e",
+  "warmup": {
+    "job_public_id": "eb5a9028-2ea9-42e3-9335-d2600363720c",
+    "attempt_count": 1,
+    "queue_seconds": 0.063013,
+    "execution_seconds": 0.845717,
+    "server_total_seconds": 0.90873,
+    "observed_round_trip_seconds": 1.0306277000017872,
+    "device": "cuda:0",
+    "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+    "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+    "speech_seconds": 26.886,
+    "windows_count": 5,
+    "decision": "recognized"
+  },
+  "device_memory": {
+    "measurement": "sampled total device memory used; includes other processes; not PyTorch allocator peak",
+    "interval_seconds": 0.5,
+    "unavailable": false,
+    "max_sampled_used_mib_by_device_index": {
+      "0": 1519
+    },
+    "sample_count": 102,
+    "samples": [
+      {
+        "timestamp_utc": "2026-09-08T22:11:21.615582+00:00",
+        "index": 0,
+        "used_mib": 1519,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:22.185761+00:00",
+        "index": 0,
+        "used_mib": 1519,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:22.752164+00:00",
+        "index": 0,
+        "used_mib": 1515,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:23.315016+00:00",
+        "index": 0,
+        "used_mib": 1515,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:23.870969+00:00",
+        "index": 0,
+        "used_mib": 1510,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:24.427033+00:00",
+        "index": 0,
+        "used_mib": 1510,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:25.021523+00:00",
+        "index": 0,
+        "used_mib": 1500,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:25.588638+00:00",
+        "index": 0,
+        "used_mib": 1509,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:26.152909+00:00",
+        "index": 0,
+        "used_mib": 1501,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:26.708966+00:00",
+        "index": 0,
+        "used_mib": 1502,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:27.267297+00:00",
+        "index": 0,
+        "used_mib": 1502,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:27.824879+00:00",
+        "index": 0,
+        "used_mib": 1502,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:28.396504+00:00",
+        "index": 0,
+        "used_mib": 1502,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:28.958141+00:00",
+        "index": 0,
+        "used_mib": 1493,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:29.514224+00:00",
+        "index": 0,
+        "used_mib": 1493,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:30.095618+00:00",
+        "index": 0,
+        "used_mib": 1502,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:30.656324+00:00",
+        "index": 0,
+        "used_mib": 1502,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:31.212388+00:00",
+        "index": 0,
+        "used_mib": 1502,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:31.767409+00:00",
+        "index": 0,
+        "used_mib": 1497,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:32.327699+00:00",
+        "index": 0,
+        "used_mib": 1497,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:32.909019+00:00",
+        "index": 0,
+        "used_mib": 1493,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:33.478672+00:00",
+        "index": 0,
+        "used_mib": 1514,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:34.057773+00:00",
+        "index": 0,
+        "used_mib": 1514,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:34.613324+00:00",
+        "index": 0,
+        "used_mib": 1514,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:35.173664+00:00",
+        "index": 0,
+        "used_mib": 1511,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:35.750095+00:00",
+        "index": 0,
+        "used_mib": 1502,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:36.323264+00:00",
+        "index": 0,
+        "used_mib": 1502,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:36.877946+00:00",
+        "index": 0,
+        "used_mib": 1497,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:37.439498+00:00",
+        "index": 0,
+        "used_mib": 1497,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:37.999221+00:00",
+        "index": 0,
+        "used_mib": 1506,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:38.561509+00:00",
+        "index": 0,
+        "used_mib": 1502,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:39.123079+00:00",
+        "index": 0,
+        "used_mib": 1502,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:39.678627+00:00",
+        "index": 0,
+        "used_mib": 1497,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:40.240396+00:00",
+        "index": 0,
+        "used_mib": 1512,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:40.798422+00:00",
+        "index": 0,
+        "used_mib": 1512,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:41.373836+00:00",
+        "index": 0,
+        "used_mib": 1512,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:41.958571+00:00",
+        "index": 0,
+        "used_mib": 1512,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:42.523375+00:00",
+        "index": 0,
+        "used_mib": 1512,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:43.082478+00:00",
+        "index": 0,
+        "used_mib": 1512,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:43.644348+00:00",
+        "index": 0,
+        "used_mib": 1511,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:44.214256+00:00",
+        "index": 0,
+        "used_mib": 1502,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:44.785943+00:00",
+        "index": 0,
+        "used_mib": 1502,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:45.345819+00:00",
+        "index": 0,
+        "used_mib": 1494,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:45.904779+00:00",
+        "index": 0,
+        "used_mib": 1502,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:46.464881+00:00",
+        "index": 0,
+        "used_mib": 1502,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:47.050037+00:00",
+        "index": 0,
+        "used_mib": 1505,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:47.627431+00:00",
+        "index": 0,
+        "used_mib": 1505,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:48.186450+00:00",
+        "index": 0,
+        "used_mib": 1501,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:48.741488+00:00",
+        "index": 0,
+        "used_mib": 1493,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:49.302310+00:00",
+        "index": 0,
+        "used_mib": 1493,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:49.863324+00:00",
+        "index": 0,
+        "used_mib": 1502,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:50.418367+00:00",
+        "index": 0,
+        "used_mib": 1502,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:50.979822+00:00",
+        "index": 0,
+        "used_mib": 1502,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:51.539854+00:00",
+        "index": 0,
+        "used_mib": 1502,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:52.100777+00:00",
+        "index": 0,
+        "used_mib": 1497,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:52.674700+00:00",
+        "index": 0,
+        "used_mib": 1497,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:53.235853+00:00",
+        "index": 0,
+        "used_mib": 1493,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:53.791797+00:00",
+        "index": 0,
+        "used_mib": 1502,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:54.352305+00:00",
+        "index": 0,
+        "used_mib": 1502,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:54.909755+00:00",
+        "index": 0,
+        "used_mib": 1502,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:55.482956+00:00",
+        "index": 0,
+        "used_mib": 1502,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:56.057121+00:00",
+        "index": 0,
+        "used_mib": 1497,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:56.618738+00:00",
+        "index": 0,
+        "used_mib": 1497,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:57.174680+00:00",
+        "index": 0,
+        "used_mib": 1493,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:57.732660+00:00",
+        "index": 0,
+        "used_mib": 1502,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:58.294758+00:00",
+        "index": 0,
+        "used_mib": 1502,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:58.856193+00:00",
+        "index": 0,
+        "used_mib": 1502,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:59.413961+00:00",
+        "index": 0,
+        "used_mib": 1502,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:11:59.972678+00:00",
+        "index": 0,
+        "used_mib": 1497,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:12:00.525224+00:00",
+        "index": 0,
+        "used_mib": 1497,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:12:01.101983+00:00",
+        "index": 0,
+        "used_mib": 1493,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:12:01.685585+00:00",
+        "index": 0,
+        "used_mib": 1502,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:12:02.239884+00:00",
+        "index": 0,
+        "used_mib": 1502,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:12:02.798790+00:00",
+        "index": 0,
+        "used_mib": 1502,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:12:03.372372+00:00",
+        "index": 0,
+        "used_mib": 1502,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:12:03.946237+00:00",
+        "index": 0,
+        "used_mib": 1497,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:12:04.512717+00:00",
+        "index": 0,
+        "used_mib": 1497,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:12:05.091373+00:00",
+        "index": 0,
+        "used_mib": 1493,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:12:05.648580+00:00",
+        "index": 0,
+        "used_mib": 1515,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:12:06.206202+00:00",
+        "index": 0,
+        "used_mib": 1515,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:12:06.797793+00:00",
+        "index": 0,
+        "used_mib": 1511,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:12:07.355513+00:00",
+        "index": 0,
+        "used_mib": 1511,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:12:07.910114+00:00",
+        "index": 0,
+        "used_mib": 1498,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:12:08.468942+00:00",
+        "index": 0,
+        "used_mib": 1498,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:12:09.028205+00:00",
+        "index": 0,
+        "used_mib": 1498,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:12:09.610099+00:00",
+        "index": 0,
+        "used_mib": 1507,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:12:10.165381+00:00",
+        "index": 0,
+        "used_mib": 1507,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:12:10.730683+00:00",
+        "index": 0,
+        "used_mib": 1502,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:12:11.286021+00:00",
+        "index": 0,
+        "used_mib": 1502,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:12:11.843422+00:00",
+        "index": 0,
+        "used_mib": 1498,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:12:12.421258+00:00",
+        "index": 0,
+        "used_mib": 1498,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:12:12.980052+00:00",
+        "index": 0,
+        "used_mib": 1516,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:12:13.538228+00:00",
+        "index": 0,
+        "used_mib": 1516,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:12:14.095309+00:00",
+        "index": 0,
+        "used_mib": 1512,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:12:14.651937+00:00",
+        "index": 0,
+        "used_mib": 1508,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:12:15.229011+00:00",
+        "index": 0,
+        "used_mib": 1508,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:12:15.787729+00:00",
+        "index": 0,
+        "used_mib": 1502,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:12:16.346570+00:00",
+        "index": 0,
+        "used_mib": 1502,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:12:16.901147+00:00",
+        "index": 0,
+        "used_mib": 1497,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:12:17.462434+00:00",
+        "index": 0,
+        "used_mib": 1497,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:12:18.031922+00:00",
+        "index": 0,
+        "used_mib": 1502,
+        "total_mib": 8188
+      },
+      {
+        "timestamp_utc": "2026-09-08T22:12:18.601642+00:00",
+        "index": 0,
+        "used_mib": 1502,
+        "total_mib": 8188
+      }
+    ]
+  },
+  "execution_summary": {
+    "jobs": 20,
+    "percentile_method": "nearest-rank",
+    "p50_seconds": 0.786395,
+    "p95_seconds": 0.868519,
+    "max_seconds": 0.884823,
+    "target_p95_seconds": 30,
+    "target_met": true
+  },
+  "finished_at_utc": "2026-09-08T22:12:18.959560+00:00"
+}

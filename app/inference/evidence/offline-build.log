@@ -1,0 +1,168 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile.offline
+#1 transferring dockerfile: 957B done
+#1 DONE 0.0s
+
+#2 [context wheelhouse] load .dockerignore
+#2 transferring wheelhouse: 2B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.13.14-slim-bookworm@sha256:67a1e1f215ccda113cfc024e8639049257e88f273898f595b61476d128d387e8
+#3 DONE 1.7s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 434B done
+#4 DONE 0.0s
+
+#5 [stage-0 1/6] FROM docker.io/library/python:3.13.14-slim-bookworm@sha256:67a1e1f215ccda113cfc024e8639049257e88f273898f595b61476d128d387e8
+#5 resolve docker.io/library/python:3.13.14-slim-bookworm@sha256:67a1e1f215ccda113cfc024e8639049257e88f273898f595b61476d128d387e8 0.0s done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 165.23kB 0.0s done
+#6 DONE 0.0s
+
+#7 [stage-0 2/6] WORKDIR /srv/inference
+#7 CACHED
+
+#8 [stage-0 3/6] COPY app/inference/requirements.txt /srv/inference/requirements.txt
+#8 DONE 0.0s
+
+#9 [context wheelhouse] load from client
+#9 transferring wheelhouse: 67.91MB 3.4s
+#9 transferring wheelhouse: 164.62MB 8.5s
+#9 transferring wheelhouse: 255.67MB 13.6s
+#9 transferring wheelhouse: 335.64MB 18.6s
+#9 transferring wheelhouse: 416.62MB 23.7s
+#9 transferring wheelhouse: 511.25MB 28.8s
+#9 transferring wheelhouse: 596.63MB 33.8s
+#9 transferring wheelhouse: 680.95MB 38.9s
+#9 transferring wheelhouse: 780.26MB 43.9s
+#9 transferring wheelhouse: 865.72MB 49.0s
+#9 transferring wheelhouse: 967.59MB 54.0s
+#9 transferring wheelhouse: 1.07GB 59.1s
+#9 transferring wheelhouse: 1.19GB 64.1s
+#9 transferring wheelhouse: 1.31GB 69.2s
+#9 transferring wheelhouse: 1.42GB 74.3s
+#9 transferring wheelhouse: 1.54GB 79.3s
+#9 transferring wheelhouse: 1.63GB 84.4s
+#9 transferring wheelhouse: 1.76GB 89.5s
+#9 transferring wheelhouse: 1.87GB 94.6s
+#9 transferring wheelhouse: 1.97GB 99.6s
+#9 transferring wheelhouse: 2.05GB 104.7s
+#9 transferring wheelhouse: 2.12GB 109.8s
+#9 transferring wheelhouse: 2.19GB 114.8s
+#9 transferring wheelhouse: 2.25GB 119.9s
+#9 transferring wheelhouse: 2.33GB 125.0s
+#9 transferring wheelhouse: 2.40GB 130.1s
+#9 transferring wheelhouse: 2.48GB 135.1s
+#9 transferring wheelhouse: 2.57GB 140.2s
+#9 transferring wheelhouse: 2.65GB 145.3s
+#9 transferring wheelhouse: 2.72GB 150.3s
+#9 transferring wheelhouse: 2.80GB 155.4s
+#9 transferring wheelhouse: 2.88GB 160.5s
+#9 transferring wheelhouse: 2.97GB 165.5s
+#9 transferring wheelhouse: 3.05GB 170.6s
+#9 transferring wheelhouse: 3.14GB 175.7s
+#9 transferring wheelhouse: 3.24GB 180.7s
+#9 transferring wheelhouse: 3.33GB 185.8s
+#9 transferring wheelhouse: 3.42GB 190.9s
+#9 transferring wheelhouse: 3.54GB 195.9s
+#9 transferring wheelhouse: 3.63GB 201.0s
+#9 transferring wheelhouse: 3.71GB 206.1s
+#9 transferring wheelhouse: 3.82GB 211.1s
+#9 transferring wheelhouse: 3.90GB 216.2s
+#9 transferring wheelhouse: 3.97GB 221.2s
+#9 transferring wheelhouse: 4.00GB 223.5s done
+#9 DONE 223.5s
+
+#10 [stage-0 4/6] RUN --mount=type=bind,from=wheelhouse,target=/wheelhouse,readonly     python -m pip install --no-cache-dir --no-index --only-binary=:all:     --find-links=/wheelhouse --require-hashes -r requirements.txt
+#10 1.337 Looking in links: /wheelhouse
+#10 1.344 Processing /wheelhouse/annotated_doc-0.0.5-py3-none-any.whl (from -r requirements.txt (line 3))
+#10 1.351 Processing /wheelhouse/annotated_types-0.8.0-py3-none-any.whl (from -r requirements.txt (line 7))
+#10 1.353 Processing /wheelhouse/anyio-4.15.1-py3-none-any.whl (from -r requirements.txt (line 11))
+#10 1.356 Processing /wheelhouse/certifi-2026.7.22-py3-none-any.whl (from -r requirements.txt (line 15))
+#10 1.358 Processing /wheelhouse/cffi-2.1.1-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (from -r requirements.txt (line 19))
+#10 1.361 Processing /wheelhouse/charset_normalizer-3.5.1-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (from -r requirements.txt (line 121))
+#10 1.364 Processing /wheelhouse/click-8.5.0-py3-none-any.whl (from -r requirements.txt (line 295))
+#10 1.366 Processing /wheelhouse/cloudpickle-3.1.2-py3-none-any.whl (from -r requirements.txt (line 299))
+#10 1.367 Processing /wheelhouse/fastapi-0.141.1-py3-none-any.whl (from -r requirements.txt (line 303))
+#10 1.372 Processing /wheelhouse/filelock-3.32.5-py3-none-any.whl (from -r requirements.txt (line 307))
+#10 1.374 Processing /wheelhouse/fsspec-2026.7.0-py3-none-any.whl (from -r requirements.txt (line 313))
+#10 1.386 Processing /wheelhouse/h11-0.16.0-py3-none-any.whl (from -r requirements.txt (line 319))
+#10 1.388 Processing /wheelhouse/hf_xet-1.6.0-cp38-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (from -r requirements.txt (line 323))
+#10 1.398 Processing /wheelhouse/huggingface_hub-0.36.2-py3-none-any.whl (from -r requirements.txt (line 342))
+#10 1.410 Processing /wheelhouse/hyperpyyaml-1.2.3-py3-none-any.whl (from -r requirements.txt (line 348))
+#10 1.412 Processing /wheelhouse/idna-3.19-py3-none-any.whl (from -r requirements.txt (line 352))
+#10 1.415 Processing /wheelhouse/jinja2-3.1.6-py3-none-any.whl (from -r requirements.txt (line 358))
+#10 1.417 Processing /wheelhouse/joblib-1.6.0-py3-none-any.whl (from -r requirements.txt (line 362))
+#10 1.420 Processing /wheelhouse/markupsafe-3.0.3-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (from -r requirements.txt (line 366))
+#10 1.423 Processing /wheelhouse/mpmath-1.3.0-py3-none-any.whl (from -r requirements.txt (line 457))
+#10 1.426 Processing /wheelhouse/networkx-3.6.1-py3-none-any.whl (from -r requirements.txt (line 461))
+#10 1.436 Processing /wheelhouse/numpy-2.4.3-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (from -r requirements.txt (line 465))
+#10 1.464 Processing /wheelhouse/nvidia_cublas_cu12-12.8.4.1-py3-none-manylinux_2_27_x86_64.whl (from -r requirements.txt (line 543))
+#10 2.227 Processing /wheelhouse/nvidia_cuda_cupti_cu12-12.8.90-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (from -r requirements.txt (line 551))
+#10 2.243 Processing /wheelhouse/nvidia_cuda_nvrtc_cu12-12.8.93-py3-none-manylinux2010_x86_64.manylinux_2_12_x86_64.whl (from -r requirements.txt (line 556))
+#10 2.356 Processing /wheelhouse/nvidia_cuda_runtime_cu12-12.8.90-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (from -r requirements.txt (line 561))
+#10 2.361 Processing /wheelhouse/nvidia_cudnn_cu12-9.10.2.21-py3-none-manylinux_2_27_x86_64.whl (from -r requirements.txt (line 566))
+#10 3.255 Processing /wheelhouse/nvidia_cufft_cu12-11.3.3.83-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (from -r requirements.txt (line 571))
+#10 3.498 Processing /wheelhouse/nvidia_cufile_cu12-1.13.1.3-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (from -r requirements.txt (line 576))
+#10 3.503 Processing /wheelhouse/nvidia_curand_cu12-10.3.9.90-py3-none-manylinux_2_27_x86_64.whl (from -r requirements.txt (line 580))
+#10 3.584 Processing /wheelhouse/nvidia_cusolver_cu12-11.7.3.90-py3-none-manylinux_2_27_x86_64.whl (from -r requirements.txt (line 585))
+#10 3.997 Processing /wheelhouse/nvidia_cusparse_cu12-12.5.8.93-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (from -r requirements.txt (line 590))
+#10 4.405 Processing /wheelhouse/nvidia_cusparselt_cu12-0.7.1-py3-none-manylinux2014_x86_64.whl (from -r requirements.txt (line 597))
+#10 4.740 Processing /wheelhouse/nvidia_nccl_cu12-2.27.3-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (from -r requirements.txt (line 602))
+#10 5.104 Processing /wheelhouse/nvidia_nvjitlink_cu12-12.8.93-py3-none-manylinux2010_x86_64.manylinux_2_12_x86_64.whl (from -r requirements.txt (line 606))
+#10 5.154 Processing /wheelhouse/nvidia_nvtx_cu12-12.8.90-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (from -r requirements.txt (line 615))
+#10 5.156 Processing /wheelhouse/packaging-26.3-py3-none-any.whl (from -r requirements.txt (line 620))
+#10 5.158 Processing /wheelhouse/pycparser-3.0-py3-none-any.whl (from -r requirements.txt (line 627))
+#10 5.161 Processing /wheelhouse/pydantic-2.13.4-py3-none-any.whl (from -r requirements.txt (line 631))
+#10 5.165 Processing /wheelhouse/pydantic_core-2.46.4-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (from -r requirements.txt (line 638))
+#10 5.171 Processing /wheelhouse/pydantic_settings-2.14.2-py3-none-any.whl (from -r requirements.txt (line 760))
+#10 5.173 Processing /wheelhouse/python_dotenv-1.2.3-py3-none-any.whl (from -r requirements.txt (line 764))
+#10 5.176 Processing /wheelhouse/pyyaml-6.0.3-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (from -r requirements.txt (line 768))
+#10 5.180 Processing /wheelhouse/requests-2.34.2-py3-none-any.whl (from -r requirements.txt (line 845))
+#10 5.183 Processing /wheelhouse/ruamel_yaml-0.18.17-py3-none-any.whl (from -r requirements.txt (line 851))
+#10 5.186 Processing /wheelhouse/ruamel_yaml_clib-0.2.15-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (from -r requirements.txt (line 855))
+#10 5.189 Processing /wheelhouse/scipy-1.17.1-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (from -r requirements.txt (line 918))
+#10 5.241 Processing /wheelhouse/sentencepiece-0.2.2-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (from -r requirements.txt (line 983))
+#10 5.247 Processing /wheelhouse/setuptools-84.0.0-py3-none-any.whl (from -r requirements.txt (line 1042))
+#10 5.254 Processing /wheelhouse/silero_vad-6.2.1-py3-none-any.whl (from -r requirements.txt (line 1048))
+#10 5.267 Processing /wheelhouse/soundfile-0.14.0-py2.py3-none-manylinux_2_28_x86_64.whl (from -r requirements.txt (line 1052))
+#10 5.272 Processing /wheelhouse/speechbrain-1.1.1-py3-none-any.whl (from -r requirements.txt (line 1065))
+#10 5.280 Processing /wheelhouse/starlette-1.6.0-py3-none-any.whl (from -r requirements.txt (line 1069))
+#10 5.283 Processing /wheelhouse/sympy-1.14.0-py3-none-any.whl (from -r requirements.txt (line 1073))
+#10 5.298 Processing /wheelhouse/torch-2.8.0+cu128-cp313-cp313-manylinux_2_28_x86_64.whl (from -r requirements.txt (line 1077))
+#10 6.388 Processing /wheelhouse/torchaudio-2.8.0+cu128-cp313-cp313-manylinux_2_28_x86_64.whl (from -r requirements.txt (line 1095))
+#10 6.396 Processing /wheelhouse/tqdm-4.70.0-py3-none-any.whl (from -r requirements.txt (line 1112))
+#10 6.400 Processing /wheelhouse/triton-3.4.0-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (from -r requirements.txt (line 1118))
+#10 6.576 Processing /wheelhouse/typing_extensions-4.16.0-py3-none-any.whl (from -r requirements.txt (line 1132))
+#10 6.580 Processing /wheelhouse/typing_inspection-0.4.4-py3-none-any.whl (from -r requirements.txt (line 1144))
+#10 6.582 Processing /wheelhouse/urllib3-2.7.0-py3-none-any.whl (from -r requirements.txt (line 1151))
+#10 6.585 Processing /wheelhouse/uvicorn-0.52.1-py3-none-any.whl (from -r requirements.txt (line 1155))
+#10 6.770 Installing collected packages: nvidia-cusparselt-cu12, mpmath, urllib3, typing-extensions, tqdm, sympy, setuptools, sentencepiece, ruamel-yaml-clib, pyyaml, python-dotenv, pycparser, packaging, nvidia-nvtx-cu12, nvidia-nvjitlink-cu12, nvidia-nccl-cu12, nvidia-curand-cu12, nvidia-cufile-cu12, nvidia-cuda-runtime-cu12, nvidia-cuda-nvrtc-cu12, nvidia-cuda-cupti-cu12, nvidia-cublas-cu12, numpy, networkx, markupsafe, idna, hf-xet, h11, fsspec, filelock, cloudpickle, click, charset-normalizer, certifi, annotated-types, annotated-doc, uvicorn, typing-inspection, triton, scipy, ruamel-yaml, requests, pydantic-core, nvidia-cusparse-cu12, nvidia-cufft-cu12, nvidia-cudnn-cu12, joblib, jinja2, cffi, anyio, starlette, soundfile, pydantic, nvidia-cusolver-cu12, hyperpyyaml, huggingface-hub, torch, pydantic-settings, fastapi, torchaudio, speechbrain, silero-vad
+#10 56.60 
+#10 56.60 Successfully installed annotated-doc-0.0.5 annotated-types-0.8.0 anyio-4.15.1 certifi-2026.7.22 cffi-2.1.1 charset-normalizer-3.5.1 click-8.5.0 cloudpickle-3.1.2 fastapi-0.141.1 filelock-3.32.5 fsspec-2026.7.0 h11-0.16.0 hf-xet-1.6.0 huggingface-hub-0.36.2 hyperpyyaml-1.2.3 idna-3.19 jinja2-3.1.6 joblib-1.6.0 markupsafe-3.0.3 mpmath-1.3.0 networkx-3.6.1 numpy-2.4.3 nvidia-cublas-cu12-12.8.4.1 nvidia-cuda-cupti-cu12-12.8.90 nvidia-cuda-nvrtc-cu12-12.8.93 nvidia-cuda-runtime-cu12-12.8.90 nvidia-cudnn-cu12-9.10.2.21 nvidia-cufft-cu12-11.3.3.83 nvidia-cufile-cu12-1.13.1.3 nvidia-curand-cu12-10.3.9.90 nvidia-cusolver-cu12-11.7.3.90 nvidia-cusparse-cu12-12.5.8.93 nvidia-cusparselt-cu12-0.7.1 nvidia-nccl-cu12-2.27.3 nvidia-nvjitlink-cu12-12.8.93 nvidia-nvtx-cu12-12.8.90 packaging-26.3 pycparser-3.0 pydantic-2.13.4 pydantic-core-2.46.4 pydantic-settings-2.14.2 python-dotenv-1.2.3 pyyaml-6.0.3 requests-2.34.2 ruamel-yaml-0.18.17 ruamel-yaml-clib-0.2.15 scipy-1.17.1 sentencepiece-0.2.2 setuptools-84.0.0 silero-vad-6.2.1 soundfile-0.14.0 speechbrain-1.1.1 starlette-1.6.0 sympy-1.14.0 torch-2.8.0+cu128 torchaudio-2.8.0+cu128 tqdm-4.70.0 triton-3.4.0 typing-extensions-4.16.0 typing-inspection-0.4.4 urllib3-2.7.0 uvicorn-0.52.1
+#10 56.60 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+#10 DONE 56.9s
+
+#11 [stage-0 5/6] COPY src/voiceup /srv/reference/voiceup
+#11 DONE 0.1s
+
+#12 [stage-0 6/6] COPY app/inference/voiceup_inference /srv/inference/voiceup_inference
+#12 DONE 0.0s
+
+#13 exporting to image
+#13 exporting layers
+#13 exporting layers 150.1s done
+#13 exporting manifest sha256:e3131a68235d4816583dc7647e492170c99deb7974320927496adff810a789c6 0.0s done
+#13 exporting config sha256:767029f51cee167ef4338639508b5a59e013070f5709907ba37e797ae3870d86 0.0s done
+#13 exporting attestation manifest sha256:c9ae38cbdb100737b3294ed8de262e8c91f2518a0057e3d21d9cd41d2d2a8866 0.0s done
+#13 exporting manifest list sha256:695540dfb6b391c7956ae6868a753cfcd2e08f88cae0bdbdfed04c8a1ddc5785 0.0s done
+#13 naming to docker.io/library/voiceup-inference:pilot done
+#13 unpacking to docker.io/library/voiceup-inference:pilot
+#13 unpacking to docker.io/library/voiceup-inference:pilot 33.0s done
+#13 DONE 183.2s
+
+View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/zbzd4wtourduenw4hkwltd211

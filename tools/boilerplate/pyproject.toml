@@ -1,0 +1,126 @@
+[build-system]
+requires = ["setuptools==83.0.0", "wheel==0.47.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kt-scaffold"
+version = "0.3.0"
+description = "Offline-first deterministic scaffolding over CLI, stdio MCP and Streamable HTTP"
+readme = "README.md"
+requires-python = ">=3.13,<3.14"
+license = "LicenseRef-Proprietary-Internal-Use-Only"
+authors = [{name = "KT Engineering"}]
+dependencies = [
+  "jsonschema==4.26.0",
+  "mcp==2.0.0",
+  "pydantic==2.13.4",
+  "PyYAML==6.0.3",
+]
+
+[project.optional-dependencies]
+test = [
+  "build==1.5.0",
+  "mypy==2.3.0",
+  "pytest==9.1.1",
+  "pytest-cov==7.1.0",
+  "ruff==0.16.1",
+  "types-PyYAML==6.0.12.20260724",
+]
+
+[project.scripts]
+kt-scaffold = "kt_scaffold.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+namespaces = false
+
+[tool.setuptools.package-data]
+kt_scaffold = ["py.typed", "governance/*.md", "templates/**/*"]
+
+# Package-data globs deliberately include dotfiles required by generated projects.
+# Keep transient tool output out even when a local verification run creates it
+# below a template directory before a release build.
+[tool.setuptools.exclude-package-data]
+kt_scaffold = [
+  "templates/**/__pycache__/**",
+  "templates/**/.mypy_cache/**",
+  "templates/**/.pytest_cache/**",
+  "templates/**/.ruff_cache/**",
+  "templates/**/.venv/**",
+  "templates/**/node_modules/**",
+  "templates/**/dist/**",
+  "templates/**/build/**",
+  "templates/**/coverage/**",
+  "templates/**/playwright-report/**",
+  "templates/**/test-results/**",
+  "templates/**/*.pyc",
+  "templates/**/*.pyo",
+  "templates/**/.DS_Store",
+]
+
+[tool.setuptools.data-files]
+"share/kt-scaffold/rules" = ["rules/*.md", "rules/*.json"]
+"share/kt-scaffold/agent-platform" = [
+  "agent-platform/agent-catalog.schema.json",
+  "agent-platform/agent-catalog.yml",
+  "agent-platform/agent-contract.schema.json",
+  "agent-platform/agent-policy.schema.json",
+  "agent-platform/client-capabilities.yml",
+  "agent-platform/conformance-snapshot.schema.json",
+  "agent-platform/decision-policy.schema.json",
+  "agent-platform/orchestration.schema.json",
+  "agent-platform/runtime-candidate.schema.json",
+  "agent-platform/standards-crosswalk.yml",
+]
+"share/kt-scaffold/agent-platform/agents/application-security" = [
+  "agent-platform/agents/application-security/agent.yml",
+  "agent-platform/agents/application-security/instructions.md",
+  "agent-platform/agents/application-security/policy.yml",
+]
+"share/kt-scaffold/agent-platform/agents/code-review" = [
+  "agent-platform/agents/code-review/agent.yml",
+  "agent-platform/agents/code-review/instructions.md",
+  "agent-platform/agents/code-review/policy.yml",
+]
+"share/kt-scaffold/agent-platform/agents/requirements-scope" = [
+  "agent-platform/agents/requirements-scope/agent.yml",
+  "agent-platform/agents/requirements-scope/instructions.md",
+  "agent-platform/agents/requirements-scope/policy.yml",
+]
+"share/kt-scaffold/agent-platform/agents/test-automation" = [
+  "agent-platform/agents/test-automation/agent.yml",
+  "agent-platform/agents/test-automation/instructions.md",
+  "agent-platform/agents/test-automation/policy.yml",
+]
+"share/kt-scaffold/agent-platform/orchestrations" = [
+  "agent-platform/orchestrations/governed-review.yml",
+]
+"share/kt-scaffold/agent-platform/policies/aggregation" = [
+  "agent-platform/policies/aggregation/governed-review.yml",
+]
+
+[tool.pytest.ini_options]
+addopts = "-ra --strict-markers"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+exclude = ["src/kt_scaffold/templates"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "S", "SIM"]
+ignore = ["S603", "S607"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["S101"]
+
+[tool.mypy]
+python_version = "3.13"
+strict = true
+packages = ["kt_scaffold"]
+exclude = ["^src/kt_scaffold/templates/"]

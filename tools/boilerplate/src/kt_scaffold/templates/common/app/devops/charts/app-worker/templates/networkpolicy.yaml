@@ -1,0 +1,32 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  podSelector:
+    matchLabels: {app.kubernetes.io/part-of: "@@PRODUCT_SLUG@@", app.kubernetes.io/component: worker}
+  policyTypes: [Ingress, Egress]
+  ingress: []
+  egress:
+    - to:
+        - podSelector:
+            matchLabels: {app.kubernetes.io/part-of: "@@PRODUCT_SLUG@@"}
+            matchExpressions:
+              - {key: app.kubernetes.io/component, operator: In, values: [postgres, redis]}
+      ports:
+        - {protocol: TCP, port: 5432}
+        - {protocol: TCP, port: 6379}
+    - to:
+        - podSelector:
+            matchLabels: {app.kubernetes.io/part-of: "@@PRODUCT_SLUG@@", app.kubernetes.io/component: observability}
+      ports:
+        - {protocol: TCP, port: 4317}
+        - {protocol: TCP, port: 4318}
+    - to:
+        - namespaceSelector:
+            matchLabels: {kubernetes.io/metadata.name: "{{ .Values.dns.namespace }}"}
+          podSelector:
+            matchLabels: {k8s-app: "{{ .Values.dns.component }}"}
+      ports:
+        - {protocol: UDP, port: 53}
+        - {protocol: TCP, port: 53}

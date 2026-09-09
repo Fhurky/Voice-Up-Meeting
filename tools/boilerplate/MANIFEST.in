@@ -1,0 +1,37 @@
+recursive-include src/kt_scaffold/templates *
+recursive-include src/kt_scaffold/governance *.md
+recursive-include rules *.md *.json
+include agent-platform/agent-catalog.schema.json
+include agent-platform/agent-catalog.yml
+include agent-platform/agent-contract.schema.json
+include agent-platform/agent-policy.schema.json
+include agent-platform/client-capabilities.yml
+include agent-platform/conformance-snapshot.schema.json
+include agent-platform/decision-policy.schema.json
+include agent-platform/orchestration.schema.json
+include agent-platform/runtime-candidate.schema.json
+include agent-platform/standards-crosswalk.yml
+recursive-include agent-platform/agents *.md *.yml
+recursive-include agent-platform/orchestrations *.yml
+recursive-include agent-platform/policies *.yml
+
+# Exclude local verification residue from source distributions. Python bytecode
+# is covered globally; cache/build trees are enumerated at the only dependency
+# roots shipped by the fixed Python/FastAPI profile and common frontend/E2E templates.
+global-exclude *.py[cod] .DS_Store CACHEDIR.TAG
+prune src/kt_scaffold/templates/common/.mypy_cache
+prune src/kt_scaffold/templates/common/.pytest_cache
+prune src/kt_scaffold/templates/common/.ruff_cache
+prune src/kt_scaffold/templates/common/.venv
+prune src/kt_scaffold/templates/common/app/frontend/node_modules
+prune src/kt_scaffold/templates/common/app/frontend/dist
+prune src/kt_scaffold/templates/common/app/frontend/coverage
+prune src/kt_scaffold/templates/common/e2e/node_modules
+prune src/kt_scaffold/templates/common/e2e/playwright-report
+prune src/kt_scaffold/templates/common/e2e/test-results
+prune src/kt_scaffold/templates/python-fastapi/app/backend/.mypy_cache
+prune src/kt_scaffold/templates/python-fastapi/app/backend/.pytest_cache
+prune src/kt_scaffold/templates/python-fastapi/app/backend/.ruff_cache
+prune src/kt_scaffold/templates/python-fastapi/app/backend/.venv
+prune src/kt_scaffold/templates/python-fastapi/app/backend/build
+prune src/kt_scaffold/templates/python-fastapi/app/backend/dist

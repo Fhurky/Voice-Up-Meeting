@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vibe Coding Standartları — Sabit Teknoloji Profili ve Yönetişim</title>
+<style>
+  :root {
+    --bg: #f6f8f7;
+    --card: #ffffff;
+    --border: #dbe3de;
+    --border-soft: #e4e9e6;
+    --ink: #16241d;
+    --muted: #5b6b63;
+    --faint: #9aa8a1;
+    --primary: #00844a;
+    --primary-700: #00623a;
+    --primary-050: #e6f4ec;
+    --primary-100: #d7ecdf;
+    --logo: #016B4E;
+    --chip: #eef2f0;
+    --red-bg: #fee2e2;
+    --red-ink: #991b1b;
+    --amber: #b45309;
+    --amber-bg: #fff8ed;
+    --amber-border: #f0d9b5;
+    --code-bg: #f0f4f2;
+    --shadow: 0 1px 2px rgb(15 30 22 / .06);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 100%; }
+  body {
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.55;
+    padding: 2rem 1rem 3rem;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; }
+
+  code, .mono {
+    font-family: ui-monospace, "SF Mono", Menlo, Monaco, "Cascadia Code", monospace;
+    font-size: .85em;
+    background: var(--code-bg);
+    border-radius: 4px;
+    padding: .08em .35em;
+  }
+
+  /* ---------- masthead ---------- */
+  .masthead {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    gap: 1rem; margin-bottom: 1.1rem;
+  }
+  .masthead .wordmark { height: 26px; width: auto; max-width: 100%; display: block; }
+  .doc-meta { text-align: right; }
+  .doc-meta .kind {
+    font-size: 11px; font-weight: 600; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--primary-700);
+  }
+  .doc-meta .date { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+  .titleblock { margin-bottom: 1.1rem; }
+  .titleblock .eyebrow {
+    font-size: 11px; font-weight: 600; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--muted); margin-bottom: .3rem;
+  }
+  h1 { font-size: 23px; font-weight: 600; letter-spacing: -.01em; line-height: 1.25; }
+  .titleblock .sub { font-size: 13px; color: var(--muted); margin-top: .45rem; max-width: 60ch; }
+  .profile-chip {
+    display: inline-flex; align-items: center; gap: .4em;
+    margin-top: .6rem; padding: .25em .7em;
+    background: var(--primary-050); border: 1px solid var(--primary-100);
+    border-radius: 4px; font-size: 11.5px; font-weight: 600; color: var(--primary-700);
+  }
+  .profile-chip .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--primary); }
+
+  /* ---------- cards ---------- */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border-soft);
+    border-radius: 6px;
+    box-shadow: var(--shadow);
+    margin-bottom: 1rem;
+    overflow: hidden;
+  }
+  .card-header {
+    display: flex; align-items: center; gap: .6rem;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .card-header .icon-tile {
+    width: 28px; height: 28px; flex: none;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 6px; background: rgba(0,132,74,.1);
+  }
+  .card-header .icon-tile svg { width: 16px; height: 16px; stroke: var(--primary); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .card-header h2 { font-size: 14px; font-weight: 600; }
+  .card-header .hint { margin-left: auto; font-size: 11.5px; color: var(--faint); }
+  .card-body { padding: 14px; }
+  .card-body > p { font-size: 13px; color: var(--muted); }
+  .card-body > p + p { margin-top: .55rem; }
+
+  /* ---------- exec summary ---------- */
+  .exec-list { list-style: none; }
+  .exec-list li {
+    display: flex; gap: .6rem; font-size: 13px; padding: .35rem 0;
+  }
+  .exec-list li + li { border-top: 1px solid var(--chip); }
+  .exec-list .k { flex: none; width: 86px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); padding-top: 2px; }
+  .exec-list strong { font-weight: 600; }
+
+  .callout {
+    display: flex; gap: 10px; padding: 12px; border-radius: 6px;
+    background: rgba(0,132,74,.05); border-left: 3px solid var(--primary);
+    margin-top: .8rem;
+  }
+  .callout .co-dot {
+    flex: none; width: 20px; height: 20px; border-radius: 50%;
+    background: var(--primary); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700;
+  }
+  .callout .co-body { font-size: 12.5px; line-height: 1.6; color: var(--ink); }
+  .callout .co-body strong { color: var(--primary-700); }
+
+  .callout.amber { background: var(--amber-bg); border-left-color: var(--amber); }
+  .callout.amber .co-dot { background: var(--amber); }
+  .callout.amber .co-body strong { color: var(--amber); }
+
+  /* ---------- stat tiles ---------- */
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; background: var(--border-soft); }
+  .stat { background: var(--card); padding: 14px; }
+  .stat .v { font-size: 26px; font-weight: 600; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+  .stat .l { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin-top: 2px; line-height: 1.45; }
+  .stat.hero .v { color: var(--primary-700); }
+
+  /* ---------- stack columns ---------- */
+  .stack-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: var(--border-soft); }
+  .stack-col { background: var(--card); padding: 12px 14px; }
+  .stack-col h3 {
+    font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em;
+    color: var(--primary-700); padding-bottom: 6px; margin-bottom: 6px;
+    border-bottom: 2px solid var(--primary-050);
+    display: flex; align-items: center; gap: .45em;
+  }
+  .stack-col h3 .sq { width: 8px; height: 8px; border-radius: 2px; background: var(--primary); }
+  .stack-col ul { list-style: none; }
+  .stack-col li { font-size: 12.5px; padding: 3.5px 0; display: flex; justify-content: space-between; gap: .6rem; align-items: baseline; }
+  .stack-col li + li { border-top: 1px solid var(--chip); }
+  .stack-col .n { font-weight: 600; white-space: nowrap; }
+  .stack-col .d { color: var(--muted); font-size: 11.5px; text-align: right; }
+
+  .ops-row { border-top: 2px solid var(--border-soft); display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: var(--border-soft); }
+  .ops-cell { background: var(--card); padding: 12px 14px; }
+  .ops-cell h4 { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-bottom: 4px; }
+  .ops-cell p { font-size: 12px; color: var(--ink); line-height: 1.55; }
+
+  /* ---------- badges ---------- */
+  .badge {
+    display: inline-flex; align-items: center;
+    border: 1px solid transparent; border-radius: 2px;
+    padding: 2px 6px; font-size: 10.5px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .025em;
+  }
+  .badge.red { background: var(--red-bg); color: var(--red-ink); text-transform: none; font-size: 11.5px; }
+  .badge.green { background: var(--primary-050); color: var(--primary-700); }
+  .badge-row { display: flex; flex-wrap: wrap; gap: 6px; }
+
+  /* ---------- enforcement layers ---------- */
+  .layers { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--border-soft); }
+  .layer { background: var(--card); padding: 12px 14px; display: flex; gap: 10px; }
+  .layer .no {
+    flex: none; width: 22px; height: 22px; border-radius: 6px;
+    background: var(--primary); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11.5px; font-weight: 700; margin-top: 1px;
+  }
+  .layer h4 { font-size: 12.5px; font-weight: 600; margin-bottom: 2px; }
+  .layer p { font-size: 11.8px; color: var(--muted); line-height: 1.5; }
+
+  /* ---------- tables ---------- */
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  thead tr { background: rgba(238,241,239,.5); }
+  th {
+    font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em;
+    color: var(--muted); text-align: left; padding: 8px 14px;
+  }
+  td { padding: 8px 14px; border-top: 1px solid var(--chip); vertical-align: top; }
+  td:first-child { font-weight: 600; white-space: nowrap; }
+
+  /* ---------- flows ---------- */
+  .flow-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin: .2rem 0 .45rem; }
+  .flow { display: flex; flex-wrap: wrap; gap: .35rem; align-items: center; }
+  .flow + .flow-label { margin-top: .9rem; }
+  .flow .step {
+    background: var(--primary-050); border: 1px solid var(--primary-100);
+    border-radius: 4px; padding: .22rem .55rem;
+    font-size: 11.5px; font-weight: 500; color: var(--primary-700);
+  }
+  .flow .step.neutral { background: var(--chip); border-color: var(--border); color: var(--ink); }
+  .flow .arrow { color: var(--faint); font-size: 12px; }
+
+  footer { color: var(--faint); font-size: 11px; margin-top: 1.4rem; text-align: center; }
+
+  /* ---------- print ---------- */
+  @page { size: A4; margin: 12mm 11mm; }
+  @media print {
+    body { background: #fff; padding: 0; }
+    .wrap { max-width: none; }
+    .card { break-inside: avoid; box-shadow: none; }
+    .card-header { break-after: avoid; }
+    .break-before { break-before: page; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ============ MASTHEAD ============ -->
+<div class="masthead">
+  <img class="wordmark" src="../assets/kuveyt-turk-logo.svg" alt="Kuveyt Türk" width="580" height="103">
+  <div class="doc-meta">
+    <div class="kind">Bilgi Notu</div>
+    <div class="date">6 Ağustos 2026</div>
+  </div>
+</div>
+
+<div class="titleblock">
+  <div class="eyebrow">Kurumsal Mimari Uyum · Vibe Coding Golden Path</div>
+  <h1>Vibe Coding Standartları — Sabit Teknoloji Profili ve Yönetişim</h1>
+  <p class="sub">Kurumsal Mimari'nin "frontend ve backend için net teknoloji tercihleri; geliştiriciye ve
+  agentic coder'a inisiyatif bırakılmaması" beklentisine karşılık, <code>kt-vibecoding-boilerplate</code>
+  deposunda tamamlanan düzenlemelerin özetidir.</p>
+  <span class="profile-chip"><span class="dot"></span>Onaylı profil: kt-vibecoding-python-web-v1 &nbsp;·&nbsp; authority: mandatory</span>
+</div>
+
+<!-- ============ YÖNETİCİ ÖZETİ ============ -->
+<div class="card">
+  <div class="card-header">
+    <span class="icon-tile"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h5"/></svg></span>
+    <h2>Yönetici Özeti</h2>
+  </div>
+  <div class="card-body">
+    <ul class="exec-list">
+      <li><span class="k">Tespit</span><span>Referans kılavuzlar (Uygulama Esası, yazılım standartları, güvenlik politikaları) süreci, rolleri ve ajan davranışını tanımlıyordu; ancak vibe coding kapsamında <strong>frontend/backend için tek ve net bir teknoloji tercihi</strong> tanımlı değildi.</span></li>
+      <li><span class="k">Yanıt</span><span>Teknoloji tercihi tek bir onaylı profilde sabitlendi: <strong>React&nbsp;19 + TypeScript (SPA) / Python&nbsp;3.13 + FastAPI / PostgreSQL&nbsp;17</strong>. Profil makine-okunabilirdir (<code>technology-profile.yml</code>), golden path iskeletinin içinde dağıtılır ve tüm sürümler kilitlidir.</span></li>
+      <li><span class="k">Sonuç</span><span>Stack seçimi bir tercih sorusu olmaktan çıkarıldı: seçim yüzeyi (init sorusu, CLI bayrağı, MCP parametresi) <strong>tamamen kaldırıldı</strong>; profil dışına çıkma girişimi altı bağımsız katmanda engellenir veya yakalanır.</span></li>
+    </ul>
+    <div class="callout">
+      <span class="co-dot">✓</span>
+      <span class="co-body"><strong>Stack artık bir öneri değil, doğrulanan bir sözleşmedir.</strong>
+      Geliştirici veya kodlama ajanı başka bir çatı öneremez; profil dışı her tercih şema, kural korpusu,
+      kalite kapısı ve CI seviyelerinde otomatik reddedilir.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============ STAT ROW ============ -->
+<div class="card">
+  <div class="stats">
+    <div class="stat hero"><div class="v">1</div><div class="l">Onaylı teknoloji profili</div></div>
+    <div class="stat"><div class="v">31</div><div class="l">Kanonik yönetişim kuralı</div></div>
+    <div class="stat"><div class="v">7</div><div class="l">Yasaklı teknoloji / desen</div></div>
+    <div class="stat hero"><div class="v">0</div><div class="l">Geliştirici–ajan stack seçimi</div></div>
+  </div>
+</div>
+
+<!-- ============ SABİT PROFİL ============ -->
+<div class="card">
+  <div class="card-header">
+    <span class="icon-tile"><svg viewBox="0 0 24 24"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg></span>
+    <h2>Sabit Teknoloji Profili</h2>
+    <span class="hint">tüm sürümler kilitli (lockfile + hash)</span>
+  </div>
+  <div class="stack-grid">
+    <div class="stack-col">
+      <h3><span class="sq"></span>Frontend</h3>
+      <ul>
+        <li><span class="n">React 19.2.8</span><span class="d">UI çatısı — CSR SPA</span></li>
+        <li><span class="n">TypeScript 5.9.3</span><span class="d">OpenAPI araç uyumluluğu</span></li>
+        <li><span class="n">TS 7.0.2 native</span><span class="d">strict, Go tabanlı tip denetleyici</span></li>
+        <li><span class="n">Vite 8.2.0</span><span class="d">build</span></li>
+        <li><span class="n">React Router 8.3.0</span><span class="d">yönlendirme</span></li>
+        <li><span class="n">Vitest 4.1.10</span><span class="d">birim test</span></li>
+        <li><span class="n">Playwright 1.62.1</span><span class="d">E2E</span></li>
+        <li><span class="n">openapi-typescript 7</span><span class="d">API kontrat tipi</span></li>
+        <li><span class="n">Node.js 22 + npm</span><span class="d">kilitli lockfile</span></li>
+      </ul>
+    </div>
+    <div class="stack-col">
+      <h3><span class="sq"></span>Backend</h3>
+      <ul>
+        <li><span class="n">Python 3.13</span><span class="d">asgari 3.13</span></li>
+        <li><span class="n">FastAPI 0.141.1</span><span class="d">HTTP API çatısı</span></li>
+        <li><span class="n">Pydantic 2.13.4</span><span class="d">doğrulama</span></li>
+        <li><span class="n">Uvicorn 0.52.1</span><span class="d">async sunucu</span></li>
+        <li><span class="n">pytest 9</span><span class="d">test</span></li>
+        <li><span class="n">JWT + RBAC</span><span class="d">kimlik / yetki</span></li>
+        <li><span class="n">Tenant izolasyonu</span><span class="d">zorunlu</span></li>
+      </ul>
+    </div>
+    <div class="stack-col">
+      <h3><span class="sq"></span>Veri Katmanı</h3>
+      <ul>
+        <li><span class="n">PostgreSQL 17.10</span><span class="d">digest-pinned imaj</span></li>
+        <li><span class="n">SQLAlchemy 2.0.51</span><span class="d">async ORM</span></li>
+        <li><span class="n">asyncpg 0.31.0</span><span class="d">sürücü</span></li>
+        <li><span class="n">Alembic 1.19.0</span><span class="d">migration</span></li>
+        <li><span class="n">Şema otoritesi</span><span class="d mono">domain/models</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="ops-row">
+    <div class="ops-cell">
+      <h4>Gözlemlenebilirlik</h4>
+      <p>OTel Collector → Prometheus · Tempo · Loki · Grafana; tüm imajlar sürümlü ve digest-pinned.</p>
+    </div>
+    <div class="ops-cell">
+      <h4>Teslimat</h4>
+      <p>Yerelde Docker Compose, kümede Kubernetes + Helm. Çalışma zamanı dış ağ erişimi kapalı; imajlar iç registry'den.</p>
+    </div>
+    <div class="ops-cell">
+      <h4>Mimari Sınırlar</h4>
+      <p>SPA + HTTP API sınırı. SSR yasak; SSE serbest (LLM token akışı); WebSocket yalnız istisna onayıyla.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ============ YASAKLILAR ============ -->
+<div class="card">
+  <div class="card-header">
+    <span class="icon-tile"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/></svg></span>
+    <h2>Açıkça Yasaklı Teknolojiler ve Desenler</h2>
+    <span class="hint">technology-profile.yml · forbidden</span>
+  </div>
+  <div class="card-body">
+    <div class="badge-row">
+      <span class="badge red">Next.js</span>
+      <span class="badge red">Server-Side Rendering (SSR)</span>
+      <span class="badge red">Node.js backend</span>
+      <span class="badge red">NestJS</span>
+      <span class="badge red">Prisma</span>
+      <span class="badge red">Karma Python + Node backend</span>
+      <span class="badge red">Ajanın seçtiği backend çatısı</span>
+    </div>
+    <div class="callout amber">
+      <span class="co-dot">!</span>
+      <span class="co-body"><strong>Tek istisna — Streamlit "chat-only" modu:</strong> yalnızca prompt/sohbet/geçmiş
+      arayüzü gerektiren işler için tanımlıdır; genel amaçlı iş arayüzü kurulamaz ve bu modun kullanımı
+      kabul edilmiş PRD'de açıkça beyan edilmek zorundadır.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============ ZORLAMA KATMANLARI ============ -->
+<div class="card break-before">
+  <div class="card-header">
+    <span class="icon-tile"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></span>
+    <h2>İnisiyatif Nasıl Kapatıldı — Altı Zorlama Katmanı</h2>
+    <span class="hint">kural değil, mekanizma</span>
+  </div>
+  <div class="layers">
+    <div class="layer"><span class="no">1</span><div>
+      <h4>Tip / şema seviyesi</h4>
+      <p>Backend profili tek üyeli tiptir (<code>Literal["python-fastapi"]</code>); CLI ve MCP arayüzünde stack seçtirecek hiçbir parametre yoktur. Farklı değer, doğrulama hatasıyla reddedilir.</p>
+    </div></div>
+    <div class="layer"><span class="no">2</span><div>
+      <h4>Kanonik kural korpusu</h4>
+      <p>31 kural tek kaynaktan şema doğrulamalı yönetilir. "PRD veya ajan tercihi ile başka çatı getirilemez" hükmü kuralların açık maddesidir.</p>
+    </div></div>
+    <div class="layer"><span class="no">3</span><div>
+      <h4>Ajan çalışma ortamlarına projeksiyon</h4>
+      <p>Aynı kurallar dört sabit çalışma ortamına üretilir: Claude Code için <code>CLAUDE.md</code> ve <code>.claude</code>, Codex için <code>AGENTS.md</code> ve <code>.codex</code>, Cursor için <code>.cursor</code>, VS Code Local Agent için <code>AGENTS.md</code> ile VS Code’un doğal olarak keşfettiği <code>.claude/rules</code> ve <code>.claude/skills</code>. <code>.specify</code> görev akışı da aynı mimari sınırları taşır; kullanılan istemci kuralı değiştirmez.</p>
+    </div></div>
+    <div class="layer"><span class="no">4</span><div>
+      <h4>Drift kilidi + CI mutasyon testi</h4>
+      <p>Üretilen her dosyanın SHA-256'sı <code>GENERATED.lock</code>'ta tutulur. CI, kasıtlı bozulma enjekte eder; bozulma yakalanmazsa pipeline düşer.</p>
+    </div></div>
+    <div class="layer"><span class="no">5</span><div>
+      <h4>Kalite kapısı (Ajan Kapısı)</h4>
+      <p><code>quality-gate.sh</code> manifest'teki SHA-256 ile doğrulanır ve profil <code>python-fastapi</code> değilse çalışmayı reddeder. Test kanıtı katmanlı üretilir (L0/L1/L2) ve kanıt işaretleri sentezlenemez.</p>
+    </div></div>
+    <div class="layer"><span class="no">6</span><div>
+      <h4>Kapalı tedarik zinciri</h4>
+      <p>Tüm bağımlılıklar hash-locked, imajlar digest-pinned; CI banka-offline runner'da <code>--no-index</code> çalışır. Onaylı bundle dışından tek bir paket dahi giremez.</p>
+    </div></div>
+  </div>
+</div>
+
+<!-- ============ UYGULAMA ESASI EŞLEMESİ ============ -->
+<div class="card">
+  <div class="card-header">
+    <span class="icon-tile"><svg viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h3"/><path d="M16 3h3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-3"/><path d="M8 12h8"/><path d="m13 9 3 3-3 3"/></svg></span>
+    <h2>Uygulama Esası ile Birebir Karşılık</h2>
+    <span class="hint">YZ Destekli Yazılım Geliştirme Uygulama Esası</span>
+  </div>
+  <table>
+    <thead><tr><th>Uygulama Esası kavramı</th><th>Boilerplate'teki gerçekleşmesi</th></tr></thead>
+    <tbody>
+      <tr><td>Golden Path</td><td><code>kt-scaffold init</code>: sürümlenmiş, tek komutla ve atomik üretilen onaylı proje iskeleti; hedef dizin boş değilse veya bir yer tutucu çözülmemişse hiç yazmaz.</td></tr>
+      <tr><td>Kılavuz MD</td><td><code>rules/</code> kanonik korpusu — 31 kural; her kural sahiplik, öncelik, tetikleyici ve gate alanlarıyla şema doğrulamalıdır.</td></tr>
+      <tr><td>Kural Seti</td><td><code>technology-profile.yml</code> + ajan projeksiyonları: kılavuzun makine-okunabilir hali, ajanların çalışma anında okuduğu biçimde şablonun içindedir.</td></tr>
+      <tr><td>Ajan Kapısı</td><td>Kalite kapısı + <code>governance-drift</code> + <code>security-scan</code> (Semgrep, Trivy) CI iş akışları; kapıdan geçmeyen kod ilerleyemez.</td></tr>
+      <tr><td>Standart İmaj</td><td>Offline bundle: kapalı envanter, <code>SHA256SUMS</code> bütünlük doğrulaması, güven çapası bant dışı dağıtılan özet.</td></tr>
+      <tr><td>Yaşayan kılavuz</td><td>Sürümlü güncelleme: yerel replay (çakışma varsa sıfır yazma) + MCP yönetişim kanalı (öneri → mutabakat → makbuz). Zorunlu maddeler zayıflatılamaz. Sürüm bakımı da kurala bağlıdır: güvenlik tarayıcısı bulgusu en yakın fixli sürüme yükseltmeyi zorunlu kılar; diğer yükseltmelerde sürümün en az 30 gündür yayında olması şartı aranır.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ============ YAŞAM DÖNGÜSÜ ============ -->
+<div class="card">
+  <div class="card-header">
+    <span class="icon-tile"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 15.5-6.2L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15.5 6.2L3 16"/><path d="M3 21v-5h5"/></svg></span>
+    <h2>Standardın Yayılımı ve Yaşam Döngüsü</h2>
+  </div>
+  <div class="card-body">
+    <div class="flow-label">Yeni proje (golden path)</div>
+    <div class="flow">
+      <span class="step neutral">PRD — Status: Accepted</span><span class="arrow">→</span>
+      <span class="step">kt-scaffold init</span><span class="arrow">→</span>
+      <span class="step">onaylı iskelet + kural seti</span><span class="arrow">→</span>
+      <span class="step neutral">ajan destekli geliştirme</span><span class="arrow">→</span>
+      <span class="step">quality-gate.sh</span><span class="arrow">→</span>
+      <span class="step">CI (banka-offline)</span>
+    </div>
+    <div class="flow-label">Standart güncellemesi</div>
+    <div class="flow">
+      <span class="step neutral">rules/ veya profil değişikliği</span><span class="arrow">→</span>
+      <span class="step">sürümleme + yeniden üretim</span><span class="arrow">→</span>
+      <span class="step">update replay / MCP önerisi</span><span class="arrow">→</span>
+      <span class="step neutral">yerel mutabakat</span><span class="arrow">→</span>
+      <span class="step">makbuz + manifest ilerler</span>
+    </div>
+    <p style="margin-top:.9rem">Referans kılavuzlarla ilişki: <code>software_standards.md</code> (BOA/.NET) klasik
+    geliştirme hattı için geçerliliğini korur; vibe coding kapsamında dil, sürüm ve çatı otoritesi bu
+    profildedir. <code>app_security.md</code> ve <code>data_security.md</code> ajan davranış ve veri
+    politikaları olarak aynen uygulanır.</p>
+  </div>
+</div>
+
+<footer>kt-vibecoding-boilerplate · Standartlar Bilgi Notu · mockups/standartlar-bilgi-notu.html · Ağustos 2026</footer>
+</div>
+</body>
+</html>

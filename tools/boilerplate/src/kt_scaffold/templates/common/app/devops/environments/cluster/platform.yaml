@@ -1,0 +1,28 @@
+global:
+  registry: __REQUIRED_INTERNAL_REGISTRY__
+  host: __REQUIRED_CLUSTER_HOST__
+  storageClass: __REQUIRED_STORAGE_CLASS__
+  kubernetesVersion: __REQUIRED_KUBERNETES_VERSION__
+  sourceRevision: __REQUIRED_SOURCE_REVISION__
+  appSecretName: __REQUIRED_APP_SECRET_NAME__
+  migrationSecretName: __REQUIRED_MIGRATION_SECRET_NAME__
+  databaseSecretName: __REQUIRED_DATABASE_SECRET_NAME__
+  cacheSecretName: __REQUIRED_CACHE_SECRET_NAME__
+  grafanaSecretName: __REQUIRED_GRAFANA_SECRET_NAME__
+  tlsSecretName: __REQUIRED_TLS_SECRET_NAME__
+ingressController:
+  namespace: __REQUIRED_INGRESS_NAMESPACE__
+  component: __REQUIRED_INGRESS_COMPONENT__
+replicas: {backend: 2, frontend: 2}
+images:
+  backend: {digest: __REQUIRED_BACKEND_IMAGE_DIGEST__}
+  frontend: {digest: __REQUIRED_FRONTEND_IMAGE_DIGEST__}
+  migrate: {digest: __REQUIRED_MIGRATE_IMAGE_DIGEST__}
+  worker: {digest: __REQUIRED_WORKER_IMAGE_DIGEST__}
+  postgres: {digest: __REQUIRED_POSTGRES_IMAGE_DIGEST__}
+  redis: {digest: __REQUIRED_REDIS_IMAGE_DIGEST__}
+  collector: {digest: __REQUIRED_COLLECTOR_IMAGE_DIGEST__}
+  tempo: {digest: __REQUIRED_TEMPO_IMAGE_DIGEST__}
+  prometheus: {digest: __REQUIRED_PROMETHEUS_IMAGE_DIGEST__}
+  loki: {digest: __REQUIRED_LOKI_IMAGE_DIGEST__}
+  grafana: {digest: __REQUIRED_GRAFANA_IMAGE_DIGEST__}

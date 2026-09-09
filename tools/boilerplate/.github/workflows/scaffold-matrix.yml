@@ -1,0 +1,205 @@
+name: scaffold-matrix
+
+"on":
+  pull_request:
+  push:
+    branches:
+      - staging
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: scaffold-matrix-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CI: "true"
+  KT_SCAFFOLD_CI_BUNDLE: ${{ vars.KT_SCAFFOLD_CI_BUNDLE }}
+  PIP_DISABLE_PIP_VERSION_CHECK: "1"
+  PIP_NO_INDEX: "1"
+  PYTHONDONTWRITEBYTECODE: "1"
+  npm_config_audit: "false"
+  npm_config_fund: "false"
+  npm_config_offline: "true"
+  npm_config_update_notifier: "false"
+
+jobs:
+  render-and-static:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: [self-hosted, linux, x64, bank-offline, python-3.13, node-22]
+    timeout-minutes: 35
+    steps:
+      - name: Check out the reviewed source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+
+      - name: Verify admitted offline inputs
+        run: |
+          test -n "$KT_SCAFFOLD_CI_BUNDLE"
+          test -f "$KT_SCAFFOLD_CI_BUNDLE/SHA256SUMS"
+          (cd "$KT_SCAFFOLD_CI_BUNDLE" && sha256sum --check SHA256SUMS)
+
+      - name: Install the generator from this source tree
+        run: |
+          ci_venv="$(mktemp -d "$RUNNER_TEMP/kt-scaffold-render.XXXXXX")/venv"
+          python3.13 -m venv "$ci_venv"
+          "$ci_venv/bin/python" -m pip install \
+            --no-index \
+            --find-links "$KT_SCAFFOLD_CI_BUNDLE/wheelhouse/generator" \
+            setuptools==83.0.0 wheel==0.47.0
+          "$ci_venv/bin/python" -m pip install \
+            --no-build-isolation \
+            --no-index \
+            --find-links "$KT_SCAFFOLD_CI_BUNDLE/wheelhouse/generator" \
+            --editable .
+          printf '%s/bin\n' "$ci_venv" >> "$GITHUB_PATH"
+
+      - name: Render twice and prove deterministic output
+        run: |
+          ci_parent="$(mktemp -d "$RUNNER_TEMP/kt-scaffold-python.XXXXXX")"
+          product_slug="ci-python-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          for target in "$ci_parent/first" "$ci_parent/second"; do
+            kt-scaffold init \
+              --target-dir "$target" \
+              --intent "Exercise the fixed Python/FastAPI scaffold in offline CI" \
+              --primary-domain payments \
+              --product-name "CI Python Profile" \
+              --product-slug "$product_slug" \
+              --env-prefix "CI_PYTHON_" \
+              --no-observability >/dev/null
+          done
+          diff -qr "$ci_parent/first" "$ci_parent/second"
+          printf 'CI_SCAFFOLD_ROOT=%s\n' "$ci_parent/first" >> "$GITHUB_ENV"
+
+      - name: Check governance, charts and generator separation
+        run: |
+          cd "$CI_SCAFFOLD_ROOT"
+          kt-scaffold render --target-dir . --mode check >/dev/null
+          scripts/render-clients.sh --check >/dev/null
+          scripts/render-charts.sh --self-test
+          python3 scripts/check-dependency-admission.py
+          test ! -e tools/kt-scaffold
+          test ! -e src/kt_scaffold
+          test ! -e src/kt-scaffold
+
+      - name: Prove generated-file drift is rejected
+        run: |
+          cd "$CI_SCAFFOLD_ROOT"
+          cp AGENTS.md "$RUNNER_TEMP/AGENTS.python.clean"
+          printf '\nintentional CI drift\n' >> AGENTS.md
+          if scripts/render-clients.sh --check >/dev/null 2>&1; then
+            echo "governance drift was accepted" >&2
+            exit 1
+          fi
+          mv "$RUNNER_TEMP/AGENTS.python.clean" AGENTS.md
+          scripts/render-clients.sh --check >/dev/null
+
+      - name: Run the profile-native static, contract and frontend gates
+        run: scripts/ci/scaffold-static-gate.sh "$CI_SCAFFOLD_ROOT" "$KT_SCAFFOLD_CI_BUNDLE"
+
+  full-generated-quality-gate:
+    needs: render-and-static
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: [self-hosted, linux, x64, bank-offline, python-3.13, node-22, docker]
+    timeout-minutes: 45
+    steps:
+      - name: Check out the reviewed source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+
+      - name: Verify and load admitted offline inputs
+        run: |
+          test -n "$KT_SCAFFOLD_CI_BUNDLE"
+          test -f "$KT_SCAFFOLD_CI_BUNDLE/SHA256SUMS"
+          test -f "$KT_SCAFFOLD_CI_BUNDLE/runtime-images.tar"
+          (cd "$KT_SCAFFOLD_CI_BUNDLE" && sha256sum --check SHA256SUMS)
+          docker load --input "$KT_SCAFFOLD_CI_BUNDLE/runtime-images.tar"
+
+      - name: Install the generator from this source tree
+        run: |
+          ci_venv="$(mktemp -d "$RUNNER_TEMP/kt-scaffold-live.XXXXXX")/venv"
+          python3.13 -m venv "$ci_venv"
+          "$ci_venv/bin/python" -m pip install \
+            --no-index \
+            --find-links "$KT_SCAFFOLD_CI_BUNDLE/wheelhouse/generator" \
+            setuptools==83.0.0 wheel==0.47.0
+          "$ci_venv/bin/python" -m pip install \
+            --no-build-isolation \
+            --no-index \
+            --find-links "$KT_SCAFFOLD_CI_BUNDLE/wheelhouse/generator" \
+            --editable .
+          printf '%s/bin\n' "$ci_venv" >> "$GITHUB_PATH"
+
+      - name: Render the live test project
+        run: |
+          ci_parent="$(mktemp -d "$RUNNER_TEMP/kt-scaffold-live-python.XXXXXX")"
+          ci_target="$ci_parent/project"
+          product_slug="ci-python-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          app_port=$((20000 + (GITHUB_RUN_ID % 20000) * 2))
+          kt-scaffold init \
+            --target-dir "$ci_target" \
+            --intent "Run the fixed Python/FastAPI quality gate against local services" \
+            --primary-domain payments \
+            --product-name "CI Python Live Profile" \
+            --product-slug "$product_slug" \
+            --env-prefix "CI_PYTHON_" \
+            --no-observability >/dev/null
+          printf '%s\n' \
+            "CI_SCAFFOLD_ROOT=$ci_target" \
+            "CI_TEST_DATABASE=${product_slug//-/_}_db_test" \
+            "APP_HTTP_PORT=$app_port" \
+            "DEPENDENCY_MODE=offline" \
+            "NPM_CACHE_CONTEXT=$KT_SCAFFOLD_CI_BUNDLE/npm-cache" \
+            "PYTHON_WHEELHOUSE_CONTEXT=$KT_SCAFFOLD_CI_BUNDLE/wheelhouse/python-fastapi" \
+            >> "$GITHUB_ENV"
+
+      - name: Bootstrap, migrate and create the application super-admin
+        run: |
+          cd "$CI_SCAFFOLD_ROOT"
+          scripts/bootstrap.sh
+          scripts/stack.sh up -d --build --wait postgres redis backend frontend nginx
+          scripts/db.sh apply
+          env \
+            "CI_PYTHON_SUPER_ADMIN_USER=ci-super-admin" \
+            "CI_PYTHON_SUPER_ADMIN_PASS=CI-Only-Strong-Password-123" \
+            scripts/create-super-admin.sh
+
+      - name: Exercise the live profile integration boundary
+        run: |
+          cd "$CI_SCAFFOLD_ROOT"
+          scripts/stack.sh exec -T postgres createdb -U app "$CI_TEST_DATABASE"
+          test_url="postgresql+asyncpg://app:app-local-password@postgres:5432/$CI_TEST_DATABASE"
+          scripts/stack.sh exec -T \
+            -e "CI_PYTHON_DATABASE_URL=$test_url" \
+            backend alembic upgrade head
+          scripts/stack.sh exec -T -e RUN_POSTGRES_INTEGRATION=1 \
+            -e "CI_PYTHON_DATABASE_URL=$test_url" \
+            backend pytest -q tests/integration
+
+      - name: Run the complete generated-project quality gate
+        run: |
+          cd "$CI_SCAFFOLD_ROOT"
+          (
+            cd e2e
+            npm ci --offline --ignore-scripts --no-audit --no-fund \
+              --cache "$KT_SCAFFOLD_CI_BUNDLE/npm-cache"
+          )
+          env \
+            APP_E2E_BASE="http://127.0.0.1:$APP_HTTP_PORT" \
+            APP_E2E_SUPER_ADMIN_USER=ci-super-admin \
+            APP_E2E_SUPER_ADMIN_PASS=CI-Only-Strong-Password-123 \
+            PLAYWRIGHT_BROWSERS_PATH="$KT_SCAFFOLD_CI_BUNDLE/playwright" \
+            scripts/quality-gate.sh all --include-browser
+
+      - name: Remove the disposable stack and its data
+        if: always()
+        run: |
+          if [ -n "${CI_SCAFFOLD_ROOT:-}" ] && [ -x "$CI_SCAFFOLD_ROOT/scripts/stack.sh" ]; then
+            cd "$CI_SCAFFOLD_ROOT"
+            scripts/stack.sh down --volumes --remove-orphans
+          fi

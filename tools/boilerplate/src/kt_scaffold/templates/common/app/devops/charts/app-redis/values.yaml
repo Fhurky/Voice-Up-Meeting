@@ -1,0 +1,9 @@
+image:
+  repository: registry.internal.invalid/platform/redis
+  digest: sha256:e7723ff73d963f5cc6d9c4643ea3d989527a402a319239054e9472a7fb9219a2
+existingSecret: app-cache
+maxMemory: 128mb
+resources:
+  requests: {cpu: 25m, memory: 64Mi}
+  limits: {cpu: 250m, memory: 192Mi}
+

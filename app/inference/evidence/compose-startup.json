@@ -1,0 +1,10 @@
+{
+  "container": "voiceup-inference-1",
+  "started_at": "2026-09-08T22:02:33.272353349Z",
+  "application_startup_complete_at": "2026-09-08T22:02:38.181804496Z",
+  "first_ready_200_log_at": "2026-09-08T22:02:38.652346431Z",
+  "process_start_to_application_ready_seconds": 4.909451,
+  "process_start_to_first_ready_200_seconds": 5.379993,
+  "scope": "Docker process StartedAt to first successful readiness log; includes Python imports, model verification/load/warmup and readiness probe scheduling; excludes image build and container creation. Host page cache was warm from isolated smoke.",
+  "health": "healthy"
+}

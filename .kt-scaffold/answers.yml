@@ -1,0 +1,20 @@
+project_intent: 'VoiceUp: farklı toplantılarda konuşmacıları kalıcı ses profilleriyle
+  tanıyan, yeni kişileri ayırt eden ve konuşmaları kişilere bağlayan yerel toplantı
+  analiz ürünü.'
+primary_domain: speaker-identity
+product_name: VoiceUp
+product_slug: voiceup
+backend_profile: python-fastapi
+persistence_profile: sqlalchemy-alembic
+env_prefix: VOICEUP_
+api_prefix: /api/voiceup/v1
+tenant_header: x-tenant-id
+locales:
+- tr
+- en
+observability: true
+agent_clients:
+- codex
+generator_version: 0.3.0
+recommendation_rationale: The fixed Python profile uses FastAPI, SQLAlchemy and Alembic;
+  backend technology is not selected by the developer or coding agent.

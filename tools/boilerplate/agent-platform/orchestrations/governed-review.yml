@@ -1,0 +1,40 @@
+schema_version: "1.0"
+kind: DeterministicOrchestration
+metadata:
+  id: governed-review
+  version: 1.0.0
+  owner: team:ai-governance
+  lifecycle: draft
+  risk_tier: R1
+input:
+  contract: schema:review-request
+  raw_source_visible_to_aggregator: false
+workers:
+  - agent: agent:requirements-scope
+    required: true
+    output_contract: schema:finding-report
+  - agent: agent:code-review
+    required: true
+    output_contract: schema:finding-report
+  - agent: agent:application-security
+    required: true
+    output_contract: schema:finding-report
+  - agent: agent:test-automation
+    required: true
+    output_contract: schema:finding-report
+execution:
+  strategy: parallel-independent
+  max_parallel: 4
+  worker_isolation: true
+  retries: 0
+decision:
+  engine: deterministic-policy
+  policy_ref: policy:governed-review-aggregation
+  verify_result_integrity: true
+  missing_result: MANUAL_REVIEW
+  invalid_result: MANUAL_REVIEW
+output:
+  contract: schema:governed-review-decision
+  audit_required: true
+prohibited_agents:
+  - agent:autofix

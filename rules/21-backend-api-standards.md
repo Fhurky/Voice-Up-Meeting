@@ -1,0 +1,50 @@
+---
+id: "21-backend-api-standards"
+title: "Keep API contracts typed, tenant-aware, and profile-independent"
+scope: backend
+priority: 30
+trigger: path-match
+applies_to:
+  - "app/backend/**/api/**"
+  - "app/backend/**/schemas/**"
+  - "specs/openapi/**"
+gate: "contract-drift"
+---
+
+# Backend API standards
+
+Apply the configured API prefix exactly once on the aggregate router or application bootstrap.
+Domain routers and endpoint decorators use relative paths; do not create physical version folders or
+repeat the prefix. Resource collections use plural nouns and standard HTTP semantics.
+
+Every input and output has a profile-native validation type. Keep transport types separate from
+persistence models. Internal numeric identities never cross the API boundary; externally addressable
+records use `public_id`, and a service resolves it under the active tenant.
+
+Protected endpoints require a verified JWT access token and a backend authorization guard. Ordinary
+actors are checked against tenant, role, and permission claims. `super_admin` bypass is explicit and
+centralized; never reproduce it as ad-hoc endpoint logic. The frontend gate is only a usability aid:
+the backend always enforces authorization.
+
+The baseline authentication surface is intentionally small: password-hash verification, signed JWT
+access-token issuance, signature/expiry/issuer/audience validation from typed settings, `/me`, RBAC,
+and logout by client-side token removal. Do not add refresh tokens, a server session store, or an
+external identity provider without an accepted PRD. Middleware may parse verified claims without a
+database round trip; an endpoint that needs current mutable grants must replay them explicitly.
+
+Use one typed error envelope across profiles:
+
+```json
+{"detail":{"code":"stable_code","message":"localized-safe explanation"}}
+```
+
+Map validation, unauthenticated, forbidden, not-found, conflict, and unexpected failures to stable
+HTTP statuses and codes. Do not leak stack traces, database identifiers, token contents, or secret
+values. List endpoints return explicit pagination metadata and deterministic sorting.
+
+Writes define idempotency and concurrency behavior in the accepted PRD. Use transactions at the
+service boundary and parameterized persistence APIs. Do not concatenate SQL or build URLs by string
+joining; use the selected profile's safe helpers.
+
+When the API surface changes, export OpenAPI offline, compare it with the committed artifact, then
+regenerate frontend types. A stale contract or hand-authored duplicate client type fails the gate.

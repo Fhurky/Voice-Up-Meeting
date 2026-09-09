@@ -1,0 +1,38 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  podSelector:
+    matchLabels: {app.kubernetes.io/part-of: "voiceup", app.kubernetes.io/component: backend}
+  policyTypes: [Ingress, Egress]
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels: {kubernetes.io/metadata.name: "{{ .Values.ingress.controllerNamespace }}"}
+          podSelector:
+            matchLabels: {app.kubernetes.io/name: "{{ .Values.ingress.controllerComponent }}"}
+      ports: [{protocol: TCP, port: 8000}]
+  egress:
+    - to:
+        - podSelector:
+            matchLabels: {app.kubernetes.io/part-of: "voiceup"}
+            matchExpressions:
+              - {key: app.kubernetes.io/component, operator: In, values: [postgres, redis]}
+      ports:
+        - {protocol: TCP, port: 5432}
+        - {protocol: TCP, port: 6379}
+    - to:
+        - podSelector:
+            matchLabels: {app.kubernetes.io/part-of: "voiceup", app.kubernetes.io/component: observability}
+      ports:
+        - {protocol: TCP, port: 4317}
+        - {protocol: TCP, port: 4318}
+    - to:
+        - namespaceSelector:
+            matchLabels: {kubernetes.io/metadata.name: "{{ .Values.dns.namespace }}"}
+          podSelector:
+            matchLabels: {k8s-app: "{{ .Values.dns.component }}"}
+      ports:
+        - {protocol: UDP, port: 53}
+        - {protocol: TCP, port: 53}

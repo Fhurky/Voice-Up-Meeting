@@ -1,0 +1,264 @@
+/* KT kurumsal tasarım değerleri — kt-console/console/frontend/src/globals.css ile aynı. */
+:root {
+  --bg: #f6f8f7;
+  --card: #ffffff;
+  --border: #dbe3de;
+  --border-soft: #e4e9e6;
+  --ink: #16241d;
+  --muted: #5b6b63;
+  --faint: #9aa8a1;
+  --primary: #00844a;
+  --primary-700: #00623a;
+  --primary-050: #e6f4ec;
+  --primary-100: #d7ecdf;
+  --chip: #eef2f0;
+  --amber: #b45309;
+  --amber-bg: #fff8ed;
+  --amber-border: #f0d9b5;
+  --code-bg: #f0f4f2;
+  --shadow: 0 1px 2px rgb(15 30 22 / .06);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 100%; }
+body {
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.55;
+  padding: 1.6rem 1rem 2.4rem;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.wrap { max-width: 760px; margin: 0 auto; }
+
+code, .mono {
+  font-family: ui-monospace, "SF Mono", Menlo, Monaco, "Cascadia Code", monospace;
+  font-size: .85em;
+  background: var(--code-bg);
+  border-radius: 4px;
+  padding: .08em .35em;
+}
+
+/* Taslak etiketi — yalnızca bölüm önizlemelerinde görünür, birleştirmede kalkar. */
+.mock-label {
+  font-size: 10.5px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase;
+  color: var(--faint); margin-bottom: .55rem;
+}
+
+/* --- kart --- */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border-soft);
+  border-radius: 6px;
+  box-shadow: var(--shadow);
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+.card-header {
+  display: flex; align-items: center; gap: .6rem;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border-soft);
+}
+.card-header .icon-tile {
+  width: 28px; height: 28px; flex: none;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 6px; background: rgba(0, 132, 74, .1);
+}
+.card-header .icon-tile svg {
+  width: 16px; height: 16px; stroke: var(--primary); fill: none;
+  stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+}
+.card-header h2 { font-size: 14px; font-weight: 600; }
+.card-header .hint { margin-left: auto; font-size: 11.5px; color: var(--faint); }
+.card-body { padding: 14px; }
+.card-body > p { font-size: 13px; color: var(--muted); }
+.card-body > p + p { margin-top: .55rem; }
+
+/* --- teknoloji sütunları --- */
+.stack-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: var(--border-soft); }
+.stack-col { background: var(--card); padding: 12px 14px; }
+.stack-col h3 {
+  font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em;
+  color: var(--primary-700); padding-bottom: 6px; margin-bottom: 6px;
+  border-bottom: 2px solid var(--primary-050);
+  display: flex; align-items: center; gap: .45em;
+}
+.stack-col h3 .sq { width: 8px; height: 8px; border-radius: 2px; background: var(--primary); }
+.stack-col ul { list-style: none; }
+.stack-col li { font-size: 12.5px; padding: 3.5px 0; display: flex; justify-content: space-between; gap: .6rem; align-items: baseline; }
+.stack-col li + li { border-top: 1px solid var(--chip); }
+.stack-col .n { font-weight: 600; white-space: nowrap; }
+.stack-col .d { color: var(--muted); font-size: 11.5px; text-align: right; }
+
+.ops-row { border-top: 2px solid var(--border-soft); display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: var(--border-soft); }
+.ops-cell { background: var(--card); padding: 12px 14px; }
+.ops-cell h4 { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-bottom: 4px; }
+.ops-cell p { font-size: 12px; line-height: 1.55; }
+
+/* --- gerekçe: tespit + kanıt --- */
+.reason-head {
+  padding: 12px 14px 0;
+  border-top: 2px solid var(--border-soft);
+}
+.reason-head h3 { font-size: 13px; font-weight: 600; }
+.reason-head p { font-size: 12.5px; color: var(--muted); margin-top: 3px; }
+.reasons { padding: 10px 14px 14px; }
+.reason { display: flex; gap: 10px; padding: 10px 0; }
+.reason + .reason { border-top: 1px solid var(--chip); }
+.reason .no {
+  flex: none; width: 22px; height: 22px; border-radius: 6px;
+  background: var(--primary); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; margin-top: 1px;
+}
+.reason h4 { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
+.reason .mech { font-size: 12.5px; color: var(--muted); line-height: 1.55; }
+.evidence {
+  margin-top: 7px; padding: 8px 10px;
+  background: rgba(0, 132, 74, .05);
+  border-left: 3px solid var(--primary);
+  border-radius: 0 4px 4px 0;
+}
+.evidence .lbl {
+  font-size: 9.5px; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--primary-700); display: block; margin-bottom: 1px;
+}
+.evidence p { font-size: 12px; line-height: 1.55; }
+
+/* --- değerlendirme ölçütleri --- */
+.criteria { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--border-soft); }
+.criterion { background: var(--card); padding: 9px 14px; display: flex; gap: 8px; }
+.criterion .cn {
+  flex: none; width: 18px; height: 18px; border-radius: 4px;
+  background: var(--primary-050); color: var(--primary-700);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 700; margin-top: 1px;
+}
+.criterion h4 { font-size: 12.5px; font-weight: 600; }
+.criterion p { font-size: 11.5px; color: var(--muted); line-height: 1.5; margin-top: 1px; }
+
+/* --- mercek: temel dil tercihleri --- */
+.spot { padding: 12px 14px 14px; background: rgba(0, 132, 74, .035); }
+.spot + .spot { border-top: 1px solid var(--border-soft); }
+.spot-head { display: flex; align-items: baseline; gap: .5rem; }
+.spot-head .sname { font-size: 16px; font-weight: 600; letter-spacing: -.01em; }
+.spot-head .sver {
+  font-family: ui-monospace, "SF Mono", Menlo, Monaco, monospace;
+  font-size: 11px; color: var(--muted);
+}
+.spot-head .srole { margin-left: auto; font-size: 11px; color: var(--faint); }
+.spot-lead { font-size: 12.5px; line-height: 1.55; margin-top: 5px; }
+.facts { margin-top: 9px; display: grid; gap: 6px; }
+.fact {
+  position: relative; padding-left: 14px;
+  font-size: 12.5px; line-height: 1.55; color: var(--muted);
+}
+.fact::before {
+  content: ""; position: absolute; left: 0; top: 7px;
+  width: 6px; height: 6px; border-radius: 2px; background: var(--primary);
+}
+.fact b { color: var(--ink); font-weight: 600; }
+
+/* --- teknoloji bazında gerekçe ve göstergeler --- */
+.tech-group + .tech-group { border-top: 2px solid var(--border-soft); }
+.tech-group > h3 {
+  font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em;
+  color: var(--primary-700); padding: 11px 14px 0;
+  display: flex; align-items: center; gap: .45em;
+}
+.tech-group > h3 .sq { width: 8px; height: 8px; border-radius: 2px; background: var(--primary); }
+.tech { padding: 9px 14px 11px; }
+.tech + .tech { border-top: 1px solid var(--chip); }
+.tech-head { display: flex; align-items: baseline; gap: .45rem; }
+.tech-head .tname { font-size: 13px; font-weight: 600; }
+.tech-head .tver {
+  font-family: ui-monospace, "SF Mono", Menlo, Monaco, monospace;
+  font-size: 11px; color: var(--muted);
+}
+.tech-head .trole { margin-left: auto; font-size: 11px; color: var(--faint); text-align: right; }
+.twhy { font-size: 12.5px; color: var(--muted); line-height: 1.55; margin-top: 3px; }
+.twhy b { color: var(--ink); font-weight: 600; }
+.tnote { font-size: 11.5px; color: var(--amber); line-height: 1.5; margin-top: 4px; }
+.chips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 7px; }
+.chip {
+  font-size: 10.5px; line-height: 1.45; color: var(--muted);
+  background: var(--chip); border-radius: 3px; padding: 2px 6px;
+}
+.chip b { color: var(--ink); font-weight: 600; }
+.chip.ok { background: var(--primary-050); color: var(--primary-700); }
+.chip.ok b { color: var(--primary-700); }
+.sources {
+  padding: 10px 14px; border-top: 1px solid var(--border-soft);
+  font-size: 11px; color: var(--faint); line-height: 1.55;
+}
+
+/* --- kaynakça --- */
+.ref {
+  font-size: 8.5px; font-weight: 700; color: var(--primary-700);
+  vertical-align: super; margin-left: 2px; letter-spacing: .02em;
+}
+.refs { padding: 12px 14px 14px; border-top: 2px solid var(--border-soft); }
+.refs > h4 {
+  font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em;
+  color: var(--muted); margin-bottom: 7px;
+}
+.refs > h5 {
+  font-size: 10.5px; font-weight: 600; color: var(--primary-700);
+  margin: 9px 0 4px;
+}
+.refs ol { list-style: none; counter-reset: r; display: grid; gap: 2px; }
+.refs li {
+  counter-increment: r; position: relative; padding-left: 24px;
+  font-size: 11px; color: var(--muted); line-height: 1.5;
+}
+.refs li::before {
+  content: counter(r) "."; position: absolute; left: 0; top: 0; width: 18px;
+  text-align: right; font-size: 10px; font-weight: 700; color: var(--primary-700);
+}
+.refs .u {
+  font-family: ui-monospace, "SF Mono", Menlo, Monaco, monospace;
+  font-size: 10px; color: var(--faint);
+}
+
+/* --- ilke beyanı --- */
+.statement {
+  display: flex; gap: 12px; padding: 14px;
+  background: var(--primary-050);
+  border: 1px solid var(--primary-100);
+  border-radius: 6px;
+}
+.statement .mark {
+  flex: none; width: 26px; height: 26px; border-radius: 50%;
+  background: var(--primary); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+}
+.statement .mark svg { width: 15px; height: 15px; stroke: #fff; fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.statement .body p.lead { font-size: 14px; font-weight: 600; color: var(--primary-700); line-height: 1.5; }
+.statement .body p.sub { font-size: 12.5px; color: var(--ink); line-height: 1.6; margin-top: 6px; }
+
+.note {
+  display: flex; gap: 10px; padding: 12px; border-radius: 6px;
+  background: var(--amber-bg); border-left: 3px solid var(--amber);
+  margin-top: .8rem;
+}
+.note .dot {
+  flex: none; width: 20px; height: 20px; border-radius: 50%;
+  background: var(--amber); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700;
+}
+.note .dot svg { width: 12px; height: 12px; stroke: #fff; fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.note p { font-size: 12.5px; line-height: 1.6; }
+.note p + p { margin-top: 5px; }
+.note p.lead { font-size: 13px; font-weight: 600; color: var(--amber); margin-bottom: 4px; }
+.note strong { color: var(--amber); }
+
+@page { size: A4; margin: 12mm 11mm; }
+@media print {
+  body { background: #fff; padding: 0; }
+  .wrap { max-width: none; }
+  .mock-label { display: none; }
+  .card { break-inside: avoid; box-shadow: none; }
+  .card-header { break-after: avoid; }
+}

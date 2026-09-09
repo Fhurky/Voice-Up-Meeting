@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<meta name="description" content="Kurumsal vibe coding uygulamalarında mimari ve teknoloji yığın yeknesaklığı — sabit teknoloji profili, çerçeve ve yönetişim.">
+<title>Kurumsal Vibe Coding Uygulamalarında Mimari ve Teknoloji Yığın Yeknesaklığı — Bilgi Notu</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23016B4E'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="_tokens.css">
+<link rel="stylesheet" href="_note.css">
+</head>
+<body>
+<div class="wrap">
+
+<!-- ============================================================ 01 · BAŞLIK VE KÜNYE -->
+<header class="masthead">
+  <div class="brand">
+    <img class="wordmark" src="../assets/kuveyt-turk-logo.svg" alt="Kuveyt Türk" width="580" height="103">
+    <div class="brand-unit">Veri ve Analitik Grup Müdürlüğü</div>
+  </div>
+  <div class="doc-meta">
+    <div class="kind">Bilgi Notu</div>
+    <div class="date">7 Ağustos 2026</div>
+  </div>
+</header>
+
+<div class="titleblock">
+  <h1>Kurumsal Vibe Coding Uygulamalarında Mimari ve Teknoloji Yığın Yeknesaklığı</h1>
+  <p class="sub">Bu bilgi notu; Kurumsal Mimari'nin arayüz, servis ve veri tabanı katmanları için
+  belirlediği teknoloji ve araç seti standartları çerçevesinde, Vibe Coding uygulayıcılarına ve
+  ajanlarına kılavuzluk edecek olan <code>kt-vibecoding-boilerplate</code> kod deposunda
+  (GitHub Enterprise'a konumlandırılacaktır) yapılan düzenlemeleri kapsar.</p>
+  <p class="sub"><code>kt-vibecoding-boilerplate</code>, desteklenen kodlama ortamlarını ortak
+  mimari, sabit teknoloji profili, yönetişim kuralları ve kalite kapıları altında buluşturan
+  kurumsal proje iskeletidir. Kapalı devre ve spec-first geliştirmeyi çift dilli CLI/MCP
+  sözleşmeleriyle destekler; teknoloji sürdürülebilirliğini, sürüm ve tedarik zinciri güvenliğini,
+  mimari sapmaları ve doğrulanabilir test kanıtlarını uygulama/proje yaşam döngüsü boyunca takip
+  eder.</p>
+</div>
+
+
+<section class="doc-section" id="b01">
+  <div class="section-label"><span class="sn">01</span><span class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 9v12"/></svg></span><h2>Teknoloji Profili ve Tercihlerin Gerekçesi</h2></div>
+  <!-- ============ A. PROFİL TABLOSU ============ -->
+  <div class="card">
+    <div class="stack-grid">
+      <div class="stack-col">
+        <h3><span class="sq"></span>Arayüz</h3>
+        <ul>
+          <li><span class="n">React 19.2.8</span><span class="d">ekran bileşenleri</span></li>
+          <li><span class="n">TypeScript 6.0.3</span><span class="d">tip kısıtları (strict)</span></li>
+          <li><span class="n">TS 7.0.2 native</span><span class="d">hızlı tip denetimi</span></li>
+          <li><span class="n">Vite 8.2.0</span><span class="d">derleme</span></li>
+          <li><span class="n">React Router 8.3.0</span><span class="d">sayfa yönlendirme</span></li>
+          <li><span class="n">Vitest 4.1.10</span><span class="d">birim test</span></li>
+          <li><span class="n">Playwright 1.62.1</span><span class="d">tarayıcı testi</span></li>
+          <li><span class="n">Node.js 22.23.2</span><span class="d">derleme ortamı</span></li>
+        </ul>
+      </div>
+      <div class="stack-col">
+        <h3><span class="sq"></span>Servis</h3>
+        <ul>
+          <li><span class="n">Python 3.13</span><span class="d">dil</span></li>
+          <li><span class="n">FastAPI 0.141.1</span><span class="d">servis katmanı</span></li>
+          <li><span class="n">Pydantic 2.13.4</span><span class="d">girdi/çıktı doğrulama</span></li>
+          <li><span class="n">Uvicorn 0.52.1</span><span class="d">uygulama sunucusu</span></li>
+          <li><span class="n">pytest 9.1.1</span><span class="d">test</span></li>
+          <li><span class="n">JWT + RBAC</span><span class="d">kimlik ve yetki</span></li>
+          <li><span class="n">Kiracı ayrımı</span><span class="d">zorunlu</span></li>
+        </ul>
+      </div>
+      <div class="stack-col">
+        <h3><span class="sq"></span>Veri</h3>
+        <ul>
+          <li><span class="n">PostgreSQL 17.10</span><span class="d">veritabanı</span></li>
+          <li><span class="n">SQLAlchemy 2.0.51</span><span class="d">nesne–tablo eşleme</span></li>
+          <li><span class="n">asyncpg 0.31.0</span><span class="d">sürücü</span></li>
+          <li><span class="n">Alembic 1.19.0</span><span class="d">versiyonlu şema değişikliği</span></li>
+          <li><span class="n">Model tanımları</span><span class="d">şemanın doğruluk kaynağı</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ops-row">
+      <div class="ops-cell">
+        <h4>İzleme</h4>
+        <p>Uygulama günlükleri, ölçümleri ve izleri tek bir toplayıcıda birleşir; panolar hazır gelir.</p>
+      </div>
+      <div class="ops-cell">
+        <h4>Çalıştırma</h4>
+        <p>Geliştirmede tek komutla ayağa kalkar, kümede paketlenmiş şekilde dağıtılır. Çalışma anında dış ağ erişimi kapalıdır.</p>
+      </div>
+      <div class="ops-cell">
+        <h4>Sürüm sabitleri</h4>
+        <p>Her paket sağlama değeriyle, her imaj değişmez kimliğiyle kilitlidir. Aynı girdi her zaman aynı kurulumu verir.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ B. TEKNOLOJİ BAZINDA GEREKÇE ============ -->
+  <div class="card">
+    <div class="card-header">
+      <span class="icon-tile"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>
+      <h3>Tercihlerin Gerekçesi ve Kamuya Açık Göstergeler</h3>
+      <span class="hint">6 Ağustos 2026</span>
+    </div>
+    <div class="card-body" style="padding-bottom:11px">
+      <p>Profil, tek bir ölçüte göre değil; kurumsal yetkinlikten kapalı ortamda kurulabilirliğe, lisans
+      uygunluğundan yaşam döngüsüne uzanan <b style="color:var(--ink)">sekiz ölçüt</b> birlikte
+      değerlendirilerek oluşturuldu. Bir bileşenin tek bir ölçütte güçlü olması yeterli sayılmadı;
+      tercihler ölçütlerin bütünü üzerinden karşılaştırıldı.</p>
+    </div>
+
+    <div class="criteria">
+      <div class="criterion"><span class="cn">1</span><div>
+        <h4>Kurumsal yetkinlik uyumu</h4>
+        <p>Ekibin halihazırda bildiği dil ve araçlar; geliştirmeyi devralacak kişinin kodu okuyabilmesi.</p>
+      </div></div>
+      <div class="criterion"><span class="cn">2</span><div>
+        <h4>Veri platformuyla uyum</h4>
+        <p>Mevcut veritabanı ve veri ambarı dünyasıyla aynı kavramlar üzerinden çalışabilmesi.</p>
+      </div></div>
+      <div class="criterion"><span class="cn">3</span><div>
+        <h4>Ajanla üretime uygunluk</h4>
+        <p>Tip kısıtları, otomatik üretilebilen sözleşme ve makine tarafından okunabilen hata çıktısı.</p>
+      </div></div>
+      <div class="criterion"><span class="cn">4</span><div>
+        <h4>Doğrulanabilirlik</h4>
+        <p>Testin ve kanıtın araç tarafından üretilebilmesi; aynı girdinin her koşuda aynı sonucu vermesi.</p>
+      </div></div>
+      <div class="criterion"><span class="cn">5</span><div>
+        <h4>Güvenlik ve tedarik zinciri</h4>
+        <p>Sağlama değeriyle kilitlenebilme, ilan edilmiş güvenlik süreci, tarama araçlarınca desteklenme.</p>
+      </div></div>
+      <div class="criterion"><span class="cn">6</span><div>
+        <h4>Kapalı ortamda çalışabilirlik</h4>
+        <p>İnternet erişimi olmayan laboratuvarda, yalnızca iç kayıt defterinden kurulabilme.</p>
+      </div></div>
+      <div class="criterion"><span class="cn">7</span><div>
+        <h4>Yaşam döngüsü ve süreklilik</h4>
+        <p>İlan edilmiş destek takvimi, düzenli sürüm ritmi ve tek kişiye bağlı olmayan geniş katkıcı tabanı.</p>
+      </div></div>
+      <div class="criterion"><span class="cn">8</span><div>
+        <h4>Lisans ve değiştirilebilirlik</h4>
+        <p>Kuruma uygun açık kaynak lisansı, lisans bedeli bulunmaması ve bileşenin gerektiğinde değiştirilebilmesi.</p>
+      </div></div>
+    </div>
+
+    <div class="card-body" style="padding:11px 14px 0">
+      <p>Üç tercih — servis katmanında Python, arayüzde TypeScript, veri katmanında PostgreSQL —
+      profilin geri kalanını da belirlediği için ayrı ele alınmıştır. Bunlar, açık kaynak topluluğunun
+      yapay zekâ destekli geliştirme için son dönemde en çok tercih ettiği yapı taşlarıdır. Diğer
+      bileşenler bunların ardından, ölçüt karşılıkları ve kamuya açık göstergeleriyle birlikte
+      verilmiştir; değerlendirmeye elverişsiz görünen ölçümler olduğu gibi bırakılmıştır.</p>
+    </div>
+
+    <!-- ---------- MERCEK: TEMEL DİL TERCİHLERİ ---------- -->
+    <div class="tech-group">
+      <h3><span class="sq"></span>Temel tercihler — ayrıntılı gerekçe</h3>
+
+      <div class="spot">
+        <div class="spot-head"><span class="sname">Python<sup class="ref">11</sup></span><span class="sver">3.13</span><span class="srole">servis katmanının dili</span></div>
+        <p class="spot-lead">Servis dili seçilirken kurumsal yetkinlik, ekosistem büyüklüğü ve yapay zekâ
+        uyumu aynı yönü işaret etti. Python bu üç başlığın hepsinde ölçülebilir biçimde önde olan tek dildir.</p>
+        <div class="facts">
+          <p class="fact"><b>Dünyanın en yaygın kullanılan programlama dili.</b> TIOBE endeksi Temmuz
+          2026<sup class="ref">1</sup>: 1. sıra, %18,94 pay — ikinci sıradaki dilin (C, %10,86) yaklaşık
+          1,7 katı.</p>
+          <p class="fact"><b>Yapay zekâ, makine öğrenmesi ve akademinin ortak dili.</b> Model geliştirme,
+          veri bilimi ve akademik çalışmaların referans dilidir; veri ekiplerinin analiz araçlarıyla aynı
+          dili konuşur, üretilen uygulama ile analiz dünyası arasında dil farkı oluşmaz.</p>
+          <p class="fact"><b>Üretici modellerin en zengin eğitim içeriğine sahip dili.</b> Açık kaynak kod
+          havuzunda en geniş temsil Python'dadır: GitHub'da 32,1 milyon depo, Stack Overflow'da 2,2 milyon
+          soru, PyPI'de 867 bin paket. Model bu içerikle eğitildiği için ajanın Python çıktısı diğer
+          dillere kıyasla daha isabetli ve güncel olur.</p>
+          <p class="fact"><b>Simge (token) ekonomisi.</b> Sözdiziminde süslü parantez, noktalı virgül ve
+          her çağrıda yinelenen tür bildirimi gibi tekrar eden kalıplar yoktur; aynı iş belirgin biçimde
+          daha az simgeyle yazılır. Bu, ajanın sınırlı bağlam penceresine daha fazla iş mantığının
+          sığması anlamına gelir.</p>
+          <p class="fact"><b>Derleme ve ikili bağımlılık yükü yoktur.</b> Derleyici çıktısı, nesne dosyası,
+          kütüphane kilidi katmanı bulunmaz; değişiklik doğrudan metin üzerinde yapılır ve anında koşar.
+          Ajanın "değiştir – doğrula" döngüsü kısalır, hata bir sonraki adıma taşınmadan görülür.</p>
+          <p class="fact"><b>Ölçekli test.</b> Yüz binlerce satırlık bir kod tabanı, araya derleme ve
+          bağlama adımı girmeden tek komutla baştan sona test edilebilir.</p>
+        </div>
+        <div class="chips">
+          <span class="chip ok">TIOBE <b>1. sıra</b> · %18,94</span>
+          <span class="chip">GitHub Octoverse 2025: <b>2. sıra</b></span>
+          <span class="chip"><b>32,1 mn</b> depo</span>
+          <span class="chip"><b>2,2 mn</b> Stack Overflow sorusu</span>
+          <span class="chip"><b>867.497</b> PyPI paketi</span>
+          <span class="chip"><b>3.977</b> katkıcı</span>
+          <span class="chip">PSF lisansı</span>
+          <span class="chip">OpenSSF <b>7,6</b></span>
+          <span class="chip ok">güvenlik desteği <b>31 Ekim 2029</b></span>
+        </div>
+      </div>
+
+      <div class="spot">
+        <div class="spot-head"><span class="sname">TypeScript<sup class="ref">12</sup></span><span class="sver">6.0.3 + 7.0.2 native</span><span class="srole">arayüzün dili</span></div>
+        <p class="spot-lead">Arayüz dilinde belirleyici olan, ajanın ürettiği kodun çalıştırılmadan önce
+        denetlenebilmesiydi. Aynı gerekçe sektör genelinde de kabul görmüş durumda: GitHub'ın 2025 yıllık
+        raporu TypeScript'i ilk sıraya taşıyan etkeni doğrudan yapay zekâya bağlıyor.</p>
+        <div class="facts">
+          <p class="fact"><b>GitHub'ın bir numaralı dili — ve yükselişin gerekçesi yapay zekâ.</b>
+          Octoverse 2025<sup class="ref">2</sup> (28 Ekim 2025) raporunun başlığı: <i>"AI leads TypeScript to #1"</i>. Yapay zekâ
+          destekli geliştirmede tip kısıtlarının değeri, bizim vardığımız sonuçla aynı yönde, sektör
+          ölçeğinde ölçülmüş durumda.</p>
+          <p class="fact"><b>Ajanın çıktısı çalıştırılmadan denetlenir.</b> Uyumsuz bir alan, eksik bir
+          değer veya yanlış bir imza derlemeden geçemez. Hata, kullanıcıya ulaşmadan önce derleyici
+          tarafından, satır ve sütun bilgisiyle raporlanır — ajan bu çıktıyı okuyup kendi düzeltmesini
+          yapabilir.</p>
+          <p class="fact"><b>Sözleşmeden tip üretimine elverişli.</b> Servis katmanının yayımladığı
+          sözleşme, arayüz tiplerine otomatik dönüştürülür; iki uç arasındaki tutarlılık kişilerin
+          dikkatine değil, araca bırakılır.</p>
+          <p class="fact"><b>Mevcut tarayıcı ekosisteminden vazgeçmeden tip güvencesi.</b> JavaScript'in
+          üzerine kurulu olduğu için ekosistemin tamamı kullanılabilir durumda kalır; ayrı bir dünyaya
+          geçiş maliyeti doğmaz.</p>
+          <p class="fact"><b>Denetim maliyeti ortadan kalktı.</b> 7.0 ile gelen, Go dilinde yazılmış yerel
+          denetleyici aynı denetimi yaklaşık on kat kısa sürede tamamlar (kendi ölçümümüz: 0,70 sn → 0,08 sn).
+          Böylece tam denetim, ajanın her değişikliğinden sonra koşturulabilecek kadar ucuzdur.</p>
+        </div>
+        <div class="chips">
+          <span class="chip ok">GitHub Octoverse 2025: <b>1. sıra</b></span>
+          <span class="chip"><b>17,5 mn</b> depo</span>
+          <span class="chip"><b>265 mn</b> indirme/hafta</span>
+          <span class="chip"><b>110.082</b> yıldız</span>
+          <span class="chip"><b>944</b> katkıcı</span>
+          <span class="chip"><b>236 bin</b> Stack Overflow sorusu</span>
+          <span class="chip">Apache-2.0</span>
+          <span class="chip">OpenSSF <b>7,9</b></span>
+          <span class="chip ok">bilinen açık <b>0</b></span>
+        </div>
+      </div>
+
+      <div class="spot">
+        <div class="spot-head"><span class="sname">PostgreSQL<sup class="ref">13</sup></span><span class="sver">17.10</span><span class="srole">veri katmanının motoru</span></div>
+        <p class="spot-lead">Veritabanı tercihinde belirleyici olan üç şey vardı: ekibin halihazırda bildiği
+        bir motor olması, tek bir şirkete bağımlı olmaması ve yapay zekâ iş yüklerini ayrı bir ürün
+        gerektirmeden karşılayabilmesi. PostgreSQL üçünü birden sağlıyor.</p>
+        <div class="facts">
+          <p class="fact"><b>Geliştiricilerin en çok kullandığı veritabanı.</b> Stack Overflow 2025
+          Geliştirici Anketi<sup class="ref">3</sup>: tüm katılımcıların %55,6'sı, profesyonel
+          geliştiricilerin %58,2'si PostgreSQL kullanıyor — her iki grupta da birinci sırada.</p>
+          <p class="fact"><b>Şirkete değil topluluğa ait.</b> Tek bir ticari sahibi yoktur; küresel bir
+          geliştirici topluluğu tarafından sürdürülür. Lisans bedeli, kullanım sınırı ve satıcıya
+          bağımlılık riski bulunmaz. Sürüm takvimi ilan edilmiştir: yılda bir ana sürüm, üç ayda bir yama
+          ve her ana sürüm için beş yıllık destek<sup class="ref">10</sup> (17 hattı 8 Kasım 2029'a kadar).</p>
+          <p class="fact"><b>Veri ambarı ölçeğinin tanıdık araçları hazır.</b> Çok sürümlü eşzamanlılık
+          denetimi (MVCC) sayesinde okuma ile yazma birbirini kilitlemez; paralel sorgu, tablo bölümleme,
+          B-tree/GIN/GiST/BRIN indeks aileleri, maliyet tabanlı sorgu planlayıcı ve mantıksal çoğaltma
+          standart olarak gelir. Ekip, bildiği ayarlama tekniklerini doğrudan uygular.</p>
+          <p class="fact"><b>Standart SQL ve düşük işletme yükü.</b> SQL standardına yakınlığı sayesinde
+          mevcut sorgu bilgisi olduğu gibi geçerlidir; kurulum, yedekleme ve izleme uygulamaları
+          yaygındır. Yeni bir kavram seti öğrenmeyi gerektirmez.</p>
+          <p class="fact"><b>Yapay zekâ iş yükleri için ayrı bir ürün gerekmez.</b> pgvector
+          eklentisi<sup class="ref">27</sup> ile gömme (embedding) vektörleri ve benzerlik araması aynı
+          veritabanında yapılabilir; erişim artırılmış üretim (RAG) uygulamaları için ayrı bir vektör
+          veritabanı kurulmasına, ikinci bir yedekleme ve yetkilendirme düzeni işletilmesine gerek kalmaz.</p>
+          <p class="fact"><b>İlişkisel ve belge modeli bir arada.</b> JSONB türü, şema esnekliği gereken
+          alanlarda ayrı bir NoSQL motoruna geçmeden çalışmaya izin verir; bu alanlar da aynı işlem
+          bütünlüğü ve yedekleme düzeni içinde kalır.</p>
+          <p class="fact"><b>Ajanın ürettiği veri erişim kodunun son denetleyicisi.</b> NOT NULL, CHECK,
+          UNIQUE ve yabancı anahtar kısıtları ile işlem bütünlüğü, hatalı bir yazma girişimini uygulama
+          katmanı kaçırsa dahi veritabanı düzeyinde reddeder.</p>
+        </div>
+        <div class="chips">
+          <span class="chip ok">Stack Overflow 2025: <b>1. sıra</b> · %55,6</span>
+          <span class="chip">profesyonellerde <b>%58,2</b></span>
+          <span class="chip"><b>179.928</b> Stack Overflow sorusu</span>
+          <span class="chip">PostgreSQL lisansı (BSD benzeri)</span>
+          <span class="chip">OpenSSF <b>6,1</b></span>
+          <span class="chip">yılda <b>1</b> ana sürüm · <b>3</b> ayda bir yama</span>
+          <span class="chip">pgvector <b>22.514</b> yıldız</span>
+          <span class="chip ok">destek sonu <b>8 Kasım 2029</b></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ---------- ARAYÜZ ---------- -->
+    <div class="tech-group">
+      <h3><span class="sq"></span>Arayüzün diğer bileşenleri</h3>
+
+      <div class="tech">
+        <div class="tech-head"><span class="tname">React<sup class="ref">14</sup></span><span class="tver">19.2.8</span><span class="trole">ekran bileşenleri</span></div>
+        <p class="twhy">Arayüzü birbirinden bağımsız küçük parçalara böler; ajanın yaptığı bir değişikliğin
+        etkisi <b>tek bileşenle sınırlı kalır</b> ve o bileşen tek başına test edilebilir. Açık kaynakta en
+        yaygın arayüz kitaplığı olması, üretici modellerin bu teknolojide daha isabetli ve güncel kod
+        üretmesini sağlayan pratik bir avantajdır.</p>
+        <div class="chips">
+          <span class="chip"><b>247.063</b> yıldız</span>
+          <span class="chip"><b>1.997</b> katkıcı</span>
+          <span class="chip"><b>164 mn</b> indirme/hafta</span>
+          <span class="chip"><b>27</b> sürüm/12 ay</span>
+          <span class="chip">MIT</span>
+          <span class="chip">OpenSSF <b>7,0</b></span>
+          <span class="chip ok">bilinen açık <b>0</b></span>
+        </div>
+      </div>
+
+      <div class="tech">
+        <div class="tech-head"><span class="tname">Vite<sup class="ref">15</sup></span><span class="tver">8.2.0</span><span class="trole">derleme</span></div>
+        <p class="twhy">Geliştirme sunucusu ile üretim derlemesi tek araçta toplanır; ayrı bir yapılandırma
+        zinciri kurulmaz, dolayısıyla <b>ajanın bozabileceği yapılandırma sayısı azdır</b>. 8.x hattında
+        derleyici çekirdeği Rust ile yazılmıştır; derleme süresi saniyenin altındadır.</p>
+        <div class="chips">
+          <span class="chip"><b>82.235</b> yıldız</span>
+          <span class="chip"><b>1.327</b> katkıcı</span>
+          <span class="chip"><b>165 mn</b> indirme/hafta</span>
+          <span class="chip"><b>100</b> sürüm/12 ay</span>
+          <span class="chip">MIT</span>
+          <span class="chip">OpenSSF <b>6,7</b></span>
+          <span class="chip ok">bilinen açık <b>0</b></span>
+        </div>
+      </div>
+
+      <div class="tech">
+        <div class="tech-head"><span class="tname">React Router<sup class="ref">16</sup></span><span class="tver">8.3.0</span><span class="trole">sayfa yönlendirme</span></div>
+        <p class="twhy">Sayfa adresleri tek bir tanım dosyasında toplanır; ajan yeni bir ekran eklerken
+        yönlendirmeyi <b>tek yerden</b> değiştirir, dağınık bağlantı kurgusu oluşmaz.</p>
+        <p class="tnote">Değerlendirme notu: OpenSSF puanı 4,0 ile profildeki en düşük ikinci değerdir.
+        Paketin uygulamadaki sorumluluğu yalnızca yönlendirmedir, sürümü kilitlidir ve kilitli sürümde
+        bilinen açık bulunmamaktadır.</p>
+        <div class="chips">
+          <span class="chip"><b>56.545</b> yıldız</span>
+          <span class="chip"><b>1.299</b> katkıcı</span>
+          <span class="chip"><b>52 mn</b> indirme/hafta</span>
+          <span class="chip"><b>35</b> sürüm/12 ay</span>
+          <span class="chip">MIT</span>
+          <span class="chip">OpenSSF <b>4,0</b></span>
+          <span class="chip ok">bilinen açık <b>0</b></span>
+        </div>
+      </div>
+
+      <div class="tech">
+        <div class="tech-head"><span class="tname">Vitest<sup class="ref">17</sup></span><span class="tver">4.1.10</span><span class="trole">birim test</span></div>
+        <p class="twhy">Testler derleme aracıyla <b>aynı yapılandırmayı</b> kullanır; ajan test yazarken
+        ikinci bir araç seti öğrenmez ve test ile uygulama arasında yapılandırma farkı doğmaz.</p>
+        <div class="chips">
+          <span class="chip"><b>16.922</b> yıldız</span>
+          <span class="chip"><b>791</b> katkıcı</span>
+          <span class="chip"><b>90 mn</b> indirme/hafta</span>
+          <span class="chip"><b>59</b> sürüm/12 ay</span>
+          <span class="chip">MIT</span>
+          <span class="chip">OpenSSF ölçümü yok</span>
+          <span class="chip ok">bilinen açık <b>0</b></span>
+        </div>
+      </div>
+
+      <div class="tech">
+        <div class="tech-head"><span class="tname">Playwright<sup class="ref">18</sup></span><span class="tver">1.62.1</span><span class="trole">tarayıcı testi</span></div>
+        <p class="twhy">Ajanın "çalışıyor" beyanının yerine <b>tarayıcıda üretilmiş kanıt</b> koyar: senaryo
+        gerçek bir tarayıcıda koşar, ekran görüntüsü ve iz kaydı bırakır. Kurumsal geliştirici aracı olarak
+        sürdürülür.</p>
+        <div class="chips">
+          <span class="chip"><b>94.090</b> yıldız</span>
+          <span class="chip"><b>790</b> katkıcı</span>
+          <span class="chip"><b>53 mn</b> indirme/hafta</span>
+          <span class="chip"><b>15</b> sürüm/12 ay</span>
+          <span class="chip">Apache-2.0</span>
+          <span class="chip">OpenSSF <b>6,5</b></span>
+          <span class="chip ok">bilinen açık <b>0</b></span>
+        </div>
+      </div>
+
+      <div class="tech">
+        <div class="tech-head"><span class="tname">Node.js<sup class="ref">19</sup></span><span class="tver">22.23.2 (LTS)</span><span class="trole">derleme ortamı</span></div>
+        <p class="twhy">Yalnızca arayüzü derlemek ve testleri koşmak için kullanılır; <b>servis katmanında
+        yer almaz</b>. Uzun dönem destekli sürüm hattı seçildi, böylece güvenlik yamaları öngörülebilir
+        şekilde gelir.</p>
+        <div class="chips">
+          <span class="chip"><b>118.802</b> yıldız</span>
+          <span class="chip"><b>4.421</b> katkıcı</span>
+          <span class="chip"><b>58</b> sürüm/12 ay</span>
+          <span class="chip">MIT (temel)</span>
+          <span class="chip">OpenSSF <b>6,1</b></span>
+          <span class="chip ok">LTS bakım sonu <b>30 Nisan 2027</b></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ---------- SERVİS ---------- -->
+    <div class="tech-group">
+      <h3><span class="sq"></span>Servisin diğer bileşenleri</h3>
+
+      <div class="tech">
+        <div class="tech-head"><span class="tname">FastAPI<sup class="ref">20</sup></span><span class="tver">0.141.1</span><span class="trole">servis katmanı</span></div>
+        <p class="twhy">Uç noktalar tip imzalarından tanımlanır ve <b>servis sözleşmesi otomatik üretilir</b>.
+        Arayüzün kullandığı tipler bu sözleşmeden türetildiği için ajan, iki uç arasında birbirini tutmayan
+        kod üretemez. Sürüm ritmi yüksektir; 12 ayda 91 sürüm yayımlanmıştır.</p>
+        <div class="chips">
+          <span class="chip"><b>101.361</b> yıldız</span>
+          <span class="chip"><b>905</b> katkıcı</span>
+          <span class="chip"><b>569 mn</b> indirme/ay</span>
+          <span class="chip"><b>91</b> sürüm/12 ay</span>
+          <span class="chip">MIT</span>
+          <span class="chip">OpenSSF ölçümü yok</span>
+          <span class="chip ok">bilinen açık <b>0</b></span>
+        </div>
+      </div>
+
+      <div class="tech">
+        <div class="tech-head"><span class="tname">Pydantic<sup class="ref">21</sup></span><span class="tver">2.13.4</span><span class="trole">girdi/çıktı doğrulama</span></div>
+        <p class="twhy">Servise giren ve servisten çıkan her veri, <b>tablo kısıtı gibi çalışan</b> bir şemaya
+        uymak zorundadır; uymayan veri işlenmeden reddedilir. Doğrulama çekirdeği Rust ile yazılmıştır.
+        Aylık bir milyarı aşan indirmesiyle profildeki en yaygın kullanılan bileşendir.</p>
+        <div class="chips">
+          <span class="chip"><b>28.482</b> yıldız</span>
+          <span class="chip"><b>795</b> katkıcı</span>
+          <span class="chip"><b>1,1 milyar</b> indirme/ay</span>
+          <span class="chip"><b>22</b> sürüm/12 ay</span>
+          <span class="chip">MIT</span>
+          <span class="chip">OpenSSF <b>6,7</b></span>
+          <span class="chip ok">bilinen açık <b>0</b></span>
+        </div>
+      </div>
+
+      <div class="tech">
+        <div class="tech-head"><span class="tname">Uvicorn<sup class="ref">22</sup></span><span class="tver">0.52.1</span><span class="trole">uygulama sunucusu</span></div>
+        <p class="twhy">Servisi çalıştıran, <b>dar kapsamlı ve tek işe odaklı</b> sunucudur. Kapsamının dar
+        olması, ajanın yapılandırmayla oynayabileceği alanı da daraltır.</p>
+        <div class="chips">
+          <span class="chip"><b>10.886</b> yıldız</span>
+          <span class="chip"><b>220</b> katkıcı</span>
+          <span class="chip"><b>616 mn</b> indirme/ay</span>
+          <span class="chip"><b>20</b> sürüm/12 ay</span>
+          <span class="chip">BSD-3-Clause</span>
+          <span class="chip">OpenSSF <b>7,2</b></span>
+          <span class="chip ok">bilinen açık <b>0</b></span>
+        </div>
+      </div>
+
+      <div class="tech">
+        <div class="tech-head"><span class="tname">pytest<sup class="ref">23</sup></span><span class="tver">9.1.1</span><span class="trole">test</span></div>
+        <p class="twhy">Test sonuçları <b>makine tarafından okunabilir</b> biçimde raporlanır; kalite kontrolü
+        bu çıktıyı kanıt olarak kaydeder, ajanın kendi beyanına dayanmaz.</p>
+        <div class="chips">
+          <span class="chip"><b>14.394</b> yıldız</span>
+          <span class="chip"><b>1.146</b> katkıcı</span>
+          <span class="chip"><b>7</b> sürüm/12 ay</span>
+          <span class="chip">MIT</span>
+          <span class="chip">OpenSSF <b>7,0</b></span>
+          <span class="chip ok">bilinen açık <b>0</b></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ---------- VERİ ---------- -->
+    <div class="tech-group">
+      <h3><span class="sq"></span>Veri katmanının diğer bileşenleri</h3>
+
+      <div class="tech">
+        <div class="tech-head"><span class="tname">SQLAlchemy<sup class="ref">24</sup></span><span class="tver">2.0.51</span><span class="trole">nesne–ilişki eşleyici (ORM)</span></div>
+        <p class="twhy">Python dünyasının fiilî standart <b>ORM</b>'idir ve iki katmanlı çalışır: alttaki
+        çekirdek katman SQL ifadelerini Python ifadeleriyle kurar, üstteki ORM katmanı tabloları sınıflara
+        eşler. Oturum (session) bir <b>iş birimi</b> gibi davranır — değişiklikler bellekte biriktirilir ve
+        tek bir işlem (transaction) içinde yazılır; kimlik haritası sayesinde aynı kayıt bir oturumda tek
+        nesneyle temsil edilir. İlişkili veriyi yükleme stratejileri (tembel, istekli, seçmeli) N+1 sorgu
+        sorununu denetim altına alır; asenkron sürücülerle çalışır ve farklı veritabanı lehçelerini
+        destekler. Şema tanımı Python sınıflarında durduğu için <b>şemanın tek doğruluk kaynağıdır</b>;
+        sorgular parametreli üretildiğinden ajanın elle birleştirilmiş SQL metni yazmasına gerek kalmaz
+        ve enjeksiyon riski kaynağında kesilir.</p>
+        <p class="tnote">Değerlendirme notu: OpenSSF puanı 5,2'dir. Proje 20 yılı aşkın süredir sürdürülmekte
+        olup 12 ayda 12 sürüm yayımlamıştır; puanın düşüklüğü ağırlıkla otomatik süreç ve imzalama
+        kriterlerinden kaynaklanmaktadır.</p>
+        <div class="chips">
+          <span class="chip"><b>12.051</b> yıldız</span>
+          <span class="chip"><b>855</b> katkıcı</span>
+          <span class="chip"><b>417 mn</b> indirme/ay</span>
+          <span class="chip"><b>12</b> sürüm/12 ay</span>
+          <span class="chip">MIT</span>
+          <span class="chip">OpenSSF <b>5,2</b></span>
+          <span class="chip ok">bilinen açık <b>0</b></span>
+        </div>
+      </div>
+
+      <div class="tech">
+        <div class="tech-head"><span class="tname">Alembic<sup class="ref">25</sup></span><span class="tver">1.19.0</span><span class="trole">versiyonlu şema değişikliği</span></div>
+        <p class="twhy">SQLAlchemy'nin göç (migration) aracıdır ve aynı ekip tarafından geliştirilir. Model
+        tanımlarını veritabanının mevcut haliyle karşılaştırıp aradaki farkı <b>otomatik olarak bir revizyon
+        dosyasına yazar</b>; revizyonlar birbirine bağlı bir zincir oluşturur, ileri alınabildiği gibi geri
+        de alınabilir, dallanma ve birleştirme desteklenir. Değişiklik doğrudan uygulanmak yerine
+        <b>önce yalnızca SQL olarak da üretilebilir</b> — böylece veritabanı yöneticisi çalışacak DDL'i
+        önceden görüp elle uygulayabilir. Veri ambarı ekiplerinin bildiği versiyonlu DDL disiplininin
+        uygulama tarafındaki karşılığıdır; ajan şemayı sessizce değiştiremez.</p>
+        <div class="chips">
+          <span class="chip"><b>4.301</b> yıldız</span>
+          <span class="chip"><b>226</b> katkıcı</span>
+          <span class="chip"><b>214 mn</b> indirme/ay</span>
+          <span class="chip"><b>11</b> sürüm/12 ay</span>
+          <span class="chip">MIT</span>
+          <span class="chip">OpenSSF <b>6,2</b></span>
+          <span class="chip ok">bilinen açık <b>0</b></span>
+        </div>
+      </div>
+
+      <div class="tech">
+        <div class="tech-head"><span class="tname">asyncpg<sup class="ref">26</sup></span><span class="tver">0.31.0</span><span class="trole">sürücü</span></div>
+        <p class="twhy">PostgreSQL'in ikili protokolünü doğrudan konuşan, hazırlanmış ifadeleri önbelleğe
+        alan asenkron sürücüdür; ORM ile veritabanı arasındaki en alt katmandır. <b>Dar kapsamlı ve
+        olgun</b> bir bileşendir, bağımlılık ağacı küçüktür ve uygulama koduyla doğrudan temas etmez.</p>
+        <p class="tnote">Değerlendirme notu: Son sürümü Kasım 2025'tir ve OpenSSF puanı 4,1 ile profildeki en
+        düşük değerdir. Kapsamı dar ve olgun bir bileşen olduğu için sürüm ritmi düşüktür; kilitli sürümde
+        bilinen açık yoktur, üst katman tarafından soyutlandığı için gerektiğinde değiştirilebilir ve
+        güvenlik taramaları kapsamında izlenmektedir.</p>
+        <div class="chips">
+          <span class="chip"><b>8.063</b> yıldız</span>
+          <span class="chip"><b>100</b> katkıcı</span>
+          <span class="chip"><b>115 mn</b> indirme/ay</span>
+          <span class="chip">son sürüm <b>24 Kasım 2025</b></span>
+          <span class="chip">Apache-2.0</span>
+          <span class="chip">OpenSSF <b>4,1</b></span>
+          <span class="chip ok">bilinen açık <b>0</b></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="doc-section" id="b02">
+  <div class="section-label"><span class="sn">02</span><span class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></span><h2>Mimari Çerçeve ve Tek İstisna</h2></div>
+  <div class="card">
+    <div class="card-body">
+      <div class="statement">
+        <span class="mark"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+        <div class="body">
+          <p class="lead">Vibe coding pratiklerinin, titizlikle belirlenmiş olan kurumsal mimari ve
+          teknoloji yığını çerçevesinde yerine getirilmesi esastır.</p>
+          <p class="sub">Dil, çatı ve veri erişim tercihleri proje bazında yeniden ele alınmaz; geliştirici
+          de yapay zekâ ajanı da bu tercihleri değiştiremez. Çerçevenin dışına çıkmayı gerektiren bir
+          ihtiyaç doğduğunda karar proje içinde verilmez: yönetişim üzerinden değerlendirilir, gerekçesiyle
+          birlikte kayda bağlanır ve onaylanırsa çerçevenin kendisi güncellenir.</p>
+        </div>
+      </div>
+
+      <div class="note">
+        <span class="dot"><svg viewBox="0 0 24 24"><path d="M6 3v12"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="6" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg></span>
+        <div>
+          <p class="lead">Tek istisna — sohbet odaklı uygulamalarda Streamlit<sup class="ref">28</sup></p>
+          <p>Çerçevenin varsayılan yolu, arayüzün ve servisin birbirinden ayrı durduğu istemci–sunucu
+          düzenidir. Yalnızca istem, sohbet ve geçmiş ekranlarından ibaret bir iş için bu ayrım,
+          karşılığı olmayan bir kurulum ve bakım maliyeti doğurur.</p>
+          <p>Streamlit, istemci ile sunucuyu tek bir uygulamada birleştiren hazır bir şablon sunar ve
+          bu tür işlerde belirgin biçimde daha hızlı, daha pratik sonuç verir; istisna bu nedenle
+          tanımlanmıştır. Kapsamı da bununla sınırlıdır: genel amaçlı bir iş arayüzü bu yolla kurulamaz
+          ve tercihin kabul edilmiş gereksinim dokümanında açıkça beyan edilmesi zorunludur.</p>
+        </div>
+      </div>
+    </div>
+</section>
+
+
+<section class="doc-section break-before" id="b03">
+  <div class="section-label"><span class="sn">03</span><span class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span><h2>Ajan Değişiklik Sınırları</h2></div>
+  <div class="card">
+    <div class="layers">
+      <div class="layer"><span class="no">1</span><div>
+        <h4>Tip ve şema seviyesi</h4>
+        <p>Servis profili tek değer alan bir tiptir (<code>Literal["python-fastapi"]</code>); komut satırı ve MCP arayüzünde teknoloji seçtirecek hiçbir parametre yoktur. Farklı bir değer, tıpkı bir tablo kısıtı gibi, doğrulama hatasıyla reddedilir.</p>
+      </div></div>
+      <div class="layer"><span class="no">2</span><div>
+        <h4>Tek kaynaktan yönetilen kural seti</h4>
+        <p>31 kural tek kaynaktan, şema doğrulamalı biçimde yönetilir. "Gereksinim dokümanı veya ajan tercihi ile başka çatı getirilemez" hükmü kuralların açık maddesidir.</p>
+      </div></div>
+      <div class="layer"><span class="no">3</span><div>
+        <h4>Ajan çalışma ortamlarına yansıtma</h4>
+        <p>Aynı kurallar dört sabit çalışma ortamına üretilir: Claude Code için <code>CLAUDE.md</code> ve <code>.claude</code>, Codex için <code>AGENTS.md</code> ve <code>.codex</code>, Cursor için <code>.cursor</code>, VS Code yerel ajanı için <code>AGENTS.md</code>. <code>.specify</code> görev akışı da aynı mimari sınırları taşır; kullanılan istemci kuralı değiştirmez.</p>
+      </div></div>
+      <div class="layer"><span class="no">4</span><div>
+        <h4>Sapma kilidi ve otomatik bozma denemesi</h4>
+        <p>Üretilen her dosyanın sağlama değeri (SHA-256 parmak izi) <code>GENERATED.lock</code> dosyasında tutulur. Denetim hattı kasıtlı bozulma enjekte eder; bozulma yakalanmazsa hat düşer.</p>
+      </div></div>
+      <div class="layer"><span class="no">5</span><div>
+        <h4>Kalite kapısı (Ajan Kapısı)</h4>
+        <p><code>quality-gate.sh</code> kendi sağlama değeriyle doğrulanır ve profil <code>python-fastapi</code> değilse çalışmayı reddeder. Test kanıtı katmanlı üretilir (L0/L1/L2) ve kanıt işaretleri sonradan üretilemez.</p>
+      </div></div>
+      <div class="layer"><span class="no">6</span><div>
+        <h4>Kapalı tedarik zinciri</h4>
+        <p>Tüm bağımlılıklar sağlama değeriyle, imajlar değişmez kimlikleriyle kilitlidir; denetim hattı kurum içi kapalı ortamda, dış kayıt defterine hiç bakmadan koşar. Onaylı paket kümesi dışından tek bir paket dahi giremez.</p>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<section class="doc-section" id="b04">
+  <div class="section-label"><span class="sn">04</span><span class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v18"/><path d="M6 21h12"/><path d="M4 7h16"/><path d="m4 7-2.5 5.5a3.5 3.5 0 0 0 5 0z"/><path d="m20 7-2.5 5.5a3.5 3.5 0 0 0 5 0z"/></svg></span><h2>Uygulama Esası Eşlemesi</h2></div>
+  <div class="card">
+    <table>
+      <thead><tr><th>Uygulama Esası kavramı</th><th>Bu depodaki karşılığı</th></tr></thead>
+      <tbody>
+        <tr><td>Golden Path</td><td><code>kt-scaffold init</code> — tek komutla üretilen onaylı proje iskeleti. Hedef dizin boş değilse veya bir soru cevapsız kaldıysa hiçbir şey yazmaz: ya tamamı üretilir ya hiçbiri.</td></tr>
+        <tr><td>Kılavuz MD</td><td><code>rules/</code> altındaki <b>31 Markdown dosyası</b>. Her dosya tek bir kuraldır ve künyesinde o kuralın hangi dosyalara, ne zaman uygulandığını ve kimin denetlediğini yazar. Künyenin alanları aşağıdaki tabloda.</td></tr>
+        <tr><td>Kural Seti</td><td><code>technology-profile.yml</code> — teknoloji tercihlerinin makinenin okuduğu hâli. Ayrıca her ajan istemcisi için, o istemcinin okuduğu dosyalar aynı kurallardan üretilir: <code>CLAUDE.md</code>, <code>AGENTS.md</code>, <code>.cursor/</code>. Elle yazılan tek kaynak <code>rules/</code>'dır; üretilen kopya düzeltilmez, kaynak düzeltilip yeniden üretilir.</td></tr>
+        <tr><td>Ajan Kapısı</td><td><b>Kapı</b>, kodun ilerleyebilmesi için geçmesi zorunlu olan otomatik denetim noktasıdır. Denetim hattında altı kapı vardır: arka uç testleri, ön yüz testleri, şema denetimi, dağıtım paketi denetimi, sapma denetimi ve güvenlik taraması. Testleri koşan komut (<code>quality-gate.sh</code>) yerelde ve denetim hattında aynıdır. <b>Kalite kapısı:</b> Ajan "testler geçti" diye beyanda bulunamaz — kapı, koşulacak komutu ve ona bağlı bir doğrulama kodunu kendisi üretir; ajan komutu çalıştırıp <b>ham çıktıyı</b> bu kodla birlikte geri verir, kod tutmazsa çıktı reddedilir. Kapı çıktıyı satır satır okur ve sonucu ulaştığı kanıt seviyesiyle (L0/L1/L2) kayda geçirir. <b>Güvenlik kapısı:</b> Gömülü sır (Gitleaks), kod taraması (Semgrep), bağımlılık ve yapılandırma taraması (Trivy); kurum içi kabul edilmiş, sağlama değeriyle mühürlenmiş bir tarayıcı kümesiyle ve dış ağa çıkmadan koşar. Yüksek ve kritik bulguda hat durur; kapıdan geçmeyen kod ilerlemez.</td></tr>
+        <tr><td>Standart İmaj</td><td>Kapalı ortam paketi: kurulum dış ağa hiç çıkmadan yapılır. Paketin içeriği <code>SHA256SUMS</code> ile doğrulanır; doğrulama özeti paketten ayrı kanalla dağıtılır, böylece paketle birlikte değiştirilemez.</td></tr>
+        <tr><td>Yaşayan kılavuz</td><td>Kural değişince mevcut projeler kendiliğinden değişmez; fark önerilir ve yerelde kabul edilir. Çakışma varsa hiçbir şey yazılmaz. Zorunlu maddeler bu yolla zayıflatılamaz.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 4h11l5 5v11H4z"/><path d="M15 4v5h5"/><path d="M8 13h8"/><path d="M8 17h5"/></svg></span>
+      <h3>Kural Dosyası Alanları</h3><span class="hint">31 dosya · 7 alanlık künye</span>
+    </div>
+    <div class="card-body" style="padding-bottom:6px">
+      <p>Her kural dosyasının başında makinenin okuduğu yedi alanlık bir künye vardır. Bu künye,
+      kuralın 5N1K'sıdır: kuralın ne olduğunu, nerede ve ne zaman geçerli olduğunu, bağlayıcı olup
+      olmadığını ve kimin denetlediğini tek bakışta söyler.</p>
+    </div>
+    <table>
+      <thead><tr><th>Künye alanı</th><th>Cevapladığı soru</th><th>Ne yazar</th></tr></thead>
+      <tbody>
+        <tr><td><code>title</code></td><td>Ne?</td><td>Kuralın tek cümlelik hâli.</td></tr>
+        <tr><td><code>scope</code></td><td>Hangi alan?</td><td>Yönetişim, süreç, servis, arayüz, şema, kurulum veya kalite.</td></tr>
+        <tr><td><code>applies_to</code></td><td>Nerede geçerli?</td><td>Depoya göre dosya yolu desenleri — örneğin <code>app/backend/**/api/**</code>.</td></tr>
+        <tr><td><code>trigger</code></td><td>Ne zaman okunur?</td><td>Her zaman, yalnız o yola dokunulunca, veya istek üzerine.</td></tr>
+        <tr><td><code>authority</code></td><td>Bağlayıcı mı?</td><td>Zorunlu olduğu açıkça yazılır; yazılmamışsa önerilen sayılır.</td></tr>
+        <tr><td><code>priority</code></td><td>Hangi sırada?</td><td>Küçük değer önce okunur.</td></tr>
+        <tr><td><code>gate</code></td><td>Kim denetler?</td><td>Kuralı uygulatan denetimin adı; <code>review</code> ise denetim insan incelemesidir.</td></tr>
+      </tbody>
+    </table>
+    <div class="card-body">
+      <div class="facts">
+        <p class="fact"><b>Neyi sağlar.</b> Ajan bir dosyaya dokunmadan önce, o dosya yolu için hangi
+        kuralların geçerli olduğunu kendisi bulur. Kural bir öneri metni değildir: adresi
+        (<code>applies_to</code>) ve denetleyicisi (<code>gate</code>) bellidir.</p>
+        <p class="fact"><b>Ne zaman okunur.</b> 31 kuralın 18'i yalnız ilgili dosya yoluna
+        dokunulduğunda, 12'si her zaman, 1'i istek üzerine devreye girer.</p>
+        <p class="fact"><b>Ne kadarı bağlayıcı.</b> 16 kural zorunlu, 15 kural önerilendir.</p>
+        <p class="fact"><b>Kim denetler.</b> 27 kuralın otomatik bir denetleyicisi vardır — toplam
+        22 farklı denetim. Kalan 4 kural yalnız insan incelemesiyle denetlenir.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 2v6"/><path d="M15 2v6"/><path d="M6 8h12v4a6 6 0 0 1-12 0z"/><path d="M12 18v4"/></svg></span>
+      <h3>MCP ve Komut Satırı Sözleşmeleri</h3><span class="hint">5 araç · 10 ad · 2 taşıyıcı</span>
+    </div>
+    <div class="card-body" style="padding-bottom:6px">
+      <p>Ajanın bağlandığı iki ayrı düzlem vardır ve ikisi bilerek ayrılmıştır.
+      <b>Bilgi düzlemi (MCP)</b> yalnız soru cevaplar: çalışma alanını okumaz, yazmaz, çalıştırmaz.
+      <b>Uygulama düzlemi (komut satırı)</b> dosyayı yazan tek taraftır ve 12 işlemden oluşur —
+      <code>init</code>, <code>update</code>, <code>rules</code>, <code>rule</code>, <code>render</code>,
+      <code>spec</code>, <code>domain</code>, <code>page</code>, <code>schema</code>, <code>gate</code>,
+      <code>scenario</code>, <code>done</code>. On üçüncü komut <code>mcp</code> yazmaz, yalnız bilgi
+      düzlemini başlatır.</p>
+      <p>Her iki düzlemde de her komutun bir <b>Türkçe eşleniği</b> vardır: komut satırında
+      <code>init</code>/<code>baslat</code>, <code>rules</code>/<code>kurallar</code>; bilgi düzleminde
+      <code>project_blueprint</code>/<code>proje_plani</code>. Eşlenik, adı çevrilmiş ikinci bir komut
+      değildir — aynı işi yapan, aynı sonucu döndüren aynı komuttur.</p>
+    </div>
+    <table>
+      <thead><tr><th>Araç</th><th>Türkçe eşleniği</th><th>Ne sorar</th></tr></thead>
+      <tbody>
+        <tr><td><code>project_blueprint</code></td><td><code>proje_plani</code></td><td>Başlangıç mimarisi ve sınırlı proje künyesi nedir? Dosya oluşturmaz.</td></tr>
+        <tr><td><code>governance_catalog</code></td><td><code>yonetisim_katalogu</code></td><td>Hangi yönetişim öğeleri var — kural, beceri, rehberlik? Yalnız künye döner, gövde dönmez.</td></tr>
+        <tr><td><code>governance_artifacts_get</code></td><td><code>yonetisim_ogelerini_getir</code></td><td>Kimliğini verdiğim öğelerin metnini getir. Yalnız istenen öğe döner.</td></tr>
+        <tr><td><code>governance_update_check</code></td><td><code>yonetisim_guncellemelerini_kontrol_et</code></td><td>Elimdeki proje künyesi güncel katalogla uyumlu mu? Fark önerisi ver.</td></tr>
+        <tr><td><code>reconciliation_validate</code></td><td><code>uyumlastirmayi_dogrula</code></td><td>Verdiğim kararları yetki sınıfına göre doğrula ve makbuz üret.</td></tr>
+      </tbody>
+    </table>
+    <div class="card-body">
+      <div class="flow-label">Ortak sözleşme — stdio ve HTTP'de aynı; tek test kümesi iki taşıyıcıya da uygulanır</div>
+      <div class="facts">
+        <p class="fact"><b>Araç listesi birebir aynıdır.</b> Taşıyıcı değişince desteklenen komut kümesi
+        değişmez: 5 araç, 10 ad.</p>
+        <p class="fact"><b>Eşleniğin girdi şeması aynıdır.</b> Alanlar, tipler ve zorunluluklar birebir
+        aynı; yalnız açıklama metni kendi dilindedir.</p>
+        <p class="fact"><b>Eşlenik çağrılar aynı sonucu döndürür.</b> Aynı girdiyle
+        <code>proje_plani</code>, <code>project_blueprint</code> ile aynı çıktıyı verir; test her araç
+        için iki sonucu karşılaştırır.</p>
+        <p class="fact"><b>Künyede tanımlı olmayan alan kabul edilmez.</b> Fazladan bir alan sessizce yok
+        sayılmaz; çağrı hata verir.</p>
+        <p class="fact"><b>Çalışma alanı bilgisi hiç geçmez.</b> Hedef dizin, çalışma alanı, yama kümesi
+        ve çalıştırma bağlamı alanları her araçta ve her iki dilde açıkça reddedilir.</p>
+        <p class="fact"><b>Sunucu oturum tutmaz — süreklilik ajandadır.</b> İki çağrı arasında
+        sunucuda hiçbir durum kalmaz. Sürekliliği çağıran taşır: proje künyesi yerelde
+        <code>.kt-scaffold/project-manifest.json</code> olarak saklanır ve bir sonraki çağrıya girdi
+        olarak verilir; dönen öneri ve makbuz da ajanda tutulur. Yani ajan bağlamını kaybetmez,
+        sunucu bağlam biriktirmez.</p>
+        <p class="fact"><b>Çalışma dizinine hiçbir dosya yazılmaz.</b> Test, sunucu kendi çalışma dizininde
+        koştuktan sonra o dizinin boş kaldığını doğrular.</p>
+      </div>
+      <div class="flow-label">Yalnız HTTP taşıyıcısına özel</div>
+      <div class="facts">
+        <p class="fact"><b>Dışarıya açılmaz.</b> Yalnız yerel adrese bağlanır; dışa açık bir adres
+        verilirse başlamayı reddeder. Dış erişim kurumsal OAuth/TLS geçidi üzerinden verilir.</p>
+        <p class="fact"><b>İstek boyutu sınırlıdır.</b> 1 MB'ı aşan gövde reddedilir.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="doc-section" id="b05">
+  <div class="section-label"><span class="sn">05</span><span class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 15.5-6.2L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15.5 6.2L3 16"/><path d="M3 21v-5h5"/></svg></span><h2>Yaşam Döngüsü ve Sürüm Bakımı</h2></div>
+  <div class="card">
+    <div class="card-body">
+      <div class="flow-label">Yeni proje (onaylı yol)</div>
+      <div class="flow">
+        <span class="step neutral">Gereksinim dokümanı — kabul edilmiş</span><span class="arrow">→</span>
+        <span class="step">kt-scaffold init</span><span class="arrow">→</span>
+        <span class="step">onaylı iskelet + kural seti</span><span class="arrow">→</span>
+        <span class="step neutral">ajan destekli geliştirme</span><span class="arrow">→</span>
+        <span class="step">kalite kapısı</span><span class="arrow">→</span>
+        <span class="step">kapalı ortam denetimi</span>
+      </div>
+      <div class="flow-label">Standart güncellemesi</div>
+      <div class="flow">
+        <span class="step neutral">kural veya profil değişikliği</span><span class="arrow">→</span>
+        <span class="step">sürümleme + yeniden üretim</span><span class="arrow">→</span>
+        <span class="step">yeniden oynatma / MCP önerisi</span><span class="arrow">→</span>
+        <span class="step neutral">yerel mutabakat</span><span class="arrow">→</span>
+        <span class="step">makbuz + kayıt ilerler</span>
+      </div>
+      <div class="callout amber">
+        <span class="co-dot"><svg viewBox="0 0 24 24"><path d="M12 6v8"/><path d="M12 17.5h.01"/></svg></span>
+        <span class="co-body"><strong>30 gün kuralı:</strong> Sürüm bakımı da kurala bağlıdır. Güvenlik
+        taraması bir bulgu verirse en yakın düzeltilmiş sürüme yükseltmek zorunludur; bunun dışındaki
+        yükseltmelerde sürümün <strong>en az 30 gündür yayında olması</strong> şartı aranır.</span>
+      </div>
+      <p style="margin-top:.9rem">Referans kılavuzlarla ilişki: <code>software_standards.md</code> (BOA/.NET)
+      klasik geliştirme hattı için geçerliliğini korur; vibe coding kapsamında dil, sürüm ve çatı otoritesi
+      bu profildedir. <code>app_security.md</code> ve <code>data_security.md</code> ajan davranış ve veri
+      politikaları olarak aynen uygulanır.</p>
+    </div>
+  </div>
+</section>
+
+<section class="doc-section" id="b06">
+  <div class="section-label"><span class="sn">06</span><span class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span><h2>Kaynakça</h2></div>
+  <div class="card">
+    <div class="sources">
+        Bütün göstergeler <b>6 Ağustos 2026</b> tarihinde, aşağıda numaralandırılmış bağımsız ve herkese açık
+        kaynaklardan alınmıştır. "Bilinen açık", profilde kilitlenen sürüm için OSV sorgusunun sonucudur;
+        profildeki tüm bileşenler için bu değer sıfırdır. Katkıcı sayıları GitHub'ın raporladığı üst sınır
+        değerlerdir. OpenSSF Scorecard ölçümü bulunmayan bileşenler olduğu gibi belirtilmiştir.
+      </div>
+
+      <div class="refs">
+    
+        <h5>Ölçüm, sıralama ve güvenlik kaynakları</h5>
+        <ol>
+          <li>TIOBE Programlama Dili Endeksi, Temmuz 2026 — <span class="u">tiobe.com/tiobe-index/</span></li>
+          <li>GitHub Octoverse 2025 yıllık raporu, 28 Ekim 2025 — <span class="u">github.blog/news-insights/octoverse/</span></li>
+          <li>Stack Overflow Geliştirici Anketi 2025, teknoloji bölümü — <span class="u">survey.stackoverflow.co/2025/technology</span></li>
+          <li>GitHub REST API (yıldız, katkıcı, sürüm, lisans, dile göre depo sayısı) — <span class="u">docs.github.com/rest</span></li>
+          <li>npm kayıt defteri ve indirme istatistikleri — <span class="u">npmjs.com</span></li>
+          <li>PyPI paket dizini ve indirme istatistikleri — <span class="u">pypi.org</span> · <span class="u">pypistats.org</span></li>
+          <li>Stack Overflow etiket istatistikleri — <span class="u">stackoverflow.com/tags</span></li>
+          <li>OpenSSF Scorecard, bakım ve tedarik zinciri güvenliği puanı — <span class="u">securityscorecards.dev</span></li>
+          <li>OSV açık kaynak güvenlik açığı veri tabanı — <span class="u">osv.dev</span></li>
+          <li>endoflife.date, sürüm destek takvimleri — <span class="u">endoflife.date</span></li>
+        </ol>
+
+        <h5>Teknolojilerin resmî kaynakları</h5>
+        <ol style="counter-reset: r 10">
+          <li>Python — <span class="u">python.org</span></li>
+          <li>TypeScript — <span class="u">typescriptlang.org</span></li>
+          <li>PostgreSQL — <span class="u">postgresql.org</span></li>
+          <li>React — <span class="u">react.dev</span></li>
+          <li>Vite — <span class="u">vite.dev</span></li>
+          <li>React Router — <span class="u">reactrouter.com</span></li>
+          <li>Vitest — <span class="u">vitest.dev</span></li>
+          <li>Playwright — <span class="u">playwright.dev</span></li>
+          <li>Node.js — <span class="u">nodejs.org</span></li>
+          <li>FastAPI — <span class="u">fastapi.tiangolo.com</span></li>
+          <li>Pydantic — <span class="u">docs.pydantic.dev</span></li>
+          <li>Uvicorn — <span class="u">uvicorn.org</span></li>
+          <li>pytest — <span class="u">docs.pytest.org</span></li>
+          <li>SQLAlchemy — <span class="u">sqlalchemy.org</span></li>
+          <li>Alembic — <span class="u">alembic.sqlalchemy.org</span></li>
+          <li>asyncpg — <span class="u">github.com/MagicStack/asyncpg</span></li>
+          <li>pgvector — <span class="u">github.com/pgvector/pgvector</span></li>
+      <li>Streamlit — <span class="u">streamlit.io</span></li>
+        </ol>
+  </div>
+</section>
+
+<footer>kt-vibecoding-boilerplate · Mimari ve Teknoloji Yığın Yeknesaklığı · Bilgi Notu · Ağustos 2026</footer>
+</div>
+</body>
+</html>

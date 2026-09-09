@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:kt:agent-platform:agent-migration-catalog:1.0",
+  "title": "Agent Migration Catalog",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "kind", "status", "as_of", "source_lineage", "projection", "roles"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "kind": {"const": "AgentMigrationCatalog"},
+    "status": {"const": "implementation"},
+    "as_of": {"type": "string", "format": "date"},
+    "source_lineage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["locator", "authoritative", "mutation_allowed", "note"],
+      "properties": {
+        "locator": {"const": "external-seed:desktop-agents"},
+        "authoritative": {"const": false},
+        "mutation_allowed": {"const": false},
+        "note": {"type": "string", "minLength": 20, "maxLength": 500}
+      }
+    },
+    "projection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "reason"],
+      "properties": {
+        "status": {"const": "compiler-implemented"},
+        "reason": {"type": "string", "minLength": 20, "maxLength": 500}
+      }
+    },
+    "roles": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "items": {"$ref": "#/$defs/role"}
+    }
+  },
+  "$defs": {
+    "id": {"type": "string", "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"},
+    "role": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "classification", "migration_status", "risk_tier", "canonical_path"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "classification": {
+          "enum": [
+            "custom-agent",
+            "hybrid-agent-gate",
+            "high-risk-worker",
+            "deterministic-gate-with-agent-explainer",
+            "deterministic-orchestrator",
+            "isolated-execution-agent"
+          ]
+        },
+        "migration_status": {
+          "enum": ["canonical-implemented", "seed-inventory", "deferred", "replaced-by-orchestration-implemented"]
+        },
+        "risk_tier": {"enum": ["R0", "R1", "R2", "R3"]},
+        "canonical_path": {
+          "type": ["string", "null"],
+          "pattern": "^(?:agents/[a-z][a-z0-9-]*|orchestrations/[a-z][a-z0-9-]*\\.yml)$"
+        }
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"migration_status": {"enum": ["canonical-implemented", "replaced-by-orchestration-implemented"]}}},
+          "then": {"properties": {"canonical_path": {"type": "string"}}},
+          "else": {"properties": {"canonical_path": {"type": "null"}}}
+        }
+      ]
+    }
+  }
+}

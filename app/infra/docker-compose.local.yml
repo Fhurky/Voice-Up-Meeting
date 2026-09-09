@@ -1,0 +1,187 @@
+name: voiceup
+
+services:
+  postgres:
+    image: ${POSTGRES_IMAGE:-pgvector/pgvector:0.8.6-pg17-trixie@sha256:724a4041afdb1750446e3f6b5cfa8f3b0ac5a2cf538ddfa6bfee4f94c2fa85c6}
+    pull_policy: never
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-app-local-password}
+      POSTGRES_DB: voiceup_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app -d voiceup_db"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+    restart: unless-stopped
+
+  redis:
+    image: ${REDIS_IMAGE:-redis:7-alpine@sha256:e7723ff73d963f5cc6d9c4643ea3d989527a402a319239054e9472a7fb9219a2}
+    pull_policy: never
+    command: ["redis-server", "--save", "", "--appendonly", "no", "--requirepass", "app-local-password"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "app-local-password", "ping"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ../..
+      dockerfile: app/backend/Dockerfile.dev
+      args:
+        PYTHON_BASE_IMAGE: ${PYTHON_BASE_IMAGE:-python:3.13-alpine3.23@sha256:7ea3f82de8ea6d4fb7e5d2bbe3fe3c9d931700b7a529f1fe5769e42abe514ca1}
+        DEPENDENCY_MODE: ${DEPENDENCY_MODE:-connected}
+      additional_contexts:
+        python_wheelhouse: ${PYTHON_WHEELHOUSE_CONTEXT:-../frontend}
+        backend_apks: ${BACKEND_APKS_CONTEXT:-../../outputs/backend-apks}
+    environment:
+      VOICEUP_ENVIRONMENT: development
+      VOICEUP_DEBUG: "true"
+      VOICEUP_LOG_LEVEL: INFO
+      VOICEUP_PROJECT_NAME: "VoiceUp"
+      VOICEUP_API_PREFIX: "/api/voiceup/v1"
+      VOICEUP_TENANT_HEADER: "x-tenant-id"
+      VOICEUP_CORS_ALLOW_ORIGINS: "http://localhost:3000,http://localhost:8081,http://127.0.0.1:8081"
+      VOICEUP_DATABASE_URL: "postgresql+asyncpg://voiceup_runtime:${RUNTIME_DATABASE_PASSWORD:?run scripts/provision-local-runtime.py}@postgres:5432/voiceup_db"
+      VOICEUP_JWT_SECRET: "${JWT_SECRET:-development-only-secret-at-least-32-characters}"
+      VOICEUP_JWT_ALGORITHM: HS256
+      VOICEUP_JWT_ISSUER: "voiceup"
+      VOICEUP_JWT_AUDIENCE: "voiceup-api"
+      VOICEUP_ACCESS_TOKEN_EXPIRE_MINUTES: "60"
+      VOICEUP_AUDIO_STORAGE_PATH: "/data/audio"
+      VOICEUP_AUDIO_MAX_BYTES: "52428800"
+      VOICEUP_AUDIO_MAX_SECONDS: "120"
+      VOICEUP_AUDIO_RETENTION_HOURS: "24"
+      VOICEUP_JOB_RETENTION_DAYS: "7"
+      VOICEUP_INFERENCE_URL: "http://inference:8090"
+      VOICEUP_INFERENCE_KEY: "${INFERENCE_INTERNAL_KEY:?set INFERENCE_INTERNAL_KEY in app/infra/.env}"
+      VOICEUP_JOB_TIMEOUT_SECONDS: "300"
+      VOICEUP_WORKER_POLL_SECONDS: "2.0"
+      VOICEUP_CLEANUP_INTERVAL_SECONDS: "3600"
+      VOICEUP_SPEAKER_MATCH_THRESHOLD: "0.75"
+      VOICEUP_SPEAKER_NEW_THRESHOLD: "0.45"
+      VOICEUP_SPEAKER_MATCH_MARGIN: "0.10"
+    volumes:
+      - ../backend:/workspace/app/backend
+      - ../../schema:/workspace/schema
+      - ../../specs:/workspace/specs
+      - speaker_audio:/data/audio
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  migrate:
+    extends:
+      service: backend
+    profiles: [tools]
+    environment:
+      VOICEUP_DATABASE_URL: "postgresql+asyncpg://app:${POSTGRES_PASSWORD:-app-local-password}@postgres:5432/voiceup_db"
+    command: ["alembic", "upgrade", "head"]
+    restart: "no"
+
+  worker:
+    extends:
+      service: backend
+    command: ["python", "-m", "app.scripts.speaker_worker"]
+    restart: unless-stopped
+
+  inference:
+    build:
+      context: ../..
+      dockerfile: app/inference/Dockerfile.offline
+      network: none
+      additional_contexts:
+        wheelhouse: ${INFERENCE_WHEELHOUSE_CONTEXT:-../../models/inference-wheelhouse}
+    environment:
+      VOICEUP_INFERENCE_INTERNAL_KEY: "${INFERENCE_INTERNAL_KEY:?set INFERENCE_INTERNAL_KEY in app/infra/.env}"
+      VOICEUP_INFERENCE_MODEL_DIR: /models/speaker
+      VOICEUP_INFERENCE_DEVICE: cuda:0
+      VOICEUP_INFERENCE_MAX_UPLOAD_BYTES: "52428800"
+      VOICEUP_INFERENCE_MAX_DURATION_SECONDS: "120"
+      VOICEUP_INFERENCE_HOST: 0.0.0.0
+      VOICEUP_INFERENCE_PORT: "8090"
+      HOME: /tmp
+    volumes:
+      - ../../models/speaker-pilot:/models/speaker:ro
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8090/ready', timeout=3)"]
+      interval: 10s
+      timeout: 5s
+      start_period: 90s
+      retries: 3
+    read_only: true
+    tmpfs:
+      - /tmp:size=536870912,mode=1777
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile.dev
+      args:
+        FRONTEND_NODE_BASE_IMAGE: ${FRONTEND_NODE_BASE_IMAGE:-node:22.23.2-alpine3.23@sha256:46825fbbd4e996a78b7a2cdc08d75e38a5a505bdab95dcda55605359bf124bc6}
+        DEPENDENCY_MODE: ${DEPENDENCY_MODE:-connected}
+      additional_contexts:
+        npm_cache: ${NPM_CACHE_CONTEXT:-.}
+    volumes:
+      - ../frontend/src:/app/src:ro
+      - ../frontend/components.json:/app/components.json:ro
+      - ../frontend/eslint.config.js:/app/eslint.config.js:ro
+      - ../frontend/index.html:/app/index.html:ro
+      - ../frontend/package.json:/app/package.json:ro
+      - ../frontend/package-lock.json:/app/package-lock.json:ro
+      - ../frontend/tsconfig.app.json:/app/tsconfig.app.json:ro
+      - ../frontend/tsconfig.json:/app/tsconfig.json:ro
+      - ../frontend/tsconfig.node.json:/app/tsconfig.node.json:ro
+      - ../frontend/vite.config.ts:/app/vite.config.ts:ro
+      - ../frontend/vitest.config.ts:/app/vitest.config.ts:ro
+      - frontend_dependencies:/app/node_modules
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  nginx:
+    image: ${NGINX_IMAGE:-nginx:alpine@sha256:4a73073bd557c65b759505da037898b61f1be6cbcc3c2c3aeac22d2a470c1752}
+    pull_policy: never
+    volumes:
+      - ./nginx/nginx.local.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      - "127.0.0.1:${APP_HTTP_PORT:-8081}:8080"
+    networks:
+      - default
+      - edge
+    dns:
+      - 127.0.0.1
+    depends_on:
+      - backend
+      - frontend
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  frontend_dependencies:
+  speaker_audio:
+
+networks:
+  default:
+    internal: true
+  # Docker Desktop does not publish ports from an internal-only bridge. Only the
+  # reverse proxy joins this host-facing bridge; application and data services do not.
+  edge:
+    driver: bridge

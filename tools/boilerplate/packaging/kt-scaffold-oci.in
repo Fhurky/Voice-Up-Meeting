@@ -1,0 +1,83 @@
+#!/usr/bin/env sh
+# GENERATED INTO THE OFFLINE BUNDLE with an immutable local image ID.
+set -eu
+
+fail() {
+  echo "kt-scaffold OCI wrapper: $*" >&2
+  exit 2
+}
+
+workspace_input="${KT_SCAFFOLD_WORKSPACE_ROOT:-}"
+[ -n "$workspace_input" ] || fail \
+  "KT_SCAFFOLD_WORKSPACE_ROOT must name the bank-approved canonical workspace"
+case "$workspace_input" in
+  /*) ;;
+  *) fail "KT_SCAFFOLD_WORKSPACE_ROOT must be an absolute canonical path" ;;
+esac
+[ -d "$workspace_input" ] || fail "workspace root does not exist: $workspace_input"
+[ ! -L "$workspace_input" ] || fail "workspace root must not be a symbolic link"
+workspace="$(CDPATH= cd -- "$workspace_input" && pwd -P)"
+[ "$workspace_input" = "$workspace" ] || fail \
+  "KT_SCAFFOLD_WORKSPACE_ROOT must already be canonical: $workspace"
+case "$workspace" in
+  /) fail "workspace root must not be /" ;;
+  *:*) fail "workspace root must not contain ':'" ;;
+esac
+
+home_path=""
+if [ -n "${HOME:-}" ] && [ -d "$HOME" ]; then
+  home_path="$(CDPATH= cd -- "$HOME" && pwd -P)"
+  [ "$workspace" != "$home_path" ] || fail "workspace root must not be HOME"
+fi
+
+target_input="${KT_SCAFFOLD_TARGET:-$PWD}"
+[ -d "$target_input" ] || fail "target directory does not exist: $target_input"
+[ ! -L "$target_input" ] || fail "target directory must not be a symbolic link"
+target="$(CDPATH= cd -- "$target_input" && pwd -P)"
+case "$target" in
+  /) fail "target directory must not be /" ;;
+  *:*) fail "target directory must not contain ':'" ;;
+esac
+[ -z "$home_path" ] || [ "$target" != "$home_path" ] || fail "target directory must not be HOME"
+[ "$target" != "$workspace" ] || fail "target must be a strict descendant of the workspace root"
+case "$target" in
+  "$workspace"/*) ;;
+  *) fail "target must be a strict descendant of the workspace root" ;;
+esac
+[ -r "$target" ] && [ -w "$target" ] && [ -x "$target" ] || fail \
+  "target directory must be readable, writable, and searchable"
+
+answers="$target/.kt-scaffold/answers.yml"
+manifest="$target/.kt-scaffold/manifest.json"
+if [ -d "$target/.kt-scaffold" ] \
+  && [ ! -L "$target/.kt-scaffold" ] \
+  && [ -f "$answers" ] && [ ! -L "$answers" ] \
+  && [ -f "$manifest" ] && [ ! -L "$manifest" ]; then
+  : # Existing exact scaffold root.
+elif [ -z "$(find "$target"/. ! -name . -prune -print 2>/dev/null)" ]; then
+  : # Empty directory admitted for project_init.
+else
+  fail "target must be empty or contain regular .kt-scaffold answers and manifest files"
+fi
+
+host_uid="$(id -u)"
+host_gid="$(id -g)"
+if [ "$host_uid" -eq 0 ]; then
+  fail "refusing to expose the project through a root-owned generator process"
+fi
+
+exec docker run \
+  --rm \
+  --interactive \
+  --network none \
+  --pull never \
+  --read-only \
+  --cap-drop ALL \
+  --security-opt no-new-privileges \
+  --user "$host_uid:$host_gid" \
+  --env HOME=/tmp \
+  --tmpfs /tmp:rw,noexec,nosuid,nodev,size=64m \
+  --volume "$target:/out:rw" \
+  --workdir /out \
+  @@GENERATOR_IMAGE_ID@@ \
+  "$@"

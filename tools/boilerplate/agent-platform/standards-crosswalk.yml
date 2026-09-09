@@ -1,0 +1,245 @@
+schema_version: "1.0"
+kind: AgentPlatformStandardsCrosswalk
+as_of: "2026-08-18"
+status: design-mapping
+
+claim_boundary:
+  certification_claimed: false
+  conformance_claimed: false
+  mapping_completeness: partial
+  statement: >-
+    This Draft maps public framework anchors to proposed Agent Platform requirements, enforcement
+    points, evidence, and accountable roles. It is not a complete normative control assessment,
+    certification, audit opinion, or SLSA level claim. ISO clause-level completeness requires a
+    scoped review against licensed standards text.
+
+entries:
+  - id: aims-management-system
+    authority:
+      name: ISO/IEC 42001:2023
+      url: https://www.iso.org/standard/42001
+      version: "2023"
+      nature: management-system requirements
+      control_refs:
+        - clauses 4-10 management-system lifecycle
+      mapping_completeness: partial-pending-licensed-text-review
+    requirement_ids:
+      - Requirement 12
+      - Requirement 15
+      - Requirement 16
+    enforcement_points:
+      - organization AI management system and accountable ownership
+      - external risk-tier admission and time-bound exception workflow
+      - management review, incident handling, and decommissioning
+    evidence:
+      - scoped AI use-case, model, agent, tool, MCP, and supplier inventory
+      - accountable owner and RACI
+      - risk treatment, exception, incident, and management-review records
+    accountable_role: platform-governance-owner
+    implementation_status: proposed
+    assessment_status: not_assessed
+
+  - id: ai-risk-and-impact
+    authority:
+      name: ISO/IEC 23894:2023 and ISO/IEC 42005:2025
+      url: https://www.iso.org/standard/77304.html
+      supplemental_url: https://www.iso.org/standard/42005?browse=ics
+      version: "2023/2025"
+      nature: AI risk and lifecycle impact-assessment guidance
+      control_refs:
+        - AI risk-management process guidance
+        - lifecycle AI impact-assessment guidance
+      mapping_completeness: partial-pending-licensed-text-review
+    requirement_ids:
+      - Requirement 12
+      - Requirement 14
+      - Requirement 15
+      - Requirement 16
+    enforcement_points:
+      - highest-triggered risk tier and prohibited-use decision
+      - R2/R3 impact, privacy, threat, and supplier assessment
+      - residual-risk ownership and periodic revalidation
+    evidence:
+      - intended and prohibited use with impacted parties and data classes
+      - impact and threat assessments with treatment owner and due date
+      - residual-risk and admission decision with expiry
+    accountable_role: ai-risk-owner
+    implementation_status: proposed
+    assessment_status: not_assessed
+
+  - id: nist-ai-risk
+    authority:
+      name: NIST AI RMF 1.0 and NIST AI 600-1 Generative AI Profile
+      url: https://www.nist.gov/itl/ai-risk-management-framework
+      supplemental_url: https://doi.org/10.6028/NIST.AI.600-1
+      version: "1.0/1.0"
+      nature: voluntary AI risk-management framework and GenAI profile
+      control_refs:
+        - GOVERN
+        - MAP
+        - MEASURE
+        - MANAGE
+      mapping_completeness: framework-function
+    requirement_ids:
+      - Requirement 5
+      - Requirement 12
+      - Requirement 14
+      - Requirement 15
+      - Requirement 16
+    enforcement_points:
+      - governance inventory, accountability, and risk appetite
+      - context and impact mapping by risk tier
+      - conformance, adversarial evaluation, and runtime monitoring
+      - admission, treatment, incident, rollback, and retirement
+    evidence:
+      - versioned risk register and use-case context
+      - evaluation dataset, attack traces, results, and skipped checks
+      - runtime alert, incident exercise, and residual-risk decision
+    accountable_role: ai-risk-owner
+    implementation_status: proposed
+    assessment_status: not_assessed
+
+  - id: secure-software-development
+    authority:
+      name: NIST SP 800-218 SSDF 1.1 and NIST SP 800-218A
+      url: https://csrc.nist.gov/pubs/sp/800/218/final
+      supplemental_url: https://csrc.nist.gov/pubs/sp/800/218/a/final
+      version: "1.1/final"
+      nature: secure software development practices and AI model profile
+      control_refs:
+        - PO Prepare the Organization
+        - PS Protect the Software
+        - PW Produce Well-Secured Software
+        - RV Respond to Vulnerabilities
+      mapping_completeness: practice-group
+    requirement_ids:
+      - Requirement 4
+      - Requirement 9
+      - Requirement 10
+      - Requirement 11
+      - Requirement 15
+    enforcement_points:
+      - protected source, peer review, and external required checks
+      - isolated deterministic adapter build and dependency admission
+      - SAST, SCA, secret, IaC, container, and negative policy tests
+      - vulnerability triage, remediation, disclosure, and incident response
+    evidence:
+      - reviewed immutable source and required-check receipt
+      - versioned scan and test reports including skips
+      - exception owner, expiry, remediation SLA, and incident record
+    accountable_role: secure-engineering-owner
+    implementation_status: proposed
+    assessment_status: not_assessed
+
+  - id: genai-and-agent-threats
+    authority:
+      name: OWASP GenAI LLM Top 10 2026 and Agentic Applications Top 10 2026
+      url: https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/
+      supplemental_url: https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/
+      version: "2026"
+      nature: threat guidance, not a certification standard
+      control_refs:
+        - all LLM Top 10 2026 risk categories
+        - all Agentic Applications Top 10 2026 risk categories
+      mapping_completeness: category-set
+    requirement_ids:
+      - Requirement 10
+      - Requirement 12
+      - Requirement 13
+      - Requirement 14
+      - Requirement 15
+    enforcement_points:
+      - untrusted prompt, retrieval, memory, tool-output, and generated-code boundary
+      - least agency, deterministic argument policy, sandbox, egress, and budgets
+      - human approval, immutable tool log, rollback, and kill switch
+    evidence:
+      - injection, poisoning, exfiltration, privilege, and unsafe-agency attack traces
+      - tool denial, approval, budget, delegation, and guardrail-tamper results
+      - reviewer decision, residual risk, alert, and incident drill
+    accountable_role: agent-security-owner
+    implementation_status: proposed
+    assessment_status: not_assessed
+
+  - id: mcp-tool-boundary
+    authority:
+      name: Model Context Protocol 2026-07-28
+      url: https://modelcontextprotocol.io/specification/2026-07-28
+      supplemental_url: https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization
+      version: "2026-07-28"
+      nature: protocol and authorization specification with security guidance
+      control_refs:
+        - Basic Authorization
+        - OAuth resource and audience binding
+        - Security Best Practices
+      mapping_completeness: protocol-boundary
+    requirement_ids:
+      - Requirement 3
+      - Requirement 10
+      - Requirement 12
+      - Requirement 13
+      - Requirement 14
+      - Requirement 15
+    enforcement_points:
+      - trusted registry and pinned server, tool, and schema digest
+      - explicit consent, least scope, exact issuer/redirect validation, and no token passthrough
+      - per-operation approval, sandbox, egress, provenance, and invocation log
+    evidence:
+      - approved tool manifest, owner, digest, scopes, and expiry
+      - authorization conformance and negative-test report
+      - consent, approval, invocation, provenance, and egress receipts
+    accountable_role: tool-platform-owner
+    implementation_status: proposed
+    assessment_status: not_assessed
+
+  - id: supply-chain-provenance
+    authority:
+      name: SLSA 1.2
+      url: https://slsa.dev/spec/v1.2/
+      version: "1.2"
+      nature: source and build supply-chain integrity specification
+      control_refs:
+        - Source L1-L4
+        - Build L1-L3
+      mapping_completeness: level-target-design
+    requirement_ids:
+      - Requirement 9
+      - Requirement 11
+      - Requirement 15
+    enforcement_points:
+      - protected source history and deterministic adapter release
+      - isolated builder with signed provenance tied to source and artefact digest
+      - deployment admission verifying identity, signature, provenance, and policy
+    evidence:
+      - immutable source and artefact digests
+      - signed provenance and verification receipt
+      - admission policy result bound to the released adapter
+    accountable_role: software-supply-chain-owner
+    implementation_status: proposed
+    assessment_status: not_assessed
+
+  - id: component-and-ai-inventory
+    authority:
+      name: CycloneDX 1.7 / ECMA-424 and SPDX 3.0.1
+      url: https://cyclonedx.org/specification/overview/
+      supplemental_url: https://spdx.github.io/spdx-spec/
+      version: "1.7/3.0.1"
+      nature: component, service, AI, dataset, and build inventory specifications
+      control_refs:
+        - CycloneDX component, service, dependency, formulation, and AI/ML model data
+        - SPDX software, AI, dataset, and build profiles
+      mapping_completeness: profile-selection-design
+    requirement_ids:
+      - Requirement 9
+      - Requirement 13
+      - Requirement 15
+    enforcement_points:
+      - adapter, dependency, model-profile, dataset, and tool inventory generation
+      - vulnerability, VEX, license, supplier, and provenance review
+      - release and deployment admission by immutable digest
+    evidence:
+      - complete-enough SBOM/AIBOM with direct and transitive relationships
+      - license, vulnerability, and VEX status
+      - signed inventory digest bound to provenance and admission receipt
+    accountable_role: software-supply-chain-owner
+    implementation_status: proposed
+    assessment_status: not_assessed

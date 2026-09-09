@@ -1,0 +1,26 @@
+# Repository-root build context: never admit workstation secrets or generated artifacts.
+.git
+.github
+.env
+.env.*
+**/.env
+**/.env.*
+**/.npmrc
+**/.pypirc
+**/*.pem
+**/*.key
+**/*.p12
+**/*.pfx
+**/node_modules
+**/.venv
+**/__pycache__
+**/.pytest_cache
+**/.mypy_cache
+**/.ruff_cache
+**/dist
+**/build
+**/coverage
+**/htmlcov
+**/playwright-report
+**/test-results
+**/*.log

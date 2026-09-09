@@ -1,0 +1,118 @@
+name: @@PRODUCT_SLUG@@
+
+services:
+  postgres:
+    image: ${POSTGRES_IMAGE:-postgres:17.10@sha256:7958605b474b3d264a969cb3a123d6aa00ad1e1fe9da8a69984dabb704d93317}
+    pull_policy: never
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-app-local-password}
+      POSTGRES_DB: @@PRODUCT_PACKAGE@@_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app -d @@PRODUCT_PACKAGE@@_db"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+    restart: unless-stopped
+
+  redis:
+    image: ${REDIS_IMAGE:-redis:7-alpine@sha256:e7723ff73d963f5cc6d9c4643ea3d989527a402a319239054e9472a7fb9219a2}
+    pull_policy: never
+    command: ["redis-server", "--save", "", "--appendonly", "no", "--requirepass", "app-local-password"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "app-local-password", "ping"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ../..
+      dockerfile: app/backend/Dockerfile.dev
+      args:
+        PYTHON_BASE_IMAGE: ${PYTHON_BASE_IMAGE:-python:3.13-alpine3.23@sha256:7ea3f82de8ea6d4fb7e5d2bbe3fe3c9d931700b7a529f1fe5769e42abe514ca1}
+        DEPENDENCY_MODE: ${DEPENDENCY_MODE:-connected}
+      additional_contexts:
+        python_wheelhouse: ${PYTHON_WHEELHOUSE_CONTEXT:-../frontend}
+    environment:
+      @@ENV_PREFIX@@ENVIRONMENT: development
+      @@ENV_PREFIX@@DEBUG: "true"
+      @@ENV_PREFIX@@LOG_LEVEL: INFO
+      @@ENV_PREFIX@@PROJECT_NAME: @@PRODUCT_NAME_JSON@@
+      @@ENV_PREFIX@@API_PREFIX: "@@API_PREFIX@@"
+      @@ENV_PREFIX@@TENANT_HEADER: "@@TENANT_HEADER@@"
+      @@ENV_PREFIX@@CORS_ALLOW_ORIGINS: "http://localhost:3000,http://localhost:8080"
+      @@ENV_PREFIX@@DATABASE_URL: "@@DATABASE_URL@@"
+      @@ENV_PREFIX@@JWT_SECRET: "${JWT_SECRET:-development-only-secret-at-least-32-characters}"
+      @@ENV_PREFIX@@JWT_ALGORITHM: HS256
+      @@ENV_PREFIX@@JWT_ISSUER: "@@PRODUCT_SLUG@@"
+      @@ENV_PREFIX@@JWT_AUDIENCE: "@@PRODUCT_SLUG@@-api"
+      @@ENV_PREFIX@@ACCESS_TOKEN_EXPIRE_MINUTES: "60"
+    volumes:
+      - ../backend:/workspace/app/backend
+      - ../../schema:/workspace/schema
+      - ../../specs:/workspace/specs
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile.dev
+      args:
+        FRONTEND_NODE_BASE_IMAGE: ${FRONTEND_NODE_BASE_IMAGE:-node:22.23.2-alpine3.23@sha256:46825fbbd4e996a78b7a2cdc08d75e38a5a505bdab95dcda55605359bf124bc6}
+        DEPENDENCY_MODE: ${DEPENDENCY_MODE:-connected}
+      additional_contexts:
+        npm_cache: ${NPM_CACHE_CONTEXT:-.}
+    volumes:
+      - ../frontend/src:/app/src:ro
+      - ../frontend/components.json:/app/components.json:ro
+      - ../frontend/eslint.config.js:/app/eslint.config.js:ro
+      - ../frontend/index.html:/app/index.html:ro
+      - ../frontend/package.json:/app/package.json:ro
+      - ../frontend/package-lock.json:/app/package-lock.json:ro
+      - ../frontend/tsconfig.app.json:/app/tsconfig.app.json:ro
+      - ../frontend/tsconfig.json:/app/tsconfig.json:ro
+      - ../frontend/tsconfig.node.json:/app/tsconfig.node.json:ro
+      - ../frontend/vite.config.ts:/app/vite.config.ts:ro
+      - ../frontend/vitest.config.ts:/app/vitest.config.ts:ro
+      - frontend_dependencies:/app/node_modules
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  nginx:
+    image: ${NGINX_IMAGE:-nginx:alpine@sha256:4a73073bd557c65b759505da037898b61f1be6cbcc3c2c3aeac22d2a470c1752}
+    pull_policy: never
+    volumes:
+      - ./nginx/nginx.local.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      - "127.0.0.1:${APP_HTTP_PORT:-8080}:8080"
+    networks:
+      - default
+      - edge
+    dns:
+      - 127.0.0.1
+    depends_on:
+      - backend
+      - frontend
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  frontend_dependencies:
+
+networks:
+  default:
+    internal: true
+  # Docker Desktop does not publish ports from an internal-only bridge. Only the
+  # reverse proxy joins this host-facing bridge; application and data services do not.
+  edge:
+    driver: bridge

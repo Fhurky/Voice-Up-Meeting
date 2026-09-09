@@ -1,0 +1,9 @@
+# Gitleaks configuration for the kt-scaffold generator repository.
+# The offline security gate invokes this configuration for repository secret scanning.
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Governance rule prose: stack names (FastAPI/SQLAlchemy/Alembic) match generic-api-key; documentation text, not credentials"
+paths = ['''rules/00-project-overview\.md''']

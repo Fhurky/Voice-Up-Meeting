@@ -1,0 +1,22 @@
+{
+  "status": "not_ready",
+  "initial_baseline_ready": false,
+  "return_phase_ready": false,
+  "accuracy_evidence": false,
+  "model_executed": false,
+  "counts": {
+    "recordings_declared": 32,
+    "enrolled_speakers": 5,
+    "known_queries": 15,
+    "unknown_speakers": 2,
+    "unknown_queries": 10,
+    "new_enrolled_speakers": 1,
+    "return_queries": 1,
+    "files_checked": 0
+  },
+  "errors_total": 64,
+  "errors_truncated": false,
+  "exit_code": 1,
+  "stdout": "not_ready",
+  "missing_files": 32
+}

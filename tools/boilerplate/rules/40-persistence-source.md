@@ -1,0 +1,39 @@
+---
+id: "40-persistence-source"
+title: "Let SQLAlchemy and Alembic own one schema authority"
+scope: schema
+authority: mandatory
+priority: 40
+trigger: path-match
+applies_to:
+  - "schema/**"
+  - "app/backend/**/domain/**"
+  - "app/backend/**/migrations/**"
+  - "specs/**/PRDs/**"
+gate: "schema-check.yml"
+---
+
+# Profile-owned persistence
+
+PostgreSQL is the only storage engine. `technology-profile.yml`, `.kt-scaffold/answers.yml`, and
+`schema/profile.yml` fix `sqlalchemy-alembic` as the one persistence authority: SQLAlchemy
+metadata/models own desired state and Alembic generates migrations. Another ORM, migration tool, or
+schema authority is not selectable through a PRD or agent preference.
+
+A schema change requires an accepted `spec_path`. Follow one workflow through `scripts/db.sh`:
+
+1. Change the recorded authority.
+2. Run `scripts/db.sh generate <descriptive_name>`.
+3. Read the generated migration and inspect drops, type conversions, defaults, indexes, constraints,
+   lock/backfill risk, and data loss.
+4. Apply only to the local database with `scripts/db.sh apply`.
+5. Run `scripts/db.sh validate` and `scripts/db.sh status`.
+6. Commit the authority and append-only migration history together.
+
+Custom migrations are allowed for data movement that an authority cannot express, but a hand-written
+schema migration is not the default and must still have the matching authority change. Runtime
+processes never create or alter schema. Deployment environments apply through the dedicated migration
+release, not from a developer machine.
+
+Destructive statements require the requester's literal destructive verb and an exact affected-scope
+check in every environment, including local. Schema/history drift fails the profile gate.

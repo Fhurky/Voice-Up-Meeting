@@ -1,0 +1,63 @@
+replicaCount: 1
+
+imagePullSecrets: []
+
+mcp:
+  image:
+    repository: registry.internal.invalid/kt-scaffold/kt-scaffold-mcp
+    digest: ""
+    pullPolicy: IfNotPresent
+  port: 8000
+  path: /mcp
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+proxy:
+  image:
+    repository: registry.internal.invalid/kt-scaffold/nginx-unprivileged
+    digest: ""
+    pullPolicy: IfNotPresent
+  port: 8080
+  maxRequestBodySize: 1m
+  readTimeoutSeconds: 3600
+  resources:
+    requests:
+      cpu: 10m
+      memory: 32Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
+
+service:
+  port: 80
+
+ingress:
+  enabled: false
+  className: nginx
+  host: ""
+  path: /mcp
+  tls:
+    enabled: false
+    secretName: ""
+  annotations: {}
+
+networkPolicy:
+  enabled: true
+  ingressControllerNamespace: kube-system
+  allowSameNamespace: true
+
+podDisruptionBudget:
+  enabled: false
+  minAvailable: 1
+
+podAnnotations: {}
+podLabels: {}
+
+nodeSelector: {}
+tolerations: []
+affinity: {}

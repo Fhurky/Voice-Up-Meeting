@@ -1,0 +1,20 @@
+{
+  "host_gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+  "device_total_mib": 8188,
+  "driver": "610.62",
+  "python": "3.13.14",
+  "torch": "2.8.0+cu128",
+  "cuda_build": "12.8",
+  "postgresql": "17.11",
+  "pgvector": "0.8.6",
+  "initial_active_profiles": 1,
+  "technical_profile_public_id": "92346bd9-86ef-4953-9c83-f0ea491454b0",
+  "initial_queued_or_running_jobs": 0,
+  "initial_terminal_jobs": 10,
+  "inference_concurrency": 1,
+  "worker_poll_seconds": 2.0,
+  "accuracy_evidence": false,
+  "fixture_scope": "Same repeated public sample as enrolled technical profile; software/latency only.",
+  "gallery_scope": "One real persisted profile; not a dozens-of-speakers capacity or quality test.",
+  "device_memory_scope": "nvidia-smi sampling includes other host processes; allocator peaks are recorded separately in the CUDA smoke."
+}

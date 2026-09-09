@@ -1,0 +1,24 @@
+{{- $services := list
+  (dict "name" .Release.Name "component" "observability" "ports" (list (dict "name" "otlp-grpc" "port" 4317) (dict "name" "otlp-http" "port" 4318)))
+  (dict "name" (printf "%s-tempo" .Release.Name) "component" "tempo" "ports" (list (dict "name" "http" "port" 3200) (dict "name" "otlp-grpc" "port" 4317)))
+  (dict "name" (printf "%s-prometheus" .Release.Name) "component" "prometheus" "ports" (list (dict "name" "http" "port" 9090)))
+  (dict "name" (printf "%s-loki" .Release.Name) "component" "loki" "ports" (list (dict "name" "http" "port" 3100)))
+  (dict "name" (printf "%s-grafana" .Release.Name) "component" "grafana" "ports" (list (dict "name" "http" "port" 3000)))
+-}}
+{{- range $index, $service := $services }}
+{{- if $index }}
+---
+{{- end }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $service.name }}
+  labels: {app.kubernetes.io/part-of: "@@PRODUCT_SLUG@@", app.kubernetes.io/component: {{ $service.component }}}
+spec:
+  type: ClusterIP
+  selector: {app.kubernetes.io/part-of: "@@PRODUCT_SLUG@@", app.kubernetes.io/component: {{ $service.component }}}
+  ports:
+    {{- range $service.ports }}
+    - {name: {{ .name }}, port: {{ .port }}, targetPort: {{ .name }}}
+    {{- end }}
+{{- end }}

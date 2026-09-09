@@ -1,0 +1,176 @@
+/* Bilgi notu belge stilleri — _tokens.css üzerine biner, ondan sonra yüklenir.
+   Yalnız tokens'ta bulunmayan bileşenler burada tanımlıdır; kart, teknoloji sütunları,
+   ölçüt kutuları, mercek, chip ve kaynakça bileşenleri tokens'tan gelir. */
+
+/* ============================================================ 1. Künye ve başlık
+   Kap genişliği tokens'tan gelir (760px, A4 baskıyla uyumlu); burada değiştirilmez. */
+/* Künyeyi gövdeden ayıran kurumsal yeşil şerit — rapor belgeleriyle aynı. */
+.masthead {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 1rem; margin-bottom: 1.2rem; padding-bottom: .85rem;
+  border-bottom: 3px solid var(--primary);
+}
+/* Kurumsal wordmark — ../assets/kuveyt-turk-logo.svg tek kaynaktır.
+   Yeniden çizilmez, renklendirilmez, oranı değiştirilmez; yalnız yükseklik verilir. */
+.wordmark { display: block; height: 26px; width: auto; max-width: 100%; }
+.brand { min-width: 0; }
+.brand-unit {
+  margin-top: 6px;
+  color: #2f7f61;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .01em;
+}
+.doc-meta { text-align: right; }
+.doc-meta .kind {
+  font-size: 11px; font-weight: 600; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--primary-700);
+}
+.doc-meta .date { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+/* Ayrıştırmayı künyedeki yeşil şerit yapar; başlık bloğunun ikinci bir çizgiye ihtiyacı yok. */
+.titleblock { margin-bottom: 1.5rem; }
+h1 { font-size: 23px; font-weight: 600; letter-spacing: -.01em; line-height: 1.25; }
+/* Alt metin başlıkla aynı genişlikte akar; dar bir ölçüyle sola sıkışmaz. */
+.titleblock .sub { font-size: 13px; color: var(--muted); margin-top: .45rem; }
+.titleblock .sub + .sub { margin-top: .5rem; }
+
+/* ============================================================ 2. Bölüm omurgası
+   Gövde bölümleri 01'den başlar; başlık ve künye numarasızdır. */
+.doc-section + .doc-section { margin-top: 1.5rem; }
+.section-label { display: flex; align-items: center; gap: .55rem; margin-bottom: .55rem; }
+.section-label .sn {
+  flex: none; font-size: 11px; font-weight: 700; letter-spacing: .06em;
+  color: var(--primary); font-variant-numeric: tabular-nums;
+}
+.section-label .icon-tile {
+  width: 26px; height: 26px; flex: none;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 6px; background: rgba(0, 132, 74, .1);
+}
+.section-label .icon-tile svg { width: 15px; height: 15px; stroke: var(--primary); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.section-label h2 { font-size: 16px; font-weight: 600; letter-spacing: -.01em; }
+/* Bölüm başlığı h2 olduğu için kart başlıkları h3'e iner. */
+.card-header h3 { font-size: 14px; font-weight: 600; }
+/* Başlıksız kartta ilk bloğun üst çizgisi kart kenarıyla çakışmasın. */
+.card > .sources:first-child { border-top: 0; }
+
+/* ============================================================ 3. Vurgu kutusu */
+.callout {
+  display: flex; gap: 10px; padding: 12px; border-radius: 6px;
+  background: rgba(0, 132, 74, .05); border-left: 3px solid var(--primary);
+  margin-top: .8rem;
+}
+.callout .co-dot {
+  flex: none; width: 20px; height: 20px; border-radius: 50%;
+  background: var(--primary); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+}
+.callout .co-dot svg { width: 12px; height: 12px; fill: none; stroke: #fff; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.callout .co-body { font-size: 12.5px; line-height: 1.6; color: var(--ink); }
+.callout .co-body strong { color: var(--primary-700); }
+.callout.amber { background: var(--amber-bg); border-left-color: var(--amber); }
+.callout.amber .co-dot { background: var(--amber); }
+.callout.amber .co-body strong { color: var(--amber); }
+
+/* ============================================================ 4. Zorlama katmanları */
+.layers { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--border-soft); }
+.layer { background: var(--card); padding: 12px 14px; display: flex; gap: 10px; }
+.layer .no {
+  flex: none; width: 22px; height: 22px; border-radius: 6px;
+  background: var(--primary); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11.5px; font-weight: 700; margin-top: 1px;
+}
+.layer h4 { font-size: 12.5px; font-weight: 600; margin-bottom: 2px; }
+.layer p { font-size: 11.8px; color: var(--muted); line-height: 1.5; }
+
+/* ============================================================ 5. Tablolar */
+table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+thead tr { background: rgb(238 241 239 / .5); }
+th {
+  font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em;
+  color: var(--muted); text-align: left; padding: 8px 14px;
+}
+td { padding: 8px 14px; border-top: 1px solid var(--chip); vertical-align: top; }
+td:first-child { font-weight: 600; }
+
+/* ============================================================ 6. Akış şeritleri */
+.flow-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin: .2rem 0 .45rem; }
+.flow { display: flex; flex-wrap: wrap; gap: .35rem; align-items: center; }
+.flow + .flow-label { margin-top: .9rem; }
+.flow .step {
+  background: var(--primary-050); border: 1px solid var(--primary-100);
+  border-radius: 4px; padding: .22rem .55rem;
+  font-size: 11.5px; font-weight: 500; color: var(--primary-700);
+}
+.flow .step.neutral { background: var(--chip); border-color: var(--border); color: var(--ink); }
+.flow .arrow { color: var(--faint); font-size: 12px; }
+
+footer { color: var(--faint); font-size: 11px; margin-top: 1.4rem; text-align: center; }
+
+/* ============================================================ 7. Duyarlı davranış */
+@media (max-width: 700px) {
+  .layers, .stack-grid, .ops-row, .criteria { grid-template-columns: 1fr; }
+  .masthead { flex-direction: column; gap: .6rem; }
+  .doc-meta { text-align: left; }
+  .refs ol { columns: 1; }
+}
+
+/* ============================================================ 8. Baskı */
+@page { size: A4; margin: 12mm 11mm; }
+@media print {
+  body { background: #fff; padding: 0; }
+  .wrap { max-width: none; }
+  /* tokens'ın baskı bloğu .card { break-inside: avoid } diyor; burada açıkça sıfırlanmazsa
+     miras kalır ve uzun kartlar sayfayı yarım bırakır. */
+  .card { break-inside: auto; box-shadow: none; }
+  /* Kart bütünüyle "bölünmesin" denirse, bir sayfadan uzun kartlar tümüyle sonraki
+     sayfaya itilir ve önceki sayfanın yarısı boş kalır. Bütünlüğü kartın kendisinde
+     değil, içindeki bölünmemesi gereken parçalarda koruyoruz. */
+  .card-header, .section-label, .flow-label, thead { break-after: avoid; }
+  .layer, .criterion, .tech, .spot, tr, .callout, .stack-col, .ops-cell { break-inside: avoid; }
+  .break-before { break-before: page; }
+  footer { display: none; }
+}
+
+/* ============================================================ 9. Belge yoğunluğu
+   Ekrandaki 760px kap ile A4'teki yaklaşık 711 CSS px baskı alanı birbirine yakındır.
+   Bu yüzden aynı okunabilir tipografi ve boşluk ölçeği ekranda ve baskıda korunur. */
+.card-header { padding: 12px 18px; }
+.card-body { padding: 18px; }
+.card-body > p { font-size: 13.5px; }
+
+.stack-col { padding: 13px 15px; }
+.stack-col li { font-size: 13px; padding: 4.5px 0; }
+.stack-col .d { font-size: 12px; }
+.ops-cell { padding: 14px 15px; }
+.ops-cell p { font-size: 12.5px; }
+
+.criterion { padding: 11px 18px; }
+.criterion h4 { font-size: 13px; }
+.criterion p { font-size: 12.5px; }
+
+.spot { padding: 14px 18px 16px; }
+.spot-lead { font-size: 13px; }
+.fact { font-size: 13px; }
+.tech { padding: 11px 18px 13px; }
+.twhy { font-size: 13px; }
+.tnote { font-size: 12px; }
+.chip { font-size: 11px; padding: 2.5px 7px; }
+.sources { padding: 12px 18px; font-size: 12px; }
+
+table { font-size: 13px; }
+th { padding: 9px 18px; }
+td { padding: 10px 18px; }
+
+.layer { padding: 14px 18px; }
+.layer h4 { font-size: 13px; }
+.layer p { font-size: 12.5px; }
+
+.callout { padding: 14px 16px; }
+.callout .co-body { font-size: 13px; }
+.flow .step { font-size: 12px; padding: .28rem .6rem; }
+
+.refs { padding: 14px 18px 16px; }
+.refs li { font-size: 11.5px; }

@@ -1,0 +1,7 @@
+apiVersion: v2
+name: app-postgres
+description: PostgreSQL stateful release with operator-owned credentials
+type: application
+version: 0.1.0
+appVersion: "17"
+

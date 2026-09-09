@@ -1,0 +1,243 @@
+{
+  "schema_version": 1,
+  "policy": {
+    "minimum_release_age_days": 30
+  },
+  "authorities": [
+    {
+      "kind": "npm",
+      "path": "app/frontend/package.json"
+    },
+    {
+      "kind": "npm",
+      "path": "e2e/package.json"
+    },
+    {
+      "kind": "requirements",
+      "path": "app/backend/requirements.in"
+    },
+    {
+      "kind": "requirements",
+      "path": "app/backend/requirements-dev.in"
+    },
+    {
+      "kind": "images-yaml",
+      "path": "app/devops/images.yaml"
+    },
+    {
+      "kind": "oci",
+      "patterns": [
+        "app/frontend/Dockerfile.dev",
+        "app/infra/.env.example",
+        "app/infra/Dockerfile*.release",
+        "app/infra/docker-compose*.yml",
+        "app/devops/charts/**/values.yaml",
+        "app/backend/Dockerfile.dev",
+        "app/inference/Dockerfile",
+        "app/inference/Dockerfile.offline"
+      ]
+    },
+    {
+      "kind": "github-actions",
+      "patterns": [
+        ".github/workflows/*.yml"
+      ]
+    },
+    {
+      "kind": "requirements",
+      "path": "app/inference/requirements.in"
+    },
+    {
+      "kind": "alpine-lock",
+      "path": "app/infra/backend-apk.lock"
+    }
+  ],
+  "decision": {
+    "id": "VOICEUP-LOCAL-PILOT-DEPENDENCIES-2026-09-09",
+    "reviewed_on": "2026-09-09",
+    "inventory_sha256": "598d8820d7a596b0306975777225a79453edd570cc8d8bf878ee1abab40cdd41",
+    "spec_path": "specs/speaker-identity/PRDs/001-local-speaker-pilot/PRD.md",
+    "review_scope": "Local pilot artifact/source and compatibility review; this is not bank release admission or a security-scan pass.",
+    "compatibility_evidence": [
+      "docs/evidence/2026-09-08-local-speaker-pilot/package-releases.json: new backend packages released more than30 days ago",
+      "docs/evidence/2026-09-08-local-speaker-pilot/inference-package-releases.json: runtime release dates",
+      "Docker verified pgvector immutable index includes PostgreSQL17.11 and available vector0.8.6; extensionactivation remains reviewed migration",
+      "Inference25 unit tests and fixed-hash model packaging passed; genuineCUDA test pending",
+      "Backend immutable-image installation verified CPython3.13, soundfile0.14.0 and libsndfile1.2.2; runtime role has DML only and no schema CREATE.",
+      "Final full application gate passed59backendtests (44unit,15realPostgreSQL) and21frontendtests; finalcontractregressionreport and JUnit are in docs/evidence/2026-09-08-local-speaker-pilot/.",
+      "Dockerfile.offline reuses the reviewed Python base digest and107uniqueartifactcoordinates. Its62hash-verifiedwheel install passed with network disabled; this is now Compose default. See app/inference/evidence/offline-build.log and wheelhouse-verification.json.",
+      "RealRTX4060CUDA/network-noneHTTPsmoke passed12checks; normalized192dimensionalECAPA on torch2.8.0+cu128; see app/inference/evidence/cuda-smoke.json. This is runtimecompatibility evidence, notspeakeraccuracy orbankadmission."
+    ],
+    "supersedes": "KT-DEPENDENCY-BASELINE-2026-08-11"
+  },
+  "exceptions": [],
+  "release_evidence": [
+    {
+      "artifact": "pgvector",
+      "version": "0.4.1",
+      "release_evidence": "https://pypi.org/pypi/pgvector/0.4.1/json",
+      "released_on": "2025-04-26",
+      "requires_python": ">=3.9",
+      "dependencies": [
+        "numpy"
+      ]
+    },
+    {
+      "artifact": "python-multipart",
+      "version": "0.0.32",
+      "release_evidence": "https://pypi.org/pypi/python-multipart/0.0.32/json",
+      "released_on": "2026-06-04",
+      "requires_python": ">=3.10",
+      "dependencies": null
+    },
+    {
+      "artifact": "soundfile",
+      "version": "0.14.0",
+      "release_evidence": "https://pypi.org/pypi/soundfile/0.14.0/json",
+      "released_on": "2026-06-06",
+      "requires_python": ">=3.10",
+      "dependencies": [
+        "cffi>=1.0",
+        "numpy",
+        "typing-extensions"
+      ]
+    },
+    {
+      "artifact": "httpx",
+      "version": "0.28.1",
+      "release_evidence": "https://pypi.org/pypi/httpx/0.28.1/json",
+      "released_on": "2024-12-06",
+      "requires_python": ">=3.8",
+      "dependencies": [
+        "anyio",
+        "certifi",
+        "httpcore==1.*",
+        "idna",
+        "brotli; platform_python_implementation == \"CPython\" and extra == \"brotli\"",
+        "brotlicffi; platform_python_implementation != \"CPython\" and extra == \"brotli\"",
+        "click==8.*; extra == \"cli\"",
+        "pygments==2.*; extra == \"cli\"",
+        "rich<14,>=10; extra == \"cli\"",
+        "h2<5,>=3; extra == \"http2\"",
+        "socksio==1.*; extra == \"socks\"",
+        "zstandard>=0.18.0; extra == \"zstd\""
+      ]
+    },
+    {
+      "artifact": "torch",
+      "version": "2.8.0+cu128",
+      "released_on": "2025-08-06",
+      "release_evidence": "https://pypi.org/pypi/torch/2.8.0/json",
+      "age_days_at_2026_09_09": 399
+    },
+    {
+      "artifact": "torchaudio",
+      "version": "2.8.0+cu128",
+      "released_on": "2025-08-06",
+      "release_evidence": "https://pypi.org/pypi/torchaudio/2.8.0/json",
+      "age_days_at_2026_09_09": 399
+    },
+    {
+      "artifact": "speechbrain",
+      "version": "1.1.1",
+      "released_on": "2026-08-27",
+      "release_evidence": "https://pypi.org/pypi/speechbrain/1.1.1/json",
+      "age_days_at_2026_09_09": 13
+    },
+    {
+      "artifact": "silero-vad",
+      "version": "6.2.1",
+      "released_on": "2026-02-24",
+      "release_evidence": "https://pypi.org/pypi/silero-vad/6.2.1/json",
+      "age_days_at_2026_09_09": 197
+    },
+    {
+      "artifact": "numpy",
+      "version": "2.4.3",
+      "released_on": "2026-03-09",
+      "release_evidence": "https://pypi.org/pypi/numpy/2.4.3/json",
+      "age_days_at_2026_09_09": 184
+    },
+    {
+      "artifact": "scipy",
+      "version": "1.17.1",
+      "released_on": "2026-02-23",
+      "release_evidence": "https://pypi.org/pypi/scipy/1.17.1/json",
+      "age_days_at_2026_09_09": 198
+    },
+    {
+      "artifact": "soundfile",
+      "version": "0.14.0",
+      "released_on": "2026-06-06",
+      "release_evidence": "https://pypi.org/pypi/soundfile/0.14.0/json",
+      "age_days_at_2026_09_09": 95
+    },
+    {
+      "artifact": "fastapi",
+      "version": "0.141.1",
+      "released_on": "2026-07-29",
+      "release_evidence": "https://pypi.org/pypi/fastapi/0.141.1/json",
+      "age_days_at_2026_09_09": 42
+    },
+    {
+      "artifact": "uvicorn",
+      "version": "0.52.1",
+      "released_on": "2026-08-01",
+      "release_evidence": "https://pypi.org/pypi/uvicorn/0.52.1/json",
+      "age_days_at_2026_09_09": 39
+    },
+    {
+      "artifact": "pydantic",
+      "version": "2.13.4",
+      "released_on": "2026-05-06",
+      "release_evidence": "https://pypi.org/pypi/pydantic/2.13.4/json",
+      "age_days_at_2026_09_09": 126
+    },
+    {
+      "artifact": "pydantic-settings",
+      "version": "2.14.2",
+      "released_on": "2026-06-19",
+      "release_evidence": "https://pypi.org/pypi/pydantic-settings/2.14.2/json",
+      "age_days_at_2026_09_09": 82
+    },
+    {
+      "artifact": "huggingface-hub",
+      "version": "0.36.2",
+      "released_on": "2026-02-06",
+      "release_evidence": "https://pypi.org/pypi/huggingface-hub/0.36.2/json",
+      "age_days_at_2026_09_09": 215
+    },
+    {
+      "artifact": "pgvector/pgvector",
+      "version": "0.8.6",
+      "released_on": "2026-07-29",
+      "release_evidence": "https://github.com/pgvector/pgvector/blob/master/CHANGELOG.md?plain=1",
+      "digest": "sha256:724a4041afdb1750446e3f6b5cfa8f3b0ac5a2cf538ddfa6bfee4f94c2fa85c6"
+    },
+    {
+      "artifact": "python:3.13.14-slim-bookworm",
+      "released_on": "2026-08-05",
+      "release_evidence": "https://hub.docker.com/_/python",
+      "digest": "sha256:67a1e1f215ccda113cfc024e8639049257e88f273898f595b61476d128d387e8"
+    }
+  ],
+  "retained_existing_pins": [
+    {
+      "artifact": "speechbrain",
+      "version": "1.1.1",
+      "source": "pyproject.toml",
+      "reason": "Existing research baseline pin predates this product import. The accepted capability reuses that baseline; no version upgrade is being adopted. Rule54 keeps an existing newer pin and forbids downgrading it to satisfy maturity. This records retention, not a invented governance exception.",
+      "compatibility_evidence": [
+        "outputs/real-model-smoke.json",
+        "app/inference/tests",
+        "models/speaker-pilot/manifest.json"
+      ]
+    }
+  ],
+  "local_build_observation": {
+    "image": "voiceup-inference:pilot",
+    "digest": "sha256:695540dfb6b391c7956ae6868a753cfcd2e08f88cae0bdbdfed04c8a1ddc5785",
+    "evidence": "app/inference/evidence/offline-build.log",
+    "scope": "Local tested image, not a promoted or bank-admitted registry artifact"
+  }
+}

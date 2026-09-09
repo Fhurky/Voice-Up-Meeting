@@ -1,0 +1,21 @@
+name: governance-drift
+on:
+  pull_request:
+    paths: ["rules/**", "AGENTS.md", "CLAUDE.md", ".claude/**", ".codex/**", ".cursor/**"]
+permissions:
+  contents: read
+env:
+  PIP_DISABLE_PIP_VERSION_CHECK: "1"
+  PIP_NO_INDEX: "1"
+jobs:
+  drift:
+    runs-on: [self-hosted, linux, bank-offline]
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with: {persist-credentials: false}
+      - run: scripts/render-clients.sh --check
+      - name: Prove hand edits are rejected
+        run: |
+          printf '\nmutation\n' >> AGENTS.md
+          if scripts/render-clients.sh --check; then exit 1; fi

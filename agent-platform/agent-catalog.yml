@@ -1,0 +1,86 @@
+schema_version: "1.0"
+kind: AgentMigrationCatalog
+status: implementation
+as_of: "2026-08-18"
+
+source_lineage:
+  locator: external-seed:desktop-agents
+  authoritative: false
+  mutation_allowed: false
+  note: The external seed is inventory input only; canonical packages are source-owned in this repository.
+
+projection:
+  status: compiler-implemented
+  reason: Compiler 1.0.1 emits 16 inert artifacts; activation, conformance, and admission remain separate gates.
+
+roles:
+  - id: application-security
+    classification: hybrid-agent-gate
+    migration_status: canonical-implemented
+    risk_tier: R1
+    canonical_path: agents/application-security
+  - id: autofix
+    classification: high-risk-worker
+    migration_status: deferred
+    risk_tier: R2
+    canonical_path: null
+  - id: code-quality
+    classification: hybrid-agent-gate
+    migration_status: seed-inventory
+    risk_tier: R1
+    canonical_path: null
+  - id: code-review
+    classification: custom-agent
+    migration_status: canonical-implemented
+    risk_tier: R1
+    canonical_path: agents/code-review
+  - id: devops
+    classification: custom-agent
+    migration_status: seed-inventory
+    risk_tier: R1
+    canonical_path: null
+  - id: documentation
+    classification: custom-agent
+    migration_status: seed-inventory
+    risk_tier: R1
+    canonical_path: null
+  - id: enterprise-architecture
+    classification: custom-agent
+    migration_status: seed-inventory
+    risk_tier: R1
+    canonical_path: null
+  - id: information-security
+    classification: hybrid-agent-gate
+    migration_status: seed-inventory
+    risk_tier: R1
+    canonical_path: null
+  - id: observability
+    classification: custom-agent
+    migration_status: seed-inventory
+    risk_tier: R1
+    canonical_path: null
+  - id: oss-license
+    classification: deterministic-gate-with-agent-explainer
+    migration_status: seed-inventory
+    risk_tier: R1
+    canonical_path: null
+  - id: privacy-kvkk
+    classification: hybrid-agent-gate
+    migration_status: seed-inventory
+    risk_tier: R2
+    canonical_path: null
+  - id: requirements-scope
+    classification: custom-agent
+    migration_status: canonical-implemented
+    risk_tier: R1
+    canonical_path: agents/requirements-scope
+  - id: supervisor
+    classification: deterministic-orchestrator
+    migration_status: replaced-by-orchestration-implemented
+    risk_tier: R1
+    canonical_path: orchestrations/governed-review.yml
+  - id: test-automation
+    classification: isolated-execution-agent
+    migration_status: canonical-implemented
+    risk_tier: R1
+    canonical_path: agents/test-automation

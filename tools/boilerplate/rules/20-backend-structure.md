@@ -1,0 +1,41 @@
+---
+id: "20-backend-structure"
+title: "Implement backend domains through the fixed Python/FastAPI stack and clean layers"
+scope: backend
+priority: 20
+trigger: path-match
+applies_to:
+  - "app/backend/**"
+gate: "backend-test.yml"
+---
+
+# Backend structure
+
+Read `technology-profile.yml` and `.kt-scaffold/answers.yml` before changing backend code. The only
+backend stack is Python 3.13, FastAPI, Pydantic, async SQLAlchemy/asyncpg, Alembic and pytest. Node.js,
+NestJS, Prisma, another Python web framework, and a hand-rolled native-Python HTTP stack are not
+supported. Do not introduce them through a PRD or agent preference. Dependencies preserve this
+direction:
+
+`api -> application/services -> infrastructure/repositories -> domain`
+
+- HTTP packages live under `app/api/<domain>/`; dependency providers stay next to their endpoints.
+- Business logic lives under `app/services/`, persistence queries under
+  `app/infrastructure/repositories/`, request/response models under `app/schemas/`, and schema-authority
+  models under `app/domain/models/`.
+- Use `Annotated[..., Depends(...)]`, asynchronous sessions, `async def`, and `await` for I/O.
+- Every Python package has `__init__.py`. Every worker or script using the ORM imports `app.db.base`
+  before its first model operation so the registry is complete.
+
+Services enforce tenant scope and resolve public identifiers inside that tenant.
+Endpoint code does not query persistence directly. Configuration, cache, observability, request
+context, authentication, and database adapters are cross-cutting modules and must not depend on a
+business API package.
+
+A domain package may be added only from an accepted `spec_path`, and its tests are generated or
+written with it. Do not create an empty domain, placeholder controller, or generic CRUD module to
+reserve future structure.
+
+SSE endpoints are allowed for one-way server streaming such as LLM token delivery. They remain
+FastAPI endpoints, must enforce the same JWT/RBAC and tenant checks before streaming begins, must
+stop work after disconnect, and must not place credentials or sensitive content in the URL.

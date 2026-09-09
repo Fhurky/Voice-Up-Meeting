@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  podSelector:
+    matchLabels: {app.kubernetes.io/part-of: "@@PRODUCT_SLUG@@", app.kubernetes.io/component: redis}
+  policyTypes: [Ingress, Egress]
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels: {app.kubernetes.io/part-of: "@@PRODUCT_SLUG@@"}
+            matchExpressions:
+              - {key: app.kubernetes.io/component, operator: In, values: [backend, worker]}
+      ports:
+        - {protocol: TCP, port: 6379}
+  egress: []

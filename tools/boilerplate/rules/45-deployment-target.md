@@ -1,0 +1,47 @@
+---
+id: "45-deployment-target"
+title: "Keep every change deployable to the locked-down Kubernetes target"
+scope: deployment
+authority: mandatory
+priority: 45
+trigger: path-match
+applies_to:
+  - "app/devops/**"
+  - "app/infra/**"
+  - "tests/fixtures/overlays/**"
+  - ".github/workflows/**"
+gate: "charts-render.yml"
+---
+
+# Deployment target
+
+Every scaffold targets a managed, non-production Kubernetes cluster with no internet egress. Charts
+are self-contained, one per workload, with no shared library chart, dependency archive, or runtime
+download. A change that cannot satisfy this target is not done.
+
+Every rendered workload must satisfy all of these controls:
+
+- images come from the configured internal registry and are selected by immutable index digest, never
+  a mutable tag;
+- charts author no Secret and values/overlays contain no secret material; workloads reference
+  pre-created Secrets by name;
+- containers run as an explicit non-root user/group, disallow privilege escalation, drop all
+  capabilities, use `RuntimeDefault` seccomp, and have a read-only root filesystem;
+- every writable path is an explicit size-bounded volume;
+- service-account token mounting is disabled unless an accepted capability requires Kubernetes API
+  access;
+- all containers declare resource requests/limits; HTTP workloads have startup, readiness, and
+  liveness probes;
+- every workload has ingress and egress NetworkPolicy rules, and an empty peer set denies rather than
+  allows;
+- Services are `ClusterIP`; no workload creates a node port, load balancer, or cluster-scoped object;
+- persistent claims declare size; Jobs use a non-`Always` restart policy.
+
+`environments/cluster/` and `environments/lab/` have identical file/key/release shape and differ only
+in environment facts. Contract CI uses committed non-secret values under `tests/fixtures/overlays/`.
+`scripts/render-charts.sh --environment-ready <name>` separately rejects unresolved real hosts,
+registries, StorageClasses, controller namespaces, and Secret names.
+
+The runtime database role has DML only. A source-revision-named migration release runs before code
+that requires its schema. Published chart versions are immutable. Rendering and readiness checks are
+verification, not authorization to deploy.

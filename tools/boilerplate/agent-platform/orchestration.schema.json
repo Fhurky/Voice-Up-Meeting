@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:kt:agent-platform:deterministic-orchestration:1.0",
+  "title": "Deterministic Agent Orchestration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "kind",
+    "metadata",
+    "input",
+    "workers",
+    "execution",
+    "decision",
+    "output",
+    "prohibited_agents"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "kind": {"const": "DeterministicOrchestration"},
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "version", "owner", "lifecycle", "risk_tier"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "version": {"$ref": "#/$defs/semver"},
+        "owner": {"$ref": "#/$defs/ownerRef"},
+        "lifecycle": {"const": "draft"},
+        "risk_tier": {"const": "R1"}
+      }
+    },
+    "input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["contract", "raw_source_visible_to_aggregator"],
+      "properties": {
+        "contract": {"const": "schema:review-request"},
+        "raw_source_visible_to_aggregator": {"const": false}
+      }
+    },
+    "workers": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 16,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["agent", "required", "output_contract"],
+        "properties": {
+          "agent": {"$ref": "#/$defs/agentRef"},
+          "required": {"const": true},
+          "output_contract": {"const": "schema:finding-report"}
+        }
+      }
+    },
+    "execution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["strategy", "max_parallel", "worker_isolation", "retries"],
+      "properties": {
+        "strategy": {"const": "parallel-independent"},
+        "max_parallel": {"type": "integer", "minimum": 1, "maximum": 16},
+        "worker_isolation": {"const": true},
+        "retries": {"const": 0}
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["engine", "policy_ref", "verify_result_integrity", "missing_result", "invalid_result"],
+      "properties": {
+        "engine": {"const": "deterministic-policy"},
+        "policy_ref": {"const": "policy:governed-review-aggregation"},
+        "verify_result_integrity": {"const": true},
+        "missing_result": {"const": "MANUAL_REVIEW"},
+        "invalid_result": {"const": "MANUAL_REVIEW"}
+      }
+    },
+    "output": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["contract", "audit_required"],
+      "properties": {
+        "contract": {"const": "schema:governed-review-decision"},
+        "audit_required": {"const": true}
+      }
+    },
+    "prohibited_agents": {
+      "type": "array",
+      "contains": {"const": "agent:autofix"},
+      "minContains": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/agentRef"}
+    }
+  },
+  "$defs": {
+    "id": {"type": "string", "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"},
+    "semver": {"type": "string", "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"},
+    "ownerRef": {"type": "string", "pattern": "^(?:team|person):[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"},
+    "agentRef": {"type": "string", "pattern": "^agent:[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"}
+  }
+}

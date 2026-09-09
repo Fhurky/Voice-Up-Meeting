@@ -1,0 +1,9 @@
+{
+  "verified_at": "2026-09-08T21:53:57.523649+00:00",
+  "target": "cp313-linux-x86_64-bookworm",
+  "artifact_count": 62,
+  "wheel_bytes": 3999180343,
+  "requirements_sha256": "6bcdd6ae53d919eac7032b457642f645d0289928d709b801c273a22fb3aae6c0",
+  "wheelhouse_manifest_sha256": "6419fe8bf5be0449b6a928ea7171288fcacec7caa2fe1271f9fe92649d53c6c8",
+  "method": "Every selected complete wheel content was SHA256-checked against the fixed requirements lock before manifest generation. Linux CPython3.13 target only."
+}

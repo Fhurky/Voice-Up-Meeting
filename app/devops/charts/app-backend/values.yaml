@@ -1,0 +1,26 @@
+replicaCount: 1
+image:
+  repository: registry.internal.invalid/app/backend
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+existingSecret: app-runtime
+service:
+  port: 8000
+ingress:
+  enabled: false
+  className: nginx
+  host: app.internal.invalid
+  tlsSecretName: app-tls
+  controllerNamespace: ingress-nginx
+  controllerComponent: ingress-nginx
+dns:
+  namespace: kube-system
+  component: kube-dns
+resources:
+  requests: {cpu: 100m, memory: 128Mi}
+  limits: {cpu: 1000m, memory: 512Mi}
+
+audioStorage:
+  claimName: speaker-audio
+  className: local-path
+  size: 10Gi
+  accessMode: ReadWriteMany
