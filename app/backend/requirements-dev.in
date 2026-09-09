@@ -8,6 +8,6 @@ black==26.5.1
 isort==8.0.1
 mypy==2.3.0
 pip-tools==7.6.0
-pip==26.2
+pip==26.2.1
 setuptools==83.0.0
-ruff==0.16.1
+ruff==0.16.2
