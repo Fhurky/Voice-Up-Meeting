@@ -1,5 +1,8 @@
 # Yerel konuşmacı pilotu
 
+MacBook için bütün hesaplamaları yerel CPU'da yapan [ayrı kurulum rehberi](MACOS_SETUP.md)
+vardır. Aşağıdaki PowerShell/CUDA adımları Windows ortamına aittir.
+
 Kapsam: [Accepted PRD](../specs/speaker-identity/PRDs/001-local-speaker-pilot/PRD.md).
 Bu sürüm tek konuşmacılı WAV/FLAC dosyalarıyla çalışır. Çok kişili toplantı kaydını
 bölümleme, metne çevirme ve toplantı platformlarına bağlanma sonraki yeteneklerdir.

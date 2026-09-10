@@ -1,0 +1,13 @@
+﻿F                                                                        [100%]
+================================== FAILURES ===================================
+_ test_cpu_image_prepares_pinned_arm_openmp_alias_before_dropping_privileges __
+
+    def test_cpu_image_prepares_pinned_arm_openmp_alias_before_dropping_privileges():
+        dockerfile = (INFERENCE / "Dockerfile.cpu").read_text()
+>       assert "ENV LD_LIBRARY_PATH=/usr/local/lib/voiceup-cpu" in dockerfile
+E       assert 'ENV LD_LIBRARY_PATH=/usr/local/lib/voiceup-cpu' in '# Provision the selected CPU manifest before this networking-disabled build.\n# CPU_ARCH is the Linux machine archite..._INFERENCE_RUNTIME_PROFILE=${CPU_ARCH}-cpu\nUSER 10001:10001\nEXPOSE 8090\nCMD ["python", "-m", "voiceup_inference"]\n'
+
+tests\test_cpu_wheelhouse.py:87: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_cpu_wheelhouse.py::test_cpu_image_prepares_pinned_arm_openmp_alias_before_dropping_privileges
+1 failed, 8 deselected in 0.18s

@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="11" failures="0" skipped="0" tests="11" time="0.138" timestamp="2026-09-10T11:14:16.494708+03:00" hostname="DESKTOP-RJ78JKH"><testcase classname="tests.test_prepare_speaker_model" name="test_verified_existing_file_uses_no_network" time="0.001"><error message="failed on setup with &quot;FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\prepare-speaker-model.py'&quot;">@pytest.fixture
+    def helper():
+        spec = importlib.util.spec_from_file_location("prepare_speaker_model", SCRIPT)
+        module = importlib.util.module_from_spec(spec)
+&gt;       spec.loader.exec_module(module)
+
+tests\test_prepare_speaker_model.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;frozen importlib._bootstrap_external&gt;:995: in exec_module
+    ???
+&lt;frozen importlib._bootstrap_external&gt;:1132: in get_code
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;_frozen_importlib_external.SourceFileLoader object at 0x000001FDAC6B4650&gt;
+path = 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\prepare-speaker-model.py'
+
+&gt;   ???
+E   FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\prepare-speaker-model.py'
+
+&lt;frozen importlib._bootstrap_external&gt;:1190: FileNotFoundError</error></testcase><testcase classname="tests.test_prepare_speaker_model" name="test_existing_invalid_file_is_preserved" time="0.000"><error message="failed on setup with &quot;FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\prepare-speaker-model.py'&quot;">@pytest.fixture
+    def helper():
+        spec = importlib.util.spec_from_file_location("prepare_speaker_model", SCRIPT)
+        module = importlib.util.module_from_spec(spec)
+&gt;       spec.loader.exec_module(module)
+
+tests\test_prepare_speaker_model.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;frozen importlib._bootstrap_external&gt;:995: in exec_module
+    ???
+&lt;frozen importlib._bootstrap_external&gt;:1132: in get_code
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;_frozen_importlib_external.SourceFileLoader object at 0x000001FDAC6B4E30&gt;
+path = 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\prepare-speaker-model.py'
+
+&gt;   ???
+E   FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\prepare-speaker-model.py'
+
+&lt;frozen importlib._bootstrap_external&gt;:1190: FileNotFoundError</error></testcase><testcase classname="tests.test_prepare_speaker_model" name="test_download_published_only_after_hash_verification" time="0.001"><error message="failed on setup with &quot;FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\prepare-speaker-model.py'&quot;">@pytest.fixture
+    def helper():
+        spec = importlib.util.spec_from_file_location("prepare_speaker_model", SCRIPT)
+        module = importlib.util.module_from_spec(spec)
+&gt;       spec.loader.exec_module(module)
+
+tests\test_prepare_speaker_model.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;frozen importlib._bootstrap_external&gt;:995: in exec_module
+    ???
+&lt;frozen importlib._bootstrap_external&gt;:1132: in get_code
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;_frozen_importlib_external.SourceFileLoader object at 0x000001FDAC6B5B50&gt;
+path = 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\prepare-speaker-model.py'
+
+&gt;   ???
+E   FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\prepare-speaker-model.py'
+
+&lt;frozen importlib._bootstrap_external&gt;:1190: FileNotFoundError</error></testcase><testcase classname="tests.test_prepare_speaker_model" name="test_verified_download_is_atomic_and_reusable" time="0.000"><error message="failed on setup with &quot;FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\prepare-speaker-model.py'&quot;">@pytest.fixture
+    def helper():
+        spec = importlib.util.spec_from_file_location("prepare_speaker_model", SCRIPT)
+        module = importlib.util.module_from_spec(spec)
+&gt;       spec.loader.exec_module(module)
+
+tests\test_prepare_speaker_model.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;frozen importlib._bootstrap_external&gt;:995: in exec_module
+    ???
+&lt;frozen importlib._bootstrap_external&gt;:1132: in get_code
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;_frozen_importlib_external.SourceFileLoader object at 0x000001FDAC6B68A0&gt;
+path = 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\prepare-speaker-model.py'
+
+&gt;   ???
+E   FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\prepare-speaker-model.py'
+
+&lt;frozen importlib._bootstrap_external&gt;:1190: FileNotFoundError</error></testcase><testcase classname="tests.test_prepare_speaker_model" name="test_untrusted_model_redirect_is_rejected[http://huggingface.co/file]" time="0.000"><error message="failed on setup with &quot;FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\prepare-speaker-model.py'&quot;">@pytest.fixture
+    def helper():
+        spec = importlib.util.spec_from_file_location("prepare_speaker_model", SCRIPT)
+        module = importlib.util.module_from_spec(spec)
+&gt;       spec.loader.exec_module(module)
+
+tests\test_prepare_speaker_model.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;frozen importlib._bootstrap_external&gt;:995: in exec_module
+    ???
+&lt;frozen importlib._bootstrap_external&gt;:1132: in get_code
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;_frozen_importlib_external.SourceFileLoader object at 0x000001FDAC6B76E0&gt;
+path = 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\prepare-speaker-model.py'
+
+&gt;   ???
+E   FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\prepare-speaker-model.py'
+
+&lt;frozen importlib._bootstrap_external&gt;:1190: FileNotFoundError</error></testcase><testcase classname="tests.test_prepare_speaker_model" name="test_untrusted_model_redirect_is_rejected[https://example.com/file]" time="0.000"><error message="failed on setup with &quot;FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\prepare-speaker-model.py'&quot;">@pytest.fixture
+    def helper():
+        spec = importlib.util.spec_from_file_location("prepare_speaker_model", SCRIPT)
+        module = importlib.util.module_from_spec(spec)
+&gt;       spec.loader.exec_module(module)
+
+tests\test_prepare_speaker_model.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;frozen importlib._bootstrap_external&gt;:995: in exec_module
+    ???
+&lt;frozen importlib._bootstrap_external&gt;:1132: in get_code
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;_frozen_importlib_external.SourceFileLoader object at 0x000001FDAC6E8350&gt;
+path = 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\prepare-speaker-model.py'
+
+&gt;   ???
+E   FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\prepare-speaker-model.py'
+
+&lt;frozen importlib._bootstrap_external&gt;:1190: FileNotFoundError</error></testcase><testcase classname="tests.test_prepare_speaker_model" name="test_untrusted_model_redirect_is_rejected[https://user:password@huggingface.co/file]" time="0.000"><error message="failed on setup with &quot;FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\prepare-speaker-model.py'&quot;">@pytest.fixture
+    def helper():
+        spec = importlib.util.spec_from_file_location("prepare_speaker_model", SCRIPT)
+        module = importlib.util.module_from_spec(spec)
+&gt;       spec.loader.exec_module(module)
+
+tests\test_prepare_speaker_model.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;frozen importlib._bootstrap_external&gt;:995: in exec_module
+    ???
+&lt;frozen importlib._bootstrap_external&gt;:1132: in get_code
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;_frozen_importlib_external.SourceFileLoader object at 0x000001FDAC6E9040&gt;
+path = 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\prepare-speaker-model.py'
+
+&gt;   ???
+E   FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\prepare-speaker-model.py'
+
+&lt;frozen importlib._bootstrap_external&gt;:1190: FileNotFoundError</error></testcase><testcase classname="tests.test_prepare_speaker_model" name="test_untrusted_model_redirect_is_rejected[https://huggingface.co:444/file]" time="0.001"><error message="failed on setup with &quot;FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\prepare-speaker-model.py'&quot;">@pytest.fixture
+    def helper():
+        spec = importlib.util.spec_from_file_location("prepare_speaker_model", SCRIPT)
+        module = importlib.util.module_from_spec(spec)
+&gt;       spec.loader.exec_module(module)
+
+tests\test_prepare_speaker_model.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;frozen importlib._bootstrap_external&gt;:995: in exec_module
+    ???
+&lt;frozen importlib._bootstrap_external&gt;:1132: in get_code
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;_frozen_importlib_external.SourceFileLoader object at 0x000001FDAC6E9E20&gt;
+path = 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\prepare-speaker-model.py'
+
+&gt;   ???
+E   FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\prepare-speaker-model.py'
+
+&lt;frozen importlib._bootstrap_external&gt;:1190: FileNotFoundError</error></testcase><testcase classname="tests.test_prepare_speaker_model" name="test_untrusted_model_redirect_is_rejected[https://evil.huggingface.co/file]" time="0.000"><error message="failed on setup with &quot;FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\prepare-speaker-model.py'&quot;">@pytest.fixture
+    def helper():
+        spec = importlib.util.spec_from_file_location("prepare_speaker_model", SCRIPT)
+        module = importlib.util.module_from_spec(spec)
+&gt;       spec.loader.exec_module(module)
+
+tests\test_prepare_speaker_model.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;frozen importlib._bootstrap_external&gt;:995: in exec_module
+    ???
+&lt;frozen importlib._bootstrap_external&gt;:1132: in get_code
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;_frozen_importlib_external.SourceFileLoader object at 0x000001FDAC6EAC60&gt;
+path = 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\prepare-speaker-model.py'
+
+&gt;   ???
+E   FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\prepare-speaker-model.py'
+
+&lt;frozen importlib._bootstrap_external&gt;:1190: FileNotFoundError</error></testcase><testcase classname="tests.test_prepare_speaker_model" name="test_download_size_is_bounded" time="0.000"><error message="failed on setup with &quot;FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\prepare-speaker-model.py'&quot;">@pytest.fixture
+    def helper():
+        spec = importlib.util.spec_from_file_location("prepare_speaker_model", SCRIPT)
+        module = importlib.util.module_from_spec(spec)
+&gt;       spec.loader.exec_module(module)
+
+tests\test_prepare_speaker_model.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;frozen importlib._bootstrap_external&gt;:995: in exec_module
+    ???
+&lt;frozen importlib._bootstrap_external&gt;:1132: in get_code
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;_frozen_importlib_external.SourceFileLoader object at 0x000001FDAC6EBC50&gt;
+path = 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\prepare-speaker-model.py'
+
+&gt;   ???
+E   FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\prepare-speaker-model.py'
+
+&lt;frozen importlib._bootstrap_external&gt;:1190: FileNotFoundError</error></testcase><testcase classname="tests.test_prepare_speaker_model" name="test_existing_bundle_is_verified_without_acquisition" time="0.000"><error message="failed on setup with &quot;FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\prepare-speaker-model.py'&quot;">@pytest.fixture
+    def helper():
+        spec = importlib.util.spec_from_file_location("prepare_speaker_model", SCRIPT)
+        module = importlib.util.module_from_spec(spec)
+&gt;       spec.loader.exec_module(module)
+
+tests\test_prepare_speaker_model.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;frozen importlib._bootstrap_external&gt;:995: in exec_module
+    ???
+&lt;frozen importlib._bootstrap_external&gt;:1132: in get_code
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;_frozen_importlib_external.SourceFileLoader object at 0x000001FDAC71C980&gt;
+path = 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\prepare-speaker-model.py'
+
+&gt;   ???
+E   FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\prepare-speaker-model.py'
+
+&lt;frozen importlib._bootstrap_external&gt;:1190: FileNotFoundError</error></testcase></testsuite></testsuites>

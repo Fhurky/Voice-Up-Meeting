@@ -60,10 +60,16 @@ def runtime_and_app(**settings_overrides):
 
 
 @pytest.mark.parametrize("format", ["WAV", "FLAC"])
-def test_enrollment_http_contract_and_resampling(format):
-    _, app, _ = runtime_and_app()
+@pytest.mark.parametrize(
+    "profile,device",
+    [("x86_64-cu128", "cuda:0"), ("x86_64-cpu", "cpu"), ("aarch64-cpu", "cpu")],
+)
+def test_enrollment_http_contract_and_resampling(format, profile, device):
+    _, app, _ = runtime_and_app(runtime_profile=profile, device=device)
     with TestClient(app) as client:
-        assert client.get("/ready").status_code == 200
+        ready = client.get("/ready")
+        assert ready.status_code == 200
+        assert ready.json()["device"] == device
         response = client.post(
             "/v1/embeddings?purpose=enroll",
             headers=HEADERS,
@@ -78,7 +84,7 @@ def test_enrollment_http_contract_and_resampling(format):
     assert np.linalg.norm(result["embedding"]) == pytest.approx(1)
     assert result["speech_seconds"] == pytest.approx(12)
     assert result["windows_count"] == 2
-    assert result["device"] == "cuda:0"  # Contract fixture, not GPU evidence.
+    assert result["device"] == device  # Contract fixture, not hardware execution evidence.
     assert "gpu_peak_allocated_bytes" not in result["quality"]
     assert "gpu_peak_reserved_bytes" not in result["quality"]
     assert result["quality"]["execution_seconds"] > 0

@@ -21,6 +21,38 @@ RUNTIME_REQUIREMENTS: dict[RuntimeProfile, tuple[str, str]] = {
     "x86_64-cu128": ("x86_64", "12.8"),
     "aarch64-cu129": ("aarch64", "12.9"),
 }
+CPU_RUNTIME_REQUIREMENTS: dict[RuntimeProfile, str] = {
+    "x86_64-cpu": "x86_64",
+    "aarch64-cpu": "aarch64",
+}
+
+
+def require_cpu(torch: Any, device: str, runtime_profile: RuntimeProfile) -> None:
+    expected_arch = CPU_RUNTIME_REQUIREMENTS.get(runtime_profile)
+    machine = platform.machine().lower()
+    architecture = {"amd64": "x86_64", "arm64": "aarch64"}.get(machine, machine)
+    if (
+        device != "cpu"
+        or expected_arch is None
+        or platform.system() != "Linux"
+        or architecture != expected_arch
+        or str(torch.__version__) != "2.8.0+cpu"
+        or torch.version.cuda is not None
+    ):
+        raise InferenceError(
+            "cpu_runtime_mismatch",
+            "Expected matching Linux architecture and PyTorch 2.8.0 CPU build",
+            503,
+        )
+    try:
+        # Read back a CPU kernel result; a version string alone cannot establish execution.
+        probe = torch.ones(1, device="cpu") + 1
+        if probe.device.type != "cpu" or probe.item() != 2.0:
+            raise InferenceError("cpu_unavailable", "CPU execution could not be established", 503)
+    except (RuntimeError, ValueError, TypeError):
+        raise InferenceError(
+            "cpu_unavailable", "CPU execution could not be established", 503
+        ) from None
 
 
 def require_cuda(torch: Any, device: str, runtime_profile: RuntimeProfile = "x86_64-cu128") -> None:
@@ -114,12 +146,18 @@ def load_models(settings: Settings) -> ModelHandles:
     verify_bundle(settings.model_dir)
     import torch
 
-    require_cuda(torch, settings.device, settings.runtime_profile)
+    if settings.device == "cpu":
+        require_cpu(torch, settings.device, settings.runtime_profile)
+    else:
+        require_cuda(torch, settings.device, settings.runtime_profile)
     embedder = OfflineECAPA(settings.model_dir / "ecapa", device=settings.device)
     vad = OfflineSilero(settings.model_dir / "silero" / "silero_vad.jit", settings.device)
-    # Warmup checks model loading and both CUDA paths. This synthetic input is
+    # Warmup checks model loading on the explicit device. This synthetic input is
     # operational readiness evidence only, never speaker recognition accuracy.
     embedder.encode(np.zeros(3 * 16000, dtype=np.float32))
     vad.speech_spans(np.zeros(16000, dtype=np.float32))
-    torch.cuda.synchronize(int(settings.device.split(":")[1]))
-    return ModelHandles(embedder, vad, CudaMetrics(torch, settings.device))
+    metrics = None
+    if settings.device != "cpu":
+        torch.cuda.synchronize(int(settings.device.split(":")[1]))
+        metrics = CudaMetrics(torch, settings.device)
+    return ModelHandles(embedder, vad, metrics)

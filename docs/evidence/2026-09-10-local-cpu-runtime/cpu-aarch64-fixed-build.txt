@@ -1,0 +1,76 @@
+docker.exe : #0 building with "desktop-linux" instance using docker driver
+At line:4 char:1
++ & docker @cpuArmFixedBuildArguments 2>&1 | Tee-Object -FilePath docs/ ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (#0 building wit...g docker driver:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+#1 [internal] load build definition from Dockerfile.cpu
+#1 transferring dockerfile: 1.94kB done
+#1 DONE 0.0s
+
+#2 [context wheelhouse] load .dockerignore
+#2 transferring wheelhouse: 2B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.13.14-slim-bookworm@sha256:67a1e1f215ccda113cfc024e863904925
+7e88f273898f595b61476d128d387e8
+#3 DONE 0.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 434B done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 1.22kB done
+#5 DONE 0.0s
+
+#6 [stage-0 1/8] FROM docker.io/library/python:3.13.14-slim-bookworm@sha256:67a1e1f215ccda113cfc024e8639049257e88f27389
+8f595b61476d128d387e8
+#6 resolve docker.io/library/python:3.13.14-slim-bookworm@sha256:67a1e1f215ccda113cfc024e8639049257e88f273898f595b61476
+d128d387e8 0.0s done
+#6 DONE 0.0s
+
+#7 [context wheelhouse] load from client
+#7 transferring wheelhouse: 3.11kB done
+#7 DONE 0.0s
+
+#8 [stage-0 4/8] COPY app/inference/requirements.cpu-aarch64.txt /srv/inference/requirements.txt
+#8 CACHED
+
+#9 [stage-0 2/8] WORKDIR /srv/inference
+#9 CACHED
+
+#10 [stage-0 3/8] RUN python -c "import os, platform, sys; expected = os.environ['CPU_ARCH']; assert expected in {'x86_
+64', 'aarch64'}, 'CPU_ARCH must be x86_64 or aarch64'; assert platform.machine() == expected, 'CPU_ARCH does not match 
+the image platform'; assert sys.version_info[:2] == (3, 13)"
+#10 CACHED
+
+#11 [stage-0 5/8] RUN --mount=type=bind,from=wheelhouse,target=/wheelhouse,readonly     python -m pip install --no-cach
+e-dir --no-index --only-binary=:all:     --find-links=/wheelhouse --require-hashes -r requirements.txt &&     python -m
+ pip check
+#11 CACHED
+
+#12 [stage-0 6/8] RUN if [ "aarch64" = "aarch64" ]; then     python -c "import hashlib; from pathlib import Path; sourc
+e = Path('/usr/local/lib/python3.13/site-packages/torch.libs/libgomp-947d5fa1.so.1.0.0'); assert hashlib.sha256(source.
+read_bytes()).hexdigest() == 'dc3231f8fd4cadc46d8659c3b8dd811ae33174749e86807f16f61ead6ee59bfd'; target = Path('/usr/lo
+cal/lib/voiceup-cpu'); target.mkdir(mode=0o755); (target / 'libgomp.so.1').symlink_to(source)";     fi
+#12 DONE 0.5s
+
+#13 [stage-0 7/8] COPY src/voiceup /srv/reference/voiceup
+#13 DONE 0.0s
+
+#14 [stage-0 8/8] COPY app/inference/voiceup_inference /srv/inference/voiceup_inference
+#14 DONE 0.0s
+
+#15 exporting to image
+#15 exporting layers 0.1s done
+#15 exporting manifest sha256:0e783bed8357e1c767811ffdf6162a5384ea00d85b24378e52079a9eac0618d7 0.0s done
+#15 exporting config sha256:32cacd04db27a4aa152206dd1029fe1bdbe4349930d62f2d164b6e40231e839a 0.0s done
+#15 exporting attestation manifest sha256:1d5f512fbcbb0a6f03bab9a538029d714e300aac52531c70716781387bb72bd9 0.0s done
+#15 exporting manifest list sha256:b1fb44a1ced25fb328552f991572f1b88a4f0a54ac40d5c4e9d64a745a2cad43 0.0s done
+#15 naming to docker.io/library/voiceup-inference:cpu-aarch64 done
+#15 DONE 0.2s
+
+View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/h7wycb4beemay1f8he3cabnwt

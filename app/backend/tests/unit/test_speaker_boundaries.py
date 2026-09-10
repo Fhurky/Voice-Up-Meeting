@@ -60,8 +60,10 @@ async def test_invalid_and_oversized_audio_leave_no_files(tmp_path: Path) -> Non
 
 
 @pytest.mark.parametrize("purpose", ["enroll", "identify"])
+@pytest.mark.parametrize("device", ["cuda:0", "cpu"])
 async def test_http_adapter_matches_producer_contract(
     purpose: Literal["enroll", "identify"],
+    device: str,
 ) -> None:
     from pydantic import SecretStr
 
@@ -86,7 +88,7 @@ async def test_http_adapter_matches_producer_contract(
                 "dimensions": 192,
                 "speech_seconds": 12.0,
                 "windows_count": 2,
-                "device": "cuda:0",  # Producer contract fixture, not GPU execution evidence.
+                "device": device,  # Producer contract fixture, not hardware execution evidence.
             },
         )
 
@@ -95,6 +97,7 @@ async def test_http_adapter_matches_producer_contract(
             b"fixture-source", purpose=purpose, job_public_id=job, tenant_public_id=tenant
         )
     assert len(result.embedding) == 192 and result.speech_seconds == 12
+    assert result.device == device
 
 
 @pytest.mark.parametrize(
@@ -174,7 +177,8 @@ async def test_http_adapter_accepts_producer_minimum_tolerance(
     assert result.speech_seconds == seconds
 
 
-async def test_http_adapter_rejects_cpu_success_response() -> None:
+@pytest.mark.parametrize("device", ["mps", "cpu:0", "cuda", "cuda:-1", "cuda:0\n", "CPU"])
+async def test_http_adapter_rejects_unapproved_device_response(device: str) -> None:
     from pydantic import SecretStr
 
     settings = get_settings().model_copy(
@@ -187,7 +191,7 @@ async def test_http_adapter_rejects_cpu_success_response() -> None:
         "dimensions": 192,
         "speech_seconds": 12.0,
         "windows_count": 2,
-        "device": "cpu",
+        "device": device,
     }
     async with httpx.AsyncClient(
         transport=httpx.MockTransport(lambda _: httpx.Response(200, json=payload))

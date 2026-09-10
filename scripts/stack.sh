@@ -7,7 +7,7 @@ observability="$root/app/infra/docker-compose.observability.yml"
 mode_file="$root/outputs/local-runtime-mode.txt"
 mode="local"
 if [ "${1:-}" = "--mode" ]; then
-  [ "$#" -ge 2 ] || { echo "--mode requires local or spark" >&2; exit 2; }
+  [ "$#" -ge 2 ] || { echo "--mode requires local, cpu or spark" >&2; exit 2; }
   mode="$2"
   shift 2
 elif [ -f "$mode_file" ]; then
@@ -15,6 +15,17 @@ elif [ -f "$mode_file" ]; then
 fi
 case "$mode" in
   local) ;;
+  cpu)
+    [ -z "${COMPOSE_PROFILES:-}" ] || { echo "CPU mode requires empty COMPOSE_PROFILES" >&2; exit 2; }
+    [ -z "${COMPOSE_PROJECT_NAME:-}" ] || { echo "CPU mode requires empty COMPOSE_PROJECT_NAME" >&2; exit 2; }
+    for argument in "$@"; do
+      case "$argument" in
+        --profile|--profile=*|-f*|--file|--file=*|-p*|--project-name|--project-name=*|--project-directory|--project-directory=*|--workdir|--workdir=*|--env-file|--env-file=*)
+          echo "Compose model overrides are disabled in CPU mode" >&2; exit 2 ;;
+      esac
+    done
+    set -- -f "$root/app/infra/docker-compose.cpu.yml" "$@"
+    ;;
   spark)
     [ -z "${COMPOSE_PROFILES:-}" ] || { echo "Spark mode requires empty COMPOSE_PROFILES" >&2; exit 2; }
     [ -z "${COMPOSE_PROJECT_NAME:-}" ] || { echo "Spark mode requires empty COMPOSE_PROJECT_NAME" >&2; exit 2; }
@@ -51,7 +62,7 @@ case "$mode" in
     done
     set -- -f "$root/app/infra/docker-compose.spark.yml" "$@"
     ;;
-  *) echo "runtime mode must be local or spark" >&2; exit 2 ;;
+  *) echo "runtime mode must be local, cpu or spark" >&2; exit 2 ;;
 esac
 if [ -f "$observability" ]; then
   set -- docker compose --project-directory "$root/app/infra" -p "voiceup" -f "$base" -f "$observability" "$@"

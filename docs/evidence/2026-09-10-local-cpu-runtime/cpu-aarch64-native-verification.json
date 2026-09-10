@@ -1,0 +1,234 @@
+{
+  "recorded_at": "2026-09-10T08:50:08.624800+00:00",
+  "profile": "kt-vibecoding-python-web-v2",
+  "status": "passed",
+  "provenance": "local-executed Windows PowerShell using repository Get-SparkConnection and Invoke-StartupNative wrappers, pinned-host-key authenticated SSH/SFTP, native Linux aarch64 Docker CPU execution",
+  "execution_environment": "Previously authorized physical Spark; CPU-only native Linux ARM64 hardware verification, not MacBook owner acceptance",
+  "transport": {
+    "wrapper_paths": [
+      "scripts/connect-spark.ps1",
+      "scripts/spark-tunnel.ps1"
+    ],
+    "ssh_options": [
+      "-F none",
+      "BatchMode=yes",
+      "IdentitiesOnly=yes",
+      "StrictHostKeyChecking=yes",
+      "pinned HostKeyAlias and UserKnownHostsFile from validated existing connection.json",
+      "ConnectTimeout=8",
+      "ForwardAgent=no"
+    ],
+    "service_start_wrapper_invoked": false,
+    "sftp_files": 4,
+    "private_key_contents_exposed_to_agent_or_logged": false
+  },
+  "archive_and_transfer": {
+    "stage": "/tmp/voiceup-cpu-native-arm64-20260910-review",
+    "transfer_files": [
+      {
+        "name": "image.tar",
+        "bytes": 287570432,
+        "sha256": "3cef7dd5836ed785f8ff626ddc3752c2a2d0125bc4bec200bb958c9e980680e1"
+      },
+      {
+        "name": "smoke_cpu.py",
+        "bytes": 707,
+        "sha256": "0ca83f52d441f29d7f8c0b8ed22741eb733d3706c60e257d64d8ef9ca95ffbef"
+      },
+      {
+        "name": "smoke_cuda.py",
+        "bytes": 6219,
+        "sha256": "f83ab7f6c3c2786c6c082100058797cf823b70c7b25cf10bfc8a93d11cb7c42d"
+      },
+      {
+        "name": "repeated-public-sample-30s.wav",
+        "bytes": 960044,
+        "sha256": "bdc68e3362aed22d18a5b9f50b7467323ed13db7871452c3c6972bb1a7f13ff9"
+      }
+    ],
+    "local_docker_image_id": "sha256:b1fb44a1ced25fb328552f991572f1b88a4f0a54ac40d5c4e9d64a745a2cad43",
+    "oci_index_sha256": "sha256:b1fb44a1ced25fb328552f991572f1b88a4f0a54ac40d5c4e9d64a745a2cad43",
+    "arm_manifest_sha256": "sha256:0e783bed8357e1c767811ffdf6162a5384ea00d85b24378e52079a9eac0618d7",
+    "image_config_sha256": "sha256:32cacd04db27a4aa152206dd1029fe1bdbe4349930d62f2d164b6e40231e839a",
+    "layers_verified": 11,
+    "archive_tags": [],
+    "architecture": "arm64",
+    "os": "linux"
+  },
+  "image_load": {
+    "status": "loaded",
+    "load_seconds": 12.324551883999447,
+    "previously_present": false,
+    "actual_remote_image_id": "sha256:32cacd04db27a4aa152206dd1029fe1bdbe4349930d62f2d164b6e40231e839a",
+    "architecture": "arm64",
+    "os": "linux",
+    "repo_tags": [],
+    "local_oci_index_sha256": "sha256:b1fb44a1ced25fb328552f991572f1b88a4f0a54ac40d5c4e9d64a745a2cad43",
+    "arm_manifest_sha256": "sha256:0e783bed8357e1c767811ffdf6162a5384ea00d85b24378e52079a9eac0618d7"
+  },
+  "image_source_bindings": [
+    {
+      "repository_path": "app/inference/voiceup_inference/config.py",
+      "image_path": "/srv/inference/voiceup_inference/config.py",
+      "sha256": "4737f97f6a067f8c49a2a58fa39cfe589e85cf5b1879f6e3f61e90d680249fa3",
+      "matches": true
+    },
+    {
+      "repository_path": "app/inference/voiceup_inference/models.py",
+      "image_path": "/srv/inference/voiceup_inference/models.py",
+      "sha256": "7eeb3356ac57a69d197bb1a28ed5ebc90bbbbfca2c1f2f94772387b5da0a05a1",
+      "matches": true
+    },
+    {
+      "repository_path": "app/inference/voiceup_inference/api.py",
+      "image_path": "/srv/inference/voiceup_inference/api.py",
+      "sha256": "c6be3f1e54c594e090191b74a8a760e8f55b058f5cd9d1078cdad1cba2baaabc",
+      "matches": true
+    }
+  ],
+  "container": {
+    "status": "created_and_verified",
+    "container_id": "34b8ff0cf69ab031f45d0280282122f19e6bc1f92b107710ebf248d4de2cc934",
+    "container_name": "/voiceup-cpu-native-arm64-20260910-review",
+    "image_id": "sha256:32cacd04db27a4aa152206dd1029fe1bdbe4349930d62f2d164b6e40231e839a",
+    "state": "created",
+    "user": "10001:10001",
+    "runtime": "runc",
+    "network_mode": "none",
+    "readonly_rootfs": true,
+    "nano_cpus": 2000000000,
+    "memory_bytes": 4294967296,
+    "memory_swap_bytes": 4294967296,
+    "pids_limit": 128,
+    "cap_drop": [
+      "ALL"
+    ],
+    "security_opt": [
+      "no-new-privileges:true"
+    ],
+    "devices": [],
+    "device_requests": null,
+    "tmpfs": {
+      "/tmp": "rw,noexec,nosuid,size=512m,mode=1777"
+    },
+    "mounts": [
+      {
+        "source": "/home/<runtime-owner>/voiceup-runtime/models/speaker-pilot",
+        "destination": "/models/speaker",
+        "read_write": false
+      },
+      {
+        "source": "/tmp/voiceup-cpu-native-arm64-20260910-review",
+        "destination": "/smoke",
+        "read_write": false
+      }
+    ],
+    "command": [
+      "python",
+      "/smoke/smoke_cpu.py",
+      "--runtime-profile",
+      "aarch64-cpu",
+      "/smoke/repeated-public-sample-30s.wav"
+    ],
+    "native_host": "Linux aarch64; physical Spark CPU only, not MacBook evidence"
+  },
+  "container_start": {
+    "status": "started",
+    "container_id": "34b8ff0cf69ab031f45d0280282122f19e6bc1f92b107710ebf248d4de2cc934",
+    "command_issued_at": "2026-09-10T08:46:33.340000+00:00"
+  },
+  "preservation": {
+    "recorded_at": "2026-09-10T08:48:08.087261+00:00",
+    "status": "passed",
+    "host_architecture": "aarch64",
+    "host_os": "Linux",
+    "smoke_checks_passed": 9,
+    "smoke_checks_failed": 0,
+    "container_id": "34b8ff0cf69ab031f45d0280282122f19e6bc1f92b107710ebf248d4de2cc934",
+    "container_image_id": "sha256:32cacd04db27a4aa152206dd1029fe1bdbe4349930d62f2d164b6e40231e839a",
+    "container_exit_code": 0,
+    "oom_killed": false,
+    "container_started_at": "2026-09-10T08:46:33.374479798Z",
+    "container_finished_at": "2026-09-10T08:46:38.947814996Z",
+    "existing_containers_unchanged": true,
+    "existing_running_set_unchanged": true,
+    "containers_after": [
+      {
+        "id": "f3e83788986e45371fa45924fb7528172d90130960d8b14f26081ae50847da70",
+        "name": "/voiceup-spark-inference-1",
+        "image": "sha256:a743b6e101beee3d85788f082d1b32a957149fda409eec3860c681f249b7a8c5",
+        "started_at": "2026-09-10T06:52:59.117183296Z",
+        "status": "running",
+        "restart_count": 0
+      },
+      {
+        "id": "2b8bee346247709edc3b73cf8fb9dc736fc21eabd8bf8773bee5268a8dc0c162",
+        "name": "/voiceup-spark-relay-1",
+        "image": "sha256:28c4e91555d001bb0f6b2796e565bfa75302711a0d6e67c5562eb2f7d54d2483",
+        "started_at": "2026-09-10T06:52:59.103516448Z",
+        "status": "running",
+        "restart_count": 0
+      }
+    ],
+    "model_manifest_unchanged": true,
+    "model_files_unchanged": 6,
+    "model_manifest_sha256": "08a9a239f7f5c696f051ac532999d2620e6d0dda7e23f647fff89e9cb8acc4a7",
+    "stderr_bytes": 1112,
+    "evidence_boundary": "Native Linux ARM64 CPU software wiring only; constructed repeated public speech, not accuracy, MacBook timing, or owner acceptance."
+  },
+  "production_before": [
+    {
+      "id": "f3e83788986e45371fa45924fb7528172d90130960d8b14f26081ae50847da70",
+      "name": "/voiceup-spark-inference-1",
+      "image": "sha256:a743b6e101beee3d85788f082d1b32a957149fda409eec3860c681f249b7a8c5",
+      "started_at": "2026-09-10T06:52:59.117183296Z",
+      "status": "running",
+      "restart_count": 0
+    },
+    {
+      "id": "2b8bee346247709edc3b73cf8fb9dc736fc21eabd8bf8773bee5268a8dc0c162",
+      "name": "/voiceup-spark-relay-1",
+      "image": "sha256:28c4e91555d001bb0f6b2796e565bfa75302711a0d6e67c5562eb2f7d54d2483",
+      "started_at": "2026-09-10T06:52:59.103516448Z",
+      "status": "running",
+      "restart_count": 0
+    }
+  ],
+  "model_before": {
+    "model_path": "/home/<runtime-owner>/voiceup-runtime/models/speaker-pilot",
+    "files": {
+      "ecapa/classifier.ckpt": "fd9e3634fe68bd0a427c95e354c0c677374f62b3f434e45b78599950d860d535",
+      "ecapa/embedding_model.ckpt": "0575cb64845e6b9a10db9bcb74d5ac32b326b8dc90352671d345e2ee3d0126a2",
+      "ecapa/hyperparams.yaml": "6f78854fa04ba59e761437b76a2575d3aba5e5016de3e9b69f0c9a5077fb1a41",
+      "ecapa/label_encoder.txt": "e13c3a167bb4112685670ee896d20e2b565af16b3a4ceeaa8689fa4d22adb8b9",
+      "ecapa/mean_var_norm_emb.ckpt": "cd70225b05b37be64fc5a95e24395d804231d43f74b2e1e5a513db7b69b34c33",
+      "silero/silero_vad.jit": "e1122837f4154c511485fe0b9c64455f7b929c96fbb8d79fbdb336383ebd3720"
+    },
+    "manifest_sha256": "08a9a239f7f5c696f051ac532999d2620e6d0dda7e23f647fff89e9cb8acc4a7"
+  },
+  "cleanup": {
+    "status": "removed_owned_exited_test_container",
+    "removed_container_id": "34b8ff0cf69ab031f45d0280282122f19e6bc1f92b107710ebf248d4de2cc934",
+    "production_container_count": 2,
+    "production_identities_unchanged": true,
+    "retained_remote_stage": "/tmp/voiceup-cpu-native-arm64-20260910-review",
+    "retained_loaded_image_id": "sha256:32cacd04db27a4aa152206dd1029fe1bdbe4349930d62f2d164b6e40231e839a",
+    "retention_reason": "Retain exact isolated verification files and newly loaded untagged image for review; no recursive cleanup or existing-image mutation."
+  },
+  "http_result_file": "cpu-aarch64-native-http-smoke.json",
+  "warnings": {
+    "count": 2,
+    "category": "Existing SpeechBrain TorchAudio list_audio_backends deprecation warning",
+    "stderr_sha256": "940142d6a9de1e5b29f1d675f0652381751a0849725e67b27fe3ea0aaf36c439"
+  },
+  "initial_verification_guard": {
+    "status": "stopped_before_docker_load_then_corrected_without_product_edit",
+    "cause": "Initial archive verifier incorrectly equated the Docker Desktop OCI index ID with the Linux Docker image config ID. Read-only archive metadata proved the exact index-to-ARM-manifest-to-config-and-11-layer hash chain; repeat passed before load."
+  },
+  "evidence_limits": [
+    "Nine real private-HTTP software checks use a repeated public 30-second fixture; no speaker accuracy measurement.",
+    "The physical host is native Linux aarch64 Spark, not an Apple Silicon MacBook.",
+    "The existing QEMU HTTP timeout/signal-11 evidence is retained separately.",
+    "No backend database, retained speaker profile, user environment, model weights, existing image tags or running Spark production container was changed."
+  ]
+}

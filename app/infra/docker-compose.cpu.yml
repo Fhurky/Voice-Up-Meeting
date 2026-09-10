@@ -1,0 +1,29 @@
+# CPU is an explicit local mode; it never inherits NVIDIA reservations.
+services:
+  inference:
+    image: voiceup-inference-cpu:${CPU_ARCH:?run python3 scripts/setup-local-cpu.py}
+    build:
+      dockerfile: app/inference/Dockerfile.cpu
+      args:
+        CPU_ARCH: ${CPU_ARCH:?run python3 scripts/setup-local-cpu.py}
+      additional_contexts:
+        wheelhouse: ../../models/inference-cpu-${CPU_ARCH}-wheelhouse
+    pull_policy: never
+    user: "10001:10001"
+    environment:
+      VOICEUP_INFERENCE_DEVICE: cpu
+      VOICEUP_INFERENCE_RUNTIME_PROFILE: ${CPU_ARCH}-cpu
+      HF_HUB_OFFLINE: "1"
+      TRANSFORMERS_OFFLINE: "1"
+      XDG_CACHE_HOME: /tmp/cache
+    deploy:
+      resources:
+        reservations:
+          devices: !reset []
+    volumes:
+      - type: bind
+        source: ../../models/speaker-pilot
+        target: /models/speaker
+        read_only: true
+        bind:
+          create_host_path: false

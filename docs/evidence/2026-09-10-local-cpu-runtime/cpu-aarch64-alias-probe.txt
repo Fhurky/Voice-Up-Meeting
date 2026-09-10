@@ -1,0 +1,2 @@
+{"status": "passed", "bundled_library_sha256": "dc3231f8fd4cadc46d8659c3b8dd811ae33174749e86807f16f61ead6ee59bfd", "temporary_alias": "/tmp/voiceup-cpu-libs/libgomp.so.1", "result": {"torch": "2.8.0+cpu", "torchaudio": "2.8.0", "cuda": null, "matrix_kernel": "passed"}, "stderr": ""}
+

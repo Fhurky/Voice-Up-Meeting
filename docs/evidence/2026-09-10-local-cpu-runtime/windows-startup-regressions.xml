@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="10" skipped="0" tests="75" time="43.206" timestamp="2026-09-10T11:21:00.948849+03:00" hostname="DESKTOP-RJ78JKH"><testcase classname="tests.test_cpu_startup" name="test_first_setup_prepares_matching_artifacts_before_database_and_persists_mode[arm64-aarch64]" time="0.030" /><testcase classname="tests.test_cpu_startup" name="test_first_setup_prepares_matching_artifacts_before_database_and_persists_mode[amd64-x86_64]" time="0.012" /><testcase classname="tests.test_cpu_startup" name="test_unsupported_host_fails_before_local_files_or_mutations[windows]" time="0.004" /><testcase classname="tests.test_cpu_startup" name="test_unsupported_host_fails_before_local_files_or_mutations[unknown_arch]" time="0.004" /><testcase classname="tests.test_cpu_startup" name="test_unsupported_host_fails_before_local_files_or_mutations[old_compose]" time="0.004" /><testcase classname="tests.test_cpu_startup" name="test_unsupported_host_fails_before_local_files_or_mutations[remote_docker]" time="0.004" /><testcase classname="tests.test_cpu_startup" name="test_other_running_mode_is_never_changed[False-local]" time="0.006" /><testcase classname="tests.test_cpu_startup" name="test_other_running_mode_is_never_changed[False-spark]" time="0.006" /><testcase classname="tests.test_cpu_startup" name="test_other_running_mode_is_never_changed[True-local]" time="0.006" /><testcase classname="tests.test_cpu_startup" name="test_other_running_mode_is_never_changed[True-spark]" time="0.006" /><testcase classname="tests.test_cpu_startup" name="test_stopped_mode_needs_explicit_switch_and_build_failure_preserves_it" time="0.011" /><testcase classname="tests.test_cpu_startup" name="test_partial_database_failure_preserves_cpu_intent_and_existing_secrets" time="0.010" /><testcase classname="tests.test_cpu_startup" name="test_daily_start_uses_only_prepared_images_and_validates_real_cpu_readiness" time="0.010" /><testcase classname="tests.test_cpu_startup" name="test_daily_start_names_missing_model_without_starting_containers" time="0.007" /><testcase classname="tests.test_cpu_startup" name="test_subprocess_failure_and_timeout_never_expose_captured_secret" time="0.001" /><testcase classname="tests.test_cpu_startup" name="test_real_compose_cpu_overlay_has_no_gpu_or_external_model_port[aarch64]" time="0.129" /><testcase classname="tests.test_cpu_startup" name="test_real_compose_cpu_overlay_has_no_gpu_or_external_model_port[x86_64]" time="0.131" /><testcase classname="tests.test_cpu_startup" name="test_wrong_model_readiness_cannot_claim_cpu_startup[device-cuda:0]" time="0.012" /><testcase classname="tests.test_cpu_startup" name="test_wrong_model_readiness_cannot_claim_cpu_startup[dimensions-True]" time="0.010" /><testcase classname="tests.test_cpu_startup" name="test_wrong_model_readiness_cannot_claim_cpu_startup[ready-False]" time="0.010" /><testcase classname="tests.test_cpu_startup" name="test_wrong_model_readiness_cannot_claim_cpu_startup[model_revision-wrong-model]" time="0.012" /><testcase classname="tests.test_cpu_startup" name="test_conflicting_environment_is_preserved_and_rejected[CPU_ARCH]" time="0.005" /><testcase classname="tests.test_cpu_startup" name="test_conflicting_environment_is_preserved_and_rejected[COMPOSE_FILE]" time="0.006" /><testcase classname="tests.test_cpu_startup" name="test_conflicting_environment_is_preserved_and_rejected[COMPOSE_PROFILES]" time="0.005" /><testcase classname="tests.test_cpu_startup" name="test_shell_stack_selects_cpu_mode_and_rejects_compose_overrides[arguments0-True]" time="0.145" /><testcase classname="tests.test_cpu_startup" name="test_shell_stack_selects_cpu_mode_and_rejects_compose_overrides[arguments1-True]" time="0.100" /><testcase classname="tests.test_cpu_startup" name="test_shell_stack_selects_cpu_mode_and_rejects_compose_overrides[arguments2-False]" time="0.143" /><testcase classname="tests.test_cpu_startup" name="test_shell_stack_selects_cpu_mode_and_rejects_compose_overrides[arguments3-False]" time="0.149" /><testcase classname="tests.test_local_configuration" name="test_existing_quoted_exported_values_are_preserved" time="0.028" /><testcase classname="tests.test_local_configuration" name="test_invalid_existing_secret_fails_without_rewriting" time="0.010" /><testcase classname="tests.test_local_configuration" name="test_runtime_provisioning_parses_quotes_and_pins_project" time="0.013" /><testcase classname="tests.test_local_configuration" name="test_startup_uses_resolved_port_and_cannot_pull_images" time="0.237"><failure message="TypeError: expected str, bytes or os.PathLike object, not NoneType">tests\test_local_configuration.py:83: in test_startup_uses_resolved_port_and_cannot_pull_images
+    result = run_startup(startup, arguments="-Mode Local")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_spark_startup.py:131: in run_startup
+    return subprocess.run(
+..\..\AppData\Local\Programs\Python\Python312\Lib\subprocess.py:548: in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Local\Programs\Python\Python312\Lib\subprocess.py:1026: in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+..\..\AppData\Local\Programs\Python\Python312\Lib\subprocess.py:1462: in _execute_child
+    args = list2cmdline(args)
+           ^^^^^^^^^^^^^^^^^^
+..\..\AppData\Local\Programs\Python\Python312\Lib\subprocess.py:608: in list2cmdline
+    for arg in map(os.fsdecode, seq):
+               ^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen os&gt;:859: in fsdecode
+    ???
+E   TypeError: expected str, bytes or os.PathLike object, not NoneType</failure></testcase><testcase classname="tests.test_spark_startup" name="test_powershell_file_invocation_preserves_turkish_console_output" time="0.899" /><testcase classname="tests.test_spark_startup" name="test_spark_intent_precedes_mutation_and_native_stderr_is_retried[powershell]" time="1.174" /><testcase classname="tests.test_spark_startup" name="test_spark_refreshes_nginx_upstream_addresses_after_compose_replacement[powershell]" time="0.615" /><testcase classname="tests.test_spark_startup" name="test_nginx_reload_failure_does_not_report_ready_or_stop_local_inference[powershell]" time="0.612" /><testcase classname="tests.test_spark_startup" name="test_partial_activation_cannot_revert_to_local[powershell-up]" time="1.100" /><testcase classname="tests.test_spark_startup" name="test_partial_activation_cannot_revert_to_local[powershell-stop]" time="1.184" /><testcase classname="tests.test_spark_startup" name="test_failed_preflight_never_mutates_or_changes_mode[tunnel]" time="0.011"><failure message="TypeError: expected str, bytes or os.PathLike object, not NoneType">tests\test_spark_startup.py:230: in test_failed_preflight_never_mutates_or_changes_mode
+    result = run_startup(startup, extra=overrides[failure])
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_spark_startup.py:131: in run_startup
+    return subprocess.run(
+..\..\AppData\Local\Programs\Python\Python312\Lib\subprocess.py:548: in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Local\Programs\Python\Python312\Lib\subprocess.py:1026: in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+..\..\AppData\Local\Programs\Python\Python312\Lib\subprocess.py:1462: in _execute_child
+    args = list2cmdline(args)
+           ^^^^^^^^^^^^^^^^^^
+..\..\AppData\Local\Programs\Python\Python312\Lib\subprocess.py:608: in list2cmdline
+    for arg in map(os.fsdecode, seq):
+               ^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen os&gt;:859: in fsdecode
+    ???
+E   TypeError: expected str, bytes or os.PathLike object, not NoneType</failure></testcase><testcase classname="tests.test_spark_startup" name="test_failed_preflight_never_mutates_or_changes_mode[config]" time="0.010"><failure message="TypeError: expected str, bytes or os.PathLike object, not NoneType">tests\test_spark_startup.py:230: in test_failed_preflight_never_mutates_or_changes_mode
+    result = run_startup(startup, extra=overrides[failure])
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_spark_startup.py:131: in run_startup
+    return subprocess.run(
+..\..\AppData\Local\Programs\Python\Python312\Lib\subprocess.py:548: in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Local\Programs\Python\Python312\Lib\subprocess.py:1026: in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+..\..\AppData\Local\Programs\Python\Python312\Lib\subprocess.py:1462: in _execute_child
+    args = list2cmdline(args)
+           ^^^^^^^^^^^^^^^^^^
+..\..\AppData\Local\Programs\Python\Python312\Lib\subprocess.py:608: in list2cmdline
+    for arg in map(os.fsdecode, seq):
+               ^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen os&gt;:859: in fsdecode
+    ???
+E   TypeError: expected str, bytes or os.PathLike object, not NoneType</failure></testcase><testcase classname="tests.test_spark_startup" name="test_failed_preflight_never_mutates_or_changes_mode[inference]" time="0.010"><failure message="TypeError: expected str, bytes or os.PathLike object, not NoneType">tests\test_spark_startup.py:230: in test_failed_preflight_never_mutates_or_changes_mode
+    result = run_startup(startup, extra=overrides[failure])
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_spark_startup.py:131: in run_startup
+    return subprocess.run(
+..\..\AppData\Local\Programs\Python\Python312\Lib\subprocess.py:548: in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Local\Programs\Python\Python312\Lib\subprocess.py:1026: in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+..\..\AppData\Local\Programs\Python\Python312\Lib\subprocess.py:1462: in _execute_child
+    args = list2cmdline(args)
+           ^^^^^^^^^^^^^^^^^^
+..\..\AppData\Local\Programs\Python\Python312\Lib\subprocess.py:608: in list2cmdline
+    for arg in map(os.fsdecode, seq):
+               ^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen os&gt;:859: in fsdecode
+    ???
+E   TypeError: expected str, bytes or os.PathLike object, not NoneType</failure></testcase><testcase classname="tests.test_spark_startup" name="test_failed_preflight_never_mutates_or_changes_mode[ambient_profiles]" time="0.016"><failure message="TypeError: expected str, bytes or os.PathLike object, not NoneType">tests\test_spark_startup.py:230: in test_failed_preflight_never_mutates_or_changes_mode
+    result = run_startup(startup, extra=overrides[failure])
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_spark_startup.py:131: in run_startup
+    return subprocess.run(
+..\..\AppData\Local\Programs\Python\Python312\Lib\subprocess.py:548: in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Local\Programs\Python\Python312\Lib\subprocess.py:1026: in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+..\..\AppData\Local\Programs\Python\Python312\Lib\subprocess.py:1462: in _execute_child
+    args = list2cmdline(args)
+           ^^^^^^^^^^^^^^^^^^
+..\..\AppData\Local\Programs\Python\Python312\Lib\subprocess.py:608: in list2cmdline
+    for arg in map(os.fsdecode, seq):
+               ^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen os&gt;:859: in fsdecode
+    ???
+E   TypeError: expected str, bytes or os.PathLike object, not NoneType</failure></testcase><testcase classname="tests.test_spark_startup" name="test_failed_preflight_never_mutates_or_changes_mode[ambient_project]" time="0.011"><failure message="TypeError: expected str, bytes or os.PathLike object, not NoneType">tests\test_spark_startup.py:230: in test_failed_preflight_never_mutates_or_changes_mode
+    result = run_startup(startup, extra=overrides[failure])
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_spark_startup.py:131: in run_startup
+    return subprocess.run(
+..\..\AppData\Local\Programs\Python\Python312\Lib\subprocess.py:548: in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Local\Programs\Python\Python312\Lib\subprocess.py:1026: in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+..\..\AppData\Local\Programs\Python\Python312\Lib\subprocess.py:1462: in _execute_child
+    args = list2cmdline(args)
+           ^^^^^^^^^^^^^^^^^^
+..\..\AppData\Local\Programs\Python\Python312\Lib\subprocess.py:608: in list2cmdline
+    for arg in map(os.fsdecode, seq):
+               ^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen os&gt;:859: in fsdecode
+    ???
+E   TypeError: expected str, bytes or os.PathLike object, not NoneType</failure></testcase><testcase classname="tests.test_spark_startup" name="test_invalid_saved_mode_fails_before_docker[unknown\n]" time="0.009"><failure message="TypeError: expected str, bytes or os.PathLike object, not NoneType">tests\test_spark_startup.py:240: in test_invalid_saved_mode_fails_before_docker
+    result = run_startup(startup, arguments="")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_spark_startup.py:131: in run_startup
+    return subprocess.run(
+..\..\AppData\Local\Programs\Python\Python312\Lib\subprocess.py:548: in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Local\Programs\Python\Python312\Lib\subprocess.py:1026: in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+..\..\AppData\Local\Programs\Python\Python312\Lib\subprocess.py:1462: in _execute_child
+    args = list2cmdline(args)
+           ^^^^^^^^^^^^^^^^^^
+..\..\AppData\Local\Programs\Python\Python312\Lib\subprocess.py:608: in list2cmdline
+    for arg in map(os.fsdecode, seq):
+               ^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen os&gt;:859: in fsdecode
+    ???
+E   TypeError: expected str, bytes or os.PathLike object, not NoneType</failure></testcase><testcase classname="tests.test_spark_startup" name="test_invalid_saved_mode_fails_before_docker[spark\nlocal\n]" time="0.010"><failure message="TypeError: expected str, bytes or os.PathLike object, not NoneType">tests\test_spark_startup.py:240: in test_invalid_saved_mode_fails_before_docker
+    result = run_startup(startup, arguments="")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_spark_startup.py:131: in run_startup
+    return subprocess.run(
+..\..\AppData\Local\Programs\Python\Python312\Lib\subprocess.py:548: in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Local\Programs\Python\Python312\Lib\subprocess.py:1026: in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+..\..\AppData\Local\Programs\Python\Python312\Lib\subprocess.py:1462: in _execute_child
+    args = list2cmdline(args)
+           ^^^^^^^^^^^^^^^^^^
+..\..\AppData\Local\Programs\Python\Python312\Lib\subprocess.py:608: in list2cmdline
+    for arg in map(os.fsdecode, seq):
+               ^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen os&gt;:859: in fsdecode
+    ???
+E   TypeError: expected str, bytes or os.PathLike object, not NoneType</failure></testcase><testcase classname="tests.test_spark_startup" name="test_explicit_local_override_preserves_local_contract[powershell]" time="0.483" /><testcase classname="tests.test_spark_startup" name="test_native_timeout_is_bounded_and_does_not_echo_stderr[powershell]" time="1.628" /><testcase classname="tests.test_spark_startup" name="test_native_arguments_preserve_spaces_quotes_and_trailing_slashes[powershell]" time="0.385" /><testcase classname="tests.test_spark_startup" name="test_stack_remembers_remote_mode_and_explicit_local_override" time="0.315" /><testcase classname="tests.test_spark_startup" name="test_stack_blocks_local_activation_and_model_overrides[arguments0]" time="0.080" /><testcase classname="tests.test_spark_startup" name="test_stack_blocks_local_activation_and_model_overrides[arguments1]" time="0.077" /><testcase classname="tests.test_spark_startup" name="test_stack_blocks_local_activation_and_model_overrides[arguments2]" time="0.083" /><testcase classname="tests.test_spark_startup" name="test_stack_blocks_local_activation_and_model_overrides[arguments3]" time="0.084" /><testcase classname="tests.test_spark_startup" name="test_stack_blocks_local_activation_and_model_overrides[arguments4]" time="0.081" /><testcase classname="tests.test_spark_startup" name="test_stack_blocks_local_activation_and_model_overrides[arguments5]" time="0.086" /><testcase classname="tests.test_spark_startup" name="test_stack_blocks_local_activation_and_model_overrides[arguments6]" time="0.083" /><testcase classname="tests.test_spark_startup" name="test_stack_blocks_local_activation_and_model_overrides[arguments7]" time="0.088" /><testcase classname="tests.test_spark_startup" name="test_stack_blocks_local_activation_and_model_overrides[arguments8]" time="0.083" /><testcase classname="tests.test_spark_startup" name="test_stack_blocks_local_activation_and_model_overrides[arguments9]" time="0.083" /><testcase classname="tests.test_spark_startup" name="test_stack_general_activation_fails_closed[profiles-start]" time="0.080" /><testcase classname="tests.test_spark_startup" name="test_stack_general_activation_fails_closed[profiles-restart]" time="0.161" /><testcase classname="tests.test_spark_startup" name="test_stack_general_activation_fails_closed[profiles-up]" time="0.080" /><testcase classname="tests.test_spark_startup" name="test_stack_general_activation_fails_closed[project-start]" time="0.081" /><testcase classname="tests.test_spark_startup" name="test_stack_general_activation_fails_closed[project-restart]" time="0.081" /><testcase classname="tests.test_spark_startup" name="test_stack_general_activation_fails_closed[project-up]" time="0.080" /><testcase classname="tests.test_spark_startup" name="test_stack_general_activation_fails_closed[config_error-start]" time="0.139" /><testcase classname="tests.test_spark_startup" name="test_stack_general_activation_fails_closed[config_error-restart]" time="0.184" /><testcase classname="tests.test_spark_startup" name="test_stack_general_activation_fails_closed[config_error-up]" time="0.144" /><testcase classname="tests.test_spark_startup" name="test_stack_general_activation_fails_closed[effective_inference-start]" time="0.129" /><testcase classname="tests.test_spark_startup" name="test_stack_general_activation_fails_closed[effective_inference-restart]" time="0.135" /><testcase classname="tests.test_spark_startup" name="test_stack_general_activation_fails_closed[effective_inference-up]" time="0.142" /><testcase classname="tests.test_spark_startup" name="test_stack_allows_safe_general_restart_and_explicit_local_stop" time="0.284" /><testcase classname="tests.test_spark_startup" name="test_terminal_readiness_failure_preserves_spark_and_never_stops_local" time="29.972" /><testcase classname="tests.test_spark_startup" name="test_dotenv_profile_is_detected_from_real_compose_before_any_mutation[local-inference]" time="0.135"><failure message="TypeError: expected str, bytes or os.PathLike object, not NoneType">tests\test_spark_startup.py:456: in test_dotenv_profile_is_detected_from_real_compose_before_any_mutation
+    result = run_startup(startup, extra={"VOICEUP_FIXTURE_CONFIG": config.stdout})
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_spark_startup.py:131: in run_startup
+    return subprocess.run(
+..\..\AppData\Local\Programs\Python\Python312\Lib\subprocess.py:548: in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Local\Programs\Python\Python312\Lib\subprocess.py:1026: in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+..\..\AppData\Local\Programs\Python\Python312\Lib\subprocess.py:1462: in _execute_child
+    args = list2cmdline(args)
+           ^^^^^^^^^^^^^^^^^^
+..\..\AppData\Local\Programs\Python\Python312\Lib\subprocess.py:608: in list2cmdline
+    for arg in map(os.fsdecode, seq):
+               ^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen os&gt;:859: in fsdecode
+    ???
+E   TypeError: expected str, bytes or os.PathLike object, not NoneType</failure></testcase><testcase classname="tests.test_spark_startup" name="test_dotenv_profile_is_detected_from_real_compose_before_any_mutation[*]" time="0.134"><failure message="TypeError: expected str, bytes or os.PathLike object, not NoneType">tests\test_spark_startup.py:456: in test_dotenv_profile_is_detected_from_real_compose_before_any_mutation
+    result = run_startup(startup, extra={"VOICEUP_FIXTURE_CONFIG": config.stdout})
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_spark_startup.py:131: in run_startup
+    return subprocess.run(
+..\..\AppData\Local\Programs\Python\Python312\Lib\subprocess.py:548: in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Local\Programs\Python\Python312\Lib\subprocess.py:1026: in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+..\..\AppData\Local\Programs\Python\Python312\Lib\subprocess.py:1462: in _execute_child
+    args = list2cmdline(args)
+           ^^^^^^^^^^^^^^^^^^
+..\..\AppData\Local\Programs\Python\Python312\Lib\subprocess.py:608: in list2cmdline
+    for arg in map(os.fsdecode, seq):
+               ^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen os&gt;:859: in fsdecode
+    ???
+E   TypeError: expected str, bytes or os.PathLike object, not NoneType</failure></testcase></testsuite></testsuites>

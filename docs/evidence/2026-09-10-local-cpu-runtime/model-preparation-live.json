@@ -1,0 +1,15 @@
+{
+  "status": "passed",
+  "checks": 3,
+  "checks_description": [
+    "Fresh download and atomic packaging of all six fixed model files",
+    "Second run verifies the existing bundle without acquisition",
+    "Final bundle exactly matches the immutable model manifest"
+  ],
+  "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+  "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+  "verified_files": 6,
+  "runtime_network_access": false,
+  "scope": "Build-time public model preparation on Windows Python3.13; no Mac device claim",
+  "official_redirect_documentation": "https://huggingface.co/docs/hub/models-downloading"
+}

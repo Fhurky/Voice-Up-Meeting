@@ -1,0 +1,24 @@
+# Provision the selected CPU manifest before this networking-disabled build.
+# CPU_ARCH is the Linux machine architecture: x86_64 or aarch64.
+FROM python:3.13.14-slim-bookworm@sha256:67a1e1f215ccda113cfc024e8639049257e88f273898f595b61476d128d387e8
+ARG CPU_ARCH
+WORKDIR /srv/inference
+RUN python -c "import os, platform, sys; expected = os.environ['CPU_ARCH']; assert expected in {'x86_64', 'aarch64'}, 'CPU_ARCH must be x86_64 or aarch64'; assert platform.machine() == expected, 'CPU_ARCH does not match the image platform'; assert sys.version_info[:2] == (3, 13)"
+COPY app/inference/requirements.cpu-${CPU_ARCH}.txt /srv/inference/requirements.txt
+RUN --mount=type=bind,from=wheelhouse,target=/wheelhouse,readonly \
+    python -m pip install --no-cache-dir --no-index --only-binary=:all: \
+    --find-links=/wheelhouse --require-hashes -r requirements.txt && \
+    python -m pip check
+# ARM64 TorchAudio requests the standard SONAME while the admitted Torch wheel
+# ships its audited OpenMP library under a hashed name. Reuse that exact file.
+RUN if [ "$CPU_ARCH" = "aarch64" ]; then \
+    python -c "import hashlib; from pathlib import Path; source = Path('/usr/local/lib/python3.13/site-packages/torch.libs/libgomp-947d5fa1.so.1.0.0'); assert hashlib.sha256(source.read_bytes()).hexdigest() == 'dc3231f8fd4cadc46d8659c3b8dd811ae33174749e86807f16f61ead6ee59bfd'; target = Path('/usr/local/lib/voiceup-cpu'); target.mkdir(mode=0o755); (target / 'libgomp.so.1').symlink_to(source)"; \
+    fi
+ENV LD_LIBRARY_PATH=/usr/local/lib/voiceup-cpu
+COPY src/voiceup /srv/reference/voiceup
+COPY app/inference/voiceup_inference /srv/inference/voiceup_inference
+ENV PYTHONPATH=/srv/reference:/srv/inference PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
+ENV VOICEUP_INFERENCE_DEVICE=cpu VOICEUP_INFERENCE_RUNTIME_PROFILE=${CPU_ARCH}-cpu
+USER 10001:10001
+EXPOSE 8090
+CMD ["python", "-m", "voiceup_inference"]

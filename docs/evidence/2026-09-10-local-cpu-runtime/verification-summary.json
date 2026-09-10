@@ -1,0 +1,17 @@
+{
+  "python_unique": {
+    "passed": 338,
+    "failed": 0,
+    "skipped": 0
+  },
+  "frontend_passed": 39,
+  "browser_passed": 0,
+  "source_reports": [
+    "quality-gate-backend.xml",
+    "runtime-green.xml",
+    "setup-model-artifact-final.xml",
+    "cpu-artifacts-final.xml",
+    "cpu-application-results.xml"
+  ],
+  "counting": "Union of JUnit classname/name across final suites; a later Linux pass resolves the same Windows platform skip. Repeated tests are not added."
+}

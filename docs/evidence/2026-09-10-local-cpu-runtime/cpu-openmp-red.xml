@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.089" timestamp="2026-09-10T11:29:04.749325+03:00" hostname="DESKTOP-RJ78JKH"><testcase classname="tests.test_cpu_wheelhouse" name="test_cpu_image_prepares_pinned_arm_openmp_alias_before_dropping_privileges" time="0.001"><failure message="assert 'ENV LD_LIBRARY_PATH=/usr/local/lib/voiceup-cpu' in '# Provision the selected CPU manifest before this networking-disabled build.\n# CPU_ARCH is the Linux machine archite..._INFERENCE_RUNTIME_PROFILE=${CPU_ARCH}-cpu\nUSER 10001:10001\nEXPOSE 8090\nCMD [&quot;python&quot;, &quot;-m&quot;, &quot;voiceup_inference&quot;]\n'">def test_cpu_image_prepares_pinned_arm_openmp_alias_before_dropping_privileges():
+        dockerfile = (INFERENCE / "Dockerfile.cpu").read_text()
+&gt;       assert "ENV LD_LIBRARY_PATH=/usr/local/lib/voiceup-cpu" in dockerfile
+E       assert 'ENV LD_LIBRARY_PATH=/usr/local/lib/voiceup-cpu' in '# Provision the selected CPU manifest before this networking-disabled build.\n# CPU_ARCH is the Linux machine archite..._INFERENCE_RUNTIME_PROFILE=${CPU_ARCH}-cpu\nUSER 10001:10001\nEXPOSE 8090\nCMD ["python", "-m", "voiceup_inference"]\n'
+
+tests\test_cpu_wheelhouse.py:87: AssertionError</failure></testcase></testsuite></testsuites>

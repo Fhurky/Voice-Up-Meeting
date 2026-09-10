@@ -1,0 +1,188 @@
+docker.exe : #0 building with "desktop-linux" instance using docker driver
+At line:4 char:1
++ & docker @cpuArmBuildArguments 2>&1 | Tee-Object -FilePath docs/evide ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (#0 building wit...g docker driver:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+#1 [internal] load build definition from Dockerfile.cpu
+#1 transferring dockerfile: 1.28kB done
+#1 DONE 0.0s
+
+#2 [context wheelhouse] load .dockerignore
+#2 transferring wheelhouse: 2B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.13.14-slim-bookworm@sha256:67a1e1f215ccda113cfc024e863904925
+7e88f273898f595b61476d128d387e8
+#3 DONE 0.9s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 434B done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 14.08kB done
+#5 DONE 0.1s
+
+#6 [stage-0 1/7] FROM docker.io/library/python:3.13.14-slim-bookworm@sha256:67a1e1f215ccda113cfc024e8639049257e88f27389
+8f595b61476d128d387e8
+#6 resolve docker.io/library/python:3.13.14-slim-bookworm@sha256:67a1e1f215ccda113cfc024e8639049257e88f273898f595b61476
+d128d387e8 0.0s done
+#6 sha256:d34c7f44c54ec8a671ab41d3bc874a3344236a7dc40899e3860dfaba3bcf4434 0B / 12.47MB 0.2s
+#6 sha256:0dc98f095f89c81dff65530a43c3fb170f81d351aaec02cf2d546528f6aad4cc 0B / 249B 0.2s
+#6 sha256:72e37fa7f76fe734e50cf703021c9d3722e40372abf72c9580969acd6a37c426 0B / 3.35MB 0.2s
+#6 sha256:0f5d7465a5bb9d419f60c93d126a161286c73a1ede4a8b2e46bd5e7ad5782cc7 0B / 28.12MB 0.2s
+#6 sha256:0dc98f095f89c81dff65530a43c3fb170f81d351aaec02cf2d546528f6aad4cc 249B / 249B 0.4s done
+#6 sha256:d34c7f44c54ec8a671ab41d3bc874a3344236a7dc40899e3860dfaba3bcf4434 1.05MB / 12.47MB 0.5s
+#6 sha256:d34c7f44c54ec8a671ab41d3bc874a3344236a7dc40899e3860dfaba3bcf4434 5.24MB / 12.47MB 0.6s
+#6 sha256:d34c7f44c54ec8a671ab41d3bc874a3344236a7dc40899e3860dfaba3bcf4434 9.44MB / 12.47MB 0.8s
+#6 sha256:d34c7f44c54ec8a671ab41d3bc874a3344236a7dc40899e3860dfaba3bcf4434 12.47MB / 12.47MB 0.9s done
+#6 sha256:72e37fa7f76fe734e50cf703021c9d3722e40372abf72c9580969acd6a37c426 1.05MB / 3.35MB 0.9s
+#6 sha256:72e37fa7f76fe734e50cf703021c9d3722e40372abf72c9580969acd6a37c426 3.35MB / 3.35MB 1.0s done
+#6 sha256:0f5d7465a5bb9d419f60c93d126a161286c73a1ede4a8b2e46bd5e7ad5782cc7 4.19MB / 28.12MB 1.1s
+#6 sha256:0f5d7465a5bb9d419f60c93d126a161286c73a1ede4a8b2e46bd5e7ad5782cc7 8.39MB / 28.12MB 1.2s
+#6 sha256:0f5d7465a5bb9d419f60c93d126a161286c73a1ede4a8b2e46bd5e7ad5782cc7 13.63MB / 28.12MB 1.4s
+#6 sha256:0f5d7465a5bb9d419f60c93d126a161286c73a1ede4a8b2e46bd5e7ad5782cc7 17.83MB / 28.12MB 1.5s
+#6 sha256:0f5d7465a5bb9d419f60c93d126a161286c73a1ede4a8b2e46bd5e7ad5782cc7 22.02MB / 28.12MB 1.7s
+#6 sha256:0f5d7465a5bb9d419f60c93d126a161286c73a1ede4a8b2e46bd5e7ad5782cc7 28.12MB / 28.12MB 1.9s done
+#6 extracting sha256:0f5d7465a5bb9d419f60c93d126a161286c73a1ede4a8b2e46bd5e7ad5782cc7
+#6 extracting sha256:0f5d7465a5bb9d419f60c93d126a161286c73a1ede4a8b2e46bd5e7ad5782cc7 0.7s done
+#6 extracting sha256:72e37fa7f76fe734e50cf703021c9d3722e40372abf72c9580969acd6a37c426
+#6 extracting sha256:72e37fa7f76fe734e50cf703021c9d3722e40372abf72c9580969acd6a37c426 0.1s done
+#6 extracting sha256:d34c7f44c54ec8a671ab41d3bc874a3344236a7dc40899e3860dfaba3bcf4434
+#6 extracting sha256:d34c7f44c54ec8a671ab41d3bc874a3344236a7dc40899e3860dfaba3bcf4434 0.3s done
+#6 DONE 3.4s
+
+#7 [context wheelhouse] load from client
+#7 ...
+
+#6 [stage-0 1/7] FROM docker.io/library/python:3.13.14-slim-bookworm@sha256:67a1e1f215ccda113cfc024e8639049257e88f27389
+8f595b61476d128d387e8
+#6 extracting sha256:0dc98f095f89c81dff65530a43c3fb170f81d351aaec02cf2d546528f6aad4cc 0.0s done
+#6 DONE 3.5s
+
+#7 [context wheelhouse] load from client
+#7 ...
+
+#8 [stage-0 2/7] WORKDIR /srv/inference
+#8 DONE 0.4s
+
+#7 [context wheelhouse] load from client
+#7 transferring wheelhouse: 83.40MB 3.9s
+#7 ...
+
+#9 [stage-0 3/7] RUN python -c "import os, platform, sys; expected = os.environ['CPU_ARCH']; assert expected in {'x86_6
+4', 'aarch64'}, 'CPU_ARCH must be x86_64 or aarch64'; assert platform.machine() == expected, 'CPU_ARCH does not match t
+he image platform'; assert sys.version_info[:2] == (3, 13)"
+#9 DONE 1.2s
+
+#10 [stage-0 4/7] COPY app/inference/requirements.cpu-aarch64.txt /srv/inference/requirements.txt
+#10 DONE 0.1s
+
+#7 [context wheelhouse] load from client
+#7 transferring wheelhouse: 163.99MB 9.0s
+#7 transferring wheelhouse: 187.59MB 10.5s done
+#7 DONE 10.7s
+
+#11 [stage-0 5/7] RUN --mount=type=bind,from=wheelhouse,target=/wheelhouse,readonly     python -m pip install --no-cach
+e-dir --no-index --only-binary=:all:     --find-links=/wheelhouse --require-hashes -r requirements.txt &&     python -m
+ pip check
+#11 9.590 Looking in links: /wheelhouse
+#11 9.643 Processing /wheelhouse/annotated_doc-0.0.5-py3-none-any.whl (from -r requirements.txt (line 4))
+#11 9.699 Processing /wheelhouse/annotated_types-0.8.0-py3-none-any.whl (from -r requirements.txt (line 6))
+#11 9.720 Processing /wheelhouse/anyio-4.15.1-py3-none-any.whl (from -r requirements.txt (line 8))
+#11 9.743 Processing /wheelhouse/certifi-2026.7.22-py3-none-any.whl (from -r requirements.txt (line 10))
+#11 9.762 Processing /wheelhouse/cffi-2.1.1-cp313-cp313-manylinux2014_aarch64.manylinux_2_17_aarch64.whl (from -r requi
+rements.txt (line 12))
+#11 9.783 Processing /wheelhouse/charset_normalizer-3.5.1-cp313-cp313-manylinux2014_aarch64.manylinux_2_17_aarch64.many
+linux_2_28_aarch64.whl (from -r requirements.txt (line 14))
+#11 9.820 Processing /wheelhouse/click-8.5.0-py3-none-any.whl (from -r requirements.txt (line 16))
+#11 9.839 Processing /wheelhouse/cloudpickle-3.1.2-py3-none-any.whl (from -r requirements.txt (line 18))
+#11 9.856 Processing /wheelhouse/fastapi-0.141.1-py3-none-any.whl (from -r requirements.txt (line 20))
+#11 9.904 Processing /wheelhouse/filelock-3.32.5-py3-none-any.whl (from -r requirements.txt (line 22))
+#11 9.922 Processing /wheelhouse/fsspec-2026.7.0-py3-none-any.whl (from -r requirements.txt (line 24))
+#11 10.09 Processing /wheelhouse/h11-0.16.0-py3-none-any.whl (from -r requirements.txt (line 26))
+#11 10.11 Processing /wheelhouse/hf_xet-1.6.0-cp38-abi3-manylinux_2_28_aarch64.whl (from -r requirements.txt (line 28))
+#11 10.18 Processing /wheelhouse/huggingface_hub-0.36.2-py3-none-any.whl (from -r requirements.txt (line 30))
+#11 10.36 Processing /wheelhouse/hyperpyyaml-1.2.3-py3-none-any.whl (from -r requirements.txt (line 32))
+#11 10.37 Processing /wheelhouse/idna-3.19-py3-none-any.whl (from -r requirements.txt (line 34))
+#11 10.40 Processing /wheelhouse/jinja2-3.1.6-py3-none-any.whl (from -r requirements.txt (line 36))
+#11 10.43 Processing /wheelhouse/joblib-1.6.0-py3-none-any.whl (from -r requirements.txt (line 38))
+#11 10.47 Processing /wheelhouse/markupsafe-3.0.3-cp313-cp313-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_
+28_aarch64.whl (from -r requirements.txt (line 40))
+#11 10.49 Processing /wheelhouse/mpmath-1.3.0-py3-none-any.whl (from -r requirements.txt (line 42))
+#11 10.52 Processing /wheelhouse/networkx-3.6.1-py3-none-any.whl (from -r requirements.txt (line 44))
+#11 10.61 Processing /wheelhouse/numpy-2.4.3-cp313-cp313-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl (from -r req
+uirements.txt (line 46))
+#11 10.87 Processing /wheelhouse/packaging-26.3-py3-none-any.whl (from -r requirements.txt (line 48))
+#11 10.89 Processing /wheelhouse/pycparser-3.0-py3-none-any.whl (from -r requirements.txt (line 50))
+#11 10.91 Processing /wheelhouse/pydantic-2.13.4-py3-none-any.whl (from -r requirements.txt (line 52))
+#11 10.97 Processing /wheelhouse/pydantic_core-2.46.4-cp313-cp313-manylinux_2_17_aarch64.manylinux2014_aarch64.whl (fro
+m -r requirements.txt (line 54))
+#11 11.01 Processing /wheelhouse/pydantic_settings-2.14.2-py3-none-any.whl (from -r requirements.txt (line 56))
+#11 11.03 Processing /wheelhouse/python_dotenv-1.2.3-py3-none-any.whl (from -r requirements.txt (line 58))
+#11 11.06 Processing /wheelhouse/pyyaml-6.0.3-cp313-cp313-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_a
+arch64.whl (from -r requirements.txt (line 60))
+#11 11.09 Processing /wheelhouse/requests-2.34.2-py3-none-any.whl (from -r requirements.txt (line 62))
+#11 11.11 Processing /wheelhouse/ruamel_yaml-0.18.17-py3-none-any.whl (from -r requirements.txt (line 64))
+#11 11.14 Processing /wheelhouse/ruamel_yaml_clib-0.2.15-cp313-cp313-manylinux2014_aarch64.manylinux_2_17_aarch64.manyl
+inux_2_28_aarch64.whl (from -r requirements.txt (line 66))
+#11 11.17 Processing /wheelhouse/scipy-1.17.1-cp313-cp313-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl (from -r re
+quirements.txt (line 68))
+#11 11.71 Processing /wheelhouse/sentencepiece-0.2.2-cp313-cp313-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl (fro
+m -r requirements.txt (line 70))
+#11 11.76 Processing /wheelhouse/setuptools-84.0.0-py3-none-any.whl (from -r requirements.txt (line 72))
+#11 11.83 Processing /wheelhouse/silero_vad-6.2.1-py3-none-any.whl (from -r requirements.txt (line 74))
+#11 11.96 Processing /wheelhouse/soundfile-0.14.0-py2.py3-none-manylinux_2_28_aarch64.whl (from -r requirements.txt (li
+ne 76))
+#11 12.00 Processing /wheelhouse/speechbrain-1.1.1-py3-none-any.whl (from -r requirements.txt (line 78))
+#11 12.07 Processing /wheelhouse/starlette-1.6.0-py3-none-any.whl (from -r requirements.txt (line 80))
+#11 12.10 Processing /wheelhouse/sympy-1.14.0-py3-none-any.whl (from -r requirements.txt (line 82))
+#11 12.25 Processing /wheelhouse/torch-2.8.0+cpu-cp313-cp313-manylinux_2_28_aarch64.whl (from -r requirements.txt (line
+ 84))
+#11 13.94 Processing /wheelhouse/torchaudio-2.8.0-cp313-cp313-manylinux_2_28_aarch64.whl (from -r requirements.txt (lin
+e 86))
+#11 13.99 Processing /wheelhouse/tqdm-4.70.0-py3-none-any.whl (from -r requirements.txt (line 88))
+#11 14.03 Processing /wheelhouse/typing_extensions-4.16.0-py3-none-any.whl (from -r requirements.txt (line 90))
+#11 14.05 Processing /wheelhouse/typing_inspection-0.4.4-py3-none-any.whl (from -r requirements.txt (line 92))
+#11 14.07 Processing /wheelhouse/urllib3-2.7.0-py3-none-any.whl (from -r requirements.txt (line 94))
+#11 14.09 Processing /wheelhouse/uvicorn-0.52.1-py3-none-any.whl (from -r requirements.txt (line 96))
+#11 16.01 Installing collected packages: mpmath, urllib3, typing-extensions, tqdm, sympy, setuptools, sentencepiece, ru
+amel-yaml-clib, pyyaml, python-dotenv, pycparser, packaging, numpy, networkx, markupsafe, idna, hf-xet, h11, fsspec, fi
+lelock, cloudpickle, click, charset-normalizer, certifi, annotated-types, annotated-doc, uvicorn, typing-inspection, sc
+ipy, ruamel-yaml, requests, pydantic-core, joblib, jinja2, cffi, anyio, torch, starlette, soundfile, pydantic, hyperpyy
+aml, huggingface-hub, torchaudio, pydantic-settings, fastapi, speechbrain, silero-vad
+#11 180.8 
+#11 180.8 Successfully installed annotated-doc-0.0.5 annotated-types-0.8.0 anyio-4.15.1 certifi-2026.7.22 cffi-2.1.1 ch
+arset-normalizer-3.5.1 click-8.5.0 cloudpickle-3.1.2 fastapi-0.141.1 filelock-3.32.5 fsspec-2026.7.0 h11-0.16.0 hf-xet-
+1.6.0 huggingface-hub-0.36.2 hyperpyyaml-1.2.3 idna-3.19 jinja2-3.1.6 joblib-1.6.0 markupsafe-3.0.3 mpmath-1.3.0 networ
+kx-3.6.1 numpy-2.4.3 packaging-26.3 pycparser-3.0 pydantic-2.13.4 pydantic-core-2.46.4 pydantic-settings-2.14.2 python-
+dotenv-1.2.3 pyyaml-6.0.3 requests-2.34.2 ruamel-yaml-0.18.17 ruamel-yaml-clib-0.2.15 scipy-1.17.1 sentencepiece-0.2.2 
+setuptools-84.0.0 silero-vad-6.2.1 soundfile-0.14.0 speechbrain-1.1.1 starlette-1.6.0 sympy-1.14.0 torch-2.8.0+cpu torc
+haudio-2.8.0 tqdm-4.70.0 typing-extensions-4.16.0 typing-inspection-0.4.4 urllib3-2.7.0 uvicorn-0.52.1
+#11 180.9 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the s
+ystem package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead:
+ https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppre
+ss this warning.
+#11 183.4 No broken requirements found.
+#11 DONE 183.6s
+
+#12 [stage-0 6/7] COPY src/voiceup /srv/reference/voiceup
+#12 DONE 0.1s
+
+#13 [stage-0 7/7] COPY app/inference/voiceup_inference /srv/inference/voiceup_inference
+#13 DONE 0.0s
+
+#14 exporting to image
+#14 exporting layers
+#14 exporting layers 16.7s done
+#14 exporting manifest sha256:f098e96f9ee0b187ff8b034f49bceda231ec36072ebaef2855097e4ff71625d5 0.0s done
+#14 exporting config sha256:2a4c71257e1d9e50616626d3a6fd6419232f3016f9fb4bd5eb61a1af3e24b483 0.0s done
+#14 exporting attestation manifest sha256:7b40e54009bf5f70d476877c2b1a1694b4688b56a242cad70f4ff25359229b5d 0.0s done
+#14 exporting manifest list sha256:24de7d2d751e37290ff0c824b70f75318b01fd17a9c29c95016ddf832df74a4d 0.0s done
+#14 naming to docker.io/library/voiceup-inference:cpu-aarch64 done
+#14 DONE 16.8s
+
+View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/rbol9fr8hgoy4hdfoyujcq8qw

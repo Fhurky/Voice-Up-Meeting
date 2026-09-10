@@ -1,0 +1,45 @@
+
+/usr/local/lib/python3.13/site-packages/speechbrain/utils/torch_audio_backend.py:64: UserWarning: torchaudio._backend.list_audio_backends has been deprecated. This deprecation is part of a large refactoring effort to transition TorchAudio into a maintenance phase. The decoding and encoding capabilities of PyTorch for both audio and video are being consolidated into TorchCodec. Please see https://github.com/pytorch/audio/issues/3902 for more information. It will be removed from the 2.9 release. 
+  available_backends = torchaudio.list_audio_backends()
+/usr/local/lib/python3.13/site-packages/speechbrain/utils/torch_audio_backend.py:64: UserWarning: torchaudio._backend.list_audio_backends has been deprecated. This deprecation is part of a large refactoring effort to transition TorchAudio into a maintenance phase. The decoding and encoding capabilities of PyTorch for both audio and video are being consolidated into TorchCodec. Please see https://github.com/pytorch/audio/issues/3902 for more information. It will be removed from the 2.9 release. 
+  available_backends = torchaudio.list_audio_backends()
+/pytorch/third_party/ideep/mkl-dnn/src/cpu/aarch64/xbyak_aarch64/src/util_impl_linux.h, 444: Can't open MIDR_EL1 sysfs entry
+Traceback (most recent call last):
+  File "/checks/smoke_cpu.py", line 19, in <module>
+    print(json.dumps(run(args.fixtures, cpu_profile=args.runtime_profile), indent=2))
+                     ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/checks/smoke_cuda.py", line 122, in run
+    request(f"/v1/embeddings?purpose={purpose}", payload),
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/checks/smoke_cuda.py", line 61, in request
+    with urlopen(req, timeout=180) as response:
+         ~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/urllib/request.py", line 189, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/urllib/request.py", line 489, in open
+    response = self._open(req, data)
+  File "/usr/local/lib/python3.13/urllib/request.py", line 506, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "/usr/local/lib/python3.13/urllib/request.py", line 466, in _call_chain
+    result = func(*args)
+  File "/usr/local/lib/python3.13/urllib/request.py", line 1348, in http_open
+    return self.do_open(http.client.HTTPConnection, req)
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/urllib/request.py", line 1323, in do_open
+    r = h.getresponse()
+  File "/usr/local/lib/python3.13/http/client.py", line 1459, in getresponse
+    response.begin()
+    ~~~~~~~~~~~~~~^^
+  File "/usr/local/lib/python3.13/http/client.py", line 336, in begin
+    version, status, reason = self._read_status()
+                              ~~~~~~~~~~~~~~~~~^^
+  File "/usr/local/lib/python3.13/http/client.py", line 297, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/socket.py", line 723, in readinto
+    return self._sock.recv_into(b)
+           ~~~~~~~~~~~~~~~~~~~~^^^
+TimeoutError: timed out
+qemu: uncaught target signal 11 (Segmentation fault) - core dumped

@@ -6,6 +6,10 @@ Toplantılar arasında aynı konuşmacıyı yeniden tanımak için kalıcı ses 
 
 ## Yerel uygulama
 
+MacBook üzerinde bütün servisleri ve modeli yerel CPU ile çalıştırmak için
+[Mac kurulum rehberini](docs/MACOS_SETUP.md) kullanın. Apple Silicon/Intel paketleri
+ayrıdır; gerçek Mac cihazındaki doğrulama durumu rehberde belirtilir.
+
 Hazırlanmış ortamda Docker Desktop açıkken:
 
 ```powershell
@@ -44,7 +48,7 @@ eşitlenir; yerel sırlar, model paketleri, sesler ve PostgreSQL verisi ayrı ha
 | --- | --- |
 | `app/backend/` | Python 3.13/FastAPI; tenant/RBAC; kalıcı profil, kayıt ve iş API'si; worker |
 | `app/frontend/` | React 19/Vite 8; Türkçe/İngilizce profil, analiz ve iş ekranları |
-| `app/inference/` | Ayrı CUDA servisi; sabit ECAPA/Silero paketi; çalışma anında indirme yok |
+| `app/inference/` | Ayrı CUDA veya açık CPU servisi; sabit ECAPA/Silero paketi; çalışma anında indirme yok |
 | `schema/` | PostgreSQL 17/pgvector; SQLAlchemy authority ve Alembic migrasyonları |
 | `app/infra/`, `app/devops/` | Yerel Compose ve ağ erişimi kısıtlı Helm tanımları |
 | `src/voiceup/`, kök `pyproject.toml` | Ayrı tutulan önceki CPU/SQLite araştırma çekirdeği |

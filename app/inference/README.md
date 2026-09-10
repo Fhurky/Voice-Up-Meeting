@@ -6,6 +6,15 @@ does not access PostgreSQL, and exposes no user or profile management API.
 
 ## Runtime and model boundary
 
+The explicit local CPU profiles `x86_64-cpu` and `aarch64-cpu` use PyTorch
+`2.8.0+cpu` and the same pinned ECAPA/Silero package. They require `device=cpu`,
+the matching Linux architecture and a successful CPU kernel/model warmup.
+CPU responses omit GPU memory metrics. They are separate from the two CUDA
+profiles below; a failed GPU does not fall back to CPU. `Dockerfile.cpu` consumes
+`CPU_ARCH`, `cpu-<arch>-wheelhouse-manifest.json` and its generated
+`requirements.cpu-<arch>.txt`. Each architecture has 47 hash-verified artifacts.
+See the [Mac guide](../../docs/MACOS_SETUP.md) and [evidence](../../docs/evidence/2026-09-10-local-cpu-runtime/README.md).
+
 The image uses digest-pinned Python 3.13.14 on Debian Bookworm. PyTorch
 2.8.0+cu128 and torchaudio 2.8.0+cu128 supply the CUDA userspace dependencies;
 the host must expose its NVIDIA device through the container runtime. Official

@@ -1,0 +1,23 @@
+{
+  "checks": [
+    {
+      "name": "source_manifest",
+      "passed": true,
+      "files": 39
+    },
+    {
+      "name": "local_document_links",
+      "passed": true,
+      "links": 81,
+      "missing": []
+    },
+    {
+      "name": "evidence_credential_patterns",
+      "passed": true,
+      "matching_files": [],
+      "scope": "Narrow text check; not a security scanner replacement."
+    }
+  ],
+  "passed": 3,
+  "failed": 0
+}

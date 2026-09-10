@@ -1,4 +1,4 @@
-"""Runtime admission tests use CUDA doubles; they establish no GPU compatibility."""
+"""Runtime admission doubles establish device contracts, not hardware compatibility."""
 
 import platform
 import sys
@@ -13,6 +13,7 @@ from voiceup_inference.errors import InferenceError
 
 KEY = "test-internal-key-at-least-32-characters"
 PROFILES = [("x86_64-cu128", "x86_64", "12.8"), ("aarch64-cu129", "aarch64", "12.9")]
+CPU_PROFILES = [("x86_64-cpu", "x86_64"), ("aarch64-cpu", "aarch64")]
 
 
 class FixtureCuda:
@@ -44,6 +45,10 @@ class FixtureTensor:
         assert value == 1
         self.added = True
         return self
+
+    def item(self):
+        assert self.added
+        return 2.0
 
 
 class FixtureTorch:
@@ -182,3 +187,109 @@ def test_model_loader_applies_selected_profile_before_loading_both_models(
     )
     assert handles.embedder.device == handles.vad.device == "cuda:0"
     assert torch.cuda.synchronized == [0, 0]
+
+
+@pytest.mark.parametrize("profile,machine", CPU_PROFILES)
+def test_cpu_requires_explicit_matching_device_and_profile(profile, machine):
+    assert Settings(internal_key=KEY, runtime_profile=profile, device="cpu").device == "cpu"
+    with pytest.raises(ValueError):
+        Settings(internal_key=KEY, runtime_profile=profile)
+
+
+@pytest.mark.parametrize("profile,machine", CPU_PROFILES)
+def test_cpu_profile_checks_build_architecture_and_executes_cpu_kernel(
+    monkeypatch, profile, machine
+):
+    monkeypatch.setattr(platform, "machine", lambda: machine)
+    monkeypatch.setattr(platform, "system", lambda: "Linux")
+    torch = FixtureTorch(None, version="2.8.0+cpu", device_type="cpu")
+    torch.cuda = object()  # Any attempted CUDA operation is an observable failure.
+    models.require_cpu(torch, "cpu", profile)
+    assert torch.allocated_device == "cpu"
+    assert torch.tensor.added
+
+
+@pytest.mark.parametrize("profile,machine", CPU_PROFILES)
+@pytest.mark.parametrize(
+    "mismatch", ["architecture", "platform", "version", "suffix", "cuda_build"]
+)
+def test_cpu_profile_rejects_incompatible_runtime_before_allocation(
+    monkeypatch, profile, machine, mismatch
+):
+    monkeypatch.setattr(
+        platform, "machine", lambda: "ppc64le" if mismatch == "architecture" else machine
+    )
+    monkeypatch.setattr(platform, "system", lambda: "Darwin" if mismatch == "platform" else "Linux")
+    torch = FixtureTorch(None, version="2.8.0+cpu", device_type="cpu")
+    torch.cuda = object()
+    if mismatch == "version":
+        torch.__version__ = "2.8.1+cpu"
+    elif mismatch == "suffix":
+        torch.__version__ = "2.8.0"
+    elif mismatch == "cuda_build":
+        torch.version.cuda = "12.8"
+    with pytest.raises(InferenceError) as error:
+        models.require_cpu(torch, "cpu", profile)
+    assert error.value.code == "cpu_runtime_mismatch"
+    assert error.value.status_code == 503
+    assert torch.allocated_device is None
+
+
+@pytest.mark.parametrize("failure", ["wrong_device", "wrong_value", "kernel_failure"])
+def test_cpu_probe_must_complete_with_cpu_result(monkeypatch, failure):
+    monkeypatch.setattr(platform, "machine", lambda: "x86_64")
+    monkeypatch.setattr(platform, "system", lambda: "Linux")
+    torch = FixtureTorch(None, version="2.8.0+cpu", device_type="cpu")
+    if failure == "wrong_device":
+        torch.tensor.device.type = "cuda"
+    elif failure == "wrong_value":
+        torch.tensor.item = lambda: float("nan")
+    else:
+
+        def unavailable(size, *, device):
+            raise RuntimeError("private-native-error-path")
+
+        torch.ones = unavailable
+    with pytest.raises(InferenceError) as error:
+        models.require_cpu(torch, "cpu", "x86_64-cpu")
+    assert error.value.code == "cpu_unavailable"
+    assert "private-native-error-path" not in str(error.value)
+
+
+@pytest.mark.parametrize("profile,machine", CPU_PROFILES)
+def test_cpu_loader_warms_both_models_without_cuda_metrics(monkeypatch, tmp_path, profile, machine):
+    monkeypatch.setattr(platform, "machine", lambda: machine)
+    monkeypatch.setattr(platform, "system", lambda: "Linux")
+    torch = FixtureTorch(None, version="2.8.0+cpu", device_type="cpu")
+    torch.cuda = object()
+    monkeypatch.setitem(sys.modules, "torch", torch)
+    monkeypatch.setattr(models, "verify_bundle", lambda directory: None)
+
+    class CpuEmbedder:
+        def __init__(self, cache_dir, device):
+            assert cache_dir == tmp_path / "ecapa" and device == "cpu"
+            assert torch.tensor.added
+            self.warmed = False
+
+        def encode(self, samples, sample_rate=16000):
+            assert samples.shape == (48000,) and sample_rate == 16000
+            self.warmed = True
+            return np.ones(192)
+
+    class CpuVad:
+        def __init__(self, jit_path, device):
+            assert jit_path == tmp_path / "silero" / "silero_vad.jit" and device == "cpu"
+            self.warmed = False
+
+        def speech_spans(self, samples, sample_rate=16000):
+            assert samples.shape == (16000,) and sample_rate == 16000
+            self.warmed = True
+            return []
+
+    monkeypatch.setattr(models, "OfflineECAPA", CpuEmbedder)
+    monkeypatch.setattr(models, "OfflineSilero", CpuVad)
+    handles = models.load_models(
+        Settings(internal_key=KEY, model_dir=tmp_path, runtime_profile=profile, device="cpu")
+    )
+    assert handles.embedder.warmed and handles.vad.warmed
+    assert handles.metrics is None

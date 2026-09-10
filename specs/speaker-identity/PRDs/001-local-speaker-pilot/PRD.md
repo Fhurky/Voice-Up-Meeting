@@ -43,7 +43,9 @@ Decision 4: 4060'ta aynı anda bir GPU işi ve bir model örneği kullanılır. 
 Alpine image'ına PyTorch kurulmaz; Python 3.13 ile uyumluluğu doğrulanmış ayrı CUDA/Linux
 çıkarım ortamı ve iç HTTP adaptörü kullanılır. Cihaz veya model hazır değilse açık hata
 üretilir; sessizce sahte sonuç veya CPU'ya geçiş olmaz. CPU, yalnız açıkça seçilmiş
-karşılaştırma modu olabilir.
+karşılaştırma modu olabilir. 10 Eylül 2026 kullanıcı talimatıyla kabul edilen
+[005 Decision 1](../005-local-cpu-runtime/PRD.md), açık CPU modunu MacBook üzerinde
+yerel ürün kullanımına genişletir; CUDA arızasında otomatik geçiş yasağı korunur.
 
 Decision 5: Yerel giriş adresi için `127.0.0.1:8081` hedeflenir; başlamadan boşluğu
 kontrol edilir. 8080'deki mevcut uygulama korunur. Spark'a geçişte API ve iş kaydı

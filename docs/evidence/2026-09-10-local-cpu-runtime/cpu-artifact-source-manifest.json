@@ -1,0 +1,14 @@
+{
+  "profile": "kt-vibecoding-python-web-v2",
+  "spec_path": "specs/speaker-identity/PRDs/005-local-cpu-runtime/PRD.md",
+  "files": {
+    "app/inference/cpu-x86_64-wheelhouse-manifest.json": "c78d6cf1cb445f15a5a9b3d7c2fd4842a2bf48d32bfcdf27f9d9fc903550c63c",
+    "app/inference/cpu-aarch64-wheelhouse-manifest.json": "64a7c7b2888acc8cb519117b29f4302ba23a5db2846a5709659ac49236d40e6b",
+    "app/inference/requirements.cpu-x86_64.in": "14730ec53c3a74192ac778128c96d6f04e9eae462796e92bfbdb5f0cd39d6468",
+    "app/inference/requirements.cpu-x86_64.txt": "38eb5001d43ffeac644dfb61a115d784d643b4c1826ed0ba81a582de42055a4b",
+    "app/inference/requirements.cpu-aarch64.in": "512199ff4309e1f19659dd00d629a7ad03fdf48a7d91713bd9226a1bf1e4c53e",
+    "app/inference/requirements.cpu-aarch64.txt": "f2aa463aa277df1af6cda7dd41873092ca4fa7a10b20f819500af15c58af0f20",
+    "app/inference/Dockerfile.cpu": "b9d40c42068f56bac77ac700464ad7860b1ba6bffe9c12f0e6ed54a4fd6a1a3c",
+    "tests/test_cpu_wheelhouse.py": "3135f58c8a281452816489c08c2ec2a6f1c85da8cedb3291a8cae466b698dc05"
+  }
+}

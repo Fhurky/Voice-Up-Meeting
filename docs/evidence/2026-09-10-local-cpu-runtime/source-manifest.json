@@ -1,0 +1,162 @@
+{
+  "profile": "kt-vibecoding-python-web-v2",
+  "git_head": "3ddba9451a78aa0c8964f3a616479e8da2d77908",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "201b7e2b3fa6ffcd6a7c52bc085f846fb634e9fc420d2b235f0645005ca1db74"
+    },
+    {
+      "path": "app/backend/app/infrastructure/speaker_inference.py",
+      "sha256": "36974680599197c1ff6d571660c4c2f00910dac9045f5cbb8e2422f02282e6ac"
+    },
+    {
+      "path": "app/backend/tests/live/cpu_application.py",
+      "sha256": "184ef6dbf335c26873c172133ca6ab3f0d1260c5bf6c3bf026c58bedafe2ade9"
+    },
+    {
+      "path": "app/backend/tests/unit/test_speaker_boundaries.py",
+      "sha256": "d529b0122421ae39a76a9107b40a72b98ccab1c44daae761f7839f2e05b0bd4d"
+    },
+    {
+      "path": "app/inference/.env.example",
+      "sha256": "adc6f59cfdbcfbabd7de55cc932df710a9163aa7bd660ad61c1d31be913a3e4f"
+    },
+    {
+      "path": "app/inference/Dockerfile.cpu",
+      "sha256": "b9d40c42068f56bac77ac700464ad7860b1ba6bffe9c12f0e6ed54a4fd6a1a3c"
+    },
+    {
+      "path": "app/inference/README.md",
+      "sha256": "44fdc32d1bd9966c9b599429e1bb9bef98afeaa6dea35d2556d4a6e316e8c381"
+    },
+    {
+      "path": "app/inference/cpu-aarch64-wheelhouse-manifest.json",
+      "sha256": "64a7c7b2888acc8cb519117b29f4302ba23a5db2846a5709659ac49236d40e6b"
+    },
+    {
+      "path": "app/inference/cpu-x86_64-wheelhouse-manifest.json",
+      "sha256": "c78d6cf1cb445f15a5a9b3d7c2fd4842a2bf48d32bfcdf27f9d9fc903550c63c"
+    },
+    {
+      "path": "app/inference/requirements.cpu-aarch64.in",
+      "sha256": "512199ff4309e1f19659dd00d629a7ad03fdf48a7d91713bd9226a1bf1e4c53e"
+    },
+    {
+      "path": "app/inference/requirements.cpu-aarch64.txt",
+      "sha256": "f2aa463aa277df1af6cda7dd41873092ca4fa7a10b20f819500af15c58af0f20"
+    },
+    {
+      "path": "app/inference/requirements.cpu-x86_64.in",
+      "sha256": "14730ec53c3a74192ac778128c96d6f04e9eae462796e92bfbdb5f0cd39d6468"
+    },
+    {
+      "path": "app/inference/requirements.cpu-x86_64.txt",
+      "sha256": "38eb5001d43ffeac644dfb61a115d784d643b4c1826ed0ba81a582de42055a4b"
+    },
+    {
+      "path": "app/inference/smoke_cpu.py",
+      "sha256": "0ca83f52d441f29d7f8c0b8ed22741eb733d3706c60e257d64d8ef9ca95ffbef"
+    },
+    {
+      "path": "app/inference/smoke_cuda.py",
+      "sha256": "f83ab7f6c3c2786c6c082100058797cf823b70c7b25cf10bfc8a93d11cb7c42d"
+    },
+    {
+      "path": "app/inference/tests/test_runtime_profiles.py",
+      "sha256": "623f7fa51dec0fe6785c71db59c64add9a9f76e3c176b50f88031427ffc66934"
+    },
+    {
+      "path": "app/inference/tests/test_service.py",
+      "sha256": "568ba86cf3eba641f8298c5e5bedf4cbb3ad5b806752239f5faf962f1dfafc5a"
+    },
+    {
+      "path": "app/inference/voiceup_inference/config.py",
+      "sha256": "4737f97f6a067f8c49a2a58fa39cfe589e85cf5b1879f6e3f61e90d680249fa3"
+    },
+    {
+      "path": "app/inference/voiceup_inference/models.py",
+      "sha256": "7eeb3356ac57a69d197bb1a28ed5ebc90bbbbfca2c1f2f94772387b5da0a05a1"
+    },
+    {
+      "path": "app/infra/.env.example",
+      "sha256": "46c9341a3ab658daa2e43e800f1911ede77e823ae9674612a9da9bdcf7a24b79"
+    },
+    {
+      "path": "app/infra/docker-compose.cpu.yml",
+      "sha256": "d8935c3659f16444713e8afdace8e553ecfac04290f3808d93e2b40bbd026183"
+    },
+    {
+      "path": "dependency-admission.json",
+      "sha256": "f9bc25e8406d6d06beef68ec4eeac94252854210885ff6ccbe8396f0be1bca19"
+    },
+    {
+      "path": "docs/GIT_WORKFLOW.md",
+      "sha256": "8171011b31964c62b9e53d817143cb1345a1e463fe83d498d1ec2079c1fb2a9d"
+    },
+    {
+      "path": "docs/LOCAL_PILOT.md",
+      "sha256": "7bbb0188a3be4e7b60bd6fd32ba98949c7aa72bb61dc69e45f660526f7821974"
+    },
+    {
+      "path": "docs/MACOS_SETUP.md",
+      "sha256": "1bf8efc2509aeed296e331b0829706dcbb1eb1e6679ed89fc9cf1a5e24f49dbe"
+    },
+    {
+      "path": "scripts/README.md",
+      "sha256": "d113f02786be9739e25bd3cd89ad303dbb5f436cfb2ee88dae7ea4098f6eaa9e"
+    },
+    {
+      "path": "scripts/bootstrap.sh",
+      "sha256": "0c047a664d4f01e6d5e9e38f22014d369a3af3b31e88cf74d8a64099924f21be"
+    },
+    {
+      "path": "scripts/prepare-speaker-model.py",
+      "sha256": "6b95526262ec792efefe603e665c21238d5550b01e3fb2d3ec6eb487a0e153cd"
+    },
+    {
+      "path": "scripts/setup-local-cpu.py",
+      "sha256": "25f81134208e9ae01f274b402a6e7d17b21378854d563055d49165f5a3f99d40"
+    },
+    {
+      "path": "scripts/stack.sh",
+      "sha256": "0e8ec588201b63b5bdaaf7d119be6805435e90c8d3398a7ae0752b1f3b0c8f11"
+    },
+    {
+      "path": "scripts/start-local-cpu.sh",
+      "sha256": "e828ee08ba3aac4e55843b462dfc7eb5ced46aa968cb9f98b4fe50a35bde8df7"
+    },
+    {
+      "path": "specs/speaker-identity/PRDs/001-local-speaker-pilot/PRD.md",
+      "sha256": "eb42ffdb5307935ac0d6eed2c15c4f3bab3b5cfbf9e0f8685dda1680a35cb535"
+    },
+    {
+      "path": "specs/speaker-identity/PRDs/005-local-cpu-runtime/PRD.md",
+      "sha256": "c7c5590fa4328b8528bcfbf9819b8baf72b99551effaec744bfd343a39438c1f"
+    },
+    {
+      "path": "specs/speaker-identity/PRDs/005-local-cpu-runtime/plan.md",
+      "sha256": "2d28eeb47bd127f0bf185d184d1fecbe3dc6dffdd1d37a077377de480b82f15b"
+    },
+    {
+      "path": "specs/speaker-identity/PRDs/005-local-cpu-runtime/tasks.md",
+      "sha256": "80bc175a58ee42d874c2bfebba5dae7f6bbb71366d80547a2456e6adb1257160"
+    },
+    {
+      "path": "specs/speaker-identity/roadmap.md",
+      "sha256": "dc18ca7e64c936bc0c1649f6100f21897b40d9a443599b6800519440e27010a0"
+    },
+    {
+      "path": "tests/test_cpu_startup.py",
+      "sha256": "23085f59e0af23bd1f9ec80c94e57a05cb3bf5284ad6f609aeee087c34bb34d7"
+    },
+    {
+      "path": "tests/test_cpu_wheelhouse.py",
+      "sha256": "3135f58c8a281452816489c08c2ec2a6f1c85da8cedb3291a8cae466b698dc05"
+    },
+    {
+      "path": "tests/test_prepare_speaker_model.py",
+      "sha256": "f3e4ae2c4165b36fa896cb33ae9f78f0ff1aae8702f6010711c6a28e58996003"
+    }
+  ]
+}

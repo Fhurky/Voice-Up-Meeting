@@ -26,7 +26,7 @@ class InferenceResponse(BaseModel):
     model_id: Literal["speechbrain/spkrec-ecapa-voxceleb"]
     model_revision: Literal["0f99f2d0ebe89ac095bcc5903c4dd8f72b367286"]
     dimensions: Literal[192]
-    device: str = Field(min_length=1, max_length=64, pattern=r"^cuda:[0-9]+$")
+    device: str = Field(min_length=1, max_length=64, pattern=r"^(cpu|cuda:[0-9]+)$")
     quality: InferenceQuality | None = None
 
 

@@ -1,0 +1,119 @@
+{
+  "schema_version": 1,
+  "date": "2026-09-10",
+  "status": "passed",
+  "technology_profile": "kt-vibecoding-python-web-v2",
+  "environment": "Windows Docker Desktop, Linux amd64 CPU image, backend Python 3.13",
+  "fixture": {
+    "nonce": "260910e23a89",
+    "container": "voiceup-cpu-live-260910e23a89",
+    "database": "voiceup_cpu_live_260910e23a89_test",
+    "temporary": "/tmp/voiceup-cpu-live-260910e23a89"
+  },
+  "image_id": "sha256:60cb6450b70f252c9cdd90a801ed5d463013af2285407b3e9faf7248a31ae0d0",
+  "container_controls": {
+    "readonly_rootfs": true,
+    "user": "10001:10001",
+    "cap_drop": [
+      "ALL"
+    ],
+    "host_port_bindings": {},
+    "gpu_device_requests": false,
+    "network": "voiceup_default",
+    "network_internal": true
+  },
+  "application": {
+    "accuracy_claim": false,
+    "application_transport": "httpx-ASGITransport-in-process",
+    "audio_bytes": 960044,
+    "audio_sha256": "bdc68e3362aed22d18a5b9f50b7467323ed13db7871452c3c6972bb1a7f13ff9",
+    "device": "cpu",
+    "dimensions": 192,
+    "enrollment": {
+      "decision": "enrolled",
+      "seconds": 2.148,
+      "speech_seconds": 26.886,
+      "windows_count": 5
+    },
+    "enrollment_retry_reused_job": true,
+    "identification": {
+      "decision": "recognized",
+      "same_profile": true,
+      "seconds": 2.089
+    },
+    "macos_observed": false,
+    "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+    "model_provider": "HttpEmbeddingAdapter",
+    "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+    "model_transport": "real-HTTP-TCP-to-isolated-Linux-CPU-container",
+    "persistent_profile_unchanged": true,
+    "profile_total": 1,
+    "same_audio_reused": true,
+    "sample_count": 1,
+    "schema_version": 1,
+    "status": "passed",
+    "test_count": 1,
+    "worker": "SpeakerWorker.process_once"
+  },
+  "inference_http_events": [
+    {
+      "event": "inference_http",
+      "route": "/ready",
+      "status": 200,
+      "elapsed_ms": 1.044,
+      "device": "cpu"
+    },
+    {
+      "event": "inference_http",
+      "route": "/ready",
+      "status": 200,
+      "elapsed_ms": 0.656,
+      "device": "cpu"
+    },
+    {
+      "event": "inference_http",
+      "route": "/v1/embeddings",
+      "status": 200,
+      "elapsed_ms": 1958.635,
+      "device": "cpu"
+    },
+    {
+      "event": "inference_http",
+      "route": "/v1/embeddings",
+      "status": 200,
+      "elapsed_ms": 1943.172,
+      "device": "cpu"
+    }
+  ],
+  "first_attempt": {
+    "status": "setup_error",
+    "tests": 1,
+    "errors": 1,
+    "reason": "MSYS converted --basetemp=/tmp and --junitxml=/tmp to a Windows path; no product assertions ran",
+    "evidence": "cpu-application-first-results.xml"
+  },
+  "final_attempt": {
+    "tests": 1,
+    "passed": 1,
+    "failed": 0,
+    "skipped": 0,
+    "seconds": 7.42,
+    "junit": "cpu-application-results.xml"
+  },
+  "execution_review": {
+    "initial_combined_orchestration": "rejected_before_execution",
+    "reason": "blocked by policy",
+    "recovery": "Separate read-only target checks, fixture creation, migration, pytest, ownership checks, and narrowly scoped cleanup were accepted"
+  },
+  "cleanup": {
+    "container_removed": true,
+    "database_removed": true,
+    "temporary_and_converted_files_removed": true
+  },
+  "existing_application_containers_unchanged": true,
+  "existing_configuration_files_unchanged": true,
+  "test_source": "app/backend/tests/live/cpu_application.py",
+  "public_api_tcp_or_browser_observed": false,
+  "macos_observed": false,
+  "accuracy_claim": false
+}

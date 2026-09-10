@@ -28,9 +28,10 @@ from voiceup_inference.api import create_app
 from voiceup_inference.config import Settings
 
 
-def run(fixtures: list[Path]) -> dict:
+def run(fixtures: list[Path], *, cpu_profile: str | None = None) -> dict:
     key = secrets.token_urlsafe(48)
-    settings = Settings(internal_key=SecretStr(key), host="127.0.0.1", port=8090)
+    device_options = {"device": "cpu", "runtime_profile": cpu_profile} if cpu_profile else {}
+    settings = Settings(internal_key=SecretStr(key), host="127.0.0.1", port=8090, **device_options)
     logging.getLogger("voiceup.inference").disabled = True
     server = uvicorn.Server(
         uvicorn.Config(
@@ -73,8 +74,11 @@ def run(fixtures: list[Path]) -> dict:
             vector = body["embedding"]
             norm = math.sqrt(sum(value * value for value in vector))
             assert len(vector) == 192 and abs(norm - 1) < 1e-5
-            assert body["device"] == "cuda:0"
-            assert body["quality"]["gpu_peak_allocated_bytes"] > 0
+            assert body["device"] == settings.device
+            if settings.device == "cpu":
+                assert not any(name.startswith("gpu_") for name in body["quality"])
+            else:
+                assert body["quality"]["gpu_peak_allocated_bytes"] > 0
             entry.update({k: v for k, v in body.items() if k != "embedding"})
             entry["embedding_norm"] = norm
         elif "detail" in body:
@@ -127,14 +131,16 @@ def run(fixtures: list[Path]) -> dict:
                 200,
             )
         return {
-            "purpose": "Real CUDA HTTP software smoke; constructed public fixtures are not accuracy evidence",
+            "purpose": "Real private HTTP software smoke; constructed public fixtures are not accuracy evidence",
             "python": __import__("sys").version.split()[0],
             "torch": torch.__version__,
             "cuda_build": torch.version.cuda,
-            "gpu": torch.cuda.get_device_name(0),
+            "device": settings.device,
+            "runtime_profile": settings.runtime_profile,
+            "gpu": None if settings.device == "cpu" else torch.cuda.get_device_name(0),
             "startup_seconds": startup_seconds,
             "startup_scope": "In-process HTTP startup including model verification/load/warmup; excludes container creation and initial Python imports",
-            "request_order": "First constructed enrollment request precedes repeated warm identify requests; CUDA readiness already performed synthetic warmup",
+            "request_order": "First constructed enrollment request precedes repeated warm identify requests; readiness already performed synthetic warmup",
             "checks": records,
         }
     finally:

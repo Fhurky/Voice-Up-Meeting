@@ -13,7 +13,9 @@ else
   generator="global Streamable HTTP MCP (project expects kt-scaffold $required)"
 fi
 
-python3 scripts/check-governance-drift.py >/dev/null
-python3 scripts/check-dependency-admission.py >/dev/null
+# A caller may pin its already-validated interpreter without relying on another PATH Python.
+python_bin="${KT_SCAFFOLD_PYTHON:-python3}"
+"$python_bin" scripts/check-governance-drift.py >/dev/null
+"$python_bin" scripts/check-dependency-admission.py >/dev/null
 docker info >/dev/null
 echo "bootstrap ok: $generator, Docker reachable, governance and dependency admission current"

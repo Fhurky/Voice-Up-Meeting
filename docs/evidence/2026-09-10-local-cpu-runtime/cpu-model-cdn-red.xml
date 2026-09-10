@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="4" skipped="0" tests="4" time="0.127" timestamp="2026-09-10T11:18:55.409187+03:00" hostname="DESKTOP-RJ78JKH"><testcase classname="tests.test_prepare_speaker_model" name="test_official_model_storage_redirects_are_supported[us.aws.cdn.hf.co]" time="0.007"><failure message="ValueError: untrusted_model_url">tests\test_prepare_speaker_model.py:85: in test_official_model_storage_redirects_are_supported
+    helper.validate_model_url(f"https://{host}/fixture?signature=public-test-fixture")
+scripts\prepare-speaker-model.py:49: in validate_model_url
+    raise ValueError("untrusted_model_url") from None
+E   ValueError: untrusted_model_url</failure></testcase><testcase classname="tests.test_prepare_speaker_model" name="test_official_model_storage_redirects_are_supported[us.gcp.cdn.hf.co]" time="0.006"><failure message="ValueError: untrusted_model_url">tests\test_prepare_speaker_model.py:85: in test_official_model_storage_redirects_are_supported
+    helper.validate_model_url(f"https://{host}/fixture?signature=public-test-fixture")
+scripts\prepare-speaker-model.py:49: in validate_model_url
+    raise ValueError("untrusted_model_url") from None
+E   ValueError: untrusted_model_url</failure></testcase><testcase classname="tests.test_prepare_speaker_model" name="test_official_model_storage_redirects_are_supported[cdn-lfs-us-1.hf.co]" time="0.005"><failure message="ValueError: untrusted_model_url">tests\test_prepare_speaker_model.py:85: in test_official_model_storage_redirects_are_supported
+    helper.validate_model_url(f"https://{host}/fixture?signature=public-test-fixture")
+scripts\prepare-speaker-model.py:49: in validate_model_url
+    raise ValueError("untrusted_model_url") from None
+E   ValueError: untrusted_model_url</failure></testcase><testcase classname="tests.test_prepare_speaker_model" name="test_official_model_storage_redirects_are_supported[cdn-lfs-eu-1.hf.co]" time="0.006"><failure message="ValueError: untrusted_model_url">tests\test_prepare_speaker_model.py:85: in test_official_model_storage_redirects_are_supported
+    helper.validate_model_url(f"https://{host}/fixture?signature=public-test-fixture")
+scripts\prepare-speaker-model.py:49: in validate_model_url
+    raise ValueError("untrusted_model_url") from None
+E   ValueError: untrusted_model_url</failure></testcase></testsuite></testsuites>

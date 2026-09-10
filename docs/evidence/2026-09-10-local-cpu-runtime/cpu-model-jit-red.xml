@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="3" skipped="0" tests="3" time="0.122" timestamp="2026-09-10T11:28:22.700978+03:00" hostname="DESKTOP-RJ78JKH"><testcase classname="tests.test_prepare_speaker_model" name="test_jit_publication_is_verified_reusable_and_atomic" time="0.015"><failure message="AttributeError: module 'prepare_speaker_model' has no attribute 'publish_model_bytes'">tests\test_prepare_speaker_model.py:116: in test_jit_publication_is_verified_reusable_and_atomic
+    helper.publish_model_bytes(path, payload, digest)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: module 'prepare_speaker_model' has no attribute 'publish_model_bytes'</failure></testcase><testcase classname="tests.test_prepare_speaker_model" name="test_jit_publication_refuses_invalid_source_and_preserves_existing" time="0.007"><failure message="AttributeError: module 'prepare_speaker_model' has no attribute 'publish_model_bytes'">tests\test_prepare_speaker_model.py:125: in test_jit_publication_refuses_invalid_source_and_preserves_existing
+    helper.publish_model_bytes(path, b"untrusted", "0" * 64)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: module 'prepare_speaker_model' has no attribute 'publish_model_bytes'</failure></testcase><testcase classname="tests.test_prepare_speaker_model" name="test_jit_publication_refuses_directory" time="0.006"><failure message="AttributeError: module 'prepare_speaker_model' has no attribute 'publish_model_bytes'">tests\test_prepare_speaker_model.py:138: in test_jit_publication_refuses_directory
+    helper.publish_model_bytes(path, b"fixture", hashlib.sha256(b"fixture").hexdigest())
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: module 'prepare_speaker_model' has no attribute 'publish_model_bytes'</failure></testcase></testsuite></testsuites>

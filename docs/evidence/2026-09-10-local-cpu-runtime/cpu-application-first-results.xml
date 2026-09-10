@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="1" failures="0" skipped="0" tests="1" time="2.722" timestamp="2026-09-10T08:38:04.904215+00:00" hostname="dd7393fbbd42"><testcase classname="tests.live.cpu_application" name="test_cpu_enrollment_and_identification_preserve_persistent_profile" time="0.020"><error message="failed on setup with &quot;FileNotFoundError: [Errno 2] No such file or directory: '/workspace/app/backend/C:/Users/furko/AppData/Local/Temp/voiceup-cpu-live-260910e23a89/pytest'&quot;">/usr/local/lib/python3.13/site-packages/pytest_asyncio/plugin.py:558: in setup
+    return super().setup()
+           ^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/pytest_asyncio/plugin.py:926: in pytest_fixture_setup
+    return (yield)
+            ^^^^^
+/usr/local/lib/python3.13/pathlib/_local.py:722: in mkdir
+    os.mkdir(self, mode)
+E   FileNotFoundError: [Errno 2] No such file or directory: '/workspace/app/backend/C:/Users/furko/AppData/Local/Temp/voiceup-cpu-live-260910e23a89/pytest'</error></testcase></testsuite></testsuites>

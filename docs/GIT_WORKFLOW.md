@@ -6,6 +6,10 @@ Sabit teknoloji profili `kt-vibecoding-python-web-v2` değişmez.
 
 ## İkinci bilgisayarda
 
+MacBook üzerinde modeli de yerel çalıştıracak kurulum için [Mac rehberini](MACOS_SETUP.md)
+kullanın. CPU başlangıç komutu gerekli dosyaları hazırlar; klonlama tek başına
+çalışma ortamını veya mevcut bilgisayarın hesap/profillerini taşımaz.
+
 GitHub hesabıyla Git/credential manager veya GitHub CLI üzerinden oturum açın;
 tokeni URL'ye, komuta veya Git yapılandırmasına yazmayın. Sonra:
 

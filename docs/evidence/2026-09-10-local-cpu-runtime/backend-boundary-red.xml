@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="20" time="2.882" timestamp="2026-09-10T08:17:06.681074+00:00" hostname="dd7393fbbd42"><testcase classname="tests.unit.test_speaker_boundaries" name="test_owned_audio_is_decoded_and_opaque" time="0.040" /><testcase classname="tests.unit.test_speaker_boundaries" name="test_invalid_and_oversized_audio_leave_no_files" time="0.005" /><testcase classname="tests.unit.test_speaker_boundaries" name="test_http_adapter_matches_producer_contract[cuda:0-enroll]" time="0.003" /><testcase classname="tests.unit.test_speaker_boundaries" name="test_http_adapter_matches_producer_contract[cuda:0-identify]" time="0.002" /><testcase classname="tests.unit.test_speaker_boundaries" name="test_http_adapter_matches_producer_contract[cpu-enroll]" time="0.002"><failure message="app.services.speaker_ports.SpeakerError: model_mismatch">self = &lt;app.infrastructure.speaker_inference.HttpEmbeddingAdapter object at 0x741ea70fd310&gt;
+audio = b'fixture-source', purpose = 'enroll'
+job_public_id = 'c3b2dec4-5cc7-47ef-b13b-9b3dda354a2d'
+tenant_public_id = '93cf6f24-864a-44aa-ab28-fd756a2c8796'
+
+    async def embed(
+        self,
+        audio: bytes,
+        *,
+        purpose: Literal["enroll", "identify"],
+        job_public_id: str,
+        tenant_public_id: str,
+    ) -&gt; EmbeddingResult:
+        if self.settings.inference_key is None:
+            raise SpeakerError("inference_unavailable", 503)
+        try:
+            response = await self.client.post(
+                httpx.URL(self.settings.inference_url).join("/v1/embeddings"),
+                params={"purpose": purpose},
+                content=audio,
+                headers={
+                    "Content-Type": "application/octet-stream",
+                    "X-Inference-Key": self.settings.inference_key.get_secret_value(),
+                    "X-Job-Id": job_public_id,
+                    "X-Tenant-Id": tenant_public_id,
+                },
+                timeout=self.settings.job_timeout_seconds,
+            )
+        except httpx.TimeoutException as exc:
+            raise SpeakerError("job_timeout", 503) from exc
+        except httpx.HTTPError as exc:
+            raise SpeakerError("inference_unavailable", 503) from exc
+        if response.status_code in {400, 413, 415, 422}:
+            try:
+                code = response.json()["detail"]["code"]
+            except (ValueError, KeyError, TypeError):
+                code = "invalid_audio"
+            allowed = {
+                "insufficient_speech",
+                "inconsistent_audio",
+                "clipped_audio",
+                "invalid_audio",
+                "audio_limit",
+                "unsupported_audio",
+            }
+            raise SpeakerError(code if code in allowed else "invalid_audio", response.status_code)
+        if response.status_code != 200:
+            raise SpeakerError("inference_unavailable", 503)
+        try:
+&gt;           payload = InferenceResponse.model_validate(response.json())
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           pydantic_core._pydantic_core.ValidationError: 1 validation error for InferenceResponse
+E           device
+E             String should match pattern '^cuda:[0-9]+$' [type=string_pattern_mismatch, input_value='cpu', input_type=str]
+E               For further information visit https://errors.pydantic.dev/2.13/v/string_pattern_mismatch
+
+app/infrastructure/speaker_inference.py:82: ValidationError
+
+The above exception was the direct cause of the following exception:
+
+purpose = 'enroll', device = 'cpu'
+
+    @pytest.mark.parametrize("purpose", ["enroll", "identify"])
+    @pytest.mark.parametrize("device", ["cuda:0", "cpu"])
+    async def test_http_adapter_matches_producer_contract(
+        purpose: Literal["enroll", "identify"], device: str,
+    ) -&gt; None:
+        from pydantic import SecretStr
+    
+        settings = get_settings().model_copy(
+            update={"inference_key": SecretStr("test-inference-key-at-least-32-bytes")}
+        )
+        job, tenant = str(uuid4()), str(uuid4())
+    
+        def producer(request: httpx.Request) -&gt; httpx.Response:
+            assert request.url.path == "/v1/embeddings"
+            assert dict(request.url.params) == {"purpose": purpose}
+            assert request.headers["X-Job-Id"] == job
+            assert request.headers["X-Tenant-Id"] == tenant
+            assert request.headers["X-Inference-Key"] == settings.inference_key.get_secret_value()
+            assert request.content == b"fixture-source"
+            return httpx.Response(
+                200,
+                json={
+                    "embedding": [1.0] + [0.0] * 191,
+                    "model_id": MODEL_ID,
+                    "model_revision": MODEL_REVISION,
+                    "dimensions": 192,
+                    "speech_seconds": 12.0,
+                    "windows_count": 2,
+                    "device": device,  # Producer contract fixture, not hardware execution evidence.
+                },
+            )
+    
+        async with httpx.AsyncClient(transport=httpx.MockTransport(producer)) as client:
+&gt;           result = await HttpEmbeddingAdapter(settings, client).embed(
+                b"fixture-source", purpose=purpose, job_public_id=job, tenant_public_id=tenant
+            )
+
+tests/unit/test_speaker_boundaries.py:95: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;app.infrastructure.speaker_inference.HttpEmbeddingAdapter object at 0x741ea70fd310&gt;
+audio = b'fixture-source', purpose = 'enroll'
+job_public_id = 'c3b2dec4-5cc7-47ef-b13b-9b3dda354a2d'
+tenant_public_id = '93cf6f24-864a-44aa-ab28-fd756a2c8796'
+
+    async def embed(
+        self,
+        audio: bytes,
+        *,
+        purpose: Literal["enroll", "identify"],
+        job_public_id: str,
+        tenant_public_id: str,
+    ) -&gt; EmbeddingResult:
+        if self.settings.inference_key is None:
+            raise SpeakerError("inference_unavailable", 503)
+        try:
+            response = await self.client.post(
+                httpx.URL(self.settings.inference_url).join("/v1/embeddings"),
+                params={"purpose": purpose},
+                content=audio,
+                headers={
+                    "Content-Type": "application/octet-stream",
+                    "X-Inference-Key": self.settings.inference_key.get_secret_value(),
+                    "X-Job-Id": job_public_id,
+                    "X-Tenant-Id": tenant_public_id,
+                },
+                timeout=self.settings.job_timeout_seconds,
+            )
+        except httpx.TimeoutException as exc:
+            raise SpeakerError("job_timeout", 503) from exc
+        except httpx.HTTPError as exc:
+            raise SpeakerError("inference_unavailable", 503) from exc
+        if response.status_code in {400, 413, 415, 422}:
+            try:
+                code = response.json()["detail"]["code"]
+            except (ValueError, KeyError, TypeError):
+                code = "invalid_audio"
+            allowed = {
+                "insufficient_speech",
+                "inconsistent_audio",
+                "clipped_audio",
+                "invalid_audio",
+                "audio_limit",
+                "unsupported_audio",
+            }
+            raise SpeakerError(code if code in allowed else "invalid_audio", response.status_code)
+        if response.status_code != 200:
+            raise SpeakerError("inference_unavailable", 503)
+        try:
+            payload = InferenceResponse.model_validate(response.json())
+            vector = normalize(payload.embedding)
+        except (ValueError, ValidationError) as exc:
+&gt;           raise SpeakerError("model_mismatch", 502) from exc
+E           app.services.speaker_ports.SpeakerError: model_mismatch
+
+app/infrastructure/speaker_inference.py:85: SpeakerError</failure></testcase><testcase classname="tests.unit.test_speaker_boundaries" name="test_http_adapter_matches_producer_contract[cpu-identify]" time="0.003"><failure message="app.services.speaker_ports.SpeakerError: model_mismatch">self = &lt;app.infrastructure.speaker_inference.HttpEmbeddingAdapter object at 0x741ea724fa80&gt;
+audio = b'fixture-source', purpose = 'identify'
+job_public_id = 'c8e6fe9c-1f22-452b-9bed-8092feeeccda'
+tenant_public_id = '16018f9c-d888-4804-bf44-2a1d569e1988'
+
+    async def embed(
+        self,
+        audio: bytes,
+        *,
+        purpose: Literal["enroll", "identify"],
+        job_public_id: str,
+        tenant_public_id: str,
+    ) -&gt; EmbeddingResult:
+        if self.settings.inference_key is None:
+            raise SpeakerError("inference_unavailable", 503)
+        try:
+            response = await self.client.post(
+                httpx.URL(self.settings.inference_url).join("/v1/embeddings"),
+                params={"purpose": purpose},
+                content=audio,
+                headers={
+                    "Content-Type": "application/octet-stream",
+                    "X-Inference-Key": self.settings.inference_key.get_secret_value(),
+                    "X-Job-Id": job_public_id,
+                    "X-Tenant-Id": tenant_public_id,
+                },
+                timeout=self.settings.job_timeout_seconds,
+            )
+        except httpx.TimeoutException as exc:
+            raise SpeakerError("job_timeout", 503) from exc
+        except httpx.HTTPError as exc:
+            raise SpeakerError("inference_unavailable", 503) from exc
+        if response.status_code in {400, 413, 415, 422}:
+            try:
+                code = response.json()["detail"]["code"]
+            except (ValueError, KeyError, TypeError):
+                code = "invalid_audio"
+            allowed = {
+                "insufficient_speech",
+                "inconsistent_audio",
+                "clipped_audio",
+                "invalid_audio",
+                "audio_limit",
+                "unsupported_audio",
+            }
+            raise SpeakerError(code if code in allowed else "invalid_audio", response.status_code)
+        if response.status_code != 200:
+            raise SpeakerError("inference_unavailable", 503)
+        try:
+&gt;           payload = InferenceResponse.model_validate(response.json())
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           pydantic_core._pydantic_core.ValidationError: 1 validation error for InferenceResponse
+E           device
+E             String should match pattern '^cuda:[0-9]+$' [type=string_pattern_mismatch, input_value='cpu', input_type=str]
+E               For further information visit https://errors.pydantic.dev/2.13/v/string_pattern_mismatch
+
+app/infrastructure/speaker_inference.py:82: ValidationError
+
+The above exception was the direct cause of the following exception:
+
+purpose = 'identify', device = 'cpu'
+
+    @pytest.mark.parametrize("purpose", ["enroll", "identify"])
+    @pytest.mark.parametrize("device", ["cuda:0", "cpu"])
+    async def test_http_adapter_matches_producer_contract(
+        purpose: Literal["enroll", "identify"], device: str,
+    ) -&gt; None:
+        from pydantic import SecretStr
+    
+        settings = get_settings().model_copy(
+            update={"inference_key": SecretStr("test-inference-key-at-least-32-bytes")}
+        )
+        job, tenant = str(uuid4()), str(uuid4())
+    
+        def producer(request: httpx.Request) -&gt; httpx.Response:
+            assert request.url.path == "/v1/embeddings"
+            assert dict(request.url.params) == {"purpose": purpose}
+            assert request.headers["X-Job-Id"] == job
+            assert request.headers["X-Tenant-Id"] == tenant
+            assert request.headers["X-Inference-Key"] == settings.inference_key.get_secret_value()
+            assert request.content == b"fixture-source"
+            return httpx.Response(
+                200,
+                json={
+                    "embedding": [1.0] + [0.0] * 191,
+                    "model_id": MODEL_ID,
+                    "model_revision": MODEL_REVISION,
+                    "dimensions": 192,
+                    "speech_seconds": 12.0,
+                    "windows_count": 2,
+                    "device": device,  # Producer contract fixture, not hardware execution evidence.
+                },
+            )
+    
+        async with httpx.AsyncClient(transport=httpx.MockTransport(producer)) as client:
+&gt;           result = await HttpEmbeddingAdapter(settings, client).embed(
+                b"fixture-source", purpose=purpose, job_public_id=job, tenant_public_id=tenant
+            )
+
+tests/unit/test_speaker_boundaries.py:95: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;app.infrastructure.speaker_inference.HttpEmbeddingAdapter object at 0x741ea724fa80&gt;
+audio = b'fixture-source', purpose = 'identify'
+job_public_id = 'c8e6fe9c-1f22-452b-9bed-8092feeeccda'
+tenant_public_id = '16018f9c-d888-4804-bf44-2a1d569e1988'
+
+    async def embed(
+        self,
+        audio: bytes,
+        *,
+        purpose: Literal["enroll", "identify"],
+        job_public_id: str,
+        tenant_public_id: str,
+    ) -&gt; EmbeddingResult:
+        if self.settings.inference_key is None:
+            raise SpeakerError("inference_unavailable", 503)
+        try:
+            response = await self.client.post(
+                httpx.URL(self.settings.inference_url).join("/v1/embeddings"),
+                params={"purpose": purpose},
+                content=audio,
+                headers={
+                    "Content-Type": "application/octet-stream",
+                    "X-Inference-Key": self.settings.inference_key.get_secret_value(),
+                    "X-Job-Id": job_public_id,
+                    "X-Tenant-Id": tenant_public_id,
+                },
+                timeout=self.settings.job_timeout_seconds,
+            )
+        except httpx.TimeoutException as exc:
+            raise SpeakerError("job_timeout", 503) from exc
+        except httpx.HTTPError as exc:
+            raise SpeakerError("inference_unavailable", 503) from exc
+        if response.status_code in {400, 413, 415, 422}:
+            try:
+                code = response.json()["detail"]["code"]
+            except (ValueError, KeyError, TypeError):
+                code = "invalid_audio"
+            allowed = {
+                "insufficient_speech",
+                "inconsistent_audio",
+                "clipped_audio",
+                "invalid_audio",
+                "audio_limit",
+                "unsupported_audio",
+            }
+            raise SpeakerError(code if code in allowed else "invalid_audio", response.status_code)
+        if response.status_code != 200:
+            raise SpeakerError("inference_unavailable", 503)
+        try:
+            payload = InferenceResponse.model_validate(response.json())
+            vector = normalize(payload.embedding)
+        except (ValueError, ValidationError) as exc:
+&gt;           raise SpeakerError("model_mismatch", 502) from exc
+E           app.services.speaker_ports.SpeakerError: model_mismatch
+
+app/infrastructure/speaker_inference.py:85: SpeakerError</failure></testcase><testcase classname="tests.unit.test_speaker_boundaries" name="test_http_adapter_does_not_turn_quality_errors_into_success[413-audio_limit]" time="0.002" /><testcase classname="tests.unit.test_speaker_boundaries" name="test_http_adapter_does_not_turn_quality_errors_into_success[422-insufficient_speech]" time="0.002" /><testcase classname="tests.unit.test_speaker_boundaries" name="test_http_adapter_does_not_turn_quality_errors_into_success[503-inference_unavailable]" time="0.002" /><testcase classname="tests.unit.test_speaker_boundaries" name="test_http_adapter_rejects_wrong_model_and_incomplete_response" time="0.002" /><testcase classname="tests.unit.test_speaker_boundaries" name="test_http_adapter_accepts_producer_minimum_tolerance[enroll-9.9999995-2]" time="0.002" /><testcase classname="tests.unit.test_speaker_boundaries" name="test_http_adapter_accepts_producer_minimum_tolerance[identify-2.9999995-1]" time="0.002" /><testcase classname="tests.unit.test_speaker_boundaries" name="test_http_adapter_rejects_unapproved_device_response[mps]" time="0.002" /><testcase classname="tests.unit.test_speaker_boundaries" name="test_http_adapter_rejects_unapproved_device_response[cpu:0]" time="0.002" /><testcase classname="tests.unit.test_speaker_boundaries" name="test_http_adapter_rejects_unapproved_device_response[cuda]" time="0.002" /><testcase classname="tests.unit.test_speaker_boundaries" name="test_http_adapter_rejects_unapproved_device_response[cuda:-1]" time="0.002" /><testcase classname="tests.unit.test_speaker_boundaries" name="test_http_adapter_rejects_unapproved_device_response[cuda:0\n]" time="0.002" /><testcase classname="tests.unit.test_speaker_boundaries" name="test_http_adapter_rejects_unapproved_device_response[CPU]" time="0.002" /><testcase classname="tests.unit.test_speaker_boundaries" name="test_chunked_multipart_limit_returns_typed_413" time="0.005" /><testcase classname="tests.unit.test_speaker_boundaries" name="test_worker_health_requires_recent_successful_heartbeat" time="0.002" /></testsuite></testsuites>

@@ -1,0 +1,78 @@
+docker : #0 building with "desktop-linux" instance using docker driver
+At line:2 char:1
++ docker build --network=none --build-context wheelhouse=models/inferen ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (#0 building wit...g docker driver:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+#1 [internal] load build definition from Dockerfile.cpu
+#1 transferring dockerfile: 1.28kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.13.14-slim-bookworm@sha256:67a1e1f215ccda113cfc024e863904925
+7e88f273898f595b61476d128d387e8
+#2 DONE 0.1s
+
+#3 [context wheelhouse] load .dockerignore
+#3 transferring wheelhouse: 2B done
+#3 DONE 0.1s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 434B done
+#4 DONE 0.1s
+
+#5 [context wheelhouse] load from client
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 32.31kB 0.0s done
+#6 DONE 0.0s
+
+#7 [stage-0 1/7] FROM docker.io/library/python:3.13.14-slim-bookworm@sha256:67a1e1f215ccda113cfc024e8639049257e88f27389
+8f595b61476d128d387e8
+#7 resolve docker.io/library/python:3.13.14-slim-bookworm@sha256:67a1e1f215ccda113cfc024e8639049257e88f273898f595b61476
+d128d387e8
+#7 resolve docker.io/library/python:3.13.14-slim-bookworm@sha256:67a1e1f215ccda113cfc024e8639049257e88f273898f595b61476
+d128d387e8 0.1s done
+#7 DONE 0.1s
+
+#5 [context wheelhouse] load from client
+#5 transferring wheelhouse: 3.11kB done
+#5 DONE 0.0s
+
+#8 [stage-0 2/7] WORKDIR /srv/inference
+#8 CACHED
+
+#9 [stage-0 3/7] RUN python -c "import os, platform, sys; expected = os.environ['CPU_ARCH']; assert expected in {'x86_6
+4', 'aarch64'}, 'CPU_ARCH must be x86_64 or aarch64'; assert platform.machine() == expected, 'CPU_ARCH does not match t
+he image platform'; assert sys.version_info[:2] == (3, 13)"
+#9 CACHED
+
+#10 [stage-0 4/7] COPY app/inference/requirements.cpu-x86_64.txt /srv/inference/requirements.txt
+#10 CACHED
+
+#11 [stage-0 5/7] RUN --mount=type=bind,from=wheelhouse,target=/wheelhouse,readonly     python -m pip install --no-cach
+e-dir --no-index --only-binary=:all:     --find-links=/wheelhouse --require-hashes -r requirements.txt &&     python -m
+ pip check
+#11 CACHED
+
+#12 [stage-0 6/7] COPY src/voiceup /srv/reference/voiceup
+#12 CACHED
+
+#13 [stage-0 7/7] COPY app/inference/voiceup_inference /srv/inference/voiceup_inference
+#13 DONE 0.2s
+
+#14 exporting to image
+#14 exporting layers 0.1s done
+#14 exporting manifest sha256:d2b1cc83732ef034aff28a463587ac42493cc0f93445df4b061248f02d74697c 0.0s done
+#14 exporting config sha256:22375505fd4fa9b1c6768d2994f775531a0ab79f2fdd00c53571bb538ce79347 0.0s done
+#14 exporting attestation manifest sha256:ec31dab1e40c5773124c1d2dcac7b109c7f94eac69bd1a099af98a7ac2b0fb66
+#14 exporting attestation manifest sha256:ec31dab1e40c5773124c1d2dcac7b109c7f94eac69bd1a099af98a7ac2b0fb66 0.1s done
+#14 exporting manifest list sha256:88bf86d7d29e4b6ce23e443fad25cade250052104f1e3007408ce8b177dbdc90 0.0s done
+#14 naming to docker.io/library/voiceup-inference:cpu-x86_64 done
+#14 unpacking to docker.io/library/voiceup-inference:cpu-x86_64
+#14 unpacking to docker.io/library/voiceup-inference:cpu-x86_64 0.1s done
+#14 DONE 0.4s
+
+View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/nv0q5wx7pkl01228d3sggrfs8

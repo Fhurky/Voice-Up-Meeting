@@ -1,0 +1,114 @@
+{
+  "purpose": "Real private HTTP software smoke; constructed public fixtures are not accuracy evidence",
+  "python": "3.13.14",
+  "torch": "2.8.0+cpu",
+  "cuda_build": null,
+  "device": "cpu",
+  "runtime_profile": "x86_64-cpu",
+  "gpu": null,
+  "startup_seconds": 2.099240874998941,
+  "startup_scope": "In-process HTTP startup including model verification/load/warmup; excludes container creation and initial Python imports",
+  "request_order": "First constructed enrollment request precedes repeated warm identify requests; readiness already performed synthetic warmup",
+  "checks": [
+    {
+      "case": "live",
+      "status": 200,
+      "http_seconds": 0.033497483000246575,
+      "alive": true
+    },
+    {
+      "case": "ready",
+      "status": 200,
+      "http_seconds": 0.005047238999395631,
+      "ready": true,
+      "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+      "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+      "dimensions": 192,
+      "device": "cpu"
+    },
+    {
+      "case": "invalid_audio",
+      "status": 400,
+      "http_seconds": 0.00507838999874366,
+      "error_code": "invalid_audio"
+    },
+    {
+      "case": "unsupported_audio",
+      "status": 415,
+      "http_seconds": 0.002020982001340599,
+      "error_code": "unsupported_audio"
+    },
+    {
+      "case": "invalid_key",
+      "status": 401,
+      "http_seconds": 0.001138879999416531,
+      "error_code": "unauthorized"
+    },
+    {
+      "case": "silence_quality_rejection",
+      "status": 422,
+      "http_seconds": 0.06790258599903609,
+      "error_code": "insufficient_speech"
+    },
+    {
+      "case": "constructed_fixture_repeated-public-sample-30s.wav_enroll",
+      "status": 200,
+      "http_seconds": 2.014297849000286,
+      "speech_seconds": 26.886,
+      "windows_count": 5,
+      "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+      "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+      "dimensions": 192,
+      "device": "cpu",
+      "quality": {
+        "preprocessing_version": "vad-windows-v1",
+        "input_seconds": 30.0,
+        "vad_speech_seconds": 29.666,
+        "min_pair_similarity": 0.9414935505918522,
+        "single_speaker_assumption": true,
+        "execution_seconds": 2.009651121999923
+      },
+      "embedding_norm": 1.0
+    },
+    {
+      "case": "constructed_fixture_repeated-public-sample-30s.wav_identify",
+      "status": 200,
+      "http_seconds": 1.9969254529987666,
+      "speech_seconds": 26.886,
+      "windows_count": 5,
+      "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+      "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+      "dimensions": 192,
+      "device": "cpu",
+      "quality": {
+        "preprocessing_version": "vad-windows-v1",
+        "input_seconds": 30.0,
+        "vad_speech_seconds": 29.666,
+        "min_pair_similarity": 0.9414935505918522,
+        "single_speaker_assumption": true,
+        "execution_seconds": 1.9925208940003358
+      },
+      "embedding_norm": 1.0
+    },
+    {
+      "case": "constructed_fixture_repeated-public-sample-30s.wav_flac_identify",
+      "status": 200,
+      "http_seconds": 2.160696212999028,
+      "speech_seconds": 26.886,
+      "windows_count": 5,
+      "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+      "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+      "dimensions": 192,
+      "device": "cpu",
+      "quality": {
+        "preprocessing_version": "vad-windows-v1",
+        "input_seconds": 30.0,
+        "vad_speech_seconds": 29.666,
+        "min_pair_similarity": 0.9414935505918522,
+        "single_speaker_assumption": true,
+        "execution_seconds": 2.1566438609988836
+      },
+      "embedding_norm": 1.0
+    }
+  ]
+}

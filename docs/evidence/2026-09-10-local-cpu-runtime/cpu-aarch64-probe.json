@@ -1,0 +1,103 @@
+{
+  "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-aarch64-with-glibc2.36",
+  "python": "3.13.14",
+  "packages": {
+    "torch": "2.8.0+cpu",
+    "torchaudio": "2.8.0",
+    "speechbrain": "1.1.1",
+    "silero-vad": "6.2.1",
+    "numpy": "2.4.3",
+    "scipy": "1.17.1",
+    "soundfile": "0.14.0"
+  },
+  "checks": [
+    {
+      "case": "linux_aarch64_python313",
+      "status": "passed"
+    },
+    {
+      "case": "cpu_torch_build",
+      "status": "passed"
+    },
+    {
+      "case": "non_root",
+      "status": "passed"
+    },
+    {
+      "case": "explicit_cpu_environment",
+      "status": "passed"
+    },
+    {
+      "case": "fixed_nonwritable_openmp_alias",
+      "status": "passed"
+    },
+    {
+      "case": "cpu_matrix_kernel",
+      "status": "passed"
+    },
+    {
+      "case": "cpu_convolution_kernel",
+      "status": "passed"
+    },
+    {
+      "case": "cpu_normalization_kernel",
+      "status": "passed"
+    },
+    {
+      "case": "torchaudio_resampling_kernel",
+      "status": "passed"
+    },
+    {
+      "case": "scipy_resampling_kernel",
+      "status": "passed"
+    },
+    {
+      "case": "numpy_numeric_kernel",
+      "status": "passed"
+    }
+  ],
+  "source_sha256": {
+    "app/inference/voiceup_inference/config.py": "4737f97f6a067f8c49a2a58fa39cfe589e85cf5b1879f6e3f61e90d680249fa3",
+    "app/inference/voiceup_inference/models.py": "7eeb3356ac57a69d197bb1a28ed5ebc90bbbbfca2c1f2f94772387b5da0a05a1",
+    "app/inference/voiceup_inference/runtime.py": "9b7857eef13ce978d25aa1c97e3494368ec395690fa9119b75213d8ce54fb3f7",
+    "src/voiceup/backends.py": "94668cca2a34ed94458f5579f3b6cbe8a38de37c53814e36fb0db8e29bcc5ce6"
+  },
+  "recorded_at": "2026-09-10T08:30:57.228012+00:00",
+  "status": "passed",
+  "execution_environment": "Docker Desktop Linux ARM64 emulation on the Windows host; not a physical Mac or native ARM performance measurement",
+  "image": {
+    "tag": "voiceup-inference:cpu-aarch64",
+    "id": "sha256:b1fb44a1ced25fb328552f991572f1b88a4f0a54ac40d5c4e9d64a745a2cad43",
+    "architecture": "arm64",
+    "os": "linux"
+  },
+  "command": [
+    "docker",
+    "run",
+    "--rm",
+    "-i",
+    "--pull",
+    "never",
+    "--platform",
+    "linux/arm64",
+    "--network",
+    "none",
+    "--read-only",
+    "--tmpfs",
+    "/tmp:rw,nosuid,nodev,size=536870912",
+    "--cap-drop",
+    "ALL",
+    "--security-opt",
+    "no-new-privileges=true",
+    "-e",
+    "HOME=/tmp",
+    "--entrypoint",
+    "python",
+    "voiceup-inference:cpu-aarch64",
+    "-B",
+    "-"
+  ],
+  "model_execution": false,
+  "network_mode": "none",
+  "all_recorded_sources_match_workspace": true
+}

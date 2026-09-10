@@ -1,5 +1,13 @@
 # Scripts
 
+For fully local MacBook CPU use, `python3 scripts/setup-local-cpu.py` prepares
+the pinned model, architecture-specific wheels, images, database and services.
+`sh scripts/start-local-cpu.sh` starts prepared services without builds/downloads.
+Both use the existing wrappers; `stack.sh --mode cpu` selects the CPU Compose layer.
+`prepare-speaker-model.py` acquires only fixed public model bytes at build time,
+verifies them before packaging and preserves an existing package. See the
+[Mac guide](../docs/MACOS_SETUP.md) for account setup and observed device evidence.
+
 Use these entry points instead of ad-hoc commands. They pin the scaffold version, local stack,
 profile-native migrations, generated contracts, chart policy and quality sequence. `e2e.sh` is the
 fail-closed browser entry point; it defaults to the admitted offline bundle named by

@@ -1,0 +1,9 @@
+{
+  "reason": "The HTTP client already exceeded its 180-second request bound and QEMU emitted signal 11; stop only the owned temporary smoke container instead of waiting for the outer 600-second timeout.",
+  "container": "voiceup-cpu-arm64-smoke-7b0307a735c2",
+  "container_id": "9fdd6a1487905e14c166280ef613de9db0c030c832f7a9aa6fcfdddad0d62093",
+  "image": "voiceup-inference:cpu-aarch64",
+  "cleanup_returncode": 0,
+  "cleanup_stdout": "voiceup-cpu-arm64-smoke-7b0307a735c2",
+  "cleanup_stderr": ""
+}

@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="8" skipped="0" tests="8" time="0.316" timestamp="2026-09-10T11:14:10.306366+03:00" hostname="DESKTOP-RJ78JKH"><testcase classname="tests.test_cpu_wheelhouse" name="test_cpu_manifest_retains_baseline_pins_without_cuda_dependencies[x86_64]" time="0.001"><failure message="FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\app\\inference\\cpu-x86_64-wheelhouse-manifest.json'">architecture = 'x86_64'
+
+    @pytest.mark.parametrize("architecture", ARCHITECTURES)
+    def test_cpu_manifest_retains_baseline_pins_without_cuda_dependencies(architecture):
+        baseline = json.loads((INFERENCE / "spark-wheelhouse-manifest.json").read_text())
+        expected = {
+            row["name"]: row["version"]
+            for row in baseline["artifacts"]
+            if row["name"] != "triton"
+        }
+        expected["torch"] = "2.8.0+cpu"
+        expected["torchaudio"] = "2.8.0+cpu" if architecture == "x86_64" else "2.8.0"
+&gt;       manifest = document(architecture)
+                   ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_cpu_wheelhouse.py:41: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_cpu_wheelhouse.py:28: in document
+    return json.loads(path.read_text(encoding="utf-8"))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\pathlib\_local.py:546: in read_text
+    return PathBase.read_text(self, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\pathlib\_abc.py:632: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/furko/Desktop/VoiceUpMeating/app/inference/cpu-x86_64-wheelhouse-manifest.json')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+&gt;       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\app\\inference\\cpu-x86_64-wheelhouse-manifest.json'
+
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\pathlib\_local.py:537: FileNotFoundError</failure></testcase><testcase classname="tests.test_cpu_wheelhouse" name="test_cpu_manifest_retains_baseline_pins_without_cuda_dependencies[aarch64]" time="0.001"><failure message="FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\app\\inference\\cpu-aarch64-wheelhouse-manifest.json'">architecture = 'aarch64'
+
+    @pytest.mark.parametrize("architecture", ARCHITECTURES)
+    def test_cpu_manifest_retains_baseline_pins_without_cuda_dependencies(architecture):
+        baseline = json.loads((INFERENCE / "spark-wheelhouse-manifest.json").read_text())
+        expected = {
+            row["name"]: row["version"]
+            for row in baseline["artifacts"]
+            if row["name"] != "triton"
+        }
+        expected["torch"] = "2.8.0+cpu"
+        expected["torchaudio"] = "2.8.0+cpu" if architecture == "x86_64" else "2.8.0"
+&gt;       manifest = document(architecture)
+                   ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_cpu_wheelhouse.py:41: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_cpu_wheelhouse.py:28: in document
+    return json.loads(path.read_text(encoding="utf-8"))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\pathlib\_local.py:546: in read_text
+    return PathBase.read_text(self, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\pathlib\_abc.py:632: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/furko/Desktop/VoiceUpMeating/app/inference/cpu-aarch64-wheelhouse-manifest.json')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+&gt;       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\app\\inference\\cpu-aarch64-wheelhouse-manifest.json'
+
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\pathlib\_local.py:537: FileNotFoundError</failure></testcase><testcase classname="tests.test_cpu_wheelhouse" name="test_cpu_manifest_contains_only_compatible_cp313_linux_wheels[x86_64]" time="0.086"><failure message="cpu_wheelhouse_generator.WheelhouseError: invalid_manifest">architecture = 'x86_64'
+generator = &lt;module 'cpu_wheelhouse_generator' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\prepare-spark-wheelhouse.py'&gt;
+
+    @pytest.mark.parametrize("architecture", ARCHITECTURES)
+    def test_cpu_manifest_contains_only_compatible_cp313_linux_wheels(architecture, generator):
+        path = INFERENCE / f"cpu-{architecture}-wheelhouse-manifest.json"
+&gt;       artifacts = generator.read_manifest(path, for_lock=True)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_cpu_wheelhouse.py:54: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+path = WindowsPath('C:/Users/furko/Desktop/VoiceUpMeating/app/inference/cpu-x86_64-wheelhouse-manifest.json')
+for_lock = True
+
+    def read_manifest(path: Path, *, for_lock: bool = False) -&gt; list[dict]:
+        path = checked_path(path)
+        if not path.is_file():
+&gt;           raise WheelhouseError("invalid_manifest")
+E           cpu_wheelhouse_generator.WheelhouseError: invalid_manifest
+
+scripts\prepare-spark-wheelhouse.py:101: WheelhouseError</failure></testcase><testcase classname="tests.test_cpu_wheelhouse" name="test_cpu_manifest_contains_only_compatible_cp313_linux_wheels[aarch64]" time="0.002"><failure message="cpu_wheelhouse_generator.WheelhouseError: invalid_manifest">architecture = 'aarch64'
+generator = &lt;module 'cpu_wheelhouse_generator' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\prepare-spark-wheelhouse.py'&gt;
+
+    @pytest.mark.parametrize("architecture", ARCHITECTURES)
+    def test_cpu_manifest_contains_only_compatible_cp313_linux_wheels(architecture, generator):
+        path = INFERENCE / f"cpu-{architecture}-wheelhouse-manifest.json"
+&gt;       artifacts = generator.read_manifest(path, for_lock=True)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_cpu_wheelhouse.py:54: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+path = WindowsPath('C:/Users/furko/Desktop/VoiceUpMeating/app/inference/cpu-aarch64-wheelhouse-manifest.json')
+for_lock = True
+
+    def read_manifest(path: Path, *, for_lock: bool = False) -&gt; list[dict]:
+        path = checked_path(path)
+        if not path.is_file():
+&gt;           raise WheelhouseError("invalid_manifest")
+E           cpu_wheelhouse_generator.WheelhouseError: invalid_manifest
+
+scripts\prepare-spark-wheelhouse.py:101: WheelhouseError</failure></testcase><testcase classname="tests.test_cpu_wheelhouse" name="test_cpu_direct_authority_matches_manifest_and_retains_existing_public_versions[x86_64]" time="0.001"><failure message="FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\app\\inference\\cpu-x86_64-wheelhouse-manifest.json'">architecture = 'x86_64'
+
+    @pytest.mark.parametrize("architecture", ARCHITECTURES)
+    def test_cpu_direct_authority_matches_manifest_and_retains_existing_public_versions(architecture):
+        baseline = json.loads((INFERENCE / "spark-wheelhouse-manifest.json").read_text())
+&gt;       manifest = document(architecture)
+                   ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_cpu_wheelhouse.py:69: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_cpu_wheelhouse.py:28: in document
+    return json.loads(path.read_text(encoding="utf-8"))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\pathlib\_local.py:546: in read_text
+    return PathBase.read_text(self, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\pathlib\_abc.py:632: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/furko/Desktop/VoiceUpMeating/app/inference/cpu-x86_64-wheelhouse-manifest.json')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+&gt;       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\app\\inference\\cpu-x86_64-wheelhouse-manifest.json'
+
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\pathlib\_local.py:537: FileNotFoundError</failure></testcase><testcase classname="tests.test_cpu_wheelhouse" name="test_cpu_direct_authority_matches_manifest_and_retains_existing_public_versions[aarch64]" time="0.001"><failure message="FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\app\\inference\\cpu-aarch64-wheelhouse-manifest.json'">architecture = 'aarch64'
+
+    @pytest.mark.parametrize("architecture", ARCHITECTURES)
+    def test_cpu_direct_authority_matches_manifest_and_retains_existing_public_versions(architecture):
+        baseline = json.loads((INFERENCE / "spark-wheelhouse-manifest.json").read_text())
+&gt;       manifest = document(architecture)
+                   ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_cpu_wheelhouse.py:69: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_cpu_wheelhouse.py:28: in document
+    return json.loads(path.read_text(encoding="utf-8"))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\pathlib\_local.py:546: in read_text
+    return PathBase.read_text(self, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\pathlib\_abc.py:632: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/furko/Desktop/VoiceUpMeating/app/inference/cpu-aarch64-wheelhouse-manifest.json')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+&gt;       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\app\\inference\\cpu-aarch64-wheelhouse-manifest.json'
+
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\pathlib\_local.py:537: FileNotFoundError</failure></testcase><testcase classname="tests.test_cpu_wheelhouse" name="test_cpu_hash_lock_is_exactly_generated_from_reviewable_artifacts[x86_64]" time="0.002"><failure message="cpu_wheelhouse_generator.WheelhouseError: invalid_manifest">architecture = 'x86_64'
+generator = &lt;module 'cpu_wheelhouse_generator' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\prepare-spark-wheelhouse.py'&gt;
+
+    @pytest.mark.parametrize("architecture", ARCHITECTURES)
+    def test_cpu_hash_lock_is_exactly_generated_from_reviewable_artifacts(architecture, generator):
+        path = INFERENCE / f"cpu-{architecture}-wheelhouse-manifest.json"
+&gt;       artifacts = generator.read_manifest(path, for_lock=True)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_cpu_wheelhouse.py:82: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+path = WindowsPath('C:/Users/furko/Desktop/VoiceUpMeating/app/inference/cpu-x86_64-wheelhouse-manifest.json')
+for_lock = True
+
+    def read_manifest(path: Path, *, for_lock: bool = False) -&gt; list[dict]:
+        path = checked_path(path)
+        if not path.is_file():
+&gt;           raise WheelhouseError("invalid_manifest")
+E           cpu_wheelhouse_generator.WheelhouseError: invalid_manifest
+
+scripts\prepare-spark-wheelhouse.py:101: WheelhouseError</failure></testcase><testcase classname="tests.test_cpu_wheelhouse" name="test_cpu_hash_lock_is_exactly_generated_from_reviewable_artifacts[aarch64]" time="0.002"><failure message="cpu_wheelhouse_generator.WheelhouseError: invalid_manifest">architecture = 'aarch64'
+generator = &lt;module 'cpu_wheelhouse_generator' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\prepare-spark-wheelhouse.py'&gt;
+
+    @pytest.mark.parametrize("architecture", ARCHITECTURES)
+    def test_cpu_hash_lock_is_exactly_generated_from_reviewable_artifacts(architecture, generator):
+        path = INFERENCE / f"cpu-{architecture}-wheelhouse-manifest.json"
+&gt;       artifacts = generator.read_manifest(path, for_lock=True)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_cpu_wheelhouse.py:82: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+path = WindowsPath('C:/Users/furko/Desktop/VoiceUpMeating/app/inference/cpu-aarch64-wheelhouse-manifest.json')
+for_lock = True
+
+    def read_manifest(path: Path, *, for_lock: bool = False) -&gt; list[dict]:
+        path = checked_path(path)
+        if not path.is_file():
+&gt;           raise WheelhouseError("invalid_manifest")
+E           cpu_wheelhouse_generator.WheelhouseError: invalid_manifest
+
+scripts\prepare-spark-wheelhouse.py:101: WheelhouseError</failure></testcase></testsuite></testsuites>
