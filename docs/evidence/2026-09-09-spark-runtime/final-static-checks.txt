@@ -1,0 +1,5 @@
+Root backend-venv Ruff check: all checks passed.
+Root backend-venv Ruff format --check: 14 files already formatted.
+Initial root check found I001 in test_spark_service_config.py and four PLW1510 in test_spark_startup.py; imports sorted and check=False made explicit. No observable test behavior changed.
+git diff --check: exit 0; existing CRLF normalization warnings only.
+Final documentation links: 14 Markdown files, 92 local links checked, 0 missing. Private env/key/config paths remain Git-ignored.

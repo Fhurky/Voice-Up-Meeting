@@ -1,9 +1,33 @@
 # NVIDIA DGX Spark geliştirme ve model değerlendirme planı
 
-Güncelleme: **8 Eylül 2026**. Kullanıcının bildirdiği Spark cihazı esas alınarak hedef
+Güncelleme: **9 Eylül 2026**. Kullanıcının bildirdiği Spark cihazı esas alınarak hedef
 platform **NVIDIA DGX Spark / GB10, Linux ARM64, 128 GB ortak bellek** olarak belirlenmiştir.
-Bu belge hedef ortamı ve yapılacak deneyleri tanımlar; Spark üzerinde kurulum, model
-çıkarımı, doğruluk veya hız ölçümü henüz yapılmadı.
+Bu belge model değerlendirme yol haritasıdır. Spark kurulumu ve gerçek ECAPA çıkarımı
+doğrulandı; kişi doğruluğu ve aşağıdaki aday model deneyleri henüz tamamlanmadı.
+
+## 9 Eylül cihaz bağlantısı isteği
+
+Kullanıcı Spark'ı bu bilgisayara kabloyla bağladı ve model hesaplamalarının oraya
+aktarılmasını istedi. Güncel uygulama işi [004 Accepted PRD](../specs/speaker-identity/PRDs/004-spark-remote-inference/PRD.md)
+ve bağlı plan/görevlerde yürütülür. Web/API/PostgreSQL burada, VAD ve embedding Spark'ta
+kalır. Yetkili SSH erişimi açıldı ve cihaz gerçekten incelendi: Ubuntu 24.04.4,
+ARM64, NVIDIA GB10, compute capability 12.1 ve sürücü 580.159.03. Ethernet arayüzü
+enP7s7 artık 192.168.137.2 adresinde; Windows 192.168.137.1 üzerinden Ethernet SSH
+bağlantısı doğrulandı. Wi-Fi varsayılan rotası korundu. Docker erişimi ve yerel CDI
+GPU eşlemesi çalışıyor. Python 3.13.14 / Torch 2.8.0+cu129 ile gerçek CUDA, VAD ve
+192 boyutlu ECAPA çıkarımı geçti. [Çalışma kanıtı](evidence/2026-09-09-spark-runtime/README.md)
+ölçülen sonuçları ve uyumluluk sınırlarını ayrı kaydeder.
+
+Mevcut 4060 paketleri CPython 3.13/x86_64/CUDA 12.8 içindir. İlk daha dar ARM64 adayı
+aynı kararlı Torch/TorchAudio 2.8 API'siyle CUDA 12.9'dur; resmi wheel bulunması runtime
+kabulü veya GB10 başarı kanıtı değildir. [İncelenen resmî artifact metadata'sı](evidence/2026-09-09-spark-preflight/arm64-candidate-metadata.json)
+kaynak URL/hash/boyutları içerir. 48 dosyanın kapalı bağımlılık grafiği bağımsız
+incelendi; ayrı kaynak manifesti ve hash kilidi oluşturuldu. Mevcut 46 artifact
+korunuyor. 48 paketin tamamı Spark'ın hazırlık alanına indirildi ve hashleri iki
+kez doğrulandı; sabit ses modelinin 7 dosyası da aktarılıp doğrulandı. Native paket
+kurulumu ağ kapalıyken tamamlandı ve gerçek GPU çıkarımı geçti. Aşağıdaki NGC adayı
+seçilmedi; çalışan ayrı Python 3.13 imajı kullanılır. Alternatif NGC değerlendirmesi
+yapılırsa Python 3.12 farkı ve yayın yaşı ayrıca ele alınacaktır.
 
 ## Donanımın plana etkisi
 
@@ -37,7 +61,8 @@ bu image'a eklenmeyecek; NVIDIA/Ubuntu çıkarım ortamıyla HTTP sözleşmesi k
 Ürün ses profilleri PostgreSQL'de, tanımlanmış vektör gereksinimi varsa aynı veritabanında
 pgvector ile tutulacak. Mevcut SQLite yalnız araştırma referansıdır. Çalışma anında
 internet veya model indirme yerine önceden hazırlanmış, revision/hash bilgili model
-paketleri kullanılacak. İşçi ve kuyruk bu belgede tasarımdır; henüz uygulanmadı.
+paketleri kullanılacak. İşçi ve kalıcı kuyruk 001 kapsamında Windows/4060 ortamında
+uygulandı; Spark üzerindeki çıkarım bağlantısı henüz doğrulanmadı.
 
 Spark için ARM64 yazılım ve uygun container seçimi gerekir. NVIDIA'nın Spark NGC
 koleksiyonu araştırma tarihinde `pytorch:26.08-py3` sürümünü listeliyor; bu **ilk

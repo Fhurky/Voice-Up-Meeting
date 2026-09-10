@@ -1,0 +1,15 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.14, pytest-9.1.1, pluggy-1.6.0
+rootdir: C:\Users\furko\Desktop\VoiceUpMeating\app\inference
+configfile: pyproject.toml
+plugins: anyio-4.15.1, asyncio-1.4.0, cov-7.1.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 43 items
+
+app\inference\tests\test_bundle.py .......                               [ 16%]
+app\inference\tests\test_runtime_profiles.py ........................... [ 79%]
+.                                                                        [ 81%]
+app\inference\tests\test_wheelhouse.py ........                          [100%]
+
+- generated xml file: C:\Users\furko\Desktop\VoiceUpMeating\docs\evidence\2026-09-09-public-speaker-evaluation\inference-available-tests.xml -
+============================= 43 passed in 0.59s ==============================

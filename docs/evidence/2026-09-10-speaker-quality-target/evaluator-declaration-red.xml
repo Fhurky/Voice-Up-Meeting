@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="7" skipped="0" tests="7" time="7.507" timestamp="2026-09-10T10:22:27.629973+03:00" hostname="DESKTOP-RJ78JKH"><testcase classname="tests.test_public_speaker_evaluation" name="test_manifest_person_budget_is_an_input_resource_bound" time="0.838"><failure message="AssertionError: Regex pattern did not match.&#10; Regex: 'invalid_unknown_order'&#10; Input: 'manifest_person_limit'">evaluation = &lt;module 'public_speaker_evaluation' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\evaluate-public-speakers.py'&gt;
+tmp_path = WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-160/test_manifest_person_budget_is0')
+
+    def test_manifest_person_budget_is_an_input_resource_bound(evaluation, tmp_path):
+        manifest = manifest_fixture(tmp_path, gallery_size=201)
+        with pytest.raises(evaluation.EvaluationError, match="invalid_gallery_order"):
+            evaluation.validate_manifest(manifest, tmp_path, [201])
+        manifest = manifest_fixture(tmp_path, unknown_size=201)
+        with pytest.raises(evaluation.EvaluationError, match="invalid_unknown_order"):
+&gt;           evaluation.validate_manifest(manifest, tmp_path, [1])
+
+tests\test_public_speaker_evaluation.py:150: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+manifest = {'dataset_id': 'fixture', 'gallery_order': ['a'], 'language': 'en', 'recordings': [{'chapter_id': '0', 'duration_secon..., 'path': 'u-0.wav', ...}, {'chapter_id': '1', 'duration_seconds': 30, 'id': 'u-1', 'path': 'u-1.wav', ...}, ...], ...}
+audio_root = WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-160/test_manifest_person_budget_is0')
+gallery_sizes = [1]
+
+    def validate_manifest(manifest: Any, audio_root: Path, gallery_sizes: list[int]) -&gt; None:
+        if (
+            not isinstance(manifest, dict)
+            or type(manifest.get("schema_version")) is not int
+            or manifest["schema_version"] != 1
+            or not _text(manifest.get("dataset_id"))
+            or manifest.get("language") != "en"
+            or manifest.get("split") not in {"calibration", "test"}
+            or not isinstance(manifest.get("recordings"), list)
+            or not 1 &lt;= len(manifest["recordings"]) &lt;= MAX_RECORDINGS
+        ):
+            raise EvaluationError("invalid_manifest")
+        gallery = manifest.get("gallery_order")
+        if (
+            not isinstance(gallery, list)
+            or not 1 &lt;= len(gallery) &lt;= MAX_MANIFEST_PEOPLE_PER_ROLE
+            or not all(_text(item) for item in gallery)
+            or len(set(gallery)) != len(gallery)
+        ):
+            raise EvaluationError("invalid_gallery_order")
+        if (
+            not gallery_sizes
+            or any(type(size) is not int or not 1 &lt;= size &lt;= len(gallery) for size in gallery_sizes)
+            or gallery_sizes != sorted(set(gallery_sizes))
+        ):
+            raise EvaluationError("invalid_gallery_sizes")
+        identifiers: set[str] = set()
+        paths: set[Path] = set()
+        hashes: set[str] = set()
+        utterances: set[str] = set()
+        chapter_roles: dict[tuple[str, str, str], set[str]] = {}
+        counts: Counter = Counter()
+        speakers: dict[str, set[str]] = {role: set() for role in ROLES}
+        for row in manifest["recordings"]:
+            if (
+                not isinstance(row, dict)
+                or any(
+                    not _text(row.get(key))
+                    for key in ("id", "speaker_id", "source_split", "chapter_id", "path")
+                )
+                or row.get("role") not in ROLES
+                or not isinstance(row.get("source_utterance_ids"), list)
+                or not row["source_utterance_ids"]
+                or not all(_text(item) for item in row["source_utterance_ids"])
+                or not isinstance(row.get("sha256"), str)
+                or re.fullmatch(r"[0-9a-f]{64}", row["sha256"]) is None
+                or type(row.get("duration_seconds")) not in (int, float)
+                or not math.isfinite(row["duration_seconds"])
+                or not 0 &lt; row["duration_seconds"] &lt;= 120
+            ):
+                raise EvaluationError("invalid_recording")
+            if row["id"] in identifiers:
+                raise EvaluationError("duplicate_recording_id")
+            identifiers.add(row["id"])
+            for identifier in row["source_utterance_ids"]:
+                if identifier in utterances:
+                    raise EvaluationError("duplicate_source_utterance")
+                utterances.add(identifier)
+            chapter_key = (row["speaker_id"], row["source_split"], row["chapter_id"])
+            chapter_roles.setdefault(chapter_key, set()).add(row["role"])
+            if len(chapter_roles[chapter_key]) &gt; 1:
+                raise EvaluationError("source_role_leakage")
+            path = audio_path(audio_root, row["path"])
+            if path in paths or row["sha256"] in hashes:
+                raise EvaluationError("duplicate_audio")
+            paths.add(path)
+            hashes.add(row["sha256"])
+            with path.open("rb") as source:
+                before = os.fstat(source.fileno())
+                if not 0 &lt; before.st_size &lt;= MAX_AUDIO_BYTES:
+                    raise EvaluationError("audio_size_limit")
+                hasher = hashlib.sha256()
+                size = 0
+                while chunk := source.read(1024 * 1024):
+                    size += len(chunk)
+                    if size &gt; MAX_AUDIO_BYTES:
+                        raise EvaluationError("audio_size_limit")
+                    hasher.update(chunk)
+                digest = hasher.hexdigest()
+                after = os.fstat(source.fileno())
+            if (before.st_size, before.st_mtime_ns) != (after.st_size, after.st_mtime_ns):
+                raise EvaluationError("audio_changed_during_preflight")
+            if digest != row["sha256"]:
+                raise EvaluationError("audio_hash_mismatch")
+            speakers[row["role"]].add(row["speaker_id"])
+            counts[row["speaker_id"], row["role"]] += 1
+        if speakers["enrollment"] != set(gallery) or speakers["known_query"] != set(gallery):
+            raise EvaluationError("gallery_recordings_mismatch")
+        if any(
+            counts[speaker, "enrollment"] != 1 or counts[speaker, "known_query"] &lt; 3
+            for speaker in gallery
+        ):
+            raise EvaluationError("insufficient_gallery_recordings")
+        unknown = speakers["unknown_query"]
+        if len(unknown) &gt; MAX_MANIFEST_PEOPLE_PER_ROLE:
+&gt;           raise EvaluationError("manifest_person_limit")
+E           public_speaker_evaluation.EvaluationError: manifest_person_limit
+
+scripts\evaluate-public-speakers.py:309: EvaluationError
+
+During handling of the above exception, another exception occurred:
+
+evaluation = &lt;module 'public_speaker_evaluation' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\evaluate-public-speakers.py'&gt;
+tmp_path = WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-160/test_manifest_person_budget_is0')
+
+    def test_manifest_person_budget_is_an_input_resource_bound(evaluation, tmp_path):
+        manifest = manifest_fixture(tmp_path, gallery_size=201)
+        with pytest.raises(evaluation.EvaluationError, match="invalid_gallery_order"):
+            evaluation.validate_manifest(manifest, tmp_path, [201])
+        manifest = manifest_fixture(tmp_path, unknown_size=201)
+&gt;       with pytest.raises(evaluation.EvaluationError, match="invalid_unknown_order"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E        Regex: 'invalid_unknown_order'
+E        Input: 'manifest_person_limit'
+
+tests\test_public_speaker_evaluation.py:149: AssertionError</failure></testcase><testcase classname="tests.test_public_speaker_evaluation" name="test_cli_rejects_inconsistent_unknown_declaration_before_http[None-invalid_unknown_order]" time="0.998"><failure message="AssertionError: assert 0 == 1&#10; +  where 0 = &lt;function main at 0x0000028093F6BEC0&gt;(['--manifest', 'C:\\Users\\furko\\AppData\\Local\\Temp\\pytest-of-furko\\pytest-160\\test_cli_rejects_inconsistent_0\\...ers\\furko\\AppData\\Local\\Temp\\pytest-of-furko\\pytest-160\\test_cli_rejects_inconsistent_0\\credentials.json', ...])&#10; +    where &lt;function main at 0x0000028093F6BEC0&gt; = &lt;module 'public_speaker_evaluation' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\evaluate-public-speakers.py'&gt;.main">evaluation = &lt;module 'public_speaker_evaluation' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\evaluate-public-speakers.py'&gt;
+tmp_path = WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-160/test_cli_rejects_inconsistent_0')
+api_server = {'calls': [('POST', '/api/voiceup/v1/auth/login'), ('GET', '/api/voiceup/v1/speaker-profiles?offset=0&amp;limit=100'), ('G...er-profiles?offset=0&amp;limit=100'), ...], 'change_gallery': False, 'change_policy': False, 'fail_enrollment': False, ...}
+declared = None, error = 'invalid_unknown_order'
+capsys = &lt;_pytest.capture.CaptureFixture object at 0x00000280938CFEF0&gt;
+
+    @pytest.mark.parametrize(
+        "declared,error",
+        [
+            (None, "invalid_unknown_order"),
+            ("u", "invalid_unknown_order"),
+            (["u", "u"], "invalid_unknown_order"),
+            (["absent"], "unknown_recordings_mismatch"),
+            ([], "invalid_unknown_order"),
+            (["u"] + [f"extra-{index}" for index in range(200)], "invalid_unknown_order"),
+        ],
+    )
+    def test_cli_rejects_inconsistent_unknown_declaration_before_http(
+        evaluation, tmp_path, api_server, declared, error, capsys
+    ):
+        args = provenance_cli_fixture(evaluation, tmp_path, api_server)
+        path = tmp_path / "manifest.json"
+        manifest = json.loads(path.read_text())
+        if declared is None:
+            manifest.pop("unknown_order")
+        else:
+            manifest["unknown_order"] = declared
+        path.write_text(json.dumps(manifest))
+&gt;       assert evaluation.main(args) == 1
+E       AssertionError: assert 0 == 1
+E        +  where 0 = &lt;function main at 0x0000028093F6BEC0&gt;(['--manifest', 'C:\\Users\\furko\\AppData\\Local\\Temp\\pytest-of-furko\\pytest-160\\test_cli_rejects_inconsistent_0\\...ers\\furko\\AppData\\Local\\Temp\\pytest-of-furko\\pytest-160\\test_cli_rejects_inconsistent_0\\credentials.json', ...])
+E        +    where &lt;function main at 0x0000028093F6BEC0&gt; = &lt;module 'public_speaker_evaluation' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\evaluate-public-speakers.py'&gt;.main
+
+tests\test_public_speaker_evaluation.py:175: AssertionError</failure></testcase><testcase classname="tests.test_public_speaker_evaluation" name="test_cli_rejects_inconsistent_unknown_declaration_before_http[u-invalid_unknown_order]" time="0.991"><failure message="AssertionError: assert 0 == 1&#10; +  where 0 = &lt;function main at 0x0000028093D5AAC0&gt;(['--manifest', 'C:\\Users\\furko\\AppData\\Local\\Temp\\pytest-of-furko\\pytest-160\\test_cli_rejects_inconsistent_1\\...ers\\furko\\AppData\\Local\\Temp\\pytest-of-furko\\pytest-160\\test_cli_rejects_inconsistent_1\\credentials.json', ...])&#10; +    where &lt;function main at 0x0000028093D5AAC0&gt; = &lt;module 'public_speaker_evaluation' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\evaluate-public-speakers.py'&gt;.main">evaluation = &lt;module 'public_speaker_evaluation' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\evaluate-public-speakers.py'&gt;
+tmp_path = WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-160/test_cli_rejects_inconsistent_1')
+api_server = {'calls': [('POST', '/api/voiceup/v1/auth/login'), ('GET', '/api/voiceup/v1/speaker-profiles?offset=0&amp;limit=100'), ('G...er-profiles?offset=0&amp;limit=100'), ...], 'change_gallery': False, 'change_policy': False, 'fail_enrollment': False, ...}
+declared = 'u', error = 'invalid_unknown_order'
+capsys = &lt;_pytest.capture.CaptureFixture object at 0x0000028093D07D70&gt;
+
+    @pytest.mark.parametrize(
+        "declared,error",
+        [
+            (None, "invalid_unknown_order"),
+            ("u", "invalid_unknown_order"),
+            (["u", "u"], "invalid_unknown_order"),
+            (["absent"], "unknown_recordings_mismatch"),
+            ([], "invalid_unknown_order"),
+            (["u"] + [f"extra-{index}" for index in range(200)], "invalid_unknown_order"),
+        ],
+    )
+    def test_cli_rejects_inconsistent_unknown_declaration_before_http(
+        evaluation, tmp_path, api_server, declared, error, capsys
+    ):
+        args = provenance_cli_fixture(evaluation, tmp_path, api_server)
+        path = tmp_path / "manifest.json"
+        manifest = json.loads(path.read_text())
+        if declared is None:
+            manifest.pop("unknown_order")
+        else:
+            manifest["unknown_order"] = declared
+        path.write_text(json.dumps(manifest))
+&gt;       assert evaluation.main(args) == 1
+E       AssertionError: assert 0 == 1
+E        +  where 0 = &lt;function main at 0x0000028093D5AAC0&gt;(['--manifest', 'C:\\Users\\furko\\AppData\\Local\\Temp\\pytest-of-furko\\pytest-160\\test_cli_rejects_inconsistent_1\\...ers\\furko\\AppData\\Local\\Temp\\pytest-of-furko\\pytest-160\\test_cli_rejects_inconsistent_1\\credentials.json', ...])
+E        +    where &lt;function main at 0x0000028093D5AAC0&gt; = &lt;module 'public_speaker_evaluation' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\evaluate-public-speakers.py'&gt;.main
+
+tests\test_public_speaker_evaluation.py:175: AssertionError</failure></testcase><testcase classname="tests.test_public_speaker_evaluation" name="test_cli_rejects_inconsistent_unknown_declaration_before_http[declared2-invalid_unknown_order]" time="1.171"><failure message="AssertionError: assert 0 == 1&#10; +  where 0 = &lt;function main at 0x0000028093ECCE00&gt;(['--manifest', 'C:\\Users\\furko\\AppData\\Local\\Temp\\pytest-of-furko\\pytest-160\\test_cli_rejects_inconsistent_2\\...ers\\furko\\AppData\\Local\\Temp\\pytest-of-furko\\pytest-160\\test_cli_rejects_inconsistent_2\\credentials.json', ...])&#10; +    where &lt;function main at 0x0000028093ECCE00&gt; = &lt;module 'public_speaker_evaluation' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\evaluate-public-speakers.py'&gt;.main">evaluation = &lt;module 'public_speaker_evaluation' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\evaluate-public-speakers.py'&gt;
+tmp_path = WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-160/test_cli_rejects_inconsistent_2')
+api_server = {'calls': [('POST', '/api/voiceup/v1/auth/login'), ('GET', '/api/voiceup/v1/speaker-profiles?offset=0&amp;limit=100'), ('G...er-profiles?offset=0&amp;limit=100'), ...], 'change_gallery': False, 'change_policy': False, 'fail_enrollment': False, ...}
+declared = ['u', 'u'], error = 'invalid_unknown_order'
+capsys = &lt;_pytest.capture.CaptureFixture object at 0x00000280938D3950&gt;
+
+    @pytest.mark.parametrize(
+        "declared,error",
+        [
+            (None, "invalid_unknown_order"),
+            ("u", "invalid_unknown_order"),
+            (["u", "u"], "invalid_unknown_order"),
+            (["absent"], "unknown_recordings_mismatch"),
+            ([], "invalid_unknown_order"),
+            (["u"] + [f"extra-{index}" for index in range(200)], "invalid_unknown_order"),
+        ],
+    )
+    def test_cli_rejects_inconsistent_unknown_declaration_before_http(
+        evaluation, tmp_path, api_server, declared, error, capsys
+    ):
+        args = provenance_cli_fixture(evaluation, tmp_path, api_server)
+        path = tmp_path / "manifest.json"
+        manifest = json.loads(path.read_text())
+        if declared is None:
+            manifest.pop("unknown_order")
+        else:
+            manifest["unknown_order"] = declared
+        path.write_text(json.dumps(manifest))
+&gt;       assert evaluation.main(args) == 1
+E       AssertionError: assert 0 == 1
+E        +  where 0 = &lt;function main at 0x0000028093ECCE00&gt;(['--manifest', 'C:\\Users\\furko\\AppData\\Local\\Temp\\pytest-of-furko\\pytest-160\\test_cli_rejects_inconsistent_2\\...ers\\furko\\AppData\\Local\\Temp\\pytest-of-furko\\pytest-160\\test_cli_rejects_inconsistent_2\\credentials.json', ...])
+E        +    where &lt;function main at 0x0000028093ECCE00&gt; = &lt;module 'public_speaker_evaluation' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\evaluate-public-speakers.py'&gt;.main
+
+tests\test_public_speaker_evaluation.py:175: AssertionError</failure></testcase><testcase classname="tests.test_public_speaker_evaluation" name="test_cli_rejects_inconsistent_unknown_declaration_before_http[declared3-unknown_recordings_mismatch]" time="1.143"><failure message="AssertionError: assert 0 == 1&#10; +  where 0 = &lt;function main at 0x0000028093F08D60&gt;(['--manifest', 'C:\\Users\\furko\\AppData\\Local\\Temp\\pytest-of-furko\\pytest-160\\test_cli_rejects_inconsistent_3\\...ers\\furko\\AppData\\Local\\Temp\\pytest-of-furko\\pytest-160\\test_cli_rejects_inconsistent_3\\credentials.json', ...])&#10; +    where &lt;function main at 0x0000028093F08D60&gt; = &lt;module 'public_speaker_evaluation' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\evaluate-public-speakers.py'&gt;.main">evaluation = &lt;module 'public_speaker_evaluation' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\evaluate-public-speakers.py'&gt;
+tmp_path = WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-160/test_cli_rejects_inconsistent_3')
+api_server = {'calls': [('POST', '/api/voiceup/v1/auth/login'), ('GET', '/api/voiceup/v1/speaker-profiles?offset=0&amp;limit=100'), ('G...er-profiles?offset=0&amp;limit=100'), ...], 'change_gallery': False, 'change_policy': False, 'fail_enrollment': False, ...}
+declared = ['absent'], error = 'unknown_recordings_mismatch'
+capsys = &lt;_pytest.capture.CaptureFixture object at 0x00000280938D2C30&gt;
+
+    @pytest.mark.parametrize(
+        "declared,error",
+        [
+            (None, "invalid_unknown_order"),
+            ("u", "invalid_unknown_order"),
+            (["u", "u"], "invalid_unknown_order"),
+            (["absent"], "unknown_recordings_mismatch"),
+            ([], "invalid_unknown_order"),
+            (["u"] + [f"extra-{index}" for index in range(200)], "invalid_unknown_order"),
+        ],
+    )
+    def test_cli_rejects_inconsistent_unknown_declaration_before_http(
+        evaluation, tmp_path, api_server, declared, error, capsys
+    ):
+        args = provenance_cli_fixture(evaluation, tmp_path, api_server)
+        path = tmp_path / "manifest.json"
+        manifest = json.loads(path.read_text())
+        if declared is None:
+            manifest.pop("unknown_order")
+        else:
+            manifest["unknown_order"] = declared
+        path.write_text(json.dumps(manifest))
+&gt;       assert evaluation.main(args) == 1
+E       AssertionError: assert 0 == 1
+E        +  where 0 = &lt;function main at 0x0000028093F08D60&gt;(['--manifest', 'C:\\Users\\furko\\AppData\\Local\\Temp\\pytest-of-furko\\pytest-160\\test_cli_rejects_inconsistent_3\\...ers\\furko\\AppData\\Local\\Temp\\pytest-of-furko\\pytest-160\\test_cli_rejects_inconsistent_3\\credentials.json', ...])
+E        +    where &lt;function main at 0x0000028093F08D60&gt; = &lt;module 'public_speaker_evaluation' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\evaluate-public-speakers.py'&gt;.main
+
+tests\test_public_speaker_evaluation.py:175: AssertionError</failure></testcase><testcase classname="tests.test_public_speaker_evaluation" name="test_cli_rejects_inconsistent_unknown_declaration_before_http[declared4-invalid_unknown_order]" time="1.021"><failure message="AssertionError: assert 0 == 1&#10; +  where 0 = &lt;function main at 0x0000028093ECCE00&gt;(['--manifest', 'C:\\Users\\furko\\AppData\\Local\\Temp\\pytest-of-furko\\pytest-160\\test_cli_rejects_inconsistent_4\\...ers\\furko\\AppData\\Local\\Temp\\pytest-of-furko\\pytest-160\\test_cli_rejects_inconsistent_4\\credentials.json', ...])&#10; +    where &lt;function main at 0x0000028093ECCE00&gt; = &lt;module 'public_speaker_evaluation' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\evaluate-public-speakers.py'&gt;.main">evaluation = &lt;module 'public_speaker_evaluation' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\evaluate-public-speakers.py'&gt;
+tmp_path = WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-160/test_cli_rejects_inconsistent_4')
+api_server = {'calls': [('POST', '/api/voiceup/v1/auth/login'), ('GET', '/api/voiceup/v1/speaker-profiles?offset=0&amp;limit=100'), ('G...er-profiles?offset=0&amp;limit=100'), ...], 'change_gallery': False, 'change_policy': False, 'fail_enrollment': False, ...}
+declared = [], error = 'invalid_unknown_order'
+capsys = &lt;_pytest.capture.CaptureFixture object at 0x0000028093D05460&gt;
+
+    @pytest.mark.parametrize(
+        "declared,error",
+        [
+            (None, "invalid_unknown_order"),
+            ("u", "invalid_unknown_order"),
+            (["u", "u"], "invalid_unknown_order"),
+            (["absent"], "unknown_recordings_mismatch"),
+            ([], "invalid_unknown_order"),
+            (["u"] + [f"extra-{index}" for index in range(200)], "invalid_unknown_order"),
+        ],
+    )
+    def test_cli_rejects_inconsistent_unknown_declaration_before_http(
+        evaluation, tmp_path, api_server, declared, error, capsys
+    ):
+        args = provenance_cli_fixture(evaluation, tmp_path, api_server)
+        path = tmp_path / "manifest.json"
+        manifest = json.loads(path.read_text())
+        if declared is None:
+            manifest.pop("unknown_order")
+        else:
+            manifest["unknown_order"] = declared
+        path.write_text(json.dumps(manifest))
+&gt;       assert evaluation.main(args) == 1
+E       AssertionError: assert 0 == 1
+E        +  where 0 = &lt;function main at 0x0000028093ECCE00&gt;(['--manifest', 'C:\\Users\\furko\\AppData\\Local\\Temp\\pytest-of-furko\\pytest-160\\test_cli_rejects_inconsistent_4\\...ers\\furko\\AppData\\Local\\Temp\\pytest-of-furko\\pytest-160\\test_cli_rejects_inconsistent_4\\credentials.json', ...])
+E        +    where &lt;function main at 0x0000028093ECCE00&gt; = &lt;module 'public_speaker_evaluation' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\evaluate-public-speakers.py'&gt;.main
+
+tests\test_public_speaker_evaluation.py:175: AssertionError</failure></testcase><testcase classname="tests.test_public_speaker_evaluation" name="test_cli_rejects_inconsistent_unknown_declaration_before_http[declared5-invalid_unknown_order]" time="1.044"><failure message="AssertionError: assert 0 == 1&#10; +  where 0 = &lt;function main at 0x0000028093F69260&gt;(['--manifest', 'C:\\Users\\furko\\AppData\\Local\\Temp\\pytest-of-furko\\pytest-160\\test_cli_rejects_inconsistent_5\\...ers\\furko\\AppData\\Local\\Temp\\pytest-of-furko\\pytest-160\\test_cli_rejects_inconsistent_5\\credentials.json', ...])&#10; +    where &lt;function main at 0x0000028093F69260&gt; = &lt;module 'public_speaker_evaluation' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\evaluate-public-speakers.py'&gt;.main">evaluation = &lt;module 'public_speaker_evaluation' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\evaluate-public-speakers.py'&gt;
+tmp_path = WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-160/test_cli_rejects_inconsistent_5')
+api_server = {'calls': [('POST', '/api/voiceup/v1/auth/login'), ('GET', '/api/voiceup/v1/speaker-profiles?offset=0&amp;limit=100'), ('G...er-profiles?offset=0&amp;limit=100'), ...], 'change_gallery': False, 'change_policy': False, 'fail_enrollment': False, ...}
+declared = ['u', 'extra-0', 'extra-1', 'extra-2', 'extra-3', 'extra-4', ...]
+error = 'invalid_unknown_order'
+capsys = &lt;_pytest.capture.CaptureFixture object at 0x00000280938D0530&gt;
+
+    @pytest.mark.parametrize(
+        "declared,error",
+        [
+            (None, "invalid_unknown_order"),
+            ("u", "invalid_unknown_order"),
+            (["u", "u"], "invalid_unknown_order"),
+            (["absent"], "unknown_recordings_mismatch"),
+            ([], "invalid_unknown_order"),
+            (["u"] + [f"extra-{index}" for index in range(200)], "invalid_unknown_order"),
+        ],
+    )
+    def test_cli_rejects_inconsistent_unknown_declaration_before_http(
+        evaluation, tmp_path, api_server, declared, error, capsys
+    ):
+        args = provenance_cli_fixture(evaluation, tmp_path, api_server)
+        path = tmp_path / "manifest.json"
+        manifest = json.loads(path.read_text())
+        if declared is None:
+            manifest.pop("unknown_order")
+        else:
+            manifest["unknown_order"] = declared
+        path.write_text(json.dumps(manifest))
+&gt;       assert evaluation.main(args) == 1
+E       AssertionError: assert 0 == 1
+E        +  where 0 = &lt;function main at 0x0000028093F69260&gt;(['--manifest', 'C:\\Users\\furko\\AppData\\Local\\Temp\\pytest-of-furko\\pytest-160\\test_cli_rejects_inconsistent_5\\...ers\\furko\\AppData\\Local\\Temp\\pytest-of-furko\\pytest-160\\test_cli_rejects_inconsistent_5\\credentials.json', ...])
+E        +    where &lt;function main at 0x0000028093F69260&gt; = &lt;module 'public_speaker_evaluation' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\evaluate-public-speakers.py'&gt;.main
+
+tests\test_public_speaker_evaluation.py:175: AssertionError</failure></testcase></testsuite></testsuites>

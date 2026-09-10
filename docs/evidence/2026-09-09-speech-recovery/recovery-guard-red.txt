@@ -1,0 +1,78 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.10, pytest-8.4.2, pluggy-1.6.0
+rootdir: C:\Users\furko\Desktop\VoiceUpMeating\app\inference
+configfile: pyproject.toml
+plugins: anyio-4.15.1
+collected 23 items / 19 deselected / 4 selected
+
+app\inference\tests\test_speech_recovery.py FFFF                         [100%]
+
+================================== FAILURES ===================================
+__ test_alternating_short_voices_cannot_become_a_consistent_blended_profile ___
+
+    def test_alternating_short_voices_cannot_become_a_consistent_blended_profile():
+        audio, turns = fragments([2] * 8, [0.1, 0.2] * 4)
+        result, _ = extract_pilot_evidence(audio, turns, VoiceMixEmbedder(), "enroll")
+>       assert result.embedding is None
+E       AssertionError: assert array([0.70710678, 0.70710678, 0.        ]) is None
+E        +  where array([0.70710678, 0.70710678, 0.        ]) = Evidence(embedding=array([0.70710678, 0.70710678, 0.        ]), clean_seconds=15.999999999999998, used_seconds=16.0, windows=2, consistency=0.9999999999999998, reason='usable').embedding
+
+app\inference\tests\test_speech_recovery.py:171: AssertionError
+_ test_blocks_too_short_for_identity_guard_cannot_inflate_recovery[identify-durations0] _
+
+purpose = 'identify', durations = [1.4, 1.4, 1.4]
+
+    @pytest.mark.parametrize("purpose,durations", [
+        ("identify", [1.4] * 3),
+        ("enroll", [1.4] * 8),
+        ("enroll", [2] * 4 + [1.4] * 2),
+    ])
+    def test_blocks_too_short_for_identity_guard_cannot_inflate_recovery(purpose, durations):
+        audio, turns = fragments(durations)
+        result, version = extract_pilot_evidence(audio, turns, RecordingEmbedder(), purpose)
+>       assert result.embedding is None
+E       AssertionError: assert array([1., 0., 0.]) is None
+E        +  where array([1., 0., 0.]) = Evidence(embedding=array([1., 0., 0.]), clean_seconds=4.2, used_seconds=4.2, windows=1, consistency=1.0, reason='usable').embedding
+
+app\inference\tests\test_speech_recovery.py:183: AssertionError
+_ test_blocks_too_short_for_identity_guard_cannot_inflate_recovery[enroll-durations1] _
+
+purpose = 'enroll', durations = [1.4, 1.4, 1.4, 1.4, 1.4, 1.4, ...]
+
+    @pytest.mark.parametrize("purpose,durations", [
+        ("identify", [1.4] * 3),
+        ("enroll", [1.4] * 8),
+        ("enroll", [2] * 4 + [1.4] * 2),
+    ])
+    def test_blocks_too_short_for_identity_guard_cannot_inflate_recovery(purpose, durations):
+        audio, turns = fragments(durations)
+        result, version = extract_pilot_evidence(audio, turns, RecordingEmbedder(), purpose)
+>       assert result.embedding is None
+E       AssertionError: assert array([1., 0., 0.]) is None
+E        +  where array([1., 0., 0.]) = Evidence(embedding=array([1., 0., 0.]), clean_seconds=11.199999999999998, used_seconds=11.2, windows=2, consistency=1.0, reason='usable').embedding
+
+app\inference\tests\test_speech_recovery.py:183: AssertionError
+_ test_blocks_too_short_for_identity_guard_cannot_inflate_recovery[enroll-durations2] _
+
+purpose = 'enroll', durations = [2, 2, 2, 2, 1.4, 1.4]
+
+    @pytest.mark.parametrize("purpose,durations", [
+        ("identify", [1.4] * 3),
+        ("enroll", [1.4] * 8),
+        ("enroll", [2] * 4 + [1.4] * 2),
+    ])
+    def test_blocks_too_short_for_identity_guard_cannot_inflate_recovery(purpose, durations):
+        audio, turns = fragments(durations)
+        result, version = extract_pilot_evidence(audio, turns, RecordingEmbedder(), purpose)
+>       assert result.embedding is None
+E       AssertionError: assert array([1., 0., 0.]) is None
+E        +  where array([1., 0., 0.]) = Evidence(embedding=array([1., 0., 0.]), clean_seconds=10.8, used_seconds=10.8, windows=2, consistency=1.0, reason='usable').embedding
+
+app\inference\tests\test_speech_recovery.py:183: AssertionError
+- generated xml file: C:\Users\furko\Desktop\VoiceUpMeating\docs\evidence\2026-09-09-speech-recovery\recovery-guard-red.xml -
+=========================== short test summary info ===========================
+FAILED app\inference\tests\test_speech_recovery.py::test_alternating_short_voices_cannot_become_a_consistent_blended_profile
+FAILED app\inference\tests\test_speech_recovery.py::test_blocks_too_short_for_identity_guard_cannot_inflate_recovery[identify-durations0]
+FAILED app\inference\tests\test_speech_recovery.py::test_blocks_too_short_for_identity_guard_cannot_inflate_recovery[enroll-durations1]
+FAILED app\inference\tests\test_speech_recovery.py::test_blocks_too_short_for_identity_guard_cannot_inflate_recovery[enroll-durations2]
+====================== 4 failed, 19 deselected in 1.19s =======================

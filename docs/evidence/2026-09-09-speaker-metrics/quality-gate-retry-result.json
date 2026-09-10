@@ -1,0 +1,12 @@
+{
+  "command": [
+    "C:\\Program Files\\Git\\bin\\bash.exe",
+    "scripts/quality-gate.sh",
+    "all"
+  ],
+  "process_environment_overrides": {
+    "MSYS2_ARG_CONV_EXCL": "/tmp;/workspace"
+  },
+  "exit_code": 0,
+  "elapsed_seconds": 63.593
+}

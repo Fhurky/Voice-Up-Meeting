@@ -1,0 +1,3 @@
+........................................................................ [ 68%]
+.................................                                        [100%]
+- generated xml file: C:\Users\furko\Desktop\VoiceUpMeating\outputs\speaker-metrics\green.xml -

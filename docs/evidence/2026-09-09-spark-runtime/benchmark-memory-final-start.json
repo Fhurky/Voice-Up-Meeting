@@ -1,0 +1,10 @@
+{
+  "event": "sampling_started",
+  "pid": 167862,
+  "remote_output": "/home/lab_nvidia1/voiceup-runtime/benchmark-memory-final-jlk06ay9.json",
+  "duration_seconds": 90,
+  "interval_seconds": 1,
+  "model_calls_performed": false,
+  "dispatched_at_utc": "2026-09-09T09:39:52.660315+00:00",
+  "launcher_sha256": "cb4276b6b25eda6a7ab272f7a926f992325fb1fdb79b63302f69d3418cd788e7"
+}

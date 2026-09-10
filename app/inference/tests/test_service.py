@@ -82,6 +82,73 @@ def test_enrollment_http_contract_and_resampling(format):
     assert "gpu_peak_allocated_bytes" not in result["quality"]
     assert "gpu_peak_reserved_bytes" not in result["quality"]
     assert result["quality"]["execution_seconds"] > 0
+    assert result["quality"]["preprocessing_version"] == "vad-windows-v1"
+
+
+@pytest.mark.parametrize(
+    "purpose,seconds,count,expected_code",
+    [
+        ("enroll", 2.0, 5, None),
+        ("identify", 1.5, 2, None),
+        ("enroll", 2.0, 4, "insufficient_speech"),
+        ("enroll", 1.4, 8, "insufficient_speech"),
+    ],
+)
+def test_fragmented_pcm_http_preserves_speech_limits(purpose, seconds, count, expected_code):
+    runtime, app, _ = runtime_and_app()
+    spans = [(i * (seconds + 0.4), i * (seconds + 0.4) + seconds) for i in range(count)]
+    rate = 16000
+    samples = np.zeros(round((spans[-1][1] + 0.4) * rate), dtype=np.float32)
+    for start, end in spans:
+        samples[round(start * rate) : round(end * rate)] = 0.1
+    stream = BytesIO()
+    sf.write(stream, samples, rate, format="WAV", subtype="PCM_16")
+    with TestClient(app) as client:
+        runtime._models.vad = SimpleNamespace(speech_spans=lambda *_: spans)
+        response = client.post(
+            f"/v1/embeddings?purpose={purpose}", headers=HEADERS, content=stream.getvalue()
+        )
+    if expected_code:
+        assert response.status_code == 422
+        assert response.json()["detail"]["code"] == expected_code
+        assert "embedding" not in response.json()
+    else:
+        assert response.status_code == 200
+        result = response.json()
+        assert result["speech_seconds"] == pytest.approx(seconds * count)
+        assert result["windows_count"] >= (2 if purpose == "enroll" else 1)
+        assert result["quality"]["preprocessing_version"] == "vad-packed-fallback-v1"
+        assert result["model_revision"] == MODEL_REVISION
+
+
+def test_original_fragment_disagreement_rejects_blended_profile_over_http():
+    runtime, app, _ = runtime_and_app()
+    rate = 16000
+    spans = [(i * 2.4, i * 2.4 + 2) for i in range(8)]
+    samples = np.zeros(round(19.2 * rate), dtype=np.float32)
+    for index, (start, end) in enumerate(spans):
+        samples[round(start * rate) : round(end * rate)] = 0.1 if index % 2 == 0 else 0.2
+
+    class MixedVoiceFixture:
+        dimension = 192
+
+        def encode(self, chunk, sample_rate=16000):
+            vector = np.zeros(self.dimension, dtype=np.float32)
+            vector[:2] = [np.mean(chunk < 0.15), np.mean(chunk >= 0.15)]
+            return vector
+
+    stream = BytesIO()
+    sf.write(stream, samples, rate, format="WAV", subtype="PCM_16")
+    with TestClient(app) as client:
+        runtime._models.vad = SimpleNamespace(speech_spans=lambda *_: spans)
+        runtime._models.embedder = MixedVoiceFixture()
+        response = client.post(
+            "/v1/embeddings?purpose=enroll", headers=HEADERS, content=stream.getvalue()
+        )
+        assert client.get("/ready").status_code == 200
+    assert response.status_code == 422
+    assert response.json()["detail"]["code"] == "inconsistent_audio"
+    assert "embedding" not in response.json()
 
 
 @pytest.mark.parametrize(

@@ -1,0 +1,121 @@
+{
+  "schema_version": 1,
+  "scope": "Read-only final browser-account API corroboration after five terminal jobs; separate from overall user/container final preservation",
+  "recorded_at": "2026-09-09T13:02:08.230753+00:00",
+  "checks_passed": 20,
+  "checks_failed": 0,
+  "skipped": 0,
+  "http_requests": {
+    "POST_login": 1,
+    "GET": 2
+  },
+  "audio_uploads": 0,
+  "job_submissions": 0,
+  "account_or_profile_mutations": 0,
+  "checks": [
+    {
+      "check": "authenticated_browser_account_tenant_matches",
+      "passed": true
+    },
+    {
+      "check": "complete_profile_response_matches_before_negative_baseline",
+      "passed": true
+    },
+    {
+      "check": "exactly_one_profile",
+      "passed": true
+    },
+    {
+      "check": "profile_still_has_one_sample",
+      "passed": true
+    },
+    {
+      "check": "exactly_five_jobs",
+      "passed": true
+    },
+    {
+      "check": "all_jobs_terminal",
+      "passed": true
+    },
+    {
+      "check": "all_five_jobs_single_attempt",
+      "passed": true
+    },
+    {
+      "check": "successful_job_1_state",
+      "passed": true
+    },
+    {
+      "check": "successful_job_1_preprocessing_version",
+      "passed": true
+    },
+    {
+      "check": "successful_job_1_profile_reference",
+      "passed": true
+    },
+    {
+      "check": "successful_job_2_state",
+      "passed": true
+    },
+    {
+      "check": "successful_job_2_preprocessing_version",
+      "passed": true
+    },
+    {
+      "check": "successful_job_2_profile_reference",
+      "passed": true
+    },
+    {
+      "check": "successful_job_3_state",
+      "passed": true
+    },
+    {
+      "check": "successful_job_3_preprocessing_version",
+      "passed": true
+    },
+    {
+      "check": "successful_job_3_profile_reference",
+      "passed": true
+    },
+    {
+      "check": "exactly_two_expected_failures",
+      "passed": true
+    },
+    {
+      "check": "wrong_person_append_failed_as_target_mismatch",
+      "passed": true
+    },
+    {
+      "check": "insufficient_speech_identification_failed",
+      "passed": true
+    },
+    {
+      "check": "failed_jobs_have_no_success_result",
+      "passed": true
+    }
+  ],
+  "job_status_counts": {
+    "succeeded": 3,
+    "failed": 2
+  },
+  "successful_preprocessing_versions": [
+    "vad-windows-v1",
+    "vad-packed-fallback-v1",
+    "vad-packed-fallback-v1"
+  ],
+  "failure_code_counts": {
+    "target_mismatch": 1,
+    "insufficient_speech": 1
+  },
+  "profile_count": 1,
+  "profile_sample_count": 1,
+  "baseline_profile_canonical_sha256": "62155803f73fad96238737358aea094919cc5d98c2f3e2fa1a4a362d28033ffa",
+  "final_profile_canonical_sha256": "62155803f73fad96238737358aea094919cc5d98c2f3e2fa1a4a362d28033ffa",
+  "baseline_profile_file_sha256": "7ab2502ee417448f759f9eaf4786ae48514ab254399773f5955146af64142053",
+  "private_final_observations_sha256": "658f41d9963979db34e5a6ea6d73ca9eaf6894d517578ad3d94dc444907fb664",
+  "limitations": [
+    "This agent corroborated persisted API outcomes; root performed the actual browser flows.",
+    "Public profile response equality does not assert inaccessible database/vector bytes.",
+    "Original-user and unrelated-container final preservation awaits the separately requested post-startup check."
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "is-enabled": {
+    "exit_code": 0,
+    "state": "enabled"
+  },
+  "is-active": {
+    "exit_code": 0,
+    "state": "active"
+  }
+}

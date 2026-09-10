@@ -1,0 +1,96 @@
+{
+  "method": "Latest complete relevant JUnit result per classname/name; preceding red or superseded runs are not added. Profile application suites are separate gate records.",
+  "junit_sources_in_precedence_order": [
+    {
+      "path": "reference-tests.xml",
+      "sha256": "6fcd48c6601f4c5a826c2368fedd42b503ee5b168fa84961cf9914f6b42ec69f",
+      "counts": {
+        "passed": 569,
+        "skipped": 10
+      }
+    },
+    {
+      "path": "reference-transport-tests.xml",
+      "sha256": "ffdf9d2c559409d7486eb25ca81ab1e8e9d55971780da49c145637227b87206f",
+      "counts": {
+        "passed": 8
+      }
+    },
+    {
+      "path": "inference-linux-tests.xml",
+      "sha256": "fa7f5b3bd11a98ae7e7943eaa12c27400106a3b4d7e1817bfc66402b9389a98f",
+      "counts": {
+        "passed": 64
+      }
+    },
+    {
+      "path": "symlink-tests.xml",
+      "sha256": "0eefe517fd5b5420a8de77d9da2f51059cc151a08c98daf326ad2b8735c55030",
+      "counts": {
+        "passed": 2
+      }
+    },
+    {
+      "path": "nginx-reload-startup.xml",
+      "sha256": "d1f96153a9539dff4345e58212d9882cc4f176aea8262d7bbce0110f51393726",
+      "counts": {
+        "passed": 94,
+        "failed": 1
+      }
+    },
+    {
+      "path": "nginx-reload-docker.xml",
+      "sha256": "1d8493eabff28fd2a119c50706af9cfe94724a8dbf2146cf5add1e81fc3c8de0",
+      "counts": {
+        "passed": 1
+      }
+    },
+    {
+      "path": "native-stdin-connect.xml",
+      "sha256": "883f3312b5dec4c9424237a60db4921f5748c2563a231fa95e54937c3a89d660",
+      "counts": {
+        "passed": 44
+      }
+    },
+    {
+      "path": "evaluation-tool-tests-final.xml",
+      "sha256": "c716e624ac653595b24e925bc5cef1185d6c718b6b1861fc17cd616c9a02f641",
+      "counts": {
+        "passed": 77
+      }
+    }
+  ],
+  "unique_reference_inference_tools": {
+    "passed": 729,
+    "failed": 0,
+    "skipped": 0
+  },
+  "application_gate_records": [
+    {
+      "name": "backend-tests",
+      "runner": "pytest",
+      "total": "69",
+      "passed": "69",
+      "failed": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "frontend-tests",
+      "runner": "vitest",
+      "total": "21",
+      "passed": "21",
+      "failed": "0",
+      "skipped": "0"
+    }
+  ],
+  "unique_automated_passed": 819,
+  "formal_unavailable_entry_points": [
+    "scripts/security-gate.sh",
+    "scripts/e2e.sh speaker-identity"
+  ],
+  "windows_symlink_limitation": "Two Windows skips were exercised as real Linux filesystem tests; Windows symlink privilege remains unverified.",
+  "application_gate_source": {
+    "path": "quality-gate-post-startup.txt",
+    "sha256": "70bd9a92781318a928cad16d2b310aed270cd0a5251eaaaf718baa072c6b781d"
+  }
+}

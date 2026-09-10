@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="1" failures="0" skipped="0" tests="1" time="0.846" timestamp="2026-09-09T13:54:39.446733+03:00" hostname="DESKTOP-RJ78JKH"><testcase classname="" name="tests.test_service" time="0.000"><error message="collection failure">ImportError while importing test module 'C:\Users\furko\Desktop\VoiceUpMeating\app\inference\tests\test_service.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app\inference\tests\test_service.py:13: in &lt;module&gt;
+    from voiceup_inference.api import create_app
+app\inference\voiceup_inference\api.py:16: in &lt;module&gt;
+    from .runtime import InferenceRuntime
+app\inference\voiceup_inference\runtime.py:8: in &lt;module&gt;
+    from voiceup.audio import Turn, validate_turns
+src\voiceup\audio.py:9: in &lt;module&gt;
+    from scipy.signal import resample_poly
+E   ModuleNotFoundError: No module named 'scipy'</error></testcase></testsuite></testsuites>

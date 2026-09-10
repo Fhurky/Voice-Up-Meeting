@@ -1,0 +1,9 @@
+{
+  "compose": "5.0.2",
+  "project_containers": 0,
+  "named_containers": 0,
+  "network_collisions": 0,
+  "port_8090_listeners": 0,
+  "configuration_files_absent": true,
+  "verified_model_directory_present": true
+}

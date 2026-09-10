@@ -1,0 +1,49 @@
+{
+  "source": "real reverse-proxy access log",
+  "since_utc": "2026-09-10T06:54:00Z",
+  "scope": "includes CUA browsing and independent HTTP corroboration; aggregate only",
+  "counts": [
+    {
+      "method": "GET",
+      "path": "/api/voiceup/v1/auth/me",
+      "status": 200,
+      "count": 4
+    },
+    {
+      "method": "GET",
+      "path": "/api/voiceup/v1/speaker-jobs",
+      "status": 200,
+      "count": 2
+    },
+    {
+      "method": "GET",
+      "path": "/api/voiceup/v1/speaker-jobs/{id}",
+      "status": 200,
+      "count": 1
+    },
+    {
+      "method": "GET",
+      "path": "/api/voiceup/v1/speaker-jobs/{id}",
+      "status": 499,
+      "count": 1
+    },
+    {
+      "method": "GET",
+      "path": "/api/voiceup/v1/speaker-profiles",
+      "status": 200,
+      "count": 5
+    },
+    {
+      "method": "POST",
+      "path": "/api/voiceup/v1/auth/login",
+      "status": 200,
+      "count": 2
+    },
+    {
+      "method": "POST",
+      "path": "/api/voiceup/v1/speaker-jobs",
+      "status": 409,
+      "count": 1
+    }
+  ]
+}

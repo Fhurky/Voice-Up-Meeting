@@ -1,0 +1,21 @@
+{
+  "helper_sha256": "8a7f98494d11fd2445f1d443d05c0bb196ba9d6989e87560418ab2297f7b8a1d",
+  "runs": [
+    {
+      "exit_code": 0,
+      "elapsed_seconds": 1.027427799999714,
+      "result": {
+        "status": "ready",
+        "image_id": "sha256:4b409e3a894b9e719e9785517bab922a8f52a1f74e69f387d6c815a0e39d8db3"
+      }
+    },
+    {
+      "exit_code": 0,
+      "elapsed_seconds": 0.9990477999999712,
+      "result": {
+        "status": "ready",
+        "image_id": "sha256:4b409e3a894b9e719e9785517bab922a8f52a1f74e69f387d6c815a0e39d8db3"
+      }
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "root": "/home/lab_nvidia1/voiceup-runtime",
+  "wheelhouse_available": true,
+  "baseline_image_id": "sha256:4b409e3a894b9e719e9785517bab922a8f52a1f74e69f387d6c815a0e39d8db3",
+  "baseline_running": true,
+  "free_disk_bytes": 3323695267840,
+  "env_mode": "0600",
+  "existing_public_fixture_verified": true
+}

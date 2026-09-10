@@ -1,0 +1,52 @@
+{
+  "protocol": "Same benchmark helper and constructed public fixture; one excluded warmup,20 sequential single-attempt jobs per run; runs occurred at different times",
+  "accuracy_evidence": false,
+  "fixture_sha256": "bdc68e3362aed22d18a5b9f50b7467323ed13db7871452c3c6972bb1a7f13ff9",
+  "same_fixture": true,
+  "spark_seconds": {
+    "execution_seconds": {
+      "p50": 0.194368,
+      "p95": 0.198461,
+      "max": 0.204762
+    },
+    "queue_seconds": {
+      "p50": 1.676798,
+      "p95": 1.914705,
+      "max": 1.939333
+    },
+    "server_total_seconds": {
+      "p50": 1.869608,
+      "p95": 2.111148,
+      "max": 2.134537
+    },
+    "observed_round_trip_seconds": {
+      "p50": 2.083016200000202,
+      "p95": 2.589604299999337,
+      "max": 2.6099398999995174
+    }
+  },
+  "rtx4060_seconds": {
+    "execution_seconds": {
+      "p50": 0.786395,
+      "p95": 0.868519,
+      "max": 0.884823
+    },
+    "queue_seconds": {
+      "p50": 1.734078,
+      "p95": 1.95123,
+      "max": 1.968304
+    },
+    "server_total_seconds": {
+      "p50": 2.53928,
+      "p95": 2.720627,
+      "max": 2.746562
+    },
+    "observed_round_trip_seconds": {
+      "p50": 2.6382596000003105,
+      "p95": 3.1461058000022604,
+      "max": 3.2101828000013484
+    }
+  },
+  "network_model_included_in_spark_worker_execution": true,
+  "gpu_only_timing_claimed": false
+}

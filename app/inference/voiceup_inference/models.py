@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import platform
 from dataclasses import dataclass
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
@@ -14,17 +15,31 @@ from .errors import InferenceError
 from .model_bundle import verify_bundle
 
 if TYPE_CHECKING:
-    from .config import Settings
+    from .config import RuntimeProfile, Settings
+
+RUNTIME_REQUIREMENTS: dict[RuntimeProfile, tuple[str, str]] = {
+    "x86_64-cu128": ("x86_64", "12.8"),
+    "aarch64-cu129": ("aarch64", "12.9"),
+}
 
 
-def require_cuda(torch: Any, device: str) -> None:
+def require_cuda(torch: Any, device: str, runtime_profile: RuntimeProfile = "x86_64-cu128") -> None:
     if not torch.cuda.is_available():
         raise InferenceError("cuda_unavailable", "CUDA device is unavailable", 503)
+    expected_arch, expected_cuda = RUNTIME_REQUIREMENTS[runtime_profile]
+    machine = platform.machine().lower()
+    architecture = {"amd64": "x86_64", "arm64": "aarch64"}.get(machine, machine)
+    if architecture != expected_arch:
+        raise InferenceError(
+            "cuda_runtime_mismatch", f"Runtime profile requires {expected_arch} architecture", 503
+        )
     index = int(device.split(":")[1])
     if index >= torch.cuda.device_count():
         raise InferenceError("cuda_unavailable", "Configured CUDA device is unavailable", 503)
-    if torch.version.cuda != "12.8" or torch.__version__.split("+")[0] != "2.8.0":
-        raise InferenceError("cuda_runtime_mismatch", "Expected PyTorch 2.8.0 with CUDA 12.8", 503)
+    if torch.version.cuda != expected_cuda or torch.__version__.split("+")[0] != "2.8.0":
+        raise InferenceError(
+            "cuda_runtime_mismatch", f"Expected PyTorch 2.8.0 with CUDA {expected_cuda}", 503
+        )
     torch.cuda.set_device(index)
     # A CUDA allocation and kernel establish more than driver enumeration.
     probe = torch.ones(1, device=device) + 1
@@ -99,7 +114,7 @@ def load_models(settings: Settings) -> ModelHandles:
     verify_bundle(settings.model_dir)
     import torch
 
-    require_cuda(torch, settings.device)
+    require_cuda(torch, settings.device, settings.runtime_profile)
     embedder = OfflineECAPA(settings.model_dir / "ecapa", device=settings.device)
     vad = OfflineSilero(settings.model_dir / "silero" / "silero_vad.jit", settings.device)
     # Warmup checks model loading and both CUDA paths. This synthetic input is

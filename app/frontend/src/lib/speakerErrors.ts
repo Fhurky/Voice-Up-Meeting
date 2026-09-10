@@ -5,7 +5,7 @@ const knownCodes = new Set([
   "idempotency_conflict", "recording_expired", "recording_in_use", "sample_limit", "forbidden",
   "insufficient_speech", "inconsistent_audio", "clipped_audio", "target_mismatch",
   "profile_unavailable", "model_mismatch", "inference_unavailable", "job_timeout",
-  "worker_interrupted", "recording_unavailable",
+  "worker_interrupted", "recording_unavailable", "profile_limit",
 ]);
 
 export function errorMessageKey(error: unknown): string {

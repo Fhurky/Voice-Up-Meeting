@@ -1,0 +1,260 @@
+{
+  "schema_version": 1,
+  "observed_at_utc": "2026-09-09T11:32:49.163937+00:00",
+  "status": "no_matches_observed",
+  "scope": "Publication-directory snapshot; local inspection only, not an approved security scanner result",
+  "initial_snapshot": {
+    "date": "2026-09-09",
+    "files_scanned": 36,
+    "sensitive_matches": 0,
+    "files_changed_during_read": 0
+  },
+  "files_scanned": 46,
+  "known_value_counts": {
+    "secret": 9,
+    "private_identity": 57,
+    "dataset_speaker_identity": 100,
+    "profile_name": 53
+  },
+  "findings": [],
+  "files_changed_during_read": [],
+  "unreadable_private_inputs": 0,
+  "files": [
+    {
+      "file": "browser-report.md",
+      "sha256": "72c6b7e6bbe05370a8c5aecf2419ef52c9097ab1592837afad5c08aeb9eb1c5a",
+      "size_bytes": 3346
+    },
+    {
+      "file": "calibrated-policy-compose.json",
+      "sha256": "ac4b487c2301f27fce5891093405dadcce330ddc611a197aa8349750fc83a2ef",
+      "size_bytes": 460
+    },
+    {
+      "file": "calibrated-policy-config.txt",
+      "sha256": "2e79699a1aec2c527719d3e00de3e50a5d792673025f52e43fc0182850c4abe0",
+      "size_bytes": 218
+    },
+    {
+      "file": "calibrated-policy-red.txt",
+      "sha256": "52ef4649f61ce73260e862839f8551369fb706bf776f9c2013719c6d4fad929b",
+      "size_bytes": 7965
+    },
+    {
+      "file": "calibrated-policy-red.xml",
+      "sha256": "1285d5e455ed8a069702dd0b15c19fe9662ec44400e25685a5c3a593b93f14f6",
+      "size_bytes": 10307
+    },
+    {
+      "file": "calibrated-policy-report.md",
+      "sha256": "28ad5c8001d1326a52f3414f7c1b4ee5cbd1bbd3e4dc22c9d18063dbbdd0d459",
+      "size_bytes": 2755
+    },
+    {
+      "file": "calibrated-policy-static.txt",
+      "sha256": "7a3a78b36cfcbb4cdf4eafe7f788d34e4401e0ac595bd6ac1a700f84e0c1c696",
+      "size_bytes": 124
+    },
+    {
+      "file": "calibrated-policy-unit.txt",
+      "sha256": "b2a09ac4b286a9e03352f2c36066d833fb34857a08e2df87df21c054ae1544b3",
+      "size_bytes": 101
+    },
+    {
+      "file": "calibrated-policy-unit.xml",
+      "sha256": "a97ae363e6c5fe5c06c86817f91e613674522e47920e9c5ebf92df174505f811",
+      "size_bytes": 7285
+    },
+    {
+      "file": "calibration-policy-grid.json",
+      "sha256": "e0a18a7f10ddc7747d36ebe8d417d98aa068a9bc398744f4195216ac21c11d3a",
+      "size_bytes": 4908
+    },
+    {
+      "file": "calibration-summary.json",
+      "sha256": "09f9b532a2eec6e57a12a8422a5a43b5c8c5edf8d79afa9a170145c3761d0889",
+      "size_bytes": 4709
+    },
+    {
+      "file": "evaluation-tool-tests.txt",
+      "sha256": "b20bae6d01fd0210926763485b7b6180001315c748d114b8742d6d1a1fb21aae",
+      "size_bytes": 81
+    },
+    {
+      "file": "evaluation-tool-tests.xml",
+      "sha256": "1dcfad42d5ac2755f7484f52fd8c5bd4d04907009c4e872f6de8c390faa79049",
+      "size_bytes": 9805
+    },
+    {
+      "file": "inference-available-tests.txt",
+      "sha256": "29d7b66ac8e1b0d4f76af0aad402de234eb801baf3ac9efb4656ad02089ef133",
+      "size_bytes": 978
+    },
+    {
+      "file": "inference-available-tests.xml",
+      "sha256": "814807d02a1688b5a9134afdb30222e5da31ad1f335d2dff9ac6f3647fee6544",
+      "size_bytes": 6425
+    },
+    {
+      "file": "inference-image-probe.txt",
+      "sha256": "130e9d076fdf291fb8807b352377dd491c5d5025e9eb370921db7c9cd1e9d4b3",
+      "size_bytes": 233
+    },
+    {
+      "file": "inference-linux-bootstrap.txt",
+      "sha256": "9b46da40b7a72f628e92752e7c893ee8307f9938192538946df9b84c9ef43096",
+      "size_bytes": 879
+    },
+    {
+      "file": "inference-linux-tests.txt",
+      "sha256": "2cbef7e785ee60cef6b60052d091e17c9a82ee9ba67ad89db1002603e585cd36",
+      "size_bytes": 1623
+    },
+    {
+      "file": "inference-linux-tests.xml",
+      "sha256": "fa7f5b3bd11a98ae7e7943eaa12c27400106a3b4d7e1817bfc66402b9389a98f",
+      "size_bytes": 8821
+    },
+    {
+      "file": "inference-test-tools.json",
+      "sha256": "b071581d86ec3cfaf1de982d343fa4d3886a069bc9515ff5be5fb15923a9d224",
+      "size_bytes": 1091
+    },
+    {
+      "file": "inference-tests.txt",
+      "sha256": "148147f8c65f466d6d8fd3ea12df44a1f0f7c2b3a6aa7a6822c106404796e16e",
+      "size_bytes": 2783
+    },
+    {
+      "file": "inference-tests.xml",
+      "sha256": "aca5eec71ddcab342fce1da0acc2a00046b587757c7413eaa23fae4f55664b69",
+      "size_bytes": 1276
+    },
+    {
+      "file": "live-authorization.json",
+      "sha256": "b29d9227c34f1f0d75925a7ca50dc3569a565523cd8eb542284edcb7aafa8cb4",
+      "size_bytes": 1082
+    },
+    {
+      "file": "nginx-reload-docker-initial.txt",
+      "sha256": "654fdb08cda7981c4e8f25560a3245d94386f1d1181b508808335dde3aa10290",
+      "size_bytes": 7934
+    },
+    {
+      "file": "nginx-reload-docker.txt",
+      "sha256": "17d788032c404860f01d86e1bc343b6a86a6a571cbe577dd928024c52cc7c5f9",
+      "size_bytes": 115
+    },
+    {
+      "file": "nginx-reload-docker.xml",
+      "sha256": "75ef388857805007cf59fe509d575cc8bec7debed72fecab4a6816dd12bdf103",
+      "size_bytes": 407
+    },
+    {
+      "file": "nginx-reload-red.txt",
+      "sha256": "462f02473751d0ddb26acc152a010911cc0a5bec20ac1c0132702983739247b4",
+      "size_bytes": 4357
+    },
+    {
+      "file": "nginx-reload-red.xml",
+      "sha256": "9eb6a4cdda8421e18b20c9f37cea4188041c59a1cbfc3f6a360c012bbe1bcbc0",
+      "size_bytes": 5163
+    },
+    {
+      "file": "nginx-reload-startup.txt",
+      "sha256": "abd2254e7087659738178615400a31c9153ebd0503e54787063e688331120a1e",
+      "size_bytes": 1758
+    },
+    {
+      "file": "nginx-reload-startup.xml",
+      "sha256": "d1f96153a9539dff4345e58212d9882cc4f176aea8262d7bbce0110f51393726",
+      "size_bytes": 14985
+    },
+    {
+      "file": "permanent-browser.txt",
+      "sha256": "c83aed41266cfe9ed8d3eba54aa7355d42b94823948b89800cc82e2a384a4736",
+      "size_bytes": 97
+    },
+    {
+      "file": "preflight-report.md",
+      "sha256": "d61d8a713a226f2649205a817dfbc8394cebd9b88db770e3fadf582ac27f7102",
+      "size_bytes": 2284
+    },
+    {
+      "file": "quality-gate-result.json",
+      "sha256": "70d74c020e1b592106b5b248c319fa8a457131010516e5af6680e62d157fca5d",
+      "size_bytes": 52
+    },
+    {
+      "file": "quality-gate.txt",
+      "sha256": "a987b667343ad19e51642fd240f7a39b95fd8509318b99a61e34482ee4fa4577",
+      "size_bytes": 6606
+    },
+    {
+      "file": "reference-report.md",
+      "sha256": "8f4cbb4b8db085c8f8457e770d60a713989af0a8da8ea4b299fea180ebe61905",
+      "size_bytes": 4713
+    },
+    {
+      "file": "reference-tests.txt",
+      "sha256": "94e5830e1dd919f069d7ccaad6e4fb7df33a2de029cb0e67ab1e08f885bce15d",
+      "size_bytes": 3220
+    },
+    {
+      "file": "reference-tests.xml",
+      "sha256": "6fcd48c6601f4c5a826c2368fedd42b503ee5b168fa84961cf9914f6b42ec69f",
+      "size_bytes": 79284
+    },
+    {
+      "file": "reference-transport-tests.txt",
+      "sha256": "f450f7c99ede443f4ef19fb1b9f07b5b3625fba537c8c6b6605af799f7877f88",
+      "size_bytes": 600
+    },
+    {
+      "file": "reference-transport-tests.xml",
+      "sha256": "ffdf9d2c559409d7486eb25ca81ab1e8e9d55971780da49c145637227b87206f",
+      "size_bytes": 1599
+    },
+    {
+      "file": "report-tests.xml",
+      "sha256": "18a5538f899d52358218e7a8e29dde914c6d164cbdd9f35bc13a34e71c9264da",
+      "size_bytes": 890
+    },
+    {
+      "file": "security-gate.txt",
+      "sha256": "d1d3437eb7b609063917f74b1f636f93a8169896a73ce1b0c4d3f3694fe776c6",
+      "size_bytes": 56
+    },
+    {
+      "file": "selected-policy.json",
+      "sha256": "166e9deadbecabcb6ab3e6862edea78aa3cf4c0f471302dec28caf1d6a0ae818",
+      "size_bytes": 77
+    },
+    {
+      "file": "symlink-environment.json",
+      "sha256": "4a532afa1e592e57c9df58ff1583c365a7d5eab6035240cdec12ce88e7bdfebf",
+      "size_bytes": 1088
+    },
+    {
+      "file": "symlink-tests.txt",
+      "sha256": "82fbd5a9e67e83d5a7f11b41a318cee3358fa8bcb0fe61eb2a9ba1a120ff2631",
+      "size_bytes": 744
+    },
+    {
+      "file": "symlink-tests.xml",
+      "sha256": "0eefe517fd5b5420a8de77d9da2f51059cc151a08c98daf326ad2b8735c55030",
+      "size_bytes": 491
+    },
+    {
+      "file": "user-data-preservation.json",
+      "sha256": "4c26a47fa2642baf592ac982cebf99e58c684a32a6ef8ab1b24e7893d29ae931",
+      "size_bytes": 77
+    }
+  ],
+  "limitations": [
+    "No secret values, private identities, raw vectors, or audio were copied into this report.",
+    "The initial 36-file snapshot predates later evidence additions; only current listed hashes identify the rescanned bytes.",
+    "This is bounded exact-value and signature inspection, not the unavailable admitted gitleaks/Semgrep/Trivy gate.",
+    "Files created or changed after this snapshot require another review before publication."
+  ]
+}

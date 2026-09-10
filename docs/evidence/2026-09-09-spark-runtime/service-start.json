@@ -1,0 +1,44 @@
+{
+  "compose_path": "/home/lab_nvidia1/voiceup-runtime/compose.spark.yml",
+  "nginx_path": "/home/lab_nvidia1/voiceup-runtime/nginx.spark.conf",
+  "compose_sha256": "d11d08cd927da330bdfe63a7ed15776da4d428ee4c9bc5504b9e8e32b7b9ce60",
+  "nginx_sha256": "8eea1b3b3e560e1f286c3418832ea074a89fd74677e276cf0fa2790c936e3c93",
+  "private_env_path": "/home/lab_nvidia1/voiceup-runtime/.env.spark",
+  "private_env_mode": "0600",
+  "transferred_secret_names": [
+    "INFERENCE_INTERNAL_KEY"
+  ],
+  "image_id": "sha256:4b409e3a894b9e719e9785517bab922a8f52a1f74e69f387d6c815a0e39d8db3",
+  "relay_image_id": "sha256:28c4e91555d001bb0f6b2796e565bfa75302711a0d6e67c5562eb2f7d54d2483",
+  "relay_image_reference": "nginx:alpine@sha256:4a73073bd557c65b759505da037898b61f1be6cbcc3c2c3aeac22d2a470c1752",
+  "relay_architecture": "arm64",
+  "container_ids": {
+    "inference": "9264dd74a5586f2b5ad9610d4921e21854631391f2b6633cb4324fef6b81552a",
+    "relay": "2b8bee346247709edc3b73cf8fb9dc736fc21eabd8bf8773bee5268a8dc0c162"
+  },
+  "up_to_ready_seconds": 7.108138727000551,
+  "ready": {
+    "ready": true,
+    "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+    "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+    "dimensions": 192,
+    "device": "cuda:0"
+  },
+  "start_command": [
+    "docker",
+    "compose",
+    "--project-directory",
+    "/home/lab_nvidia1/voiceup-runtime",
+    "--env-file",
+    "/home/lab_nvidia1/voiceup-runtime/.env.spark",
+    "-p",
+    "voiceup-spark",
+    "-f",
+    "/home/lab_nvidia1/voiceup-runtime/compose.spark.yml",
+    "up",
+    "-d",
+    "--no-build",
+    "--pull",
+    "never"
+  ]
+}

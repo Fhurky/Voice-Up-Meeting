@@ -1,0 +1,18 @@
+{
+  "ready": {
+    "ready": true,
+    "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+    "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+    "dimensions": 192,
+    "device": "cuda:0"
+  },
+  "image_files_verified": 20,
+  "preprocessing_version": "vad-windows-v1",
+  "speech_seconds": 26.886,
+  "windows_count": 5,
+  "embedding_norm": 1.0,
+  "gpu_peak_allocated_bytes": 189954560,
+  "elapsed_seconds": 3.224835576998885,
+  "fixture_scope": "Previously verified constructed public fixture; wiring only",
+  "image_id": "sha256:a743b6e101beee3d85788f082d1b32a957149fda409eec3860c681f249b7a8c5"
+}

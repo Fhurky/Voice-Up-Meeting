@@ -15,6 +15,39 @@ is documented for CUDA 12.8 in [PyTorch's version instructions](https://pytorch.
 Sources checked 9 September 2026. Wheel availability is compatibility evidence;
 successful model execution on the target GPU must be established separately.
 
+`VOICEUP_INFERENCE_RUNTIME_PROFILE` explicitly selects the runtime guard:
+
+| Profile | Host architecture | Required PyTorch | Required CUDA build |
+| --- | --- | --- | --- |
+| `x86_64-cu128` (default) | x86_64, including AMD64 alias | 2.8.0 | 12.8 |
+| `aarch64-cu129` (opt-in) | aarch64, including arm64 alias | 2.8.0 | 12.9 |
+
+Both profiles require a configured CUDA device, a real CUDA allocation, kernel
+and synchronization, followed by ECAPA and Silero warmup. An architecture or
+runtime mismatch returns `503 cuda_runtime_mismatch`; a missing GPU or CPU
+execution returns `503 cuda_unavailable`. There is no automatic profile selection
+or CPU fallback. Profile unit tests use doubles and do not establish ARM64/GPU
+compatibility. The ARM64 profile supports the Accepted remote Spark capability;
+its separate artifact admission and real target verification are required before
+deployment. Selecting it does not adapt or replace the existing x86-64 lock.
+
+The Spark build has its own direct authorities (`requirements.spark.in`), full
+artifact manifest (`spark-wheelhouse-manifest.json`), generated hash lock
+(`requirements.spark.txt`) and `Dockerfile.spark`. The manifest selects exact
+publisher URLs: TorchAudio 2.8.0 has different wheel contents on PyPI and the
+PyTorch CUDA index despite sharing a filename. The ARM64 dependency graph has
+48 artifacts; the existing x86-64 graph remains unchanged. Provision these only
+at build time; the final image installs from its local wheelhouse with networking
+disabled and runs `pip check`. Real GB10 execution remains a separate acceptance
+point in the [remote Spark PRD](../../specs/speaker-identity/PRDs/004-spark-remote-inference/PRD.md).
+
+The verified Spark image and actual GB10 checks are recorded in the
+[native report](../../docs/evidence/2026-09-09-spark-runtime/native-run-report.md).
+The [runtime guide](../../docs/SPARK_RUNTIME.md) describes the private Compose
+service, CDI device, immutable image selection and Windows SSH startup. Native
+Torch emits an SM121 upper-bound warning; the recorded tensor and ECAPA checks
+passed, without claiming compatibility for every CUDA kernel or speaker accuracy.
+
 `requirements.in` is the candidate dependency authority and `requirements.txt`
 is its generated hash lock. Governance admission belongs to the root project,
 not this service. Compile from the repository root with:
@@ -137,6 +170,17 @@ requires at least 10 usable seconds and two windows; identification requires thr
 usable seconds and one window. These are development thresholds, not calibrated
 probabilities or a measured Turkish-recognition guarantee.
 
+The pilot preserves sufficient reference evidence and every original consistency
+rejection. Only insufficient evidence can try chronological voiced packing:
+original blocks shorter than 1.5 seconds, quiet blocks and clipped blocks cannot
+contribute. Original block embeddings must all agree pairwise at 0.55 before
+packing; every block must also agree with the pooled result, and any original
+partial embedding remains an additional anchor. Profile evidence still uses
+independent 3–8 second windows. PCM samples are never repeated and silence never
+counts as usable speech. This guard is not speaker diarization: continuous mixed
+speech can still pass the original path. The calibration selection and untouched
+holdout are recorded in [the recovery report](../../docs/evidence/2026-09-09-speech-recovery/README.md).
+
 ## Configuration and transport
 
 `voiceup_inference.config.Settings` is the sole environment loader.
@@ -150,6 +194,10 @@ The response fields are `embedding`, `speech_seconds`, `windows_count`, `model_i
 `model_revision`, `dimensions`, `device`, and optional quality diagnostics.
 `speech_seconds` counts accepted usable windows. Raw vectors stay on this private
 boundary. Errors use `{"detail":{"code":"stable_code","message":"safe explanation"}}`.
+`quality.preprocessing_version` is `vad-windows-v1` or `vad-packed-fallback-v1`.
+Only this strict version label crosses into the public job result; unrelated
+producer diagnostics and vectors remain private. Old stored jobs expose `null`.
+The label has the existing seven-day job retention, not permanent sample provenance.
 With real CUDA handles, quality diagnostics include per-request PyTorch peak
 allocated/reserved bytes, measured after synchronization and a peak reset; those
 numbers include resident models and are not whole-device VRAM usage. Unit doubles

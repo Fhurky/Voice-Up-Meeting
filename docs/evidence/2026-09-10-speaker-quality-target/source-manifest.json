@@ -1,0 +1,176 @@
+{
+  "profile": "kt-vibecoding-python-web-v2",
+  "captured_date": "2026-09-10",
+  "provenance": "local-executed",
+  "note": "Final task sources and selected contextual files; a hash is not an independent test pass. Prior unrelated worktree changes preserved.",
+  "files": [
+    {
+      "path": ".kt-scaffold/answers.yml",
+      "sha256": "67eaaeb941acc03f83a96969bc0074c30484de66a167bbd88e7bfec25b2fc110"
+    },
+    {
+      "path": "app/backend/app/domain/speaker_identity.py",
+      "sha256": "d40b1240d392f457a7a11dc2b2930cb9ad21f6a882707db57465fac75f0fd344"
+    },
+    {
+      "path": "app/backend/app/infrastructure/repositories/speaker_repository.py",
+      "sha256": "315f6c078eed6ba303ac649295cb668fd958d42442eae0da642cb1610fabb206"
+    },
+    {
+      "path": "app/backend/app/schemas/speaker_identity.py",
+      "sha256": "c481f2851422c58cab54aff7b14584b32748dc4e22435b648b54600375fe85ef"
+    },
+    {
+      "path": "app/backend/app/services/speaker_service.py",
+      "sha256": "e828f8922639c0fbcc51479b681de3d44ee68e3d71591c6827f7280b0903fde4"
+    },
+    {
+      "path": "app/backend/app/services/speaker_worker.py",
+      "sha256": "0f6ebd90d2a1b8ed6183fb37356ebe78cd452405fa6c05a3898084ce0f33c815"
+    },
+    {
+      "path": "app/backend/tests/integration/test_speaker_pilot.py",
+      "sha256": "1647ccb061c8dfaa1182c0737a0334557ef29da1a9204036762feb1af2985e0b"
+    },
+    {
+      "path": "app/backend/tests/unit/test_speaker_identity.py",
+      "sha256": "67c5bffc9b128cb64581788651e4edd1c8b06dc5a7554bab79817ee6fc5e5364"
+    },
+    {
+      "path": "app/frontend/src/components/AudioJobForm.test.tsx",
+      "sha256": "bd1bd5eea284fec5388cd43d22e492a9693ca88c8b880469cbddb7be5d758273"
+    },
+    {
+      "path": "app/frontend/src/lib/speakerErrors.test.ts",
+      "sha256": "ead3f845e034d81128eb420b41033329eee1d1a9d0a795b4227311608476c52e"
+    },
+    {
+      "path": "app/frontend/src/lib/speakerErrors.ts",
+      "sha256": "8561e2fb5e946531c85062070f658446bb763d3f77aec79678c0579432285710"
+    },
+    {
+      "path": "app/frontend/src/locales/en.json",
+      "sha256": "b04274fda07d0548319ffd702d16bf5bcc86e97beff7b3e65e79dcac4e27a3fe"
+    },
+    {
+      "path": "app/frontend/src/locales/tr.json",
+      "sha256": "741a557abbde232a0fc7c792ee4bba8b2457a50959a528f6189425e6c7bf8bb9"
+    },
+    {
+      "path": "app/frontend/src/pages/SpeakerJobPage.test.tsx",
+      "sha256": "11fbdcea75d1c435ec350d5dd359ca2ceb798ecb9738fa5d28dfb5bc91879440"
+    },
+    {
+      "path": "app/frontend/src/pages/SpeakerProfilesPage.test.tsx",
+      "sha256": "d32fc75c7f9f36153d21e6d47d33215e27c0aaf8e2a8bfd0eedf173e0afc9e37"
+    },
+    {
+      "path": "app/frontend/src/pages/SpeakerProfilesPage.tsx",
+      "sha256": "7b56a85fb90ee5dc587ced6ad5f6720e985285ce118872d6203bd89000c52535"
+    },
+    {
+      "path": "app/frontend/src/types/api.d.ts",
+      "sha256": "e02e7a8256069fa2cda33b27bc183af8345bd0cd662aaac26496d87df9e82487"
+    },
+    {
+      "path": "docs/EVALUATION_PLAN.md",
+      "sha256": "5a2097ccd032eddae92eb8b472f75e1f47aacf219af8e4037bc5994ba7135d67"
+    },
+    {
+      "path": "docs/LOCAL_PILOT.md",
+      "sha256": "a19fd277c9e45583f6fcd3784f85db52f10f96a4fee2381c9e7e9420ff6ccc42"
+    },
+    {
+      "path": "docs/PUBLIC_DATASET_PROTOCOL.md",
+      "sha256": "da1dac77577fed507bcb42ed87386e6a48080cee126ea4b2abcc7249d80049e7"
+    },
+    {
+      "path": "docs/SPEAKER_METRICS.md",
+      "sha256": "baf3a6bc7d269dfd62e48ea86e8e86d836c58735133f56703c2eca8444ea966c"
+    },
+    {
+      "path": "e2e/speaker-identity/03-profile-capacity.mjs",
+      "sha256": "d8c319067a955de950b5ca1762a2060a9668dce1e972948a7207aea5e42c88e3"
+    },
+    {
+      "path": "plans/SPEAKER_QUALITY_50.md",
+      "sha256": "b55b00a301126b47e93df6cc8820e91aa993b992f8afc40f83ac866d30ba6893"
+    },
+    {
+      "path": "scripts/README.md",
+      "sha256": "c2afd5f423342743012dd7a18b7da1e3c2d0a8aaf4a1eab0e128b9309c7eeadd"
+    },
+    {
+      "path": "scripts/benchmark-local-pilot.py",
+      "sha256": "36bb2ed8d9ce5e7ce6dfc45b0d792fb954ca30a8bdf5f6b58f85c8bc7249359d"
+    },
+    {
+      "path": "scripts/evaluate-public-speakers.py",
+      "sha256": "5aeff9ec503cb736967cedf31460457cb5706ea3d849b4ecb76636b28f98e987"
+    },
+    {
+      "path": "scripts/prepare-public-speaker-dataset.py",
+      "sha256": "5d086ffbb9eb5775165f415d692aad0aca0a90f0a454bedc4e32fe77e0ab4c6c"
+    },
+    {
+      "path": "scripts/quality-gate.sh",
+      "sha256": "fdeb865c6f9e9db5c9bea7bbe425233475c24f4418183f62679048f4f105636a"
+    },
+    {
+      "path": "scripts/report-public-speakers.py",
+      "sha256": "7ab5e20d6344668f4c15610979d79bbbd106c072d7997ef5a87ede7fa29f2a1a"
+    },
+    {
+      "path": "scripts/speaker_metrics.py",
+      "sha256": "b1b4b4de9bfa300b44ae31bb6c6528688552c5099a0a11b10ae7c92c0a462b3c"
+    },
+    {
+      "path": "specs/openapi/voiceup-api.yaml",
+      "sha256": "df4c60bbe25b2c4a7a4f3e94404d0c8bb7776a7a843e933348c78d36889a6874"
+    },
+    {
+      "path": "specs/speaker-identity/DOMAIN.md",
+      "sha256": "2606e0e4f68e4657742c6866a9a34e7058e4baf58dfcaff3e57026a040fb5c02"
+    },
+    {
+      "path": "specs/speaker-identity/PRDs/001-local-speaker-pilot/PRD.md",
+      "sha256": "3de40f15c28270bb69102f3b224bf3114121852f0cb79d173f2249770c9a12d4"
+    },
+    {
+      "path": "specs/speaker-identity/PRDs/001-local-speaker-pilot/contracts.md",
+      "sha256": "1efd51e33eb695346ba2c19b08ae57eceffa0ff3276aeb4ce588b03ba00ac0d6"
+    },
+    {
+      "path": "specs/speaker-identity/PRDs/001-local-speaker-pilot/plan.md",
+      "sha256": "31d1c62ac46c3965648b1784a459796fb40c896dfebe71da0dc28445cee8695a"
+    },
+    {
+      "path": "specs/speaker-identity/PRDs/001-local-speaker-pilot/tasks.md",
+      "sha256": "2e25626269fa7b38e57ee96572e3da9fda2f0b1188bb2cbdf97d44f8cffe88a8"
+    },
+    {
+      "path": "specs/speaker-identity/roadmap.md",
+      "sha256": "a337e83b5464e5f643160ddb4973b81517473b389d58e6fb0b2c36b9f6bae900"
+    },
+    {
+      "path": "technology-profile.yml",
+      "sha256": "518a626172c9e58d85518cbc2324c682c65c10c5e0aa2dc906cf3fc43f48930d"
+    },
+    {
+      "path": "tests/test_public_speaker_dataset.py",
+      "sha256": "d0026ee9cb5f21c6b7090264c8e6399c30f5a814c5c45ec4e8af80b51aaa1860"
+    },
+    {
+      "path": "tests/test_public_speaker_evaluation.py",
+      "sha256": "92673e25a0908cb8cfe133b7a649369a05f3810e6c0f79281f314d52156def8c"
+    },
+    {
+      "path": "tests/test_public_speaker_metrics.py",
+      "sha256": "4f914e2332470285415e89f29eff4141b907f1da6ca11fd8b1c5fa3c0c470b84"
+    },
+    {
+      "path": "tests/test_public_speaker_report.py",
+      "sha256": "a2477df06a87dea2dcda6cda8c844a6c527a302a59fb14c8b69641bc9bbde2e1"
+    }
+  ]
+}

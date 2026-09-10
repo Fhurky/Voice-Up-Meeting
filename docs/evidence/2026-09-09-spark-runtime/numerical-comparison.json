@@ -1,0 +1,39 @@
+{
+  "checked_on": "2026-09-09",
+  "fixture_sha256": "bdc68e3362aed22d18a5b9f50b7467323ed13db7871452c3c6972bb1a7f13ff9",
+  "fixture_scope": "one constructed repeated public speech fixture; not identity accuracy or a latency benchmark",
+  "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+  "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+  "dimensions": 192,
+  "windows_count": 5,
+  "speech_seconds": 26.886,
+  "local_device": "RTX4060 Laptop, x86_64 CUDA12.8",
+  "remote_device": "GB10, aarch64 CUDA12.9",
+  "cosine_similarity": 0.999999952523805,
+  "max_absolute_component_difference": 6.754042864037108e-05,
+  "l2_difference": 0.0003081434575869614,
+  "local_norm": 0.9999999999999999,
+  "spark_norm": 1.0,
+  "local_quality": {
+    "input_seconds": 30.0,
+    "vad_speech_seconds": 29.666,
+    "min_pair_similarity": 0.9415121155051799,
+    "single_speaker_assumption": true,
+    "execution_seconds": 0.901455593000037,
+    "gpu_peak_allocated_bytes": 188786688,
+    "gpu_peak_reserved_bytes": 211812352,
+    "gpu_memory_scope": "pytorch_process_including_resident_models"
+  },
+  "spark_quality": {
+    "input_seconds": 30.0,
+    "vad_speech_seconds": 29.666,
+    "min_pair_similarity": 0.9415029250561605,
+    "single_speaker_assumption": true,
+    "execution_seconds": 0.1829335809998156,
+    "gpu_peak_allocated_bytes": 189954560,
+    "gpu_peak_reserved_bytes": 211812352,
+    "gpu_memory_scope": "pytorch_process_including_resident_models"
+  },
+  "accuracy_claim": false,
+  "predefined_cross_hardware_tolerance": null
+}

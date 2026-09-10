@@ -1,0 +1,201 @@
+{
+  "schema_version": 1,
+  "scope": "Read-only initial-reader live preservation and authorization audit; not a final postrun preservation claim",
+  "completed_at": "2026-09-09T12:44:18.713867+00:00",
+  "checks_passed": 31,
+  "checks_failed": 0,
+  "skipped": 0,
+  "http_requests": {
+    "GET": 21,
+    "POST_login": 3
+  },
+  "public_mutation_requests": 0,
+  "model_requests": 0,
+  "audio_uploads": 0,
+  "container_mutations": 0,
+  "checks": [
+    {
+      "check": "original_account_authentication_tenant",
+      "passed": true
+    },
+    {
+      "check": "original_profile_response_exactly_preserved",
+      "passed": true,
+      "expected_canonical_sha256": "922a57904521848edce356cfe2a03ec31027e755f1dc9bff62fb0a370250de0a",
+      "actual_canonical_sha256": "922a57904521848edce356cfe2a03ec31027e755f1dc9bff62fb0a370250de0a",
+      "expected_profile_count": 1,
+      "actual_profile_count": 1
+    },
+    {
+      "check": "ordinary_reader_account_authentication_tenant",
+      "passed": true
+    },
+    {
+      "check": "acting_account_is_non_superadmin",
+      "passed": true,
+      "actual_is_super_admin": false
+    },
+    {
+      "check": "acting_account_me_matches_tenant",
+      "passed": true
+    },
+    {
+      "check": "acting_and_historical_accounts_have_distinct_tenants",
+      "passed": true
+    },
+    {
+      "check": "historical_evaluation_account_authentication_tenant",
+      "passed": true
+    },
+    {
+      "check": "historical_state_matches_authenticated_tenant",
+      "passed": true
+    },
+    {
+      "check": "historical_job_1_exists",
+      "passed": true
+    },
+    {
+      "check": "historical_job_2_exists",
+      "passed": true
+    },
+    {
+      "check": "historical_job_3_exists",
+      "passed": true
+    },
+    {
+      "check": "anonymous_profile_list_rejected",
+      "passed": true,
+      "http_status": 401,
+      "expected_http_status": 401
+    },
+    {
+      "check": "missing_tenant_profile_list_rejected",
+      "passed": true,
+      "http_status": 400,
+      "expected_http_status": 400
+    },
+    {
+      "check": "anonymous_job_list_rejected",
+      "passed": true,
+      "http_status": 401,
+      "expected_http_status": 401
+    },
+    {
+      "check": "missing_tenant_job_list_rejected",
+      "passed": true,
+      "http_status": 400,
+      "expected_http_status": 400
+    },
+    {
+      "check": "anonymous_job_detail_rejected",
+      "passed": true,
+      "http_status": 401,
+      "expected_http_status": 401
+    },
+    {
+      "check": "missing_tenant_job_detail_rejected",
+      "passed": true,
+      "http_status": 400,
+      "expected_http_status": 400
+    },
+    {
+      "check": "foreign_job_1_not_found_in_own_tenant",
+      "passed": true,
+      "http_status": 404,
+      "expected_http_status": 404
+    },
+    {
+      "check": "foreign_job_1_tenant_header_spoof_rejected",
+      "passed": true,
+      "http_status": 403,
+      "expected_http_status": 403
+    },
+    {
+      "check": "foreign_job_2_not_found_in_own_tenant",
+      "passed": true,
+      "http_status": 404,
+      "expected_http_status": 404
+    },
+    {
+      "check": "foreign_job_2_tenant_header_spoof_rejected",
+      "passed": true,
+      "http_status": 403,
+      "expected_http_status": 403
+    },
+    {
+      "check": "foreign_job_3_not_found_in_own_tenant",
+      "passed": true,
+      "http_status": 404,
+      "expected_http_status": 404
+    },
+    {
+      "check": "foreign_job_3_tenant_header_spoof_rejected",
+      "passed": true,
+      "http_status": 403,
+      "expected_http_status": 403
+    },
+    {
+      "check": "foreign_profile_list_tenant_header_spoof_rejected",
+      "passed": true,
+      "http_status": 403,
+      "expected_http_status": 403
+    },
+    {
+      "check": "own_profile_list_excludes_foreign_resources",
+      "passed": true,
+      "inspected_items": 1,
+      "scope": "One current page, limit100; live calibration may continue concurrently"
+    },
+    {
+      "check": "foreign_job_list_tenant_header_spoof_rejected",
+      "passed": true,
+      "http_status": 403,
+      "expected_http_status": 403
+    },
+    {
+      "check": "own_job_list_excludes_foreign_resources",
+      "passed": true,
+      "inspected_items": 61,
+      "scope": "One current page, limit100; live calibration may continue concurrently"
+    },
+    {
+      "check": "unrelated_container_1_is_non_voiceup",
+      "passed": true,
+      "location": "local"
+    },
+    {
+      "check": "unrelated_container_1_state_preserved",
+      "passed": true,
+      "location": "local",
+      "expected_state_sha256": "5c7e79b76f302d73b9068bc2123d652b554a733dea51347c81f581bebce50ba4",
+      "actual_state_sha256": "5c7e79b76f302d73b9068bc2123d652b554a733dea51347c81f581bebce50ba4",
+      "status": "running",
+      "same_start_time": true
+    },
+    {
+      "check": "unrelated_container_2_is_non_voiceup",
+      "passed": true,
+      "location": "local"
+    },
+    {
+      "check": "unrelated_container_2_state_preserved",
+      "passed": true,
+      "location": "local",
+      "expected_state_sha256": "1a169b19c5d9bd5749998564c22cad0bbb34ae79c19c6879afbed05249dc0123",
+      "actual_state_sha256": "1a169b19c5d9bd5749998564c22cad0bbb34ae79c19c6879afbed05249dc0123",
+      "status": "running",
+      "same_start_time": true
+    }
+  ],
+  "baseline_file_sha256": {
+    "original_profile": "4dc9d49cb26c2d015a7f87daf83b82b61098048c7848ccdfe3a3860dd2409bdb",
+    "unrelated_containers": "faecb9233924d7e0f7c0b6b8fea04b7829afa2ef7f051ff61bddaaca6727a07c"
+  },
+  "private_observations_sha256": "d5df37bc64125e166573c6a4b210c4f1a5b05f9ab454afaf822e340ef2120c1a",
+  "limitations": [
+    "GET observations are point-in-time; root live evaluation runs concurrently.",
+    "Original profile comparison covers the complete public profile response, not inaccessible private embeddings or database bytes.",
+    "Foreign list checks cover a current page and explicit tenant-header spoof rejection; no original recordings are fetched or uploaded."
+  ]
+}

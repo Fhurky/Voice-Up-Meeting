@@ -438,6 +438,21 @@
           "policy": {
             "$ref": "#/components/schemas/MatchPolicyResponse"
           },
+          "preprocessing_version": {
+            "anyOf": [
+              {
+                "enum": [
+                  "vad-windows-v1",
+                  "vad-packed-fallback-v1"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Observed extraction path during the retained job lifetime; null when unreported."
+          },
           "profile_deleted": {
             "default": false,
             "type": "boolean"

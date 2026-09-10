@@ -1,0 +1,35 @@
+﻿{
+    "profile":  "kt-vibecoding-python-web-v2",
+    "captured_at":  "2026-09-10T06:58:29.4782156Z",
+    "native_image":  "sha256:695540dfb6b391c7956ae6868a753cfcd2e08f88cae0bdbdfed04c8a1ddc5785",
+    "files":  [
+                  {
+                      "path":  "scripts/evaluate-public-speakers.py",
+                      "sha256":  "a45905835e9e0251fc7df5533c64eba948e326de3a0ee7946f66235bf0826b1b"
+                  },
+                  {
+                      "path":  "scripts/speaker_metrics.py",
+                      "sha256":  "60b92ede1a18e2d74da654598fe87bd695300a369eb899643e5f554e5994528e"
+                  },
+                  {
+                      "path":  "scripts/report-public-speakers.py",
+                      "sha256":  "7ab5e20d6344668f4c15610979d79bbbd106c072d7997ef5a87ede7fa29f2a1a"
+                  },
+                  {
+                      "path":  "scripts/benchmark-local-pilot.py",
+                      "sha256":  "36bb2ed8d9ce5e7ce6dfc45b0d792fb954ca30a8bdf5f6b58f85c8bc7249359d"
+                  },
+                  {
+                      "path":  "tests/test_public_speaker_evaluation.py",
+                      "sha256":  "c3af1678dd012b80131bb773883fb183a174abd5d3c1f0c3c5a82e40a6ed9733"
+                  },
+                  {
+                      "path":  "tests/test_public_speaker_metrics.py",
+                      "sha256":  "8d35e334b86fbf62e0276c93495fc8367703300e1a93e2b5ca3ba5fa585e5479"
+                  },
+                  {
+                      "path":  "tests/test_public_speaker_report.py",
+                      "sha256":  "a2477df06a87dea2dcda6cda8c844a6c527a302a59fb14c8b69641bc9bbde2e1"
+                  }
+              ]
+}

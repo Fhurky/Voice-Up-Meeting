@@ -1,0 +1,652 @@
+FFFFFFFFF.FFFFFF                                                         [100%]
+================================== FAILURES ===================================
+_ test_required_preprocessing_provenance_is_bound_and_completed_resume_is_stable[vad-windows-v1] _
+
+evaluation = <module 'public_speaker_evaluation' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\evaluate-public-speakers.py'>
+tmp_path = WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-141/test_required_preprocessing_pr0')
+api_server = {'profiles': {}, 'jobs': {}, 'uploads': {}, 'keys': {}, ...}
+version = 'vad-windows-v1'
+
+    @pytest.mark.parametrize("version", ["vad-windows-v1", "vad-packed-fallback-v1"])
+    def test_required_preprocessing_provenance_is_bound_and_completed_resume_is_stable(
+        evaluation, tmp_path, api_server, version
+    ):
+        api_server["preprocessing_version"] = version
+        args = provenance_cli_fixture(evaluation, tmp_path, api_server) + ["--require-preprocessing-provenance"]
+>       assert evaluation.main(args) == 0
+               ^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_public_speaker_evaluation.py:733: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scripts\evaluate-public-speakers.py:745: in main
+    args = parser.parse_args(argv)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\argparse.py:1930: in parse_args
+    self.error(msg)
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\argparse.py:2686: in error
+    self.exit(2, _('%(prog)s: error: %(message)s\n') % args)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = ArgumentParser(prog='__main__.py', usage=None, description='Evaluate frozen speaker decisions through the public API in an isolated tenant.', formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)
+status = 2
+message = '__main__.py: error: unrecognized arguments: --require-preprocessing-provenance\n'
+
+    def exit(self, status=0, message=None):
+        if message:
+            self._print_message(message, _sys.stderr)
+>       _sys.exit(status)
+E       SystemExit: 2
+
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\argparse.py:2673: SystemExit
+---------------------------- Captured stderr call -----------------------------
+usage: __main__.py [-h] --manifest MANIFEST --audio-root AUDIO_ROOT
+                   --credentials CREDENTIALS --output OUTPUT --state STATE
+                   [--gallery-sizes GALLERY_SIZES] [--policy POLICY]
+                   [--job-timeout JOB_TIMEOUT] [--poll-seconds POLL_SECONDS]
+                   [--batch-size BATCH_SIZE]
+__main__.py: error: unrecognized arguments: --require-preprocessing-provenance
+_ test_required_preprocessing_provenance_is_bound_and_completed_resume_is_stable[vad-packed-fallback-v1] _
+
+evaluation = <module 'public_speaker_evaluation' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\evaluate-public-speakers.py'>
+tmp_path = WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-141/test_required_preprocessing_pr1')
+api_server = {'profiles': {}, 'jobs': {}, 'uploads': {}, 'keys': {}, ...}
+version = 'vad-packed-fallback-v1'
+
+    @pytest.mark.parametrize("version", ["vad-windows-v1", "vad-packed-fallback-v1"])
+    def test_required_preprocessing_provenance_is_bound_and_completed_resume_is_stable(
+        evaluation, tmp_path, api_server, version
+    ):
+        api_server["preprocessing_version"] = version
+        args = provenance_cli_fixture(evaluation, tmp_path, api_server) + ["--require-preprocessing-provenance"]
+>       assert evaluation.main(args) == 0
+               ^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_public_speaker_evaluation.py:733: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scripts\evaluate-public-speakers.py:745: in main
+    args = parser.parse_args(argv)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\argparse.py:1930: in parse_args
+    self.error(msg)
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\argparse.py:2686: in error
+    self.exit(2, _('%(prog)s: error: %(message)s\n') % args)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = ArgumentParser(prog='__main__.py', usage=None, description='Evaluate frozen speaker decisions through the public API in an isolated tenant.', formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)
+status = 2
+message = '__main__.py: error: unrecognized arguments: --require-preprocessing-provenance\n'
+
+    def exit(self, status=0, message=None):
+        if message:
+            self._print_message(message, _sys.stderr)
+>       _sys.exit(status)
+E       SystemExit: 2
+
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\argparse.py:2673: SystemExit
+---------------------------- Captured stderr call -----------------------------
+usage: __main__.py [-h] --manifest MANIFEST --audio-root AUDIO_ROOT
+                   --credentials CREDENTIALS --output OUTPUT --state STATE
+                   [--gallery-sizes GALLERY_SIZES] [--policy POLICY]
+                   [--job-timeout JOB_TIMEOUT] [--poll-seconds POLL_SECONDS]
+                   [--batch-size BATCH_SIZE]
+__main__.py: error: unrecognized arguments: --require-preprocessing-provenance
+_ test_required_preprocessing_provenance_rejects_missing_and_invalid_http_results[metadata0] _
+
+evaluation = <module 'public_speaker_evaluation' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\evaluate-public-speakers.py'>
+tmp_path = WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-141/test_required_preprocessing_pr2')
+api_server = {'profiles': {}, 'jobs': {}, 'uploads': {}, 'keys': {}, ...}
+metadata = {}
+capsys = <_pytest.capture.CaptureFixture object at 0x000001EA310E01A0>
+
+    @pytest.mark.parametrize("metadata", [{}, {"preprocessing_version": None}, {"preprocessing_version": "private-untrusted-value"}, {"preprocessing_version": True}, {"preprocessing_version": []}, {"preprocessing_version": {"private": "value"}}])
+    def test_required_preprocessing_provenance_rejects_missing_and_invalid_http_results(
+        evaluation, tmp_path, api_server, metadata, capsys
+    ):
+        api_server.update(metadata)
+        args = provenance_cli_fixture(evaluation, tmp_path, api_server) + ["--require-preprocessing-provenance"]
+>       assert evaluation.main(args) == 1
+               ^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_public_speaker_evaluation.py:750: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scripts\evaluate-public-speakers.py:745: in main
+    args = parser.parse_args(argv)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\argparse.py:1930: in parse_args
+    self.error(msg)
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\argparse.py:2686: in error
+    self.exit(2, _('%(prog)s: error: %(message)s\n') % args)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = ArgumentParser(prog='__main__.py', usage=None, description='Evaluate frozen speaker decisions through the public API in an isolated tenant.', formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)
+status = 2
+message = '__main__.py: error: unrecognized arguments: --require-preprocessing-provenance\n'
+
+    def exit(self, status=0, message=None):
+        if message:
+            self._print_message(message, _sys.stderr)
+>       _sys.exit(status)
+E       SystemExit: 2
+
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\argparse.py:2673: SystemExit
+---------------------------- Captured stderr call -----------------------------
+usage: __main__.py [-h] --manifest MANIFEST --audio-root AUDIO_ROOT
+                   --credentials CREDENTIALS --output OUTPUT --state STATE
+                   [--gallery-sizes GALLERY_SIZES] [--policy POLICY]
+                   [--job-timeout JOB_TIMEOUT] [--poll-seconds POLL_SECONDS]
+                   [--batch-size BATCH_SIZE]
+__main__.py: error: unrecognized arguments: --require-preprocessing-provenance
+_ test_required_preprocessing_provenance_rejects_missing_and_invalid_http_results[metadata1] _
+
+evaluation = <module 'public_speaker_evaluation' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\evaluate-public-speakers.py'>
+tmp_path = WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-141/test_required_preprocessing_pr3')
+api_server = {'profiles': {}, 'jobs': {}, 'uploads': {}, 'keys': {}, ...}
+metadata = {'preprocessing_version': None}
+capsys = <_pytest.capture.CaptureFixture object at 0x000001EA3117F750>
+
+    @pytest.mark.parametrize("metadata", [{}, {"preprocessing_version": None}, {"preprocessing_version": "private-untrusted-value"}, {"preprocessing_version": True}, {"preprocessing_version": []}, {"preprocessing_version": {"private": "value"}}])
+    def test_required_preprocessing_provenance_rejects_missing_and_invalid_http_results(
+        evaluation, tmp_path, api_server, metadata, capsys
+    ):
+        api_server.update(metadata)
+        args = provenance_cli_fixture(evaluation, tmp_path, api_server) + ["--require-preprocessing-provenance"]
+>       assert evaluation.main(args) == 1
+               ^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_public_speaker_evaluation.py:750: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scripts\evaluate-public-speakers.py:745: in main
+    args = parser.parse_args(argv)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\argparse.py:1930: in parse_args
+    self.error(msg)
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\argparse.py:2686: in error
+    self.exit(2, _('%(prog)s: error: %(message)s\n') % args)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = ArgumentParser(prog='__main__.py', usage=None, description='Evaluate frozen speaker decisions through the public API in an isolated tenant.', formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)
+status = 2
+message = '__main__.py: error: unrecognized arguments: --require-preprocessing-provenance\n'
+
+    def exit(self, status=0, message=None):
+        if message:
+            self._print_message(message, _sys.stderr)
+>       _sys.exit(status)
+E       SystemExit: 2
+
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\argparse.py:2673: SystemExit
+---------------------------- Captured stderr call -----------------------------
+usage: __main__.py [-h] --manifest MANIFEST --audio-root AUDIO_ROOT
+                   --credentials CREDENTIALS --output OUTPUT --state STATE
+                   [--gallery-sizes GALLERY_SIZES] [--policy POLICY]
+                   [--job-timeout JOB_TIMEOUT] [--poll-seconds POLL_SECONDS]
+                   [--batch-size BATCH_SIZE]
+__main__.py: error: unrecognized arguments: --require-preprocessing-provenance
+_ test_required_preprocessing_provenance_rejects_missing_and_invalid_http_results[metadata2] _
+
+evaluation = <module 'public_speaker_evaluation' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\evaluate-public-speakers.py'>
+tmp_path = WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-141/test_required_preprocessing_pr4')
+api_server = {'profiles': {}, 'jobs': {}, 'uploads': {}, 'keys': {}, ...}
+metadata = {'preprocessing_version': 'private-untrusted-value'}
+capsys = <_pytest.capture.CaptureFixture object at 0x000001EA3117FC50>
+
+    @pytest.mark.parametrize("metadata", [{}, {"preprocessing_version": None}, {"preprocessing_version": "private-untrusted-value"}, {"preprocessing_version": True}, {"preprocessing_version": []}, {"preprocessing_version": {"private": "value"}}])
+    def test_required_preprocessing_provenance_rejects_missing_and_invalid_http_results(
+        evaluation, tmp_path, api_server, metadata, capsys
+    ):
+        api_server.update(metadata)
+        args = provenance_cli_fixture(evaluation, tmp_path, api_server) + ["--require-preprocessing-provenance"]
+>       assert evaluation.main(args) == 1
+               ^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_public_speaker_evaluation.py:750: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scripts\evaluate-public-speakers.py:745: in main
+    args = parser.parse_args(argv)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\argparse.py:1930: in parse_args
+    self.error(msg)
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\argparse.py:2686: in error
+    self.exit(2, _('%(prog)s: error: %(message)s\n') % args)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = ArgumentParser(prog='__main__.py', usage=None, description='Evaluate frozen speaker decisions through the public API in an isolated tenant.', formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)
+status = 2
+message = '__main__.py: error: unrecognized arguments: --require-preprocessing-provenance\n'
+
+    def exit(self, status=0, message=None):
+        if message:
+            self._print_message(message, _sys.stderr)
+>       _sys.exit(status)
+E       SystemExit: 2
+
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\argparse.py:2673: SystemExit
+---------------------------- Captured stderr call -----------------------------
+usage: __main__.py [-h] --manifest MANIFEST --audio-root AUDIO_ROOT
+                   --credentials CREDENTIALS --output OUTPUT --state STATE
+                   [--gallery-sizes GALLERY_SIZES] [--policy POLICY]
+                   [--job-timeout JOB_TIMEOUT] [--poll-seconds POLL_SECONDS]
+                   [--batch-size BATCH_SIZE]
+__main__.py: error: unrecognized arguments: --require-preprocessing-provenance
+_ test_required_preprocessing_provenance_rejects_missing_and_invalid_http_results[metadata3] _
+
+evaluation = <module 'public_speaker_evaluation' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\evaluate-public-speakers.py'>
+tmp_path = WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-141/test_required_preprocessing_pr5')
+api_server = {'profiles': {}, 'jobs': {}, 'uploads': {}, 'keys': {}, ...}
+metadata = {'preprocessing_version': True}
+capsys = <_pytest.capture.CaptureFixture object at 0x000001EA311B4050>
+
+    @pytest.mark.parametrize("metadata", [{}, {"preprocessing_version": None}, {"preprocessing_version": "private-untrusted-value"}, {"preprocessing_version": True}, {"preprocessing_version": []}, {"preprocessing_version": {"private": "value"}}])
+    def test_required_preprocessing_provenance_rejects_missing_and_invalid_http_results(
+        evaluation, tmp_path, api_server, metadata, capsys
+    ):
+        api_server.update(metadata)
+        args = provenance_cli_fixture(evaluation, tmp_path, api_server) + ["--require-preprocessing-provenance"]
+>       assert evaluation.main(args) == 1
+               ^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_public_speaker_evaluation.py:750: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scripts\evaluate-public-speakers.py:745: in main
+    args = parser.parse_args(argv)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\argparse.py:1930: in parse_args
+    self.error(msg)
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\argparse.py:2686: in error
+    self.exit(2, _('%(prog)s: error: %(message)s\n') % args)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = ArgumentParser(prog='__main__.py', usage=None, description='Evaluate frozen speaker decisions through the public API in an isolated tenant.', formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)
+status = 2
+message = '__main__.py: error: unrecognized arguments: --require-preprocessing-provenance\n'
+
+    def exit(self, status=0, message=None):
+        if message:
+            self._print_message(message, _sys.stderr)
+>       _sys.exit(status)
+E       SystemExit: 2
+
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\argparse.py:2673: SystemExit
+---------------------------- Captured stderr call -----------------------------
+usage: __main__.py [-h] --manifest MANIFEST --audio-root AUDIO_ROOT
+                   --credentials CREDENTIALS --output OUTPUT --state STATE
+                   [--gallery-sizes GALLERY_SIZES] [--policy POLICY]
+                   [--job-timeout JOB_TIMEOUT] [--poll-seconds POLL_SECONDS]
+                   [--batch-size BATCH_SIZE]
+__main__.py: error: unrecognized arguments: --require-preprocessing-provenance
+_ test_required_preprocessing_provenance_rejects_missing_and_invalid_http_results[metadata4] _
+
+evaluation = <module 'public_speaker_evaluation' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\evaluate-public-speakers.py'>
+tmp_path = WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-141/test_required_preprocessing_pr6')
+api_server = {'profiles': {}, 'jobs': {}, 'uploads': {}, 'keys': {}, ...}
+metadata = {'preprocessing_version': []}
+capsys = <_pytest.capture.CaptureFixture object at 0x000001EA310A5F30>
+
+    @pytest.mark.parametrize("metadata", [{}, {"preprocessing_version": None}, {"preprocessing_version": "private-untrusted-value"}, {"preprocessing_version": True}, {"preprocessing_version": []}, {"preprocessing_version": {"private": "value"}}])
+    def test_required_preprocessing_provenance_rejects_missing_and_invalid_http_results(
+        evaluation, tmp_path, api_server, metadata, capsys
+    ):
+        api_server.update(metadata)
+        args = provenance_cli_fixture(evaluation, tmp_path, api_server) + ["--require-preprocessing-provenance"]
+>       assert evaluation.main(args) == 1
+               ^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_public_speaker_evaluation.py:750: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scripts\evaluate-public-speakers.py:745: in main
+    args = parser.parse_args(argv)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\argparse.py:1930: in parse_args
+    self.error(msg)
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\argparse.py:2686: in error
+    self.exit(2, _('%(prog)s: error: %(message)s\n') % args)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = ArgumentParser(prog='__main__.py', usage=None, description='Evaluate frozen speaker decisions through the public API in an isolated tenant.', formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)
+status = 2
+message = '__main__.py: error: unrecognized arguments: --require-preprocessing-provenance\n'
+
+    def exit(self, status=0, message=None):
+        if message:
+            self._print_message(message, _sys.stderr)
+>       _sys.exit(status)
+E       SystemExit: 2
+
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\argparse.py:2673: SystemExit
+---------------------------- Captured stderr call -----------------------------
+usage: __main__.py [-h] --manifest MANIFEST --audio-root AUDIO_ROOT
+                   --credentials CREDENTIALS --output OUTPUT --state STATE
+                   [--gallery-sizes GALLERY_SIZES] [--policy POLICY]
+                   [--job-timeout JOB_TIMEOUT] [--poll-seconds POLL_SECONDS]
+                   [--batch-size BATCH_SIZE]
+__main__.py: error: unrecognized arguments: --require-preprocessing-provenance
+_ test_required_preprocessing_provenance_rejects_missing_and_invalid_http_results[metadata5] _
+
+evaluation = <module 'public_speaker_evaluation' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\evaluate-public-speakers.py'>
+tmp_path = WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-141/test_required_preprocessing_pr7')
+api_server = {'profiles': {}, 'jobs': {}, 'uploads': {}, 'keys': {}, ...}
+metadata = {'preprocessing_version': {'private': 'value'}}
+capsys = <_pytest.capture.CaptureFixture object at 0x000001EA31086570>
+
+    @pytest.mark.parametrize("metadata", [{}, {"preprocessing_version": None}, {"preprocessing_version": "private-untrusted-value"}, {"preprocessing_version": True}, {"preprocessing_version": []}, {"preprocessing_version": {"private": "value"}}])
+    def test_required_preprocessing_provenance_rejects_missing_and_invalid_http_results(
+        evaluation, tmp_path, api_server, metadata, capsys
+    ):
+        api_server.update(metadata)
+        args = provenance_cli_fixture(evaluation, tmp_path, api_server) + ["--require-preprocessing-provenance"]
+>       assert evaluation.main(args) == 1
+               ^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_public_speaker_evaluation.py:750: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scripts\evaluate-public-speakers.py:745: in main
+    args = parser.parse_args(argv)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\argparse.py:1930: in parse_args
+    self.error(msg)
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\argparse.py:2686: in error
+    self.exit(2, _('%(prog)s: error: %(message)s\n') % args)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = ArgumentParser(prog='__main__.py', usage=None, description='Evaluate frozen speaker decisions through the public API in an isolated tenant.', formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)
+status = 2
+message = '__main__.py: error: unrecognized arguments: --require-preprocessing-provenance\n'
+
+    def exit(self, status=0, message=None):
+        if message:
+            self._print_message(message, _sys.stderr)
+>       _sys.exit(status)
+E       SystemExit: 2
+
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\argparse.py:2673: SystemExit
+---------------------------- Captured stderr call -----------------------------
+usage: __main__.py [-h] --manifest MANIFEST --audio-root AUDIO_ROOT
+                   --credentials CREDENTIALS --output OUTPUT --state STATE
+                   [--gallery-sizes GALLERY_SIZES] [--policy POLICY]
+                   [--job-timeout JOB_TIMEOUT] [--poll-seconds POLL_SECONDS]
+                   [--batch-size BATCH_SIZE]
+__main__.py: error: unrecognized arguments: --require-preprocessing-provenance
+___ test_required_preprocessing_does_not_require_metadata_from_failed_jobs ____
+
+evaluation = <module 'public_speaker_evaluation' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\evaluate-public-speakers.py'>
+tmp_path = WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-141/test_required_preprocessing_do0')
+api_server = {'profiles': {}, 'jobs': {}, 'uploads': {}, 'keys': {}, ...}
+
+    def test_required_preprocessing_does_not_require_metadata_from_failed_jobs(evaluation, tmp_path, api_server):
+        api_server.update(fail_enrollment=True, preprocessing_version="vad-windows-v1")
+        args = provenance_cli_fixture(evaluation, tmp_path, api_server) + ["--require-preprocessing-provenance"]
+>       assert evaluation.main(args) == 0
+               ^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_public_speaker_evaluation.py:762: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scripts\evaluate-public-speakers.py:745: in main
+    args = parser.parse_args(argv)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\argparse.py:1930: in parse_args
+    self.error(msg)
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\argparse.py:2686: in error
+    self.exit(2, _('%(prog)s: error: %(message)s\n') % args)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = ArgumentParser(prog='__main__.py', usage=None, description='Evaluate frozen speaker decisions through the public API in an isolated tenant.', formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)
+status = 2
+message = '__main__.py: error: unrecognized arguments: --require-preprocessing-provenance\n'
+
+    def exit(self, status=0, message=None):
+        if message:
+            self._print_message(message, _sys.stderr)
+>       _sys.exit(status)
+E       SystemExit: 2
+
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\argparse.py:2673: SystemExit
+---------------------------- Captured stderr call -----------------------------
+usage: __main__.py [-h] --manifest MANIFEST --audio-root AUDIO_ROOT
+                   --credentials CREDENTIALS --output OUTPUT --state STATE
+                   [--gallery-sizes GALLERY_SIZES] [--policy POLICY]
+                   [--job-timeout JOB_TIMEOUT] [--poll-seconds POLL_SECONDS]
+                   [--batch-size BATCH_SIZE]
+__main__.py: error: unrecognized arguments: --require-preprocessing-provenance
+_________ test_provenance_requirement_cannot_change_on_resume[False] __________
+
+evaluation = <module 'public_speaker_evaluation' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\evaluate-public-speakers.py'>
+tmp_path = WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-141/test_provenance_requirement_ca0')
+api_server = {'profiles': {'b62ffb2b-8c31-4b35-be2d-384ce3520740': {'public_id': 'b62ffb2b-8c31-4b35-be2d-384ce3520740', 'name': 'e...se': 'identify', 'status': 'succeeded', 'recording_public_id': 'c8668e8b-cca6-4010-9872-88529e9bb806', ...}, ...}, ...}
+required_initially = False
+capsys = <_pytest.capture.CaptureFixture object at 0x000001EA31152AD0>
+
+    @pytest.mark.parametrize("required_initially", [False, True])
+    def test_provenance_requirement_cannot_change_on_resume(evaluation, tmp_path, api_server, required_initially, capsys):
+        api_server["preprocessing_version"] = "vad-windows-v1"
+        args = provenance_cli_fixture(evaluation, tmp_path, api_server)
+        flag = ["--require-preprocessing-provenance"]
+        assert evaluation.main(args + (flag if required_initially else [])) == 0
+        original = (tmp_path / "state.json").read_bytes()
+        calls = len(api_server["calls"])
+>       assert evaluation.main(args + ([] if required_initially else flag)) == 1
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_public_speaker_evaluation.py:789: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scripts\evaluate-public-speakers.py:745: in main
+    args = parser.parse_args(argv)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\argparse.py:1930: in parse_args
+    self.error(msg)
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\argparse.py:2686: in error
+    self.exit(2, _('%(prog)s: error: %(message)s\n') % args)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = ArgumentParser(prog='__main__.py', usage=None, description='Evaluate frozen speaker decisions through the public API in an isolated tenant.', formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)
+status = 2
+message = '__main__.py: error: unrecognized arguments: --require-preprocessing-provenance\n'
+
+    def exit(self, status=0, message=None):
+        if message:
+            self._print_message(message, _sys.stderr)
+>       _sys.exit(status)
+E       SystemExit: 2
+
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\argparse.py:2673: SystemExit
+---------------------------- Captured stdout call -----------------------------
+Completed 1 operations; gallery stage enrollment.
+Completed 2 operations; gallery stage 1.
+Completed 3 operations; gallery stage 1.
+Completed 4 operations; gallery stage 1.
+Completed 5 operations; gallery stage 1.
+Completed 6 operations; gallery stage return.
+Completed 7 operations; gallery stage return.
+Evaluation complete. Inspect planned denominators, quality errors, and external-data limitations.
+---------------------------- Captured stderr call -----------------------------
+usage: __main__.py [-h] --manifest MANIFEST --audio-root AUDIO_ROOT
+                   --credentials CREDENTIALS --output OUTPUT --state STATE
+                   [--gallery-sizes GALLERY_SIZES] [--policy POLICY]
+                   [--job-timeout JOB_TIMEOUT] [--poll-seconds POLL_SECONDS]
+                   [--batch-size BATCH_SIZE]
+__main__.py: error: unrecognized arguments: --require-preprocessing-provenance
+__________ test_provenance_requirement_cannot_change_on_resume[True] __________
+
+evaluation = <module 'public_speaker_evaluation' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\evaluate-public-speakers.py'>
+tmp_path = WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-141/test_provenance_requirement_ca1')
+api_server = {'profiles': {}, 'jobs': {}, 'uploads': {}, 'keys': {}, ...}
+required_initially = True
+capsys = <_pytest.capture.CaptureFixture object at 0x000001EA31152580>
+
+    @pytest.mark.parametrize("required_initially", [False, True])
+    def test_provenance_requirement_cannot_change_on_resume(evaluation, tmp_path, api_server, required_initially, capsys):
+        api_server["preprocessing_version"] = "vad-windows-v1"
+        args = provenance_cli_fixture(evaluation, tmp_path, api_server)
+        flag = ["--require-preprocessing-provenance"]
+>       assert evaluation.main(args + (flag if required_initially else [])) == 0
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_public_speaker_evaluation.py:786: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scripts\evaluate-public-speakers.py:745: in main
+    args = parser.parse_args(argv)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\argparse.py:1930: in parse_args
+    self.error(msg)
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\argparse.py:2686: in error
+    self.exit(2, _('%(prog)s: error: %(message)s\n') % args)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = ArgumentParser(prog='__main__.py', usage=None, description='Evaluate frozen speaker decisions through the public API in an isolated tenant.', formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)
+status = 2
+message = '__main__.py: error: unrecognized arguments: --require-preprocessing-provenance\n'
+
+    def exit(self, status=0, message=None):
+        if message:
+            self._print_message(message, _sys.stderr)
+>       _sys.exit(status)
+E       SystemExit: 2
+
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\argparse.py:2673: SystemExit
+---------------------------- Captured stderr call -----------------------------
+usage: __main__.py [-h] --manifest MANIFEST --audio-root AUDIO_ROOT
+                   --credentials CREDENTIALS --output OUTPUT --state STATE
+                   [--gallery-sizes GALLERY_SIZES] [--policy POLICY]
+                   [--job-timeout JOB_TIMEOUT] [--poll-seconds POLL_SECONDS]
+                   [--batch-size BATCH_SIZE]
+__main__.py: error: unrecognized arguments: --require-preprocessing-provenance
+_ test_required_provenance_resume_revalidates_bound_versions_and_retained_successes[binding-resume_binding_mismatch] _
+
+evaluation = <module 'public_speaker_evaluation' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\evaluate-public-speakers.py'>
+tmp_path = WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-141/test_required_provenance_resum0')
+api_server = {'profiles': {}, 'jobs': {}, 'uploads': {}, 'keys': {}, ...}
+mutation = 'binding', error = 'resume_binding_mismatch'
+capsys = <_pytest.capture.CaptureFixture object at 0x000001EA311BFA50>
+
+    @pytest.mark.parametrize("mutation,error", [("binding", "resume_binding_mismatch"), ("result", "frozen_inference_contract_changed")])
+    def test_required_provenance_resume_revalidates_bound_versions_and_retained_successes(evaluation, tmp_path, api_server, mutation, error, capsys):
+        api_server["preprocessing_version"] = "vad-windows-v1"
+        args = provenance_cli_fixture(evaluation, tmp_path, api_server) + ["--require-preprocessing-provenance"]
+>       assert evaluation.main(args) == 0
+               ^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_public_speaker_evaluation.py:799: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scripts\evaluate-public-speakers.py:745: in main
+    args = parser.parse_args(argv)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\argparse.py:1930: in parse_args
+    self.error(msg)
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\argparse.py:2686: in error
+    self.exit(2, _('%(prog)s: error: %(message)s\n') % args)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = ArgumentParser(prog='__main__.py', usage=None, description='Evaluate frozen speaker decisions through the public API in an isolated tenant.', formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)
+status = 2
+message = '__main__.py: error: unrecognized arguments: --require-preprocessing-provenance\n'
+
+    def exit(self, status=0, message=None):
+        if message:
+            self._print_message(message, _sys.stderr)
+>       _sys.exit(status)
+E       SystemExit: 2
+
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\argparse.py:2673: SystemExit
+---------------------------- Captured stderr call -----------------------------
+usage: __main__.py [-h] --manifest MANIFEST --audio-root AUDIO_ROOT
+                   --credentials CREDENTIALS --output OUTPUT --state STATE
+                   [--gallery-sizes GALLERY_SIZES] [--policy POLICY]
+                   [--job-timeout JOB_TIMEOUT] [--poll-seconds POLL_SECONDS]
+                   [--batch-size BATCH_SIZE]
+__main__.py: error: unrecognized arguments: --require-preprocessing-provenance
+_ test_required_provenance_resume_revalidates_bound_versions_and_retained_successes[result-frozen_inference_contract_changed] _
+
+evaluation = <module 'public_speaker_evaluation' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\evaluate-public-speakers.py'>
+tmp_path = WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-141/test_required_provenance_resum1')
+api_server = {'profiles': {}, 'jobs': {}, 'uploads': {}, 'keys': {}, ...}
+mutation = 'result', error = 'frozen_inference_contract_changed'
+capsys = <_pytest.capture.CaptureFixture object at 0x000001EA3107E750>
+
+    @pytest.mark.parametrize("mutation,error", [("binding", "resume_binding_mismatch"), ("result", "frozen_inference_contract_changed")])
+    def test_required_provenance_resume_revalidates_bound_versions_and_retained_successes(evaluation, tmp_path, api_server, mutation, error, capsys):
+        api_server["preprocessing_version"] = "vad-windows-v1"
+        args = provenance_cli_fixture(evaluation, tmp_path, api_server) + ["--require-preprocessing-provenance"]
+>       assert evaluation.main(args) == 0
+               ^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_public_speaker_evaluation.py:799: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scripts\evaluate-public-speakers.py:745: in main
+    args = parser.parse_args(argv)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\argparse.py:1930: in parse_args
+    self.error(msg)
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\argparse.py:2686: in error
+    self.exit(2, _('%(prog)s: error: %(message)s\n') % args)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = ArgumentParser(prog='__main__.py', usage=None, description='Evaluate frozen speaker decisions through the public API in an isolated tenant.', formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)
+status = 2
+message = '__main__.py: error: unrecognized arguments: --require-preprocessing-provenance\n'
+
+    def exit(self, status=0, message=None):
+        if message:
+            self._print_message(message, _sys.stderr)
+>       _sys.exit(status)
+E       SystemExit: 2
+
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\argparse.py:2673: SystemExit
+---------------------------- Captured stderr call -----------------------------
+usage: __main__.py [-h] --manifest MANIFEST --audio-root AUDIO_ROOT
+                   --credentials CREDENTIALS --output OUTPUT --state STATE
+                   [--gallery-sizes GALLERY_SIZES] [--policy POLICY]
+                   [--job-timeout JOB_TIMEOUT] [--poll-seconds POLL_SECONDS]
+                   [--batch-size BATCH_SIZE]
+__main__.py: error: unrecognized arguments: --require-preprocessing-provenance
+______ test_fresh_train_clean_source_is_not_dropped_from_complete_strata ______
+
+reporter = <module 'public_report' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\report-public-speakers.py'>
+
+    def test_fresh_train_clean_source_is_not_dropped_from_complete_strata(reporter):
+        rows = [{**probe("A"), "source_split": "train-clean-100"},
+                {**probe("B", failed=True), "source_split": "train-clean-100"}]
+        summary = reporter.summarize(summary_source(rows))
+>       counts = summary["stages"][0]["by_source_split"]["train-clean-100"]
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'train-clean-100'
+
+tests\test_public_speaker_report.py:182: KeyError
+__ test_preprocessing_aggregate_uses_only_bounded_labels_for_successful_jobs __
+
+reporter = <module 'public_report' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\report-public-speakers.py'>
+
+    def test_preprocessing_aggregate_uses_only_bounded_labels_for_successful_jobs(reporter):
+        values = ["vad-windows-v1", "vad-packed-fallback-v1", None, "private-untrusted-value", {"private": "value"}, ["private-list"], True]
+        rows = []
+        for index, version in enumerate(values):
+            row = probe(str(index))
+            row["result"]["preprocessing_version"] = version
+            row["result"]["quality"] = {"private-extra": "must-not-escape"}
+            rows.append(row)
+        rows.append(probe("missing"))
+        rows.append({**probe("malformed"), "result": None})
+        rows.append(probe("failed", failed=True))
+        summary = reporter.summarize(summary_source(rows))
+>       assert summary["preprocessing_version_counts"] == {
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            "vad-windows-v1": 1, "vad-packed-fallback-v1": 1, "unreported_or_unsupported": 7,
+        }
+E       KeyError: 'preprocessing_version_counts'
+
+tests\test_public_speaker_report.py:199: KeyError
+=========================== short test summary info ===========================
+FAILED tests/test_public_speaker_evaluation.py::test_required_preprocessing_provenance_is_bound_and_completed_resume_is_stable[vad-windows-v1]
+FAILED tests/test_public_speaker_evaluation.py::test_required_preprocessing_provenance_is_bound_and_completed_resume_is_stable[vad-packed-fallback-v1]
+FAILED tests/test_public_speaker_evaluation.py::test_required_preprocessing_provenance_rejects_missing_and_invalid_http_results[metadata0]
+FAILED tests/test_public_speaker_evaluation.py::test_required_preprocessing_provenance_rejects_missing_and_invalid_http_results[metadata1]
+FAILED tests/test_public_speaker_evaluation.py::test_required_preprocessing_provenance_rejects_missing_and_invalid_http_results[metadata2]
+FAILED tests/test_public_speaker_evaluation.py::test_required_preprocessing_provenance_rejects_missing_and_invalid_http_results[metadata3]
+FAILED tests/test_public_speaker_evaluation.py::test_required_preprocessing_provenance_rejects_missing_and_invalid_http_results[metadata4]
+FAILED tests/test_public_speaker_evaluation.py::test_required_preprocessing_provenance_rejects_missing_and_invalid_http_results[metadata5]
+FAILED tests/test_public_speaker_evaluation.py::test_required_preprocessing_does_not_require_metadata_from_failed_jobs
+FAILED tests/test_public_speaker_evaluation.py::test_provenance_requirement_cannot_change_on_resume[False]
+FAILED tests/test_public_speaker_evaluation.py::test_provenance_requirement_cannot_change_on_resume[True]
+FAILED tests/test_public_speaker_evaluation.py::test_required_provenance_resume_revalidates_bound_versions_and_retained_successes[binding-resume_binding_mismatch]
+FAILED tests/test_public_speaker_evaluation.py::test_required_provenance_resume_revalidates_bound_versions_and_retained_successes[result-frozen_inference_contract_changed]
+FAILED tests/test_public_speaker_report.py::test_fresh_train_clean_source_is_not_dropped_from_complete_strata
+FAILED tests/test_public_speaker_report.py::test_preprocessing_aggregate_uses_only_bounded_labels_for_successful_jobs
+15 failed, 1 passed, 54 deselected in 8.71s

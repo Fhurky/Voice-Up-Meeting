@@ -6,7 +6,7 @@ bölümleme, metne çevirme ve toplantı platformlarına bağlanma sonraki yeten
 
 ## Hazırlanmış bilgisayarda kullanma
 
-1. Docker Desktop açıkken proje kökünde `./scripts/start-local.ps1` çalıştırın.
+1. Spark açık ve Ethernet bağlıyken proje kökündeki `Start-VoiceUp.cmd` dosyasına çift tıklayın; Docker, model bağlantısı ve uygulama hazırlanır. Yalnız yerel GPU modu için `./scripts/start-local.ps1 -Mode Local` kullanılır.
 2. `http://127.0.0.1:8081` adresini açın. Yerel yönetici bilgileri Git dışında
    `outputs/local-pilot-credentials.json` dosyasındadır. Salt okunur deneme hesabı
    `outputs/local-reader-credentials.json` içindedir.
@@ -25,6 +25,13 @@ başarısını göstermez. Kimliği doğru ölçmek için kişilerin yeni kayıt
 WAV/FLAC, en çok 50 MiB ve 120 saniye kabul edilir. Bir profile en çok 20 doğrulanmış
 örnek eklenir. Başka kişiye ait örnek hedef profile yeterli eşik ve aday farkıyla
 uymuyorsa ekleme reddedilir. Benzerlik bir olasılık veya yüzde güven değildir.
+
+**Yaklaşık 50 katılımcı, doğruluk hedefidir; profil kayıt kotası değildir.**
+Konuşmacılar ekranı mevcut toplamı gösterir. 51. veya 201. kişi sayı nedeniyle
+reddedilmez; aynı kalite ve yetki kuralları uygulanır. Her profile en çok 20
+doğrulanmış örnek eklenebilir. Önceki kota sürümünde oluşmuş `profile_limit` işleri
+tarihsel durumuyla görünür; yeni kayıt başlatılabilir. Bu düzeltme sonrasında açık
+tarayıcı sayfasını yenileyin. 100–200 kişide aynı doğruluk henüz ölçülmemiştir.
 
 ## Çalışma yapısı
 
@@ -94,6 +101,10 @@ web/worker bağlantısında kullanılmaz. Gerçek kurum Secret/registry/StorageC
 değerleri ve Kubernetes GPU eklentisi dağıtım ortamında ayrıca hazırlanır.
 
 ## Veri ve iş davranışı
+
+Spark üzerinde model çalıştırma için [Spark geliştirme rehberini](SPARK_RUNTIME.md)
+kullanın. Başlatıcı son seçilen modu hatırlar; aşağıdaki veri/iş davranışı her iki
+modda aynıdır.
 
 Seslerin uygulama kopyaları `voiceup_speaker_audio` volume'ündedir; kullanıcının
 orijinal dosyasına dokunulmaz. Profil örneğine bağlı kayıtlar profil silinene kadar

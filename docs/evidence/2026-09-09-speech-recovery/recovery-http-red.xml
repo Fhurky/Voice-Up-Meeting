@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="5" skipped="0" tests="7" time="4.155" timestamp="2026-09-09T12:31:51.971511+00:00" hostname="38aa1f6bf1ea"><testcase classname="tests.test_service" name="test_enrollment_http_contract_and_resampling[WAV]" time="0.078"><failure message="KeyError: 'preprocessing_version'">format = 'WAV'
+
+    @pytest.mark.parametrize("format", ["WAV", "FLAC"])
+    def test_enrollment_http_contract_and_resampling(format):
+        _, app, _ = runtime_and_app()
+        with TestClient(app) as client:
+            assert client.get("/ready").status_code == 200
+            response = client.post(
+                "/v1/embeddings?purpose=enroll",
+                headers=HEADERS,
+                content=audio_file(format=format, rate=24000),
+            )
+        assert response.status_code == 200
+        result = response.json()
+        assert result["model_id"] == MODEL_ID
+        assert result["model_revision"] == MODEL_REVISION
+        assert result["dimensions"] == 192
+        assert len(result["embedding"]) == 192
+        assert np.linalg.norm(result["embedding"]) == pytest.approx(1)
+        assert result["speech_seconds"] == pytest.approx(12)
+        assert result["windows_count"] == 2
+        assert result["device"] == "cuda:0"  # Contract fixture, not GPU evidence.
+        assert "gpu_peak_allocated_bytes" not in result["quality"]
+        assert "gpu_peak_reserved_bytes" not in result["quality"]
+        assert result["quality"]["execution_seconds"] &gt; 0
+&gt;       assert result["quality"]["preprocessing_version"] == "vad-windows-v1"
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'preprocessing_version'
+
+app/inference/tests/test_service.py:85: KeyError</failure></testcase><testcase classname="tests.test_service" name="test_enrollment_http_contract_and_resampling[FLAC]" time="0.027"><failure message="KeyError: 'preprocessing_version'">format = 'FLAC'
+
+    @pytest.mark.parametrize("format", ["WAV", "FLAC"])
+    def test_enrollment_http_contract_and_resampling(format):
+        _, app, _ = runtime_and_app()
+        with TestClient(app) as client:
+            assert client.get("/ready").status_code == 200
+            response = client.post(
+                "/v1/embeddings?purpose=enroll",
+                headers=HEADERS,
+                content=audio_file(format=format, rate=24000),
+            )
+        assert response.status_code == 200
+        result = response.json()
+        assert result["model_id"] == MODEL_ID
+        assert result["model_revision"] == MODEL_REVISION
+        assert result["dimensions"] == 192
+        assert len(result["embedding"]) == 192
+        assert np.linalg.norm(result["embedding"]) == pytest.approx(1)
+        assert result["speech_seconds"] == pytest.approx(12)
+        assert result["windows_count"] == 2
+        assert result["device"] == "cuda:0"  # Contract fixture, not GPU evidence.
+        assert "gpu_peak_allocated_bytes" not in result["quality"]
+        assert "gpu_peak_reserved_bytes" not in result["quality"]
+        assert result["quality"]["execution_seconds"] &gt; 0
+&gt;       assert result["quality"]["preprocessing_version"] == "vad-windows-v1"
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'preprocessing_version'
+
+app/inference/tests/test_service.py:85: KeyError</failure></testcase><testcase classname="tests.test_service" name="test_fragmented_pcm_http_preserves_speech_limits[enroll-2.0-5-None]" time="0.010"><failure message="assert 422 == 200&#10; +  where 422 = &lt;Response [422 Unprocessable Entity]&gt;.status_code">purpose = 'enroll', seconds = 2.0, count = 5, expected_code = None
+
+    @pytest.mark.parametrize("purpose,seconds,count,expected_code", [
+        ("enroll", 2.0, 5, None),
+        ("identify", 1.5, 2, None),
+        ("enroll", 2.0, 4, "insufficient_speech"),
+        ("enroll", 1.4, 8, "insufficient_speech"),
+    ])
+    def test_fragmented_pcm_http_preserves_speech_limits(purpose, seconds, count, expected_code):
+        runtime, app, _ = runtime_and_app()
+        spans = [(i * (seconds + 0.4), i * (seconds + 0.4) + seconds) for i in range(count)]
+        rate = 16000
+        samples = np.zeros(round((spans[-1][1] + 0.4) * rate), dtype=np.float32)
+        for start, end in spans:
+            samples[round(start * rate):round(end * rate)] = 0.1
+        stream = BytesIO()
+        sf.write(stream, samples, rate, format="WAV", subtype="PCM_16")
+        with TestClient(app) as client:
+            runtime._models.vad = SimpleNamespace(speech_spans=lambda *_: spans)
+            response = client.post(
+                f"/v1/embeddings?purpose={purpose}", headers=HEADERS, content=stream.getvalue()
+            )
+        if expected_code:
+            assert response.status_code == 422
+            assert response.json()["detail"]["code"] == expected_code
+            assert "embedding" not in response.json()
+        else:
+&gt;           assert response.status_code == 200
+E           assert 422 == 200
+E            +  where 422 = &lt;Response [422 Unprocessable Entity]&gt;.status_code
+
+app/inference/tests/test_service.py:113: AssertionError</failure></testcase><testcase classname="tests.test_service" name="test_fragmented_pcm_http_preserves_speech_limits[identify-1.5-2-None]" time="0.010"><failure message="assert 422 == 200&#10; +  where 422 = &lt;Response [422 Unprocessable Entity]&gt;.status_code">purpose = 'identify', seconds = 1.5, count = 2, expected_code = None
+
+    @pytest.mark.parametrize("purpose,seconds,count,expected_code", [
+        ("enroll", 2.0, 5, None),
+        ("identify", 1.5, 2, None),
+        ("enroll", 2.0, 4, "insufficient_speech"),
+        ("enroll", 1.4, 8, "insufficient_speech"),
+    ])
+    def test_fragmented_pcm_http_preserves_speech_limits(purpose, seconds, count, expected_code):
+        runtime, app, _ = runtime_and_app()
+        spans = [(i * (seconds + 0.4), i * (seconds + 0.4) + seconds) for i in range(count)]
+        rate = 16000
+        samples = np.zeros(round((spans[-1][1] + 0.4) * rate), dtype=np.float32)
+        for start, end in spans:
+            samples[round(start * rate):round(end * rate)] = 0.1
+        stream = BytesIO()
+        sf.write(stream, samples, rate, format="WAV", subtype="PCM_16")
+        with TestClient(app) as client:
+            runtime._models.vad = SimpleNamespace(speech_spans=lambda *_: spans)
+            response = client.post(
+                f"/v1/embeddings?purpose={purpose}", headers=HEADERS, content=stream.getvalue()
+            )
+        if expected_code:
+            assert response.status_code == 422
+            assert response.json()["detail"]["code"] == expected_code
+            assert "embedding" not in response.json()
+        else:
+&gt;           assert response.status_code == 200
+E           assert 422 == 200
+E            +  where 422 = &lt;Response [422 Unprocessable Entity]&gt;.status_code
+
+app/inference/tests/test_service.py:113: AssertionError</failure></testcase><testcase classname="tests.test_service" name="test_fragmented_pcm_http_preserves_speech_limits[enroll-2.0-4-insufficient_speech]" time="0.011" /><testcase classname="tests.test_service" name="test_fragmented_pcm_http_preserves_speech_limits[enroll-1.4-8-insufficient_speech]" time="0.013" /><testcase classname="tests.test_service" name="test_original_fragment_disagreement_rejects_blended_profile_over_http" time="0.017"><failure message="AssertionError: assert 'insufficient_speech' == 'inconsistent_audio'&#10;  &#10;  - inconsistent_audio&#10;  + insufficient_speech">def test_original_fragment_disagreement_rejects_blended_profile_over_http():
+        runtime, app, _ = runtime_and_app()
+        rate = 16000
+        spans = [(i * 2.4, i * 2.4 + 2) for i in range(8)]
+        samples = np.zeros(round(19.2 * rate), dtype=np.float32)
+        for index, (start, end) in enumerate(spans):
+            samples[round(start * rate):round(end * rate)] = 0.1 if index % 2 == 0 else 0.2
+    
+        class MixedVoiceFixture:
+            dimension = 192
+    
+            def encode(self, chunk, sample_rate=16000):
+                vector = np.zeros(self.dimension, dtype=np.float32)
+                vector[:2] = [np.mean(chunk &lt; 0.15), np.mean(chunk &gt;= 0.15)]
+                return vector
+    
+        stream = BytesIO()
+        sf.write(stream, samples, rate, format="WAV", subtype="PCM_16")
+        with TestClient(app) as client:
+            runtime._models.vad = SimpleNamespace(speech_spans=lambda *_: spans)
+            runtime._models.embedder = MixedVoiceFixture()
+            response = client.post(
+                "/v1/embeddings?purpose=enroll", headers=HEADERS, content=stream.getvalue()
+            )
+            assert client.get("/ready").status_code == 200
+        assert response.status_code == 422
+&gt;       assert response.json()["detail"]["code"] == "inconsistent_audio"
+E       AssertionError: assert 'insufficient_speech' == 'inconsistent_audio'
+E         
+E         - inconsistent_audio
+E         + insufficient_speech
+
+app/inference/tests/test_service.py:147: AssertionError</failure></testcase></testsuite></testsuites>

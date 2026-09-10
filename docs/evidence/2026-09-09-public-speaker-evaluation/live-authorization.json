@@ -1,0 +1,48 @@
+{
+  "environment": "real loopback HTTP / Spark application",
+  "ordinary_account_super_admin": false,
+  "checks": [
+    {
+      "case": "reader_upload_denied",
+      "expected_status": 403,
+      "actual_status": 403,
+      "passed": true
+    },
+    {
+      "case": "reader_other_tenant_job_hidden",
+      "expected_status": 404,
+      "actual_status": 404,
+      "passed": true
+    },
+    {
+      "case": "missing_tenant",
+      "expected_status": 400,
+      "actual_status": 400,
+      "passed": true
+    },
+    {
+      "case": "invalid_tenant",
+      "expected_status": 400,
+      "actual_status": 400,
+      "passed": true
+    },
+    {
+      "case": "unauthenticated",
+      "expected_status": 401,
+      "actual_status": 401,
+      "passed": true
+    },
+    {
+      "case": "ordinary_user_tenant_switch",
+      "expected_status": 403,
+      "actual_status": 403,
+      "passed": true
+    },
+    {
+      "case": "missing_idempotency_key",
+      "expected_status": 422,
+      "actual_status": 422,
+      "passed": true
+    }
+  ]
+}

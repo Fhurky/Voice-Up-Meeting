@@ -6,11 +6,11 @@ from threading import Lock
 from time import perf_counter
 
 from voiceup.audio import Turn, validate_turns
-from voiceup.pipeline import extract_evidence
 
 from .audio import decode_audio
 from .config import Settings
 from .errors import InferenceError
+from .evidence import extract_pilot_evidence
 from .model_bundle import DIMENSIONS, MODEL_ID, MODEL_REVISION, BundleError
 from .models import ModelHandles, load_models, require_cuda  # noqa: F401
 
@@ -81,7 +81,9 @@ class InferenceRuntime:
             turns = validate_turns(
                 [Turn(start, end, "probe") for start, end in spans], audio.duration
             )
-            evidence = extract_evidence(audio, turns, "probe", models.embedder)
+            evidence, preprocessing_version = extract_pilot_evidence(
+                audio, turns, models.embedder, purpose
+            )
             gpu_metrics = models.metrics.finish() if models.metrics is not None else {}
         except Exception:
             raise InferenceError("inference_failed", "Audio inference failed", 503) from None
@@ -105,6 +107,7 @@ class InferenceRuntime:
             "dimensions": DIMENSIONS,
             "device": self.settings.device,
             "quality": {
+                "preprocessing_version": preprocessing_version,
                 "input_seconds": audio.duration,
                 "vad_speech_seconds": evidence.clean_seconds,
                 "min_pair_similarity": evidence.consistency,

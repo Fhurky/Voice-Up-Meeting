@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="12" skipped="0" tests="12" time="5.957" timestamp="2026-09-10T07:13:41.981169+00:00" hostname="dd7393fbbd42"><testcase classname="tests.unit.test_speaker_identity" name="test_profile_listing_contract_exposes_total_without_quota[0]" time="0.021"><failure message="pydantic_core._pydantic_core.ValidationError: 1 validation error for SpeakerProfilePage&#10;max_profiles&#10;  Field required [type=missing, input_value={'items': [], 'total': 0,...offset': 0, 'limit': 20}, input_type=dict]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/missing">total = 0
+
+    @pytest.mark.parametrize("total", [0, 50, 200])
+    def test_profile_listing_contract_exposes_total_without_quota(total: int) -&gt; None:
+        payload = {"items": [], "total": total, "offset": 0, "limit": 20}
+&gt;       assert SpeakerProfilePage.model_validate(payload).model_dump() == payload
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       pydantic_core._pydantic_core.ValidationError: 1 validation error for SpeakerProfilePage
+E       max_profiles
+E         Field required [type=missing, input_value={'items': [], 'total': 0,...offset': 0, 'limit': 20}, input_type=dict]
+E           For further information visit https://errors.pydantic.dev/2.13/v/missing
+
+tests/unit/test_speaker_identity.py:104: ValidationError</failure></testcase><testcase classname="tests.unit.test_speaker_identity" name="test_profile_listing_contract_exposes_total_without_quota[50]" time="0.001"><failure message="pydantic_core._pydantic_core.ValidationError: 1 validation error for SpeakerProfilePage&#10;max_profiles&#10;  Field required [type=missing, input_value={'items': [], 'total': 50...offset': 0, 'limit': 20}, input_type=dict]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/missing">total = 50
+
+    @pytest.mark.parametrize("total", [0, 50, 200])
+    def test_profile_listing_contract_exposes_total_without_quota(total: int) -&gt; None:
+        payload = {"items": [], "total": total, "offset": 0, "limit": 20}
+&gt;       assert SpeakerProfilePage.model_validate(payload).model_dump() == payload
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       pydantic_core._pydantic_core.ValidationError: 1 validation error for SpeakerProfilePage
+E       max_profiles
+E         Field required [type=missing, input_value={'items': [], 'total': 50...offset': 0, 'limit': 20}, input_type=dict]
+E           For further information visit https://errors.pydantic.dev/2.13/v/missing
+
+tests/unit/test_speaker_identity.py:104: ValidationError</failure></testcase><testcase classname="tests.unit.test_speaker_identity" name="test_profile_listing_contract_exposes_total_without_quota[200]" time="0.001"><failure message="pydantic_core._pydantic_core.ValidationError: 1 validation error for SpeakerProfilePage&#10;max_profiles&#10;  Field required [type=missing, input_value={'items': [], 'total': 20...offset': 0, 'limit': 20}, input_type=dict]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/missing">total = 200
+
+    @pytest.mark.parametrize("total", [0, 50, 200])
+    def test_profile_listing_contract_exposes_total_without_quota(total: int) -&gt; None:
+        payload = {"items": [], "total": total, "offset": 0, "limit": 20}
+&gt;       assert SpeakerProfilePage.model_validate(payload).model_dump() == payload
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       pydantic_core._pydantic_core.ValidationError: 1 validation error for SpeakerProfilePage
+E       max_profiles
+E         Field required [type=missing, input_value={'items': [], 'total': 20...offset': 0, 'limit': 20}, input_type=dict]
+E           For further information visit https://errors.pydantic.dev/2.13/v/missing
+
+tests/unit/test_speaker_identity.py:104: ValidationError</failure></testcase><testcase classname="tests.integration.test_speaker_pilot" name="test_gallery_enrollment_replays_without_exposing_a_quota" time="0.755"><failure message="AssertionError: assert {'items', 'li...set', 'total'} == {'items', 'li...set', 'total'}&#10;  &#10;  Extra items in the left set:&#10;  'max_profiles'&#10;  Use -v to get more diff">pilot = Pilot(client=&lt;httpx.AsyncClient object at 0x71c5dafd2cf0&gt;, sessions=async_sessionmaker(class_='AsyncSession', bind=&lt;sq...app.domain.models.tenant.Tenant object at 0x71c5dacd2510&gt;, user=&lt;app.domain.models.user.User object at 0x71c5dafd3b60&gt;)
+
+    async def test_gallery_enrollment_replays_without_exposing_a_quota(pilot: Pilot) -&gt; None:
+        await seed_gallery_profiles(pilot, 49)
+        source = await pilot.upload()
+        key = str(uuid4())
+        accepted = await pilot.submit(source["public_id"], key=key)
+        finished = await pilot.terminal(accepted)
+        assert finished["status"] == "succeeded"
+        replay = await pilot.submit(source["public_id"], key=key)
+        assert replay == finished
+        page = (await pilot.client.get("/speaker-profiles?limit=1&amp;offset=49")).json()
+        assert page["total"] == 50
+&gt;       assert set(page) == {"items", "total", "offset", "limit"}
+E       AssertionError: assert {'items', 'li...set', 'total'} == {'items', 'li...set', 'total'}
+E         
+E         Extra items in the left set:
+E         'max_profiles'
+E         Use -v to get more diff
+
+tests/integration/test_speaker_pilot.py:408: AssertionError</failure></testcase><testcase classname="tests.integration.test_speaker_pilot" name="test_gallery_enrollment_accepts_beyond_fifty_and_two_hundred[False-50]" time="0.172"><failure message="AssertionError: {&quot;detail&quot;:{&quot;code&quot;:&quot;profile_limit&quot;,&quot;message&quot;:&quot;A workspace can contain at most 50 active speaker profiles.&quot;}}&#10;assert 409 == 202&#10; +  where 409 = &lt;Response [409 Conflict]&gt;.status_code">pilot = Pilot(client=&lt;httpx.AsyncClient object at 0x71c5dabec550&gt;, sessions=async_sessionmaker(class_='AsyncSession', bind=&lt;sq...app.domain.models.tenant.Tenant object at 0x71c5dacf5950&gt;, user=&lt;app.domain.models.user.User object at 0x71c5dafc3ed0&gt;)
+existing_count = 50, super_admin = False
+
+    @pytest.mark.parametrize("existing_count", [50, 200])
+    @pytest.mark.parametrize("super_admin", [False, True])
+    async def test_gallery_enrollment_accepts_beyond_fifty_and_two_hundred(
+        pilot: Pilot, existing_count: int, super_admin: bool
+    ) -&gt; None:
+        await seed_gallery_profiles(pilot, existing_count)
+        source = await pilot.upload()
+        if super_admin:
+            token = create_access_token(
+                subject=UUID(pilot.user.public_id),
+                username=pilot.user.username,
+                tenant_id=UUID(pilot.tenant.public_id),
+                roles=[],
+                permissions=[],
+                is_super_admin=True,
+            )
+            pilot.client.headers["Authorization"] = f"Bearer {token}"
+        key = str(uuid4())
+&gt;       accepted = await pilot.submit(source["public_id"], key=key)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/integration/test_speaker_pilot.py:454: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = Pilot(client=&lt;httpx.AsyncClient object at 0x71c5dabec550&gt;, sessions=async_sessionmaker(class_='AsyncSession', bind=&lt;sq...app.domain.models.tenant.Tenant object at 0x71c5dacf5950&gt;, user=&lt;app.domain.models.user.User object at 0x71c5dafc3ed0&gt;)
+source = 'e3425c48-b498-4d8a-8ed8-e5367771b452', purpose = 'enroll'
+name = 'Person', target = None, key = '0ca2ca06-bcdf-45af-878a-8829b15aeb14'
+
+    async def submit(
+        self,
+        source: str,
+        *,
+        purpose: str = "enroll",
+        name: str | None = "Person",
+        target: str | None = None,
+        key: str | None = None,
+    ) -&gt; dict:
+        body = {"recording_public_id": source, "purpose": purpose}
+        if name is not None:
+            body["name"] = name
+        if target is not None:
+            body["profile_public_id"] = target
+        response = await self.client.post(
+            "/speaker-jobs", json=body, headers={"Idempotency-Key": key or str(uuid4())}
+        )
+&gt;       assert response.status_code == 202, response.text
+E       AssertionError: {"detail":{"code":"profile_limit","message":"A workspace can contain at most 50 active speaker profiles."}}
+E       assert 409 == 202
+E        +  where 409 = &lt;Response [409 Conflict]&gt;.status_code
+
+tests/integration/test_speaker_pilot.py:142: AssertionError</failure></testcase><testcase classname="tests.integration.test_speaker_pilot" name="test_gallery_enrollment_accepts_beyond_fifty_and_two_hundred[False-200]" time="0.200"><failure message="AssertionError: {&quot;detail&quot;:{&quot;code&quot;:&quot;profile_limit&quot;,&quot;message&quot;:&quot;A workspace can contain at most 50 active speaker profiles.&quot;}}&#10;assert 409 == 202&#10; +  where 409 = &lt;Response [409 Conflict]&gt;.status_code">pilot = Pilot(client=&lt;httpx.AsyncClient object at 0x71c5dabeec10&gt;, sessions=async_sessionmaker(class_='AsyncSession', bind=&lt;sq...app.domain.models.tenant.Tenant object at 0x71c5dabed810&gt;, user=&lt;app.domain.models.user.User object at 0x71c5dabeda90&gt;)
+existing_count = 200, super_admin = False
+
+    @pytest.mark.parametrize("existing_count", [50, 200])
+    @pytest.mark.parametrize("super_admin", [False, True])
+    async def test_gallery_enrollment_accepts_beyond_fifty_and_two_hundred(
+        pilot: Pilot, existing_count: int, super_admin: bool
+    ) -&gt; None:
+        await seed_gallery_profiles(pilot, existing_count)
+        source = await pilot.upload()
+        if super_admin:
+            token = create_access_token(
+                subject=UUID(pilot.user.public_id),
+                username=pilot.user.username,
+                tenant_id=UUID(pilot.tenant.public_id),
+                roles=[],
+                permissions=[],
+                is_super_admin=True,
+            )
+            pilot.client.headers["Authorization"] = f"Bearer {token}"
+        key = str(uuid4())
+&gt;       accepted = await pilot.submit(source["public_id"], key=key)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/integration/test_speaker_pilot.py:454: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = Pilot(client=&lt;httpx.AsyncClient object at 0x71c5dabeec10&gt;, sessions=async_sessionmaker(class_='AsyncSession', bind=&lt;sq...app.domain.models.tenant.Tenant object at 0x71c5dabed810&gt;, user=&lt;app.domain.models.user.User object at 0x71c5dabeda90&gt;)
+source = '1696f127-329d-47b5-b827-ef5ee2695374', purpose = 'enroll'
+name = 'Person', target = None, key = 'd9343ce3-a41b-4c79-ad75-17c16b12fb7f'
+
+    async def submit(
+        self,
+        source: str,
+        *,
+        purpose: str = "enroll",
+        name: str | None = "Person",
+        target: str | None = None,
+        key: str | None = None,
+    ) -&gt; dict:
+        body = {"recording_public_id": source, "purpose": purpose}
+        if name is not None:
+            body["name"] = name
+        if target is not None:
+            body["profile_public_id"] = target
+        response = await self.client.post(
+            "/speaker-jobs", json=body, headers={"Idempotency-Key": key or str(uuid4())}
+        )
+&gt;       assert response.status_code == 202, response.text
+E       AssertionError: {"detail":{"code":"profile_limit","message":"A workspace can contain at most 50 active speaker profiles."}}
+E       assert 409 == 202
+E        +  where 409 = &lt;Response [409 Conflict]&gt;.status_code
+
+tests/integration/test_speaker_pilot.py:142: AssertionError</failure></testcase><testcase classname="tests.integration.test_speaker_pilot" name="test_gallery_enrollment_accepts_beyond_fifty_and_two_hundred[True-50]" time="0.162"><failure message="AssertionError: {&quot;detail&quot;:{&quot;code&quot;:&quot;profile_limit&quot;,&quot;message&quot;:&quot;A workspace can contain at most 50 active speaker profiles.&quot;}}&#10;assert 409 == 202&#10; +  where 409 = &lt;Response [409 Conflict]&gt;.status_code">pilot = Pilot(client=&lt;httpx.AsyncClient object at 0x71c5dad0e520&gt;, sessions=async_sessionmaker(class_='AsyncSession', bind=&lt;sq...app.domain.models.tenant.Tenant object at 0x71c5dafa5810&gt;, user=&lt;app.domain.models.user.User object at 0x71c5dafa6b10&gt;)
+existing_count = 50, super_admin = True
+
+    @pytest.mark.parametrize("existing_count", [50, 200])
+    @pytest.mark.parametrize("super_admin", [False, True])
+    async def test_gallery_enrollment_accepts_beyond_fifty_and_two_hundred(
+        pilot: Pilot, existing_count: int, super_admin: bool
+    ) -&gt; None:
+        await seed_gallery_profiles(pilot, existing_count)
+        source = await pilot.upload()
+        if super_admin:
+            token = create_access_token(
+                subject=UUID(pilot.user.public_id),
+                username=pilot.user.username,
+                tenant_id=UUID(pilot.tenant.public_id),
+                roles=[],
+                permissions=[],
+                is_super_admin=True,
+            )
+            pilot.client.headers["Authorization"] = f"Bearer {token}"
+        key = str(uuid4())
+&gt;       accepted = await pilot.submit(source["public_id"], key=key)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/integration/test_speaker_pilot.py:454: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = Pilot(client=&lt;httpx.AsyncClient object at 0x71c5dad0e520&gt;, sessions=async_sessionmaker(class_='AsyncSession', bind=&lt;sq...app.domain.models.tenant.Tenant object at 0x71c5dafa5810&gt;, user=&lt;app.domain.models.user.User object at 0x71c5dafa6b10&gt;)
+source = '6d84575e-b0a1-4dc5-ab9c-9071d68e026c', purpose = 'enroll'
+name = 'Person', target = None, key = '8d425165-11f6-4020-a2c9-483a9e1313b5'
+
+    async def submit(
+        self,
+        source: str,
+        *,
+        purpose: str = "enroll",
+        name: str | None = "Person",
+        target: str | None = None,
+        key: str | None = None,
+    ) -&gt; dict:
+        body = {"recording_public_id": source, "purpose": purpose}
+        if name is not None:
+            body["name"] = name
+        if target is not None:
+            body["profile_public_id"] = target
+        response = await self.client.post(
+            "/speaker-jobs", json=body, headers={"Idempotency-Key": key or str(uuid4())}
+        )
+&gt;       assert response.status_code == 202, response.text
+E       AssertionError: {"detail":{"code":"profile_limit","message":"A workspace can contain at most 50 active speaker profiles."}}
+E       assert 409 == 202
+E        +  where 409 = &lt;Response [409 Conflict]&gt;.status_code
+
+tests/integration/test_speaker_pilot.py:142: AssertionError</failure></testcase><testcase classname="tests.integration.test_speaker_pilot" name="test_gallery_enrollment_accepts_beyond_fifty_and_two_hundred[True-200]" time="0.188"><failure message="AssertionError: {&quot;detail&quot;:{&quot;code&quot;:&quot;profile_limit&quot;,&quot;message&quot;:&quot;A workspace can contain at most 50 active speaker profiles.&quot;}}&#10;assert 409 == 202&#10; +  where 409 = &lt;Response [409 Conflict]&gt;.status_code">pilot = Pilot(client=&lt;httpx.AsyncClient object at 0x71c5dad709d0&gt;, sessions=async_sessionmaker(class_='AsyncSession', bind=&lt;sq...app.domain.models.tenant.Tenant object at 0x71c5dad72650&gt;, user=&lt;app.domain.models.user.User object at 0x71c5dad71940&gt;)
+existing_count = 200, super_admin = True
+
+    @pytest.mark.parametrize("existing_count", [50, 200])
+    @pytest.mark.parametrize("super_admin", [False, True])
+    async def test_gallery_enrollment_accepts_beyond_fifty_and_two_hundred(
+        pilot: Pilot, existing_count: int, super_admin: bool
+    ) -&gt; None:
+        await seed_gallery_profiles(pilot, existing_count)
+        source = await pilot.upload()
+        if super_admin:
+            token = create_access_token(
+                subject=UUID(pilot.user.public_id),
+                username=pilot.user.username,
+                tenant_id=UUID(pilot.tenant.public_id),
+                roles=[],
+                permissions=[],
+                is_super_admin=True,
+            )
+            pilot.client.headers["Authorization"] = f"Bearer {token}"
+        key = str(uuid4())
+&gt;       accepted = await pilot.submit(source["public_id"], key=key)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/integration/test_speaker_pilot.py:454: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = Pilot(client=&lt;httpx.AsyncClient object at 0x71c5dad709d0&gt;, sessions=async_sessionmaker(class_='AsyncSession', bind=&lt;sq...app.domain.models.tenant.Tenant object at 0x71c5dad72650&gt;, user=&lt;app.domain.models.user.User object at 0x71c5dad71940&gt;)
+source = 'b65ff54b-2cff-40bc-b63e-4ed814bbab7c', purpose = 'enroll'
+name = 'Person', target = None, key = '01580048-08ec-4e24-8b59-eed565d9b7c1'
+
+    async def submit(
+        self,
+        source: str,
+        *,
+        purpose: str = "enroll",
+        name: str | None = "Person",
+        target: str | None = None,
+        key: str | None = None,
+    ) -&gt; dict:
+        body = {"recording_public_id": source, "purpose": purpose}
+        if name is not None:
+            body["name"] = name
+        if target is not None:
+            body["profile_public_id"] = target
+        response = await self.client.post(
+            "/speaker-jobs", json=body, headers={"Idempotency-Key": key or str(uuid4())}
+        )
+&gt;       assert response.status_code == 202, response.text
+E       AssertionError: {"detail":{"code":"profile_limit","message":"A workspace can contain at most 50 active speaker profiles."}}
+E       assert 409 == 202
+E        +  where 409 = &lt;Response [409 Conflict]&gt;.status_code
+
+tests/integration/test_speaker_pilot.py:142: AssertionError</failure></testcase><testcase classname="tests.integration.test_speaker_pilot" name="test_large_gallery_preserves_append_identify_and_soft_delete" time="0.201"><failure message="AssertionError: {&quot;detail&quot;:{&quot;code&quot;:&quot;profile_limit&quot;,&quot;message&quot;:&quot;A workspace can contain at most 50 active speaker profiles.&quot;}}&#10;assert 409 == 202&#10; +  where 409 = &lt;Response [409 Conflict]&gt;.status_code">pilot = Pilot(client=&lt;httpx.AsyncClient object at 0x71c5da503bf0&gt;, sessions=async_sessionmaker(class_='AsyncSession', bind=&lt;sq...app.domain.models.tenant.Tenant object at 0x71c5da4dccb0&gt;, user=&lt;app.domain.models.user.User object at 0x71c5da4dd6d0&gt;)
+
+    async def test_large_gallery_preserves_append_identify_and_soft_delete(pilot: Pilot) -&gt; None:
+        await seed_gallery_profiles(pilot, 199)
+&gt;       source, _, enrolled = await pilot.enroll()
+                              ^^^^^^^^^^^^^^^^^^^^
+
+tests/integration/test_speaker_pilot.py:474: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/integration/test_speaker_pilot.py:153: in enroll
+    job = await self.submit(source["public_id"])
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = Pilot(client=&lt;httpx.AsyncClient object at 0x71c5da503bf0&gt;, sessions=async_sessionmaker(class_='AsyncSession', bind=&lt;sq...app.domain.models.tenant.Tenant object at 0x71c5da4dccb0&gt;, user=&lt;app.domain.models.user.User object at 0x71c5da4dd6d0&gt;)
+source = 'd276c8ce-1945-4c76-9d7a-6fc12a7eafd8', purpose = 'enroll'
+name = 'Person', target = None, key = None
+
+    async def submit(
+        self,
+        source: str,
+        *,
+        purpose: str = "enroll",
+        name: str | None = "Person",
+        target: str | None = None,
+        key: str | None = None,
+    ) -&gt; dict:
+        body = {"recording_public_id": source, "purpose": purpose}
+        if name is not None:
+            body["name"] = name
+        if target is not None:
+            body["profile_public_id"] = target
+        response = await self.client.post(
+            "/speaker-jobs", json=body, headers={"Idempotency-Key": key or str(uuid4())}
+        )
+&gt;       assert response.status_code == 202, response.text
+E       AssertionError: {"detail":{"code":"profile_limit","message":"A workspace can contain at most 50 active speaker profiles."}}
+E       assert 409 == 202
+E        +  where 409 = &lt;Response [409 Conflict]&gt;.status_code
+
+tests/integration/test_speaker_pilot.py:142: AssertionError</failure></testcase><testcase classname="tests.integration.test_speaker_pilot" name="test_large_gallery_listing_counts_all_revisions_but_not_deleted_or_foreign" time="0.340"><failure message="AssertionError: {&quot;detail&quot;:{&quot;code&quot;:&quot;profile_limit&quot;,&quot;message&quot;:&quot;A workspace can contain at most 50 active speaker profiles.&quot;}}&#10;assert 409 == 202&#10; +  where 409 = &lt;Response [409 Conflict]&gt;.status_code">pilot = Pilot(client=&lt;httpx.AsyncClient object at 0x71c5dac7b240&gt;, sessions=async_sessionmaker(class_='AsyncSession', bind=&lt;sq...app.domain.models.tenant.Tenant object at 0x71c5dac797b0&gt;, user=&lt;app.domain.models.user.User object at 0x71c5dac7a8b0&gt;)
+
+    async def test_large_gallery_listing_counts_all_revisions_but_not_deleted_or_foreign(
+        pilot: Pilot,
+    ) -&gt; None:
+        async with pilot.sessions() as session, session.begin():
+            foreign = Tenant(code=f"gallery-{uuid4().hex}", name="Other workspace")
+            session.add(foreign)
+            await session.flush()
+        await seed_gallery_profiles(pilot, 198)
+        await seed_gallery_profiles(pilot, 1, model_revision="previous-revision")
+        await seed_gallery_profiles(pilot, 50, deleted=True)
+        await seed_gallery_profiles(pilot, 50, tenant_id=foreign.tenant_id)
+&gt;       source, _, _ = await pilot.enroll()
+                       ^^^^^^^^^^^^^^^^^^^^
+
+tests/integration/test_speaker_pilot.py:509: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/integration/test_speaker_pilot.py:153: in enroll
+    job = await self.submit(source["public_id"])
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = Pilot(client=&lt;httpx.AsyncClient object at 0x71c5dac7b240&gt;, sessions=async_sessionmaker(class_='AsyncSession', bind=&lt;sq...app.domain.models.tenant.Tenant object at 0x71c5dac797b0&gt;, user=&lt;app.domain.models.user.User object at 0x71c5dac7a8b0&gt;)
+source = 'c1dccf7c-d951-4c73-8257-cddca8b57084', purpose = 'enroll'
+name = 'Person', target = None, key = None
+
+    async def submit(
+        self,
+        source: str,
+        *,
+        purpose: str = "enroll",
+        name: str | None = "Person",
+        target: str | None = None,
+        key: str | None = None,
+    ) -&gt; dict:
+        body = {"recording_public_id": source, "purpose": purpose}
+        if name is not None:
+            body["name"] = name
+        if target is not None:
+            body["profile_public_id"] = target
+        response = await self.client.post(
+            "/speaker-jobs", json=body, headers={"Idempotency-Key": key or str(uuid4())}
+        )
+&gt;       assert response.status_code == 202, response.text
+E       AssertionError: {"detail":{"code":"profile_limit","message":"A workspace can contain at most 50 active speaker profiles."}}
+E       assert 409 == 202
+E        +  where 409 = &lt;Response [409 Conflict]&gt;.status_code
+
+tests/integration/test_speaker_pilot.py:142: AssertionError</failure></testcase><testcase classname="tests.integration.test_speaker_pilot" name="test_gallery_concurrent_enrollment_creates_two_distinct_profiles" time="0.464"><failure message="AssertionError: assert ['succeeded', 'failed'] == ['succeeded', 'succeeded']&#10;  &#10;  At index 1 diff: 'failed' != 'succeeded'&#10;  Use -v to get more diff">pilot = Pilot(client=&lt;httpx.AsyncClient object at 0x71c5da494050&gt;, sessions=async_sessionmaker(class_='AsyncSession', bind=&lt;sq...app.domain.models.tenant.Tenant object at 0x71c5da515650&gt;, user=&lt;app.domain.models.user.User object at 0x71c5dac7bce0&gt;)
+
+    async def test_gallery_concurrent_enrollment_creates_two_distinct_profiles(pilot: Pilot) -&gt; None:
+        await seed_gallery_profiles(pilot, 49)
+        source = await pilot.upload()
+        keys = [str(uuid4()), str(uuid4())]
+        jobs = [await pilot.submit(source["public_id"], key=key) for key in keys]
+        barrier = asyncio.Barrier(2)
+    
+        class ConcurrentEmbeddingProvider(FixtureEmbeddingProvider):
+            async def embed(
+                self,
+                audio: bytes,
+                *,
+                purpose: Literal["enroll", "identify"],
+                job_public_id: str,
+                tenant_public_id: str,
+            ) -&gt; EmbeddingResult:
+                result = await super().embed(
+                    audio,
+                    purpose=purpose,
+                    job_public_id=job_public_id,
+                    tenant_public_id=tenant_public_id,
+                )
+                await barrier.wait()
+                return result
+    
+        provider = ConcurrentEmbeddingProvider()
+        worker = SpeakerWorker(pilot.sessions, AudioStorage(pilot.settings), provider, pilot.settings)
+        async with asyncio.timeout(15):
+            assert await asyncio.gather(worker.process_once(), worker.process_once()) == [True, True]
+        results = [(await pilot.client.get(f"/speaker-jobs/{job['public_id']}")).json() for job in jobs]
+&gt;       assert [result["status"] for result in results] == ["succeeded", "succeeded"]
+E       AssertionError: assert ['succeeded', 'failed'] == ['succeeded', 'succeeded']
+E         
+E         At index 1 diff: 'failed' != 'succeeded'
+E         Use -v to get more diff
+
+tests/integration/test_speaker_pilot.py:546: AssertionError</failure></testcase><testcase classname="tests.integration.test_speaker_pilot" name="test_historical_profile_limit_remains_terminal_and_allows_new_job" time="0.283"><failure message="AssertionError: assert {'code': 'pro...er profiles.'} == {'code': 'pro... enrollment.'}&#10;  &#10;  Omitting 1 identical items, use -vv to show&#10;  Differing items:&#10;  {'message': 'A workspace can contain at most 50 active speaker profiles.'} != {'message': 'This job was rejected by a previous profile limit. You can start a new enrollment.'}&#10;  Use -v to get more diff">pilot = Pilot(client=&lt;httpx.AsyncClient object at 0x71c5da517d50&gt;, sessions=async_sessionmaker(class_='AsyncSession', bind=&lt;sq...app.domain.models.tenant.Tenant object at 0x71c5da514750&gt;, user=&lt;app.domain.models.user.User object at 0x71c5da516150&gt;)
+
+    async def test_historical_profile_limit_remains_terminal_and_allows_new_job(pilot: Pilot) -&gt; None:
+        source = await pilot.upload()
+        key = str(uuid4())
+        original = await pilot.submit(source["public_id"], key=key)
+        claim = await pilot.worker.claim()
+        assert claim is not None
+        assert await pilot.worker.fail(claim, "profile_limit", retryable=False)
+        await seed_gallery_profiles(pilot, 50)
+        historical = (await pilot.client.get(f"/speaker-jobs/{original['public_id']}")).json()
+        assert historical["status"] == "failed" and historical["result"] is None
+&gt;       assert historical["error"] == {
+            "code": "profile_limit",
+            "message": "This job was rejected by a previous profile limit. You can start a new enrollment.",
+        }
+E       AssertionError: assert {'code': 'pro...er profiles.'} == {'code': 'pro... enrollment.'}
+E         
+E         Omitting 1 identical items, use -vv to show
+E         Differing items:
+E         {'message': 'A workspace can contain at most 50 active speaker profiles.'} != {'message': 'This job was rejected by a previous profile limit. You can start a new enrollment.'}
+E         Use -v to get more diff
+
+tests/integration/test_speaker_pilot.py:575: AssertionError</failure></testcase></testsuite></testsuites>

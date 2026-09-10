@@ -1,0 +1,3 @@
+Command: bash scripts/security-gate.sh
+Exit code: 1
+required offline security tool is unavailable: gitleaks

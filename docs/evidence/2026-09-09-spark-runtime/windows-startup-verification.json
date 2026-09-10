@@ -1,0 +1,25 @@
+{
+  "explicit_spark_start": {
+    "exit_code": 0,
+    "observed_seconds": 6.2457024
+  },
+  "auto_start_after_encoding_fix": {
+    "exit_code": 0,
+    "observed_seconds": 5.3714016,
+    "turkish_output_correct": true
+  },
+  "saved_mode": "spark",
+  "same_owned_tunnel_reused": true,
+  "tunnel_status": {
+    "status": "ready",
+    "pid": 28104
+  },
+  "source_sha256": {
+    "scripts/start-local.ps1": "42a4756319b1f567a2cb60414179a45e23aeffa644847590402928c1e4222f01",
+    "scripts/spark-tunnel.ps1": "bdd22139ee9ee22a2019cc52fc6f5e70b79481879ae193830d3b5b7c8e1db775",
+    "scripts/stack.sh": "731ee16dcc4df27cc050bfee83d20a3787f9955c60359595834fe15ba5c490d6",
+    "app/infra/docker-compose.spark.yml": "23d740e0369906ffa65fb6563f1e66e1aa5799437d52684eb8575c0c5181d590",
+    "app/infra/nginx/start-spark-proxy.sh": "dab7b443c68667ac88321cfac121ed959060c79a48605e18ca9ec23d787a029e",
+    "app/infra/nginx/nginx.spark.conf": "87429a7621f5b8076f5999c225d7f8fed50c32a3886076afe6756bf51892ad33"
+  }
+}

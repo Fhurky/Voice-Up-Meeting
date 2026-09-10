@@ -2,21 +2,56 @@ import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/re
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { MemoryRouter, Route, Routes } from "react-router";
 import { AudioJobForm } from "@/components/AudioJobForm";
-import { IntlProvider } from "@/contexts/IntlContext";
+import { IntlProvider, useIntl } from "@/contexts/IntlContext";
+import { ApiError } from "@/lib/apiClient";
 import { SpeakerService } from "@/services/speakers";
 import { jobFixture, profileFixture } from "@/test/speakerFixtures";
 
 afterEach(() => { cleanup(); vi.restoreAllMocks(); });
 const recording = { public_id: jobFixture.recording_public_id, sha256: "a".repeat(64), size_bytes: 200, format: "WAV" as const, duration_seconds: 20, created_at: jobFixture.created_at };
 
+function LocaleSwitch() {
+  const { setLocale } = useIntl();
+  return <button onClick={() => setLocale("en")}>English</button>;
+}
+
 function setup(purpose: "enroll" | "identify" = "identify", existing = false) {
   return render(<IntlProvider><MemoryRouter><Routes>
-    <Route path="/" element={<AudioJobForm purpose={purpose} profile={existing ? profileFixture : undefined} />} />
+    <Route path="/" element={<><LocaleSwitch /><AudioJobForm purpose={purpose} profile={existing ? profileFixture : undefined} /></>} />
     <Route path="/speaker-jobs/:publicId" element={<p>Saved job route</p>} />
   </Routes></MemoryRouter></IntlProvider>);
 }
 
 describe("audio submission contract", () => {
+  it("submits a new profile without a capacity contract", async () => {
+    const upload = vi.spyOn(SpeakerService, "upload").mockResolvedValue(recording);
+    const create = vi.spyOn(SpeakerService, "createJob").mockResolvedValue(jobFixture);
+    setup("enroll");
+    fireEvent.change(await screen.findByLabelText("Ses dosyası"), { target: { files: [new File(["wav"], "voice.wav")] } });
+    fireEvent.change(screen.getByLabelText("Konuşmacı adı veya takma adı"), { target: { value: "New speaker" } });
+    fireEvent.submit(screen.getByRole("form", { name: "Konuşmacı ses örneği" }));
+    await screen.findByText("Saved job route");
+    expect(upload).toHaveBeenCalledTimes(1);
+    expect(create.mock.calls[0][0]).toEqual({ recording_public_id: recording.public_id, purpose: "enroll", name: "New speaker" });
+  });
+
+  it.each(["tr", "en"])("recognizes an older server profile_limit response in %s as a historical rule", async (locale) => {
+    vi.spyOn(SpeakerService, "upload").mockResolvedValue(recording);
+    const create = vi.spyOn(SpeakerService, "createJob").mockRejectedValue(new ApiError(409, "private backend diagnostic", "profile_limit"));
+    setup("enroll");
+    await screen.findByLabelText("Ses dosyası");
+    if (locale === "en") {
+      fireEvent.click(screen.getByRole("button", { name: "English" }));
+      await screen.findByLabelText("Audio file");
+    }
+    fireEvent.change(screen.getByLabelText(locale === "tr" ? "Konuşmacı adı veya takma adı" : "Speaker name or nickname"), { target: { value: "New speaker" } });
+    fireEvent.change(screen.getByLabelText(locale === "tr" ? "Ses dosyası" : "Audio file"), { target: { files: [new File(["wav"], "voice.wav")] } });
+    fireEvent.submit(screen.getByRole("form", { name: locale === "tr" ? "Konuşmacı ses örneği" : "Speaker voice sample" }));
+    expect(await screen.findByRole("alert")).toHaveTextContent(locale === "tr" ? "Bu kayıt, o sırada geçerli olan profil sınırı nedeniyle reddedildi. Yeni profil oluşturulmadı. Artık yeni bir kayıt başlatabilirsiniz." : "This enrollment was rejected under the profile limit in effect at the time. No new profile was created. You can now start a new enrollment.");
+    expect(create.mock.calls[0][0]).toEqual({ recording_public_id: recording.public_id, purpose: "enroll", name: "New speaker" });
+    expect(screen.queryByText("private backend diagnostic")).not.toBeInTheDocument();
+  });
+
   it("retries a lost job response with the same key and does not repeat the successful upload", async () => {
     const upload = vi.spyOn(SpeakerService, "upload").mockResolvedValue(recording);
     const create = vi.spyOn(SpeakerService, "createJob").mockRejectedValueOnce(new TypeError("network")).mockResolvedValueOnce(jobFixture);

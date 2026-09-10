@@ -1,8 +1,6 @@
 """Local setup preserves dotenv values and never selects an unrelated Compose project."""
 
 import importlib.util
-import shutil
-import subprocess
 from pathlib import Path
 
 import pytest
@@ -76,41 +74,16 @@ def test_runtime_provisioning_parses_quotes_and_pins_project(
 
 
 def test_startup_uses_resolved_port_and_cannot_pull_images(tmp_path: Path) -> None:
-    shell = shutil.which("pwsh") or shutil.which("powershell")
-    if shell is None:
-        pytest.skip("PowerShell is required for the Windows startup entry point")
-    root = tmp_path
-    (root / "scripts").mkdir()
-    (root / "scripts/start-local.ps1").write_text(
-        (SCRIPTS / "start-local.ps1").read_text(), encoding="utf-8"
-    )
-    (root / "app/infra").mkdir(parents=True)
-    (root / "app/infra/.env").write_text("# test-only local configuration\n")
-    (root / "models/speaker-pilot").mkdir(parents=True)
-    (root / "models/speaker-pilot/manifest.json").write_text("{}")
-    # This test replaces Docker with a function. No service, configuration or password is changed.
-    code = r"""
-$global:voiceupTestComposeCalls = @()
-function docker {
-    $global:voiceupTestComposeCalls += ,$args
-    $global:LASTEXITCODE = 0
-    if ($args -contains 'config') {
-        '{"services":{"nginx":{"ports":[{"published":"8173"}]}}}'
-    }
-}
-$output = & ./scripts/start-local.ps1
-if ($output -notcontains 'VoiceUp: http://127.0.0.1:8173') { throw 'Resolved port was not displayed' }
-$up = @($global:voiceupTestComposeCalls | Where-Object { $_ -contains 'up' })
-if ($up.Count -ne 1) { throw 'Expected one mocked startup call' }
-$words = $up[0]
-if ($words[$words.IndexOf('--pull') + 1] -ne 'never') { throw 'Runtime pull was not disabled' }
-if ($words[$words.IndexOf('-p') + 1] -ne 'voiceup') { throw 'Project was not pinned' }
-"""
-    result = subprocess.run(
-        [shell, "-NoProfile", "-NonInteractive", "-Command", code],
-        cwd=root,
-        capture_output=True,
-        text=True,
-        timeout=30,
-    )
+    from test_spark_startup import build_native_docker, calls, make_startup, run_startup
+
+    # The native fixture cannot invoke Docker or change any application service.
+    startup = make_startup(tmp_path, build_native_docker(tmp_path / "native-fixture"))
+    (tmp_path / "models/speaker-pilot").mkdir(parents=True)
+    (tmp_path / "models/speaker-pilot/manifest.json").write_text("{}")
+    result = run_startup(startup, arguments="-Mode Local")
     assert result.returncode == 0, result.stderr
+    assert "VoiceUp: http://127.0.0.1:8173" in result.stdout
+    up = [call for call in calls(startup) if "up" in call]
+    assert len(up) == 1
+    assert up[0][up[0].index("--pull") + 1] == "never"
+    assert up[0][up[0].index("-p") + 1] == "voiceup"

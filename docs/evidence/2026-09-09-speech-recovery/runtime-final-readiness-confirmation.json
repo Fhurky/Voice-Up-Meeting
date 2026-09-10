@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "scope": "Final targeted confirmation of readiness after initial broad probe",
+  "recorded_at": "2026-09-09T13:09:39.629090+00:00",
+  "checks_passed": 4,
+  "checks_failed": 0,
+  "skipped": 0,
+  "checks": [
+    {
+      "check": "loki",
+      "http_status": 200,
+      "expected_http_status": 200,
+      "passed": true
+    },
+    {
+      "check": "tempo",
+      "http_status": 200,
+      "expected_http_status": 200,
+      "passed": true
+    },
+    {
+      "check": "frontend_allowed_host",
+      "http_status": 200,
+      "expected_http_status": 200,
+      "passed": true
+    },
+    {
+      "check": "frontend_unlisted_internal_host",
+      "http_status": 403,
+      "expected_http_status": 403,
+      "passed": true
+    }
+  ],
+  "initial_evidence": "runtime-final-readiness.json",
+  "interpretation": [
+    "Loki and Tempo now return200ready; the earlier probe did not retain exception details, so its failure cause is unconfirmed.",
+    "Vite frontend accepts the public Host forwarded by nginx; an unlisted internal Host receives403. No configuration was changed."
+  ],
+  "service_mutations": 0,
+  "model_extractions": 0
+}

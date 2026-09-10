@@ -1,0 +1,2 @@
+{"stage": "prepare_archive", "split": "train-clean-100"}
+{"stage": "ready", "split": "test", "recordings": 302, "known_speakers": 50, "unknown_speakers": 20, "excluded_speakers": 146, "manifest_sha256": "67fa0170afbe4c3a382a91506cd68d3e635fe7c1d562810c5fe9c2b8ad3c9eb7"}

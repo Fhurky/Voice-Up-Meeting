@@ -1,9 +1,12 @@
 """The standalone service's sole typed environment boundary."""
 
 from pathlib import Path
+from typing import Literal
 
 from pydantic import Field, SecretStr, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+RuntimeProfile = Literal["x86_64-cu128", "aarch64-cu129"]
 
 
 class Settings(BaseSettings):
@@ -14,6 +17,7 @@ class Settings(BaseSettings):
     internal_key: SecretStr
     model_dir: Path = Path("/models/speaker")
     device: str = Field(default="cuda:0", pattern=r"^cuda:[0-9]+$")
+    runtime_profile: RuntimeProfile = "x86_64-cu128"
     max_upload_bytes: int = Field(default=50 * 1024 * 1024, gt=0, le=50 * 1024 * 1024)
     max_duration_seconds: float = Field(default=120, gt=0, le=120, allow_inf_nan=False)
     host: str = "0.0.0.0"

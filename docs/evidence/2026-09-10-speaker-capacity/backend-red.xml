@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="11" skipped="0" tests="11" time="5.651" timestamp="2026-09-10T06:47:36.386826+00:00" hostname="dd7393fbbd42"><testcase classname="tests.unit.test_speaker_identity" name="test_profile_capacity_contract_requires_a_positive_maximum[None]" time="0.019"><failure message="Failed: DID NOT RAISE ValidationError">capacity = None
+
+    @pytest.mark.parametrize("capacity", [None, 0, -1])
+    def test_profile_capacity_contract_requires_a_positive_maximum(capacity: int | None) -&gt; None:
+        payload = {"items": [], "total": 0, "offset": 0, "limit": 20}
+        if capacity is not None:
+            payload["max_profiles"] = capacity
+&gt;       with pytest.raises(ValidationError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValidationError
+
+tests/unit/test_speaker_identity.py:106: Failed</failure></testcase><testcase classname="tests.unit.test_speaker_identity" name="test_profile_capacity_contract_requires_a_positive_maximum[0]" time="0.001"><failure message="Failed: DID NOT RAISE ValidationError">capacity = 0
+
+    @pytest.mark.parametrize("capacity", [None, 0, -1])
+    def test_profile_capacity_contract_requires_a_positive_maximum(capacity: int | None) -&gt; None:
+        payload = {"items": [], "total": 0, "offset": 0, "limit": 20}
+        if capacity is not None:
+            payload["max_profiles"] = capacity
+&gt;       with pytest.raises(ValidationError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValidationError
+
+tests/unit/test_speaker_identity.py:106: Failed</failure></testcase><testcase classname="tests.unit.test_speaker_identity" name="test_profile_capacity_contract_requires_a_positive_maximum[-1]" time="0.001"><failure message="Failed: DID NOT RAISE ValidationError">capacity = -1
+
+    @pytest.mark.parametrize("capacity", [None, 0, -1])
+    def test_profile_capacity_contract_requires_a_positive_maximum(capacity: int | None) -&gt; None:
+        payload = {"items": [], "total": 0, "offset": 0, "limit": 20}
+        if capacity is not None:
+            payload["max_profiles"] = capacity
+&gt;       with pytest.raises(ValidationError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValidationError
+
+tests/unit/test_speaker_identity.py:106: Failed</failure></testcase><testcase classname="tests.integration.test_speaker_pilot" name="test_profile_capacity_admits_fiftieth_and_replays_at_limit" time="0.782"><failure message="KeyError: 'max_profiles'">pilot = Pilot(client=&lt;httpx.AsyncClient object at 0x708da7a52cf0&gt;, sessions=async_sessionmaker(class_='AsyncSession', bind=&lt;sq...app.domain.models.tenant.Tenant object at 0x708da7a51fd0&gt;, user=&lt;app.domain.models.user.User object at 0x708da7a52900&gt;)
+
+    async def test_profile_capacity_admits_fiftieth_and_replays_at_limit(pilot: Pilot) -&gt; None:
+        await seed_capacity_profiles(pilot, 49)
+        source = await pilot.upload()
+        key = str(uuid4())
+        accepted = await pilot.submit(source["public_id"], key=key)
+        finished = await pilot.terminal(accepted)
+        assert finished["status"] == "succeeded"
+        replay = await pilot.submit(source["public_id"], key=key)
+        assert replay == finished
+        page = (await pilot.client.get("/speaker-profiles?limit=1&amp;offset=49")).json()
+&gt;       assert page["total"] == page["max_profiles"] == 50
+                                ^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'max_profiles'
+
+tests/integration/test_speaker_pilot.py:407: KeyError</failure></testcase><testcase classname="tests.integration.test_speaker_pilot" name="test_profile_capacity_rejects_new_jobs_without_mutation[False-50]" time="0.165"><failure message="assert 202 == 409&#10; +  where 202 = &lt;Response [202 Accepted]&gt;.status_code">pilot = Pilot(client=&lt;httpx.AsyncClient object at 0x708da7aa20d0&gt;, sessions=async_sessionmaker(class_='AsyncSession', bind=&lt;sq...app.domain.models.tenant.Tenant object at 0x708da7a64690&gt;, user=&lt;app.domain.models.user.User object at 0x708da7a647d0&gt;)
+existing_count = 50, super_admin = False
+
+    @pytest.mark.parametrize("existing_count", [50, 51])
+    @pytest.mark.parametrize("super_admin", [False, True])
+    async def test_profile_capacity_rejects_new_jobs_without_mutation(
+        pilot: Pilot, existing_count: int, super_admin: bool
+    ) -&gt; None:
+        await seed_capacity_profiles(pilot, existing_count)
+        source = await pilot.upload()
+        if super_admin:
+            token = create_access_token(
+                subject=UUID(pilot.user.public_id),
+                username=pilot.user.username,
+                tenant_id=UUID(pilot.tenant.public_id),
+                roles=[],
+                permissions=[],
+                is_super_admin=True,
+            )
+            pilot.client.headers["Authorization"] = f"Bearer {token}"
+        response = await pilot.client.post(
+            "/speaker-jobs",
+            json={"recording_public_id": source["public_id"], "purpose": "enroll", "name": "Extra"},
+            headers={"Idempotency-Key": str(uuid4())},
+        )
+&gt;       assert response.status_code == 409
+E       assert 202 == 409
+E        +  where 202 = &lt;Response [202 Accepted]&gt;.status_code
+
+tests/integration/test_speaker_pilot.py:451: AssertionError</failure></testcase><testcase classname="tests.integration.test_speaker_pilot" name="test_profile_capacity_rejects_new_jobs_without_mutation[False-51]" time="0.201"><failure message="assert 202 == 409&#10; +  where 202 = &lt;Response [202 Accepted]&gt;.status_code">pilot = Pilot(client=&lt;httpx.AsyncClient object at 0x708da7b86d50&gt;, sessions=async_sessionmaker(class_='AsyncSession', bind=&lt;sq...app.domain.models.tenant.Tenant object at 0x708da7b85810&gt;, user=&lt;app.domain.models.user.User object at 0x708da7b86710&gt;)
+existing_count = 51, super_admin = False
+
+    @pytest.mark.parametrize("existing_count", [50, 51])
+    @pytest.mark.parametrize("super_admin", [False, True])
+    async def test_profile_capacity_rejects_new_jobs_without_mutation(
+        pilot: Pilot, existing_count: int, super_admin: bool
+    ) -&gt; None:
+        await seed_capacity_profiles(pilot, existing_count)
+        source = await pilot.upload()
+        if super_admin:
+            token = create_access_token(
+                subject=UUID(pilot.user.public_id),
+                username=pilot.user.username,
+                tenant_id=UUID(pilot.tenant.public_id),
+                roles=[],
+                permissions=[],
+                is_super_admin=True,
+            )
+            pilot.client.headers["Authorization"] = f"Bearer {token}"
+        response = await pilot.client.post(
+            "/speaker-jobs",
+            json={"recording_public_id": source["public_id"], "purpose": "enroll", "name": "Extra"},
+            headers={"Idempotency-Key": str(uuid4())},
+        )
+&gt;       assert response.status_code == 409
+E       assert 202 == 409
+E        +  where 202 = &lt;Response [202 Accepted]&gt;.status_code
+
+tests/integration/test_speaker_pilot.py:451: AssertionError</failure></testcase><testcase classname="tests.integration.test_speaker_pilot" name="test_profile_capacity_rejects_new_jobs_without_mutation[True-50]" time="0.168"><failure message="assert 202 == 409&#10; +  where 202 = &lt;Response [202 Accepted]&gt;.status_code">pilot = Pilot(client=&lt;httpx.AsyncClient object at 0x708da7986780&gt;, sessions=async_sessionmaker(class_='AsyncSession', bind=&lt;sq...app.domain.models.tenant.Tenant object at 0x708da7984180&gt;, user=&lt;app.domain.models.user.User object at 0x708da7985e00&gt;)
+existing_count = 50, super_admin = True
+
+    @pytest.mark.parametrize("existing_count", [50, 51])
+    @pytest.mark.parametrize("super_admin", [False, True])
+    async def test_profile_capacity_rejects_new_jobs_without_mutation(
+        pilot: Pilot, existing_count: int, super_admin: bool
+    ) -&gt; None:
+        await seed_capacity_profiles(pilot, existing_count)
+        source = await pilot.upload()
+        if super_admin:
+            token = create_access_token(
+                subject=UUID(pilot.user.public_id),
+                username=pilot.user.username,
+                tenant_id=UUID(pilot.tenant.public_id),
+                roles=[],
+                permissions=[],
+                is_super_admin=True,
+            )
+            pilot.client.headers["Authorization"] = f"Bearer {token}"
+        response = await pilot.client.post(
+            "/speaker-jobs",
+            json={"recording_public_id": source["public_id"], "purpose": "enroll", "name": "Extra"},
+            headers={"Idempotency-Key": str(uuid4())},
+        )
+&gt;       assert response.status_code == 409
+E       assert 202 == 409
+E        +  where 202 = &lt;Response [202 Accepted]&gt;.status_code
+
+tests/integration/test_speaker_pilot.py:451: AssertionError</failure></testcase><testcase classname="tests.integration.test_speaker_pilot" name="test_profile_capacity_rejects_new_jobs_without_mutation[True-51]" time="0.163"><failure message="assert 202 == 409&#10; +  where 202 = &lt;Response [202 Accepted]&gt;.status_code">pilot = Pilot(client=&lt;httpx.AsyncClient object at 0x708da7a4d350&gt;, sessions=async_sessionmaker(class_='AsyncSession', bind=&lt;sq...app.domain.models.tenant.Tenant object at 0x708da7a4d940&gt;, user=&lt;app.domain.models.user.User object at 0x708da7a4d5b0&gt;)
+existing_count = 51, super_admin = True
+
+    @pytest.mark.parametrize("existing_count", [50, 51])
+    @pytest.mark.parametrize("super_admin", [False, True])
+    async def test_profile_capacity_rejects_new_jobs_without_mutation(
+        pilot: Pilot, existing_count: int, super_admin: bool
+    ) -&gt; None:
+        await seed_capacity_profiles(pilot, existing_count)
+        source = await pilot.upload()
+        if super_admin:
+            token = create_access_token(
+                subject=UUID(pilot.user.public_id),
+                username=pilot.user.username,
+                tenant_id=UUID(pilot.tenant.public_id),
+                roles=[],
+                permissions=[],
+                is_super_admin=True,
+            )
+            pilot.client.headers["Authorization"] = f"Bearer {token}"
+        response = await pilot.client.post(
+            "/speaker-jobs",
+            json={"recording_public_id": source["public_id"], "purpose": "enroll", "name": "Extra"},
+            headers={"Idempotency-Key": str(uuid4())},
+        )
+&gt;       assert response.status_code == 409
+E       assert 202 == 409
+E        +  where 202 = &lt;Response [202 Accepted]&gt;.status_code
+
+tests/integration/test_speaker_pilot.py:451: AssertionError</failure></testcase><testcase classname="tests.integration.test_speaker_pilot" name="test_profile_capacity_allows_append_identify_and_delete_frees_slot" time="0.226"><failure message="AssertionError: {'public_id': 'e565ceaf-70ce-439e-be06-38b5426611ea', 'purpose': 'enroll', 'status': 'queued', 'recording_public_id': 'babb4699-ff1d-452a-9ff2-0d3634eb834a', ...}&#10;assert 'queued' == 'succeeded'&#10;  &#10;  - succeeded&#10;  + queued">pilot = Pilot(client=&lt;httpx.AsyncClient object at 0x708da7475490&gt;, sessions=async_sessionmaker(class_='AsyncSession', bind=&lt;sq...app.domain.models.tenant.Tenant object at 0x708da748bbf0&gt;, user=&lt;app.domain.models.user.User object at 0x708da748b410&gt;)
+
+    async def test_profile_capacity_allows_append_identify_and_delete_frees_slot(pilot: Pilot) -&gt; None:
+&gt;       source, _, enrolled = await pilot.enroll()
+                              ^^^^^^^^^^^^^^^^^^^^
+
+tests/integration/test_speaker_pilot.py:466: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = Pilot(client=&lt;httpx.AsyncClient object at 0x708da7475490&gt;, sessions=async_sessionmaker(class_='AsyncSession', bind=&lt;sq...app.domain.models.tenant.Tenant object at 0x708da748bbf0&gt;, user=&lt;app.domain.models.user.User object at 0x708da748b410&gt;)
+
+    async def enroll(self) -&gt; tuple[dict, dict, dict]:
+        source = await self.upload()
+        job = await self.submit(source["public_id"])
+        result = await self.terminal(job)
+&gt;       assert result["status"] == "succeeded", result
+E       AssertionError: {'public_id': 'e565ceaf-70ce-439e-be06-38b5426611ea', 'purpose': 'enroll', 'status': 'queued', 'recording_public_id': 'babb4699-ff1d-452a-9ff2-0d3634eb834a', ...}
+E       assert 'queued' == 'succeeded'
+E         
+E         - succeeded
+E         + queued
+
+tests/integration/test_speaker_pilot.py:155: AssertionError</failure></testcase><testcase classname="tests.integration.test_speaker_pilot" name="test_profile_capacity_counts_all_revisions_but_not_deleted_or_foreign" time="0.494"><failure message="AssertionError: {'public_id': '52635a47-b89e-430f-88ef-2e2773036384', 'purpose': 'enroll', 'status': 'queued', 'recording_public_id': 'a10b2bce-4857-4605-90c1-825d44df3e50', ...}&#10;assert 'queued' == 'succeeded'&#10;  &#10;  - succeeded&#10;  + queued">pilot = Pilot(client=&lt;httpx.AsyncClient object at 0x708da7442250&gt;, sessions=async_sessionmaker(class_='AsyncSession', bind=&lt;sq...app.domain.models.tenant.Tenant object at 0x708da7440e20&gt;, user=&lt;app.domain.models.user.User object at 0x708da7441480&gt;)
+
+    async def test_profile_capacity_counts_all_revisions_but_not_deleted_or_foreign(pilot: Pilot) -&gt; None:
+        async with pilot.sessions() as session, session.begin():
+            foreign = Tenant(code=f"capacity-{uuid4().hex}", name="Other workspace")
+            session.add(foreign)
+            await session.flush()
+        await seed_capacity_profiles(pilot, 48)
+        await seed_capacity_profiles(pilot, 1, model_revision="previous-revision")
+        await seed_capacity_profiles(pilot, 50, deleted=True)
+        await seed_capacity_profiles(pilot, 50, tenant_id=foreign.tenant_id)
+&gt;       source, _, _ = await pilot.enroll()
+                       ^^^^^^^^^^^^^^^^^^^^
+
+tests/integration/test_speaker_pilot.py:495: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = Pilot(client=&lt;httpx.AsyncClient object at 0x708da7442250&gt;, sessions=async_sessionmaker(class_='AsyncSession', bind=&lt;sq...app.domain.models.tenant.Tenant object at 0x708da7440e20&gt;, user=&lt;app.domain.models.user.User object at 0x708da7441480&gt;)
+
+    async def enroll(self) -&gt; tuple[dict, dict, dict]:
+        source = await self.upload()
+        job = await self.submit(source["public_id"])
+        result = await self.terminal(job)
+&gt;       assert result["status"] == "succeeded", result
+E       AssertionError: {'public_id': '52635a47-b89e-430f-88ef-2e2773036384', 'purpose': 'enroll', 'status': 'queued', 'recording_public_id': 'a10b2bce-4857-4605-90c1-825d44df3e50', ...}
+E       assert 'queued' == 'succeeded'
+E         
+E         - succeeded
+E         + queued
+
+tests/integration/test_speaker_pilot.py:155: AssertionError</failure></testcase><testcase classname="tests.integration.test_speaker_pilot" name="test_profile_capacity_serializes_two_workers_for_last_slot" time="0.428"><failure message="AssertionError: assert ['queued', 'queued'] == ['failed', 'succeeded']&#10;  &#10;  At index 0 diff: 'queued' != 'failed'&#10;  Use -v to get more diff">pilot = Pilot(client=&lt;httpx.AsyncClient object at 0x708da7442e00&gt;, sessions=async_sessionmaker(class_='AsyncSession', bind=&lt;sq...app.domain.models.tenant.Tenant object at 0x708da7447b50&gt;, user=&lt;app.domain.models.user.User object at 0x708da74439b0&gt;)
+
+    async def test_profile_capacity_serializes_two_workers_for_last_slot(pilot: Pilot) -&gt; None:
+        await seed_capacity_profiles(pilot, 49)
+        source = await pilot.upload()
+        keys = [str(uuid4()), str(uuid4())]
+        jobs = [await pilot.submit(source["public_id"], key=key) for key in keys]
+        barrier = asyncio.Barrier(2)
+    
+        class ConcurrentEmbeddingProvider(FixtureEmbeddingProvider):
+            async def embed(
+                self,
+                audio: bytes,
+                *,
+                purpose: Literal["enroll", "identify"],
+                job_public_id: str,
+                tenant_public_id: str,
+            ) -&gt; EmbeddingResult:
+                result = await super().embed(
+                    audio,
+                    purpose=purpose,
+                    job_public_id=job_public_id,
+                    tenant_public_id=tenant_public_id,
+                )
+                await barrier.wait()
+                return result
+    
+        provider = ConcurrentEmbeddingProvider()
+        worker = SpeakerWorker(pilot.sessions, AudioStorage(pilot.settings), provider, pilot.settings)
+        async with asyncio.timeout(15):
+            assert await asyncio.gather(worker.process_once(), worker.process_once()) == [True, True]
+        results = [(await pilot.client.get(f"/speaker-jobs/{job['public_id']}")).json() for job in jobs]
+&gt;       assert sorted(result["status"] for result in results) == ["failed", "succeeded"]
+E       AssertionError: assert ['queued', 'queued'] == ['failed', 'succeeded']
+E         
+E         At index 0 diff: 'queued' != 'failed'
+E         Use -v to get more diff
+
+tests/integration/test_speaker_pilot.py:536: AssertionError</failure></testcase></testsuite></testsuites>

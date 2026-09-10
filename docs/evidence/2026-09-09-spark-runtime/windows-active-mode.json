@@ -1,0 +1,30 @@
+{
+  "mode": "spark",
+  "private_upstream_ipv4": "192.168.65.254",
+  "private_upstream_port": 18090,
+  "source": "Docker host-gateway alias; derived on nginx startup, not source-coded IP",
+  "services": {
+    "backend": {
+      "status": "running",
+      "user": "10001:10001",
+      "read_only": false,
+      "inference_url": "http://nginx:9080"
+    },
+    "worker": {
+      "status": "running",
+      "user": "10001:10001",
+      "read_only": false,
+      "inference_url": "http://nginx:9080"
+    },
+    "nginx": {
+      "status": "running",
+      "user": "101:101",
+      "read_only": true
+    },
+    "inference": {
+      "status": "exited",
+      "user": "10001:10001",
+      "read_only": true
+    }
+  }
+}

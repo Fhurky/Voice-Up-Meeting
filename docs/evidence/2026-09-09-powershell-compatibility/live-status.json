@@ -1,0 +1,19 @@
+{
+  "read_only": true,
+  "observations": [
+    {
+      "timestamp": "2026-09-09T10:33:25.1695430Z",
+      "engine": "5.1.26100.9444",
+      "timestamp_type": "System.String",
+      "status": "ready",
+      "pid": 19460
+    },
+    {
+      "status": "ready",
+      "engine": "7.6.5",
+      "timestamp": "2026-09-09T10:33:25.1695430Z",
+      "pid": 19460,
+      "timestamp_type": "System.String"
+    }
+  ]
+}

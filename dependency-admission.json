@@ -34,7 +34,9 @@
         "app/devops/charts/**/values.yaml",
         "app/backend/Dockerfile.dev",
         "app/inference/Dockerfile",
-        "app/inference/Dockerfile.offline"
+        "app/inference/Dockerfile.offline",
+        "app/inference/Dockerfile.spark",
+        "app/inference/compose.spark.yml"
       ]
     },
     {
@@ -50,14 +52,18 @@
     {
       "kind": "alpine-lock",
       "path": "app/infra/backend-apk.lock"
+    },
+    {
+      "kind": "requirements",
+      "path": "app/inference/requirements.spark.in"
     }
   ],
   "decision": {
-    "id": "VOICEUP-LOCAL-PILOT-DEPENDENCIES-2026-09-09",
+    "id": "VOICEUP-SPARK-ARTIFACT-SOURCES-2026-09-09",
     "reviewed_on": "2026-09-09",
-    "inventory_sha256": "598d8820d7a596b0306975777225a79453edd570cc8d8bf878ee1abab40cdd41",
-    "spec_path": "specs/speaker-identity/PRDs/001-local-speaker-pilot/PRD.md",
-    "review_scope": "Local pilot artifact/source and compatibility review; this is not bank release admission or a security-scan pass.",
+    "inventory_sha256": "abf1a5d81b9344531dd52f334a62404b4a49955831ad3b4504760fe320102ba9",
+    "spec_path": "specs/speaker-identity/PRDs/004-spark-remote-inference/PRD.md",
+    "review_scope": "Local Spark build/source evaluation under the accepted remote-inference capability, independently checked against official artifact metadata, followed by recorded native ARM64 and real GB10 compatibility checks. Existing x86 evaluation remains admitted. The Spark relay reuses the existing admitted nginx digest; its authority adds no unique inventory coordinate. This is not a security scan, owner acceptance or production-release claim.",
     "compatibility_evidence": [
       "docs/evidence/2026-09-08-local-speaker-pilot/package-releases.json: new backend packages released more than30 days ago",
       "docs/evidence/2026-09-08-local-speaker-pilot/inference-package-releases.json: runtime release dates",
@@ -66,9 +72,21 @@
       "Backend immutable-image installation verified CPython3.13, soundfile0.14.0 and libsndfile1.2.2; runtime role has DML only and no schema CREATE.",
       "Final full application gate passed59backendtests (44unit,15realPostgreSQL) and21frontendtests; finalcontractregressionreport and JUnit are in docs/evidence/2026-09-08-local-speaker-pilot/.",
       "Dockerfile.offline reuses the reviewed Python base digest and107uniqueartifactcoordinates. Its62hash-verifiedwheel install passed with network disabled; this is now Compose default. See app/inference/evidence/offline-build.log and wheelhouse-verification.json.",
-      "RealRTX4060CUDA/network-noneHTTPsmoke passed12checks; normalized192dimensionalECAPA on torch2.8.0+cu128; see app/inference/evidence/cuda-smoke.json. This is runtimecompatibility evidence, notspeakeraccuracy orbankadmission."
+      "RealRTX4060CUDA/network-noneHTTPsmoke passed12checks; normalized192dimensionalECAPA on torch2.8.0+cu128; see app/inference/evidence/cuda-smoke.json. This is runtimecompatibility evidence, notspeakeraccuracy orbankadmission.",
+      "docs/evidence/2026-09-09-spark-preflight/arm64-source-review.json: independent metadata closure and exact source review passed for48 artifacts,67active dependency edges;46exact artifacts and all9recent baseline pins retained. No version downgrade or fresh maturity exception.",
+      "docs/evidence/2026-09-09-spark-preflight/python-base-platforms.json: same existing Python3.13.14 OCI index includes linux/arm64/v8; index bytes verified against its pinned digest.",
+      "app/inference/requirements.spark.txt is deterministically generated from spark-wheelhouse-manifest.json by scripts/prepare-spark-wheelhouse.py. All 48 artifacts passed full size/hash verification on Spark; native networking-disabled installation and pip check passed. See docs/evidence/2026-09-09-spark-runtime/native-build.txt.",
+      "docs/evidence/2026-09-09-spark-runtime/cuda-import-probe.json and cuda-smoke.json: real GB10 tensor and 9 HTTP checks passed with CUDA12.9/Torch2.8.0, VAD and normalized 192-dimensional ECAPA. Torch warns its compiled architecture list ends at SM120 while GB10 reports SM121; the observed tests passed, but do not establish all-kernel compatibility or speaker accuracy.",
+      "64inference tests passed including28runtime-profile tests. Explicit architecture/Torch/CUDA guards preserve default x86_64-cu128 and opt-in aarch64-cu129; no CPU fallback. These tests use model doubles, not GPU hardware."
     ],
-    "supersedes": "KT-DEPENDENCY-BASELINE-2026-08-11"
+    "supersedes": "VOICEUP-LOCAL-PILOT-DEPENDENCIES-2026-09-09",
+    "artifact_bindings": {
+      "app/inference/requirements.spark.in": "db031496e3b7c1fc6742d7d930f8bbfcf82ebdf76d500b276aa114f33d27c3fe",
+      "app/inference/requirements.spark.txt": "6f2880fab78cf65116e0276ff8f1ecef603137760833a7d4744e2cfb17730e8a",
+      "app/inference/spark-wheelhouse-manifest.json": "9dd28dbad5e2afa38733bf831c5f27e7225285f1d9c261ae2fb2d78ea5d5b807",
+      "app/inference/Dockerfile.spark": "fff98f5b802f3f37bdf11fb5db8818d0e506831facafc807946439761b872ce4",
+      "docs/evidence/2026-09-09-spark-preflight/arm64-source-review.json": "3d270716a25ab24d93db201da394411d09eb9ef547dff3a364d1f177d00b1904"
+    }
   },
   "exceptions": [],
   "release_evidence": [
@@ -219,6 +237,22 @@
       "released_on": "2026-08-05",
       "release_evidence": "https://hub.docker.com/_/python",
       "digest": "sha256:67a1e1f215ccda113cfc024e8639049257e88f273898f595b61476d128d387e8"
+    },
+    {
+      "artifact": "torch",
+      "version": "2.8.0+cu129",
+      "released_on": "2025-08-06",
+      "release_evidence": "https://pytorch.org/blog/pytorch-2-8/",
+      "source": "https://download.pytorch.org/whl/cu129/torch/",
+      "scope": "CP313 aarch64 CUDA12.9 artifact of the existing stable2.8 release; source manifest selects exact publisher bytes."
+    },
+    {
+      "artifact": "torchaudio",
+      "version": "2.8.0",
+      "released_on": "2025-08-06",
+      "release_evidence": "https://pypi.org/pypi/torchaudio/2.8.0/json",
+      "source": "https://download.pytorch.org/whl/cu129/torchaudio/",
+      "scope": "CP313 aarch64 CUDA12.9 artifact; identical PyPI filename is not interchangeable. Manifest/hash locks exact PyTorch publisher bytes."
     }
   ],
   "retained_existing_pins": [

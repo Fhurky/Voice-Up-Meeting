@@ -7,6 +7,7 @@ from typing import Literal
 MODEL_ID = "speechbrain/spkrec-ecapa-voxceleb"
 MODEL_REVISION = "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286"
 DIMENSIONS = 192
+PreprocessingVersion = Literal["vad-windows-v1", "vad-packed-fallback-v1"]
 
 
 def normalize_name(value: str) -> str:
@@ -24,7 +25,7 @@ def normalize(vector: list[float]) -> list[float]:
 
 @dataclass(frozen=True, slots=True)
 class MatchPolicy:
-    match_threshold: float = 0.75
+    match_threshold: float = 0.55
     new_threshold: float = 0.45
     margin: float = 0.10
 

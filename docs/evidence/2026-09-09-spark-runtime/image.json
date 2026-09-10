@@ -1,0 +1,13 @@
+{
+  "Id": "sha256:4b409e3a894b9e719e9785517bab922a8f52a1f74e69f387d6c815a0e39d8db3",
+  "RepoTags": [
+    "voiceup-inference:spark-4dd1012e1ff3"
+  ],
+  "RepoDigests": [],
+  "Created": "2026-09-09T12:04:39.010402127+03:00",
+  "Architecture": "arm64",
+  "Os": "linux",
+  "Size": 6431112499,
+  "configured_user": "10001:10001",
+  "source_release_sha256": "4dd1012e1ff3edf09ab04c49a70ab6c61f7638bf9f0a93907c784b71e32434e5"
+}

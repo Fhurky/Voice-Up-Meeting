@@ -1,0 +1,10 @@
+{
+  "event": "sampling_started",
+  "pid": 165845,
+  "remote_output": "/home/lab_nvidia1/voiceup-runtime/benchmark-memory-t7rfog7c.json",
+  "duration_seconds": 90,
+  "interval_seconds": 1,
+  "model_calls_performed": false,
+  "dispatched_at_utc": "2026-09-09T09:30:34.998733+00:00",
+  "launcher_sha256": "382a60364447366b50462b144a669a30b878f087c07748c9745be5d4855bf8e1"
+}

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="10" time="6.383" timestamp="2026-09-10T09:52:38.102265+03:00" hostname="DESKTOP-RJ78JKH"><testcase classname="tests.test_public_speaker_evaluation" name="test_noncapacity_or_malformed_conflict_stays_fail_closed[payload0]" time="0.608" /><testcase classname="tests.test_public_speaker_evaluation" name="test_noncapacity_or_malformed_conflict_stays_fail_closed[payload1]" time="0.595" /><testcase classname="tests.test_public_speaker_evaluation" name="test_noncapacity_or_malformed_conflict_stays_fail_closed[payload2]" time="0.586" /><testcase classname="tests.test_public_speaker_evaluation" name="test_noncapacity_or_malformed_conflict_stays_fail_closed[payload3]" time="0.601" /><testcase classname="tests.test_public_speaker_evaluation" name="test_noncapacity_or_malformed_conflict_stays_fail_closed[payload4]" time="0.600" /><testcase classname="tests.test_public_speaker_evaluation" name="test_noncapacity_or_malformed_conflict_stays_fail_closed[payload5]" time="0.628" /><testcase classname="tests.test_public_speaker_evaluation" name="test_noncapacity_or_malformed_conflict_stays_fail_closed[{&quot;detail&quot;:{&quot;code&quot;:&quot;profile_limit&quot;},&quot;detail&quot;:{&quot;code&quot;:&quot;profile_limit&quot;}}]" time="0.665" /><testcase classname="tests.test_public_speaker_evaluation" name="test_noncapacity_or_malformed_conflict_stays_fail_closed[{&quot;detail&quot;:{&quot;code&quot;:&quot;profile_limit&quot;},&quot;extra&quot;:NaN}]" time="0.629"><failure message="AssertionError: assert 2 == 1&#10; +  where 2 = &lt;built-in method count of list object at 0x0000023AF19A5E00&gt;(('POST', '/api/voiceup/v1/speaker-jobs'))&#10; +    where &lt;built-in method count of list object at 0x0000023AF19A5E00&gt; = [('POST', '/api/voiceup/v1/auth/login'), ('GET', '/api/voiceup/v1/speaker-profiles?offset=0&amp;limit=100'), ('GET', '/api...dings'), ('POST', '/api/voiceup/v1/speaker-jobs'), ('GET', '/api/voiceup/v1/speaker-profiles?offset=0&amp;limit=100'), ...].count">evaluation = &lt;module 'public_speaker_evaluation' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\evaluate-public-speakers.py'&gt;
+tmp_path = WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-153/test_noncapacity_or_malformed_7')
+api_server = {'calls': [('POST', '/api/voiceup/v1/auth/login'), ('GET', '/api/voiceup/v1/speaker-profiles?offset=0&amp;limit=100'), ('G...er-profiles?offset=0&amp;limit=100'), ...], 'change_gallery': False, 'change_policy': False, 'fail_enrollment': False, ...}
+payload = b'{"detail":{"code":"profile_limit"},"extra":NaN}'
+
+    @pytest.mark.parametrize(
+        "payload",
+        [
+            {"detail": {"code": "idempotency_conflict", "message": "PRIVATE-BODY"}},
+            {"detail": {"code": "profile_limit_private", "message": "PRIVATE-BODY"}},
+            {"detail": "profile_limit"},
+            {"detail": [{"code": "profile_limit"}]},
+            {"detail": {"code": ["profile_limit"]}},
+            {"code": "profile_limit"},
+            b'{"detail":{"code":"profile_limit"},"detail":{"code":"profile_limit"}}',
+            b'{"detail":{"code":"profile_limit"},"extra":NaN}',
+            b'{"detail":{"code":"profile_limit"}',
+            {"detail": {"code": "profile_limit", "message": "x" * 20000}},
+        ],
+    )
+    def test_noncapacity_or_malformed_conflict_stays_fail_closed(
+        evaluation, tmp_path, api_server, payload
+    ):
+        api_server["submission_error"] = payload
+        runner = runner_fixture(evaluation, tmp_path, api_server)
+        with pytest.raises(evaluation.EvaluationError, match="^http_409$"):
+            runner.execute()
+&gt;       assert api_server["calls"].count(("POST", "/api/voiceup/v1/speaker-jobs")) == 1
+E       AssertionError: assert 2 == 1
+E        +  where 2 = &lt;built-in method count of list object at 0x0000023AF19A5E00&gt;(('POST', '/api/voiceup/v1/speaker-jobs'))
+E        +    where &lt;built-in method count of list object at 0x0000023AF19A5E00&gt; = [('POST', '/api/voiceup/v1/auth/login'), ('GET', '/api/voiceup/v1/speaker-profiles?offset=0&amp;limit=100'), ('GET', '/api...dings'), ('POST', '/api/voiceup/v1/speaker-jobs'), ('GET', '/api/voiceup/v1/speaker-profiles?offset=0&amp;limit=100'), ...].count
+
+tests\test_public_speaker_evaluation.py:557: AssertionError</failure></testcase><testcase classname="tests.test_public_speaker_evaluation" name="test_noncapacity_or_malformed_conflict_stays_fail_closed[{&quot;detail&quot;:{&quot;code&quot;:&quot;profile_limit&quot;}]" time="0.643" /><testcase classname="tests.test_public_speaker_evaluation" name="test_noncapacity_or_malformed_conflict_stays_fail_closed[payload9]" time="0.642" /></testsuite></testsuites>

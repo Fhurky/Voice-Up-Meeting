@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "status": "complete",
+  "split": "calibration",
+  "manifest_sha256": "8744077635a58ec928f04bc16f6ec0fcc7820241beb7c1866d6d4a704b599097",
+  "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+  "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+  "policy": {
+    "match_threshold": 0.75,
+    "new_threshold": 0.45,
+    "margin": 0.1
+  },
+  "operation_count": 142,
+  "job_status_counts": {
+    "succeeded": 127,
+    "failed": 15
+  },
+  "device_counts": {
+    "cuda:0": 127
+  },
+  "stages": [
+    {
+      "gallery_size_planned": 10,
+      "gallery_size_enrolled": 7,
+      "enrollment_failed": 3,
+      "counts": {
+        "known_completed": 30,
+        "known_job_failed": 3,
+        "known_recognized": 5,
+        "known_unknown": 8,
+        "known_ambiguous": 14,
+        "unknown_completed": 100,
+        "unknown_job_failed": 9,
+        "unknown_recognized": 0,
+        "unknown_unknown": 91,
+        "unknown_ambiguous": 0,
+        "known_planned": 30,
+        "unknown_planned": 100,
+        "known_correct": 5,
+        "known_wrong": 0,
+        "known_rejected": 22,
+        "unknown_false_accepted": 0,
+        "known_not_run": 0,
+        "unknown_not_run": 0
+      },
+      "rates": {
+        "DIR": 0.16666666666666666,
+        "known_misidentification": 0.0,
+        "FPIR_observed_lower_bound": 0.0,
+        "FPIR_worst_case_upper_bound": 0.09,
+        "unknown_detection_recall": 0.91
+      },
+      "all_planned_probes_terminal": true,
+      "by_source_split": {
+        "dev-clean": {
+          "known_planned": 9,
+          "unknown_planned": 60,
+          "known_correct": 4,
+          "known_wrong": 0,
+          "known_ambiguous": 1,
+          "known_unknown": 2,
+          "unknown_false_accepted": 0,
+          "unknown_unknown": 55,
+          "unknown_ambiguous": 0,
+          "known_job_failed": 2,
+          "unknown_job_failed": 5
+        },
+        "dev-other": {
+          "known_planned": 21,
+          "unknown_planned": 40,
+          "known_correct": 1,
+          "known_wrong": 0,
+          "known_ambiguous": 13,
+          "known_unknown": 6,
+          "unknown_false_accepted": 0,
+          "unknown_unknown": 36,
+          "unknown_ambiguous": 0,
+          "known_job_failed": 1,
+          "unknown_job_failed": 4
+        }
+      },
+      "error_counts": {
+        "inconsistent_audio": 5,
+        "insufficient_speech": 7
+      },
+      "speaker_cluster_intervals": {
+        "DIR": {
+          "method": "speaker-cluster percentile bootstrap, fixed seed, 95%",
+          "samples": 2000,
+          "speakers": 10,
+          "probes": 30,
+          "point": 0.16666666666666666,
+          "lower": 0.03333333333333333,
+          "upper": 0.3333333333333333,
+          "all_outcomes_identical": false,
+          "limitation": "A degenerate interval does not establish zero population risk; finite speakers, shared conditions and unobserved outcomes limit inference."
+        },
+        "FPIR_observed_lower_bound": {
+          "method": "speaker-cluster percentile bootstrap, fixed seed, 95%",
+          "samples": 2000,
+          "speakers": 20,
+          "probes": 100,
+          "point": 0.0,
+          "lower": 0.0,
+          "upper": 0.0,
+          "all_outcomes_identical": true,
+          "limitation": "A degenerate interval does not establish zero population risk; finite speakers, shared conditions and unobserved outcomes limit inference."
+        }
+      },
+      "execution": {
+        "count": 130,
+        "p50_seconds": 0.126361,
+        "p95_seconds": 0.171524,
+        "max_seconds": 0.230566
+      },
+      "queue": {
+        "count": 130,
+        "p50_seconds": 0.413626,
+        "p95_seconds": 1.732788,
+        "max_seconds": 2.010557
+      }
+    }
+  ],
+  "return_phase": {
+    "enrollment_succeeded": 1,
+    "queries": 1,
+    "correct": 0,
+    "failed": 0
+  },
+  "limitations": [
+    "English read speech; source chapters are separate, actual days and microphones are unverified.",
+    "Prepared utterance joins are artificial; mixed speakers, long meetings and Turkish remain untested.",
+    "All scheduled known probes stay in DIR denominator, including quality failures.",
+    "Unknown failures are not successful rejections. Observed FPIR and worst-case bounds must be read together.",
+    "Speaker-cluster bootstrap is descriptive; zero observed false accepts is not a population guarantee.",
+    "Nested galleries reuse probes and are not independent replications."
+  ],
+  "private_source_report_sha256": "6927db775eadafcdb87fbb80fc7fe42543e52064817ad4937d7034563c11ee41"
+}

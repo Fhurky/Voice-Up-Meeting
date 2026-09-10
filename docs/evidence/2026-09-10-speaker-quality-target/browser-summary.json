@@ -1,0 +1,16 @@
+{
+  "origin": "http://127.0.0.1:8081",
+  "auth": "normal login form, ordinary permitted user; no token injection",
+  "locales": ["tr", "en"],
+  "profile_total": 51,
+  "acceptance_points_passed": 6,
+  "observed_per_locale": [
+    "profile total and editable enrollment name/file fields",
+    "append-sample target and enabled file/cancel controls",
+    "historical profile_limit message permits a new enrollment"
+  ],
+  "console_warning_or_error_entries": [],
+  "browser_mutations": "unsent name input, opening/cancelling append form, locale changes and login/logout only",
+  "permanent_playwright_runner_executed": false,
+  "model_accuracy_evidence": false
+}

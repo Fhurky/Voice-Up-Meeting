@@ -1,0 +1,86 @@
+{
+  "checked_on": "2026-09-09",
+  "ssh_transport": "project-scoped public key; StrictHostKeyChecking=yes; existing host key alias preserved",
+  "ssh_connection": "192.168.137.1 60048 192.168.137.2 22",
+  "windows_route": {
+    "interface": "Ethernet",
+    "source": "192.168.137.1",
+    "destination_prefix": "192.168.137.0/24"
+  },
+  "spark_ipv4": [
+    {
+      "ifindex": 2,
+      "ifname": "enP7s7",
+      "flags": [
+        "BROADCAST",
+        "MULTICAST",
+        "UP",
+        "LOWER_UP"
+      ],
+      "mtu": 1500,
+      "qdisc": "mq",
+      "operstate": "UP",
+      "group": "default",
+      "txqlen": 1000,
+      "altnames": [
+        "enP7p1s0"
+      ],
+      "addr_info": [
+        {
+          "family": "inet",
+          "local": "192.168.137.2",
+          "prefixlen": 24,
+          "broadcast": "192.168.137.255",
+          "scope": "global",
+          "noprefixroute": true,
+          "label": "enP7s7",
+          "valid_life_time": 4294967295,
+          "preferred_life_time": 4294967295
+        }
+      ]
+    }
+  ],
+  "spark_routes": [
+    {
+      "dst": "default",
+      "gateway": "10.19.57.254",
+      "dev": "wlP9s9",
+      "protocol": "static",
+      "metric": 600,
+      "flags": []
+    },
+    {
+      "dst": "10.19.57.0/24",
+      "dev": "wlP9s9",
+      "protocol": "kernel",
+      "scope": "link",
+      "prefsrc": "10.19.57.150",
+      "metric": 600,
+      "flags": []
+    },
+    {
+      "dst": "172.17.0.0/16",
+      "dev": "docker0",
+      "protocol": "kernel",
+      "scope": "link",
+      "prefsrc": "172.17.0.1",
+      "flags": [
+        "linkdown"
+      ]
+    },
+    {
+      "dst": "192.168.137.0/24",
+      "dev": "enP7s7",
+      "protocol": "kernel",
+      "scope": "link",
+      "prefsrc": "192.168.137.2",
+      "metric": 100,
+      "flags": []
+    }
+  ],
+  "docker_group_present": true,
+  "docker_version": "29.2.1",
+  "docker_architecture": "aarch64",
+  "gpu_mechanism": "native CDI nvidia.com/gpu=0, existing specification; no sudo/daemon reconfiguration",
+  "wifi_default_preserved": true
+}

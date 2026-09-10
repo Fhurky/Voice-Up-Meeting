@@ -1,0 +1,205 @@
+{
+  "checks_passed": 11,
+  "checks": [
+    {
+      "method": "GET",
+      "path": "/ready",
+      "status": 200,
+      "elapsed_seconds": 0.0030385110003408045
+    },
+    {
+      "method": "POST",
+      "path": "/v1/embeddings?purpose=identify",
+      "status": 401,
+      "elapsed_seconds": 0.0015872240001044702
+    },
+    {
+      "method": "POST",
+      "path": "/v1/embeddings?purpose=identify",
+      "status": 401,
+      "elapsed_seconds": 0.0007171849993028445
+    },
+    {
+      "method": "HEAD",
+      "path": "/ready",
+      "status": 405,
+      "elapsed_seconds": 0.00024180299988074694
+    },
+    {
+      "method": "POST",
+      "path": "/ready",
+      "status": 405,
+      "elapsed_seconds": 0.00020856400078628212
+    },
+    {
+      "method": "GET",
+      "path": "/v1/embeddings",
+      "status": 405,
+      "elapsed_seconds": 0.0005161439985386096
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/embeddings",
+      "status": 405,
+      "elapsed_seconds": 0.0004421089997777017
+    },
+    {
+      "method": "GET",
+      "path": "/live",
+      "status": 404,
+      "elapsed_seconds": 0.0003525669999362435
+    },
+    {
+      "method": "GET",
+      "path": "/ready/extra",
+      "status": 404,
+      "elapsed_seconds": 0.0004144060003454797
+    },
+    {
+      "method": "POST",
+      "path": "/v1/embeddings",
+      "status": 413,
+      "elapsed_seconds": 0.00036281000029703137
+    },
+    {
+      "method": "POST",
+      "path": "/v1/embeddings?purpose=identify",
+      "status": 200,
+      "elapsed_seconds": 0.17272666300050332
+    }
+  ],
+  "ready": {
+    "ready": true,
+    "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+    "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+    "dimensions": 192,
+    "device": "cuda:0"
+  },
+  "constructed_fixture_result_without_embedding": {
+    "speech_seconds": 26.886,
+    "windows_count": 5,
+    "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+    "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+    "dimensions": 192,
+    "device": "cuda:0",
+    "quality": {
+      "input_seconds": 30.0,
+      "vad_speech_seconds": 29.666,
+      "min_pair_similarity": 0.9415029250561605,
+      "single_speaker_assumption": true,
+      "execution_seconds": 0.16570398600015324,
+      "gpu_peak_allocated_bytes": 189954560,
+      "gpu_peak_reserved_bytes": 211812352,
+      "gpu_memory_scope": "pytorch_process_including_resident_models"
+    }
+  },
+  "fixture_sha256": "bdc68e3362aed22d18a5b9f50b7467323ed13db7871452c3c6972bb1a7f13ff9",
+  "job_id": "0b43706e-4e2f-458a-b4f1-27b24ce32bac",
+  "tenant_id": "9e5549af-3a7a-46cc-8099-2871b6c030ea",
+  "job_correlation_observed": true,
+  "sensitive_values_absent_from_inference_logs": true,
+  "listener": "LISTEN 0      4096   127.0.0.1:8090 0.0.0.0:*",
+  "lan_connections": [
+    {
+      "address": "192.168.137.2",
+      "port": 8090,
+      "errno": 111,
+      "connection": "blocked"
+    },
+    {
+      "address": "10.19.57.150",
+      "port": 8090,
+      "errno": 111,
+      "connection": "blocked"
+    }
+  ],
+  "model_egress": {
+    "ipv4_default_route": false,
+    "blocked_tcp_connections": [
+      {
+        "family": "AF_INET",
+        "errno": 101
+      },
+      {
+        "family": "AF_INET6",
+        "errno": 101
+      }
+    ]
+  },
+  "containers": {
+    "inference": {
+      "id": "9264dd74a5586f2b5ad9610d4921e21854631391f2b6633cb4324fef6b81552a",
+      "image_id": "sha256:4b409e3a894b9e719e9785517bab922a8f52a1f74e69f387d6c815a0e39d8db3",
+      "user": "10001:10001",
+      "readonly": true,
+      "cap_drop": [
+        "ALL"
+      ],
+      "security_opt": [
+        "no-new-privileges:true"
+      ],
+      "tmpfs": {
+        "/tmp": "rw,nosuid,nodev,size=536870912"
+      },
+      "device_requests": [
+        {
+          "Driver": "cdi",
+          "Count": 0,
+          "DeviceIDs": [
+            "nvidia.com/gpu=0"
+          ],
+          "Capabilities": null,
+          "Options": null
+        }
+      ],
+      "networks": [
+        "voiceup-spark_inference"
+      ],
+      "ports": {
+        "8090/tcp": null
+      },
+      "restart_policy": {
+        "Name": "unless-stopped",
+        "MaximumRetryCount": 0
+      },
+      "health": "healthy"
+    },
+    "relay": {
+      "id": "2b8bee346247709edc3b73cf8fb9dc736fc21eabd8bf8773bee5268a8dc0c162",
+      "image_id": "sha256:28c4e91555d001bb0f6b2796e565bfa75302711a0d6e67c5562eb2f7d54d2483",
+      "user": "101:101",
+      "readonly": true,
+      "cap_drop": [
+        "ALL"
+      ],
+      "security_opt": [
+        "no-new-privileges:true"
+      ],
+      "tmpfs": {
+        "/tmp": "rw,nosuid,nodev,size=16777216,mode=1777",
+        "/var/cache/nginx": "rw,nosuid,nodev,size=16777216,mode=1777",
+        "/var/run": "rw,nosuid,nodev,size=1048576,mode=1777"
+      },
+      "device_requests": null,
+      "networks": [
+        "voiceup-spark_edge",
+        "voiceup-spark_inference"
+      ],
+      "ports": {
+        "80/tcp": null,
+        "8090/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "8090"
+          }
+        ]
+      },
+      "restart_policy": {
+        "Name": "unless-stopped",
+        "MaximumRetryCount": 0
+      },
+      "health": null
+    }
+  },
+  "scope": "Real Spark host loopback relay to private inference; no Windows tunnel or application queue measured"
+}

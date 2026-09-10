@@ -1,0 +1,49 @@
+{
+  "container_id": "9d5b275a5b97720cf620fc75395ee9821d92bb463bfaf744f1ac669ddeeab9d8",
+  "host_to_private_container_ready": {
+    "ready": true,
+    "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+    "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+    "dimensions": 192,
+    "device": "cuda:0"
+  },
+  "host_to_private_container_auth": [
+    {
+      "key": "missing",
+      "status": 401,
+      "body": {
+        "detail": {
+          "code": "unauthorized",
+          "message": "Internal service authentication required"
+        }
+      }
+    },
+    {
+      "key": "invalid",
+      "status": 401,
+      "body": {
+        "detail": {
+          "code": "unauthorized",
+          "message": "Internal service authentication required"
+        }
+      }
+    }
+  ],
+  "egress": {
+    "ipv4_default_route": false,
+    "external_tcp_connect": [
+      {
+        "family": "AF_INET",
+        "errno": 101,
+        "connection": "blocked"
+      },
+      {
+        "family": "AF_INET6",
+        "errno": 101,
+        "connection": "blocked"
+      }
+    ]
+  },
+  "loopback_8090_ready": false,
+  "scope": "Internal model network is isolated; loopback ingress remains unresolved"
+}

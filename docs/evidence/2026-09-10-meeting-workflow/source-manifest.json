@@ -1,0 +1,41 @@
+{
+  "profile": "kt-vibecoding-python-web-v2",
+  "provenance": "local-executed",
+  "scope": "documentation only; no product feature test",
+  "broken_local_links": 0,
+  "git_diff_check_exit": 0,
+  "files": [
+    {
+      "path": "specs/speaker-identity/PRDs/002-long-recording-analysis/PRD.md",
+      "sha256": "6970814c97762066c5c50ccb80117cdaf842bd12084f9a6269edf55f46c6f109"
+    },
+    {
+      "path": "specs/speaker-identity/PRDs/002-long-recording-analysis/plan.md",
+      "sha256": "9a2754332c2a9f08f016e4f5b2d4e8cc0e595fd0f48752537d2b5d6f2f60d9c7"
+    },
+    {
+      "path": "specs/speaker-identity/PRDs/002-long-recording-analysis/tasks.md",
+      "sha256": "4125a74b3f18cf25fa986e7096b45f16f3ff072f25221f4f22bd0802fa98a1cb"
+    },
+    {
+      "path": "specs/speaker-identity/PRDs/003-live-speaker-analysis/PRD.md",
+      "sha256": "593e32d152ef1e7c184d312019d1e3a7c6fd464d69033d7200b676e15d710f7f"
+    },
+    {
+      "path": "specs/speaker-identity/DOMAIN.md",
+      "sha256": "9a1f067dea1d34ef51dc0c4f655e127ca4447205273415c09f3011d8e7a8cef3"
+    },
+    {
+      "path": "specs/speaker-identity/roadmap.md",
+      "sha256": "e0657487146efdf6eac93d241fb11f78969bb4798487ca03983aa4f1c7355c71"
+    },
+    {
+      "path": "docs/MEETING_WORKFLOW.md",
+      "sha256": "1ef510c81918fdce23030fd917e1e468a89279cb14a79551ed8b9fb752a8f37f"
+    },
+    {
+      "path": "docs/LONG_RECORDING_STRATEGY.md",
+      "sha256": "b5af0ce2fb89d79ed5821ff5d23b9920176435b56b49edcb3bc1c42cd47717d1"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "source_container": "voiceup-backend-1",
+  "source_image": "sha256:e04840120dcc7386f8e612439fff10d72908db0bfef7e225dafe05168eba1994",
+  "target_image": "sha256:695540dfb6b391c7956ae6868a753cfcd2e08f88cae0bdbdfed04c8a1ddc5785",
+  "test_tools_versions": {
+    "certifi": "2026.7.22",
+    "h11": "0.16.0",
+    "httpcore": "1.0.9",
+    "httpx": "0.28.1",
+    "iniconfig": "2.3.0",
+    "packaging": "26.3",
+    "pluggy": "1.6.0",
+    "pygments": "2.20.0",
+    "pytest": "9.1.1"
+  },
+  "lock": "app/backend/requirements-dev.txt",
+  "lock_sha256": "856588ce59a4cee8673492f16582b742a11863b94ccc011d48e9d04810e091c3",
+  "overlay_archive_sha256": "8b3357ae907ca04233943efc075819f8332c6055bc680abce413a4b8a91b2699",
+  "overlay_file_count": 599,
+  "native_files_copied": false,
+  "downloads": false,
+  "installs": false,
+  "gpu_enabled": false,
+  "network": "none",
+  "root_filesystem": "read-only",
+  "plugin_autoload": false,
+  "supplemental_pytest_file": {
+    "path": "py.py",
+    "sha256": "b71675b5d9845ba0814e9e88767f88dac3b3cc0d3128da028bd45edbb523e871"
+  }
+}

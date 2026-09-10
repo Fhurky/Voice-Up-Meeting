@@ -1,0 +1,15 @@
+{
+  "source": "resolved Compose configuration; no service recreation performed by this check",
+  "services": {
+    "backend": {
+      "VOICEUP_SPEAKER_MATCH_MARGIN": "0.10",
+      "VOICEUP_SPEAKER_MATCH_THRESHOLD": "0.55",
+      "VOICEUP_SPEAKER_NEW_THRESHOLD": "0.45"
+    },
+    "worker": {
+      "VOICEUP_SPEAKER_MATCH_MARGIN": "0.10",
+      "VOICEUP_SPEAKER_MATCH_THRESHOLD": "0.55",
+      "VOICEUP_SPEAKER_NEW_THRESHOLD": "0.45"
+    }
+  }
+}

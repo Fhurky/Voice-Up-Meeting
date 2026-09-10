@@ -1,0 +1,22 @@
+{
+  "profile_id": "kt-vibecoding-python-web-v2",
+  "metrics_protocol": "voiceup-open-set-v1",
+  "files": [
+    {
+      "path": "docs/SPEAKER_METRICS.md",
+      "sha256": "e657dd604848d5dfbc1c6f02d7d4d6991639602c147aebff5b996d43aa91eede"
+    },
+    {
+      "path": "scripts/speaker_metrics.py",
+      "sha256": "325dd4fa4b526bb2611064b450f922522842cbbe735017a715d06ad8445ae449"
+    },
+    {
+      "path": "scripts/report-public-speakers.py",
+      "sha256": "7ab5e20d6344668f4c15610979d79bbbd106c072d7997ef5a87ede7fa29f2a1a"
+    },
+    {
+      "path": "tests/test_public_speaker_metrics.py",
+      "sha256": "ff7bf75c893e6650f8fef9432cb416138e1ada35057eb9218d31cf1a105d6616"
+    }
+  ]
+}

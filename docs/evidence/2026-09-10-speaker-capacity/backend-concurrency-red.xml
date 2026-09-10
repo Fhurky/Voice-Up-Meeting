@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="3.533" timestamp="2026-09-10T06:48:06.019524+00:00" hostname="dd7393fbbd42"><testcase classname="tests.integration.test_speaker_pilot" name="test_profile_capacity_serializes_two_workers_for_last_slot" time="0.962"><failure message="AssertionError: assert ['succeeded', 'succeeded'] == ['failed', 'succeeded']&#10;  &#10;  At index 0 diff: 'succeeded' != 'failed'&#10;  Use -v to get more diff">pilot = Pilot(client=&lt;httpx.AsyncClient object at 0x730fe3fd63c0&gt;, sessions=async_sessionmaker(class_='AsyncSession', bind=&lt;sq...app.domain.models.tenant.Tenant object at 0x730fe3fd56a0&gt;, user=&lt;app.domain.models.user.User object at 0x730fe3fd5fd0&gt;)
+
+    async def test_profile_capacity_serializes_two_workers_for_last_slot(pilot: Pilot) -&gt; None:
+        await seed_capacity_profiles(pilot, 49)
+        source = await pilot.upload()
+        keys = [str(uuid4()), str(uuid4())]
+        jobs = [await pilot.submit(source["public_id"], key=key) for key in keys]
+        barrier = asyncio.Barrier(2)
+    
+        class ConcurrentEmbeddingProvider(FixtureEmbeddingProvider):
+            async def embed(
+                self,
+                audio: bytes,
+                *,
+                purpose: Literal["enroll", "identify"],
+                job_public_id: str,
+                tenant_public_id: str,
+            ) -&gt; EmbeddingResult:
+                result = await super().embed(
+                    audio,
+                    purpose=purpose,
+                    job_public_id=job_public_id,
+                    tenant_public_id=tenant_public_id,
+                )
+                await barrier.wait()
+                return result
+    
+        provider = ConcurrentEmbeddingProvider()
+        worker = SpeakerWorker(pilot.sessions, AudioStorage(pilot.settings), provider, pilot.settings)
+        async with asyncio.timeout(15):
+            assert await asyncio.gather(worker.process_once(), worker.process_once()) == [True, True]
+        results = [(await pilot.client.get(f"/speaker-jobs/{job['public_id']}")).json() for job in jobs]
+&gt;       assert sorted(result["status"] for result in results) == ["failed", "succeeded"]
+E       AssertionError: assert ['succeeded', 'succeeded'] == ['failed', 'succeeded']
+E         
+E         At index 0 diff: 'succeeded' != 'failed'
+E         Use -v to get more diff
+
+tests/integration/test_speaker_pilot.py:536: AssertionError</failure></testcase></testsuite></testsuites>

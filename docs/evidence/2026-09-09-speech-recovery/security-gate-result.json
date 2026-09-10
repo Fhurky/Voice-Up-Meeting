@@ -1,0 +1,7 @@
+{
+  "command": [
+    "scripts/security-gate.sh"
+  ],
+  "exit_code": 2,
+  "elapsed_seconds": 0.11
+}

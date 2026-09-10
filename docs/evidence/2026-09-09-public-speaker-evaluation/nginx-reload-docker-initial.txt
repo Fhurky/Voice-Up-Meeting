@@ -1,0 +1,157 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+_ test_nginx_reload_refreshes_replaced_backend_and_checks_active_private_config _
+
+compose_models = {'local': {'name': 'voiceup-transport-test', 'networks': {'default': {'name': 'voiceup-transport-test_default', 'ipam'...{'name': 'voiceup-transport-test_loki_data'}, 'postgres_data': {'name': 'voiceup-transport-test_postgres_data'}, ...}}}
+tmp_path = WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-130/test_nginx_reload_refreshes_re0')
+
+    @pytest.mark.skipif(
+        os.environ.get("RUN_DOCKER_TRANSPORT") != "1",
+        reason="Explicit Docker transport verification uses a disposable internal network",
+    )
+    def test_nginx_reload_refreshes_replaced_backend_and_checks_active_private_config(
+        compose_models, tmp_path
+    ):
+        """Exercise real cached upstream addresses without touching any application container."""
+        image = compose_models["remote"]["services"]["nginx"]["image"]
+        match = re.search(
+            r"(?m)^\s+\$nginxReloadCommand = '([^'\r\n]+)'$",
+            (ROOT / "scripts/start-local.ps1").read_text(encoding="utf-8-sig"),
+        )
+        assert match is not None, "The launcher must provide its bounded active-config reload"
+        reload_command = match[1]
+        suffix = secrets.token_hex(6)
+        network, proxy = f"voiceup-reload-{suffix}", f"voiceup-reload-proxy-{suffix}"
+        old_backend, new_backend = f"voiceup-reload-old-{suffix}", f"voiceup-reload-new-{suffix}"
+        created = []
+        network_created = False
+    
+        def docker(*args, check=True):
+            result = subprocess.run(["docker", *args], capture_output=True, timeout=20, check=False)
+            if check:
+                assert result.returncode == 0, result.stderr.decode(errors="replace")[-2048:]
+            return result
+    
+        def server_config(body):
+            return (
+                "worker_processes 1; pid /tmp/nginx.pid; error_log /dev/stderr; "
+                "events {} http { access_log off; server { listen 8080; "
+                f'location / {{ return 200 "{body}"; }}'
+                "} }\n"
+            )
+    
+        for filename, body in (("old.conf", "old-backend"), ("new.conf", "new-backend")):
+            (tmp_path / filename).write_text(server_config(body), encoding="utf-8")
+        private = tmp_path / "private.conf"
+        private.write_text("server { listen 9080; return 204; }\n", encoding="utf-8")
+        (tmp_path / "proxy.conf").write_text(
+            "worker_processes 1; pid /tmp/nginx.pid; error_log /dev/stderr; "
+            "events {} http { access_log off; include /fixture/private.conf; "
+            "server { listen 8080; location / { proxy_connect_timeout 1s; "
+            "proxy_next_upstream off; proxy_pass http://backend:8080; } } }\n",
+            encoding="utf-8",
+        )
+    
+        def start(name, config, *, address=None, alias=None):
+            arguments = [
+                "run",
+                "-d",
+                "--rm",
+                "--pull",
+                "never",
+                "--name",
+                name,
+                "--network",
+                network,
+                "--read-only",
+                "--user",
+                "101:101",
+                "--cap-drop",
+                "ALL",
+                "--security-opt",
+                "no-new-privileges",
+                "--tmpfs",
+                "/tmp:size=16777216,mode=1777",
+                "--tmpfs",
+                "/var/cache/nginx:size=16777216,mode=1777",
+                "--mount",
+                f"type=bind,source={tmp_path},target=/fixture,readonly",
+            ]
+            if address:
+                arguments.extend(["--ip", address])
+            if alias:
+                arguments.extend(["--network-alias", alias])
+            if name == proxy:
+                arguments.extend(
+                    [
+                        "--entrypoint",
+                        "/bin/sh",
+                        image,
+                        "-c",
+                        "mkdir /tmp/voiceup-spark.fixture; cp /fixture/proxy.conf /tmp/voiceup-spark.fixture/nginx.conf; "
+                        "exec nginx -c /tmp/voiceup-spark.fixture/nginx.conf -g 'daemon off;'",
+                    ]
+                )
+            else:
+                arguments.extend(
+                    ["--entrypoint", "nginx", image, "-c", f"/fixture/{config}", "-g", "daemon off;"]
+                )
+            docker(*arguments)
+            created.append(name)
+    
+        def probe(host="127.0.0.1"):
+            return docker(
+                "exec",
+                proxy,
+                "wget",
+                "-qO-",
+                "-T",
+                "2",
+                f"http://{host}:8080/api/voiceup/v1/readiness",
+                check=False,
+            )
+    
+        def wait_for(body, host="127.0.0.1"):
+            deadline = time.monotonic() + 15
+            while time.monotonic() < deadline:
+                result = probe(host)
+                if result.returncode == 0 and result.stdout == body:
+                    return
+                time.sleep(0.1)
+            pytest.fail("Disposable nginx did not reach the expected fixture backend")
+    
+        try:
+            docker("network", "create", "--internal", network)
+            network_created = True
+            config = json.loads(docker("network", "inspect", network).stdout)[0]
+            subnet = ipaddress.ip_network(config["IPAM"]["Config"][0]["Subnet"])
+            assert subnet.version == 4 and subnet.num_addresses > 16
+            old_address, new_address = (
+                str(subnet.network_address + 10),
+                str(subnet.network_address + 11),
+            )
+            start(old_backend, "old.conf", address=old_address, alias="backend")
+            start(proxy, "proxy.conf")
+            wait_for(b"old-backend")
+    
+            private.write_text("invalid-private-directive;\n", encoding="utf-8")
+            rejected = docker("exec", proxy, "sh", "-c", reload_command, check=False)
+            assert rejected.returncode != 0
+            assert b"private.conf" in rejected.stderr
+            wait_for(b"old-backend")
+            private.write_text("server { listen 9080; return 204; }\n", encoding="utf-8")
+    
+            docker("rm", "--force", old_backend)
+            created.remove(old_backend)
+            start(new_backend, "new.conf", address=new_address, alias="backend")
+            wait_for(b"new-backend", host="backend")
+            stale = probe()
+>           assert stale.returncode != 0 and b"502" in stale.stderr
+E           AssertionError: assert (1 != 0 and b'502' in b'wget: server returned error: HTTP/1.1 504 Gateway Time-out\n')
+E            +  where 1 = CompletedProcess(args=['docker', 'exec', 'voiceup-reload-proxy-3967cce294d8', 'wget', '-qO-', '-T', '2', 'http://127.0...iceup/v1/readiness'], returncode=1, stdout=b'', stderr=b'wget: server returned error: HTTP/1.1 504 Gateway Time-out\n').returncode
+E            +  and   b'wget: server returned error: HTTP/1.1 504 Gateway Time-out\n' = CompletedProcess(args=['docker', 'exec', 'voiceup-reload-proxy-3967cce294d8', 'wget', '-qO-', '-T', '2', 'http://127.0...iceup/v1/readiness'], returncode=1, stdout=b'', stderr=b'wget: server returned error: HTTP/1.1 504 Gateway Time-out\n').stderr
+
+tests\test_spark_transport_config.py:164: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_spark_transport_config.py::test_nginx_reload_refreshes_replaced_backend_and_checks_active_private_config
+1 failed, 13 deselected in 6.77s

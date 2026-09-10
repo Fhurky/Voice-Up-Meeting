@@ -1,0 +1,12 @@
+{
+  "host_memory_bytes": {
+    "MemTotal": 130663165952,
+    "MemFree": 1434587136,
+    "MemAvailable": 21944778752,
+    "SwapTotal": 17179865088,
+    "SwapFree": 17179291648
+  },
+  "nvidia_smi_returncode": 0,
+  "nvidia_smi_memory_query": "NVIDIA GB10, [N/A], [N/A], [N/A]",
+  "scope": "Read-only sampler preparation; no workload or GPU computation"
+}

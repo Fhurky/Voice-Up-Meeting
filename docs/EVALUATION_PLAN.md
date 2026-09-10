@@ -1,15 +1,86 @@
 # Türkçe toplantılarda konuşmacı tanıma değerlendirme planı
 
-Plan tarihi ve kaynaklara erişim tarihi: **8 Eylül 2026**. Bu belge önerilen deney ve kabul ölçütlerini tanımlar. Henüz toplanmış Türkçe test kümesi, ölçülmüş model doğruluğu veya üretim garantisi bulunmuyor. Aşağıdaki sayısal hedefler başlangıç hedefidir; pilot sonuçlarla gözden geçirilecek.
+Plan tarihi: **8 Eylül 2026**; uygulama ve veri durumu **9 Eylül 2026** tarihinde
+güncellendi. Bu belge Türkçe toplantılar için önerilen deneyleri ve kabul
+ölçütlerini tanımlar. Açık İngilizce veride yapılan ölçümler ayrı kanıttır;
+temsilî Türkçe toplantı kümesi ve üretim doğruluğu garantisi henüz bulunmuyor.
+Aşağıdaki sayısal hedefler başlangıç hedefidir; pilot sonuçlarla gözden geçirilecek.
 
 ## 9 Eylül güncellemesi
 
-Güncel ilk deney **RTX 4060** üzerindedir. Gerçek CUDA akışı ve tekrarlı teknik örnekle hız doğrulandı;
-farklı oturumlarda kişi tanıma doğruluğu henüz ölçülmedi. [Veri toplama kiti](DATA_COLLECTION.md)
-001/T09 için beş kayıtlı + iki bilinmeyen kişiyle 30 ilk kayıt ve 2 sonraki kayıt hazırlar.
-Bu küçük başlangıç deneyi aşağıdaki daha büyük veri planının veya 50 kişi hedefinin yerine geçmez.
+İlk **RTX 4060** deneyi, gerçek CUDA akışını ve tekrarlı teknik örnekle hızı
+doğruladı. Güncel model hesaplamaları Ethernet ve SSH üzerinden **NVIDIA DGX
+Spark** üzerinde çalışıyor; Windows uygulama, iş kuyruğu ve veritabanını barındırıyor.
+[Spark çalışma kılavuzu](SPARK_RUNTIME.md) bağlantı ve başlatma koşullarını açıklar.
+
+[Açık veri protokolü](PUBLIC_DATASET_PROTOCOL.md) için LibriSpeech'in gelişim ve
+test arşivlerinden **birbirinden ayrı 140 İngilizce konuşmacı ve 604 ses parçası**
+hazırlandı. Kalibrasyon ve kör test havuzlarının her biri, kaydedilmesi planlanan
+50 kişi ve başlangıçta bilinmeyen 20 kişi içeriyor. Kayıt ve sorgular farklı kitap
+bölümlerinden gelir; bu ayrım farklı gün veya mikrofon kanıtı değildir. Veri
+sayıları, başarılı profil veya doğru tanıma sayısı olarak sunulmaz.
+
+Kalibrasyon, varsayılan tanıma eşiği ile kalite nedeniyle reddedilen kayıtları
+ayrı incelemeye imkân verdi. Seçilen aday **tanıma eşiği 0,55; bilinmeyen eşiği
+0,45; aday farkı 0,10** olarak
+[sabit politika dosyasına](evidence/2026-09-09-public-speaker-evaluation/selected-policy.json)
+kaydedildi. Bu seçim yalnızca kalibrasyona dayanır. Spark'ta doğrudan model ve
+skor hesabıyla üretilen teşhis tablosu, gerçek uygulama üzerinden ölçümün yerine
+geçmez; adayın uygulama koşumu ve kör test sonuçları ayrı raporlanır. Bu plan
+kör test için tahminî başarı sayısı içermez.
+
+Tamamlanan gerçek uygulama koşumu: kalibrasyonda 40/50 profil ve 109/150 doğru
+tanıma; ayrı testte 29/50 profil ve 77/150 (%51,3) doğru tanıma. Testte 26 bilinen
+sorgu ile 20/100 bilinmeyen sorgu kalite hatası verdi; yeni kişi kaydı ve dönüşü
+de başarısız oldu. Yanlış kimlik gözlenmedi, fakat yüksek doğruluk hedefi
+karşılanmadı. [Sonuçlar ve tüm paydalar](evidence/2026-09-09-public-speaker-evaluation/README.md)
+hangi kayıtların dışarıda bırakılmadığını ve kalan kabul eksiklerini gösterir.
+
+[Türkçe veri toplama kiti](DATA_COLLECTION.md) 001/T09 için beş kayıtlı + iki
+bilinmeyen kişiyle 30 ilk kayıt ve iki sonraki kayıt hazırlar. Bu temsilî veri
+gereksinimi sürer; İngilizce açık veri, Türkçe toplantı kabulünün yerine geçmez.
 Sıra **gerçek kişi doğruluğu → uzun dosyalarda bölümleme ve kimlik sürekliliği → canlı analiz**;
 [uzun kayıt stratejisi](LONG_RECORDING_STRATEGY.md) deney parametrelerini ve sınırları tanımlar.
+
+## Tekrarlanabilir açık veri koşumu
+
+9 Eylül ölçüm genişletmesi: [konuşmacı ölçüm protokolü](SPEAKER_METRICS.md), kimlik
+precision/recall/micro F1, kişilere eşit ağırlıklı macro F1 ve bilinmeyen F1'i
+tanımlar. `VoiceUp Score` son iki değerin harmonik ortalamasından üretilen ayrı
+0–100 bileşik skordur; standart F1 veya doğruluk yüzdesi değildir. İlk kayıt
+kapsamı ve kalite hataları ayrıca gösterilir. Mevcut raporların bu protokolle
+yeniden puanlanması yeni model deneyi veya mevcut kabul hedeflerinin değişmesi
+anlamına gelmez.
+
+Sabit teknoloji profili `kt-vibecoding-python-web-v2` korunur. Hazırlama aracı
+`scripts/prepare-public-speaker-dataset.py`, uygulama koşucusu
+`scripts/evaluate-public-speakers.py`, anonim özetleyici
+`scripts/report-public-speakers.py` hazırdır. Ayrıntılı PowerShell komutları
+[açık veri protokolünde](PUBLIC_DATASET_PROTOCOL.md) bulunur.
+
+Kalibrasyon adayı ve kör test farklı, başlangıçta boş değerlendirme tenant'ları
+ve ayrı durum dosyaları kullanır. Aday komutlarında
+`--policy docs/evidence/2026-09-09-public-speaker-evaluation/selected-policy.json`
+belirtilmelidir. Bu seçenek servis ayarlarını değiştirmez; uygulamanın döndürdüğü
+politikanın beklenen değerlerle eşleşmesini denetler. Seçenek verilmezse koşucu
+ilk ölçümü tekrarlamak için tarihsel 0,75 tanıma eşiğini bekler.
+
+Sesler ve manifestler Git dışında tutulan `data/public-speaker-evaluation/`
+altında; kimlik bilgileri, ham sonuçlar, kişi/iş kimlikleri ve devam durumu
+`outputs/public-speaker-evaluation/` altında kalır. Paylaşılabilir kanıt, ayrı
+özetleyicinin ürettiği kimliksiz toplamları kullanır. Hazırlayıcının manifest
+SHA-256 değeri dosyanın ham baytlarını, koşucunun aynı adlı alanı ise anahtarları
+sıralanmış, gereksiz boşlukları kaldırılmış JSON içeriğini özetler. Özetleyici koşucunun kanonik değerini
+korur ve ham sonuç dosyasının özetini ayrıca kaydeder; bu değerler birbirinin
+yerine karşılaştırılmaz.
+
+Planlanan galeri büyüklüğü ile gerçekten kaydedilen profil sayısı ayrı tutulur.
+Kayıt hataları o kişinin sorgularını paydadan çıkarmaz. İşlemlerin tamamlanması
+tanıma hedefinin geçtiği anlamına gelmez; yanlış kimlik, belirsiz, bilinmeyen,
+kalite hatası ve çalıştırılmayan sorgu ayrı görünür. Bilinmeyen sorguların hata
+durumları doğru reddetme sayılmaz. İç içe 5/10/20/50 galerileri aynı sorguları
+yeniden kullandığından bağımsız deneyler değildir. Türkçe, gerçek toplantı,
+örtüşen konuşmacılar, uzun kayıt ve canlı akış kabulü açık kalır.
 
 ## Başarı tanımı
 
@@ -17,12 +88,12 @@ Başarı yalnızca bir kayıtta beş farklı etiket üretmek değildir. Aynı ki
 
 İki ölçeği ayrı raporlayacağız:
 
-- **Kayıtlı kişi sayısı:** Kimlik deposunda 5, 10, 20 ve 50 kişi.
+- **Kayıtlı kişi sayısı:** Birincil doğruluk odağı yaklaşık 50 kişi; 5, 10, 20 ve 50 ana ölçekler, 100/200 ek ölçek deneyleridir. Ürün profil sayısını 50'de engellemez.
 - **Bir toplantıda konuşan kişi sayısı:** Önce 2–5, sonra 10 ve 20; 50 kişilik toplantı ayrı stres testi. Depoda 50 kişinin olması 50 kişinin aynı anda konuştuğu anlamına gelmez. Overlap oranı bağımsız eksendir.
 
 ## Veri ve doğru cevaplar
 
-İlk pilot için katılımı kabul eden 10–15 kişiyle veri toplanıp protokol doğrulanacak. Ölçek testi için öneri, en az 50 kayıtlı ve 20 ayrı bilinmeyen konuşmacıdır. Her kayıtlı kişiden en az üç ayrı oturum, mümkünse iki farklı mikrofon alınacak. Bunlar asgari ürün garantisi değil, veri toplama başlangıç planıdır.
+İlk pilot için katılımı kabul eden 10–15 kişiyle veri toplanıp protokol doğrulanacak. Ölçek testi 50 kayıtlı ve 20 ayrı bilinmeyen konuşmacıyla yapılacak; bilinmeyen sorguları profillere eklenmediği için kapasiteyi kullanmaz. Her kayıtlı kişiden en az üç ayrı oturum, mümkünse iki farklı mikrofon alınacak. Bunlar asgari ürün garantisi değil, veri toplama başlangıç planıdır.
 
 | Kayıt türü | Önerilen içerik | Amaç |
 | --- | --- | --- |
@@ -70,13 +141,16 @@ Ana ölçüm gerçek insan kaydıyla yapılacak. Sentetik ses, saf ton veya tek 
 
 ## Deney matrisi
 
-İlk ürün doğruluk deneyi **RTX 4060 Laptop / 8 GB, ayrı CUDA servisi** üzerinde yapılacak.
-Nihai ölçek cihazı **NVIDIA DGX Spark / GB10, Linux ARM64, 128 GB ortak bellek** olacaktır.
-İlk Windows/CPU yazılım doğrulaması ve tekrarlı teknik CUDA hız deneyi ayrı referanslardır. Adaylar önce aynı FP32 ve
+İlk teknik referans **RTX 4060 Laptop / 8 GB, ayrı CUDA servisi** üzerinde alındı.
+Güncel açık veri kimlik değerlendirmesi **NVIDIA DGX Spark / GB10, Linux ARM64,
+128 GB ortak bellek** üzerinde yürütülür. İlk Windows/CPU yazılım doğrulaması ve
+tekrarlı teknik CUDA hız deneyi ayrı referanslardır. Model adayları önce aynı FP32 ve
 ses penceresi koşullarında karşılaştırılacak; ardından desteklenen hassasiyet, parti
 boyutu ve 1/2/4 eşzamanlı kayıt deneyleri raporlanacak. Ortak bellek, GPU allocator ve
 sistem kullanılabilir belleğiyle izlenecek; CPU/GPU rakamları toplanmayacak. Ayrıntılar
-[DGX_SPARK_PLAN.md](DGX_SPARK_PLAN.md) içinde; henüz Spark ölçümü yapılmamıştır.
+[DGX_SPARK_PLAN.md](DGX_SPARK_PLAN.md) içindedir; gerçekleşen Spark işletim ve hız
+kanıtı [çalışma kılavuzunda](SPARK_RUNTIME.md) izlenir. Hız kanıtı kişi doğruluğu
+sonucu olarak yorumlanmaz.
 
 | Eksen | Başlangıç değerleri |
 | --- | --- |
@@ -106,6 +180,6 @@ Her oran örnek sayısıyla ve güven aralığıyla verilecek. Aynı kişinin y�
 3. Altıncı kişi girdiğinde ilk beşten birine yanlış kabul edilmez; yeni aday olarak belirlenir, yeterli kanıtla altıncı kimlik kaydedilir.
 4. Üçüncü toplantıda altıncı kişi doğru tanınır. Diğer beş kişinin kayıtları değişmemiş kimliklerle tanınmaya devam eder.
 5. Belirsiz kısa söz, sessizlik ve iki kişinin eşzamanlı konuşması tek başına kalıcı profil açmaz veya var olan profili değiştirmez.
-6. Aynı senaryo 10, 20 ve 50 kişilik galerilerle yinelenir; gerçek ses sonuçları yazılım testlerinden ayrı raporlanır.
+6. Aynı senaryo 10, 20 ve 50 kişilik galerilerle yinelenir; gerçek ses sonuçları yazılım testlerinden ayrı raporlanır. Galeride 50 aktif profil olsa da yeni kişi normal kayıt kurallarıyla eklenebilir. 100/200 kişilik ek ölçek sonuçları ayrı verilir; toplantıya katılan kişi sayısı ve toplam kalıcı profil sayısı aynı sayılmak zorunda değildir.
 
 Önce tek konuşmacılı gerçek veri baseline'ı, sonra uzun toplantı dosyalarında bu senaryo doğrulanır; ardından canlı kimlik analizi gelir. Transkript hizalama ve toplantı platformu bağlantısı ayrıca ele alınacak. İlk değerlendirme araçları yalnızca embedding eşleştirmesini ölçüyorsa burada tanımlanan uçtan uca DER ve zaman ağırlıklı kimlik ölçümleri tamamlanmış sayılmayacak.

@@ -1,0 +1,86 @@
+{
+    "date":  "2026-09-10",
+    "profile":  "kt-vibecoding-python-web-v2",
+    "provenance":  "local-executed",
+    "environment":  "Windows Git Bash and local Docker; Python 3.13; migrated disposable PostgreSQL",
+    "gate_path":  "scripts/quality-gate.sh",
+    "gate_sha256":  "fdeb865c6f9e9db5c9bea7bbe425233475c24f4418183f62679048f4f105636a",
+    "wrapper":  "Temporary shells outside the repository reuse the quality-gate.sh prefix before its first run_step configuration invocation, replacing only the root assignment with the absolute workspace root.",
+    "database":  "Each test run invoked create_test_database, database_apply, backend_shell with RUN_POSTGRES_INTEGRATION=1, and existing cleanup_on_exit/drop_test_database. Three unique newly-created databases ended in _test and were dropped. The configured application database was not mutated.",
+    "runs":  [
+                 {
+                     "exit_code":  1,
+                     "name":  "red",
+                     "passed":  0,
+                     "failed":  11,
+                     "command":  "pytest -q tests/unit/test_speaker_identity.py tests/integration/test_speaker_pilot.py -k profile_capacity --junitxml=/tmp/voiceup-capacity-red.xml",
+                     "deselected":  37,
+                     "skipped":  0
+                 },
+                 {
+                     "exit_code":  1,
+                     "name":  "concurrency-red",
+                     "passed":  0,
+                     "failed":  1,
+                     "command":  "pytest -q tests/unit/test_speaker_identity.py tests/integration/test_speaker_pilot.py -k test_profile_capacity_serializes_two_workers_for_last_slot --junitxml=/tmp/voiceup-capacity-concurrency-red.xml",
+                     "deselected":  47,
+                     "skipped":  0
+                 },
+                 {
+                     "exit_code":  0,
+                     "name":  "green",
+                     "passed":  48,
+                     "failed":  0,
+                     "command":  "pytest -q tests/unit/test_speaker_identity.py tests/integration/test_speaker_pilot.py --junitxml=/tmp/voiceup-capacity-green.xml",
+                     "skipped":  0
+                 },
+                 {
+                     "command":  "run_step backend-static backend_static; run_step openapi-contract openapi_contract; run_step frontend-types-contract frontend_types_contract",
+                     "name":  "static",
+                     "exit_code":  0
+                 },
+                 {
+                     "command":  "scripts/export-openapi.sh; scripts/generate-types.sh",
+                     "name":  "generation",
+                     "exit_code":  0
+                 }
+             ],
+    "sources":  [
+                    {
+                        "sha256":  "ccf7cce9817ac18ed21e102c3b11bf273db9c762d96edeb7f8af79eb68368e4d",
+                        "path":  "app/backend/app/domain/speaker_identity.py"
+                    },
+                    {
+                        "sha256":  "c98a2b84841424443a11b3a11cd4e9711c345a3339058a63b7b77ecfe0b93e7b",
+                        "path":  "app/backend/app/infrastructure/repositories/speaker_repository.py"
+                    },
+                    {
+                        "sha256":  "30c045e642ce6abdad090860033723db753e40457c65ac976ef82de8ae1795dd",
+                        "path":  "app/backend/app/services/speaker_service.py"
+                    },
+                    {
+                        "sha256":  "da1bd7688010f3bdab6cf9fcbe206e0ba1ffdc3bd11511dab77d50ba3e40ee52",
+                        "path":  "app/backend/app/services/speaker_worker.py"
+                    },
+                    {
+                        "sha256":  "9f5e12a78486e410b08793458ce31da59a134390a11972249e665b6370490440",
+                        "path":  "app/backend/app/schemas/speaker_identity.py"
+                    },
+                    {
+                        "sha256":  "89d57b21ede072bb4b2d00d56f52ae29c80ffec9723ddf464029b913043a4d92",
+                        "path":  "app/backend/tests/unit/test_speaker_identity.py"
+                    },
+                    {
+                        "sha256":  "f09f1db07f98c6948b072b30332815f29896396962796db798800d6323ac352b",
+                        "path":  "app/backend/tests/integration/test_speaker_pilot.py"
+                    },
+                    {
+                        "sha256":  "2660795becb761b344628f8c1985715d16d87bddbc63442ebfeaa701fa9d2167",
+                        "path":  "specs/openapi/voiceup-api.yaml"
+                    },
+                    {
+                        "sha256":  "0ad8bde6807f4c0fc5bce019d380c916c02ebd168a247ef472c921457b653ef4",
+                        "path":  "app/frontend/src/types/api.d.ts"
+                    }
+                ]
+}

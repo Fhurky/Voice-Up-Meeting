@@ -1,0 +1,55 @@
+{
+  "returncode": 0,
+  "elapsed_seconds": 5.454902499999662,
+  "command": "docker run --rm --device=nvidia.com/gpu=0 --network=none --read-only --user 10001:10001 --cap-drop=ALL --security-opt=no-new-privileges --tmpfs /tmp:rw,nosuid,nodev,size=536870912 --env HOME=/tmp --env XDG_CACHE_HOME=/tmp/cache --env CUDA_CACHE_PATH=/tmp/cuda --env HF_HUB_OFFLINE=1 --env TRANSFORMERS_OFFLINE=1 --mount type=bind,src=/home/lab_nvidia1/voiceup-runtime/models/speaker-pilot,dst=/models/speaker,readonly --mount type=bind,src=/home/lab_nvidia1/voiceup-runtime/releases/4dd1012e1ff3edf09ab04c49a70ab6c61f7638bf9f0a93907c784b71e32434e5/fixtures,dst=/fixtures,readonly --mount type=bind,src=/home/lab_nvidia1/voiceup-runtime/releases/4dd1012e1ff3edf09ab04c49a70ab6c61f7638bf9f0a93907c784b71e32434e5/app/inference/smoke_cuda.py,dst=/checks/smoke_cuda.py,readonly voiceup-inference:spark-4dd1012e1ff3 python /checks/smoke_cuda.py /fixtures/repeated-public-sample-30s.wav",
+  "scope": "SSH dispatch, temporary nonroot/read-only/network-none CDI container and existing production HTTP smoke; constructed public fixture only",
+  "checks_passed": 9,
+  "checks": [
+    {
+      "case": "live",
+      "status": 200,
+      "http_seconds": 0.020587173001331394
+    },
+    {
+      "case": "ready",
+      "status": 200,
+      "http_seconds": 0.0014890959992044372
+    },
+    {
+      "case": "invalid_audio",
+      "status": 400,
+      "http_seconds": 0.0023392359998979373
+    },
+    {
+      "case": "unsupported_audio",
+      "status": 415,
+      "http_seconds": 0.001581910999448155
+    },
+    {
+      "case": "invalid_key",
+      "status": 401,
+      "http_seconds": 0.001352392999251606
+    },
+    {
+      "case": "silence_quality_rejection",
+      "status": 422,
+      "http_seconds": 0.06130059200040705
+    },
+    {
+      "case": "constructed_fixture_repeated-public-sample-30s.wav_enroll",
+      "status": 200,
+      "http_seconds": 0.18368213000030664
+    },
+    {
+      "case": "constructed_fixture_repeated-public-sample-30s.wav_identify",
+      "status": 200,
+      "http_seconds": 0.17202892699970107
+    },
+    {
+      "case": "constructed_fixture_repeated-public-sample-30s.wav_flac_identify",
+      "status": 200,
+      "http_seconds": 0.1675061989990354
+    }
+  ],
+  "model_startup_seconds": 2.2525828589987213
+}

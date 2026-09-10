@@ -1,0 +1,174 @@
+{
+  "schema_version": 1,
+  "scope": "Final post-startup read-only runtime availability snapshot",
+  "recorded_at": "2026-09-09T13:07:34.186616+00:00",
+  "checks_passed": 26,
+  "checks_failed": 3,
+  "skipped": 0,
+  "checks": [
+    {
+      "check": "local_backend_running",
+      "passed": true,
+      "health": "none"
+    },
+    {
+      "check": "local_frontend_running",
+      "passed": true,
+      "health": "none"
+    },
+    {
+      "check": "local_grafana_running",
+      "passed": true,
+      "health": "none"
+    },
+    {
+      "check": "local_loki_running",
+      "passed": true,
+      "health": "none"
+    },
+    {
+      "check": "local_nginx_running",
+      "passed": true,
+      "health": "none"
+    },
+    {
+      "check": "local_otel-collector_running",
+      "passed": true,
+      "health": "none"
+    },
+    {
+      "check": "local_postgres_running",
+      "passed": true,
+      "health": "healthy"
+    },
+    {
+      "check": "local_prometheus_running",
+      "passed": true,
+      "health": "none"
+    },
+    {
+      "check": "local_redis_running",
+      "passed": true,
+      "health": "healthy"
+    },
+    {
+      "check": "local_tempo_running",
+      "passed": true,
+      "health": "none"
+    },
+    {
+      "check": "local_worker_running",
+      "passed": true,
+      "health": "none"
+    },
+    {
+      "check": "local_postgres_healthy",
+      "passed": true
+    },
+    {
+      "check": "local_redis_healthy",
+      "passed": true
+    },
+    {
+      "check": "local_4060_inference_stopped",
+      "passed": true,
+      "status": "exited",
+      "exit_code": 0
+    },
+    {
+      "check": "persisted_runtime_mode_spark",
+      "passed": true
+    },
+    {
+      "check": "public_backend_and_database_ready",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "check": "public_nginx_and_frontend_reachable",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "check": "spark_tunnel_model_ready",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "check": "private_nginx_to_spark_model_ready",
+      "passed": true
+    },
+    {
+      "check": "spark_expected_image",
+      "passed": true,
+      "image": "sha256:a743b6e101beee3d85788f082d1b32a957149fda409eec3860c681f249b7a8c5"
+    },
+    {
+      "check": "spark_inference_running_and_healthy",
+      "passed": true,
+      "health": "healthy"
+    },
+    {
+      "check": "spark_relay_running",
+      "passed": true
+    },
+    {
+      "check": "internal_grafana_available",
+      "passed": true,
+      "http_status": 200,
+      "ready": true
+    },
+    {
+      "check": "internal_prometheus_available",
+      "passed": true,
+      "http_status": 200,
+      "ready": true
+    },
+    {
+      "check": "internal_loki_available",
+      "passed": false,
+      "http_status": null,
+      "ready": false
+    },
+    {
+      "check": "internal_tempo_available",
+      "passed": false,
+      "http_status": null,
+      "ready": false
+    },
+    {
+      "check": "internal_frontend_available",
+      "passed": false,
+      "http_status": null,
+      "ready": false
+    },
+    {
+      "check": "internal_otel_4317_available",
+      "passed": true,
+      "listening": true
+    },
+    {
+      "check": "internal_otel_4318_available",
+      "passed": true,
+      "listening": true
+    }
+  ],
+  "local_active_voiceup_services": 11,
+  "spark_active_services": 2,
+  "model_readiness": {
+    "ready": true,
+    "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+    "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+    "dimensions": 192,
+    "device": "cuda:0"
+  },
+  "inference_image": "sha256:a743b6e101beee3d85788f082d1b32a957149fda409eec3860c681f249b7a8c5",
+  "private_observations_sha256": "80de3b879bcaf317220cea4d89197b46e01e9745dc2280e4ddce8a0d23af6b8d",
+  "service_mutations": 0,
+  "model_extractions": 0,
+  "limitations": [
+    "Worker has no dedicated readiness endpoint; its container is running, while completed-job evidence is recorded separately.",
+    "OpenTelemetry availability is a running process plus two listening OTLP ports; no health extension is configured.",
+    "The stopped local inference container's old Docker health status is historical and does not indicate an active local model."
+  ]
+}

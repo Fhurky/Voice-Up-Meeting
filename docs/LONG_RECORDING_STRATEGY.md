@@ -1,5 +1,12 @@
 # Uzun toplantılar ve canlı çalışma kararı
 
+10 Eylül 2026 güncellemesi: kullanıcı dosya veya mikrofon kaydı sonrası
+konuşmacılı transkript ve otomatik yeni kişi hafızasını şimdi istedi. Güncel kapsam
+[002 PRD](../specs/speaker-identity/PRDs/002-long-recording-analysis/PRD.md) ve
+[kullanıcı akışında](MEETING_WORKFLOW.md) kayıtlıdır. Aşağıdaki 9 Eylül sıralaması
+tarihsel gerekçedir; 002'nin güncel önceliğini veya transkript/mikrofon kapsamını
+sınırlamaz. 001 doğruluk kabulü açık, kayıt sürerken sonuç üretme 003 kapsamındadır.
+
 Karar tarihi: 9 Eylül 2026. Kullanıcı teknik sıralamayı asistana bıraktı; seçilen sıra
 **gerçek kişi doğruluğu → uzun dosya analizi → canlı analiz**. Bu belge mimari kararı
 kaydeder; uzun kayıt veya canlı özelliklerin uygulanmış olduğunu iddia etmez.

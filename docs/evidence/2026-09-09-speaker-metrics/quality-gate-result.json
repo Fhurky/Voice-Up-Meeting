@@ -1,0 +1,9 @@
+{
+  "command": [
+    "C:\\Program Files\\Git\\bin\\bash.exe",
+    "scripts/quality-gate.sh",
+    "all"
+  ],
+  "exit_code": 2,
+  "elapsed_seconds": 0.297
+}

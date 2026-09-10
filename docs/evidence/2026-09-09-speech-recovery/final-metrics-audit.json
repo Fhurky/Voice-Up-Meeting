@@ -1,0 +1,528 @@
+{
+  "schema_version": 1,
+  "scope": "Independent read-only completed live evaluation JSON audit; no inference, tuning, waveform reads or pytest cases",
+  "technology_profile": "kt-vibecoding-python-web-v2",
+  "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+  "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+  "frozen_policy": {
+    "match_threshold": 0.55,
+    "new_threshold": 0.45,
+    "margin": 0.1
+  },
+  "fresh_selection": {
+    "selected_people": 70,
+    "gallery_people_planned": 50,
+    "unknown_people_planned": 20,
+    "original_source_inventory_excluded": 146,
+    "selected_previous_inventory_overlap": 0,
+    "source_strata": [
+      "train-clean-100"
+    ],
+    "unique_source_utterances": 605,
+    "readiness_sha256": "2eeaf2868bf4799ae8697767558527ead2c52c50f4383d79f2876ca7cbe6df36",
+    "scope_limit": "Frozen manifest and previous-source exclusion verified; selection without model scores follows the recorded pre-inference preparation evidence, not direct observation of all pre-selection activity."
+  },
+  "runs": {
+    "calibration": {
+      "status": "complete",
+      "manifest_canonical_sha256": "8744077635a58ec928f04bc16f6ec0fcc7820241beb7c1866d6d4a704b599097",
+      "manifest_raw_sha256": "a170d8fa88a13bd7059cd3e6e82747e3b05b7dfc7a814a451672cb4f98ac5c33",
+      "private_report_sha256": "03cedc90f6b6c290d431819ce3878acf7eca63b4681dcd1d5b8c367b4147a0f2",
+      "public_summary_sha256": "4c078ca2a6fe995b87acc432d6b68e7853fe09bb32cc28d58876f138dec3e505",
+      "operation_count": 302,
+      "job_status_counts": {
+        "succeeded": 267,
+        "failed": 35
+      },
+      "preprocessing_version_counts": {
+        "vad-windows-v1": 263,
+        "vad-packed-fallback-v1": 4,
+        "unreported_or_unsupported": 0
+      },
+      "device_counts": {
+        "cuda:0": 267
+      },
+      "stages": [
+        {
+          "gallery_size_planned": 50,
+          "gallery_size_enrolled": 40,
+          "enrollment_failed": 10,
+          "counts": {
+            "known_completed": 150,
+            "known_job_failed": 18,
+            "known_recognized": 111,
+            "known_unknown": 21,
+            "known_ambiguous": 0,
+            "unknown_completed": 100,
+            "unknown_job_failed": 7,
+            "unknown_recognized": 0,
+            "unknown_unknown": 89,
+            "unknown_ambiguous": 4,
+            "known_planned": 150,
+            "unknown_planned": 100,
+            "known_correct": 111,
+            "known_wrong": 0,
+            "known_rejected": 21,
+            "unknown_false_accepted": 0,
+            "known_not_run": 0,
+            "unknown_not_run": 0
+          },
+          "rates": {
+            "DIR": 0.74,
+            "known_misidentification": 0.0,
+            "FPIR_observed_lower_bound": 0.0,
+            "FPIR_worst_case_upper_bound": 0.07,
+            "unknown_detection_recall": 0.89
+          },
+          "by_source_split": {
+            "dev-clean": {
+              "known_planned": 75,
+              "unknown_planned": 60,
+              "known_correct": 60,
+              "known_wrong": 0,
+              "known_ambiguous": 0,
+              "known_unknown": 8,
+              "unknown_false_accepted": 0,
+              "unknown_unknown": 56,
+              "unknown_ambiguous": 0,
+              "known_job_failed": 7,
+              "unknown_job_failed": 4
+            },
+            "dev-other": {
+              "known_planned": 75,
+              "unknown_planned": 40,
+              "known_correct": 51,
+              "known_wrong": 0,
+              "known_ambiguous": 0,
+              "known_unknown": 13,
+              "unknown_false_accepted": 0,
+              "unknown_unknown": 33,
+              "unknown_ambiguous": 4,
+              "known_job_failed": 11,
+              "unknown_job_failed": 3
+            }
+          },
+          "error_counts": {
+            "inconsistent_audio": 25
+          }
+        }
+      ],
+      "newcomer_return": {
+        "enrollment_succeeded": 1,
+        "queries": 1,
+        "correct": 1,
+        "failed": 0,
+        "enrollments_planned": 1,
+        "enrollments_observed": 1,
+        "enrollment_failed": 0,
+        "enrollment_pending": 0,
+        "enrollment_not_run": 0,
+        "queries_planned": 1,
+        "queries_terminal": 1,
+        "queries_pending": 0,
+        "queries_not_run": 0,
+        "recognized_wrong": 0,
+        "ambiguous": 0,
+        "unknown": 0,
+        "query_failed": 0,
+        "query_quality_failed": 0,
+        "query_error_counts": {},
+        "all_planned_operations_terminal": true
+      }
+    },
+    "historical": {
+      "status": "complete",
+      "manifest_canonical_sha256": "d2913c1b2a0bcb5f552f5a8bd9dc7f7b5872dd4d6b024bc4a0e40a2d6af54a98",
+      "manifest_raw_sha256": "0e4deb4d61e36e378a29e270fc4d1c070d3331a9839314f37261c403d1361ad9",
+      "private_report_sha256": "224e0338bf67b743b25d8d5e7677138683fc17a7de44efb96e0164aa305e16c3",
+      "public_summary_sha256": "b608593b56c78220044a1789ad7f17f8f920415cb97609cf701deafe480df321",
+      "operation_count": 302,
+      "job_status_counts": {
+        "succeeded": 236,
+        "failed": 66
+      },
+      "preprocessing_version_counts": {
+        "vad-windows-v1": 233,
+        "vad-packed-fallback-v1": 3,
+        "unreported_or_unsupported": 0
+      },
+      "device_counts": {
+        "cuda:0": 236
+      },
+      "stages": [
+        {
+          "gallery_size_planned": 50,
+          "gallery_size_enrolled": 29,
+          "enrollment_failed": 21,
+          "counts": {
+            "known_completed": 150,
+            "known_job_failed": 24,
+            "known_recognized": 78,
+            "known_unknown": 47,
+            "known_ambiguous": 1,
+            "unknown_completed": 100,
+            "unknown_job_failed": 19,
+            "unknown_recognized": 0,
+            "unknown_unknown": 81,
+            "unknown_ambiguous": 0,
+            "known_planned": 150,
+            "unknown_planned": 100,
+            "known_correct": 78,
+            "known_wrong": 0,
+            "known_rejected": 48,
+            "unknown_false_accepted": 0,
+            "known_not_run": 0,
+            "unknown_not_run": 0
+          },
+          "rates": {
+            "DIR": 0.52,
+            "known_misidentification": 0.0,
+            "FPIR_observed_lower_bound": 0.0,
+            "FPIR_worst_case_upper_bound": 0.19,
+            "unknown_detection_recall": 0.81
+          },
+          "by_source_split": {
+            "test-clean": {
+              "known_planned": 72,
+              "unknown_planned": 70,
+              "known_correct": 45,
+              "known_wrong": 0,
+              "known_ambiguous": 1,
+              "known_unknown": 17,
+              "unknown_false_accepted": 0,
+              "unknown_unknown": 57,
+              "unknown_ambiguous": 0,
+              "known_job_failed": 9,
+              "unknown_job_failed": 13
+            },
+            "test-other": {
+              "known_planned": 78,
+              "unknown_planned": 30,
+              "known_correct": 33,
+              "known_wrong": 0,
+              "known_ambiguous": 0,
+              "known_unknown": 30,
+              "unknown_false_accepted": 0,
+              "unknown_unknown": 24,
+              "unknown_ambiguous": 0,
+              "known_job_failed": 15,
+              "unknown_job_failed": 6
+            }
+          },
+          "error_counts": {
+            "inconsistent_audio": 42,
+            "insufficient_speech": 1
+          }
+        }
+      ],
+      "newcomer_return": {
+        "enrollment_succeeded": 0,
+        "queries": 1,
+        "correct": 0,
+        "failed": 2,
+        "enrollments_planned": 1,
+        "enrollments_observed": 1,
+        "enrollment_failed": 1,
+        "enrollment_pending": 0,
+        "enrollment_not_run": 0,
+        "queries_planned": 1,
+        "queries_terminal": 1,
+        "queries_pending": 0,
+        "queries_not_run": 0,
+        "recognized_wrong": 0,
+        "ambiguous": 0,
+        "unknown": 0,
+        "query_failed": 1,
+        "query_quality_failed": 1,
+        "query_error_counts": {
+          "inconsistent_audio": 1
+        },
+        "all_planned_operations_terminal": true
+      }
+    },
+    "fresh": {
+      "status": "complete",
+      "manifest_canonical_sha256": "70b80c92502466517b0cf1b951da91b45ee5c7dd683acd4b1a0bf1c5ba727d7a",
+      "manifest_raw_sha256": "67fa0170afbe4c3a382a91506cd68d3e635fe7c1d562810c5fe9c2b8ad3c9eb7",
+      "private_report_sha256": "7b13f98cdc4f8ed34d7ce584415200a2003e5e2736f107d95a2791a967f99c7e",
+      "public_summary_sha256": "4d8ece1ae5350f47bbbda205027f54d73747b298959ab916f9a047a13e6fb23b",
+      "operation_count": 302,
+      "job_status_counts": {
+        "succeeded": 277,
+        "failed": 25
+      },
+      "preprocessing_version_counts": {
+        "vad-windows-v1": 276,
+        "vad-packed-fallback-v1": 1,
+        "unreported_or_unsupported": 0
+      },
+      "device_counts": {
+        "cuda:0": 277
+      },
+      "stages": [
+        {
+          "gallery_size_planned": 50,
+          "gallery_size_enrolled": 40,
+          "enrollment_failed": 10,
+          "counts": {
+            "known_completed": 150,
+            "known_job_failed": 10,
+            "known_recognized": 116,
+            "known_unknown": 22,
+            "known_ambiguous": 2,
+            "unknown_completed": 100,
+            "unknown_job_failed": 5,
+            "unknown_recognized": 0,
+            "unknown_unknown": 94,
+            "unknown_ambiguous": 1,
+            "known_planned": 150,
+            "unknown_planned": 100,
+            "known_correct": 116,
+            "known_wrong": 0,
+            "known_rejected": 24,
+            "unknown_false_accepted": 0,
+            "known_not_run": 0,
+            "unknown_not_run": 0
+          },
+          "rates": {
+            "DIR": 0.7733333333333333,
+            "known_misidentification": 0.0,
+            "FPIR_observed_lower_bound": 0.0,
+            "FPIR_worst_case_upper_bound": 0.05,
+            "unknown_detection_recall": 0.94
+          },
+          "by_source_split": {
+            "train-clean-100": {
+              "known_planned": 150,
+              "unknown_planned": 100,
+              "known_correct": 116,
+              "known_wrong": 0,
+              "known_ambiguous": 2,
+              "known_unknown": 22,
+              "unknown_false_accepted": 0,
+              "unknown_unknown": 94,
+              "unknown_ambiguous": 1,
+              "known_job_failed": 10,
+              "unknown_job_failed": 5
+            }
+          },
+          "error_counts": {
+            "inconsistent_audio": 15
+          }
+        }
+      ],
+      "newcomer_return": {
+        "enrollment_succeeded": 1,
+        "queries": 1,
+        "correct": 1,
+        "failed": 0,
+        "enrollments_planned": 1,
+        "enrollments_observed": 1,
+        "enrollment_failed": 0,
+        "enrollment_pending": 0,
+        "enrollment_not_run": 0,
+        "queries_planned": 1,
+        "queries_terminal": 1,
+        "queries_pending": 0,
+        "queries_not_run": 0,
+        "recognized_wrong": 0,
+        "ambiguous": 0,
+        "unknown": 0,
+        "query_failed": 0,
+        "query_quality_failed": 0,
+        "query_error_counts": {},
+        "all_planned_operations_terminal": true
+      }
+    }
+  },
+  "historical_same_cohort_comparison": {
+    "baseline_private_sha256": "10eebed23c58531d87ce917b05b26b95f31a38639f3ab17f43aace38d9e4febb",
+    "baseline_public_sha256": "0e4e256bc77b8369b9e4d575b094e60ef2ee4e96f874080cef5ab23e9f65748c",
+    "baseline_full_run_operations": 707,
+    "comparison_gallery_size_planned": 50,
+    "before": {
+      "gallery_size_planned": 50,
+      "gallery_size_enrolled": 29,
+      "enrollment_failed": 21,
+      "counts": {
+        "known_completed": 150,
+        "known_job_failed": 26,
+        "known_recognized": 77,
+        "known_unknown": 46,
+        "known_ambiguous": 1,
+        "unknown_completed": 100,
+        "unknown_job_failed": 20,
+        "unknown_recognized": 0,
+        "unknown_unknown": 80,
+        "unknown_ambiguous": 0,
+        "known_planned": 150,
+        "unknown_planned": 100,
+        "known_correct": 77,
+        "known_wrong": 0,
+        "known_rejected": 47,
+        "unknown_false_accepted": 0,
+        "known_not_run": 0,
+        "unknown_not_run": 0
+      },
+      "rates": {
+        "DIR": 0.5133333333333333,
+        "known_misidentification": 0.0,
+        "FPIR_observed_lower_bound": 0.0,
+        "FPIR_worst_case_upper_bound": 0.2,
+        "unknown_detection_recall": 0.8
+      },
+      "by_source_split": {
+        "test-clean": {
+          "known_planned": 72,
+          "unknown_planned": 70,
+          "known_correct": 45,
+          "known_wrong": 0,
+          "known_ambiguous": 1,
+          "known_unknown": 17,
+          "unknown_false_accepted": 0,
+          "unknown_unknown": 56,
+          "unknown_ambiguous": 0,
+          "known_job_failed": 9,
+          "unknown_job_failed": 14
+        },
+        "test-other": {
+          "known_planned": 78,
+          "unknown_planned": 30,
+          "known_correct": 32,
+          "known_wrong": 0,
+          "known_ambiguous": 0,
+          "known_unknown": 29,
+          "unknown_false_accepted": 0,
+          "unknown_unknown": 24,
+          "unknown_ambiguous": 0,
+          "known_job_failed": 17,
+          "unknown_job_failed": 6
+        }
+      },
+      "error_counts": {
+        "insufficient_speech": 25,
+        "inconsistent_audio": 21
+      }
+    },
+    "after": {
+      "gallery_size_planned": 50,
+      "gallery_size_enrolled": 29,
+      "enrollment_failed": 21,
+      "counts": {
+        "known_completed": 150,
+        "known_job_failed": 24,
+        "known_recognized": 78,
+        "known_unknown": 47,
+        "known_ambiguous": 1,
+        "unknown_completed": 100,
+        "unknown_job_failed": 19,
+        "unknown_recognized": 0,
+        "unknown_unknown": 81,
+        "unknown_ambiguous": 0,
+        "known_planned": 150,
+        "unknown_planned": 100,
+        "known_correct": 78,
+        "known_wrong": 0,
+        "known_rejected": 48,
+        "unknown_false_accepted": 0,
+        "known_not_run": 0,
+        "unknown_not_run": 0
+      },
+      "rates": {
+        "DIR": 0.52,
+        "known_misidentification": 0.0,
+        "FPIR_observed_lower_bound": 0.0,
+        "FPIR_worst_case_upper_bound": 0.19,
+        "unknown_detection_recall": 0.81
+      },
+      "by_source_split": {
+        "test-clean": {
+          "known_planned": 72,
+          "unknown_planned": 70,
+          "known_correct": 45,
+          "known_wrong": 0,
+          "known_ambiguous": 1,
+          "known_unknown": 17,
+          "unknown_false_accepted": 0,
+          "unknown_unknown": 57,
+          "unknown_ambiguous": 0,
+          "known_job_failed": 9,
+          "unknown_job_failed": 13
+        },
+        "test-other": {
+          "known_planned": 78,
+          "unknown_planned": 30,
+          "known_correct": 33,
+          "known_wrong": 0,
+          "known_ambiguous": 0,
+          "known_unknown": 30,
+          "unknown_false_accepted": 0,
+          "unknown_unknown": 24,
+          "unknown_ambiguous": 0,
+          "known_job_failed": 15,
+          "unknown_job_failed": 6
+        }
+      },
+      "error_counts": {
+        "inconsistent_audio": 42,
+        "insufficient_speech": 1
+      }
+    },
+    "correct_identification_delta": 1,
+    "registered_profiles_delta": 0,
+    "recording_pairs": 302,
+    "outcome_transitions": {
+      "enrolled -> enrolled": 29,
+      "quality_failed -> quality_failed": 66,
+      "recognized -> recognized": 77,
+      "unknown -> unknown": 126,
+      "quality_failed -> recognized": 1,
+      "quality_failed -> unknown": 2,
+      "ambiguous -> ambiguous": 1
+    },
+    "previous_correct_lost": 0,
+    "additional_correct": 1,
+    "previous_success_decisions_changed": 0
+  },
+  "recorded_deployment": {
+    "image_id": "sha256:a743b6e101beee3d85788f082d1b32a957149fda409eec3860c681f249b7a8c5",
+    "release_sha256": "f6f12544ad85859220c7a27ca56633f741706072941fbab36bdf39124a4b0125",
+    "source_manifest_sha256": "6b02a80cd4cd351e0a7d9bb180c68791539742c56cf023520eac35ee0b176a89",
+    "final_deployment_evidence_sha256": "ab91925f123b42c10ad1e521d3abe964e954af38c58135634e155d2a5995f4cc",
+    "local_source_files_matching_release": 21,
+    "scope_limit": "Deployment evidence and unchanged local release sources verified; job contracts identify model/revision/device/preprocessing, not the per-job OCI image digest."
+  },
+  "totals": {
+    "live_runs": 3,
+    "operations": 906,
+    "succeeded": 780,
+    "failed": 126
+  },
+  "limitations": [
+    "The historical paired comparison uses the same 50-person planned gallery and recordings; one extra correct response is a small observed gain, not a generalization guarantee.",
+    "Fresh train-clean-100 results and historical mixed test-clean/test-other results are different cohorts and conditions; their accuracy difference is not a paired improvement estimate.",
+    "Planned gallery size is distinct from actual successfully enrolled profiles; all planned probes remain in the denominator.",
+    "Unknown quality failures are retained separately from successful unknown decisions; observed false acceptance is not a zero-risk population claim.",
+    "Newcomer return succeeds only in the calibration and fresh runs; historical enrollment and return query both fail quality.",
+    "English assembled read speech does not establish Turkish, long meeting, overlap, real-time or microphone/session generalization.",
+    "This audit reads existing JSON and source hashes only; it creates no additional automated test cases and no model calls."
+  ],
+  "completed_at_utc": "2026-09-09T13:08:07.896414+00:00",
+  "automated_test_cases_added": 0,
+  "audit_helper_sha256": "8dc55209a16bd0aab3f4114071b75a78958a28fae08da3ccc00bf44eb46b9806",
+  "checks_executed": 9000,
+  "checks_by_category": {
+    "selection": 78,
+    "calibration": 1733,
+    "historical": 1683,
+    "fresh": 1753,
+    "diagnostic": 3,
+    "historical_baseline": 3421,
+    "paired_history": 305,
+    "release": 22,
+    "totals": 1,
+    "privacy": 1
+  },
+  "failed_checks": 0,
+  "failures": {}
+}

@@ -1,0 +1,12 @@
+{
+  "restart_exit_code": 0,
+  "restart_to_ready_seconds": 4.033236993000173,
+  "ready": {
+    "ready": true,
+    "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+    "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+    "dimensions": 192,
+    "device": "cuda:0"
+  },
+  "operation": "Only voiceup-spark inference and relay restarted; no host reboot"
+}

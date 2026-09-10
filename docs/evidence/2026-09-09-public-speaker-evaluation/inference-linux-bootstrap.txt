@@ -1,0 +1,17 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 194, in _run_module_as_main
+  File "<frozen runpy>", line 151, in _get_module_details
+  File "<frozen runpy>", line 114, in _get_module_details
+  File "/test-tools/pytest/__init__.py", line 8, in <module>
+    from _pytest._code import ExceptionInfo
+  File "/test-tools/_pytest/_code/__init__.py", line 5, in <module>
+    from .code import Code
+  File "/test-tools/_pytest/_code/code.py", line 41, in <module>
+    from _pytest._io import TerminalWriter
+  File "/test-tools/_pytest/_io/__init__.py", line 3, in <module>
+    from .terminalwriter import get_terminal_width
+  File "/test-tools/_pytest/_io/terminalwriter.py", line 19, in <module>
+    from ..compat import assert_never
+  File "/test-tools/_pytest/compat.py", line 20, in <module>
+    import py
+ModuleNotFoundError: No module named 'py'

@@ -1,0 +1,15 @@
+{
+  "checked_at_utc": "2026-09-09T09:50:54.301603+00:00",
+  "profile_count": 1,
+  "profiles_unchanged": true,
+  "local_inference": "exited",
+  "worker_reaches_spark_ready": {
+    "ready": true,
+    "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+    "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+    "dimensions": 192,
+    "device": "cuda:0"
+  },
+  "saved_mode": "spark",
+  "full_application_gate_exit_code": 0
+}

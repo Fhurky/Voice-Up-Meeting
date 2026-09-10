@@ -1,0 +1,8 @@
+{
+  "entrypoint": "Start-VoiceUp.cmd -NoBrowser",
+  "cwd": "outside repository (OS temporary directory)",
+  "exit_code": 0,
+  "seconds": 16.426218199998402,
+  "recovered_scope": "prepared Spark inference+relay, owned SSH tunnel, Windows nginx+frontend+backend+worker",
+  "browser_launched": false
+}

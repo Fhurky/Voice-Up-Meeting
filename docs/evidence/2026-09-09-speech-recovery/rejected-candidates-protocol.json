@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "frozen_at": "2026-09-09T12:14:12.474051+00:00",
+  "scope": "calibration only; diagnostic snapshots; no application/profile/model/configuration changes",
+  "manifest_raw_sha256": "a170d8fa88a13bd7059cd3e6e82747e3b05b7dfc7a814a451672cb4f98ac5c33",
+  "baseline_diagnostic_sha256": "f9a00092805961d182c04d54ea60b86596313bf7c150633a6f0505b6acc52b12",
+  "source_sha256": {
+    "src\\voiceup\\audio.py": "41f7f8f5b9aeddb20dfd29062f5172e194603e39ef8f78792e8b952c6b213b1d",
+    "src\\voiceup\\pipeline.py": "2a8a72cd928784eaf60b79bfb9018bd6d12dd1a072b486da79994afb297a8d61",
+    "app\\inference\\voiceup_inference\\runtime.py": "e29d42c64788cc1c29ab0c79d5c28de0248681d1b2bca338d5aaa107a7df5edd"
+  },
+  "recordings": 302,
+  "planned_known": 50,
+  "planned_unknown": 20,
+  "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+  "fixed_policy": {
+    "match_threshold": 0.55,
+    "new_threshold": 0.45,
+    "margin": 0.1
+  },
+  "fixed_quality": {
+    "vad_min_silence_duration_ms": 100,
+    "minimum_window_seconds": 3,
+    "maximum_window_seconds": 8,
+    "maximum_windows": 20,
+    "minimum_pair_cosine": 0.55,
+    "minimum_rms": 0.0001,
+    "maximum_clipping_fraction": 0.05,
+    "clipping_amplitude": 0.999,
+    "enrollment_minimum_used_seconds": 10,
+    "enrollment_minimum_windows": 2,
+    "query_minimum_used_seconds": 3
+  },
+  "candidate_definitions": [
+    {
+      "id": "pack_all_voiced",
+      "description": "Split each original VAD span into baseline-compatible balanced continuous blocks of at most8seconds (span shorter than3seconds remains one block). Reject any nonfinite, RMS<1e-4 or clipping>0.05 block before counting or packing. Concatenate retained chronological sample blocks once, without inserted samples; divide total sample count into ceil(total/(8*sample_rate)) balanced, nonoverlapping integer-boundary windows, rejecting packed totals below3seconds; keep the existing maximum20window subsampling, window-quality, consistency and pooling rules."
+    },
+    {
+      "id": "fallback_only",
+      "description": "Return the exact baseline evidence object when it already satisfies the operation purpose, or when baseline reason is inconsistent_voice_windows. Only when the baseline is purpose-insufficient and at least one original VAD span is shorter than3seconds, try pack_all_voiced. Accept fallback only when its unchanged purpose/quality/consistency requirements pass. If a baseline partial embedding exists, additionally require cosine(packed,baseline)>=0.55; otherwise keep rejection. All originally accepted and inconsistent baseline outcomes remain unchanged."
+    }
+  ],
+  "no_duplicate_samples": true,
+  "no_inserted_silence": true,
+  "no_under_minimum_speech_acceptance": true,
+  "window_independence": "Sample-disjoint windows only; no claim of independent speakers or recording sessions",
+  "compatibility": "Candidate query embeddings compared to the original baseline-usable40 enrollment profile embeddings; failed baseline profiles remain absent and every planned query remains in denominators. Also report results restricted to baseline-covered people.",
+  "negative_pair_selection": "First20 gallery speakers whose enrollment passed the previously recorded baseline, fixed before candidate scoring.",
+  "wrong_person_append": "For each pair(A,B), use full B enrollment audio as a hypothetical append into existing baseline profile A. Apply candidate enrollment-quality rules and the existing recognized/top-target guard against the fixed40profile baseline gallery; no database writes.",
+  "mixed_alternating": "For each pair(A,B), alternate disjoint2second chunks from the first16seconds of each enrollment waveform: A0:2,B0:2,...,A14:16,B14:16, yielding32seconds. No repeated samples or added silence. Run baseline and both candidates with enrollment purpose; report quality acceptance and baseline-gallery decision separately. Passing a mixed clip is not counted as a successful negative test.",
+  "held_out_policy": "Never load test.json or held-out audio/results during selection. All scores are calibration diagnostics, not new live application evidence.",
+  "revision": 3,
+  "amended_at": "2026-09-09T12:21:37.409842+00:00",
+  "amendment_reason": "Parent input-quality boundary requirement from deterministic TDD before any model scoring: pre-filter original VAD blocks to prevent poor samples being diluted into packed windows. Candidate count and score policy unchanged.",
+  "negative_pair_count": 10,
+  "private_protocol_sha256": "1138faa67a6072245a55fcd97383f895f9f4c659de1b06dcd511e404a492b820",
+  "supplemental_gapped_negative_protocol": {
+    "schema_version": 1,
+    "frozen_at": "2026-09-09T12:23:20.760886+00:00",
+    "parent_protocol_sha256": "1138faa67a6072245a55fcd97383f895f9f4c659de1b06dcd511e404a492b820",
+    "scope": "Supplemental calibration-only negative stress test; no candidate changes; frozen before reading first diagnostic scores",
+    "definition": "First8seconds of each pair enrollment waveform, alternate disjoint2second A and B chunks for4cycles, inserting0.4seconds zeros after every chunk except the final one. Total18.8seconds. Inserted silence is a negative input fixture only and never counted as speech; candidate itself inserts no samples. Quality acceptance of a mixed-person enrollment is a failed negative regardless of identity decision.",
+    "configs": [
+      "baseline",
+      "pack_all_voiced",
+      "fallback_only"
+    ],
+    "algorithm_source_sha256": "b39216a463fbea97d24dcba61e2a3db7e7d56d3a140bf790a19c36e7bbfc8047",
+    "negative_pair_count": 10
+  }
+}

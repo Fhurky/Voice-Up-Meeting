@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="9" skipped="0" tests="13" time="13.773" timestamp="2026-09-10T10:16:26.942175+03:00" hostname="DESKTOP-RJ78JKH"><testcase classname="tests.test_public_speaker_evaluation" name="test_new_gallery_accepts_quality_target_and_larger_manifests[51]" time="0.147"><failure message="public_speaker_evaluation.EvaluationError: invalid_gallery_sizes">evaluation = &lt;module 'public_speaker_evaluation' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\evaluate-public-speakers.py'&gt;
+tmp_path = WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-157/test_new_gallery_accepts_quali0')
+size = 51
+
+    @pytest.mark.parametrize("size", [51, 100, 200])
+    def test_new_gallery_accepts_quality_target_and_larger_manifests(evaluation, tmp_path, size):
+        manifest = manifest_fixture(tmp_path, gallery_size=size, unknown_size=200)
+        original = json.dumps(manifest, sort_keys=True)
+&gt;       evaluation.validate_manifest(manifest, tmp_path, [size])
+
+tests\test_public_speaker_evaluation.py:139: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+manifest = {'dataset_id': 'fixture', 'gallery_order': ['a', 'p001', 'p002', 'p003', 'p004', 'p005', ...], 'language': 'en', 'reco... 'p001-0.wav', ...}, {'chapter_id': '1', 'duration_seconds': 30, 'id': 'p001-1', 'path': 'p001-1.wav', ...}, ...], ...}
+audio_root = WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-157/test_new_gallery_accepts_quali0')
+gallery_sizes = [51]
+
+    def validate_manifest(manifest: Any, audio_root: Path, gallery_sizes: list[int]) -&gt; None:
+        if (
+            not isinstance(manifest, dict)
+            or type(manifest.get("schema_version")) is not int
+            or manifest["schema_version"] != 1
+            or not _text(manifest.get("dataset_id"))
+            or manifest.get("language") != "en"
+            or manifest.get("split") not in {"calibration", "test"}
+            or not isinstance(manifest.get("recordings"), list)
+            or not 1 &lt;= len(manifest["recordings"]) &lt;= 1500
+        ):
+            raise EvaluationError("invalid_manifest")
+        gallery = manifest.get("gallery_order")
+        if (
+            not isinstance(gallery, list)
+            or not 1 &lt;= len(gallery) &lt;= 100
+            or not all(_text(item) for item in gallery)
+            or len(set(gallery)) != len(gallery)
+        ):
+            raise EvaluationError("invalid_gallery_order")
+        if (
+            not gallery_sizes
+            or any(
+                type(size) is not int or not 1 &lt;= size &lt;= min(len(gallery), MAX_GALLERY_SIZE)
+                for size in gallery_sizes
+            )
+            or gallery_sizes != sorted(set(gallery_sizes))
+        ):
+&gt;           raise EvaluationError("invalid_gallery_sizes")
+E           public_speaker_evaluation.EvaluationError: invalid_gallery_sizes
+
+scripts\evaluate-public-speakers.py:239: EvaluationError</failure></testcase><testcase classname="tests.test_public_speaker_evaluation" name="test_new_gallery_accepts_quality_target_and_larger_manifests[100]" time="0.207"><failure message="public_speaker_evaluation.EvaluationError: invalid_gallery_sizes">evaluation = &lt;module 'public_speaker_evaluation' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\evaluate-public-speakers.py'&gt;
+tmp_path = WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-157/test_new_gallery_accepts_quali1')
+size = 100
+
+    @pytest.mark.parametrize("size", [51, 100, 200])
+    def test_new_gallery_accepts_quality_target_and_larger_manifests(evaluation, tmp_path, size):
+        manifest = manifest_fixture(tmp_path, gallery_size=size, unknown_size=200)
+        original = json.dumps(manifest, sort_keys=True)
+&gt;       evaluation.validate_manifest(manifest, tmp_path, [size])
+
+tests\test_public_speaker_evaluation.py:139: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+manifest = {'dataset_id': 'fixture', 'gallery_order': ['a', 'p001', 'p002', 'p003', 'p004', 'p005', ...], 'language': 'en', 'reco... 'p001-0.wav', ...}, {'chapter_id': '1', 'duration_seconds': 30, 'id': 'p001-1', 'path': 'p001-1.wav', ...}, ...], ...}
+audio_root = WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-157/test_new_gallery_accepts_quali1')
+gallery_sizes = [100]
+
+    def validate_manifest(manifest: Any, audio_root: Path, gallery_sizes: list[int]) -&gt; None:
+        if (
+            not isinstance(manifest, dict)
+            or type(manifest.get("schema_version")) is not int
+            or manifest["schema_version"] != 1
+            or not _text(manifest.get("dataset_id"))
+            or manifest.get("language") != "en"
+            or manifest.get("split") not in {"calibration", "test"}
+            or not isinstance(manifest.get("recordings"), list)
+            or not 1 &lt;= len(manifest["recordings"]) &lt;= 1500
+        ):
+            raise EvaluationError("invalid_manifest")
+        gallery = manifest.get("gallery_order")
+        if (
+            not isinstance(gallery, list)
+            or not 1 &lt;= len(gallery) &lt;= 100
+            or not all(_text(item) for item in gallery)
+            or len(set(gallery)) != len(gallery)
+        ):
+            raise EvaluationError("invalid_gallery_order")
+        if (
+            not gallery_sizes
+            or any(
+                type(size) is not int or not 1 &lt;= size &lt;= min(len(gallery), MAX_GALLERY_SIZE)
+                for size in gallery_sizes
+            )
+            or gallery_sizes != sorted(set(gallery_sizes))
+        ):
+&gt;           raise EvaluationError("invalid_gallery_sizes")
+E           public_speaker_evaluation.EvaluationError: invalid_gallery_sizes
+
+scripts\evaluate-public-speakers.py:239: EvaluationError</failure></testcase><testcase classname="tests.test_public_speaker_evaluation" name="test_new_gallery_accepts_quality_target_and_larger_manifests[200]" time="0.344"><failure message="public_speaker_evaluation.EvaluationError: invalid_gallery_order">evaluation = &lt;module 'public_speaker_evaluation' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\evaluate-public-speakers.py'&gt;
+tmp_path = WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-157/test_new_gallery_accepts_quali2')
+size = 200
+
+    @pytest.mark.parametrize("size", [51, 100, 200])
+    def test_new_gallery_accepts_quality_target_and_larger_manifests(evaluation, tmp_path, size):
+        manifest = manifest_fixture(tmp_path, gallery_size=size, unknown_size=200)
+        original = json.dumps(manifest, sort_keys=True)
+&gt;       evaluation.validate_manifest(manifest, tmp_path, [size])
+
+tests\test_public_speaker_evaluation.py:139: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+manifest = {'dataset_id': 'fixture', 'gallery_order': ['a', 'p001', 'p002', 'p003', 'p004', 'p005', ...], 'language': 'en', 'reco... 'p001-0.wav', ...}, {'chapter_id': '1', 'duration_seconds': 30, 'id': 'p001-1', 'path': 'p001-1.wav', ...}, ...], ...}
+audio_root = WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-157/test_new_gallery_accepts_quali2')
+gallery_sizes = [200]
+
+    def validate_manifest(manifest: Any, audio_root: Path, gallery_sizes: list[int]) -&gt; None:
+        if (
+            not isinstance(manifest, dict)
+            or type(manifest.get("schema_version")) is not int
+            or manifest["schema_version"] != 1
+            or not _text(manifest.get("dataset_id"))
+            or manifest.get("language") != "en"
+            or manifest.get("split") not in {"calibration", "test"}
+            or not isinstance(manifest.get("recordings"), list)
+            or not 1 &lt;= len(manifest["recordings"]) &lt;= 1500
+        ):
+            raise EvaluationError("invalid_manifest")
+        gallery = manifest.get("gallery_order")
+        if (
+            not isinstance(gallery, list)
+            or not 1 &lt;= len(gallery) &lt;= 100
+            or not all(_text(item) for item in gallery)
+            or len(set(gallery)) != len(gallery)
+        ):
+&gt;           raise EvaluationError("invalid_gallery_order")
+E           public_speaker_evaluation.EvaluationError: invalid_gallery_order
+
+scripts\evaluate-public-speakers.py:230: EvaluationError</failure></testcase><testcase classname="tests.test_public_speaker_evaluation" name="test_manifest_person_budget_is_an_input_resource_bound" time="2.184"><failure message="Failed: DID NOT RAISE &lt;class 'public_speaker_evaluation.EvaluationError'&gt;">evaluation = &lt;module 'public_speaker_evaluation' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\evaluate-public-speakers.py'&gt;
+tmp_path = WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-157/test_manifest_person_budget_is0')
+
+    def test_manifest_person_budget_is_an_input_resource_bound(evaluation, tmp_path):
+        manifest = manifest_fixture(tmp_path, gallery_size=201)
+        with pytest.raises(evaluation.EvaluationError, match="invalid_gallery_order"):
+            evaluation.validate_manifest(manifest, tmp_path, [201])
+        manifest = manifest_fixture(tmp_path, unknown_size=201)
+&gt;       with pytest.raises(evaluation.EvaluationError, match="manifest_person_limit"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE &lt;class 'public_speaker_evaluation.EvaluationError'&gt;
+
+tests\test_public_speaker_evaluation.py:149: Failed</failure></testcase><testcase classname="tests.test_public_speaker_evaluation" name="test_recording_resource_budget_remains_fifteen_hundred" time="0.011" /><testcase classname="tests.test_public_speaker_evaluation" name="test_large_nested_gallery_rejects_over_twenty_thousand_operations" time="0.490"><failure message="AssertionError: Regex pattern did not match.&#10; Regex: 'operation_limit'&#10; Input: 'invalid_gallery_order'">evaluation = &lt;module 'public_speaker_evaluation' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\evaluate-public-speakers.py'&gt;
+tmp_path = WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-157/test_large_nested_gallery_reje0')
+
+    def test_large_nested_gallery_rejects_over_twenty_thousand_operations(evaluation, tmp_path):
+        manifest = manifest_fixture(tmp_path, gallery_size=200, unknown_size=200)
+        with pytest.raises(evaluation.EvaluationError, match="operation_limit"):
+&gt;           evaluation.validate_manifest(manifest, tmp_path, list(range(1, 201)))
+
+tests\test_public_speaker_evaluation.py:163: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+manifest = {'dataset_id': 'fixture', 'gallery_order': ['a', 'p001', 'p002', 'p003', 'p004', 'p005', ...], 'language': 'en', 'reco... 'p001-0.wav', ...}, {'chapter_id': '1', 'duration_seconds': 30, 'id': 'p001-1', 'path': 'p001-1.wav', ...}, ...], ...}
+audio_root = WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-157/test_large_nested_gallery_reje0')
+gallery_sizes = [1, 2, 3, 4, 5, 6, ...]
+
+    def validate_manifest(manifest: Any, audio_root: Path, gallery_sizes: list[int]) -&gt; None:
+        if (
+            not isinstance(manifest, dict)
+            or type(manifest.get("schema_version")) is not int
+            or manifest["schema_version"] != 1
+            or not _text(manifest.get("dataset_id"))
+            or manifest.get("language") != "en"
+            or manifest.get("split") not in {"calibration", "test"}
+            or not isinstance(manifest.get("recordings"), list)
+            or not 1 &lt;= len(manifest["recordings"]) &lt;= 1500
+        ):
+            raise EvaluationError("invalid_manifest")
+        gallery = manifest.get("gallery_order")
+        if (
+            not isinstance(gallery, list)
+            or not 1 &lt;= len(gallery) &lt;= 100
+            or not all(_text(item) for item in gallery)
+            or len(set(gallery)) != len(gallery)
+        ):
+&gt;           raise EvaluationError("invalid_gallery_order")
+E           public_speaker_evaluation.EvaluationError: invalid_gallery_order
+
+scripts\evaluate-public-speakers.py:230: EvaluationError
+
+During handling of the above exception, another exception occurred:
+
+evaluation = &lt;module 'public_speaker_evaluation' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\evaluate-public-speakers.py'&gt;
+tmp_path = WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-157/test_large_nested_gallery_reje0')
+
+    def test_large_nested_gallery_rejects_over_twenty_thousand_operations(evaluation, tmp_path):
+        manifest = manifest_fixture(tmp_path, gallery_size=200, unknown_size=200)
+&gt;       with pytest.raises(evaluation.EvaluationError, match="operation_limit"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E        Regex: 'operation_limit'
+E        Input: 'invalid_gallery_order'
+
+tests\test_public_speaker_evaluation.py:162: AssertionError</failure></testcase><testcase classname="tests.test_public_speaker_evaluation" name="test_cli_gallery_above_fifty_completes_without_product_quota" time="0.500"><failure message="AssertionError: assert 1 == 0&#10; +  where 1 = &lt;function main at 0x00000159115F9EE0&gt;(['--manifest', 'C:\\Users\\furko\\AppData\\Local\\Temp\\pytest-of-furko\\pytest-157\\test_cli_gallery_above_fifty_c0\\...ers\\furko\\AppData\\Local\\Temp\\pytest-of-furko\\pytest-157\\test_cli_gallery_above_fifty_c0\\credentials.json', ...])&#10; +    where &lt;function main at 0x00000159115F9EE0&gt; = &lt;module 'public_speaker_evaluation' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\evaluate-public-speakers.py'&gt;.main">evaluation = &lt;module 'public_speaker_evaluation' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\evaluate-public-speakers.py'&gt;
+tmp_path = WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-157/test_cli_gallery_above_fifty_c0')
+api_server = {'calls': [], 'change_gallery': False, 'change_policy': False, 'fail_enrollment': False, ...}
+
+    def test_cli_gallery_above_fifty_completes_without_product_quota(evaluation, tmp_path, api_server):
+        args = provenance_cli_fixture(evaluation, tmp_path, api_server, gallery_size=51)
+&gt;       assert evaluation.main(args) == 0
+E       AssertionError: assert 1 == 0
+E        +  where 1 = &lt;function main at 0x00000159115F9EE0&gt;(['--manifest', 'C:\\Users\\furko\\AppData\\Local\\Temp\\pytest-of-furko\\pytest-157\\test_cli_gallery_above_fifty_c0\\...ers\\furko\\AppData\\Local\\Temp\\pytest-of-furko\\pytest-157\\test_cli_gallery_above_fifty_c0\\credentials.json', ...])
+E        +    where &lt;function main at 0x00000159115F9EE0&gt; = &lt;module 'public_speaker_evaluation' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\evaluate-public-speakers.py'&gt;.main
+
+tests\test_public_speaker_evaluation.py:609: AssertionError</failure></testcase><testcase classname="tests.test_public_speaker_evaluation" name="test_planned_two_hundred_gallery_enrolls_returner_as_profile_201" time="0.992"><failure message="public_speaker_evaluation.EvaluationError: unexpected_gallery_size">evaluation = &lt;module 'public_speaker_evaluation' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\evaluate-public-speakers.py'&gt;
+tmp_path = WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-157/test_planned_two_hundred_galle0')
+api_server = {'calls': [('POST', '/api/voiceup/v1/auth/login'), ('GET', '/api/voiceup/v1/speaker-profiles?offset=0&amp;limit=100'), ('G...speaker-profiles?offset=0&amp;limit=100')], 'change_gallery': False, 'change_policy': False, 'fail_enrollment': False, ...}
+
+    def test_planned_two_hundred_gallery_enrolls_returner_as_profile_201(
+        evaluation, tmp_path, api_server
+    ):
+        runner = runner_fixture(evaluation, tmp_path, api_server, gallery_size=200)
+        for person in runner.manifest["gallery_order"]:
+            identifier = str(uuid4())
+            api_server["profiles"][identifier] = {
+                "public_id": identifier,
+                "name": "existing-" + person,
+                "sample_count": 1,
+                "model_id": evaluation.MODEL_ID,
+                "model_revision": evaluation.MODEL_REVISION,
+                "created_at": "2026-09-10T00:00:00Z",
+                "updated_at": "2026-09-10T00:00:00Z",
+            }
+        runner.state["expected_profiles"] = sorted(
+            api_server["profiles"].values(), key=lambda row: row["public_id"]
+        )
+        runner.login()
+        for role, purpose in (("new_enrollment", "enroll"), ("return_query", "identify")):
+            row = next(row for row in runner.rows.values() if row["role"] == role)
+&gt;           operation = runner.finish(*runner.prepare(row, purpose, "return"))
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_public_speaker_evaluation.py:646: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scripts\evaluate-public-speakers.py:720: in finish
+    current = self.profiles()
+              ^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;public_speaker_evaluation.Evaluator object at 0x00000159116D7F80&gt;
+
+    def profiles(self) -&gt; list[dict]:
+        result = []
+        offset = 0
+        while True:
+            page = self.request("GET", f"/speaker-profiles?offset={offset}&amp;limit=100")
+            if not isinstance(page.get("items"), list) or type(page.get("total")) is not int:
+                raise EvaluationError("invalid_profile_page")
+            if not 0 &lt;= page["total"] &lt;= 200:
+&gt;               raise EvaluationError("unexpected_gallery_size")
+E               public_speaker_evaluation.EvaluationError: unexpected_gallery_size
+
+scripts\evaluate-public-speakers.py:496: EvaluationError</failure></testcase><testcase classname="tests.test_public_speaker_metrics" name="test_metrics_support_two_hundred_people_per_role_without_mutating_inputs" time="0.069"><failure message="ValueError: invalid_person_order">metrics = &lt;module 'speaker_metrics' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\speaker_metrics.py'&gt;
+
+    def test_metrics_support_two_hundred_people_per_role_without_mutating_inputs(metrics):
+        source, manifest = fixture(
+            known={f"person-{index}": 3 for index in range(200)},
+            unknown={f"unknown-{index}": 1 for index in range(200)},
+            sizes=[50, 100, 200], returns=True,
+        )
+        original = copy.deepcopy((source, manifest))
+&gt;       actual = metrics.summarize_metrics(source, manifest)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_public_speaker_metrics.py:630: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scripts\speaker_metrics.py:613: in summarize_metrics
+    expected = validate_manifest(manifest, sizes)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts\speaker_metrics.py:107: in validate_manifest
+    require(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+condition = False, code = 'invalid_person_order'
+
+    def require(condition, code):
+        if not condition:
+&gt;           raise ValueError(code)
+E           ValueError: invalid_person_order
+
+scripts\speaker_metrics.py:38: ValueError</failure></testcase><testcase classname="tests.test_public_speaker_metrics" name="test_metrics_reject_per_role_manifest_resource_budget_over_two_hundred[known]" time="0.006" /><testcase classname="tests.test_public_speaker_metrics" name="test_metrics_reject_per_role_manifest_resource_budget_over_two_hundred[unknown]" time="0.004" /><testcase classname="tests.test_public_speaker_metrics" name="test_metrics_keep_recording_and_operation_resource_budgets" time="0.009"><failure message="AssertionError: Regex pattern did not match.&#10; Regex: 'operation_limit'&#10; Input: 'invalid_person_order'">metrics = &lt;module 'speaker_metrics' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\speaker_metrics.py'&gt;
+
+    def test_metrics_keep_recording_and_operation_resource_budgets(metrics):
+        _, manifest = fixture(
+            known={f"person-{index}": 3 for index in range(200)},
+            unknown={f"unknown-{index}": 1 for index in range(200)},
+        )
+        with pytest.raises(ValueError, match="operation_limit"):
+&gt;           metrics.validate_manifest(manifest, list(range(1, 201)))
+
+tests\test_public_speaker_metrics.py:653: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scripts\speaker_metrics.py:107: in validate_manifest
+    require(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+condition = False, code = 'invalid_person_order'
+
+    def require(condition, code):
+        if not condition:
+&gt;           raise ValueError(code)
+E           ValueError: invalid_person_order
+
+scripts\speaker_metrics.py:38: ValueError
+
+During handling of the above exception, another exception occurred:
+
+metrics = &lt;module 'speaker_metrics' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\speaker_metrics.py'&gt;
+
+    def test_metrics_keep_recording_and_operation_resource_budgets(metrics):
+        _, manifest = fixture(
+            known={f"person-{index}": 3 for index in range(200)},
+            unknown={f"unknown-{index}": 1 for index in range(200)},
+        )
+&gt;       with pytest.raises(ValueError, match="operation_limit"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E        Regex: 'operation_limit'
+E        Input: 'invalid_person_order'
+
+tests\test_public_speaker_metrics.py:652: AssertionError</failure></testcase><testcase classname="tests.test_public_speaker_dataset" name="test_preparer_plans_two_hundred_people_without_a_product_quota" time="7.299" /></testsuite></testsuites>

@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "scope": "Read-only API corroboration of root browser flow; initial snapshot before wrong-person append, not final preservation",
+  "recorded_at": "2026-09-09T12:47:20.445702+00:00",
+  "checks_passed": 5,
+  "checks_failed": 0,
+  "skipped": 0,
+  "http_requests": {
+    "POST_login": 1,
+    "GET": 2
+  },
+  "checks": [
+    {
+      "check": "one_browser_profile_present",
+      "passed": true
+    },
+    {
+      "check": "browser_profile_has_one_sample",
+      "passed": true
+    },
+    {
+      "check": "enrollment_succeeded_with_existing_continuous_preprocessing",
+      "passed": true
+    },
+    {
+      "check": "recovered_identification_succeeded_for_expected_profile",
+      "passed": true
+    },
+    {
+      "check": "unknown_identification_not_assigned_to_profile",
+      "passed": true
+    }
+  ],
+  "preprocessing_versions": {
+    "enrollment": "vad-windows-v1",
+    "recognized_query": "vad-packed-fallback-v1",
+    "unknown_query": "vad-packed-fallback-v1"
+  },
+  "private_profile_baseline_sha256": "7ab2502ee417448f759f9eaf4786ae48514ab254399773f5955146af64142053",
+  "private_job_snapshot_sha256": "c35c284df216b234507380b343dde301c2a65353af9f92ceb4625b8df3b6058c",
+  "limitation": "API snapshots corroborate persisted outcomes; this agent did not operate the browser. Raw results, profile identities and audio are private."
+}

@@ -1,0 +1,7 @@
+{
+  "case": "known_host_key_mismatch",
+  "ssh_exit_code": 255,
+  "host_key_rejected": true,
+  "production_known_hosts_unchanged": true,
+  "tunnel_untouched": true
+}

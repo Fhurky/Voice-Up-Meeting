@@ -1,0 +1,8 @@
+warning: in the working copy of 'app/backend/.env.example', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'app/backend/app/infrastructure/repositories/speaker_repository.py', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'app/infra/docker-compose.local.yml', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'docs/LOCAL_PILOT.md', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'specs/speaker-identity/PRDs/001-local-speaker-pilot/PRD.md', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'tests/test_local_configuration.py', CRLF will be replaced by LF the next time Git touches it
+
+OBSERVED_EXIT_CODE 0

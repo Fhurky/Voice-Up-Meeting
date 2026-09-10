@@ -1,0 +1,117 @@
+KT_GATE_STEP name=configuration status=started
+KT_GATE_STEP name=configuration status=passed
+KT_GATE_STEP name=dependency-admission status=started
+dependency admission current: 119 coordinates, sha256:abf1a5d81b9344531dd52f334a62404b4a49955831ad3b4504760fe320102ba9
+KT_GATE_STEP name=dependency-admission status=passed
+KT_GATE_STEP name=configuration-sync status=started
+{"backend_profile":"python-fastapi","checked":{"compose_environment_keys":26,"env_example_assignments":27,"kubernetes_secret_refs":1,"source_files":54,"typed_configuration_keys":29},"env_prefix":"VOICEUP_","ok":true}
+KT_GATE_STEP name=configuration-sync status=passed
+KT_GATE_SCOPE scope=all postgres_integration=required database_mode=disposable-test
+KT_GATE_STEP name=database-test-create status=started
+CREATE DATABASE
+KT_GATE_STEP name=database-test-create status=passed
+KT_GATE_STEP name=database-migrations-apply status=started
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+INFO  [alembic.runtime.migration] Running upgrade  -> 202608060001, Create the tenant, user, and RBAC platform baseline.
+INFO  [alembic.runtime.migration] Running upgrade 202608060001 -> 9486b1bc12a9, speaker_identity_pilot
+KT_GATE_STEP name=database-migrations-apply status=passed
+KT_GATE_STEP name=backend-static status=started
+All checks passed!
+All done! ✨ 🍰 ✨
+66 files would be left unchanged.
+Success: no issues found in 54 source files
+KT_GATE_STEP name=backend-static status=passed
+KT_GATE_STEP name=backend-tests status=started
+.....................................................................    [100%]
+69 passed in 10.00s
+KT_GATE_TESTS name=backend-tests runner=pytest total=69 passed=69 failed=0 skipped=0
+KT_GATE_STEP name=backend-tests status=passed
+KT_GATE_STEP name=database-validate status=started
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+INFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.schemas
+INFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.tables
+INFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.types
+INFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.constraints
+INFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.defaults
+INFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.comments
+INFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.checkconstraint_byname
+No new upgrade operations detected.
+9486b1bc12a9 (head)
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+9486b1bc12a9 (head)
+KT_GATE_STEP name=database-validate status=passed
+KT_GATE_STEP name=openapi-contract status=started
+KT_GATE_STEP name=openapi-contract status=passed
+KT_GATE_STEP name=frontend-static status=started
+
+> app-frontend@0.1.0 lint
+> eslint .
+
+
+> app-frontend@0.1.0 build
+> npm run typecheck && vite build
+
+
+> app-frontend@0.1.0 typecheck
+> node node_modules/typescript7/bin/tsc -b
+
+vite v8.2.0 building client environment for production...
+[2Ktransforming...✓ 97 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                0.44 kB │ gzip:  0.27 kB
+dist/assets/index-r1HQFZcl.css                 7.90 kB │ gzip:  2.30 kB
+dist/assets/speakers-B9-nYRxS.js               1.75 kB │ gzip:  0.72 kB
+dist/assets/SpeakerAnalysisPage-CrXrL8cS.js    2.62 kB │ gzip:  1.01 kB
+dist/assets/AudioJobForm-DIocdQUC.js           2.86 kB │ gzip:  1.21 kB
+dist/assets/SpeakerJobPage-MW5GExXq.js         5.21 kB │ gzip:  1.62 kB
+dist/assets/SpeakerProfilesPage-B7XMbYpm.js    6.39 kB │ gzip:  1.89 kB
+dist/assets/en-DFCSxxzK.js                     9.29 kB │ gzip:  3.19 kB
+dist/assets/tr-BOzhQa1s.js                     9.61 kB │ gzip:  3.46 kB
+dist/assets/index-CbwGGnBu.js                236.49 kB │ gzip: 75.76 kB
+
+✓ built in 316ms
+KT_GATE_STEP name=frontend-static status=passed
+KT_GATE_STEP name=frontend-tests status=started
+
+> app-frontend@0.1.0 test
+> vitest run --reporter=default --reporter=json --outputFile.json=/tmp/kt-gate-vitest.json
+
+
+[1m[30m[46m RUN [49m[39m[22m [36mv4.1.10 [39m[90m/app[39m
+
+ [32m✓[39m src/pages/HomePage.test.tsx [2m([22m[2m1 test[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m src/lib/authStorage.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m src/lib/apiClient.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 9[2mms[22m[39m
+ [32m✓[39m src/locales/catalogues.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 9[2mms[22m[39m
+ [32m✓[39m src/pages/LoginPage.test.tsx [2m([22m[2m1 test[22m[2m)[22m[32m 93[2mms[22m[39m
+ [32m✓[39m src/components/SpeakerResultCard.test.tsx [2m([22m[2m4 tests[22m[2m)[22m[32m 131[2mms[22m[39m
+ [32m✓[39m src/components/AudioJobForm.test.tsx [2m([22m[2m4 tests[22m[2m)[22m[32m 128[2mms[22m[39m
+ [32m✓[39m src/pages/SpeakerProfilesPage.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[32m 203[2mms[22m[39m
+ [32m✓[39m src/pages/SpeakerJobPage.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[33m 4902[2mms[22m[39m
+     [33m[2m✓[22m[39m polls pending jobs serially and stops at the terminal failure [33m 4767[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m9 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m [1m[32m21 passed[39m[22m[90m (21)[39m
+[2m   Start at [22m 11:39:56
+[2m   Duration [22m 6.52s[2m (transform 2.62s, setup 2.19s, import 3.14s, tests 5.48s, environment 5.66s)[22m
+
+JSON report written to /tmp/kt-gate-vitest.json
+KT_GATE_TESTS name=frontend-tests runner=vitest total=21 passed=21 failed=0 skipped=0
+KT_GATE_STEP name=frontend-tests status=passed
+KT_GATE_STEP name=frontend-types-contract status=started
+KT_GATE_STEP name=frontend-types-contract status=passed
+KT_GATE_STEP name=governance-drift status=started
+governance projections current: 93 files
+inert agent projections current: 4 files; activation not claimed
+KT_GATE_STEP name=governance-drift status=passed
+KT_GATE_STEP name=charts-render status=started
+chart contract passed: 46 resources x 2 fixture overlays
+KT_GATE_STEP name=charts-render status=passed
+KT_GATE_STEP name=database-test-drop status=started
+DROP DATABASE
+KT_GATE_STEP name=database-test-drop status=passed
+quality gate passed: all (python-fastapi)

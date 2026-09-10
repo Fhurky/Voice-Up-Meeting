@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="4" skipped="0" tests="4" time="4.136" timestamp="2026-09-09T14:28:03.196460+03:00" hostname="DESKTOP-RJ78JKH"><testcase classname="tests.test_spark_startup" name="test_spark_refreshes_nginx_upstream_addresses_after_compose_replacement[powershell]" time="1.531"><failure message="assert 0 == 1&#10; +  where 0 = len([])">startup = (WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-126/test_spark_refreshes_nginx_ups0'), WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-126/native-docker0/docker.exe'))
+shell = 'powershell'
+
+    @pytest.mark.parametrize("shell", SHELLS)
+    def test_spark_refreshes_nginx_upstream_addresses_after_compose_replacement(startup, shell):
+        result = run_startup(startup, shell)
+        assert result.returncode == 0, result.stderr
+        recorded = calls(startup)
+        reloads = [call for call in recorded if "exec" in call and "sh" in call]
+&gt;       assert len(reloads) == 1
+E       assert 0 == 1
+E        +  where 0 = len([])
+
+tests\test_spark_startup.py:179: AssertionError</failure></testcase><testcase classname="tests.test_spark_startup" name="test_spark_refreshes_nginx_upstream_addresses_after_compose_replacement[pwsh]" time="0.630"><failure message="assert 0 == 1&#10; +  where 0 = len([])">startup = (WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-126/test_spark_refreshes_nginx_ups1'), WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-126/native-docker0/docker.exe'))
+shell = 'pwsh'
+
+    @pytest.mark.parametrize("shell", SHELLS)
+    def test_spark_refreshes_nginx_upstream_addresses_after_compose_replacement(startup, shell):
+        result = run_startup(startup, shell)
+        assert result.returncode == 0, result.stderr
+        recorded = calls(startup)
+        reloads = [call for call in recorded if "exec" in call and "sh" in call]
+&gt;       assert len(reloads) == 1
+E       assert 0 == 1
+E        +  where 0 = len([])
+
+tests\test_spark_startup.py:179: AssertionError</failure></testcase><testcase classname="tests.test_spark_startup" name="test_nginx_reload_failure_does_not_report_ready_or_stop_local_inference[powershell]" time="1.152"><failure message="AssertionError: assert 0 != 0&#10; +  where 0 = CompletedProcess(args=['C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.EXE', '-NoProfile', '-NonInteractiv...or first use.&lt;/AV&gt;&lt;AI&gt;0&lt;/AI&gt;&lt;Nil /&gt;&lt;PI&gt;-1&lt;/PI&gt;&lt;PC&gt;-1&lt;/PC&gt;&lt;T&gt;Completed&lt;/T&gt;&lt;SR&gt;-1&lt;/SR&gt;&lt;SD&gt; &lt;/SD&gt;&lt;/PR&gt;&lt;/MS&gt;&lt;/Obj&gt;&lt;/Objs&gt;').returncode">startup = (WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-126/test_nginx_reload_failure_does0'), WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-126/native-docker0/docker.exe'))
+shell = 'powershell'
+
+    @pytest.mark.parametrize("shell", SHELLS)
+    def test_nginx_reload_failure_does_not_report_ready_or_stop_local_inference(startup, shell):
+        result = run_startup(startup, shell, extra={"VOICEUP_FIXTURE_FAIL": "reload"})
+&gt;       assert result.returncode != 0
+E       AssertionError: assert 0 != 0
+E        +  where 0 = CompletedProcess(args=['C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.EXE', '-NoProfile', '-NonInteractiv...or first use.&lt;/AV&gt;&lt;AI&gt;0&lt;/AI&gt;&lt;Nil /&gt;&lt;PI&gt;-1&lt;/PI&gt;&lt;PC&gt;-1&lt;/PC&gt;&lt;T&gt;Completed&lt;/T&gt;&lt;SR&gt;-1&lt;/SR&gt;&lt;SD&gt; &lt;/SD&gt;&lt;/PR&gt;&lt;/MS&gt;&lt;/Obj&gt;&lt;/Objs&gt;').returncode
+
+tests\test_spark_startup.py:193: AssertionError</failure></testcase><testcase classname="tests.test_spark_startup" name="test_nginx_reload_failure_does_not_report_ready_or_stop_local_inference[pwsh]" time="0.616"><failure message="AssertionError: assert 0 != 0&#10; +  where 0 = CompletedProcess(args=['C:\\Users\\furko\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powersh... http://127.0.0.1:8173\nModel modu: spark\nServis durumunu kontrol etmek iÃ§in: bash scripts/stack.sh ps\n', stderr='').returncode">startup = (WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-126/test_nginx_reload_failure_does1'), WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-126/native-docker0/docker.exe'))
+shell = 'pwsh'
+
+    @pytest.mark.parametrize("shell", SHELLS)
+    def test_nginx_reload_failure_does_not_report_ready_or_stop_local_inference(startup, shell):
+        result = run_startup(startup, shell, extra={"VOICEUP_FIXTURE_FAIL": "reload"})
+&gt;       assert result.returncode != 0
+E       AssertionError: assert 0 != 0
+E        +  where 0 = CompletedProcess(args=['C:\\Users\\furko\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powersh... http://127.0.0.1:8173\nModel modu: spark\nServis durumunu kontrol etmek iÃ§in: bash scripts/stack.sh ps\n', stderr='').returncode
+
+tests\test_spark_startup.py:193: AssertionError</failure></testcase></testsuite></testsuites>

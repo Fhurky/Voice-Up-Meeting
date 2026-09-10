@@ -1,0 +1,799 @@
+{
+  "schema_version": 1,
+  "recorded_at_utc": "2026-09-10T05:10:38.045138+00:00",
+  "report_date": "2026-09-10",
+  "status": "passed",
+  "scope": "Final offline privacy, immutable-input preservation and local Markdown file-target audit for speaker metrics evidence",
+  "technology_profile": "kt-vibecoding-python-web-v2",
+  "authority": "specs/speaker-identity/PRDs/001-local-speaker-pilot/PRD.md#Decision 9",
+  "provenance": "local-executed",
+  "evidence_tier": "L1 for this static audit only; no new live model experiment",
+  "command": "app/backend/.venv/Scripts/python.exe -B outputs/quality-improvement/speaker-metrics-privacy-review.py --final --extra docs/EVALUATION_PLAN.md",
+  "environment": "local Windows PowerShell; existing backend Python environment; read-only source inspection",
+  "auditor_source_sha256": "753cc071f2834bde6b87b2cc57e6c40a762a1f9eb1a14f0569c85a8307da3ff8",
+  "reused_read_only_auditor_sha256": "16b233e623682ee27afe5b2556fc1daa8d8ce29a8a1d7f597463ff2dcf846a37",
+  "preservation": {
+    "baseline": "docs/evidence/2026-09-09-speaker-metrics/source-integrity.json",
+    "baseline_sha256": "28259b244aeeea7da4635fd9189bc75a5e9eb0493ffaf8c13ead9f8340103538",
+    "expected_files": 98,
+    "unchanged_files": 98,
+    "old_evidence_files": 92,
+    "raw_result_files": 3,
+    "manifest_files": 3,
+    "canonical_inventory_sha256": "23f46a697cac57aa0f9b5eb17295aba7020f373ea93209ee49f44926cf6acbac",
+    "canonical_inventory_matches": true,
+    "old_evidence_directory_inventory_unchanged": true,
+    "failures": []
+  },
+  "privacy": {
+    "public_evidence_files_scanned": 36,
+    "related_documents_scanned": 6,
+    "own_output_files_scanned_without_self_hash": 2,
+    "private_sources_by_kind": {
+      "private_json": 62,
+      "environment_file": 2,
+      "private_dataset_manifest": 3
+    },
+    "comparison_values_by_category": {
+      "account_username": 10,
+      "credential_or_secret": 10,
+      "private_application_identifier": 3938,
+      "private_tenant_identifier": 3,
+      "private_job_identifier": 906,
+      "private_profile_identifier": 111,
+      "profile_name": 191,
+      "environment_secret": 4,
+      "dataset_speaker_identifier": 216,
+      "dataset_recording_identifier": 906,
+      "dataset_audio_path": 906,
+      "dataset_utterance_identifier": 2543,
+      "dataset_reader_name": 212,
+      "private_operation_identifier": 906
+    },
+    "private_numeric_vectors_available_for_exact_comparison": 0,
+    "private_audio_hashes_compared": 911,
+    "findings": [],
+    "methods": [
+      "Exact local comparison of private values in raw reports, local result files, three manifests and selected dataset reader names; literal and JSON representations are included",
+      "Exact comparison of application job, profile and tenant identifiers, profile names, dataset source and operation identifiers, account usernames and existing local credentials",
+      "Private key, token and JWT signatures; raw and base64 audio signatures and recorded audio content hashes",
+      "Long numeric-array review, with exact vector comparison when a private numeric vector is available"
+    ]
+  },
+  "markdown_links": {
+    "counts_excluding_own_report": {
+      "local": 77,
+      "external_format_only": 2
+    },
+    "invalid": [],
+    "local_check": "workspace containment and file/directory existence; fragment anchors are not checked",
+    "external_check": "URL format only; no network requests"
+  },
+  "snapshot": {
+    "docs/EVALUATION_PLAN.md": {
+      "sha256": "3f50f1a08307dc7f33c11f04daafcac201b05352ed10e3ba8f0494b7fdd339f6",
+      "bytes": 17077,
+      "findings": [],
+      "markdown_links": [
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/SPARK_RUNTIME.md"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/PUBLIC_DATASET_PROTOCOL.md"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-public-speaker-evaluation/selected-policy.json"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-public-speaker-evaluation/README.md"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/DATA_COLLECTION.md"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/LONG_RECORDING_STRATEGY.md"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/SPEAKER_METRICS.md"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/PUBLIC_DATASET_PROTOCOL.md"
+        },
+        {
+          "kind": "external_format_only",
+          "valid": true
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/DGX_SPARK_PLAN.md"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/SPARK_RUNTIME.md"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/MODEL_RESEARCH.md"
+        }
+      ],
+      "intentional_fixture_numeric_vectors": 0
+    },
+    "docs/evidence/2026-09-09-speaker-metrics/calibration-cli.txt": {
+      "sha256": "9aaf12cfd3885e97aa13fd590b1dc9f639908237e2d4ad374eca2e9675c388d7",
+      "bytes": 64,
+      "findings": [],
+      "markdown_links": [],
+      "intentional_fixture_numeric_vectors": 0
+    },
+    "docs/evidence/2026-09-09-speaker-metrics/calibration-summary.json": {
+      "sha256": "f69b69606d64436c064f1c478eeacc7ba470c34b13e00766e534938e83031aba",
+      "bytes": 5211,
+      "findings": [],
+      "markdown_links": [],
+      "intentional_fixture_numeric_vectors": 0
+    },
+    "docs/evidence/2026-09-09-speaker-metrics/fresh-cli.txt": {
+      "sha256": "9aaf12cfd3885e97aa13fd590b1dc9f639908237e2d4ad374eca2e9675c388d7",
+      "bytes": 64,
+      "findings": [],
+      "markdown_links": [],
+      "intentional_fixture_numeric_vectors": 0
+    },
+    "docs/evidence/2026-09-09-speaker-metrics/fresh-summary.json": {
+      "sha256": "37c7d6e03bfca68eb64eb6be69c34f606ffa745246135083daca4404e4822fdd",
+      "bytes": 5231,
+      "findings": [],
+      "markdown_links": [],
+      "intentional_fixture_numeric_vectors": 0
+    },
+    "docs/evidence/2026-09-09-speaker-metrics/historical-cli.txt": {
+      "sha256": "9aaf12cfd3885e97aa13fd590b1dc9f639908237e2d4ad374eca2e9675c388d7",
+      "bytes": 64,
+      "findings": [],
+      "markdown_links": [],
+      "intentional_fixture_numeric_vectors": 0
+    },
+    "docs/evidence/2026-09-09-speaker-metrics/historical-summary.json": {
+      "sha256": "56d80f79d1bab9dc4b7aa9f0ccd20bd9e9f3157ba119b4db393dab8f51e1d8d2",
+      "bytes": 5311,
+      "findings": [],
+      "markdown_links": [],
+      "intentional_fixture_numeric_vectors": 0
+    },
+    "docs/evidence/2026-09-09-speaker-metrics/independent-audit-report.md": {
+      "sha256": "d062c65f5d030a581b1de70a6bec162f304272f949e93c9d7d25512892b5bd5b",
+      "bytes": 2167,
+      "findings": [],
+      "markdown_links": [
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-speaker-metrics/independent-audit.json"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-speaker-metrics/scoring-source-manifest.json"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-speaker-metrics/independent-audit.json"
+        }
+      ],
+      "intentional_fixture_numeric_vectors": 0
+    },
+    "docs/evidence/2026-09-09-speaker-metrics/independent-audit.json": {
+      "sha256": "49aae8646d8acf3aa41407e06c2df79b7965351069b1c0f4c1c319730682862e",
+      "bytes": 10866,
+      "findings": [],
+      "markdown_links": [],
+      "intentional_fixture_numeric_vectors": 0
+    },
+    "docs/evidence/2026-09-09-speaker-metrics/metrics-red-green.json": {
+      "sha256": "613a249937404040619d935870925da8f72a1c750b4484a3b294b6b0c102e47d",
+      "bytes": 3699,
+      "findings": [],
+      "markdown_links": [],
+      "intentional_fixture_numeric_vectors": 0
+    },
+    "docs/evidence/2026-09-09-speaker-metrics/metrics-unit-console.txt": {
+      "sha256": "88906507c4df3a98bf8325da33a96db2856c30e7b66cfd161c3a57354c916575",
+      "bytes": 259,
+      "findings": [],
+      "markdown_links": [],
+      "intentional_fixture_numeric_vectors": 0
+    },
+    "docs/evidence/2026-09-09-speaker-metrics/metrics-unit-run-report.md": {
+      "sha256": "cb70cf2e3acd475455bb9477f1e57b32a23e7ede557225d6daaeec9f23c4a0ed",
+      "bytes": 2905,
+      "findings": [],
+      "markdown_links": [
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-speaker-metrics/metrics-unit-tests.xml"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-speaker-metrics/metrics-unit-console.txt"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-speaker-metrics/metrics-red-green.json"
+        }
+      ],
+      "intentional_fixture_numeric_vectors": 0
+    },
+    "docs/evidence/2026-09-09-speaker-metrics/metrics-unit-tests.xml": {
+      "sha256": "013659814cdf5ee47e982afa3684953823203c3ef0f36d19c381fa122ad99de7",
+      "bytes": 14543,
+      "findings": [],
+      "markdown_links": [],
+      "intentional_fixture_numeric_vectors": 0
+    },
+    "docs/evidence/2026-09-09-speaker-metrics/native-tests-report.md": {
+      "sha256": "f99b3dbe53655e39c479da6b7d02bd19eef13c8a06bedd4109c14f7664ebe4c0",
+      "bytes": 2940,
+      "findings": [],
+      "markdown_links": [
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-speaker-metrics/native-tests.xml"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-speaker-metrics/metrics-unit-run-report.md"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-speaker-metrics/quality-gate-final-backend.xml"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-speaker-metrics/quality-gate-final-frontend.json"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-speaker-metrics/metrics-unit-tests.xml"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-speaker-metrics/test-inventory.json"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-speaker-metrics/native-tests-result.json"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-speaker-metrics/native-tests.txt"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-speaker-metrics/quality-gate-final.txt"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-speaker-metrics/quality-gate-final-result.json"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-speaker-metrics/scoring-source-manifest.json"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-speaker-metrics/quality-gate-report.md"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-speaker-metrics/security-report.md"
+        }
+      ],
+      "intentional_fixture_numeric_vectors": 0
+    },
+    "docs/evidence/2026-09-09-speaker-metrics/native-tests-result.json": {
+      "sha256": "872c0aa48db4fd0fa00c4cfab43f0fdb99abe80ffb160b71a1e98b0119d80574",
+      "bytes": 1316,
+      "findings": [],
+      "markdown_links": [],
+      "intentional_fixture_numeric_vectors": 0
+    },
+    "docs/evidence/2026-09-09-speaker-metrics/native-tests.txt": {
+      "sha256": "9d7093ecc03b32516980335c5b41cd7bc8c0087897ba4a7a30db3200c97acba1",
+      "bytes": 261,
+      "findings": [],
+      "markdown_links": [],
+      "intentional_fixture_numeric_vectors": 0
+    },
+    "docs/evidence/2026-09-09-speaker-metrics/native-tests.xml": {
+      "sha256": "5901ff035531d490841b63a780b3d1c6c3eed44ab0daf3d0fc52f4e626eaede3",
+      "bytes": 23144,
+      "findings": [],
+      "markdown_links": [],
+      "intentional_fixture_numeric_vectors": 0
+    },
+    "docs/evidence/2026-09-09-speaker-metrics/quality-gate-backend.xml": {
+      "sha256": "e3c28bd30a35b1f746b66a4c5c8414e526f27d2c620733c9eb1c5d3acce22239",
+      "bytes": 11854,
+      "findings": [],
+      "markdown_links": [],
+      "intentional_fixture_numeric_vectors": 0
+    },
+    "docs/evidence/2026-09-09-speaker-metrics/quality-gate-final-backend.xml": {
+      "sha256": "23648d697c4ea9bb431037d2ab7c59211146f03d5fd6ff1e26d8bac4c8cd8954",
+      "bytes": 11854,
+      "findings": [],
+      "markdown_links": [],
+      "intentional_fixture_numeric_vectors": 0
+    },
+    "docs/evidence/2026-09-09-speaker-metrics/quality-gate-final-frontend.json": {
+      "sha256": "25ddf70448a753ebe40ce6b814e8175ac5c15cd56a0af148c1a79c94620f929c",
+      "bytes": 8155,
+      "findings": [],
+      "markdown_links": [],
+      "intentional_fixture_numeric_vectors": 0
+    },
+    "docs/evidence/2026-09-09-speaker-metrics/quality-gate-final-result.json": {
+      "sha256": "30255ebb54b4b30c846edcde582397f671f0f53cda115e85a7134fa27894bc08",
+      "bytes": 255,
+      "findings": [],
+      "markdown_links": [],
+      "intentional_fixture_numeric_vectors": 0
+    },
+    "docs/evidence/2026-09-09-speaker-metrics/quality-gate-final.txt": {
+      "sha256": "9bcca333b4fad9c49b5382cc721fdd1e55909dac0516dca95186cd811308b4fa",
+      "bytes": 6685,
+      "findings": [],
+      "markdown_links": [],
+      "intentional_fixture_numeric_vectors": 0
+    },
+    "docs/evidence/2026-09-09-speaker-metrics/quality-gate-frontend.json": {
+      "sha256": "dfd09c157119935678737fcc670c501e19f555c81ac94292764b97199813f0cf",
+      "bytes": 8161,
+      "findings": [],
+      "markdown_links": [],
+      "intentional_fixture_numeric_vectors": 0
+    },
+    "docs/evidence/2026-09-09-speaker-metrics/quality-gate-report.md": {
+      "sha256": "67afbe1f8fd2c9e0b7421578f1fb96e979e8498f031ac3008249128821bc3f92",
+      "bytes": 2281,
+      "findings": [],
+      "markdown_links": [
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-speaker-metrics/quality-gate-retry.txt"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-speaker-metrics/quality-gate-retry-result.json"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-speaker-metrics/quality-gate-backend.xml"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-speaker-metrics/quality-gate-frontend.json"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-speaker-metrics/quality-gate-final-result.json"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-speaker-metrics/quality-gate-final.txt"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-speaker-metrics/quality-gate-final-backend.xml"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-speaker-metrics/quality-gate-final-frontend.json"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-speaker-metrics/quality-gate.txt"
+        }
+      ],
+      "intentional_fixture_numeric_vectors": 0
+    },
+    "docs/evidence/2026-09-09-speaker-metrics/quality-gate-result.json": {
+      "sha256": "ece3161f0d1ffdba88306978f581cbe594e0b9dc757704ac5b38d9baea97a97d",
+      "bytes": 164,
+      "findings": [],
+      "markdown_links": [],
+      "intentional_fixture_numeric_vectors": 0
+    },
+    "docs/evidence/2026-09-09-speaker-metrics/quality-gate-retry-result.json": {
+      "sha256": "09d88d5d4bd9085a10246cf85675783e5eb91f87c8a8753d909ac942a47f65ad",
+      "bytes": 255,
+      "findings": [],
+      "markdown_links": [],
+      "intentional_fixture_numeric_vectors": 0
+    },
+    "docs/evidence/2026-09-09-speaker-metrics/quality-gate-retry.txt": {
+      "sha256": "e8f85efc0a33d3982e0e4ed0f0b6d34b1fdb145ac210d40a18b1204336b59400",
+      "bytes": 6687,
+      "findings": [],
+      "markdown_links": [],
+      "intentional_fixture_numeric_vectors": 0
+    },
+    "docs/evidence/2026-09-09-speaker-metrics/quality-gate.txt": {
+      "sha256": "4c811af92f1ed1ed7c92135e0e9f0152bdbe139a1bd2e38bf4b9b31f5390076e",
+      "bytes": 421,
+      "findings": [],
+      "markdown_links": [],
+      "intentional_fixture_numeric_vectors": 0
+    },
+    "docs/evidence/2026-09-09-speaker-metrics/README.md": {
+      "sha256": "7e56072f9221022127d750a16752b5a8f90bee2ad2d2f53b305a478082c9ae79",
+      "bytes": 6738,
+      "findings": [],
+      "markdown_links": [
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-speaker-metrics/calibration-summary.json"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-speaker-metrics/historical-summary.json"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-speaker-metrics/fresh-summary.json"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/SPEAKER_METRICS.md"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "specs/speaker-identity/PRDs/001-local-speaker-pilot/PRD.md"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-speaker-metrics/source-integrity-report.md"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-speaker-metrics/rescore-commands.json"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-speaker-metrics/independent-audit-report.md"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-speaker-metrics/independent-audit.json"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-speaker-metrics/native-tests-report.md"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-speaker-metrics/test-inventory.json"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-speaker-metrics/scoring-source-manifest.json"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-speaker-metrics/quality-gate-final.txt"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-speaker-metrics/quality-gate-final-result.json"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-speaker-metrics/security-report.md"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-speaker-metrics/privacy-final-report.md"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-speaker-metrics/privacy-final-review.json"
+        }
+      ],
+      "intentional_fixture_numeric_vectors": 0
+    },
+    "docs/evidence/2026-09-09-speaker-metrics/rescore-commands.json": {
+      "sha256": "67304d02399a768530b26903fc5462a640a6767150bc461360c54159ebb53166",
+      "bytes": 1864,
+      "findings": [],
+      "markdown_links": [],
+      "intentional_fixture_numeric_vectors": 0
+    },
+    "docs/evidence/2026-09-09-speaker-metrics/scoring-source-manifest.json": {
+      "sha256": "662405d6608c512fa733754d4ceb062148159d46affa013892e0b0fa54c24582",
+      "bytes": 708,
+      "findings": [],
+      "markdown_links": [],
+      "intentional_fixture_numeric_vectors": 0
+    },
+    "docs/evidence/2026-09-09-speaker-metrics/security-gate-result.json": {
+      "sha256": "c90bdcff9028ef0eb6041d41c634361404153101cdd7f158b89d5f06b210f724",
+      "bytes": 153,
+      "findings": [],
+      "markdown_links": [],
+      "intentional_fixture_numeric_vectors": 0
+    },
+    "docs/evidence/2026-09-09-speaker-metrics/security-gate.txt": {
+      "sha256": "d1d3437eb7b609063917f74b1f636f93a8169896a73ce1b0c4d3f3694fe776c6",
+      "bytes": 56,
+      "findings": [],
+      "markdown_links": [],
+      "intentional_fixture_numeric_vectors": 0
+    },
+    "docs/evidence/2026-09-09-speaker-metrics/security-report.md": {
+      "sha256": "e3174a87930e935aadf3cf1e403f51e87ff8bcbcd4b7f64a3108192657d1610d",
+      "bytes": 939,
+      "findings": [],
+      "markdown_links": [
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-speaker-metrics/security-gate.txt"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-speaker-metrics/security-gate-result.json"
+        }
+      ],
+      "intentional_fixture_numeric_vectors": 0
+    },
+    "docs/evidence/2026-09-09-speaker-metrics/source-integrity-report.md": {
+      "sha256": "ab1760485af569a125cd744eec5d42533855765ebdded4c9f52d264fa086150b",
+      "bytes": 3835,
+      "findings": [],
+      "markdown_links": [
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-speaker-metrics/source-integrity.json"
+        }
+      ],
+      "intentional_fixture_numeric_vectors": 0
+    },
+    "docs/evidence/2026-09-09-speaker-metrics/source-integrity.json": {
+      "sha256": "28259b244aeeea7da4635fd9189bc75a5e9eb0493ffaf8c13ead9f8340103538",
+      "bytes": 29524,
+      "findings": [],
+      "markdown_links": [],
+      "intentional_fixture_numeric_vectors": 0
+    },
+    "docs/evidence/2026-09-09-speaker-metrics/test-inventory.json": {
+      "sha256": "aff690492e64134d2ecaa10ef9d38297facd6999a368457cd59e7d78a00b1dec",
+      "bytes": 999,
+      "findings": [],
+      "markdown_links": [],
+      "intentional_fixture_numeric_vectors": 0
+    },
+    "docs/SPEAKER_METRICS.md": {
+      "sha256": "e657dd604848d5dfbc1c6f02d7d4d6991639602c147aebff5b996d43aa91eede",
+      "bytes": 9369,
+      "findings": [],
+      "markdown_links": [
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "specs/speaker-identity/PRDs/001-local-speaker-pilot/PRD.md"
+        },
+        {
+          "kind": "external_format_only",
+          "valid": true
+        }
+      ],
+      "intentional_fixture_numeric_vectors": 0
+    },
+    "scripts/README.md": {
+      "sha256": "c86f6e1f24ca9011e1043616d3ec209a04ef28373030f61d270cc7ba9db92397",
+      "bytes": 9001,
+      "findings": [],
+      "markdown_links": [
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/SPARK_RUNTIME.md"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/SPEAKER_METRICS.md"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/PUBLIC_DATASET_PROTOCOL.md"
+        }
+      ],
+      "intentional_fixture_numeric_vectors": 0
+    },
+    "specs/speaker-identity/PRDs/001-local-speaker-pilot/plan.md": {
+      "sha256": "2ce2f07d6fb1b6596237571ae2dcf86b0ed3308156cbadbd93cc4c4270ae4cd9",
+      "bytes": 7670,
+      "findings": [],
+      "markdown_links": [
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "specs/speaker-identity/PRDs/001-local-speaker-pilot/PRD.md"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "specs/speaker-identity/PRDs/001-local-speaker-pilot/tasks.md"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "plans/RTX_4060_FOUNDATION.md"
+        }
+      ],
+      "intentional_fixture_numeric_vectors": 0
+    },
+    "specs/speaker-identity/PRDs/001-local-speaker-pilot/PRD.md": {
+      "sha256": "f837a891ab7db148476a71d3470d8018947ed6507bc6b94ea1ec783857d2094b",
+      "bytes": 27260,
+      "findings": [],
+      "markdown_links": [
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "specs/speaker-identity/DOMAIN.md"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "specs/speaker-identity/roadmap.md"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/SPEAKER_METRICS.md"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/EVALUATION_PLAN.md"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-08-local-speaker-pilot/README.md"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-public-speaker-evaluation/README.md"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-speech-recovery/README.md"
+        }
+      ],
+      "intentional_fixture_numeric_vectors": 0
+    },
+    "specs/speaker-identity/PRDs/001-local-speaker-pilot/tasks.md": {
+      "sha256": "f2b4539697a16d5ee533c62a78db8b64054cca3dc2fe48be2e6f0b55c0daba49",
+      "bytes": 9123,
+      "findings": [],
+      "markdown_links": [
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "specs/speaker-identity/PRDs/001-local-speaker-pilot/PRD.md"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "specs/speaker-identity/PRDs/001-local-speaker-pilot/plan.md"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-public-speaker-evaluation/README.md"
+        },
+        {
+          "kind": "local",
+          "valid": true,
+          "target": "docs/evidence/2026-09-09-dataset-readiness/dataset-kit-run-report.md"
+        }
+      ],
+      "intentional_fixture_numeric_vectors": 0
+    }
+  },
+  "snapshot_canonical_sha256": "1702c9736e359e3c7bf97557c8b2c7f2c947814cccfc0cc6cdbd39730127cef9",
+  "self_hash_exclusions": [
+    "privacy-final-report.md",
+    "privacy-final-review.json"
+  ],
+  "limitations": [
+    "This audit covers the listed final artifact bytes and local comparison inputs; later edits require a repeat audit",
+    "No source waveform decoding, model execution, live browser, API or database behavior is re-tested",
+    "No private numeric vectors were present in the comparison sources; numeric-array and payload signatures do not establish absence of every possible encoding",
+    "External links are format-checked only and local fragment anchors are not checked",
+    "Existing execution logs may retain local workspace/tool paths as execution provenance; dataset identities and application credentials are excluded"
+  ],
+  "mutations": {
+    "old_evidence": 0,
+    "raw_reports": 0,
+    "manifests": 0,
+    "product_source": 0,
+    "models": 0,
+    "database": 0,
+    "runtime": 0,
+    "new_model_calls": 0,
+    "tests_executed": 0,
+    "new_public_audit_artifacts": 2,
+    "ignored_local_helper": 1
+  }
+}

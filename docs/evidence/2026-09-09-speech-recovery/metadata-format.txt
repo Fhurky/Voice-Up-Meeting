@@ -1,0 +1,4 @@
+reformatted tests/integration/test_speaker_pilot.py
+
+All done! ✨ 🍰 ✨
+1 file reformatted, 6 files left unchanged.

@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "environment": "Windows in-app browser; actual local application and Spark CUDA",
+  "flows": [
+    {
+      "flow": "isolated-login",
+      "passed": true
+    },
+    {
+      "flow": "empty-profile-gallery",
+      "passed": true
+    },
+    {
+      "flow": "real-audio-enrollment",
+      "passed": true,
+      "observed": "Ses profili kaydedildi; used speech12.116 seconds,3windows"
+    },
+    {
+      "flow": "recovered-known-query",
+      "passed": true,
+      "observed": "Recognized expected profile; cosine0.839,9.552 seconds,2windows"
+    },
+    {
+      "flow": "reload-preserves-job",
+      "passed": true
+    },
+    {
+      "flow": "recovered-unknown-query",
+      "passed": true,
+      "observed": "Unknown; no profile created;9.552 seconds,2windows"
+    },
+    {
+      "flow": "recognition-does-not-add-profile-or-sample",
+      "passed": true,
+      "observed": "One profile; one verified sample after known and unknown queries"
+    },
+    {
+      "flow": "wrong-person-append-rejected",
+      "passed": true
+    },
+    {
+      "flow": "silence-rejected",
+      "passed": true
+    },
+    {
+      "flow": "profile-unchanged-after-negative-jobs",
+      "passed": true,
+      "observed": "One profile; one verified sample after wrong-person append and silence rejection"
+    },
+    {
+      "flow": "logout",
+      "passed": true
+    }
+  ],
+  "passed": 11,
+  "failed": 0
+}

@@ -1,0 +1,159 @@
+{
+  "scope": "Full calibration-only diagnostic; baseline VAD/quality; no service or dataset changes; candidate policy grid is not live application evidence",
+  "manifest_sha256": "a170d8fa88a13bd7059cd3e6e82747e3b05b7dfc7a814a451672cb4f98ac5c33",
+  "device": "cuda:0",
+  "summary": {
+    "planned_enrollment": 50,
+    "enrollment_usable": 40,
+    "enrollment_errors": {
+      "inconsistent_audio": 5,
+      "insufficient_speech": 5
+    },
+    "known_query_usable": 130,
+    "known_query_top1_correct": 109,
+    "known_query_expected_profile_absent": 21,
+    "known_query_errors": {
+      "inconsistent_audio": 7,
+      "insufficient_speech": 13
+    },
+    "unknown_query_usable": 91,
+    "unknown_query_errors": {
+      "inconsistent_audio": 2,
+      "insufficient_speech": 7
+    },
+    "max_unknown_score": 0.5150099690470171,
+    "grid": [
+      {
+        "match_threshold": 0.5,
+        "new_threshold": 0.45,
+        "margin": 0.1,
+        "known_planned": 150,
+        "unknown_planned": 100,
+        "known_correct": 109,
+        "known_wrong": 0,
+        "known_unknown": 21,
+        "known_ambiguous": 0,
+        "known_quality_failed": 20,
+        "unknown_false_accepted": 2,
+        "unknown_unknown": 87,
+        "unknown_ambiguous": 2,
+        "unknown_quality_failed": 9,
+        "DIR": 0.7266666666666667,
+        "FPIR_observed_lower_bound": 0.02,
+        "FPIR_worst_case_upper_bound": 0.11
+      },
+      {
+        "match_threshold": 0.55,
+        "new_threshold": 0.45,
+        "margin": 0.1,
+        "known_planned": 150,
+        "unknown_planned": 100,
+        "known_correct": 109,
+        "known_wrong": 0,
+        "known_unknown": 21,
+        "known_ambiguous": 0,
+        "known_quality_failed": 20,
+        "unknown_false_accepted": 0,
+        "unknown_unknown": 87,
+        "unknown_ambiguous": 4,
+        "unknown_quality_failed": 9,
+        "DIR": 0.7266666666666667,
+        "FPIR_observed_lower_bound": 0.0,
+        "FPIR_worst_case_upper_bound": 0.09
+      },
+      {
+        "match_threshold": 0.6,
+        "new_threshold": 0.45,
+        "margin": 0.1,
+        "known_planned": 150,
+        "unknown_planned": 100,
+        "known_correct": 107,
+        "known_wrong": 0,
+        "known_unknown": 21,
+        "known_ambiguous": 2,
+        "known_quality_failed": 20,
+        "unknown_false_accepted": 0,
+        "unknown_unknown": 87,
+        "unknown_ambiguous": 4,
+        "unknown_quality_failed": 9,
+        "DIR": 0.7133333333333334,
+        "FPIR_observed_lower_bound": 0.0,
+        "FPIR_worst_case_upper_bound": 0.09
+      },
+      {
+        "match_threshold": 0.65,
+        "new_threshold": 0.45,
+        "margin": 0.1,
+        "known_planned": 150,
+        "unknown_planned": 100,
+        "known_correct": 101,
+        "known_wrong": 0,
+        "known_unknown": 21,
+        "known_ambiguous": 8,
+        "known_quality_failed": 20,
+        "unknown_false_accepted": 0,
+        "unknown_unknown": 87,
+        "unknown_ambiguous": 4,
+        "unknown_quality_failed": 9,
+        "DIR": 0.6733333333333333,
+        "FPIR_observed_lower_bound": 0.0,
+        "FPIR_worst_case_upper_bound": 0.09
+      },
+      {
+        "match_threshold": 0.7,
+        "new_threshold": 0.45,
+        "margin": 0.1,
+        "known_planned": 150,
+        "unknown_planned": 100,
+        "known_correct": 80,
+        "known_wrong": 0,
+        "known_unknown": 21,
+        "known_ambiguous": 29,
+        "known_quality_failed": 20,
+        "unknown_false_accepted": 0,
+        "unknown_unknown": 87,
+        "unknown_ambiguous": 4,
+        "unknown_quality_failed": 9,
+        "DIR": 0.5333333333333333,
+        "FPIR_observed_lower_bound": 0.0,
+        "FPIR_worst_case_upper_bound": 0.09
+      },
+      {
+        "match_threshold": 0.75,
+        "new_threshold": 0.45,
+        "margin": 0.1,
+        "known_planned": 150,
+        "unknown_planned": 100,
+        "known_correct": 50,
+        "known_wrong": 0,
+        "known_unknown": 21,
+        "known_ambiguous": 59,
+        "known_quality_failed": 20,
+        "unknown_false_accepted": 0,
+        "unknown_unknown": 87,
+        "unknown_ambiguous": 4,
+        "unknown_quality_failed": 9,
+        "DIR": 0.3333333333333333,
+        "FPIR_observed_lower_bound": 0.0,
+        "FPIR_worst_case_upper_bound": 0.09
+      }
+    ],
+    "return_phase": [
+      {
+        "role": "new_enrollment",
+        "production_usable": true,
+        "error_code": null,
+        "top1_correct": null,
+        "expected_identity_score": null
+      },
+      {
+        "role": "return_query",
+        "production_usable": true,
+        "error_code": null,
+        "top1_correct": true,
+        "expected_identity_score": 0.6977627967996819
+      }
+    ]
+  },
+  "elapsed_seconds": 35.18250354799966
+}

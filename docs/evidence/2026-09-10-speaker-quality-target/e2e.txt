@@ -1,0 +1,3 @@
+offline E2E error: KT_SCAFFOLD_OFFLINE_BUNDLE must point to an admitted, platform-matched bundle
+
+OBSERVED_EXIT_CODE 2

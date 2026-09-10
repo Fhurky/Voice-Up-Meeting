@@ -1,0 +1,78 @@
+{
+    "date":  "2026-09-10",
+    "profile":  "kt-vibecoding-python-web-v2",
+    "authority":  "specs/speaker-identity/PRDs/001-local-speaker-pilot/PRD.md (Decision 11)",
+    "provenance":  "local-executed",
+    "environment":  "Windows Git Bash and local Docker; Python 3.13; migrated disposable PostgreSQL",
+    "gate_path":  "scripts/quality-gate.sh",
+    "gate_sha256":  "fdeb865c6f9e9db5c9bea7bbe425233475c24f4418183f62679048f4f105636a",
+    "wrapper":  "Temporary shells outside the repository reuse the quality-gate.sh prefix before its first run_step configuration invocation, replacing only the root assignment with the absolute workspace root.",
+    "database":  "Each test run invoked create_test_database, database_apply, backend_shell with RUN_POSTGRES_INTEGRATION=1, and existing cleanup_on_exit/drop_test_database. Two newly-created unique databases ended in _test and were dropped. No configured application database mutation.",
+    "runs":  [
+                 {
+                     "exit_code":  1,
+                     "name":  "red",
+                     "passed":  0,
+                     "failed":  12,
+                     "command":  "pytest -q tests/unit/test_speaker_identity.py tests/integration/test_speaker_pilot.py -k \"gallery or profile_listing_contract or historical_profile_limit\" --junitxml=/tmp/voiceup-quality-target-red.xml",
+                     "deselected":  37,
+                     "skipped":  0
+                 },
+                 {
+                     "exit_code":  0,
+                     "name":  "green",
+                     "passed":  49,
+                     "failed":  0,
+                     "command":  "pytest -q tests/unit/test_speaker_identity.py tests/integration/test_speaker_pilot.py --junitxml=/tmp/voiceup-quality-target-green.xml",
+                     "skipped":  0
+                 },
+                 {
+                     "command":  "run_step backend-static backend_static; run_step openapi-contract openapi_contract; run_step frontend-types-contract frontend_types_contract",
+                     "name":  "static-and-drift",
+                     "exit_code":  0
+                 },
+                 {
+                     "command":  "scripts/stack.sh exec -T backend black app/domain/speaker_identity.py app/infrastructure/repositories/speaker_repository.py app/services/speaker_service.py app/services/speaker_worker.py app/schemas/speaker_identity.py tests/unit/test_speaker_identity.py tests/integration/test_speaker_pilot.py; scripts/stack.sh exec -T backend isort app/domain/speaker_identity.py app/infrastructure/repositories/speaker_repository.py app/services/speaker_service.py app/services/speaker_worker.py app/schemas/speaker_identity.py tests/unit/test_speaker_identity.py tests/integration/test_speaker_pilot.py; scripts/export-openapi.sh; scripts/generate-types.sh",
+                     "name":  "format-and-generation",
+                     "exit_code":  0
+                 }
+             ],
+    "sources":  [
+                    {
+                        "sha256":  "d40b1240d392f457a7a11dc2b2930cb9ad21f6a882707db57465fac75f0fd344",
+                        "path":  "app/backend/app/domain/speaker_identity.py"
+                    },
+                    {
+                        "sha256":  "315f6c078eed6ba303ac649295cb668fd958d42442eae0da642cb1610fabb206",
+                        "path":  "app/backend/app/infrastructure/repositories/speaker_repository.py"
+                    },
+                    {
+                        "sha256":  "e828f8922639c0fbcc51479b681de3d44ee68e3d71591c6827f7280b0903fde4",
+                        "path":  "app/backend/app/services/speaker_service.py"
+                    },
+                    {
+                        "sha256":  "0f6ebd90d2a1b8ed6183fb37356ebe78cd452405fa6c05a3898084ce0f33c815",
+                        "path":  "app/backend/app/services/speaker_worker.py"
+                    },
+                    {
+                        "sha256":  "c481f2851422c58cab54aff7b14584b32748dc4e22435b648b54600375fe85ef",
+                        "path":  "app/backend/app/schemas/speaker_identity.py"
+                    },
+                    {
+                        "sha256":  "67c5bffc9b128cb64581788651e4edd1c8b06dc5a7554bab79817ee6fc5e5364",
+                        "path":  "app/backend/tests/unit/test_speaker_identity.py"
+                    },
+                    {
+                        "sha256":  "1647ccb061c8dfaa1182c0737a0334557ef29da1a9204036762feb1af2985e0b",
+                        "path":  "app/backend/tests/integration/test_speaker_pilot.py"
+                    },
+                    {
+                        "sha256":  "df4c60bbe25b2c4a7a4f3e94404d0c8bb7776a7a843e933348c78d36889a6874",
+                        "path":  "specs/openapi/voiceup-api.yaml"
+                    },
+                    {
+                        "sha256":  "e02e7a8256069fa2cda33b27bc183af8345bd0cd662aaac26496d87df9e82487",
+                        "path":  "app/frontend/src/types/api.d.ts"
+                    }
+                ]
+}

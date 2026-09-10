@@ -19,7 +19,9 @@ UUIDs are opaque strings. Times are UTC ISO-8601. Embeddings never cross public 
 - `GET /speaker-jobs?offset=0&limit=20`, same permission, returns `SpeakerJobPage`:
   `{items: SpeakerJobResponse[], total, offset, limit}`; newest first; limit 1–100.
 - `GET /speaker-profiles?offset=0&limit=20`, permission `speaker_profiles:read`, returns
-  `SpeakerProfilePage`: `{items: SpeakerProfileResponse[], total, offset, limit}`; newest first.
+  `SpeakerProfilePage`: `{items: SpeakerProfileResponse[], total, offset, limit}`;
+  newest first. `total` counts all active profiles in the current tenant, across
+  model revisions, independently of page size. There is no profile-count quota.
 - `PATCH /speaker-profiles/{public_id}`, permission `speaker_profiles:write`, JSON
   `SpeakerProfileRename` `{name}`; returns `SpeakerProfileResponse`.
 - `DELETE /speaker-profiles/{public_id}`, permission `speaker_profiles:write`, returns 204.
@@ -38,16 +40,29 @@ result: SpeakerResult|null, error: JobError|null}`.
 `{decision: "enrolled"|"recognized"|"unknown"|"ambiguous", profile_public_id: string|null,
 profile_name: string|null, profile_deleted: boolean, similarity: number|null,
 runner_up_similarity: number|null, speech_seconds, windows_count, model_id, model_revision,
-device, reason, policy: {match_threshold, new_threshold, margin}}`.
+device, preprocessing_version: "vad-windows-v1"|"vad-packed-fallback-v1"|null,
+reason, policy: {match_threshold, new_threshold, margin}}`.
 Deleted profiles redact `profile_name`, retain historical ID, and set `profile_deleted: true`.
+Old results without preprocessing provenance expose `null`; this field follows
+the existing seven-day job retention and does not claim permanent sample provenance.
 `JobError`: `{code, message}`. Similarities are raw cosine values, never probabilities.
+
+Fifty speakers is the primary accuracy evaluation target, not a product quota.
+New enrollment beyond 50 or 200 is subject to the same quality, authorization,
+tenant and idempotency rules as any other enrollment. Existing-profile append
+retains the 20-sample limit. The previous `max_profiles` response field was removed
+with its only local UI consumer in Decision 11; refresh the UI after deployment.
+Historical failed jobs may still expose `error.code: "profile_limit"`; their saved
+status is preserved and the safe message describes the former rule. The current
+service and worker do not produce this error based on the profile count.
 
 Error codes: `validation_error` (422), `invalid_audio` (400), `unsupported_audio` (415),
 `audio_limit` (413), `not_found` (404), `idempotency_conflict` (409),
 `recording_expired` (410), `recording_in_use` (409), `sample_limit` (409),
 `forbidden` (403). Terminal job codes also include `insufficient_speech`, `inconsistent_audio`,
 `clipped_audio`, `target_mismatch`, `profile_unavailable`, `model_mismatch`,
-`inference_unavailable`, `job_timeout`, `worker_interrupted`, `recording_unavailable`.
+`inference_unavailable`, `job_timeout`, `worker_interrupted`, `recording_unavailable`,
+historical `profile_limit`.
 
 ## Internal inference API
 
@@ -67,4 +82,9 @@ duration boundary in both the producer and consumer. Decode errors return 400/41
 limits return 413, and quality errors return 422 with the typed envelope.
 Unavailable model/device or occupied inference slot returns 503. A single process
 serializes inference requests. An optional `quality` object carries producer diagnostics;
-the public result contains only the fields listed above.
+its optional `preprocessing_version` must be exactly `vad-windows-v1` or
+`vad-packed-fallback-v1`. The guarded recovery path follows Decision 8: original
+blocks must be at least 1.5 seconds, independently usable, mutually consistent and
+consistent with pooled and any original partial evidence. The profile windows
+and minimum durations remain unchanged. The public result contains only the
+fields listed above; arbitrary diagnostics are not forwarded.

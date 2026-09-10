@@ -1,0 +1,1 @@
+required offline security tool is unavailable: gitleaks

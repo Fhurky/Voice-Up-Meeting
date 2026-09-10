@@ -1,0 +1,3 @@
+{"filename": "requirements.txt", "status": "written", "bytes": 5143}
+{"filename": "requirements.txt", "status": "reused", "bytes": 5143}
+{"environment": "real Spark Linux/aarch64 Python3.12 filesystem; no wheel install or GPU execution", "passed": 3, "checks": ["directory_symlink_rejected", "dangling_symlink_rejected", "deterministic_lock_idempotent"]}

@@ -1,0 +1,52 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile.spark
+#1 transferring dockerfile: 1.19kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.13.14-slim-bookworm@sha256:67a1e1f215ccda113cfc024e8639049257e88f273898f595b61476d128d387e8
+#2 DONE 0.0s
+
+#3 [context wheelhouse] load .dockerignore
+#3 transferring wheelhouse: 2B done
+#3 DONE 0.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 2B done
+#4 DONE 0.0s
+
+#5 [stage-0 1/7] FROM docker.io/library/python:3.13.14-slim-bookworm@sha256:67a1e1f215ccda113cfc024e8639049257e88f273898f595b61476d128d387e8
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 89.14kB done
+#6 DONE 0.0s
+
+#7 [context wheelhouse] load from client
+#7 transferring wheelhouse: 2.81GB 5.0s
+#7 transferring wheelhouse: 3.64GB 6.5s done
+#7 DONE 6.5s
+
+#8 [stage-0 3/7] RUN python -c "import platform, sys; assert platform.machine() == 'aarch64'; assert sys.version_info[:2] == (3, 13)"
+#8 CACHED
+
+#9 [stage-0 4/7] COPY app/inference/requirements.spark.txt /srv/inference/requirements.txt
+#9 CACHED
+
+#10 [stage-0 5/7] RUN --mount=type=bind,from=wheelhouse,target=/wheelhouse,readonly     python -m pip install --no-cache-dir --no-index --only-binary=:all:     --find-links=/wheelhouse --require-hashes -r requirements.txt &&     python -m pip check
+#10 CACHED
+
+#11 [stage-0 2/7] WORKDIR /srv/inference
+#11 CACHED
+
+#12 [stage-0 6/7] COPY src/voiceup /srv/reference/voiceup
+#12 CACHED
+
+#13 [stage-0 7/7] COPY app/inference/voiceup_inference /srv/inference/voiceup_inference
+#13 DONE 0.2s
+
+#14 exporting to image
+#14 exporting layers 0.0s done
+#14 writing image sha256:a743b6e101beee3d85788f082d1b32a957149fda409eec3860c681f249b7a8c5 done
+#14 naming to docker.io/library/voiceup-inference:spark-f6f12544ad85 done
+#14 DONE 0.1s

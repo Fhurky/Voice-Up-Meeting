@@ -7,6 +7,10 @@ Status: Active; first capability Accepted
 Konuşmacıya ait sayısal ses özelliklerini kullanarak kayıtlar arasında kalıcı kimlik
 kurmak, yeni ve belirsiz sesleri ayırt etmek, kararın dayandığı model/örnek bilgisini izlemek.
 
+Öncelikli doğruluk hedefi yaklaşık 50 katılımcılı kullanımdır; 50 kayıt kotası
+değildir. Toplantıdaki katılımcı sayısı ile sistemde kayıtlı bütün kişilerin sayısı
+ayrı ölçülür; 100–200 kayıtlı kişi varken de kullanım sayıya göre engellenmez.
+
 ## Aktörler ve terimler
 
 Pilot kullanıcısı, tenant yöneticisi ve yerel analiz yürütücüsü aktörlerdir.
@@ -39,3 +43,12 @@ tek konuşmacı pilotu uygulanmıştır. `src/voiceup/` ayrı CPU/SQLite araşt�
 Uzun kayıt ve canlı işleme sırası 9 Eylül 2026 kararında kaydedildi: önce 001'in gerçek
 kişi ölçümü, ardından 002 uzun kayıt ve 003 canlı analiz. Parça etiketi, toplantı kişi
 kümesi ve kalıcı kimlik birbirinden ayrıdır; kapsamlar yol haritasında izlenir.
+
+004, çıkarım sağlayıcısını Ethernet üzerinden yetkili Spark cihazına taşır.
+Model servisi veritabanına erişmez; kalıcı kimlik ve iş kayıtlarının otoritesi aynı kalır.
+
+10 Eylül ek isteğiyle 002, dosya veya durdurulmuş mikrofon kaydından konuşmacılı
+transkript ve kaliteli yeni kişinin otomatik kalıcı kaydını kapsar. Bu ayrı toplantı
+işlemi 001 `identify` çağrısını profil yazan bir işleme dönüştürmez. 002 kabul
+edilmiştir; model erişimi ve yeni Spark çalışma ortamı hazırlığı bekler, uygulanmış
+toplantı özelliği olduğu iddia edilmez. [Kullanıcı akışı](../../docs/MEETING_WORKFLOW.md).

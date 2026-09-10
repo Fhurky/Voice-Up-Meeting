@@ -1,0 +1,9 @@
+{
+  "source_hashes": 42,
+  "agent_source_hashes_reverified": 18,
+  "evidence_files_screened": 41,
+  "sensitive_fixture_value_matches": 0,
+  "broken_local_links": 0,
+  "git_diff_check_exit": 0,
+  "scope": "target evidence and research links; exact fixture values and token/private-key patterns; not a replacement security scan"
+}

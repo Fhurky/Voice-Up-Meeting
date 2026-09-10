@@ -6,7 +6,8 @@ Domain: [speaker-identity](../../DOMAIN.md)
 Roadmap: [003 — live-speaker-analysis](../../roadmap.md)
 Tarih: 9 Eylül 2026. Bağımlılık: 002 uzun kayıt ve toplantı boyunca kimlik sürekliliği.
 Mimari gerekçe: [karar belgesi](../../../../docs/LONG_RECORDING_STRATEGY.md).
-Bu yetenek henüz uygulanmadı; öncelik 001 doğruluk deneyi ve ardından 002'dir.
+Bu yetenek henüz uygulanmadı. 10 Eylül kullanıcı isteğiyle 002'nin durdurulmuş
+mikrofon/dosya kaydı analizi öne alındı; kayıt sürerken sonuç üretme bu PRD'de kalır.
 
 ## Amaç, aktör ve kapsam
 

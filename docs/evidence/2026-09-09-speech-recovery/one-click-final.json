@@ -1,0 +1,14 @@
+[
+  {
+    "shell": "powershell7",
+    "command": "scripts/start-local.ps1 -NoBrowser",
+    "exit_code": 0,
+    "elapsed_seconds": 6.25
+  },
+  {
+    "shell": "powershell51",
+    "command": "scripts/start-local.ps1 -NoBrowser",
+    "exit_code": 0,
+    "elapsed_seconds": 6.375
+  }
+]

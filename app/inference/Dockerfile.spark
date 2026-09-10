@@ -1,0 +1,19 @@
+# Provision and verify spark-wheelhouse-manifest.json before this offline build.
+# docker build --platform linux/arm64 --network=none \
+#   --build-context wheelhouse=/absolute/spark-wheelhouse \
+#   -f app/inference/Dockerfile.spark -t voiceup-inference:spark .
+FROM python:3.13.14-slim-bookworm@sha256:67a1e1f215ccda113cfc024e8639049257e88f273898f595b61476d128d387e8
+WORKDIR /srv/inference
+RUN python -c "import platform, sys; assert platform.machine() == 'aarch64'; assert sys.version_info[:2] == (3, 13)"
+COPY app/inference/requirements.spark.txt /srv/inference/requirements.txt
+RUN --mount=type=bind,from=wheelhouse,target=/wheelhouse,readonly \
+    python -m pip install --no-cache-dir --no-index --only-binary=:all: \
+    --find-links=/wheelhouse --require-hashes -r requirements.txt && \
+    python -m pip check
+COPY src/voiceup /srv/reference/voiceup
+COPY app/inference/voiceup_inference /srv/inference/voiceup_inference
+ENV PYTHONPATH=/srv/reference:/srv/inference PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
+ENV VOICEUP_INFERENCE_RUNTIME_PROFILE=aarch64-cu129
+USER 10001:10001
+EXPOSE 8090
+CMD ["python", "-m", "voiceup_inference"]

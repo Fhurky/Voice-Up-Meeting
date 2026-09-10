@@ -1,0 +1,53 @@
+{
+  "source": "nginx access log; aggregate local-stack requests since 2026-09-10T07:24:00Z, may include other local requests; no payloads or identities",
+  "requests": [
+    {
+      "method": "GET",
+      "path": "/api/voiceup/v1/auth/me",
+      "status": 200,
+      "count": 2
+    },
+    {
+      "method": "GET",
+      "path": "/api/voiceup/v1/speaker-jobs",
+      "status": 200,
+      "count": 1
+    },
+    {
+      "method": "GET",
+      "path": "/api/voiceup/v1/speaker-jobs/:id",
+      "status": 200,
+      "count": 7
+    },
+    {
+      "method": "GET",
+      "path": "/api/voiceup/v1/speaker-profiles",
+      "status": 200,
+      "count": 5
+    },
+    {
+      "method": "GET",
+      "path": "/api/voiceup/v1/speaker-profiles",
+      "status": 499,
+      "count": 2
+    },
+    {
+      "method": "POST",
+      "path": "/api/voiceup/v1/auth/login",
+      "status": 200,
+      "count": 3
+    },
+    {
+      "method": "POST",
+      "path": "/api/voiceup/v1/recordings",
+      "status": 201,
+      "count": 1
+    },
+    {
+      "method": "POST",
+      "path": "/api/voiceup/v1/speaker-jobs",
+      "status": 202,
+      "count": 2
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "verified_on": "2026-09-10",
+  "test_runs_recorded_on": "2026-09-09",
+  "profile_id": "kt-vibecoding-python-web-v2",
+  "unique_passed": 270,
+  "root_native": {
+    "total": 164,
+    "passed": 164,
+    "failed": 0,
+    "skipped": 0
+  },
+  "windows_repeat": {
+    "total": 105,
+    "passed": 105,
+    "failed": 0,
+    "skipped": 0
+  },
+  "windows_cases_are_native_subset": true,
+  "backend": {
+    "total": 85,
+    "passed": 85,
+    "failed": 0,
+    "skipped": 0
+  },
+  "frontend": {
+    "total": 21,
+    "passed": 21,
+    "failed": 0,
+    "skipped": 0
+  },
+  "current_scoring_sources_match_recorded_tested_sources": {
+    "docs/SPEAKER_METRICS.md": true,
+    "scripts/speaker_metrics.py": true,
+    "scripts/report-public-speakers.py": true,
+    "tests/test_public_speaker_metrics.py": true
+  },
+  "new_metric_cases": 92,
+  "legacy_reporter_cases": 13,
+  "evaluator_cases": 59,
+  "browser_flows_this_change": 0,
+  "unavailable_security_entrypoints": 1
+}

@@ -1,0 +1,10 @@
+{
+  "status": "ready",
+  "image_id": "sha256:a743b6e101beee3d85788f082d1b32a957149fda409eec3860c681f249b7a8c5",
+  "previous_image_id": "sha256:4b409e3a894b9e719e9785517bab922a8f52a1f74e69f387d6c815a0e39d8db3",
+  "rollback_image_retained": true,
+  "internal_key_preserved": true,
+  "env_mode": "0600",
+  "ready_contract_unchanged": true,
+  "windows_services_touched": false
+}

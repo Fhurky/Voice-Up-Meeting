@@ -1,0 +1,284 @@
+{
+  "schema_version": 1,
+  "scope": "calibration-only diagnostic snapshots, not live application evaluation",
+  "protocol_sha256": "e118d4fab41d35cd8b4e83d51e81ea0c21260ddb3829dcd37c4ea34bc3b3760b",
+  "manifest_raw_sha256": "a170d8fa88a13bd7059cd3e6e82747e3b05b7dfc7a814a451672cb4f98ac5c33",
+  "diagnostic_source_sha256": "b8c3d0ac2a20b91a2f1703f6e9c98088906c56fe95178cfe38f73ce7c2831973",
+  "device": "cuda:0",
+  "elapsed_seconds": 39.67776429600053,
+  "summary": {
+    "baseline": {
+      "enrollment": {
+        "planned": 50,
+        "usable": 40,
+        "errors": {
+          "inconsistent_audio": 5,
+          "insufficient_speech": 5
+        }
+      },
+      "known_queries": {
+        "planned": 150,
+        "quality_usable": 130,
+        "recognized": 109,
+        "expected_profile_present": 109,
+        "correct": 109,
+        "top1_correct": 109,
+        "quality_failed": 20,
+        "inconsistent_audio": 7,
+        "unknown": 21,
+        "expected_profile_absent": 21,
+        "insufficient_speech": 13,
+        "wrong_person_recognized": 0,
+        "unknown_false_accept": 0,
+        "ambiguous": 0,
+        "maximum_top1_score": 0.903769009395019
+      },
+      "unknown_queries": {
+        "planned": 100,
+        "quality_usable": 91,
+        "unknown": 87,
+        "quality_failed": 9,
+        "inconsistent_audio": 2,
+        "insufficient_speech": 7,
+        "ambiguous": 4,
+        "correct": 0,
+        "wrong_person_recognized": 0,
+        "unknown_false_accept": 0,
+        "recognized": 0,
+        "maximum_top1_score": 0.5150099690470171
+      },
+      "compatibility_known_all_planned": {
+        "planned": 150,
+        "quality_usable": 130,
+        "recognized": 109,
+        "expected_profile_present": 109,
+        "correct": 109,
+        "top1_correct": 109,
+        "quality_failed": 20,
+        "inconsistent_audio": 7,
+        "unknown": 21,
+        "expected_profile_absent": 21,
+        "insufficient_speech": 13,
+        "wrong_person_recognized": 0,
+        "unknown_false_accept": 0,
+        "ambiguous": 0,
+        "maximum_top1_score": 0.903769009395019
+      },
+      "compatibility_known_baseline_covered": {
+        "planned": 120,
+        "quality_usable": 109,
+        "recognized": 109,
+        "expected_profile_present": 109,
+        "correct": 109,
+        "top1_correct": 109,
+        "quality_failed": 11,
+        "inconsistent_audio": 5,
+        "insufficient_speech": 6,
+        "wrong_person_recognized": 0,
+        "unknown_false_accept": 0,
+        "ambiguous": 0,
+        "unknown": 0,
+        "maximum_top1_score": 0.903769009395019
+      },
+      "compatibility_unknown_all_planned": {
+        "planned": 100,
+        "quality_usable": 91,
+        "unknown": 87,
+        "quality_failed": 9,
+        "inconsistent_audio": 2,
+        "insufficient_speech": 7,
+        "ambiguous": 4,
+        "correct": 0,
+        "wrong_person_recognized": 0,
+        "unknown_false_accept": 0,
+        "recognized": 0,
+        "maximum_top1_score": 0.5150099690470171
+      },
+      "returning_unknown": {
+        "new_enrollment_usable": true,
+        "return_query_usable": true,
+        "recognized_correctly": true,
+        "score": 0.6977627967996819
+      },
+      "negative_controls": {
+        "wrong_person_append_planned": 10,
+        "wrong_person_append_rejected": 10,
+        "mixed_alternating_planned": 10,
+        "mixed_alternating_quality_rejected": 8,
+        "mixed_alternating_quality_accepted": 2,
+        "mixed_candidate_only_quality_acceptance": 0,
+        "mixed_gapped_planned": 10,
+        "mixed_gapped_quality_rejected": 10,
+        "mixed_gapped_quality_accepted": 0,
+        "mixed_gapped_candidate_only_acceptance": 0
+      }
+    },
+    "guarded_fallback_1p5": {
+      "enrollment": {
+        "planned": 50,
+        "usable": 40,
+        "errors": {
+          "inconsistent_audio": 10
+        }
+      },
+      "known_queries": {
+        "planned": 150,
+        "quality_usable": 132,
+        "recognized": 111,
+        "expected_profile_present": 111,
+        "correct": 111,
+        "top1_correct": 111,
+        "quality_failed": 18,
+        "inconsistent_audio": 18,
+        "unknown": 21,
+        "expected_profile_absent": 21,
+        "wrong_person_recognized": 0,
+        "unknown_false_accept": 0,
+        "ambiguous": 0,
+        "maximum_top1_score": 0.903769009395019
+      },
+      "unknown_queries": {
+        "planned": 100,
+        "quality_usable": 93,
+        "unknown": 89,
+        "quality_failed": 7,
+        "inconsistent_audio": 7,
+        "ambiguous": 4,
+        "correct": 0,
+        "wrong_person_recognized": 0,
+        "unknown_false_accept": 0,
+        "recognized": 0,
+        "maximum_top1_score": 0.5150099690470171
+      },
+      "compatibility_known_all_planned": {
+        "planned": 150,
+        "quality_usable": 132,
+        "recognized": 111,
+        "expected_profile_present": 111,
+        "correct": 111,
+        "top1_correct": 111,
+        "quality_failed": 18,
+        "inconsistent_audio": 18,
+        "unknown": 21,
+        "expected_profile_absent": 21,
+        "wrong_person_recognized": 0,
+        "unknown_false_accept": 0,
+        "ambiguous": 0,
+        "maximum_top1_score": 0.903769009395019
+      },
+      "compatibility_known_baseline_covered": {
+        "planned": 120,
+        "quality_usable": 111,
+        "recognized": 111,
+        "expected_profile_present": 111,
+        "correct": 111,
+        "top1_correct": 111,
+        "quality_failed": 9,
+        "inconsistent_audio": 9,
+        "wrong_person_recognized": 0,
+        "unknown_false_accept": 0,
+        "ambiguous": 0,
+        "unknown": 0,
+        "maximum_top1_score": 0.903769009395019
+      },
+      "compatibility_unknown_all_planned": {
+        "planned": 100,
+        "quality_usable": 93,
+        "unknown": 89,
+        "quality_failed": 7,
+        "inconsistent_audio": 7,
+        "ambiguous": 4,
+        "correct": 0,
+        "wrong_person_recognized": 0,
+        "unknown_false_accept": 0,
+        "recognized": 0,
+        "maximum_top1_score": 0.5150099690470171
+      },
+      "returning_unknown": {
+        "new_enrollment_usable": true,
+        "return_query_usable": true,
+        "recognized_correctly": true,
+        "score": 0.6977627967996819
+      },
+      "negative_controls": {
+        "wrong_person_append_planned": 10,
+        "wrong_person_append_rejected": 10,
+        "mixed_alternating_planned": 10,
+        "mixed_alternating_quality_rejected": 8,
+        "mixed_alternating_quality_accepted": 2,
+        "mixed_candidate_only_quality_acceptance": 0,
+        "mixed_gapped_planned": 10,
+        "mixed_gapped_quality_rejected": 10,
+        "mixed_gapped_quality_accepted": 0,
+        "mixed_gapped_candidate_only_acceptance": 0
+      },
+      "compatibility_baseline_queries_candidate_gallery": {
+        "known_query": {
+          "planned": 150,
+          "quality_usable": 130,
+          "recognized": 109,
+          "expected_profile_present": 109,
+          "correct": 109,
+          "top1_correct": 109,
+          "quality_failed": 20,
+          "inconsistent_audio": 7,
+          "unknown": 21,
+          "expected_profile_absent": 21,
+          "insufficient_speech": 13,
+          "wrong_person_recognized": 0,
+          "unknown_false_accept": 0,
+          "ambiguous": 0,
+          "maximum_top1_score": 0.903769009395019
+        },
+        "unknown_query": {
+          "planned": 100,
+          "quality_usable": 91,
+          "unknown": 87,
+          "quality_failed": 9,
+          "inconsistent_audio": 2,
+          "insufficient_speech": 7,
+          "ambiguous": 4,
+          "correct": 0,
+          "wrong_person_recognized": 0,
+          "unknown_false_accept": 0,
+          "recognized": 0,
+          "maximum_top1_score": 0.5150099690470171
+        }
+      }
+    }
+  },
+  "preservation": {
+    "baseline_accepted_count": 263,
+    "baseline_accepted_identity_preserved": 263,
+    "baseline_inconsistent_count": 14,
+    "baseline_inconsistent_identity_preserved": 14,
+    "fallback_decisions": {
+      "baseline_preserved": 277,
+      "guarded_fallback_rejected": 21,
+      "guarded_fallback_accepted": 4
+    }
+  },
+  "private_results_sha256": "1621fdbdd9e2368afef51dac1da719ae3d48e898634079da2263a0d16ddf90d0",
+  "source_hash_chain": {
+    "evaluated_source_sha256": "bf99e46d17e86ef4bff32be6124a76898ce88439b641933cf97424b9baee81ef",
+    "formatted_source_sha256": "50788c193e93d0c85a7b9eb07706eb286304b76a5d9b963cee5d60cda749a813",
+    "ast_equal": true,
+    "comparison": "Python ast.dump(include_attributes=False); source text not included in public evidence"
+  },
+  "recoveries": {
+    "recordings": 4,
+    "roles": {
+      "known_query": 2,
+      "unknown_query": 2
+    },
+    "distinct_known_people": 1,
+    "distinct_unknown_people": 2,
+    "previous_correct_identifications_lost": 0
+  },
+  "previous_baseline_comparison": {
+    "rows": 302,
+    "quality_changed": 0,
+    "window_count_changed": 0,
+    "maximum_used_seconds_delta": 0.0
+  }
+}

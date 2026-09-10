@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "scope": "Unique cases actually passed in this recovery task; repeated red/green and agent subsets are not added twice",
+  "by_suite": {
+    "inference": {
+      "passed": 96,
+      "skipped": 0
+    },
+    "reference_and_tools_linux": {
+      "passed": 349,
+      "skipped": 1
+    },
+    "dataset_windows": {
+      "passed": 33,
+      "skipped": 0
+    },
+    "backend_full_gate": {
+      "passed": 85,
+      "skipped": 0
+    },
+    "frontend_full_gate": {
+      "passed": 21,
+      "skipped": 0
+    }
+  },
+  "unique_reference_inference_and_tools_passed": 446,
+  "unique_automated_passed": 552,
+  "unavailable_entrypoints": [
+    "scripts/security-gate.sh",
+    "scripts/e2e.sh speaker-identity"
+  ],
+  "platform_skip_resolution": "The sole Linux Windows-junction skip passed in the Windows dataset suite; it adds one unique passed case, not33 extra cases."
+}

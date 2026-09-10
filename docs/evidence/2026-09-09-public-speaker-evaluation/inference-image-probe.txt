@@ -1,0 +1,1 @@
+{"version": "3.13.14 (main, Aug  5 2026, 01:10:47) [GCC 12.2.0]", "modules": {"pytest": false, "numpy": true, "scipy": true, "soundfile": true, "fastapi": true, "httpx": false, "python_multipart": false, "pydantic_settings": true}}

@@ -1259,6 +1259,8 @@ export interface components {
             model_id: string;
             model_revision: string;
             policy: components["schemas"]["MatchPolicyResponse"];
+            /** @description Observed extraction path during the retained job lifetime; null when unreported. */
+            preprocessing_version?: ("vad-windows-v1" | "vad-packed-fallback-v1") | null;
             /** @default false */
             profile_deleted: boolean;
             profile_name?: string | null;

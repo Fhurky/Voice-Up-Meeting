@@ -1,0 +1,21 @@
+{
+  "original_profiles_unchanged": true,
+  "unrelated_containers_unchanged": true,
+  "application_readiness": "ready",
+  "spark_model_ready": true,
+  "spark_device": "cuda:0",
+  "spark_model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+  "local_inference_status": "exited",
+  "launcher_checks": [
+    {
+      "engine": "pwsh",
+      "exit_code": 0,
+      "elapsed_seconds": 10.236
+    },
+    {
+      "engine": "powershell",
+      "exit_code": 0,
+      "elapsed_seconds": 11.213
+    }
+  ]
+}

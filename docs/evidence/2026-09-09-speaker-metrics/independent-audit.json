@@ -1,0 +1,363 @@
+{
+  "schema_version": 1,
+  "profile_id": "kt-vibecoding-python-web-v2",
+  "metrics_protocol": "voiceup-open-set-v1",
+  "review_date": "2026-09-10",
+  "tested_source_artifacts_date": "2026-09-09",
+  "executed_at_utc": "2026-09-10T05:08:50.495721+00:00",
+  "provenance": "local-executed",
+  "scope": "Independent offline comparison of three final reports against frozen manifest-driven rational expectations, recomputed from unchanged raw reports; no model or application test reruns",
+  "checks_executed": 1304,
+  "checks_passed": 1304,
+  "failed_checks": 0,
+  "checks_by_category": {
+    "oracle": 2,
+    "anchors": 479,
+    "source": 5,
+    "calibration": 260,
+    "fresh": 259,
+    "historical": 264,
+    "integrity": 35
+  },
+  "failures": {},
+  "earlier_adapter_attempt": {
+    "checks_executed": 1304,
+    "checks_passed": 1283,
+    "failed_checks": 21,
+    "cause": "In-memory numeric histogram keys compared with persisted JSON string keys",
+    "fixed": true,
+    "resolution": "Compare recomputed oracle using its JSON representation; no formula or expectation changes"
+  },
+  "cohorts_checked": 3,
+  "stages_checked": 3,
+  "source_operations_checked": 906,
+  "frozen_hand_anchor_groups": 8,
+  "application_unit_tests_run": 0,
+  "browser_tests_run": 0,
+  "model_runs": 0,
+  "skipped_audit_checks": 0,
+  "private_expected_sha256": "ee4e8bb395dcd352a07629d0f24935f459e6c5ad0756b002ad911c3c21390a0f",
+  "oracle_source_sha256": "5ce3f6b63e613be6a12aca3ebd5a0a0b614d68ab4fdfb9f06837654bcc4907e7",
+  "adapter_source_sha256": "c43b0f24d4387b307e82330391332e3d594d5929480c611270d67eab85d12110",
+  "audit_source_sha256": "9facb799939d737f095b6827643ff090b9b286d7a94584aeefa55629d44295ba",
+  "frozen_protocol_source_sha256": "e41d83c72f923c2f1734b931e173d9c3fa5df1d7833cd6db1a2d7bef2c4f8c01",
+  "current_protocol_source_sha256": "e657dd604848d5dfbc1c6f02d7d4d6991639602c147aebff5b996d43aa91eede",
+  "scoring_source_manifest_sha256": "662405d6608c512fa733754d4ceb062148159d46affa013892e0b0fa54c24582",
+  "preexisting_evidence_files_unchanged": 34,
+  "cohorts": {
+    "calibration": {
+      "report_sha256": "f69b69606d64436c064f1c478eeacc7ba470c34b13e00766e534938e83031aba",
+      "raw_report_sha256": "03cedc90f6b6c290d431819ce3878acf7eca63b4681dcd1d5b8c367b4147a0f2",
+      "manifest_raw_sha256": "a170d8fa88a13bd7059cd3e6e82747e3b05b7dfc7a814a451672cb4f98ac5c33",
+      "manifest_canonical_sha256": "8744077635a58ec928f04bc16f6ec0fcc7820241beb7c1866d6d4a704b599097",
+      "operation_count": 302,
+      "stage_count": 1,
+      "gallery_size_planned": 50,
+      "support": {
+        "known_speakers": 50,
+        "unknown_speakers": 20,
+        "known_probes": 150,
+        "unknown_probes": 100
+      },
+      "identity": {
+        "true_positive": 111,
+        "false_positive": 0,
+        "false_negative": 39,
+        "precision": 1.0,
+        "recall": 0.74,
+        "micro_f1": 0.8505747126436781,
+        "macro_f1": 0.762
+      },
+      "unknown": {
+        "true_positive": 89,
+        "false_positive": 21,
+        "false_negative": 11,
+        "precision": 0.8090909090909091,
+        "recall": 0.89,
+        "f1": 0.8476190476190476
+      },
+      "voiceup_score": 80.25323945328678,
+      "enrollment_coverage": 0.8,
+      "decision_coverage": 0.884,
+      "outcome_matrix": {
+        "known": {
+          "correct_identity": 111,
+          "wrong_identity": 0,
+          "unknown": 21,
+          "ambiguous": 0,
+          "failed": 18
+        },
+        "unknown": {
+          "correct_identity": 0,
+          "wrong_identity": 0,
+          "unknown": 89,
+          "ambiguous": 4,
+          "failed": 7
+        }
+      },
+      "failure_counts": {
+        "known": {
+          "quality": 18,
+          "other_or_unclassified": 0
+        },
+        "unknown": {
+          "quality": 7,
+          "other_or_unclassified": 0
+        }
+      },
+      "error_counts": {
+        "inconsistent_audio": 25
+      },
+      "return_phase": {
+        "enrollment": {
+          "planned": 1,
+          "observed": 1,
+          "succeeded": 1,
+          "failed": 0,
+          "pending": 0,
+          "missing": 0,
+          "terminal": 1
+        },
+        "probes": {
+          "planned": 1,
+          "observed": 1,
+          "succeeded": 1,
+          "failed": 0,
+          "pending": 0,
+          "missing": 0,
+          "terminal": 1
+        },
+        "enrollment_succeeded": 1,
+        "enrollment_failed": 0,
+        "queries": 1,
+        "correct": 1,
+        "wrong": 0,
+        "unknown": 0,
+        "ambiguous": 0,
+        "query_failed": 0,
+        "all_planned_operations_terminal": true,
+        "enrollment_quality_failed": 0,
+        "enrollment_other_or_unclassified_failed": 0,
+        "query_quality_failed": 0,
+        "query_other_or_unclassified_failed": 0,
+        "error_counts": {
+          "enrollment": {},
+          "queries": {}
+        }
+      },
+      "source_run_complete": true,
+      "metrics_complete": true
+    },
+    "fresh": {
+      "report_sha256": "37c7d6e03bfca68eb64eb6be69c34f606ffa745246135083daca4404e4822fdd",
+      "raw_report_sha256": "7b13f98cdc4f8ed34d7ce584415200a2003e5e2736f107d95a2791a967f99c7e",
+      "manifest_raw_sha256": "67fa0170afbe4c3a382a91506cd68d3e635fe7c1d562810c5fe9c2b8ad3c9eb7",
+      "manifest_canonical_sha256": "70b80c92502466517b0cf1b951da91b45ee5c7dd683acd4b1a0bf1c5ba727d7a",
+      "operation_count": 302,
+      "stage_count": 1,
+      "gallery_size_planned": 50,
+      "support": {
+        "known_speakers": 50,
+        "unknown_speakers": 20,
+        "known_probes": 150,
+        "unknown_probes": 100
+      },
+      "identity": {
+        "true_positive": 116,
+        "false_positive": 0,
+        "false_negative": 34,
+        "precision": 1.0,
+        "recall": 0.7733333333333333,
+        "micro_f1": 0.8721804511278195,
+        "macro_f1": 0.784
+      },
+      "unknown": {
+        "true_positive": 94,
+        "false_positive": 22,
+        "false_negative": 6,
+        "precision": 0.8103448275862069,
+        "recall": 0.94,
+        "f1": 0.8703703703703703
+      },
+      "voiceup_score": 82.49305990865945,
+      "enrollment_coverage": 0.8,
+      "decision_coverage": 0.928,
+      "outcome_matrix": {
+        "known": {
+          "correct_identity": 116,
+          "wrong_identity": 0,
+          "unknown": 22,
+          "ambiguous": 2,
+          "failed": 10
+        },
+        "unknown": {
+          "correct_identity": 0,
+          "wrong_identity": 0,
+          "unknown": 94,
+          "ambiguous": 1,
+          "failed": 5
+        }
+      },
+      "failure_counts": {
+        "known": {
+          "quality": 10,
+          "other_or_unclassified": 0
+        },
+        "unknown": {
+          "quality": 5,
+          "other_or_unclassified": 0
+        }
+      },
+      "error_counts": {
+        "inconsistent_audio": 15
+      },
+      "return_phase": {
+        "enrollment": {
+          "planned": 1,
+          "observed": 1,
+          "succeeded": 1,
+          "failed": 0,
+          "pending": 0,
+          "missing": 0,
+          "terminal": 1
+        },
+        "probes": {
+          "planned": 1,
+          "observed": 1,
+          "succeeded": 1,
+          "failed": 0,
+          "pending": 0,
+          "missing": 0,
+          "terminal": 1
+        },
+        "enrollment_succeeded": 1,
+        "enrollment_failed": 0,
+        "queries": 1,
+        "correct": 1,
+        "wrong": 0,
+        "unknown": 0,
+        "ambiguous": 0,
+        "query_failed": 0,
+        "all_planned_operations_terminal": true,
+        "enrollment_quality_failed": 0,
+        "enrollment_other_or_unclassified_failed": 0,
+        "query_quality_failed": 0,
+        "query_other_or_unclassified_failed": 0,
+        "error_counts": {
+          "enrollment": {},
+          "queries": {}
+        }
+      },
+      "source_run_complete": true,
+      "metrics_complete": true
+    },
+    "historical": {
+      "report_sha256": "56d80f79d1bab9dc4b7aa9f0ccd20bd9e9f3157ba119b4db393dab8f51e1d8d2",
+      "raw_report_sha256": "224e0338bf67b743b25d8d5e7677138683fc17a7de44efb96e0164aa305e16c3",
+      "manifest_raw_sha256": "0e4deb4d61e36e378a29e270fc4d1c070d3331a9839314f37261c403d1361ad9",
+      "manifest_canonical_sha256": "d2913c1b2a0bcb5f552f5a8bd9dc7f7b5872dd4d6b024bc4a0e40a2d6af54a98",
+      "operation_count": 302,
+      "stage_count": 1,
+      "gallery_size_planned": 50,
+      "support": {
+        "known_speakers": 50,
+        "unknown_speakers": 20,
+        "known_probes": 150,
+        "unknown_probes": 100
+      },
+      "identity": {
+        "true_positive": 78,
+        "false_positive": 0,
+        "false_negative": 72,
+        "precision": 1.0,
+        "recall": 0.52,
+        "micro_f1": 0.6842105263157895,
+        "macro_f1": 0.54
+      },
+      "unknown": {
+        "true_positive": 81,
+        "false_positive": 47,
+        "false_negative": 19,
+        "precision": 0.6328125,
+        "recall": 0.81,
+        "f1": 0.7105263157894737
+      },
+      "voiceup_score": 61.36363636363637,
+      "enrollment_coverage": 0.58,
+      "decision_coverage": 0.824,
+      "outcome_matrix": {
+        "known": {
+          "correct_identity": 78,
+          "wrong_identity": 0,
+          "unknown": 47,
+          "ambiguous": 1,
+          "failed": 24
+        },
+        "unknown": {
+          "correct_identity": 0,
+          "wrong_identity": 0,
+          "unknown": 81,
+          "ambiguous": 0,
+          "failed": 19
+        }
+      },
+      "failure_counts": {
+        "known": {
+          "quality": 24,
+          "other_or_unclassified": 0
+        },
+        "unknown": {
+          "quality": 19,
+          "other_or_unclassified": 0
+        }
+      },
+      "error_counts": {
+        "inconsistent_audio": 42,
+        "insufficient_speech": 1
+      },
+      "return_phase": {
+        "enrollment": {
+          "planned": 1,
+          "observed": 1,
+          "succeeded": 0,
+          "failed": 1,
+          "pending": 0,
+          "missing": 0,
+          "terminal": 1
+        },
+        "probes": {
+          "planned": 1,
+          "observed": 1,
+          "succeeded": 0,
+          "failed": 1,
+          "pending": 0,
+          "missing": 0,
+          "terminal": 1
+        },
+        "enrollment_succeeded": 0,
+        "enrollment_failed": 1,
+        "queries": 1,
+        "correct": 0,
+        "wrong": 0,
+        "unknown": 0,
+        "ambiguous": 0,
+        "query_failed": 1,
+        "all_planned_operations_terminal": true,
+        "enrollment_quality_failed": 1,
+        "enrollment_other_or_unclassified_failed": 0,
+        "query_quality_failed": 1,
+        "query_other_or_unclassified_failed": 0,
+        "error_counts": {
+          "enrollment": {
+            "inconsistent_audio": 1
+          },
+          "queries": {
+            "inconsistent_audio": 1
+          }
+        }
+      },
+      "source_run_complete": true,
+      "metrics_complete": true
+    }
+  }
+}

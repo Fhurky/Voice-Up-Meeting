@@ -1,0 +1,9 @@
+JUnit'ten türetilmiş özet; yakalanmış pytest standart çıktısı değildir.
+Kaynak: fresh-dataset-tests.xml, Windows / Python 3.13.
+tests/test_public_speaker_dataset.py: 33 başarılı, 0 başarısız, 0 atlanan.
+test_windows_junction_cannot_redirect_output: başarılı.
+Linux reference-and-evaluation.xml: 349 başarılı, 1 Windows-platform atlaması.
+Windows'taki 33 vaka Linux'taki 350 vakanın alt kümesidir; birleşik benzersiz vaka sayısı 350.
+Windows kanıtı yalnız platform atlamasını kapatır; 33 vaka ikinci kez eklenmez.
+Private JUnit SHA-256: 5cdce1b0f5946c299c995e80947986ae6f75e4fe6e33c5616a2e5dda040cf4c0
+Sanitized public JUnit SHA-256: ecbfb5232156efdd5d788f42e17d1d23c09dec27b8203bf7a96e04a2443435f7

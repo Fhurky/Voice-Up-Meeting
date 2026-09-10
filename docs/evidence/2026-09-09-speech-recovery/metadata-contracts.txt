@@ -1,0 +1,5 @@
+
+> app-frontend@0.1.0 typecheck
+> node node_modules/typescript7/bin/tsc -b
+
+OpenAPI export, type generation, both drift checks and frontend typecheck passed.

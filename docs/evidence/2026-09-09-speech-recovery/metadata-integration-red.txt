@@ -1,0 +1,264 @@
+FFFF                                                                     [100%]
+=================================== FAILURES ===================================
+_ test_worker_persists_preprocessing_metadata_through_public_job[enroll-vad-windows-v1] _
+
+pilot = Pilot(client=<httpx.AsyncClient object at 0x7f8cc9c31e80>, sessions=async_sessionmaker(class_='AsyncSession', bind=<sq...app.domain.models.tenant.Tenant object at 0x7f8cc9c33770>, user=<app.domain.models.user.User object at 0x7f8cc9c32cf0>)
+version = 'vad-windows-v1', purpose = 'enroll'
+
+    @pytest.mark.parametrize("version", ["vad-windows-v1", "vad-packed-fallback-v1"])
+    @pytest.mark.parametrize("purpose", ["enroll", "identify"])
+    async def test_worker_persists_preprocessing_metadata_through_public_job(
+        pilot: Pilot,
+        version: Literal["vad-windows-v1", "vad-packed-fallback-v1"],
+        purpose: str,
+    ) -> None:
+        pilot.provider.preprocessing_version = version
+        source = await pilot.upload()
+        job = await pilot.submit(
+            source["public_id"], purpose=purpose, name="Person" if purpose == "enroll" else None
+        )
+>       response = await pilot.terminal(job)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/integration/test_speaker_pilot.py:276: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/integration/test_speaker_pilot.py:143: in terminal
+    assert await self.worker.process_once()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app/services/speaker_worker.py:103: in process_once
+    result = await self.embedding.embed(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <tests.integration.test_speaker_pilot.FixtureEmbeddingProvider object at 0x7f8cc9c31be0>
+audio = b'RIFF$\xdc\x05\x00WAVEfmt \x10\x00\x00\x00\x01\x00\x01\x00\x80>\x00\x00\x00}\x00\x00\x02\x00\x10\x00data\x00\xdc\x05\...cc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c'
+purpose = 'enroll', job_public_id = '195fffe4-ed20-468a-980c-b041da1b4f6c'
+tenant_public_id = '9bb305b9-f196-4653-85de-25f45e93067f'
+
+    async def embed(
+        self,
+        audio: bytes,
+        *,
+        purpose: Literal["enroll", "identify"],
+        job_public_id: str,
+        tenant_public_id: str,
+    ) -> EmbeddingResult:
+        assert audio[:4] == b"RIFF"
+        assert UUID(job_public_id) and UUID(tenant_public_id)
+        assert purpose in {"enroll", "identify"}
+        self.calls += 1
+        if self.error:
+            raise self.error
+>       return EmbeddingResult(
+            self.vector,
+            self.speech_seconds,
+            self.windows_count,
+            MODEL_ID,
+            MODEL_REVISION,
+            "fixture-vector",
+            preprocessing_version=self.preprocessing_version,
+        )
+E       TypeError: EmbeddingResult.__init__() got an unexpected keyword argument 'preprocessing_version'
+
+tests/integration/test_speaker_pilot.py:77: TypeError
+---------------------------- Captured stdout setup -----------------------------
+No new upgrade operations detected.
+---------------------------- Captured stderr setup -----------------------------
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+INFO  [alembic.runtime.migration] Running upgrade  -> 202608060001, Create the tenant, user, and RBAC platform baseline.
+INFO  [alembic.runtime.migration] Running upgrade 202608060001 -> 9486b1bc12a9, speaker_identity_pilot
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+INFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.schemas
+INFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.tables
+INFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.types
+INFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.constraints
+INFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.defaults
+INFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.comments
+INFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.checkconstraint_byname
+_ test_worker_persists_preprocessing_metadata_through_public_job[enroll-vad-packed-fallback-v1] _
+
+pilot = Pilot(client=<httpx.AsyncClient object at 0x7f8cc95647d0>, sessions=async_sessionmaker(class_='AsyncSession', bind=<sq...app.domain.models.tenant.Tenant object at 0x7f8cc9be3b10>, user=<app.domain.models.user.User object at 0x7f8cc9be3ed0>)
+version = 'vad-packed-fallback-v1', purpose = 'enroll'
+
+    @pytest.mark.parametrize("version", ["vad-windows-v1", "vad-packed-fallback-v1"])
+    @pytest.mark.parametrize("purpose", ["enroll", "identify"])
+    async def test_worker_persists_preprocessing_metadata_through_public_job(
+        pilot: Pilot,
+        version: Literal["vad-windows-v1", "vad-packed-fallback-v1"],
+        purpose: str,
+    ) -> None:
+        pilot.provider.preprocessing_version = version
+        source = await pilot.upload()
+        job = await pilot.submit(
+            source["public_id"], purpose=purpose, name="Person" if purpose == "enroll" else None
+        )
+>       response = await pilot.terminal(job)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/integration/test_speaker_pilot.py:276: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/integration/test_speaker_pilot.py:143: in terminal
+    assert await self.worker.process_once()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app/services/speaker_worker.py:103: in process_once
+    result = await self.embedding.embed(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <tests.integration.test_speaker_pilot.FixtureEmbeddingProvider object at 0x7f8cc9564050>
+audio = b'RIFF$\xdc\x05\x00WAVEfmt \x10\x00\x00\x00\x01\x00\x01\x00\x80>\x00\x00\x00}\x00\x00\x02\x00\x10\x00data\x00\xdc\x05\...cc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c'
+purpose = 'enroll', job_public_id = 'b2ae5f12-848e-4134-8d77-4e06ccab3150'
+tenant_public_id = 'a6189b47-13cc-42fa-b9f1-99d7578ff8e2'
+
+    async def embed(
+        self,
+        audio: bytes,
+        *,
+        purpose: Literal["enroll", "identify"],
+        job_public_id: str,
+        tenant_public_id: str,
+    ) -> EmbeddingResult:
+        assert audio[:4] == b"RIFF"
+        assert UUID(job_public_id) and UUID(tenant_public_id)
+        assert purpose in {"enroll", "identify"}
+        self.calls += 1
+        if self.error:
+            raise self.error
+>       return EmbeddingResult(
+            self.vector,
+            self.speech_seconds,
+            self.windows_count,
+            MODEL_ID,
+            MODEL_REVISION,
+            "fixture-vector",
+            preprocessing_version=self.preprocessing_version,
+        )
+E       TypeError: EmbeddingResult.__init__() got an unexpected keyword argument 'preprocessing_version'
+
+tests/integration/test_speaker_pilot.py:77: TypeError
+_ test_worker_persists_preprocessing_metadata_through_public_job[identify-vad-windows-v1] _
+
+pilot = Pilot(client=<httpx.AsyncClient object at 0x7f8cc9566850>, sessions=async_sessionmaker(class_='AsyncSession', bind=<sq...app.domain.models.tenant.Tenant object at 0x7f8cc9565a90>, user=<app.domain.models.user.User object at 0x7f8cc9565090>)
+version = 'vad-windows-v1', purpose = 'identify'
+
+    @pytest.mark.parametrize("version", ["vad-windows-v1", "vad-packed-fallback-v1"])
+    @pytest.mark.parametrize("purpose", ["enroll", "identify"])
+    async def test_worker_persists_preprocessing_metadata_through_public_job(
+        pilot: Pilot,
+        version: Literal["vad-windows-v1", "vad-packed-fallback-v1"],
+        purpose: str,
+    ) -> None:
+        pilot.provider.preprocessing_version = version
+        source = await pilot.upload()
+        job = await pilot.submit(
+            source["public_id"], purpose=purpose, name="Person" if purpose == "enroll" else None
+        )
+>       response = await pilot.terminal(job)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/integration/test_speaker_pilot.py:276: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/integration/test_speaker_pilot.py:143: in terminal
+    assert await self.worker.process_once()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app/services/speaker_worker.py:103: in process_once
+    result = await self.embedding.embed(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <tests.integration.test_speaker_pilot.FixtureEmbeddingProvider object at 0x7f8cc9565310>
+audio = b'RIFF$\xdc\x05\x00WAVEfmt \x10\x00\x00\x00\x01\x00\x01\x00\x80>\x00\x00\x00}\x00\x00\x02\x00\x10\x00data\x00\xdc\x05\...cc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c'
+purpose = 'identify', job_public_id = '418e707c-6f0d-46a8-96f3-d1dd0ee11fe1'
+tenant_public_id = '571d3dae-a450-4b5c-a045-778ef9858d7c'
+
+    async def embed(
+        self,
+        audio: bytes,
+        *,
+        purpose: Literal["enroll", "identify"],
+        job_public_id: str,
+        tenant_public_id: str,
+    ) -> EmbeddingResult:
+        assert audio[:4] == b"RIFF"
+        assert UUID(job_public_id) and UUID(tenant_public_id)
+        assert purpose in {"enroll", "identify"}
+        self.calls += 1
+        if self.error:
+            raise self.error
+>       return EmbeddingResult(
+            self.vector,
+            self.speech_seconds,
+            self.windows_count,
+            MODEL_ID,
+            MODEL_REVISION,
+            "fixture-vector",
+            preprocessing_version=self.preprocessing_version,
+        )
+E       TypeError: EmbeddingResult.__init__() got an unexpected keyword argument 'preprocessing_version'
+
+tests/integration/test_speaker_pilot.py:77: TypeError
+_ test_worker_persists_preprocessing_metadata_through_public_job[identify-vad-packed-fallback-v1] _
+
+pilot = Pilot(client=<httpx.AsyncClient object at 0x7f8cc9897230>, sessions=async_sessionmaker(class_='AsyncSession', bind=<sq...app.domain.models.tenant.Tenant object at 0x7f8cc9896b10>, user=<app.domain.models.user.User object at 0x7f8cc9896ea0>)
+version = 'vad-packed-fallback-v1', purpose = 'identify'
+
+    @pytest.mark.parametrize("version", ["vad-windows-v1", "vad-packed-fallback-v1"])
+    @pytest.mark.parametrize("purpose", ["enroll", "identify"])
+    async def test_worker_persists_preprocessing_metadata_through_public_job(
+        pilot: Pilot,
+        version: Literal["vad-windows-v1", "vad-packed-fallback-v1"],
+        purpose: str,
+    ) -> None:
+        pilot.provider.preprocessing_version = version
+        source = await pilot.upload()
+        job = await pilot.submit(
+            source["public_id"], purpose=purpose, name="Person" if purpose == "enroll" else None
+        )
+>       response = await pilot.terminal(job)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/integration/test_speaker_pilot.py:276: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/integration/test_speaker_pilot.py:143: in terminal
+    assert await self.worker.process_once()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app/services/speaker_worker.py:103: in process_once
+    result = await self.embedding.embed(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <tests.integration.test_speaker_pilot.FixtureEmbeddingProvider object at 0x7f8cc9895cd0>
+audio = b'RIFF$\xdc\x05\x00WAVEfmt \x10\x00\x00\x00\x01\x00\x01\x00\x80>\x00\x00\x00}\x00\x00\x02\x00\x10\x00data\x00\xdc\x05\...cc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c'
+purpose = 'identify', job_public_id = '8e68c4e0-95f9-4529-b640-01794856485d'
+tenant_public_id = 'c017a029-9e66-4062-84dc-1361cbf5f22a'
+
+    async def embed(
+        self,
+        audio: bytes,
+        *,
+        purpose: Literal["enroll", "identify"],
+        job_public_id: str,
+        tenant_public_id: str,
+    ) -> EmbeddingResult:
+        assert audio[:4] == b"RIFF"
+        assert UUID(job_public_id) and UUID(tenant_public_id)
+        assert purpose in {"enroll", "identify"}
+        self.calls += 1
+        if self.error:
+            raise self.error
+>       return EmbeddingResult(
+            self.vector,
+            self.speech_seconds,
+            self.windows_count,
+            MODEL_ID,
+            MODEL_REVISION,
+            "fixture-vector",
+            preprocessing_version=self.preprocessing_version,
+        )
+E       TypeError: EmbeddingResult.__init__() got an unexpected keyword argument 'preprocessing_version'
+
+tests/integration/test_speaker_pilot.py:77: TypeError
+=========================== short test summary info ============================
+FAILED tests/integration/test_speaker_pilot.py::test_worker_persists_preprocessing_metadata_through_public_job[enroll-vad-windows-v1]
+FAILED tests/integration/test_speaker_pilot.py::test_worker_persists_preprocessing_metadata_through_public_job[enroll-vad-packed-fallback-v1]
+FAILED tests/integration/test_speaker_pilot.py::test_worker_persists_preprocessing_metadata_through_public_job[identify-vad-windows-v1]
+FAILED tests/integration/test_speaker_pilot.py::test_worker_persists_preprocessing_metadata_through_public_job[identify-vad-packed-fallback-v1]
+4 failed, 14 deselected in 3.83s

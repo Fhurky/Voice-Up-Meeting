@@ -1,0 +1,14 @@
+{
+  "checks": [
+    {
+      "engine": "pwsh",
+      "exit_code": 0,
+      "elapsed_seconds": 10.236
+    },
+    {
+      "engine": "powershell",
+      "exit_code": 0,
+      "elapsed_seconds": 11.213
+    }
+  ]
+}

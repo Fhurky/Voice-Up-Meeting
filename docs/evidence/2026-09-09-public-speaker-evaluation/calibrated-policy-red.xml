@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="6" skipped="0" tests="19" time="0.654" timestamp="2026-09-09T11:13:32.277371+00:00" hostname="3aec470adeb9"><testcase classname="tests.unit.test_speaker_identity" name="test_decision_requires_threshold_and_margin" time="0.014"><failure message="AssertionError: assert 'ambiguous' == 'recognized'&#10;  &#10;  - recognized&#10;  + ambiguous">def test_decision_requires_threshold_and_margin() -&gt; None:
+        policy = MatchPolicy()
+        assert decide([], policy).reason == "no_profiles"
+        assert decide([0.3], policy).decision == "unknown"
+        assert decide([0.50, 0.2], policy).decision == "ambiguous"
+&gt;       assert decide([0.7, 0.2], policy).decision == "recognized"
+E       AssertionError: assert 'ambiguous' == 'recognized'
+E         
+E         - recognized
+E         + ambiguous
+
+tests/unit/test_speaker_identity.py:20: AssertionError</failure></testcase><testcase classname="tests.unit.test_speaker_identity" name="test_calibrated_policy_preserves_rejection_boundaries[scores0-ambiguous-below_match_threshold]" time="0.001" /><testcase classname="tests.unit.test_speaker_identity" name="test_calibrated_policy_preserves_rejection_boundaries[scores1-recognized-matched]" time="0.001"><failure message="AssertionError: assert 'ambiguous' == 'recognized'&#10;  &#10;  - recognized&#10;  + ambiguous">scores = [0.55, 0.2], decision = 'recognized', reason = 'matched'
+
+    @pytest.mark.parametrize(
+        ("scores", "decision", "reason"),
+        [
+            ([0.5499, 0.2], "ambiguous", "below_match_threshold"),
+            ([0.55, 0.2], "recognized", "matched"),
+            ([0.58304, 0.2], "recognized", "matched"),
+            ([0.51501, 0.2], "ambiguous", "below_match_threshold"),
+            ([0.58304, 0.51501], "ambiguous", "insufficient_margin"),
+            ([0.55, 0.451], "ambiguous", "insufficient_margin"),
+            ([0.4499, 0.2], "unknown", "below_new_threshold"),
+            ([0.45, 0.2], "ambiguous", "below_match_threshold"),
+        ],
+    )
+    def test_calibrated_policy_preserves_rejection_boundaries(
+        scores: list[float], decision: str, reason: str
+    ) -&gt; None:
+        result = decide(scores, MatchPolicy())
+&gt;       assert result.decision == decision
+E       AssertionError: assert 'ambiguous' == 'recognized'
+E         
+E         - recognized
+E         + ambiguous
+
+tests/unit/test_speaker_identity.py:42: AssertionError</failure></testcase><testcase classname="tests.unit.test_speaker_identity" name="test_calibrated_policy_preserves_rejection_boundaries[scores2-recognized-matched]" time="0.001"><failure message="AssertionError: assert 'ambiguous' == 'recognized'&#10;  &#10;  - recognized&#10;  + ambiguous">scores = [0.58304, 0.2], decision = 'recognized', reason = 'matched'
+
+    @pytest.mark.parametrize(
+        ("scores", "decision", "reason"),
+        [
+            ([0.5499, 0.2], "ambiguous", "below_match_threshold"),
+            ([0.55, 0.2], "recognized", "matched"),
+            ([0.58304, 0.2], "recognized", "matched"),
+            ([0.51501, 0.2], "ambiguous", "below_match_threshold"),
+            ([0.58304, 0.51501], "ambiguous", "insufficient_margin"),
+            ([0.55, 0.451], "ambiguous", "insufficient_margin"),
+            ([0.4499, 0.2], "unknown", "below_new_threshold"),
+            ([0.45, 0.2], "ambiguous", "below_match_threshold"),
+        ],
+    )
+    def test_calibrated_policy_preserves_rejection_boundaries(
+        scores: list[float], decision: str, reason: str
+    ) -&gt; None:
+        result = decide(scores, MatchPolicy())
+&gt;       assert result.decision == decision
+E       AssertionError: assert 'ambiguous' == 'recognized'
+E         
+E         - recognized
+E         + ambiguous
+
+tests/unit/test_speaker_identity.py:42: AssertionError</failure></testcase><testcase classname="tests.unit.test_speaker_identity" name="test_calibrated_policy_preserves_rejection_boundaries[scores3-ambiguous-below_match_threshold]" time="0.001" /><testcase classname="tests.unit.test_speaker_identity" name="test_calibrated_policy_preserves_rejection_boundaries[scores4-ambiguous-insufficient_margin]" time="0.001"><failure message="AssertionError: assert 'below_match_threshold' == 'insufficient_margin'&#10;  &#10;  - insufficient_margin&#10;  + below_match_threshold">scores = [0.58304, 0.51501], decision = 'ambiguous'
+reason = 'insufficient_margin'
+
+    @pytest.mark.parametrize(
+        ("scores", "decision", "reason"),
+        [
+            ([0.5499, 0.2], "ambiguous", "below_match_threshold"),
+            ([0.55, 0.2], "recognized", "matched"),
+            ([0.58304, 0.2], "recognized", "matched"),
+            ([0.51501, 0.2], "ambiguous", "below_match_threshold"),
+            ([0.58304, 0.51501], "ambiguous", "insufficient_margin"),
+            ([0.55, 0.451], "ambiguous", "insufficient_margin"),
+            ([0.4499, 0.2], "unknown", "below_new_threshold"),
+            ([0.45, 0.2], "ambiguous", "below_match_threshold"),
+        ],
+    )
+    def test_calibrated_policy_preserves_rejection_boundaries(
+        scores: list[float], decision: str, reason: str
+    ) -&gt; None:
+        result = decide(scores, MatchPolicy())
+        assert result.decision == decision
+&gt;       assert result.reason == reason
+E       AssertionError: assert 'below_match_threshold' == 'insufficient_margin'
+E         
+E         - insufficient_margin
+E         + below_match_threshold
+
+tests/unit/test_speaker_identity.py:43: AssertionError</failure></testcase><testcase classname="tests.unit.test_speaker_identity" name="test_calibrated_policy_preserves_rejection_boundaries[scores5-ambiguous-insufficient_margin]" time="0.001"><failure message="AssertionError: assert 'below_match_threshold' == 'insufficient_margin'&#10;  &#10;  - insufficient_margin&#10;  + below_match_threshold">scores = [0.55, 0.451], decision = 'ambiguous', reason = 'insufficient_margin'
+
+    @pytest.mark.parametrize(
+        ("scores", "decision", "reason"),
+        [
+            ([0.5499, 0.2], "ambiguous", "below_match_threshold"),
+            ([0.55, 0.2], "recognized", "matched"),
+            ([0.58304, 0.2], "recognized", "matched"),
+            ([0.51501, 0.2], "ambiguous", "below_match_threshold"),
+            ([0.58304, 0.51501], "ambiguous", "insufficient_margin"),
+            ([0.55, 0.451], "ambiguous", "insufficient_margin"),
+            ([0.4499, 0.2], "unknown", "below_new_threshold"),
+            ([0.45, 0.2], "ambiguous", "below_match_threshold"),
+        ],
+    )
+    def test_calibrated_policy_preserves_rejection_boundaries(
+        scores: list[float], decision: str, reason: str
+    ) -&gt; None:
+        result = decide(scores, MatchPolicy())
+        assert result.decision == decision
+&gt;       assert result.reason == reason
+E       AssertionError: assert 'below_match_threshold' == 'insufficient_margin'
+E         
+E         - insufficient_margin
+E         + below_match_threshold
+
+tests/unit/test_speaker_identity.py:43: AssertionError</failure></testcase><testcase classname="tests.unit.test_speaker_identity" name="test_calibrated_policy_preserves_rejection_boundaries[scores6-unknown-below_new_threshold]" time="0.000" /><testcase classname="tests.unit.test_speaker_identity" name="test_calibrated_policy_preserves_rejection_boundaries[scores7-ambiguous-below_match_threshold]" time="0.001" /><testcase classname="tests.unit.test_speaker_identity" name="test_explicit_historical_policy_remains_available" time="0.000" /><testcase classname="tests.unit.test_speaker_identity" name="test_typed_settings_and_domain_share_calibrated_defaults" time="0.002"><failure message="AssertionError: assert MatchPolicy(m...5, margin=0.1) == MatchPolicy(m...5, margin=0.1)&#10;  &#10;  Omitting 2 identical items, use -vv to show&#10;  Differing attributes:&#10;  ['match_threshold']&#10;  &#10;  Drill down into differing attribute match_threshold:&#10;    match_threshold: 0.75 != 0.55">monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x78381b7056e0&gt;
+
+    def test_typed_settings_and_domain_share_calibrated_defaults(
+        monkeypatch: pytest.MonkeyPatch,
+    ) -&gt; None:
+        for name in (
+            "VOICEUP_SPEAKER_MATCH_THRESHOLD",
+            "VOICEUP_SPEAKER_NEW_THRESHOLD",
+            "VOICEUP_SPEAKER_MATCH_MARGIN",
+        ):
+            monkeypatch.delenv(name, raising=False)
+        settings = Settings(
+            _env_file=None,
+            environment="test",
+            jwt_secret=SecretStr("calibration-test-only-secret-at-least-32-bytes"),
+        )
+        actual = MatchPolicy(
+            match_threshold=settings.speaker_match_threshold,
+            new_threshold=settings.speaker_new_threshold,
+            margin=settings.speaker_match_margin,
+        )
+&gt;       assert actual == MatchPolicy(match_threshold=0.55, new_threshold=0.45, margin=0.10)
+E       AssertionError: assert MatchPolicy(m...5, margin=0.1) == MatchPolicy(m...5, margin=0.1)
+E         
+E         Omitting 2 identical items, use -vv to show
+E         Differing attributes:
+E         ['match_threshold']
+E         
+E         Drill down into differing attribute match_threshold:
+E           match_threshold: 0.75 != 0.55
+
+tests/unit/test_speaker_identity.py:71: AssertionError</failure></testcase><testcase classname="tests.unit.test_speaker_identity" name="test_vector_contract_rejects_invalid_data[value0]" time="0.001" /><testcase classname="tests.unit.test_speaker_identity" name="test_vector_contract_rejects_invalid_data[value1]" time="0.001" /><testcase classname="tests.unit.test_speaker_identity" name="test_vector_contract_rejects_invalid_data[value2]" time="0.000" /><testcase classname="tests.unit.test_speaker_identity" name="test_normalized_names_and_vectors" time="0.000" /><testcase classname="tests.unit.test_speaker_identity" name="test_job_target_contract[payload0]" time="0.001" /><testcase classname="tests.unit.test_speaker_identity" name="test_job_target_contract[payload1]" time="0.001" /><testcase classname="tests.unit.test_speaker_identity" name="test_job_target_contract[payload2]" time="0.001" /><testcase classname="tests.unit.test_speaker_identity" name="test_job_target_contract[payload3]" time="0.001" /></testsuite></testsuites>

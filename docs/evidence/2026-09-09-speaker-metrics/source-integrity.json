@@ -1,0 +1,724 @@
+{
+  "schema_version": 1,
+  "scope": "Pre-metric source integrity and immutable-input snapshot; no new metric scores or model execution",
+  "recorded_at": "2026-09-09T13:28:25.656651+00:00",
+  "authority": {
+    "technology_profile": "kt-vibecoding-python-web-v2",
+    "accepted_prd": "specs/speaker-identity/PRDs/001-local-speaker-pilot/PRD.md#Decision 9",
+    "metric_protocol": "voiceup-open-set-v1"
+  },
+  "integrity_checks_passed": 12432,
+  "integrity_checks_failed": 0,
+  "integrity_checks_by_category": {
+    "report_structure": 9,
+    "manifest_binding": 6,
+    "manifest_structure": 12,
+    "operation_uniqueness": 9,
+    "enrollment_mapping": 222,
+    "operation_truth": 8154,
+    "operation_key": 906,
+    "single_attempt": 906,
+    "prediction_mapping": 2007,
+    "planned_completeness": 3,
+    "stage_binding": 3,
+    "existing_counters": 63,
+    "existing_rates": 15,
+    "return_consistency": 12,
+    "state_correspondence": 3,
+    "cross_manifest_disjointness": 3,
+    "snapshot_files": 98,
+    "public_identity_exclusion": 1
+  },
+  "failed_categories": {},
+  "skipped": 0,
+  "report_bindings": [
+    {
+      "run": "calibration",
+      "raw_report_path": "outputs/quality-improvement/calibration-results.json",
+      "raw_report_sha256": "03cedc90f6b6c290d431819ce3878acf7eca63b4681dcd1d5b8c367b4147a0f2",
+      "manifest_path": "data/public-speaker-evaluation/calibration.json",
+      "manifest_raw_sha256": "a170d8fa88a13bd7059cd3e6e82747e3b05b7dfc7a814a451672cb4f98ac5c33",
+      "manifest_canonical_sha256": "8744077635a58ec928f04bc16f6ec0fcc7820241beb7c1866d6d4a704b599097",
+      "canonical_binding_matches": true,
+      "manifest_recordings": 302,
+      "planned_people": 70,
+      "planned_gallery": 50,
+      "enrolled_gallery": 40,
+      "planned_known_probes": 150,
+      "planned_unknown_probes": 100,
+      "expected_operations": 302,
+      "observed_operations": 302,
+      "missing_operations": 0,
+      "unexpected_operations": 0,
+      "duplicate_operation_ids": 0,
+      "duplicate_job_ids": 0,
+      "duplicate_semantic_keys": 0,
+      "job_status_counts": {
+        "succeeded": 267,
+        "failed": 35
+      },
+      "verified_existing_counters": {
+        "known_completed": 150,
+        "known_job_failed": 18,
+        "known_recognized": 111,
+        "known_unknown": 21,
+        "known_ambiguous": 0,
+        "unknown_completed": 100,
+        "unknown_job_failed": 7,
+        "unknown_recognized": 0,
+        "unknown_unknown": 89,
+        "unknown_ambiguous": 4,
+        "known_planned": 150,
+        "unknown_planned": 100,
+        "known_correct": 111,
+        "known_wrong": 0,
+        "known_rejected": 21,
+        "unknown_false_accepted": 0,
+        "known_not_run": 0,
+        "unknown_not_run": 0
+      },
+      "return_phase_matches_operations": true,
+      "return_phase_counts": {
+        "enrollment_succeeded": 1,
+        "query_correct": 1,
+        "operations_failed": 0
+      }
+    },
+    {
+      "run": "historical",
+      "raw_report_path": "outputs/quality-improvement/historical-results.json",
+      "raw_report_sha256": "224e0338bf67b743b25d8d5e7677138683fc17a7de44efb96e0164aa305e16c3",
+      "manifest_path": "data/public-speaker-evaluation/test.json",
+      "manifest_raw_sha256": "0e4deb4d61e36e378a29e270fc4d1c070d3331a9839314f37261c403d1361ad9",
+      "manifest_canonical_sha256": "d2913c1b2a0bcb5f552f5a8bd9dc7f7b5872dd4d6b024bc4a0e40a2d6af54a98",
+      "canonical_binding_matches": true,
+      "manifest_recordings": 302,
+      "planned_people": 70,
+      "planned_gallery": 50,
+      "enrolled_gallery": 29,
+      "planned_known_probes": 150,
+      "planned_unknown_probes": 100,
+      "expected_operations": 302,
+      "observed_operations": 302,
+      "missing_operations": 0,
+      "unexpected_operations": 0,
+      "duplicate_operation_ids": 0,
+      "duplicate_job_ids": 0,
+      "duplicate_semantic_keys": 0,
+      "job_status_counts": {
+        "succeeded": 236,
+        "failed": 66
+      },
+      "verified_existing_counters": {
+        "known_completed": 150,
+        "known_job_failed": 24,
+        "known_recognized": 78,
+        "known_unknown": 47,
+        "known_ambiguous": 1,
+        "unknown_completed": 100,
+        "unknown_job_failed": 19,
+        "unknown_recognized": 0,
+        "unknown_unknown": 81,
+        "unknown_ambiguous": 0,
+        "known_planned": 150,
+        "unknown_planned": 100,
+        "known_correct": 78,
+        "known_wrong": 0,
+        "known_rejected": 48,
+        "unknown_false_accepted": 0,
+        "known_not_run": 0,
+        "unknown_not_run": 0
+      },
+      "return_phase_matches_operations": true,
+      "return_phase_counts": {
+        "enrollment_succeeded": 0,
+        "query_correct": 0,
+        "operations_failed": 2
+      }
+    },
+    {
+      "run": "fresh",
+      "raw_report_path": "outputs/quality-improvement/fresh-results.json",
+      "raw_report_sha256": "7b13f98cdc4f8ed34d7ce584415200a2003e5e2736f107d95a2791a967f99c7e",
+      "manifest_path": "data/public-speaker-holdout-v2/test.json",
+      "manifest_raw_sha256": "67fa0170afbe4c3a382a91506cd68d3e635fe7c1d562810c5fe9c2b8ad3c9eb7",
+      "manifest_canonical_sha256": "70b80c92502466517b0cf1b951da91b45ee5c7dd683acd4b1a0bf1c5ba727d7a",
+      "canonical_binding_matches": true,
+      "manifest_recordings": 302,
+      "planned_people": 70,
+      "planned_gallery": 50,
+      "enrolled_gallery": 40,
+      "planned_known_probes": 150,
+      "planned_unknown_probes": 100,
+      "expected_operations": 302,
+      "observed_operations": 302,
+      "missing_operations": 0,
+      "unexpected_operations": 0,
+      "duplicate_operation_ids": 0,
+      "duplicate_job_ids": 0,
+      "duplicate_semantic_keys": 0,
+      "job_status_counts": {
+        "succeeded": 277,
+        "failed": 25
+      },
+      "verified_existing_counters": {
+        "known_completed": 150,
+        "known_job_failed": 10,
+        "known_recognized": 116,
+        "known_unknown": 22,
+        "known_ambiguous": 2,
+        "unknown_completed": 100,
+        "unknown_job_failed": 5,
+        "unknown_recognized": 0,
+        "unknown_unknown": 94,
+        "unknown_ambiguous": 1,
+        "known_planned": 150,
+        "unknown_planned": 100,
+        "known_correct": 116,
+        "known_wrong": 0,
+        "known_rejected": 24,
+        "unknown_false_accepted": 0,
+        "known_not_run": 0,
+        "unknown_not_run": 0
+      },
+      "return_phase_matches_operations": true,
+      "return_phase_counts": {
+        "enrollment_succeeded": 1,
+        "query_correct": 1,
+        "operations_failed": 0
+      }
+    }
+  ],
+  "unique_operations_across_runs": 906,
+  "legacy_malformed_input_probes": [
+    {
+      "case": "duplicate_replaces_missing_probe",
+      "malformed_input_accepted": true,
+      "scope": "In-memory copy only; the three actual reports are unmodified and valid"
+    },
+    {
+      "case": "impossible_cached_counts_and_rate",
+      "malformed_input_accepted": true,
+      "scope": "In-memory copy only; the three actual reports are unmodified and valid"
+    },
+    {
+      "case": "return_copy_diverges_from_operations",
+      "malformed_input_accepted": true,
+      "scope": "In-memory copy only; the three actual reports are unmodified and valid"
+    }
+  ],
+  "legacy_reporter_source_sha256": "f326c63d88cec54a381eb12b4356beaee7c0c540b6412febdb0b021323309707",
+  "snapshot": {
+    "old_speech_recovery_evidence_files": 92,
+    "raw_report_files": 3,
+    "manifest_files": 3,
+    "total_files": 98,
+    "canonical_inventory_sha256": "23f46a697cac57aa0f9b5eb17295aba7020f373ea93209ee49f44926cf6acbac",
+    "files": [
+      {
+        "path": "data/public-speaker-evaluation/calibration.json",
+        "bytes": 149816,
+        "sha256": "a170d8fa88a13bd7059cd3e6e82747e3b05b7dfc7a814a451672cb4f98ac5c33"
+      },
+      {
+        "path": "data/public-speaker-evaluation/test.json",
+        "bytes": 147251,
+        "sha256": "0e4deb4d61e36e378a29e270fc4d1c070d3331a9839314f37261c403d1361ad9"
+      },
+      {
+        "path": "data/public-speaker-holdout-v2/test.json",
+        "bytes": 140698,
+        "sha256": "67fa0170afbe4c3a382a91506cd68d3e635fe7c1d562810c5fe9c2b8ad3c9eb7"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/automated-report.md",
+        "bytes": 4265,
+        "sha256": "7242d24595145007762c675314e752482c62b9874a60d5834d6fe8a9e6422b2e"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/browser-api-final-report.md",
+        "bytes": 2077,
+        "sha256": "66e9620a6e346ac05ef1410299c9606eb67b1a812e9b19663e4bdf710fa4e529"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/browser-api-final.json",
+        "bytes": 3346,
+        "sha256": "051e45e385f4955032e1691d66bb36af607542d6537b538d8aadcb47bf464e07"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/browser-api-initial-corroboration.json",
+        "bytes": 1404,
+        "sha256": "3d7524c90dec00d12ac33a434758cb912f6c12a221930ab1dfc1eab72c6b8679"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/browser-api-initial-report.md",
+        "bytes": 1581,
+        "sha256": "0b8c11f2183f03010b04d0d4e88f4b890e8a98cca43784a0245c4693c5bd2647"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/browser-observations.json",
+        "bytes": 1404,
+        "sha256": "703bc990980c730b85fe96620b19aaa5bc9d99e8d0a35e4ccf569b44952cbadf"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/browser-recognized.png",
+        "bytes": 28635,
+        "sha256": "5d80f56edaa29d9f0da1d6297d7bca379a39a0ae5ffb6d032665354f92daf29b"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/browser-report.md",
+        "bytes": 2365,
+        "sha256": "0e9c7d377fa1768e31af20572986131a541e0b23001be9410c55b2ac03f4c86b"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/calibration-diagnostic-audit.json",
+        "bytes": 1370,
+        "sha256": "1c5c41013bafbd90d5d3c69c6267c18c73f670b0b66e2c45a71157834df8a60c"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/calibration-diagnostic-protocol.json",
+        "bytes": 4443,
+        "sha256": "c2091a1bc717f0c81ec94de321f50ad48ee130f86c9a52921c8496f9f11102cf"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/calibration-diagnostic-report.md",
+        "bytes": 5075,
+        "sha256": "12e608f74e9cf296add379203c34ca7385482fb26e82e449e0dfb7315a9fbe13"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/calibration-diagnostic-summary.json",
+        "bytes": 9284,
+        "sha256": "7ee73cdc79fdccc242842d25670ed2e2ca9eb3831948d7bac146349d77d145cd"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/calibration-live-summary.json",
+        "bytes": 5233,
+        "sha256": "4c078ca2a6fe995b87acc432d6b68e7853fe09bb32cc28d58876f138dec3e505"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/evaluator-provenance-red.txt",
+        "bytes": 42045,
+        "sha256": "38238cc55697bcd316d57ac4219842b38bc58303c3060fcd2ee61a7d728cecd2"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/evaluator-provenance-red.xml",
+        "bytes": 35277,
+        "sha256": "718ca149786703c027f2be5623a6f70756c48f7897f7b764a23ef19abb64998f"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/evaluator-provenance-report.md",
+        "bytes": 2763,
+        "sha256": "2fc83120efc81df591e17c08eedb86335b6ab176f8d7b07f0bddd57c8fb4c451"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/evaluator-provenance-static.txt",
+        "bytes": 47,
+        "sha256": "30fa0bd085b178b9a852fce5ed64ded69d5d6dafe131f9b17e95071d9ec3397c"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/evaluator-provenance-tests.txt",
+        "bytes": 102,
+        "sha256": "ddb0aaa86adc72f1ab943473e65b0ca653a612f3f4fc2ffa31a0516a9a460577"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/evaluator-provenance-tests.xml",
+        "bytes": 10655,
+        "sha256": "35d6c55710c32d5578758881426966381e438d620483225357bce8b8648ab561"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/final-metrics-audit-report.md",
+        "bytes": 5198,
+        "sha256": "ebce49321c043381b644361d47fd204609a792910c3f1ec908ef890156bb7ad9"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/final-metrics-audit.json",
+        "bytes": 18629,
+        "sha256": "e440d5f2f84517935ea84fd78d97dbb553b569c94553d68b6aebf0c9ad8be015"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/fresh-dataset-preparation-report.md",
+        "bytes": 5044,
+        "sha256": "1516564758cb0b267926e9313869dafa6205b3b3fdfaf070f15c25abe8b3f3a5"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/fresh-dataset-preparation.txt",
+        "bytes": 273,
+        "sha256": "fe31fdf17094b54ec4070704920da1f4102fa8f7a5decfead2e5d06752f676ff"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/fresh-dataset-readiness.json",
+        "bytes": 4838,
+        "sha256": "2eeaf2868bf4799ae8697767558527ead2c52c50f4383d79f2876ca7cbe6df36"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/fresh-dataset-windows-tests.txt",
+        "bytes": 732,
+        "sha256": "a2bfbeb00b773251203397e80d1c7c227ac2a917bcee173a40ecae775335f84a"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/fresh-dataset-windows-tests.xml",
+        "bytes": 4627,
+        "sha256": "ecbfb5232156efdd5d788f42e17d1d23c09dec27b8203bf7a96e04a2443435f7"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/fresh-live-summary.json",
+        "bytes": 4872,
+        "sha256": "4d8ece1ae5350f47bbbda205027f54d73747b298959ab916f9a047a13e6fb23b"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/historical-live-summary.json",
+        "bytes": 5314,
+        "sha256": "b608593b56c78220044a1789ad7f17f8f920415cb97609cf701deafe480df321"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/inference-green.txt",
+        "bytes": 1679,
+        "sha256": "741f0fa2f3d91a766ebd10a1138cda39f4d97f994d5acc24cdcb09aa09318c8e"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/inference-green.xml",
+        "bytes": 13225,
+        "sha256": "a9b529ddc1d3dd6077dcc72b58faffd59ecc52fc91dde8bf70c739608479fb79"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/live-preservation-account-context.json",
+        "bytes": 979,
+        "sha256": "e6a8c4aecd239a252a7c1fac966038c64d76c6f574614a24935407e5e5d177b2"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/live-preservation-final-report.md",
+        "bytes": 3609,
+        "sha256": "dd7cf7afad691988dd30d3b3d274d6691d9d8ac7df352558b041c2dad1262667"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/live-preservation-final.json",
+        "bytes": 6081,
+        "sha256": "049ad3b50ed4a842997a4c76b2c5928a5f589492904da79883b489e1c797a733"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/live-preservation-initial-reader.json",
+        "bytes": 6161,
+        "sha256": "3dc9beffd7eb8bc4926af641e057dd549521d532ae411ee515b1b7c60bbec88e"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/live-preservation-initial-report.md",
+        "bytes": 3290,
+        "sha256": "7212ed1e39ea59c6b85b57c48847986dfc0deba1a1ddde46a543717bac5310ff"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/live-preservation-initial.json",
+        "bytes": 5919,
+        "sha256": "c8f19681f32d0615a324bbc5430b819bc18bff3b2cf905b2d917ff361fe9fa27"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/metadata-contracts.txt",
+        "bytes": 163,
+        "sha256": "1abb10c04a7d6b2dd7a62818197e34e2bb8699a899e926380e8f62e1d45d3295"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/metadata-format.txt",
+        "bytes": 124,
+        "sha256": "64db7c60a63c0301bf27815e5a1dabd1094173db20972b3bd1bae549163697e0"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/metadata-integration-db.txt",
+        "bytes": 32,
+        "sha256": "3c2dc86dab9e9048a83335e3715615e8e62173cb036a5ed73fdb6a04209fdc72"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/metadata-integration-red-db.txt",
+        "bytes": 32,
+        "sha256": "3c2dc86dab9e9048a83335e3715615e8e62173cb036a5ed73fdb6a04209fdc72"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/metadata-integration-red.txt",
+        "bytes": 13895,
+        "sha256": "6aa5ad3caba17e914394c8606372ee7fd6afa79bf9fbceebfcc59b58a22e9fe8"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/metadata-integration-red.xml",
+        "bytes": 12704,
+        "sha256": "379f9c7499c7898fc6da9a98737262970e652986f09fbd33ea127e2a0061e62a"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/metadata-integration.txt",
+        "bytes": 102,
+        "sha256": "777ade3aee35ef9efd159b9b0048c8dbc6193f1751d313e899077f703c69feb6"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/metadata-integration.xml",
+        "bytes": 2854,
+        "sha256": "76583c4f4d6f5bfc2f335ebef0bffc4127bc655ba051bad75d9ee420152cdbff"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/metadata-red.txt",
+        "bytes": 12750,
+        "sha256": "00fcc37aef0212406d6337fd2bd0ad263ecbfd8470ef70682caf5e7f1204607c"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/metadata-red.xml",
+        "bytes": 13487,
+        "sha256": "57150a0d53f22e7a36d44aa7c191e612713d689360cd85c11227b67a07c376b8"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/metadata-report.md",
+        "bytes": 3481,
+        "sha256": "76838efb777a975a476f38ff3b0e2d19c8d03ed3104c6d8441331323ffa61b8d"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/metadata-static-initial.txt",
+        "bytes": 1107,
+        "sha256": "fdcb8b6328765e7097adbc5d64373584e69a11b8db6e755468487ee22cf6f9f5"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/metadata-static.txt",
+        "bytes": 124,
+        "sha256": "9970abd4a2ef331859263fe43af640cd251859fba5cb6a9c34d5da1c2b2bf98c"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/metadata-unit.txt",
+        "bytes": 101,
+        "sha256": "a8fd2dfc4c6b59f6d8ef0ace8dad7397cad9b06808587a7f5e6892f0d9714875"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/metadata-unit.xml",
+        "bytes": 9135,
+        "sha256": "af02b468f8dca1f3c9d2fc7ff4ffb5fb12f365223521fbf361f2e398e41f166d"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/one-click-final.json",
+        "bytes": 295,
+        "sha256": "1678b4b99a48d06cf507b6882913b38b976098fdfeb8e77ba342ff085db0384e"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/permanent-browser-result.json",
+        "bytes": 122,
+        "sha256": "b100e4046d2c1760652c8ecfa3a9cca6ad3c06579c67134ae9b0ac317a3bf73d"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/permanent-browser.txt",
+        "bytes": 97,
+        "sha256": "c83aed41266cfe9ed8d3eba54aa7355d42b94823948b89800cc82e2a384a4736"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/privacy-final-report.md",
+        "bytes": 3183,
+        "sha256": "a894ab35dc649b80e997af0317fb47a0ea3fc53200fa22b5bbc80ec522db09ed"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/privacy-final-review.json",
+        "bytes": 18027,
+        "sha256": "8b5482daa27cb09dbabe578870a0a2c7ef95b2c037d3d3efbcd8a87e04c0c821"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/quality-gate-backend.xml",
+        "bytes": 11854,
+        "sha256": "794ff5107764daf072d3164bc051339e0439741268d4b344663afd2ee974c4d0"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/quality-gate-final-result.json",
+        "bytes": 119,
+        "sha256": "f729e7b7d93c37efe7bfcf1c8f00b813eb6c152fd004c46831ae9483c8864be3"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/quality-gate-final.txt",
+        "bytes": 6684,
+        "sha256": "e04a4956184b2058f2db146cfe69e5e3d6c8f648aa8d6fc221779d3f0cb13228"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/quality-gate-frontend.json",
+        "bytes": 8151,
+        "sha256": "34229471fd5a91f14d4b5148dbd92898e2664fb9857b01d12eaefafb8354eb38"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/quality-gate-result.json",
+        "bytes": 119,
+        "sha256": "28066e65f97ce67097373fa8ad85181feba1f26cd7bab8d86dbaf007594ad2ea"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/quality-gate.txt",
+        "bytes": 6686,
+        "sha256": "66671e7a15d829e4e5a45d158d0452192b36c759a5df5020ff4a684f84ef5d88"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/README.md",
+        "bytes": 8525,
+        "sha256": "5d41ff2d9c7040af601a5db620c9e0d3a026b5549d8c80664517b4d1497c4b95"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/recovery-guard-green.txt",
+        "bytes": 571,
+        "sha256": "61699255fcebf7351e48166c3fbb1440bf6e9bdcd1969a202df16035dfb44447"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/recovery-guard-green.xml",
+        "bytes": 3967,
+        "sha256": "18921c841276bb6b97d0310c91a14fbe3c09e00446c92953fdb8deede224b88c"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/recovery-guard-red.txt",
+        "bytes": 4765,
+        "sha256": "4554ca4ce742655872abffd71d8931240aef5cd7606606bedb0a1218b76f8263"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/recovery-guard-red.xml",
+        "bytes": 5119,
+        "sha256": "b73c1389bcb845deedc89882cf99cb4b5045b6593ede6966690257fed991c558"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/recovery-http-red.txt",
+        "bytes": 9848,
+        "sha256": "af53cfaf6bbbfccb7a44f426b245029669c30d6d64b77e499c916913867603e8"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/recovery-http-red.xml",
+        "bytes": 9210,
+        "sha256": "1f4dabbf9c0ec3d1bbfaea34a4d6556bd2e21817a69cef9f25b6619fb017c00e"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/recovery-unit-green.txt",
+        "bytes": 229,
+        "sha256": "0d60018e716d2010d0e9320bad7e59390ab6aa66d8ee8f7fe24c064fa2bb8a25"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/recovery-unit-green.xml",
+        "bytes": 2836,
+        "sha256": "de2d084fb4ae7f0abd8c66fec63369b021be08bc081504813322965644dd35d4"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/recovery-unit-red.txt",
+        "bytes": 1150,
+        "sha256": "ceea1f0cb6b568ca15c4a823f81d91f215f292823f5b6ac6669a9970ff408095"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/recovery-unit-red.xml",
+        "bytes": 1009,
+        "sha256": "8901bab276a9772b48e49a9c1f7c876ed81b5447ea341e86049e93dbeec04629"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/reference-and-evaluation.txt",
+        "bytes": 432,
+        "sha256": "3147cd43090b04b9ac8105581b13db244f01ffaf94683005afd848dab67a45ea"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/reference-and-evaluation.xml",
+        "bytes": 44818,
+        "sha256": "605da11409868dff89cc850dcd2c1160ae24e9f4544e937447f76c08c0aace3b"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/rejected-candidates-protocol.json",
+        "bytes": 5654,
+        "sha256": "f190b6ed4a7f0c5300802f7fafaa7cb6ace26b8f58c63ba85b1147b34c7dfa8e"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/rejected-candidates-summary.json",
+        "bytes": 10331,
+        "sha256": "3cf7e272d475bbd98f212c9ee1c8703b23fb56a33a37f2cb20840301feba1619"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/runtime-final-readiness-confirmation.json",
+        "bytes": 1191,
+        "sha256": "1ca125b01daab51f978e147be95ed350c7872c71584b38337871e6d070bbf954"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/runtime-final-readiness.json",
+        "bytes": 4397,
+        "sha256": "b760072d6ea861bd487e6bb7aedecc54125aa9ebb2ebbea7d854e4908474d554"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/security-gate-result.json",
+        "bytes": 106,
+        "sha256": "4435cfedde1fe63d247340a574e770575eab1ceec4b8d4f0eaff8d25967e66e3"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/security-gate.txt",
+        "bytes": 56,
+        "sha256": "d1d3437eb7b609063917f74b1f636f93a8169896a73ce1b0c4d3f3694fe776c6"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/spark-build.txt",
+        "bytes": 1910,
+        "sha256": "5c0f1fda54e350c7c2ec4449c334de8fb59c3840e11948025a4ea2e3a5ac0db3"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/spark-candidate-cuda.json",
+        "bytes": 625,
+        "sha256": "8857e0e66ac0e9f80a61866eaa136dd942825f534c66b9af713c07b2661c5fe9"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/spark-candidate-warnings.txt",
+        "bytes": 1386,
+        "sha256": "89bc96039251cfa72086ac8f91fb6e92abc9e75ed2e0664742f1eca4540772dc"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/spark-deployment-report.md",
+        "bytes": 3734,
+        "sha256": "fcb4157de7be50f949fc589cd2269bd1dc9129c34cdca56a6218573ae9ae4a1d"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/spark-release-transfer.json",
+        "bytes": 282,
+        "sha256": "26a78b385f7c49516df238933b5a05e17435456d5cc7b2529ea5ad0cfa5d625b"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/spark-source-build.json",
+        "bytes": 438,
+        "sha256": "ae90e7b7efdbe1b3af128a1fac0b34506f341a66d6d4d4aaa4be0aec8bcf3cc4"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/spark-source-deployment.json",
+        "bytes": 385,
+        "sha256": "dc9d43a8b283a7277120d91c438ef790d20b3d91c39b041c447800b3d66b2d8f"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/spark-source-final.json",
+        "bytes": 433,
+        "sha256": "ab91925f123b42c10ad1e521d3abe964e954af38c58135634e155d2a5995f4cc"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/spark-source-manifest.json",
+        "bytes": 4717,
+        "sha256": "6b02a80cd4cd351e0a7d9bb180c68791539742c56cf023520eac35ee0b176a89"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/spark-source-preflight.json",
+        "bytes": 319,
+        "sha256": "3f5a4c6b55538b8ec3a927c8bcffa64ea0b2db190ec307addefe9d2b892d9c69"
+      },
+      {
+        "path": "docs/evidence/2026-09-09-speech-recovery/test-inventory.json",
+        "bytes": 919,
+        "sha256": "d011e25f5e8b68799011eefd26d933dae6cae1233d09b00a199bd087c272e0f4"
+      },
+      {
+        "path": "outputs/quality-improvement/calibration-results.json",
+        "bytes": 514001,
+        "sha256": "03cedc90f6b6c290d431819ce3878acf7eca63b4681dcd1d5b8c367b4147a0f2"
+      },
+      {
+        "path": "outputs/quality-improvement/fresh-results.json",
+        "bytes": 512792,
+        "sha256": "7b13f98cdc4f8ed34d7ce584415200a2003e5e2736f107d95a2791a967f99c7e"
+      },
+      {
+        "path": "outputs/quality-improvement/historical-results.json",
+        "bytes": 487467,
+        "sha256": "224e0338bf67b743b25d8d5e7677138683fc17a7de44efb96e0164aa305e16c3"
+      }
+    ]
+  },
+  "limitations": [
+    "This verifies recorded decisions and metadata, not waveform contents or new inference.",
+    "Legacy malformed-input acceptance is a reporting-boundary weakness, not evidence of corruption in the three actual reports.",
+    "No new precision, recall, F1 or composite score has been calculated here.",
+    "The final unchanged/privacy comparison is a later separate check against this snapshot."
+  ],
+  "mutations": {
+    "old_evidence": 0,
+    "existing_reports": 0,
+    "manifests": 0,
+    "product_source": 0,
+    "models": 0,
+    "database": 0
+  }
+}

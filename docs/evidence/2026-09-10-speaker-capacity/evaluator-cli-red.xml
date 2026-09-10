@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="16.449" timestamp="2026-09-10T09:54:46.328191+03:00" hostname="DESKTOP-RJ78JKH"><testcase classname="tests.test_public_speaker_evaluation" name="test_cli_full_fifty_gallery_records_capacity_and_preserves_complete_scores" time="16.273"><failure message="AssertionError: assert 1 == 0&#10; +  where 1 = &lt;function main at 0x0000023AAB08C360&gt;(['--manifest', 'C:\\Users\\furko\\AppData\\Local\\Temp\\pytest-of-furko\\pytest-155\\test_cli_full_fifty_gallery_re0\\...ers\\furko\\AppData\\Local\\Temp\\pytest-of-furko\\pytest-155\\test_cli_full_fifty_gallery_re0\\credentials.json', ...])&#10; +    where &lt;function main at 0x0000023AAB08C360&gt; = &lt;module 'public_speaker_evaluation' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\evaluate-public-speakers.py'&gt;.main">evaluation = &lt;module 'public_speaker_evaluation' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\evaluate-public-speakers.py'&gt;
+tmp_path = WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-155/test_cli_full_fifty_gallery_re0')
+api_server = {'calls': [('POST', '/api/voiceup/v1/auth/login'), ('GET', '/api/voiceup/v1/speaker-profiles?offset=0&amp;limit=100'), ('G...er-profiles?offset=0&amp;limit=100'), ...], 'change_gallery': False, 'change_policy': False, 'fail_enrollment': False, ...}
+
+    def test_cli_full_fifty_gallery_records_capacity_and_preserves_complete_scores(
+        evaluation, tmp_path, api_server
+    ):
+        runner = runner_fixture(evaluation, tmp_path, api_server, gallery_size=50)
+        manifest_path, credentials_path = tmp_path / "manifest.json", tmp_path / "credentials.json"
+        manifest_path.write_text(json.dumps(runner.manifest))
+        credentials_path.write_text(json.dumps(runner.credentials))
+        args = [
+            "--manifest", str(manifest_path), "--audio-root", str(tmp_path),
+            "--credentials", str(credentials_path), "--output", str(runner.output),
+            "--state", str(runner.state_path), "--gallery-sizes", "50",
+        ]
+&gt;       assert evaluation.main(args) == 0
+E       AssertionError: assert 1 == 0
+E        +  where 1 = &lt;function main at 0x0000023AAB08C360&gt;(['--manifest', 'C:\\Users\\furko\\AppData\\Local\\Temp\\pytest-of-furko\\pytest-155\\test_cli_full_fifty_gallery_re0\\...ers\\furko\\AppData\\Local\\Temp\\pytest-of-furko\\pytest-155\\test_cli_full_fifty_gallery_re0\\credentials.json', ...])
+E        +    where &lt;function main at 0x0000023AAB08C360&gt; = &lt;module 'public_speaker_evaluation' from 'C:\\Users\\furko\\Desktop\\VoiceUpMeating\\scripts\\evaluate-public-speakers.py'&gt;.main
+
+tests\test_public_speaker_evaluation.py:547: AssertionError</failure></testcase></testsuite></testsuites>

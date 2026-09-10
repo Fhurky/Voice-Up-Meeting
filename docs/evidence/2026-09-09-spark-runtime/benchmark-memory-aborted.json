@@ -1,0 +1,35 @@
+{
+  "started_at_utc": "2026-09-09T09:30:35.019939+00:00",
+  "finished_at_utc": "2026-09-09T09:32:05.020258+00:00",
+  "duration_seconds": 90.00031062699964,
+  "sample_count": 91,
+  "interval_seconds": 1,
+  "scope": "Whole Spark host /proc/meminfo; includes every host process and cache, not per-model or GPU allocated memory",
+  "memory_bytes": {
+    "MemTotal": {
+      "min": 130663165952,
+      "max": 130663165952
+    },
+    "MemAvailable": {
+      "min": 21881823232,
+      "max": 21933719552
+    },
+    "SwapTotal": {
+      "min": 17179865088,
+      "max": 17179865088
+    },
+    "SwapFree": {
+      "min": 17179291648,
+      "max": 17179291648
+    },
+    "SwapUsed": {
+      "min": 573440,
+      "max": 573440
+    }
+  },
+  "headroom_target_bytes": 17179869184,
+  "headroom_target_met_every_sample": true,
+  "model_calls_performed": false,
+  "workload_outcome": "Aborted after warmup: parent observed Windows nginx IPv6 host-gateway unreachable; not a completed 21-job benchmark",
+  "benchmark_pass_claimed": false
+}

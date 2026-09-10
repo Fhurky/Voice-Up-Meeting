@@ -1,0 +1,69 @@
+{
+  "host_config": {
+    "NetworkMode": "voiceup-spark_inference",
+    "PortBindings": {
+      "8090/tcp": [
+        {
+          "HostIp": "127.0.0.1",
+          "HostPort": "8090"
+        }
+      ]
+    },
+    "Runtime": "runc",
+    "DeviceRequests": [
+      {
+        "Driver": "cdi",
+        "Count": 0,
+        "DeviceIDs": [
+          "nvidia.com/gpu=0"
+        ],
+        "Capabilities": null,
+        "Options": null
+      }
+    ],
+    "Devices": null
+  },
+  "networks": {
+    "voiceup-spark_inference": {
+      "IPAMConfig": null,
+      "Links": null,
+      "Aliases": [
+        "voiceup-spark-inference-1",
+        "inference"
+      ],
+      "DriverOpts": null,
+      "GwPriority": 0,
+      "NetworkID": "196275534d811be7c45fb41edb39a88de62601d2fe580363f47ec88ac1ae2f70",
+      "EndpointID": "96483ce91cbae0a66e11099d838b94025e1d4e1903c8441b59d7d34d03f1cc0b",
+      "Gateway": "",
+      "IPAddress": "172.18.0.2",
+      "MacAddress": "9e:db:9d:12:8f:4b",
+      "IPPrefixLen": 16,
+      "IPv6Gateway": "",
+      "GlobalIPv6Address": "",
+      "GlobalIPv6PrefixLen": 0,
+      "DNSNames": [
+        "voiceup-spark-inference-1",
+        "inference",
+        "9d5b275a5b97"
+      ]
+    }
+  },
+  "network": {
+    "Name": "voiceup-spark_inference",
+    "Driver": "bridge",
+    "Internal": true,
+    "Options": {},
+    "IPAM": {
+      "Driver": "default",
+      "Options": null,
+      "Config": [
+        {
+          "Subnet": "172.18.0.0/16",
+          "Gateway": "172.18.0.1"
+        }
+      ]
+    }
+  },
+  "docker_version": "29.2.1"
+}

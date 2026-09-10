@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "recorded_at_utc": "2026-09-09T08:52:44.512311+00:00",
+  "status": "transferred_and_verified_against_compiled_allowlist",
+  "spec_path": "specs/speaker-identity/PRDs/004-spark-remote-inference/PRD.md",
+  "scope": "Only the fixed public ECAPA/Silero package was transferred; this is file integrity evidence, not model/GPU/runtime compatibility evidence.",
+  "source_directory": "models/speaker-pilot",
+  "local_verification_command": "python scripts/package-speaker-model.py --output models/speaker-pilot --verify",
+  "local_compiled_allowlist_verified": true,
+  "verifier_source": {
+    "path": "app/inference/voiceup_inference/model_bundle.py",
+    "sha256": "1684f5e2781aa2c56825fddb994c0117e383f8aff788c64f6a29e86c50fe5bde",
+    "same_source_executed_in_memory_remotely": true,
+    "persisted_on_remote": false
+  },
+  "transport": {
+    "protocol": "SSH",
+    "target": "lab_nvidia1@10.19.57.150",
+    "strict_host_key_checking": true,
+    "batch_mode": true,
+    "identities_only": true,
+    "connect_timeout_seconds": 6,
+    "operation_timeout_seconds": 180,
+    "archive_member_count": 7,
+    "archive_bytes": 91269120,
+    "archive_contains_only_explicit_regular_files": true,
+    "temporary_archive_retained": false,
+    "transfer_and_remote_verification_seconds": 14.323084,
+    "ssh_exit_code": 0,
+    "network_route_not_measured_by_this_transfer": true
+  },
+  "preflight": {
+    "target_absent": true,
+    "existing_path_components_checked_for_symlinks": true,
+    "remote_uid": 1000
+  },
+  "remote_verification": {
+    "status": "verified",
+    "target": "/home/lab_nvidia1/voiceup-runtime/models/speaker-pilot",
+    "target_created_exclusively": true,
+    "directories_created": [
+      "/home/lab_nvidia1/voiceup-runtime/models",
+      "/home/lab_nvidia1/voiceup-runtime/models/speaker-pilot",
+      "/home/lab_nvidia1/voiceup-runtime/models/speaker-pilot/ecapa",
+      "/home/lab_nvidia1/voiceup-runtime/models/speaker-pilot/silero"
+    ],
+    "file_count": 7,
+    "total_bytes": 91256819,
+    "files": [
+      {
+        "path": "ecapa/hyperparams.yaml",
+        "bytes": 1919,
+        "sha256": "6f78854fa04ba59e761437b76a2575d3aba5e5016de3e9b69f0c9a5077fb1a41"
+      },
+      {
+        "path": "ecapa/embedding_model.ckpt",
+        "bytes": 83316686,
+        "sha256": "0575cb64845e6b9a10db9bcb74d5ac32b326b8dc90352671d345e2ee3d0126a2"
+      },
+      {
+        "path": "ecapa/classifier.ckpt",
+        "bytes": 5534328,
+        "sha256": "fd9e3634fe68bd0a427c95e354c0c677374f62b3f434e45b78599950d860d535"
+      },
+      {
+        "path": "ecapa/mean_var_norm_emb.ckpt",
+        "bytes": 1921,
+        "sha256": "cd70225b05b37be64fc5a95e24395d804231d43f74b2e1e5a513db7b69b34c33"
+      },
+      {
+        "path": "ecapa/label_encoder.txt",
+        "bytes": 128619,
+        "sha256": "e13c3a167bb4112685670ee896d20e2b565af16b3a4ceeaa8689fa4d22adb8b9"
+      },
+      {
+        "path": "silero/silero_vad.jit",
+        "bytes": 2272526,
+        "sha256": "e1122837f4154c511485fe0b9c64455f7b929c96fbb8d79fbdb336383ebd3720"
+      },
+      {
+        "path": "manifest.json",
+        "bytes": 820,
+        "sha256": "08a9a239f7f5c696f051ac532999d2620e6d0dda7e23f647fff89e9cb8acc4a7"
+      }
+    ],
+    "metadata": {
+      "dimensions": 192,
+      "files": {
+        "ecapa/classifier.ckpt": "fd9e3634fe68bd0a427c95e354c0c677374f62b3f434e45b78599950d860d535",
+        "ecapa/embedding_model.ckpt": "0575cb64845e6b9a10db9bcb74d5ac32b326b8dc90352671d345e2ee3d0126a2",
+        "ecapa/hyperparams.yaml": "6f78854fa04ba59e761437b76a2575d3aba5e5016de3e9b69f0c9a5077fb1a41",
+        "ecapa/label_encoder.txt": "e13c3a167bb4112685670ee896d20e2b565af16b3a4ceeaa8689fa4d22adb8b9",
+        "ecapa/mean_var_norm_emb.ckpt": "cd70225b05b37be64fc5a95e24395d804231d43f74b2e1e5a513db7b69b34c33",
+        "silero/silero_vad.jit": "e1122837f4154c511485fe0b9c64455f7b929c96fbb8d79fbdb336383ebd3720"
+      },
+      "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+      "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+      "schema_version": 1,
+      "silero_version": "6.2.1"
+    },
+    "verifier_sha256": "1684f5e2781aa2c56825fddb994c0117e383f8aff788c64f6a29e86c50fe5bde",
+    "compiled_allowlist_verified": true,
+    "only_allowlisted_files_present": true,
+    "manifest_written_last": true,
+    "uid": 1000,
+    "model_imports_or_execution": false,
+    "gpu_execution": false
+  },
+  "preexisting_remote_files_overwritten": false,
+  "user_audio_env_tokens_or_keys_transferred": false,
+  "model_imports_or_execution": false,
+  "gpu_execution": false,
+  "packages_installed": false,
+  "sudo_used": false,
+  "security_scan_performed": false
+}

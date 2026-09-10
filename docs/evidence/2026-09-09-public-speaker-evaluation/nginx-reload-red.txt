@@ -1,0 +1,66 @@
+FFFF                                                                     [100%]
+================================== FAILURES ===================================
+_ test_spark_refreshes_nginx_upstream_addresses_after_compose_replacement[powershell] _
+
+startup = (WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-126/test_spark_refreshes_nginx_ups0'), WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-126/native-docker0/docker.exe'))
+shell = 'powershell'
+
+    @pytest.mark.parametrize("shell", SHELLS)
+    def test_spark_refreshes_nginx_upstream_addresses_after_compose_replacement(startup, shell):
+        result = run_startup(startup, shell)
+        assert result.returncode == 0, result.stderr
+        recorded = calls(startup)
+        reloads = [call for call in recorded if "exec" in call and "sh" in call]
+>       assert len(reloads) == 1
+E       assert 0 == 1
+E        +  where 0 = len([])
+
+tests\test_spark_startup.py:179: AssertionError
+_ test_spark_refreshes_nginx_upstream_addresses_after_compose_replacement[pwsh] _
+
+startup = (WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-126/test_spark_refreshes_nginx_ups1'), WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-126/native-docker0/docker.exe'))
+shell = 'pwsh'
+
+    @pytest.mark.parametrize("shell", SHELLS)
+    def test_spark_refreshes_nginx_upstream_addresses_after_compose_replacement(startup, shell):
+        result = run_startup(startup, shell)
+        assert result.returncode == 0, result.stderr
+        recorded = calls(startup)
+        reloads = [call for call in recorded if "exec" in call and "sh" in call]
+>       assert len(reloads) == 1
+E       assert 0 == 1
+E        +  where 0 = len([])
+
+tests\test_spark_startup.py:179: AssertionError
+_ test_nginx_reload_failure_does_not_report_ready_or_stop_local_inference[powershell] _
+
+startup = (WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-126/test_nginx_reload_failure_does0'), WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-126/native-docker0/docker.exe'))
+shell = 'powershell'
+
+    @pytest.mark.parametrize("shell", SHELLS)
+    def test_nginx_reload_failure_does_not_report_ready_or_stop_local_inference(startup, shell):
+        result = run_startup(startup, shell, extra={"VOICEUP_FIXTURE_FAIL": "reload"})
+>       assert result.returncode != 0
+E       AssertionError: assert 0 != 0
+E        +  where 0 = CompletedProcess(args=['C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.EXE', '-NoProfile', '-NonInteractiv...or first use.</AV><AI>0</AI><Nil /><PI>-1</PI><PC>-1</PC><T>Completed</T><SR>-1</SR><SD> </SD></PR></MS></Obj></Objs>').returncode
+
+tests\test_spark_startup.py:193: AssertionError
+_ test_nginx_reload_failure_does_not_report_ready_or_stop_local_inference[pwsh] _
+
+startup = (WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-126/test_nginx_reload_failure_does1'), WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-126/native-docker0/docker.exe'))
+shell = 'pwsh'
+
+    @pytest.mark.parametrize("shell", SHELLS)
+    def test_nginx_reload_failure_does_not_report_ready_or_stop_local_inference(startup, shell):
+        result = run_startup(startup, shell, extra={"VOICEUP_FIXTURE_FAIL": "reload"})
+>       assert result.returncode != 0
+E       AssertionError: assert 0 != 0
+E        +  where 0 = CompletedProcess(args=['C:\\Users\\furko\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powersh... http://127.0.0.1:8173\nModel modu: spark\nServis durumunu kontrol etmek için: bash scripts/stack.sh ps\n', stderr='').returncode
+
+tests\test_spark_startup.py:193: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_spark_startup.py::test_spark_refreshes_nginx_upstream_addresses_after_compose_replacement[powershell]
+FAILED tests/test_spark_startup.py::test_spark_refreshes_nginx_upstream_addresses_after_compose_replacement[pwsh]
+FAILED tests/test_spark_startup.py::test_nginx_reload_failure_does_not_report_ready_or_stop_local_inference[powershell]
+FAILED tests/test_spark_startup.py::test_nginx_reload_failure_does_not_report_ready_or_stop_local_inference[pwsh]
+4 failed, 47 deselected in 4.27s

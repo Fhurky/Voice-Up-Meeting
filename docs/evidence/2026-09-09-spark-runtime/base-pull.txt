@@ -1,0 +1,20 @@
+docker.io/library/python@sha256:67a1e1f215ccda113cfc024e8639049257e88f273898f595b61476d128d387e8: Pulling from library/python
+0f5d7465a5bb: Pulling fs layer
+72e37fa7f76f: Pulling fs layer
+d34c7f44c54e: Pulling fs layer
+0dc98f095f89: Pulling fs layer
+72e37fa7f76f: Verifying Checksum
+72e37fa7f76f: Download complete
+0f5d7465a5bb: Verifying Checksum
+0f5d7465a5bb: Download complete
+0dc98f095f89: Verifying Checksum
+0dc98f095f89: Download complete
+d34c7f44c54e: Verifying Checksum
+d34c7f44c54e: Download complete
+0f5d7465a5bb: Pull complete
+72e37fa7f76f: Pull complete
+d34c7f44c54e: Pull complete
+0dc98f095f89: Pull complete
+Digest: sha256:67a1e1f215ccda113cfc024e8639049257e88f273898f595b61476d128d387e8
+Status: Downloaded newer image for python@sha256:67a1e1f215ccda113cfc024e8639049257e88f273898f595b61476d128d387e8
+docker.io/library/python:3.13.14-slim-bookworm@sha256:67a1e1f215ccda113cfc024e8639049257e88f273898f595b61476d128d387e8

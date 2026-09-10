@@ -1,0 +1,29 @@
+I001 [*] Import block is un-sorted or un-formatted
+  --> app/infrastructure/speaker_inference.py:3:1
+   |
+ 1 |   """Strict HTTP adapter; the web service never imports a speech model."""
+ 2 |
+ 3 | / from typing import Literal
+ 4 | |
+ 5 | | import httpx
+ 6 | | from pydantic import BaseModel, Field, ValidationError
+ 7 | |
+ 8 | | from app.core.config import Settings
+ 9 | | from app.domain.speaker_identity import MODEL_ID, MODEL_REVISION, PreprocessingVersion, normalize
+10 | | from app.services.speaker_ports import EmbeddingResult, SpeakerError
+   | |____________________________________________________________________^
+help: Organize imports
+   |
+8  | from app.core.config import Settings
+   - from app.domain.speaker_identity import MODEL_ID, MODEL_REVISION, PreprocessingVersion, normalize
+9  + from app.domain.speaker_identity import (
+10 +     MODEL_ID,
+11 +     MODEL_REVISION,
+12 +     PreprocessingVersion,
+13 +     normalize,
+14 + )
+15 | from app.services.speaker_ports import EmbeddingResult, SpeakerError
+   |
+
+Found 1 error.
+[*] 1 fixable with the `--fix` option.

@@ -1,0 +1,124 @@
+{
+  "release_sha256": "4dd1012e1ff3edf09ab04c49a70ab6c61f7638bf9f0a93907c784b71e32434e5",
+  "release_directory": "/home/lab_nvidia1/voiceup-runtime/releases/4dd1012e1ff3edf09ab04c49a70ab6c61f7638bf9f0a93907c784b71e32434e5",
+  "archive_filename": "release-4dd1012e1ff3edf09ab04c49a70ab6c61f7638bf9f0a93907c784b71e32434e5.tar",
+  "archive_sha256": "669e4a425365aa615d56215009e00c44d33a9c6cc0b99e6fb4535614a7c3b100",
+  "archive_size_bytes": 1075200,
+  "source_manifest": {
+    "schema_version": 1,
+    "target": "linux/arm64-cp313-cu129",
+    "scope": "Native Spark build and constructed public fixture smoke; no private audio or secrets",
+    "files": [
+      {
+        "path": "app/inference/Dockerfile.spark",
+        "sha256": "fff98f5b802f3f37bdf11fb5db8818d0e506831facafc807946439761b872ce4",
+        "size_bytes": 1143
+      },
+      {
+        "path": "app/inference/requirements.spark.txt",
+        "sha256": "6f2880fab78cf65116e0276ff8f1ecef603137760833a7d4744e2cfb17730e8a",
+        "size_bytes": 5143
+      },
+      {
+        "path": "app/inference/smoke_cuda.py",
+        "sha256": "ec04f5e996d320eb9db93d833d330d17741e47b43c5a7c0b0b5860f045cbc2d3",
+        "size_bytes": 5786
+      },
+      {
+        "path": "app/inference/voiceup_inference/__init__.py",
+        "sha256": "66bde607421dfaf173c8cd6b93dc901f4880a6724be05c8cdfdec34a368b6e65",
+        "size_bytes": 50
+      },
+      {
+        "path": "app/inference/voiceup_inference/__main__.py",
+        "sha256": "da71b69e8f5aada571112bd2a3b9f8eea8f1e8d1401f8579ad0e4ffbc1904386",
+        "size_bytes": 1218
+      },
+      {
+        "path": "app/inference/voiceup_inference/api.py",
+        "sha256": "c6be3f1e54c594e090191b74a8a760e8f55b058f5cd9d1078cdad1cba2baaabc",
+        "size_bytes": 4536
+      },
+      {
+        "path": "app/inference/voiceup_inference/audio.py",
+        "sha256": "a9d41c0d0f147981d0c8ac3ee19ba1f2b61320327f4c4cbc164ea9bc7c1064ba",
+        "size_bytes": 3027
+      },
+      {
+        "path": "app/inference/voiceup_inference/config.py",
+        "sha256": "a0dc6c1362c640be65e6a1e0457cf83c2cb0493eb4540feef911696d86d89f2e",
+        "size_bytes": 1246
+      },
+      {
+        "path": "app/inference/voiceup_inference/errors.py",
+        "sha256": "12420c7db45ec7a3843c3f1cc1d93155acd0f47950894fd05bc6331006e0a3e5",
+        "size_bytes": 424
+      },
+      {
+        "path": "app/inference/voiceup_inference/model_bundle.py",
+        "sha256": "1684f5e2781aa2c56825fddb994c0117e383f8aff788c64f6a29e86c50fe5bde",
+        "size_bytes": 2788
+      },
+      {
+        "path": "app/inference/voiceup_inference/models.py",
+        "sha256": "e206b47fefea401732678e642e0151efbd27f3fc722f667fcee0af346fff8c21",
+        "size_bytes": 4718
+      },
+      {
+        "path": "app/inference/voiceup_inference/runtime.py",
+        "sha256": "e29d42c64788cc1c29ab0c79d5c28de0248681d1b2bca338d5aaa107a7df5edd",
+        "size_bytes": 4703
+      },
+      {
+        "path": "fixtures/repeated-public-sample-30s.wav",
+        "sha256": "bdc68e3362aed22d18a5b9f50b7467323ed13db7871452c3c6972bb1a7f13ff9",
+        "size_bytes": 960044
+      },
+      {
+        "path": "src/voiceup/__init__.py",
+        "sha256": "beab2581a7ca410da4836535ff5eb002de3baa7cff61bc53675136dd0a265d00",
+        "size_bytes": 93
+      },
+      {
+        "path": "src/voiceup/__main__.py",
+        "sha256": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+        "size_bytes": 48
+      },
+      {
+        "path": "src/voiceup/audio.py",
+        "sha256": "41f7f8f5b9aeddb20dfd29062f5172e194603e39ef8f78792e8b952c6b213b1d",
+        "size_bytes": 4942
+      },
+      {
+        "path": "src/voiceup/backends.py",
+        "sha256": "94668cca2a34ed94458f5579f3b6cbe8a38de37c53814e36fb0db8e29bcc5ce6",
+        "size_bytes": 10309
+      },
+      {
+        "path": "src/voiceup/cli.py",
+        "sha256": "b28fe409b70011d338cbbbd8c2d98f288ac232bc8a85484e16c3a510260286a7",
+        "size_bytes": 11311
+      },
+      {
+        "path": "src/voiceup/evaluation.py",
+        "sha256": "a496c033f5c5804d39268739c4753603db410ef5ad78aeb5cd0c66a75bb0b370",
+        "size_bytes": 4934
+      },
+      {
+        "path": "src/voiceup/identity.py",
+        "sha256": "3adaaa6c8e8c22e6f4e373fc3804b83a8c53fc87a32221e27d97753d4e7e38dd",
+        "size_bytes": 5417
+      },
+      {
+        "path": "src/voiceup/pipeline.py",
+        "sha256": "2a8a72cd928784eaf60b79bfb9018bd6d12dd1a072b486da79994afb297a8d61",
+        "size_bytes": 7225
+      },
+      {
+        "path": "src/voiceup/registry.py",
+        "sha256": "cf99fcaca2ed34aac2213157f29ca795f08c6e729cac2c489bd44c5513387f4b",
+        "size_bytes": 10884
+      }
+    ]
+  }
+}

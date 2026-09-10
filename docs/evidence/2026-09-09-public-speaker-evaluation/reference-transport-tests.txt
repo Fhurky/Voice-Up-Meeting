@@ -1,0 +1,11 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.10, pytest-8.4.2, pluggy-1.6.0
+rootdir: C:\Users\furko\Desktop\VoiceUpMeating
+configfile: pyproject.toml
+plugins: anyio-4.15.1
+collected 13 items / 5 deselected / 8 selected
+
+tests\test_spark_transport_config.py ........                            [100%]
+
+- generated xml file: C:\Users\furko\Desktop\VoiceUpMeating\docs\evidence\2026-09-09-public-speaker-evaluation\reference-transport-tests.xml -
+====================== 8 passed, 5 deselected in 17.38s =======================

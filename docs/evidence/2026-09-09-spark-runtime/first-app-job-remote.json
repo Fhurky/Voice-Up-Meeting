@@ -1,0 +1,14 @@
+{
+  "host": "Spark GB10",
+  "job_id": "ec5de3b2-e1af-430b-8380-7e4152fdf2c5",
+  "remote_events": [
+    {
+      "event": "inference_http",
+      "route": "/v1/embeddings",
+      "job_id": "ec5de3b2-e1af-430b-8380-7e4152fdf2c5",
+      "status": 200,
+      "elapsed_ms": 177.344,
+      "device": "cuda:0"
+    }
+  ]
+}

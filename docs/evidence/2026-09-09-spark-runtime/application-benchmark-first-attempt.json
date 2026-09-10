@@ -1,0 +1,39 @@
+{
+  "started_at_utc": "2026-09-09T09:30:51.302348+00:00",
+  "status": "incomplete",
+  "protocol": "One upload, one excluded warm-up, 20 sequential single-attempt CUDA identification jobs",
+  "accuracy_evidence": false,
+  "jobs": [],
+  "source": {
+    "sha256": "bdc68e3362aed22d18a5b9f50b7467323ed13db7871452c3c6972bb1a7f13ff9",
+    "duration_seconds": 30.0,
+    "classification": "Repeated public speech fixture; not held-out speaker accuracy data",
+    "accuracy_evidence": false
+  },
+  "upload_seconds": 0.040295500000866014,
+  "recording_public_id": "1cdc3ae1-bbd4-4091-972e-86cb4c38d035",
+  "warmup": {
+    "job_public_id": "4f5bf131-9490-40ae-88c4-5fc2769406b8",
+    "attempt_count": 1,
+    "queue_seconds": 1.550596,
+    "execution_seconds": 0.242628,
+    "server_total_seconds": 1.793224,
+    "observed_round_trip_seconds": 2.071363200000633,
+    "device": "cuda:0",
+    "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+    "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+    "speech_seconds": 26.886,
+    "windows_count": 5,
+    "decision": "recognized"
+  },
+  "device_memory": {
+    "measurement": "sampled total device memory used; includes other processes; not PyTorch allocator peak",
+    "interval_seconds": 0.5,
+    "unavailable": false,
+    "max_sampled_used_mib_by_device_index": {},
+    "sample_count": 0,
+    "samples": []
+  },
+  "error_code": "retried_job_cannot_count_as_latency_evidence",
+  "finished_at_utc": "2026-09-09T09:30:55.612417+00:00"
+}

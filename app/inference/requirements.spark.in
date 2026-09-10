@@ -1,0 +1,14 @@
+# CPython 3.13 / Linux aarch64 / CUDA 12.9 direct authorities.
+# Resolve only the artifacts in spark-wheelhouse-manifest.json; never copy x86 CUDA wheels.
+torch==2.8.0+cu129
+torchaudio==2.8.0
+speechbrain==1.1.1
+silero-vad==6.2.1
+numpy==2.4.3
+scipy==1.17.1
+soundfile==0.14.0
+fastapi==0.141.1
+uvicorn==0.52.1
+pydantic==2.13.4
+pydantic-settings==2.14.2
+huggingface-hub==0.36.2

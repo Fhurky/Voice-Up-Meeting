@@ -1,0 +1,184 @@
+{
+  "schema_version": 2,
+  "metrics_protocol": "voiceup-open-set-v1",
+  "source_run_complete": true,
+  "status": "complete",
+  "split": "test",
+  "manifest_sha256": "d2913c1b2a0bcb5f552f5a8bd9dc7f7b5872dd4d6b024bc4a0e40a2d6af54a98",
+  "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+  "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+  "policy": {
+    "match_threshold": 0.55,
+    "new_threshold": 0.45,
+    "margin": 0.1
+  },
+  "operation_count": 302,
+  "planned_operation_count": 302,
+  "job_status_counts": {
+    "failed": 66,
+    "pending": 0,
+    "queued": 0,
+    "running": 0,
+    "succeeded": 236
+  },
+  "stages": [
+    {
+      "gallery_size_planned": 50,
+      "gallery_size_enrolled": 29,
+      "enrollment_failed": 21,
+      "support": {
+        "known_speakers": 50,
+        "unknown_speakers": 20,
+        "known_probes": 150,
+        "unknown_probes": 100
+      },
+      "enrollment": {
+        "planned": 50,
+        "observed": 50,
+        "succeeded": 29,
+        "failed": 21,
+        "pending": 0,
+        "missing": 0,
+        "terminal": 50
+      },
+      "probes": {
+        "planned": 250,
+        "observed": 250,
+        "succeeded": 207,
+        "failed": 43,
+        "pending": 0,
+        "missing": 0,
+        "terminal": 250
+      },
+      "all_planned_operations_terminal": true,
+      "counts": {
+        "known_completed": 150,
+        "known_job_failed": 24,
+        "known_recognized": 78,
+        "known_unknown": 47,
+        "known_ambiguous": 1,
+        "unknown_completed": 100,
+        "unknown_job_failed": 19,
+        "unknown_recognized": 0,
+        "unknown_unknown": 81,
+        "unknown_ambiguous": 0,
+        "known_planned": 150,
+        "unknown_planned": 100,
+        "known_correct": 78,
+        "known_wrong": 0,
+        "known_rejected": 48,
+        "unknown_false_accepted": 0,
+        "known_not_run": 0,
+        "unknown_not_run": 0
+      },
+      "rates": {
+        "DIR": 0.52,
+        "known_misidentification": 0.0,
+        "FPIR_observed_lower_bound": 0.0,
+        "FPIR_worst_case_upper_bound": 0.19,
+        "unknown_detection_recall": 0.81
+      },
+      "outcome_matrix": {
+        "known": {
+          "correct_identity": 78,
+          "wrong_identity": 0,
+          "unknown": 47,
+          "ambiguous": 1,
+          "failed": 24
+        },
+        "unknown": {
+          "correct_identity": 0,
+          "wrong_identity": 0,
+          "unknown": 81,
+          "ambiguous": 0,
+          "failed": 19
+        }
+      },
+      "identity": {
+        "true_positive": 78,
+        "false_positive": 0,
+        "false_negative": 72,
+        "precision": 1.0,
+        "recall": 0.52,
+        "micro_f1": 0.6842105263157895,
+        "macro_f1": 0.54
+      },
+      "unknown": {
+        "true_positive": 81,
+        "false_positive": 47,
+        "false_negative": 19,
+        "precision": 0.6328125,
+        "recall": 0.81,
+        "f1": 0.7105263157894737
+      },
+      "enrollment_coverage": 0.58,
+      "decision_coverage": 0.824,
+      "voiceup_score": 61.36363636363636,
+      "failure_counts": {
+        "known": {
+          "quality": 24,
+          "other_or_unclassified": 0
+        },
+        "unknown": {
+          "quality": 19,
+          "other_or_unclassified": 0
+        }
+      },
+      "error_counts": {
+        "inconsistent_audio": 42,
+        "insufficient_speech": 1
+      },
+      "metrics_complete": true
+    }
+  ],
+  "return_phase": {
+    "enrollment": {
+      "planned": 1,
+      "observed": 1,
+      "succeeded": 0,
+      "failed": 1,
+      "pending": 0,
+      "missing": 0,
+      "terminal": 1
+    },
+    "probes": {
+      "planned": 1,
+      "observed": 1,
+      "succeeded": 0,
+      "failed": 1,
+      "pending": 0,
+      "missing": 0,
+      "terminal": 1
+    },
+    "enrollment_succeeded": 0,
+    "enrollment_failed": 1,
+    "queries": 1,
+    "correct": 0,
+    "wrong": 0,
+    "unknown": 0,
+    "ambiguous": 0,
+    "query_failed": 1,
+    "enrollment_quality_failed": 1,
+    "enrollment_other_or_unclassified_failed": 0,
+    "query_quality_failed": 1,
+    "query_other_or_unclassified_failed": 0,
+    "error_counts": {
+      "enrollment": {
+        "inconsistent_audio": 1
+      },
+      "queries": {
+        "inconsistent_audio": 1
+      }
+    },
+    "all_planned_operations_terminal": true
+  },
+  "limitations": [
+    "Offline re-scoring of existing observations is not a new blind experiment or model improvement.",
+    "English read speech does not establish Turkish meeting, overlap, session or microphone generalization.",
+    "Shared speakers, chapters and nested galleries are dependent; no population confidence interval is claimed for F1 or VoiceUp Score.",
+    "Failed enrollment speakers remain in planned known support; incomplete stages have no reported rates or scores.",
+    "Ambiguous and failed probes are not successful unknown rejections; VoiceUp Score is not accuracy or standard F1.",
+    "Manifest binding checks recorded provenance, not the current audio bytes or authenticity of the producer."
+  ],
+  "private_source_report_sha256": "224e0338bf67b743b25d8d5e7677138683fc17a7de44efb96e0164aa305e16c3"
+}

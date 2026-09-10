@@ -1,0 +1,107 @@
+{
+  "schema_version": 1,
+  "date": "2026-09-09",
+  "technology_profile": "kt-vibecoding-python-web-v2",
+  "environment": "Windows local Python 3.12.10 virtual environment",
+  "protocol": "voiceup-open-set-v1",
+  "final_unique_tests": 105,
+  "final_new_metrics_tests": 92,
+  "final_legacy_tests": 13,
+  "phases": [
+    {
+      "phase": "red",
+      "tests": 56,
+      "passed": 7,
+      "failures": 1,
+      "errors": 48,
+      "skipped": 0,
+      "seconds": 1.521,
+      "junit_sha256": "74e8805bc19e51f89792c17ca7e0a281ef1d5cf9cb038ea3cf5c9f8432e43cdc",
+      "console_sha256": "62fef97f8d799b36d8ec1243604b259d98620a481bced50b12280682a7c97106"
+    },
+    {
+      "phase": "boundary-red",
+      "tests": 81,
+      "passed": 77,
+      "failures": 4,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 1.359,
+      "junit_sha256": "29644f65d111ee52d01449bd51060dfff1c653aa2153d23aaaba59020d8493f4",
+      "console_sha256": "1fe3a5330cfe8a4488a07cade7a0fca8df759d5d37b719901f550c321fcbd27b"
+    },
+    {
+      "phase": "failures-red",
+      "tests": 83,
+      "passed": 77,
+      "failures": 6,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 1.383,
+      "junit_sha256": "04ef6e4874466cd3ae7418b2d5684e4ee7585c6fdeb8947a85dbf6d7afc6ae3e",
+      "console_sha256": "403ac4f0166081added132f7b50e87d92a6d1ab6da9e0556bdf32fe913d2b583"
+    },
+    {
+      "phase": "classification-red",
+      "tests": 2,
+      "passed": 0,
+      "failures": 2,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 0.159,
+      "junit_sha256": "6d31fdeea1c3fca8bb03d5c8b60f3fe98a416fe7206ef06a382382e4a33400db",
+      "console_sha256": "3dfb86f2fd16e0a9215bb0c4396ff2e193427915a6f68a9f55546af6b0138dba"
+    },
+    {
+      "phase": "producer-red",
+      "tests": 9,
+      "passed": 0,
+      "failures": 9,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 0.252,
+      "junit_sha256": "b438fe0e314c85c530356eeff5bea43fcafb98e0233c7fb31630dcee11413f21",
+      "console_sha256": "4f423d2a5c5301d8103f586337d2bb8641ef23d9c5254175d06b06d540515d34"
+    },
+    {
+      "phase": "green",
+      "tests": 105,
+      "passed": 105,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 1.316,
+      "junit_sha256": "013659814cdf5ee47e982afa3684953823203c3ef0f36d19c381fa122ad99de7",
+      "console_sha256": "88906507c4df3a98bf8325da33a96db2856c30e7b66cfd161c3a57354c916575"
+    }
+  ],
+  "source_files": [
+    {
+      "path": "scripts/speaker_metrics.py",
+      "sha256": "325dd4fa4b526bb2611064b450f922522842cbbe735017a715d06ad8445ae449"
+    },
+    {
+      "path": "scripts/report-public-speakers.py",
+      "sha256": "7ab5e20d6344668f4c15610979d79bbbd106c072d7997ef5a87ede7fa29f2a1a"
+    },
+    {
+      "path": "tests/test_public_speaker_metrics.py",
+      "sha256": "ff7bf75c893e6650f8fef9432cb416138e1ada35057eb9218d31cf1a105d6616"
+    },
+    {
+      "path": "tests/test_public_speaker_report.py",
+      "sha256": "a2477df06a87dea2dcda6cda8c844a6c527a302a59fb14c8b69641bc9bbde2e1"
+    }
+  ],
+  "final_checks": {
+    "ruff_check": "passed",
+    "ruff_format_check": "passed",
+    "git_diff_check": "passed"
+  },
+  "limitations": [
+    "Red phases intentionally fail and are not additional passing tests.",
+    "All red logs use synthetic fixtures; public phase evidence contains only aggregate results and source hashes.",
+    "The final test suite includes real offline CLI subprocess/file boundaries; it performs no model inference or application API calls.",
+    "Native Python 3.13, full profile gate and real-data re-scoring are recorded separately by the parent task."
+  ]
+}

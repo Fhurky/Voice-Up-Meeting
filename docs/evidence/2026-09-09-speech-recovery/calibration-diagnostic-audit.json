@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "scope": "Independent aggregate/private-record consistency and source equivalence audit",
+  "completed_at": "2026-09-09T12:36:46.716527+00:00",
+  "checks_passed": 2749,
+  "checks_by_category": {
+    "structure": 4,
+    "enrollment_counts": 10,
+    "query_counts": 302,
+    "negative_counts": 25,
+    "baseline_reproduction": 2114,
+    "baseline_preservation": 277,
+    "provenance": 3,
+    "source_ast": 1,
+    "promotion": 5,
+    "public_privacy": 8
+  },
+  "failed": 0,
+  "skipped": 0,
+  "source_hash_chain": {
+    "evaluated_source_sha256": "bf99e46d17e86ef4bff32be6124a76898ce88439b641933cf97424b9baee81ef",
+    "formatted_source_sha256": "50788c193e93d0c85a7b9eb07706eb286304b76a5d9b963cee5d60cda749a813",
+    "ast_equal": true,
+    "comparison": "Python ast.dump(include_attributes=False); source text not included in public evidence"
+  },
+  "artifact_sha256": {
+    "calibration-diagnostic-protocol.json": "c2091a1bc717f0c81ec94de321f50ad48ee130f86c9a52921c8496f9f11102cf",
+    "calibration-diagnostic-summary.json": "7ee73cdc79fdccc242842d25670ed2e2ca9eb3831948d7bac146349d77d145cd",
+    "rejected-candidates-summary.json": "3cf7e272d475bbd98f212c9ee1c8703b23fb56a33a37f2cb20840301feba1619",
+    "rejected-candidates-protocol.json": "f190b6ed4a7f0c5300802f7fafaa7cb6ace26b8f58c63ba85b1147b34c7dfa8e"
+  }
+}

@@ -1,0 +1,56 @@
+[
+  {
+    "cohort": "calibration",
+    "command": [
+      "C:\\Users\\furko\\Desktop\\VoiceUpMeating\\.venv\\Scripts\\python.exe",
+      "scripts/report-public-speakers.py",
+      "--input",
+      "outputs/quality-improvement/calibration-results.json",
+      "--manifest",
+      "data/public-speaker-evaluation/calibration.json",
+      "--metrics-protocol",
+      "voiceup-open-set-v1",
+      "--output",
+      "C:\\Users\\furko\\Desktop\\VoiceUpMeating\\docs\\evidence\\2026-09-09-speaker-metrics\\calibration-summary.json"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 0.125,
+    "inputs_unchanged": true
+  },
+  {
+    "cohort": "historical",
+    "command": [
+      "C:\\Users\\furko\\Desktop\\VoiceUpMeating\\.venv\\Scripts\\python.exe",
+      "scripts/report-public-speakers.py",
+      "--input",
+      "outputs/quality-improvement/historical-results.json",
+      "--manifest",
+      "data/public-speaker-evaluation/test.json",
+      "--metrics-protocol",
+      "voiceup-open-set-v1",
+      "--output",
+      "C:\\Users\\furko\\Desktop\\VoiceUpMeating\\docs\\evidence\\2026-09-09-speaker-metrics\\historical-summary.json"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 0.11,
+    "inputs_unchanged": true
+  },
+  {
+    "cohort": "fresh",
+    "command": [
+      "C:\\Users\\furko\\Desktop\\VoiceUpMeating\\.venv\\Scripts\\python.exe",
+      "scripts/report-public-speakers.py",
+      "--input",
+      "outputs/quality-improvement/fresh-results.json",
+      "--manifest",
+      "data/public-speaker-holdout-v2/test.json",
+      "--metrics-protocol",
+      "voiceup-open-set-v1",
+      "--output",
+      "C:\\Users\\furko\\Desktop\\VoiceUpMeating\\docs\\evidence\\2026-09-09-speaker-metrics\\fresh-summary.json"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 0.11,
+    "inputs_unchanged": true
+  }
+]

@@ -1,0 +1,43 @@
+﻿{
+    "profile":  "kt-vibecoding-python-web-v2",
+    "captured_at":  "2026-09-10T07:25:17.7329138Z",
+    "native_image":  "sha256:695540dfb6b391c7956ae6868a753cfcd2e08f88cae0bdbdfed04c8a1ddc5785",
+    "files":  [
+                  {
+                      "path":  "scripts/evaluate-public-speakers.py",
+                      "sha256":  "5aeff9ec503cb736967cedf31460457cb5706ea3d849b4ecb76636b28f98e987"
+                  },
+                  {
+                      "path":  "scripts/speaker_metrics.py",
+                      "sha256":  "b1b4b4de9bfa300b44ae31bb6c6528688552c5099a0a11b10ae7c92c0a462b3c"
+                  },
+                  {
+                      "path":  "scripts/report-public-speakers.py",
+                      "sha256":  "7ab5e20d6344668f4c15610979d79bbbd106c072d7997ef5a87ede7fa29f2a1a"
+                  },
+                  {
+                      "path":  "scripts/benchmark-local-pilot.py",
+                      "sha256":  "36bb2ed8d9ce5e7ce6dfc45b0d792fb954ca30a8bdf5f6b58f85c8bc7249359d"
+                  },
+                  {
+                      "path":  "scripts/prepare-public-speaker-dataset.py",
+                      "sha256":  "5d086ffbb9eb5775165f415d692aad0aca0a90f0a454bedc4e32fe77e0ab4c6c"
+                  },
+                  {
+                      "path":  "tests/test_public_speaker_evaluation.py",
+                      "sha256":  "92673e25a0908cb8cfe133b7a649369a05f3810e6c0f79281f314d52156def8c"
+                  },
+                  {
+                      "path":  "tests/test_public_speaker_metrics.py",
+                      "sha256":  "4f914e2332470285415e89f29eff4141b907f1da6ca11fd8b1c5fa3c0c470b84"
+                  },
+                  {
+                      "path":  "tests/test_public_speaker_report.py",
+                      "sha256":  "a2477df06a87dea2dcda6cda8c844a6c527a302a59fb14c8b69641bc9bbde2e1"
+                  },
+                  {
+                      "path":  "tests/test_public_speaker_dataset.py",
+                      "sha256":  "d0026ee9cb5f21c6b7090264c8e6399c30f5a814c5c45ec4e8af80b51aaa1860"
+                  }
+              ]
+}

@@ -1,0 +1,194 @@
+============================= test session starts ==============================
+platform linux -- Python 3.13.14, pytest-9.1.1, pluggy-1.6.0
+rootdir: /workspace/app/inference
+configfile: pyproject.toml
+collected 26 items / 19 deselected / 7 selected
+
+app/inference/tests/test_service.py FFFF..F                              [100%]
+
+=================================== FAILURES ===================================
+______________ test_enrollment_http_contract_and_resampling[WAV] _______________
+
+format = 'WAV'
+
+    @pytest.mark.parametrize("format", ["WAV", "FLAC"])
+    def test_enrollment_http_contract_and_resampling(format):
+        _, app, _ = runtime_and_app()
+        with TestClient(app) as client:
+            assert client.get("/ready").status_code == 200
+            response = client.post(
+                "/v1/embeddings?purpose=enroll",
+                headers=HEADERS,
+                content=audio_file(format=format, rate=24000),
+            )
+        assert response.status_code == 200
+        result = response.json()
+        assert result["model_id"] == MODEL_ID
+        assert result["model_revision"] == MODEL_REVISION
+        assert result["dimensions"] == 192
+        assert len(result["embedding"]) == 192
+        assert np.linalg.norm(result["embedding"]) == pytest.approx(1)
+        assert result["speech_seconds"] == pytest.approx(12)
+        assert result["windows_count"] == 2
+        assert result["device"] == "cuda:0"  # Contract fixture, not GPU evidence.
+        assert "gpu_peak_allocated_bytes" not in result["quality"]
+        assert "gpu_peak_reserved_bytes" not in result["quality"]
+        assert result["quality"]["execution_seconds"] > 0
+>       assert result["quality"]["preprocessing_version"] == "vad-windows-v1"
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'preprocessing_version'
+
+app/inference/tests/test_service.py:85: KeyError
+______________ test_enrollment_http_contract_and_resampling[FLAC] ______________
+
+format = 'FLAC'
+
+    @pytest.mark.parametrize("format", ["WAV", "FLAC"])
+    def test_enrollment_http_contract_and_resampling(format):
+        _, app, _ = runtime_and_app()
+        with TestClient(app) as client:
+            assert client.get("/ready").status_code == 200
+            response = client.post(
+                "/v1/embeddings?purpose=enroll",
+                headers=HEADERS,
+                content=audio_file(format=format, rate=24000),
+            )
+        assert response.status_code == 200
+        result = response.json()
+        assert result["model_id"] == MODEL_ID
+        assert result["model_revision"] == MODEL_REVISION
+        assert result["dimensions"] == 192
+        assert len(result["embedding"]) == 192
+        assert np.linalg.norm(result["embedding"]) == pytest.approx(1)
+        assert result["speech_seconds"] == pytest.approx(12)
+        assert result["windows_count"] == 2
+        assert result["device"] == "cuda:0"  # Contract fixture, not GPU evidence.
+        assert "gpu_peak_allocated_bytes" not in result["quality"]
+        assert "gpu_peak_reserved_bytes" not in result["quality"]
+        assert result["quality"]["execution_seconds"] > 0
+>       assert result["quality"]["preprocessing_version"] == "vad-windows-v1"
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'preprocessing_version'
+
+app/inference/tests/test_service.py:85: KeyError
+_____ test_fragmented_pcm_http_preserves_speech_limits[enroll-2.0-5-None] ______
+
+purpose = 'enroll', seconds = 2.0, count = 5, expected_code = None
+
+    @pytest.mark.parametrize("purpose,seconds,count,expected_code", [
+        ("enroll", 2.0, 5, None),
+        ("identify", 1.5, 2, None),
+        ("enroll", 2.0, 4, "insufficient_speech"),
+        ("enroll", 1.4, 8, "insufficient_speech"),
+    ])
+    def test_fragmented_pcm_http_preserves_speech_limits(purpose, seconds, count, expected_code):
+        runtime, app, _ = runtime_and_app()
+        spans = [(i * (seconds + 0.4), i * (seconds + 0.4) + seconds) for i in range(count)]
+        rate = 16000
+        samples = np.zeros(round((spans[-1][1] + 0.4) * rate), dtype=np.float32)
+        for start, end in spans:
+            samples[round(start * rate):round(end * rate)] = 0.1
+        stream = BytesIO()
+        sf.write(stream, samples, rate, format="WAV", subtype="PCM_16")
+        with TestClient(app) as client:
+            runtime._models.vad = SimpleNamespace(speech_spans=lambda *_: spans)
+            response = client.post(
+                f"/v1/embeddings?purpose={purpose}", headers=HEADERS, content=stream.getvalue()
+            )
+        if expected_code:
+            assert response.status_code == 422
+            assert response.json()["detail"]["code"] == expected_code
+            assert "embedding" not in response.json()
+        else:
+>           assert response.status_code == 200
+E           assert 422 == 200
+E            +  where 422 = <Response [422 Unprocessable Entity]>.status_code
+
+app/inference/tests/test_service.py:113: AssertionError
+____ test_fragmented_pcm_http_preserves_speech_limits[identify-1.5-2-None] _____
+
+purpose = 'identify', seconds = 1.5, count = 2, expected_code = None
+
+    @pytest.mark.parametrize("purpose,seconds,count,expected_code", [
+        ("enroll", 2.0, 5, None),
+        ("identify", 1.5, 2, None),
+        ("enroll", 2.0, 4, "insufficient_speech"),
+        ("enroll", 1.4, 8, "insufficient_speech"),
+    ])
+    def test_fragmented_pcm_http_preserves_speech_limits(purpose, seconds, count, expected_code):
+        runtime, app, _ = runtime_and_app()
+        spans = [(i * (seconds + 0.4), i * (seconds + 0.4) + seconds) for i in range(count)]
+        rate = 16000
+        samples = np.zeros(round((spans[-1][1] + 0.4) * rate), dtype=np.float32)
+        for start, end in spans:
+            samples[round(start * rate):round(end * rate)] = 0.1
+        stream = BytesIO()
+        sf.write(stream, samples, rate, format="WAV", subtype="PCM_16")
+        with TestClient(app) as client:
+            runtime._models.vad = SimpleNamespace(speech_spans=lambda *_: spans)
+            response = client.post(
+                f"/v1/embeddings?purpose={purpose}", headers=HEADERS, content=stream.getvalue()
+            )
+        if expected_code:
+            assert response.status_code == 422
+            assert response.json()["detail"]["code"] == expected_code
+            assert "embedding" not in response.json()
+        else:
+>           assert response.status_code == 200
+E           assert 422 == 200
+E            +  where 422 = <Response [422 Unprocessable Entity]>.status_code
+
+app/inference/tests/test_service.py:113: AssertionError
+____ test_original_fragment_disagreement_rejects_blended_profile_over_http _____
+
+    def test_original_fragment_disagreement_rejects_blended_profile_over_http():
+        runtime, app, _ = runtime_and_app()
+        rate = 16000
+        spans = [(i * 2.4, i * 2.4 + 2) for i in range(8)]
+        samples = np.zeros(round(19.2 * rate), dtype=np.float32)
+        for index, (start, end) in enumerate(spans):
+            samples[round(start * rate):round(end * rate)] = 0.1 if index % 2 == 0 else 0.2
+    
+        class MixedVoiceFixture:
+            dimension = 192
+    
+            def encode(self, chunk, sample_rate=16000):
+                vector = np.zeros(self.dimension, dtype=np.float32)
+                vector[:2] = [np.mean(chunk < 0.15), np.mean(chunk >= 0.15)]
+                return vector
+    
+        stream = BytesIO()
+        sf.write(stream, samples, rate, format="WAV", subtype="PCM_16")
+        with TestClient(app) as client:
+            runtime._models.vad = SimpleNamespace(speech_spans=lambda *_: spans)
+            runtime._models.embedder = MixedVoiceFixture()
+            response = client.post(
+                "/v1/embeddings?purpose=enroll", headers=HEADERS, content=stream.getvalue()
+            )
+            assert client.get("/ready").status_code == 200
+        assert response.status_code == 422
+>       assert response.json()["detail"]["code"] == "inconsistent_audio"
+E       AssertionError: assert 'insufficient_speech' == 'inconsistent_audio'
+E         
+E         - inconsistent_audio
+E         + insufficient_speech
+
+app/inference/tests/test_service.py:147: AssertionError
+=============================== warnings summary ===============================
+../usr/local/lib/python3.13/site-packages/fastapi/testclient.py:1
+  /usr/local/lib/python3.13/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+../usr/local/lib/python3.13/site-packages/starlette/testclient.py:53
+  /usr/local/lib/python3.13/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+------------- generated xml file: /evidence/recovery-http-red.xml --------------
+=========================== short test summary info ============================
+FAILED app/inference/tests/test_service.py::test_enrollment_http_contract_and_resampling[WAV]
+FAILED app/inference/tests/test_service.py::test_enrollment_http_contract_and_resampling[FLAC]
+FAILED app/inference/tests/test_service.py::test_fragmented_pcm_http_preserves_speech_limits[enroll-2.0-5-None]
+FAILED app/inference/tests/test_service.py::test_fragmented_pcm_http_preserves_speech_limits[identify-1.5-2-None]
+FAILED app/inference/tests/test_service.py::test_original_fragment_disagreement_rejects_blended_profile_over_http
+============ 5 failed, 2 passed, 19 deselected, 2 warnings in 4.16s ============

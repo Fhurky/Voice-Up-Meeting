@@ -119,6 +119,7 @@
   "speaker.error.recording_expired": "Yüklenen kopyanın süresi dolmuş veya kopya silinmiş. Tekrar gönderim yeni bir yükleme başlatır.",
   "speaker.error.recording_in_use": "Ses kaydı etkin bir profil veya iş tarafından kullanılıyor.",
   "speaker.error.sample_limit": "Bu profilde 20 örnek sınırına ulaşıldı. Yeni örnek eklenmedi.",
+  "speaker.error.profile_limit": "Bu kayıt, o sırada geçerli olan profil sınırı nedeniyle reddedildi. Yeni profil oluşturulmadı. Artık yeni bir kayıt başlatabilirsiniz.",
   "speaker.error.forbidden": "Bu işlem için yetkiniz yok.",
   "speaker.error.insufficient_speech": "Yeterli kullanılabilir konuşma bulunamadı. Daha uzun, temiz bir kayıt deneyin.",
   "speaker.error.inconsistent_audio": "Ses pencereleri tutarlı değil. Yalnız bir kişinin temiz kaydını kullanın.",

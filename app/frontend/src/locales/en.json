@@ -119,6 +119,7 @@
   "speaker.error.recording_expired": "The uploaded copy has expired or was deleted. Submitting again starts a new upload.",
   "speaker.error.recording_in_use": "An active profile or job is using this recording.",
   "speaker.error.sample_limit": "This profile has reached the limit of 20 samples. No sample was added.",
+  "speaker.error.profile_limit": "This enrollment was rejected under the profile limit in effect at the time. No new profile was created. You can now start a new enrollment.",
   "speaker.error.forbidden": "You do not have permission to perform this action.",
   "speaker.error.insufficient_speech": "Not enough usable speech was found. Try a longer, clean recording.",
   "speaker.error.inconsistent_audio": "The audio windows are inconsistent. Use a clean recording of one person.",

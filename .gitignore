@@ -42,6 +42,7 @@ build/
 *.mp4
 
 # Reviewed inference build/verification evidence; runtime logs remain ignored.
+!app/inference/.env.spark.example
 !app/inference/evidence/first-build-failure.log
 !app/inference/evidence/offline-build.log
 !app/inference/evidence/cuda-smoke-stderr.log

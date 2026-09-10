@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="12" skipped="0" tests="12" time="1.073" timestamp="2026-09-09T12:18:55.611018+00:00" hostname="dd7393fbbd42"><testcase classname="tests.unit.test_speaker_preprocessing" name="test_adapter_carries_only_allowed_preprocessing_metadata[vad-windows-v1]" time="0.028"><failure message="AssertionError: assert {'embedding':...oxceleb', ...} == {'embedding':...oxceleb', ...}&#10;  &#10;  Omitting 6 identical items, use -vv to show&#10;  Right contains 1 more item:&#10;  {'preprocessing_version': 'vad-windows-v1'}&#10;  Use -v to get more diff">version = 'vad-windows-v1'
+
+    @pytest.mark.parametrize("version", ["vad-windows-v1", "vad-packed-fallback-v1"])
+    async def test_adapter_carries_only_allowed_preprocessing_metadata(version: str) -&gt; None:
+        payload = producer_payload()
+        payload["quality"] = {
+            "preprocessing_version": version,
+            "execution_seconds": 0.1,
+            "private_source_audio": "must-not-escape",
+            "nested": {"embedding": [123], "storage_key": "must-not-escape"},
+        }
+        result = asdict(await parse_response(payload))
+&gt;       assert result == {
+            "embedding": payload["embedding"],
+            "speech_seconds": 12.0,
+            "windows_count": 2,
+            "model_id": MODEL_ID,
+            "model_revision": MODEL_REVISION,
+            "device": "cuda:0",
+            "preprocessing_version": version,
+        }
+E       AssertionError: assert {'embedding':...oxceleb', ...} == {'embedding':...oxceleb', ...}
+E         
+E         Omitting 6 identical items, use -vv to show
+E         Right contains 1 more item:
+E         {'preprocessing_version': 'vad-windows-v1'}
+E         Use -v to get more diff
+
+tests/unit/test_speaker_preprocessing.py:61: AssertionError</failure></testcase><testcase classname="tests.unit.test_speaker_preprocessing" name="test_adapter_carries_only_allowed_preprocessing_metadata[vad-packed-fallback-v1]" time="0.002"><failure message="AssertionError: assert {'embedding':...oxceleb', ...} == {'embedding':...oxceleb', ...}&#10;  &#10;  Omitting 6 identical items, use -vv to show&#10;  Right contains 1 more item:&#10;  {'preprocessing_version': 'vad-packed-fallback-v1'}&#10;  Use -v to get more diff">version = 'vad-packed-fallback-v1'
+
+    @pytest.mark.parametrize("version", ["vad-windows-v1", "vad-packed-fallback-v1"])
+    async def test_adapter_carries_only_allowed_preprocessing_metadata(version: str) -&gt; None:
+        payload = producer_payload()
+        payload["quality"] = {
+            "preprocessing_version": version,
+            "execution_seconds": 0.1,
+            "private_source_audio": "must-not-escape",
+            "nested": {"embedding": [123], "storage_key": "must-not-escape"},
+        }
+        result = asdict(await parse_response(payload))
+&gt;       assert result == {
+            "embedding": payload["embedding"],
+            "speech_seconds": 12.0,
+            "windows_count": 2,
+            "model_id": MODEL_ID,
+            "model_revision": MODEL_REVISION,
+            "device": "cuda:0",
+            "preprocessing_version": version,
+        }
+E       AssertionError: assert {'embedding':...oxceleb', ...} == {'embedding':...oxceleb', ...}
+E         
+E         Omitting 6 identical items, use -vv to show
+E         Right contains 1 more item:
+E         {'preprocessing_version': 'vad-packed-fallback-v1'}
+E         Use -v to get more diff
+
+tests/unit/test_speaker_preprocessing.py:61: AssertionError</failure></testcase><testcase classname="tests.unit.test_speaker_preprocessing" name="test_adapter_does_not_invent_legacy_preprocessing_provenance[legacy0]" time="0.002"><failure message="AttributeError: 'EmbeddingResult' object has no attribute 'preprocessing_version'">legacy = {}
+
+    @pytest.mark.parametrize("legacy", [{}, {"quality": {}}, {"quality": None}])
+    async def test_adapter_does_not_invent_legacy_preprocessing_provenance(legacy: dict) -&gt; None:
+        result = await parse_response({**producer_payload(), **legacy})
+&gt;       assert result.preprocessing_version is None
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'EmbeddingResult' object has no attribute 'preprocessing_version'
+
+tests/unit/test_speaker_preprocessing.py:75: AttributeError</failure></testcase><testcase classname="tests.unit.test_speaker_preprocessing" name="test_adapter_does_not_invent_legacy_preprocessing_provenance[legacy1]" time="0.003"><failure message="AttributeError: 'EmbeddingResult' object has no attribute 'preprocessing_version'">legacy = {'quality': {}}
+
+    @pytest.mark.parametrize("legacy", [{}, {"quality": {}}, {"quality": None}])
+    async def test_adapter_does_not_invent_legacy_preprocessing_provenance(legacy: dict) -&gt; None:
+        result = await parse_response({**producer_payload(), **legacy})
+&gt;       assert result.preprocessing_version is None
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'EmbeddingResult' object has no attribute 'preprocessing_version'
+
+tests/unit/test_speaker_preprocessing.py:75: AttributeError</failure></testcase><testcase classname="tests.unit.test_speaker_preprocessing" name="test_adapter_does_not_invent_legacy_preprocessing_provenance[legacy2]" time="0.002"><failure message="AttributeError: 'EmbeddingResult' object has no attribute 'preprocessing_version'">legacy = {'quality': None}
+
+    @pytest.mark.parametrize("legacy", [{}, {"quality": {}}, {"quality": None}])
+    async def test_adapter_does_not_invent_legacy_preprocessing_provenance(legacy: dict) -&gt; None:
+        result = await parse_response({**producer_payload(), **legacy})
+&gt;       assert result.preprocessing_version is None
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'EmbeddingResult' object has no attribute 'preprocessing_version'
+
+tests/unit/test_speaker_preprocessing.py:75: AttributeError</failure></testcase><testcase classname="tests.unit.test_speaker_preprocessing" name="test_adapter_rejects_unknown_or_malformed_preprocessing_version[unknown-v2]" time="0.002"><failure message="Failed: DID NOT RAISE SpeakerError">version = 'unknown-v2'
+
+    @pytest.mark.parametrize("version", ["unknown-v2", "", True, 1, [], {}])
+    async def test_adapter_rejects_unknown_or_malformed_preprocessing_version(version: object) -&gt; None:
+        payload = {**producer_payload(), "quality": {"preprocessing_version": version}}
+&gt;       with pytest.raises(SpeakerError, match="model_mismatch") as error:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE SpeakerError
+
+tests/unit/test_speaker_preprocessing.py:81: Failed</failure></testcase><testcase classname="tests.unit.test_speaker_preprocessing" name="test_adapter_rejects_unknown_or_malformed_preprocessing_version[]" time="0.002"><failure message="Failed: DID NOT RAISE SpeakerError">version = ''
+
+    @pytest.mark.parametrize("version", ["unknown-v2", "", True, 1, [], {}])
+    async def test_adapter_rejects_unknown_or_malformed_preprocessing_version(version: object) -&gt; None:
+        payload = {**producer_payload(), "quality": {"preprocessing_version": version}}
+&gt;       with pytest.raises(SpeakerError, match="model_mismatch") as error:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE SpeakerError
+
+tests/unit/test_speaker_preprocessing.py:81: Failed</failure></testcase><testcase classname="tests.unit.test_speaker_preprocessing" name="test_adapter_rejects_unknown_or_malformed_preprocessing_version[True]" time="0.002"><failure message="Failed: DID NOT RAISE SpeakerError">version = True
+
+    @pytest.mark.parametrize("version", ["unknown-v2", "", True, 1, [], {}])
+    async def test_adapter_rejects_unknown_or_malformed_preprocessing_version(version: object) -&gt; None:
+        payload = {**producer_payload(), "quality": {"preprocessing_version": version}}
+&gt;       with pytest.raises(SpeakerError, match="model_mismatch") as error:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE SpeakerError
+
+tests/unit/test_speaker_preprocessing.py:81: Failed</failure></testcase><testcase classname="tests.unit.test_speaker_preprocessing" name="test_adapter_rejects_unknown_or_malformed_preprocessing_version[1]" time="0.002"><failure message="Failed: DID NOT RAISE SpeakerError">version = 1
+
+    @pytest.mark.parametrize("version", ["unknown-v2", "", True, 1, [], {}])
+    async def test_adapter_rejects_unknown_or_malformed_preprocessing_version(version: object) -&gt; None:
+        payload = {**producer_payload(), "quality": {"preprocessing_version": version}}
+&gt;       with pytest.raises(SpeakerError, match="model_mismatch") as error:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE SpeakerError
+
+tests/unit/test_speaker_preprocessing.py:81: Failed</failure></testcase><testcase classname="tests.unit.test_speaker_preprocessing" name="test_adapter_rejects_unknown_or_malformed_preprocessing_version[version4]" time="0.002"><failure message="Failed: DID NOT RAISE SpeakerError">version = []
+
+    @pytest.mark.parametrize("version", ["unknown-v2", "", True, 1, [], {}])
+    async def test_adapter_rejects_unknown_or_malformed_preprocessing_version(version: object) -&gt; None:
+        payload = {**producer_payload(), "quality": {"preprocessing_version": version}}
+&gt;       with pytest.raises(SpeakerError, match="model_mismatch") as error:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE SpeakerError
+
+tests/unit/test_speaker_preprocessing.py:81: Failed</failure></testcase><testcase classname="tests.unit.test_speaker_preprocessing" name="test_adapter_rejects_unknown_or_malformed_preprocessing_version[version5]" time="0.002"><failure message="Failed: DID NOT RAISE SpeakerError">version = {}
+
+    @pytest.mark.parametrize("version", ["unknown-v2", "", True, 1, [], {}])
+    async def test_adapter_rejects_unknown_or_malformed_preprocessing_version(version: object) -&gt; None:
+        payload = {**producer_payload(), "quality": {"preprocessing_version": version}}
+&gt;       with pytest.raises(SpeakerError, match="model_mismatch") as error:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE SpeakerError
+
+tests/unit/test_speaker_preprocessing.py:81: Failed</failure></testcase><testcase classname="tests.unit.test_speaker_preprocessing" name="test_historical_job_result_deserializes_with_unknown_preprocessing_version" time="0.001"><failure message="AttributeError: 'SpeakerResult' object has no attribute 'preprocessing_version'">def test_historical_job_result_deserializes_with_unknown_preprocessing_version() -&gt; None:
+        stored = {
+            "decision": "unknown",
+            "speech_seconds": 12.0,
+            "windows_count": 2,
+            "model_id": MODEL_ID,
+            "model_revision": MODEL_REVISION,
+            "device": "cuda:0",
+            "reason": "no_profiles",
+            "policy": {"match_threshold": 0.55, "new_threshold": 0.45, "margin": 0.1},
+        }
+        result = SpeakerResult.model_validate(stored)
+&gt;       assert result.preprocessing_version is None
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_speaker_preprocessing.py:98: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = SpeakerResult(decision='unknown', profile_public_id=None, profile_name=None, profile_deleted=False, similarity=None, r...evice='cuda:0', reason='no_profiles', policy=MatchPolicyResponse(match_threshold=0.55, new_threshold=0.45, margin=0.1))
+item = 'preprocessing_version'
+
+    def __getattr__(self, item: str) -&gt; Any:
+        private_attributes = object.__getattribute__(self, '__private_attributes__')
+        if item in private_attributes:
+            attribute = private_attributes[item]
+            if hasattr(attribute, '__get__'):
+                return attribute.__get__(self, type(self))  # type: ignore
+    
+            try:
+                # Note: self.__pydantic_private__ cannot be None if self.__private_attributes__ has items
+                return self.__pydantic_private__[item]  # type: ignore
+            except KeyError as exc:
+                raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}') from exc
+        else:
+            # `__pydantic_extra__` can fail to be set if the model is not yet fully initialized.
+            # See `BaseModel.__repr_args__` for more details
+            try:
+                pydantic_extra = object.__getattribute__(self, '__pydantic_extra__')
+            except AttributeError:
+                pydantic_extra = None
+    
+            if pydantic_extra and item in pydantic_extra:
+                return pydantic_extra[item]
+            else:
+                if hasattr(self.__class__, item):
+                    return super().__getattribute__(item)  # Raises AttributeError if appropriate
+                else:
+                    # this is the current error
+&gt;                   raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')
+E                   AttributeError: 'SpeakerResult' object has no attribute 'preprocessing_version'
+
+/usr/local/lib/python3.13/site-packages/pydantic/main.py:1042: AttributeError</failure></testcase></testsuite></testsuites>

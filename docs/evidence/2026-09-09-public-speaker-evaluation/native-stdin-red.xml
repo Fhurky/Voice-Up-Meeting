@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="3" skipped="0" tests="4" time="3.419" timestamp="2026-09-09T14:35:39.268223+03:00" hostname="DESKTOP-RJ78JKH"><testcase classname="tests.test_connect_spark" name="test_native_stdin_is_utf8_without_bom_independent_of_console_encoding[[Text.UTF8Encoding]::new($true)-C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe]" time="1.148"><failure message="AssertionError: assert {'ExitCode': ...9fc49e0a\r\n'} == {'ExitCode': ...9fc49e0a\r\n'}&#10;  &#10;  Omitting 1 identical items, use -vv to show&#10;  Differing items:&#10;  {'Stdout': 'efbbbf54c3bc726bc3a765207365733a20c4b1c4b0c59fc59ec49fc49e0a\r\n'} != {'Stdout': '54c3bc726bc3a765207365733a20c4b1c4b0c59fc59ec49fc49e0a\r\n'}&#10;  Use -v to get more diff">shell = 'C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe'
+encoding = '[Text.UTF8Encoding]::new($true)'
+
+    @pytest.mark.parametrize("shell", [value for name in ("powershell.exe", "pwsh.exe") if (value := shutil.which(name))])
+    @pytest.mark.parametrize("encoding", ["[Text.UTF8Encoding]::new($true)", "[Text.Encoding]::GetEncoding(857)"])
+    def test_native_stdin_is_utf8_without_bom_independent_of_console_encoding(shell, encoding):
+        binary = ROOT / "app/backend/.venv/Scripts/python.exe"
+        payload = "Türkçe ses: ıİşŞğĞ\n"
+        code = "import sys; print(sys.stdin.buffer.read().hex())"
+        result = invoke(
+            f". {quote(SCRIPT)}; $original=[Console]::InputEncoding; try {{ "
+            f"[Console]::InputEncoding={encoding}; "
+            f"$result=Invoke-StartupNative -FilePath {quote(binary)} -Arguments @('-c',{quote(code)}) "
+            f"-InputText {quote(payload)} -TimeoutSeconds 3; "
+            "$result | ConvertTo-Json -Compress } finally { [Console]::InputEncoding=$original }",
+            shell=shell,
+        )
+&gt;       assert result == {"ExitCode": 0, "Stdout": payload.encode("utf-8").hex() + "\r\n"}
+E       AssertionError: assert {'ExitCode': ...9fc49e0a\r\n'} == {'ExitCode': ...9fc49e0a\r\n'}
+E         
+E         Omitting 1 identical items, use -vv to show
+E         Differing items:
+E         {'Stdout': 'efbbbf54c3bc726bc3a765207365733a20c4b1c4b0c59fc59ec49fc49e0a\r\n'} != {'Stdout': '54c3bc726bc3a765207365733a20c4b1c4b0c59fc59ec49fc49e0a\r\n'}
+E         Use -v to get more diff
+
+tests\test_connect_spark.py:482: AssertionError</failure></testcase><testcase classname="tests.test_connect_spark" name="test_native_stdin_is_utf8_without_bom_independent_of_console_encoding[[Text.UTF8Encoding]::new($true)-C:\\Users\\furko\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe]" time="0.525" /><testcase classname="tests.test_connect_spark" name="test_native_stdin_is_utf8_without_bom_independent_of_console_encoding[[Text.Encoding]::GetEncoding(857)-C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe]" time="1.074"><failure message="AssertionError: assert {'ExitCode': ...9ea7a60a\r\n'} == {'ExitCode': ...9fc49e0a\r\n'}&#10;  &#10;  Omitting 1 identical items, use -vv to show&#10;  Differing items:&#10;  {'Stdout': '5481726b8765207365733a208d989f9ea7a60a\r\n'} != {'Stdout': '54c3bc726bc3a765207365733a20c4b1c4b0c59fc59ec49fc49e0a\r\n'}&#10;  Use -v to get more diff">shell = 'C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe'
+encoding = '[Text.Encoding]::GetEncoding(857)'
+
+    @pytest.mark.parametrize("shell", [value for name in ("powershell.exe", "pwsh.exe") if (value := shutil.which(name))])
+    @pytest.mark.parametrize("encoding", ["[Text.UTF8Encoding]::new($true)", "[Text.Encoding]::GetEncoding(857)"])
+    def test_native_stdin_is_utf8_without_bom_independent_of_console_encoding(shell, encoding):
+        binary = ROOT / "app/backend/.venv/Scripts/python.exe"
+        payload = "Türkçe ses: ıİşŞğĞ\n"
+        code = "import sys; print(sys.stdin.buffer.read().hex())"
+        result = invoke(
+            f". {quote(SCRIPT)}; $original=[Console]::InputEncoding; try {{ "
+            f"[Console]::InputEncoding={encoding}; "
+            f"$result=Invoke-StartupNative -FilePath {quote(binary)} -Arguments @('-c',{quote(code)}) "
+            f"-InputText {quote(payload)} -TimeoutSeconds 3; "
+            "$result | ConvertTo-Json -Compress } finally { [Console]::InputEncoding=$original }",
+            shell=shell,
+        )
+&gt;       assert result == {"ExitCode": 0, "Stdout": payload.encode("utf-8").hex() + "\r\n"}
+E       AssertionError: assert {'ExitCode': ...9ea7a60a\r\n'} == {'ExitCode': ...9fc49e0a\r\n'}
+E         
+E         Omitting 1 identical items, use -vv to show
+E         Differing items:
+E         {'Stdout': '5481726b8765207365733a208d989f9ea7a60a\r\n'} != {'Stdout': '54c3bc726bc3a765207365733a20c4b1c4b0c59fc59ec49fc49e0a\r\n'}
+E         Use -v to get more diff
+
+tests\test_connect_spark.py:482: AssertionError</failure></testcase><testcase classname="tests.test_connect_spark" name="test_native_stdin_is_utf8_without_bom_independent_of_console_encoding[[Text.Encoding]::GetEncoding(857)-C:\\Users\\furko\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe]" time="0.503"><failure message="AssertionError: assert {'ExitCode': ...9ea7a60a\r\n'} == {'ExitCode': ...9fc49e0a\r\n'}&#10;  &#10;  Omitting 1 identical items, use -vv to show&#10;  Differing items:&#10;  {'Stdout': '5481726b8765207365733a208d989f9ea7a60a\r\n'} != {'Stdout': '54c3bc726bc3a765207365733a20c4b1c4b0c59fc59ec49fc49e0a\r\n'}&#10;  Use -v to get more diff">shell = 'C:\\Users\\furko\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe'
+encoding = '[Text.Encoding]::GetEncoding(857)'
+
+    @pytest.mark.parametrize("shell", [value for name in ("powershell.exe", "pwsh.exe") if (value := shutil.which(name))])
+    @pytest.mark.parametrize("encoding", ["[Text.UTF8Encoding]::new($true)", "[Text.Encoding]::GetEncoding(857)"])
+    def test_native_stdin_is_utf8_without_bom_independent_of_console_encoding(shell, encoding):
+        binary = ROOT / "app/backend/.venv/Scripts/python.exe"
+        payload = "Türkçe ses: ıİşŞğĞ\n"
+        code = "import sys; print(sys.stdin.buffer.read().hex())"
+        result = invoke(
+            f". {quote(SCRIPT)}; $original=[Console]::InputEncoding; try {{ "
+            f"[Console]::InputEncoding={encoding}; "
+            f"$result=Invoke-StartupNative -FilePath {quote(binary)} -Arguments @('-c',{quote(code)}) "
+            f"-InputText {quote(payload)} -TimeoutSeconds 3; "
+            "$result | ConvertTo-Json -Compress } finally { [Console]::InputEncoding=$original }",
+            shell=shell,
+        )
+&gt;       assert result == {"ExitCode": 0, "Stdout": payload.encode("utf-8").hex() + "\r\n"}
+E       AssertionError: assert {'ExitCode': ...9ea7a60a\r\n'} == {'ExitCode': ...9fc49e0a\r\n'}
+E         
+E         Omitting 1 identical items, use -vv to show
+E         Differing items:
+E         {'Stdout': '5481726b8765207365733a208d989f9ea7a60a\r\n'} != {'Stdout': '54c3bc726bc3a765207365733a20c4b1c4b0c59fc59ec49fc49e0a\r\n'}
+E         Use -v to get more diff
+
+tests\test_connect_spark.py:482: AssertionError</failure></testcase></testsuite></testsuites>

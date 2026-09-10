@@ -1,0 +1,327 @@
+{
+  "schema_version": 1,
+  "scope": "Rejected calibration-only diagnostic candidates; not live application evidence",
+  "protocol_sha256": "1138faa67a6072245a55fcd97383f895f9f4c659de1b06dcd511e404a492b820",
+  "private_results_sha256": "f0f62dc957b1ad69df6f7fa3394f6dae9f4aef83e4d47c21ecd3e2e39c548416",
+  "summary": {
+    "baseline": {
+      "enrollment": {
+        "planned": 50,
+        "usable": 40,
+        "errors": {
+          "inconsistent_audio": 5,
+          "insufficient_speech": 5
+        }
+      },
+      "known_queries": {
+        "planned": 150,
+        "quality_usable": 130,
+        "recognized": 109,
+        "expected_profile_present": 109,
+        "correct": 109,
+        "top1_correct": 109,
+        "quality_failed": 20,
+        "inconsistent_audio": 7,
+        "unknown": 21,
+        "expected_profile_absent": 21,
+        "insufficient_speech": 13,
+        "wrong_person_recognized": 0,
+        "unknown_false_accept": 0,
+        "ambiguous": 0,
+        "maximum_top1_score": 0.903769009395019
+      },
+      "unknown_queries": {
+        "planned": 100,
+        "quality_usable": 91,
+        "unknown": 87,
+        "quality_failed": 9,
+        "inconsistent_audio": 2,
+        "insufficient_speech": 7,
+        "ambiguous": 4,
+        "correct": 0,
+        "wrong_person_recognized": 0,
+        "unknown_false_accept": 0,
+        "recognized": 0,
+        "maximum_top1_score": 0.5150099690470171
+      },
+      "compatibility_known_all_planned": {
+        "planned": 150,
+        "quality_usable": 130,
+        "recognized": 109,
+        "expected_profile_present": 109,
+        "correct": 109,
+        "top1_correct": 109,
+        "quality_failed": 20,
+        "inconsistent_audio": 7,
+        "unknown": 21,
+        "expected_profile_absent": 21,
+        "insufficient_speech": 13,
+        "wrong_person_recognized": 0,
+        "unknown_false_accept": 0,
+        "ambiguous": 0,
+        "maximum_top1_score": 0.903769009395019
+      },
+      "compatibility_known_baseline_covered": {
+        "planned": 120,
+        "quality_usable": 109,
+        "recognized": 109,
+        "expected_profile_present": 109,
+        "correct": 109,
+        "top1_correct": 109,
+        "quality_failed": 11,
+        "inconsistent_audio": 5,
+        "insufficient_speech": 6,
+        "wrong_person_recognized": 0,
+        "unknown_false_accept": 0,
+        "ambiguous": 0,
+        "unknown": 0,
+        "maximum_top1_score": 0.903769009395019
+      },
+      "compatibility_unknown_all_planned": {
+        "planned": 100,
+        "quality_usable": 91,
+        "unknown": 87,
+        "quality_failed": 9,
+        "inconsistent_audio": 2,
+        "insufficient_speech": 7,
+        "ambiguous": 4,
+        "correct": 0,
+        "wrong_person_recognized": 0,
+        "unknown_false_accept": 0,
+        "recognized": 0,
+        "maximum_top1_score": 0.5150099690470171
+      },
+      "returning_unknown": {
+        "new_enrollment_usable": true,
+        "return_query_usable": true,
+        "recognized_correctly": true,
+        "score": 0.6977627967996819
+      },
+      "negative_controls": {
+        "wrong_person_append_planned": 10,
+        "wrong_person_append_rejected": 10,
+        "mixed_alternating_planned": 10,
+        "mixed_alternating_quality_rejected": 8,
+        "mixed_alternating_quality_accepted": 2,
+        "mixed_candidate_only_quality_acceptance": 0
+      }
+    },
+    "pack_all_voiced": {
+      "enrollment": {
+        "planned": 50,
+        "usable": 50,
+        "errors": {}
+      },
+      "known_queries": {
+        "planned": 150,
+        "quality_usable": 150,
+        "recognized": 150,
+        "expected_profile_present": 150,
+        "correct": 150,
+        "top1_correct": 150,
+        "wrong_person_recognized": 0,
+        "unknown_false_accept": 0,
+        "quality_failed": 0,
+        "ambiguous": 0,
+        "unknown": 0,
+        "maximum_top1_score": 0.9451723507596292
+      },
+      "unknown_queries": {
+        "planned": 100,
+        "quality_usable": 99,
+        "unknown": 89,
+        "ambiguous": 10,
+        "quality_failed": 1,
+        "inconsistent_audio": 1,
+        "correct": 0,
+        "wrong_person_recognized": 0,
+        "unknown_false_accept": 0,
+        "recognized": 0,
+        "maximum_top1_score": 0.5469772723668839
+      },
+      "compatibility_known_all_planned": {
+        "planned": 150,
+        "quality_usable": 150,
+        "recognized": 120,
+        "expected_profile_present": 120,
+        "correct": 120,
+        "top1_correct": 120,
+        "unknown": 28,
+        "expected_profile_absent": 30,
+        "ambiguous": 2,
+        "wrong_person_recognized": 0,
+        "unknown_false_accept": 0,
+        "quality_failed": 0,
+        "maximum_top1_score": 0.9273548973662343
+      },
+      "compatibility_known_baseline_covered": {
+        "planned": 120,
+        "quality_usable": 120,
+        "recognized": 120,
+        "expected_profile_present": 120,
+        "correct": 120,
+        "top1_correct": 120,
+        "wrong_person_recognized": 0,
+        "unknown_false_accept": 0,
+        "quality_failed": 0,
+        "ambiguous": 0,
+        "unknown": 0,
+        "maximum_top1_score": 0.9273548973662343
+      },
+      "compatibility_unknown_all_planned": {
+        "planned": 100,
+        "quality_usable": 99,
+        "unknown": 93,
+        "quality_failed": 1,
+        "inconsistent_audio": 1,
+        "ambiguous": 6,
+        "correct": 0,
+        "wrong_person_recognized": 0,
+        "unknown_false_accept": 0,
+        "recognized": 0,
+        "maximum_top1_score": 0.5194111249022789
+      },
+      "returning_unknown": {
+        "new_enrollment_usable": true,
+        "return_query_usable": true,
+        "recognized_correctly": true,
+        "score": 0.716621471119594
+      },
+      "negative_controls": {
+        "wrong_person_append_planned": 10,
+        "wrong_person_append_rejected": 10,
+        "mixed_alternating_planned": 10,
+        "mixed_alternating_quality_rejected": 5,
+        "mixed_alternating_quality_accepted": 5,
+        "mixed_candidate_only_quality_acceptance": 3
+      }
+    },
+    "fallback_only": {
+      "enrollment": {
+        "planned": 50,
+        "usable": 45,
+        "errors": {
+          "inconsistent_audio": 5
+        }
+      },
+      "known_queries": {
+        "planned": 150,
+        "quality_usable": 143,
+        "recognized": 130,
+        "expected_profile_present": 130,
+        "correct": 130,
+        "top1_correct": 130,
+        "quality_failed": 7,
+        "inconsistent_audio": 7,
+        "unknown": 13,
+        "expected_profile_absent": 13,
+        "wrong_person_recognized": 0,
+        "unknown_false_accept": 0,
+        "ambiguous": 0,
+        "maximum_top1_score": 0.903769009395019
+      },
+      "unknown_queries": {
+        "planned": 100,
+        "quality_usable": 98,
+        "unknown": 92,
+        "quality_failed": 2,
+        "inconsistent_audio": 2,
+        "ambiguous": 6,
+        "correct": 0,
+        "wrong_person_recognized": 0,
+        "unknown_false_accept": 0,
+        "recognized": 0,
+        "maximum_top1_score": 0.5460744980111157
+      },
+      "compatibility_known_all_planned": {
+        "planned": 150,
+        "quality_usable": 143,
+        "recognized": 115,
+        "expected_profile_present": 115,
+        "correct": 115,
+        "top1_correct": 115,
+        "quality_failed": 7,
+        "inconsistent_audio": 7,
+        "unknown": 27,
+        "expected_profile_absent": 28,
+        "ambiguous": 1,
+        "wrong_person_recognized": 0,
+        "unknown_false_accept": 0,
+        "maximum_top1_score": 0.903769009395019
+      },
+      "compatibility_known_baseline_covered": {
+        "planned": 120,
+        "quality_usable": 115,
+        "recognized": 115,
+        "expected_profile_present": 115,
+        "correct": 115,
+        "top1_correct": 115,
+        "quality_failed": 5,
+        "inconsistent_audio": 5,
+        "wrong_person_recognized": 0,
+        "unknown_false_accept": 0,
+        "ambiguous": 0,
+        "unknown": 0,
+        "maximum_top1_score": 0.903769009395019
+      },
+      "compatibility_unknown_all_planned": {
+        "planned": 100,
+        "quality_usable": 98,
+        "unknown": 94,
+        "quality_failed": 2,
+        "inconsistent_audio": 2,
+        "ambiguous": 4,
+        "correct": 0,
+        "wrong_person_recognized": 0,
+        "unknown_false_accept": 0,
+        "recognized": 0,
+        "maximum_top1_score": 0.5150099690470171
+      },
+      "returning_unknown": {
+        "new_enrollment_usable": true,
+        "return_query_usable": true,
+        "recognized_correctly": true,
+        "score": 0.6977627967996819
+      },
+      "negative_controls": {
+        "wrong_person_append_planned": 10,
+        "wrong_person_append_rejected": 10,
+        "mixed_alternating_planned": 10,
+        "mixed_alternating_quality_rejected": 8,
+        "mixed_alternating_quality_accepted": 2,
+        "mixed_candidate_only_quality_acceptance": 0
+      }
+    }
+  },
+  "gapped_negative_protocol_sha256": "390c93ef3544fd2bbbbebbc47783828f4a54af77a2e790b17393dcad18640795",
+  "gapped_negative_summary": {
+    "baseline": {
+      "planned": 10,
+      "mixed_enrollment_accepted": 0,
+      "mixed_enrollment_rejected": 10,
+      "candidate_only_acceptances": 0,
+      "error_codes": {
+        "insufficient_speech": 10
+      }
+    },
+    "pack_all_voiced": {
+      "planned": 10,
+      "mixed_enrollment_accepted": 9,
+      "mixed_enrollment_rejected": 1,
+      "candidate_only_acceptances": 9,
+      "error_codes": {
+        "inconsistent_audio": 1
+      }
+    },
+    "fallback_only": {
+      "planned": 10,
+      "mixed_enrollment_accepted": 9,
+      "mixed_enrollment_rejected": 1,
+      "candidate_only_acceptances": 9,
+      "error_codes": {
+        "insufficient_speech": 1
+      }
+    }
+  },
+  "rejection_reason": "Each candidate accepted9of10 alternating2second-speaker clips with0.4second gaps that baseline rejected. Mixed enrollment quality acceptance is a failed negative independent of identification outcome."
+}

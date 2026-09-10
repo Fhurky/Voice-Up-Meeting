@@ -8,6 +8,13 @@ The backend `existingSecret` must provide the resolved fixed profile's prefixed 
 machine check. In particular, `VOICEUP_JWT_SECRET` has no application fallback: a missing key
 stops startup instead of enabling a known signing secret.
 
+The inference workload's pre-created `existingSecret` may select
+`VOICEUP_INFERENCE_RUNTIME_PROFILE` from `app/inference/.env.example`. Its value
+must match the promoted image and node architecture: `x86_64-cu128` is the default;
+the separate Spark image selects `aarch64-cu129`. The chart's `envFrom` boundary
+is preserved; no per-key Secret mapping or new Secret is generated. ARM64 source
+availability is not a completed target-GPU or cluster deployment check.
+
 `scripts/render-charts.sh` renders both committed fixture overlays, proves that their resource shape
 is identical, and enforces the security/network/runtime-host contract. Real `lab` and `cluster`
 overlays are deliberately unresolved until an operator supplies the internal registry, Kubernetes

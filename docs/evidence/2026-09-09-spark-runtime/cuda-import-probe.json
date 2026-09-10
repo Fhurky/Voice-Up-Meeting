@@ -1,0 +1,34 @@
+{
+  "returncode": 0,
+  "elapsed_seconds": 2.951590999999098,
+  "command": "docker run --rm -i --device=nvidia.com/gpu=0 --network=none --read-only --user 10001:10001 --cap-drop=ALL --security-opt=no-new-privileges --tmpfs /tmp:rw,nosuid,nodev,size=536870912 --env HOME=/tmp --env XDG_CACHE_HOME=/tmp/cache --env CUDA_CACHE_PATH=/tmp/cuda voiceup-inference:spark-4dd1012e1ff3 python -",
+  "scope": "SSH dispatch plus temporary container creation, native imports, CUDA tensor and teardown; no model load",
+  "result": {
+    "python": "3.13.14",
+    "architecture": "aarch64",
+    "uid": 10001,
+    "interfaces": [
+      "lo"
+    ],
+    "torch": "2.8.0+cu129",
+    "torchaudio": "2.8.0",
+    "speechbrain": "1.1.1",
+    "silero_vad": "6.2.1",
+    "cuda_build": "12.9",
+    "cudnn": 91002,
+    "device": "NVIDIA GB10",
+    "compute_capability": [
+      12,
+      1
+    ],
+    "compiled_architectures": [
+      "sm_80",
+      "sm_90",
+      "sm_100",
+      "sm_120"
+    ],
+    "cuda_matrix_sum": 4096.0,
+    "gpu_device_selection": "Docker CDI nvidia.com/gpu=0",
+    "model_inference_performed": false
+  }
+}

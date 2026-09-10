@@ -80,7 +80,7 @@ class Settings(BaseSettings):
     job_timeout_seconds: int = Field(default=300, ge=1, le=300)
     worker_poll_seconds: float = Field(default=2.0, ge=0.1, le=30.0)
     cleanup_interval_seconds: int = Field(default=3600, ge=60, le=3600)
-    speaker_match_threshold: float = Field(default=0.75, ge=-1.0, le=1.0)
+    speaker_match_threshold: float = Field(default=0.55, ge=-1.0, le=1.0)
     speaker_new_threshold: float = Field(default=0.45, ge=-1.0, le=1.0)
     speaker_match_margin: float = Field(default=0.10, ge=0.0, le=2.0)
 

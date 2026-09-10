@@ -3,6 +3,8 @@
 from dataclasses import dataclass
 from typing import Literal, Protocol
 
+from app.domain.speaker_identity import PreprocessingVersion
+
 
 class SpeakerError(Exception):
     def __init__(self, code: str, status_code: int = 400) -> None:
@@ -19,6 +21,7 @@ class EmbeddingResult:
     model_id: str
     model_revision: str
     device: str
+    preprocessing_version: PreprocessingVersion | None = None
 
 
 class EmbeddingPort(Protocol):

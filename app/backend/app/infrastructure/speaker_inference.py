@@ -6,8 +6,17 @@ import httpx
 from pydantic import BaseModel, Field, ValidationError
 
 from app.core.config import Settings
-from app.domain.speaker_identity import MODEL_ID, MODEL_REVISION, normalize
+from app.domain.speaker_identity import (
+    MODEL_ID,
+    MODEL_REVISION,
+    PreprocessingVersion,
+    normalize,
+)
 from app.services.speaker_ports import EmbeddingResult, SpeakerError
+
+
+class InferenceQuality(BaseModel):
+    preprocessing_version: PreprocessingVersion | None = None
 
 
 class InferenceResponse(BaseModel):
@@ -18,6 +27,7 @@ class InferenceResponse(BaseModel):
     model_revision: Literal["0f99f2d0ebe89ac095bcc5903c4dd8f72b367286"]
     dimensions: Literal[192]
     device: str = Field(min_length=1, max_length=64, pattern=r"^cuda:[0-9]+$")
+    quality: InferenceQuality | None = None
 
 
 class HttpEmbeddingAdapter:
@@ -85,4 +95,7 @@ class HttpEmbeddingAdapter:
             MODEL_ID,
             MODEL_REVISION,
             payload.device,
+            preprocessing_version=(
+                payload.quality.preprocessing_version if payload.quality is not None else None
+            ),
         )

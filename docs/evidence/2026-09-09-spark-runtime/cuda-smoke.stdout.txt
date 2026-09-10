@@ -1,0 +1,118 @@
+{
+  "purpose": "Real CUDA HTTP software smoke; constructed public fixtures are not accuracy evidence",
+  "python": "3.13.14",
+  "torch": "2.8.0+cu129",
+  "cuda_build": "12.9",
+  "gpu": "NVIDIA GB10",
+  "startup_seconds": 2.2525828589987213,
+  "startup_scope": "In-process HTTP startup including model verification/load/warmup; excludes container creation and initial Python imports",
+  "request_order": "First constructed enrollment request precedes repeated warm identify requests; CUDA readiness already performed synthetic warmup",
+  "checks": [
+    {
+      "case": "live",
+      "status": 200,
+      "http_seconds": 0.020587173001331394,
+      "alive": true
+    },
+    {
+      "case": "ready",
+      "status": 200,
+      "http_seconds": 0.0014890959992044372,
+      "ready": true,
+      "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+      "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+      "dimensions": 192,
+      "device": "cuda:0"
+    },
+    {
+      "case": "invalid_audio",
+      "status": 400,
+      "http_seconds": 0.0023392359998979373,
+      "error_code": "invalid_audio"
+    },
+    {
+      "case": "unsupported_audio",
+      "status": 415,
+      "http_seconds": 0.001581910999448155,
+      "error_code": "unsupported_audio"
+    },
+    {
+      "case": "invalid_key",
+      "status": 401,
+      "http_seconds": 0.001352392999251606,
+      "error_code": "unauthorized"
+    },
+    {
+      "case": "silence_quality_rejection",
+      "status": 422,
+      "http_seconds": 0.06130059200040705,
+      "error_code": "insufficient_speech"
+    },
+    {
+      "case": "constructed_fixture_repeated-public-sample-30s.wav_enroll",
+      "status": 200,
+      "http_seconds": 0.18368213000030664,
+      "speech_seconds": 26.886,
+      "windows_count": 5,
+      "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+      "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+      "dimensions": 192,
+      "device": "cuda:0",
+      "quality": {
+        "input_seconds": 30.0,
+        "vad_speech_seconds": 29.666,
+        "min_pair_similarity": 0.9415029250561605,
+        "single_speaker_assumption": true,
+        "execution_seconds": 0.17907357799958845,
+        "gpu_peak_allocated_bytes": 189954560,
+        "gpu_peak_reserved_bytes": 211812352,
+        "gpu_memory_scope": "pytorch_process_including_resident_models"
+      },
+      "embedding_norm": 1.0
+    },
+    {
+      "case": "constructed_fixture_repeated-public-sample-30s.wav_identify",
+      "status": 200,
+      "http_seconds": 0.17202892699970107,
+      "speech_seconds": 26.886,
+      "windows_count": 5,
+      "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+      "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+      "dimensions": 192,
+      "device": "cuda:0",
+      "quality": {
+        "input_seconds": 30.0,
+        "vad_speech_seconds": 29.666,
+        "min_pair_similarity": 0.9415029250561605,
+        "single_speaker_assumption": true,
+        "execution_seconds": 0.16958922699996037,
+        "gpu_peak_allocated_bytes": 189954560,
+        "gpu_peak_reserved_bytes": 211812352,
+        "gpu_memory_scope": "pytorch_process_including_resident_models"
+      },
+      "embedding_norm": 1.0
+    },
+    {
+      "case": "constructed_fixture_repeated-public-sample-30s.wav_flac_identify",
+      "status": 200,
+      "http_seconds": 0.1675061989990354,
+      "speech_seconds": 26.886,
+      "windows_count": 5,
+      "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+      "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+      "dimensions": 192,
+      "device": "cuda:0",
+      "quality": {
+        "input_seconds": 30.0,
+        "vad_speech_seconds": 29.666,
+        "min_pair_similarity": 0.9415029250561605,
+        "single_speaker_assumption": true,
+        "execution_seconds": 0.165315569998711,
+        "gpu_peak_allocated_bytes": 189954560,
+        "gpu_peak_reserved_bytes": 211812352,
+        "gpu_memory_scope": "pytorch_process_including_resident_models"
+      },
+      "embedding_norm": 1.0
+    }
+  ]
+}

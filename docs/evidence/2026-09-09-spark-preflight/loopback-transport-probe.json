@@ -1,0 +1,131 @@
+{
+  "schema_version": 1,
+  "observed_date": "2026-09-09",
+  "scope": "Windows loopback HTTP reachability from existing VoiceUp containers; no Spark or model execution",
+  "docker_engine": {
+    "version": "29.6.1",
+    "status": "ready",
+    "maximum_subprocess_timeout_seconds": 15
+  },
+  "listener": {
+    "bind_address": "127.0.0.1",
+    "port": 18090,
+    "path": "/probe",
+    "implementation": "Python standard-library HTTPServer with an in-memory random harmless nonce",
+    "served_files": false,
+    "closed_in_finally": true
+  },
+  "initial_hostname_probe": {
+    "destination": "http://host.docker.internal:18090/probe",
+    "windows_loopback": {
+      "destination": "http://127.0.0.1:18090/probe",
+      "http_status": 200,
+      "nonce_match": true
+    },
+    "worker": {
+      "container_id": "7537348e7667",
+      "command_return_code": 1,
+      "elapsed_seconds": 5.609,
+      "nonce_match": false,
+      "followup_error_type": "gaierror",
+      "followup_errno": -3,
+      "failure_boundary": "DNS resolution; TCP reachability was not established by this attempt"
+    },
+    "nginx": {
+      "container_id": "b422699a9361",
+      "command_return_code": 1,
+      "elapsed_seconds": 5.219,
+      "nonce_match": false,
+      "followup_error_category": "dns_failure"
+    }
+  },
+  "address_resolution": {
+    "windows_host_alias_ipv4": ["192.168.1.2"],
+    "windows_host_alias_used_for_container_probe": false,
+    "worker_resolver": {
+      "nameserver": "127.0.0.11",
+      "docker_generated_external_server": "192.168.65.7"
+    },
+    "nginx_resolver": {
+      "nameserver": "127.0.0.11",
+      "docker_generated_external_server": "127.0.0.1"
+    },
+    "docker_local_dns_query": {
+      "command": [
+        "docker", "exec", "b422699a9361", "nslookup", "-type=A",
+        "host.docker.internal", "192.168.65.7"
+      ],
+      "return_code": 0,
+      "stdout": "Server:\t\t192.168.65.7\nAddress:\t192.168.65.7:53\n\nNon-authoritative answer:\nName:\thost.docker.internal\nAddress: 192.168.65.254\n\n",
+      "stderr": "",
+      "resolved_ipv4": "192.168.65.254"
+    }
+  },
+  "disposable_host_gateway_probe": {
+    "containers_launched": 1,
+    "image_source": "Existing nginx container Config.Image, inspected and required to contain an immutable sha256 digest",
+    "pull_policy": "never",
+    "network": "voiceup_edge",
+    "extra_host_argument": "voiceup-host-probe:host-gateway",
+    "read_only": true,
+    "cap_drop": ["ALL"],
+    "security_opt": ["no-new-privileges"],
+    "mounts": [],
+    "secrets": [],
+    "entrypoint": "/bin/cat",
+    "arguments": ["/etc/hosts"],
+    "docker_run_return_code": 0,
+    "auto_remove_argument": true,
+    "post_exit_container_inventory_checked": false,
+    "parser_result": "Unexpected host-gateway mapping",
+    "parser_failure_reason": "The filtered host mapping did not contain exactly one line; raw output was not retained before the parser stopped",
+    "record_count_and_family_not_proved": true,
+    "used_as_numeric_address_evidence": false
+  },
+  "numeric_address_probe": {
+    "address_source": "Successful nginx query of the Docker local DNS server, not the failed disposable mapping parser",
+    "destination": "http://192.168.65.254:18090/probe",
+    "windows_loopback": {
+      "destination": "http://127.0.0.1:18090/probe",
+      "http_status": 200,
+      "nonce_match": true
+    },
+    "worker": {
+      "container_id": "7537348e7667",
+      "error_type": "OSError",
+      "errno": 101,
+      "meaning": "Network is unreachable",
+      "nonce_match": false,
+      "elapsed_seconds": 0.515
+    },
+    "nginx": {
+      "container_id": "b422699a9361",
+      "command_return_code": 0,
+      "category": "ok",
+      "nonce_match": true,
+      "elapsed_seconds": 0.203
+    },
+    "total_elapsed_seconds": 0.671,
+    "listener_closed": true
+  },
+  "local_service_observations": {
+    "inference": {"container_id": "78f8e237faaa", "state": "running"},
+    "worker": {"container_id": "7537348e7667", "state": "running"},
+    "nginx": {"container_id": "b422699a9361", "state": "running"}
+  },
+  "changes": {
+    "existing_container_configuration_changed": false,
+    "existing_network_configuration_changed": false,
+    "existing_services_started_stopped_or_restarted": false,
+    "images_pulled": false,
+    "source_files_edited_for_probe": false,
+    "temporary_listener_closed": true
+  },
+  "conclusion": "The existing nginx edge connection can reach a Windows IPv4 loopback listener through the Docker host IPv4 address. The internal worker cannot. This supports an unpublished private nginx relay with an explicitly verified host mapping; that relay is not implemented or activated by this probe.",
+  "limitations": [
+    "No SSH tunnel, Spark HTTP readiness, GPU operation, VAD, embedding or model request was tested.",
+    "The disposable host-gateway mapping parser failed; its mapping must not be claimed as verified.",
+    "The Docker host IPv4 address is an observed local environment value, not a portable hardcoded configuration recommendation.",
+    "No speaker accuracy, application job success or owner acceptance is inferred from the nonce probe."
+  ]
+}

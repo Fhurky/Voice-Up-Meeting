@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="4" skipped="0" tests="4" time="3.786" timestamp="2026-09-09T12:19:30.250934+00:00" hostname="dd7393fbbd42"><testcase classname="tests.integration.test_speaker_pilot" name="test_worker_persists_preprocessing_metadata_through_public_job[enroll-vad-windows-v1]" time="0.573"><failure message="TypeError: EmbeddingResult.__init__() got an unexpected keyword argument 'preprocessing_version'">pilot = Pilot(client=&lt;httpx.AsyncClient object at 0x7f8cc9c31e80&gt;, sessions=async_sessionmaker(class_='AsyncSession', bind=&lt;sq...app.domain.models.tenant.Tenant object at 0x7f8cc9c33770&gt;, user=&lt;app.domain.models.user.User object at 0x7f8cc9c32cf0&gt;)
+version = 'vad-windows-v1', purpose = 'enroll'
+
+    @pytest.mark.parametrize("version", ["vad-windows-v1", "vad-packed-fallback-v1"])
+    @pytest.mark.parametrize("purpose", ["enroll", "identify"])
+    async def test_worker_persists_preprocessing_metadata_through_public_job(
+        pilot: Pilot,
+        version: Literal["vad-windows-v1", "vad-packed-fallback-v1"],
+        purpose: str,
+    ) -&gt; None:
+        pilot.provider.preprocessing_version = version
+        source = await pilot.upload()
+        job = await pilot.submit(
+            source["public_id"], purpose=purpose, name="Person" if purpose == "enroll" else None
+        )
+&gt;       response = await pilot.terminal(job)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/integration/test_speaker_pilot.py:276: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/integration/test_speaker_pilot.py:143: in terminal
+    assert await self.worker.process_once()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app/services/speaker_worker.py:103: in process_once
+    result = await self.embedding.embed(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;tests.integration.test_speaker_pilot.FixtureEmbeddingProvider object at 0x7f8cc9c31be0&gt;
+audio = b'RIFF$\xdc\x05\x00WAVEfmt \x10\x00\x00\x00\x01\x00\x01\x00\x80&gt;\x00\x00\x00}\x00\x00\x02\x00\x10\x00data\x00\xdc\x05\...cc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c'
+purpose = 'enroll', job_public_id = '195fffe4-ed20-468a-980c-b041da1b4f6c'
+tenant_public_id = '9bb305b9-f196-4653-85de-25f45e93067f'
+
+    async def embed(
+        self,
+        audio: bytes,
+        *,
+        purpose: Literal["enroll", "identify"],
+        job_public_id: str,
+        tenant_public_id: str,
+    ) -&gt; EmbeddingResult:
+        assert audio[:4] == b"RIFF"
+        assert UUID(job_public_id) and UUID(tenant_public_id)
+        assert purpose in {"enroll", "identify"}
+        self.calls += 1
+        if self.error:
+            raise self.error
+&gt;       return EmbeddingResult(
+            self.vector,
+            self.speech_seconds,
+            self.windows_count,
+            MODEL_ID,
+            MODEL_REVISION,
+            "fixture-vector",
+            preprocessing_version=self.preprocessing_version,
+        )
+E       TypeError: EmbeddingResult.__init__() got an unexpected keyword argument 'preprocessing_version'
+
+tests/integration/test_speaker_pilot.py:77: TypeError</failure></testcase><testcase classname="tests.integration.test_speaker_pilot" name="test_worker_persists_preprocessing_metadata_through_public_job[enroll-vad-packed-fallback-v1]" time="0.161"><failure message="TypeError: EmbeddingResult.__init__() got an unexpected keyword argument 'preprocessing_version'">pilot = Pilot(client=&lt;httpx.AsyncClient object at 0x7f8cc95647d0&gt;, sessions=async_sessionmaker(class_='AsyncSession', bind=&lt;sq...app.domain.models.tenant.Tenant object at 0x7f8cc9be3b10&gt;, user=&lt;app.domain.models.user.User object at 0x7f8cc9be3ed0&gt;)
+version = 'vad-packed-fallback-v1', purpose = 'enroll'
+
+    @pytest.mark.parametrize("version", ["vad-windows-v1", "vad-packed-fallback-v1"])
+    @pytest.mark.parametrize("purpose", ["enroll", "identify"])
+    async def test_worker_persists_preprocessing_metadata_through_public_job(
+        pilot: Pilot,
+        version: Literal["vad-windows-v1", "vad-packed-fallback-v1"],
+        purpose: str,
+    ) -&gt; None:
+        pilot.provider.preprocessing_version = version
+        source = await pilot.upload()
+        job = await pilot.submit(
+            source["public_id"], purpose=purpose, name="Person" if purpose == "enroll" else None
+        )
+&gt;       response = await pilot.terminal(job)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/integration/test_speaker_pilot.py:276: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/integration/test_speaker_pilot.py:143: in terminal
+    assert await self.worker.process_once()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app/services/speaker_worker.py:103: in process_once
+    result = await self.embedding.embed(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;tests.integration.test_speaker_pilot.FixtureEmbeddingProvider object at 0x7f8cc9564050&gt;
+audio = b'RIFF$\xdc\x05\x00WAVEfmt \x10\x00\x00\x00\x01\x00\x01\x00\x80&gt;\x00\x00\x00}\x00\x00\x02\x00\x10\x00data\x00\xdc\x05\...cc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c'
+purpose = 'enroll', job_public_id = 'b2ae5f12-848e-4134-8d77-4e06ccab3150'
+tenant_public_id = 'a6189b47-13cc-42fa-b9f1-99d7578ff8e2'
+
+    async def embed(
+        self,
+        audio: bytes,
+        *,
+        purpose: Literal["enroll", "identify"],
+        job_public_id: str,
+        tenant_public_id: str,
+    ) -&gt; EmbeddingResult:
+        assert audio[:4] == b"RIFF"
+        assert UUID(job_public_id) and UUID(tenant_public_id)
+        assert purpose in {"enroll", "identify"}
+        self.calls += 1
+        if self.error:
+            raise self.error
+&gt;       return EmbeddingResult(
+            self.vector,
+            self.speech_seconds,
+            self.windows_count,
+            MODEL_ID,
+            MODEL_REVISION,
+            "fixture-vector",
+            preprocessing_version=self.preprocessing_version,
+        )
+E       TypeError: EmbeddingResult.__init__() got an unexpected keyword argument 'preprocessing_version'
+
+tests/integration/test_speaker_pilot.py:77: TypeError</failure></testcase><testcase classname="tests.integration.test_speaker_pilot" name="test_worker_persists_preprocessing_metadata_through_public_job[identify-vad-windows-v1]" time="0.159"><failure message="TypeError: EmbeddingResult.__init__() got an unexpected keyword argument 'preprocessing_version'">pilot = Pilot(client=&lt;httpx.AsyncClient object at 0x7f8cc9566850&gt;, sessions=async_sessionmaker(class_='AsyncSession', bind=&lt;sq...app.domain.models.tenant.Tenant object at 0x7f8cc9565a90&gt;, user=&lt;app.domain.models.user.User object at 0x7f8cc9565090&gt;)
+version = 'vad-windows-v1', purpose = 'identify'
+
+    @pytest.mark.parametrize("version", ["vad-windows-v1", "vad-packed-fallback-v1"])
+    @pytest.mark.parametrize("purpose", ["enroll", "identify"])
+    async def test_worker_persists_preprocessing_metadata_through_public_job(
+        pilot: Pilot,
+        version: Literal["vad-windows-v1", "vad-packed-fallback-v1"],
+        purpose: str,
+    ) -&gt; None:
+        pilot.provider.preprocessing_version = version
+        source = await pilot.upload()
+        job = await pilot.submit(
+            source["public_id"], purpose=purpose, name="Person" if purpose == "enroll" else None
+        )
+&gt;       response = await pilot.terminal(job)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/integration/test_speaker_pilot.py:276: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/integration/test_speaker_pilot.py:143: in terminal
+    assert await self.worker.process_once()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app/services/speaker_worker.py:103: in process_once
+    result = await self.embedding.embed(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;tests.integration.test_speaker_pilot.FixtureEmbeddingProvider object at 0x7f8cc9565310&gt;
+audio = b'RIFF$\xdc\x05\x00WAVEfmt \x10\x00\x00\x00\x01\x00\x01\x00\x80&gt;\x00\x00\x00}\x00\x00\x02\x00\x10\x00data\x00\xdc\x05\...cc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c'
+purpose = 'identify', job_public_id = '418e707c-6f0d-46a8-96f3-d1dd0ee11fe1'
+tenant_public_id = '571d3dae-a450-4b5c-a045-778ef9858d7c'
+
+    async def embed(
+        self,
+        audio: bytes,
+        *,
+        purpose: Literal["enroll", "identify"],
+        job_public_id: str,
+        tenant_public_id: str,
+    ) -&gt; EmbeddingResult:
+        assert audio[:4] == b"RIFF"
+        assert UUID(job_public_id) and UUID(tenant_public_id)
+        assert purpose in {"enroll", "identify"}
+        self.calls += 1
+        if self.error:
+            raise self.error
+&gt;       return EmbeddingResult(
+            self.vector,
+            self.speech_seconds,
+            self.windows_count,
+            MODEL_ID,
+            MODEL_REVISION,
+            "fixture-vector",
+            preprocessing_version=self.preprocessing_version,
+        )
+E       TypeError: EmbeddingResult.__init__() got an unexpected keyword argument 'preprocessing_version'
+
+tests/integration/test_speaker_pilot.py:77: TypeError</failure></testcase><testcase classname="tests.integration.test_speaker_pilot" name="test_worker_persists_preprocessing_metadata_through_public_job[identify-vad-packed-fallback-v1]" time="0.174"><failure message="TypeError: EmbeddingResult.__init__() got an unexpected keyword argument 'preprocessing_version'">pilot = Pilot(client=&lt;httpx.AsyncClient object at 0x7f8cc9897230&gt;, sessions=async_sessionmaker(class_='AsyncSession', bind=&lt;sq...app.domain.models.tenant.Tenant object at 0x7f8cc9896b10&gt;, user=&lt;app.domain.models.user.User object at 0x7f8cc9896ea0&gt;)
+version = 'vad-packed-fallback-v1', purpose = 'identify'
+
+    @pytest.mark.parametrize("version", ["vad-windows-v1", "vad-packed-fallback-v1"])
+    @pytest.mark.parametrize("purpose", ["enroll", "identify"])
+    async def test_worker_persists_preprocessing_metadata_through_public_job(
+        pilot: Pilot,
+        version: Literal["vad-windows-v1", "vad-packed-fallback-v1"],
+        purpose: str,
+    ) -&gt; None:
+        pilot.provider.preprocessing_version = version
+        source = await pilot.upload()
+        job = await pilot.submit(
+            source["public_id"], purpose=purpose, name="Person" if purpose == "enroll" else None
+        )
+&gt;       response = await pilot.terminal(job)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/integration/test_speaker_pilot.py:276: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/integration/test_speaker_pilot.py:143: in terminal
+    assert await self.worker.process_once()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app/services/speaker_worker.py:103: in process_once
+    result = await self.embedding.embed(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;tests.integration.test_speaker_pilot.FixtureEmbeddingProvider object at 0x7f8cc9895cd0&gt;
+audio = b'RIFF$\xdc\x05\x00WAVEfmt \x10\x00\x00\x00\x01\x00\x01\x00\x80&gt;\x00\x00\x00}\x00\x00\x02\x00\x10\x00data\x00\xdc\x05\...cc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c\xcc\x0c'
+purpose = 'identify', job_public_id = '8e68c4e0-95f9-4529-b640-01794856485d'
+tenant_public_id = 'c017a029-9e66-4062-84dc-1361cbf5f22a'
+
+    async def embed(
+        self,
+        audio: bytes,
+        *,
+        purpose: Literal["enroll", "identify"],
+        job_public_id: str,
+        tenant_public_id: str,
+    ) -&gt; EmbeddingResult:
+        assert audio[:4] == b"RIFF"
+        assert UUID(job_public_id) and UUID(tenant_public_id)
+        assert purpose in {"enroll", "identify"}
+        self.calls += 1
+        if self.error:
+            raise self.error
+&gt;       return EmbeddingResult(
+            self.vector,
+            self.speech_seconds,
+            self.windows_count,
+            MODEL_ID,
+            MODEL_REVISION,
+            "fixture-vector",
+            preprocessing_version=self.preprocessing_version,
+        )
+E       TypeError: EmbeddingResult.__init__() got an unexpected keyword argument 'preprocessing_version'
+
+tests/integration/test_speaker_pilot.py:77: TypeError</failure></testcase></testsuite></testsuites>

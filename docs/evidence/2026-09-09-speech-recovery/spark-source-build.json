@@ -1,0 +1,12 @@
+{
+  "image_id": "sha256:a743b6e101beee3d85788f082d1b32a957149fda409eec3860c681f249b7a8c5",
+  "tag": "voiceup-inference:spark-f6f12544ad85",
+  "architecture": "arm64",
+  "os": "linux",
+  "configured_user": "10001:10001",
+  "source_release_sha256": "f6f12544ad85859220c7a27ca56633f741706072941fbab36bdf39124a4b0125",
+  "build_seconds": 7.172872079001536,
+  "network": "none",
+  "pull": false,
+  "dependencies_unchanged": true
+}

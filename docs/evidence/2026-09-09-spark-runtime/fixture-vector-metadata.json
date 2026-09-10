@@ -1,0 +1,26 @@
+{
+  "speech_seconds": 26.886,
+  "windows_count": 5,
+  "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+  "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+  "dimensions": 192,
+  "device": "cuda:0",
+  "quality": {
+    "input_seconds": 30.0,
+    "vad_speech_seconds": 29.666,
+    "min_pair_similarity": 0.9415029250561605,
+    "single_speaker_assumption": true,
+    "execution_seconds": 0.1829335809998156,
+    "gpu_peak_allocated_bytes": 189954560,
+    "gpu_peak_reserved_bytes": 211812352,
+    "gpu_memory_scope": "pytorch_process_including_resident_models"
+  },
+  "fixture_sha256": "bdc68e3362aed22d18a5b9f50b7467323ed13db7871452c3c6972bb1a7f13ff9",
+  "fixture_scope": "Constructed unchanged public PCM repeated to30s; technical numeric comparison only",
+  "embedding_norm": 1.0,
+  "serialized_vector_sha256": "f2b6d402e0abfe2cb13f2a601412cb4c15148b65a57e3aac82924e957e8a82c7",
+  "private_output": "outputs/spark-access/spark-public-fixture-vector.json",
+  "elapsed_seconds_including_container_ssh": 4.735881000000518,
+  "script_sha256": "1e207edbe4d8c934696ebdbe761e150635bd2ab6d62be2981e9dad0821aff5ff",
+  "image_id": "sha256:4b409e3a894b9e719e9785517bab922a8f52a1f74e69f387d6c815a0e39d8db3"
+}

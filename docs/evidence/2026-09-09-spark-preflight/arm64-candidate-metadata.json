@@ -1,0 +1,46 @@
+{
+  "status": "candidate_metadata_only",
+  "recorded_on": "2026-09-09",
+  "target": "cp313-linux-aarch64-cuda129",
+  "admitted": false,
+  "installed": false,
+  "full_artifact_hashes_verified": false,
+  "device_compatibility_verified": false,
+  "official_release_evidence": {
+    "pytorch_and_torchaudio_2_8_0": "https://pytorch.org/blog/pytorch-2-8/",
+    "released_on": "2025-08-06"
+  },
+  "artifacts": [
+    {
+      "name": "torch",
+      "version": "2.8.0+cu129",
+      "url": "https://download.pytorch.org/whl/cu129/torch-2.8.0%2Bcu129-cp313-cp313-manylinux_2_28_aarch64.whl",
+      "publisher_sha256": "ad2d64316635e7ab06f6c973a252526d59a92a2045825c102f876914a72304d0",
+      "head_size_bytes": 3411055677,
+      "index": "https://download.pytorch.org/whl/cu129/torch/"
+    },
+    {
+      "name": "torchaudio",
+      "version": "2.8.0",
+      "url": "https://download.pytorch.org/whl/cu129/torchaudio-2.8.0-cp313-cp313-manylinux_2_28_aarch64.whl",
+      "publisher_sha256": "2086c64c321d949e9c3abcdf4da6405f1f5317c34980612cb1d9978bae7d7b6e",
+      "head_size_bytes": 3405878,
+      "index": "https://download.pytorch.org/whl/cu129/torchaudio/"
+    },
+    {
+      "name": "triton",
+      "version": "3.4.0",
+      "url": "https://download.pytorch.org/whl/triton-3.4.0-cp313-cp313-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl",
+      "publisher_sha256": "5acb528f01dc14362c4a88fa4dcfa227d132f6e61f272a6874e84d6485037ca4",
+      "head_size_bytes": 145180386,
+      "index": "https://download.pytorch.org/whl/triton/"
+    }
+  ],
+  "notes": [
+    "HEAD, official index hashes and metadata sidecars were read; full wheel files were not downloaded.",
+    "Torch nvidia-* dependency markers apply to Linux x86_64; do not copy the x86_64 dependency graph.",
+    "The cu129 and PyPI torchaudio aarch64 artifacts share filename/version but have different content hashes; source must be explicit.",
+    "Existing runtime enforces CUDA12.8; a separately reviewed profile and actual GB10 checks are required before switching.",
+    "This evidence is not the executable dependency admission ledger."
+  ]
+}

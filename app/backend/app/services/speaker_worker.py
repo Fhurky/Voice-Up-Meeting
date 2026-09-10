@@ -242,6 +242,7 @@ class SpeakerWorker:
                 device=result.device,
                 reason=reason,
                 policy=MatchPolicyResponse(**asdict(self.policy)),
+                preprocessing_version=result.preprocessing_version,
             )
             job.result = output.model_dump(mode="json")
             job.status = "succeeded"

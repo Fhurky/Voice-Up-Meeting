@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "observed_at_utc": "2026-09-09T12:50:02.671261+00:00",
+  "technology_profile": "kt-vibecoding-python-web-v2",
+  "dataset_id": "librispeech-open-set-v2-test",
+  "manifest_raw_sha256": "67fa0170afbe4c3a382a91506cd68d3e635fe7c1d562810c5fe9c2b8ad3c9eb7",
+  "manifest_canonical_sha256": "70b80c92502466517b0cf1b951da91b45ee5c7dd683acd4b1a0bf1c5ba727d7a",
+  "selection_seed": "voiceup-librispeech-open-set-v2",
+  "source_inventory_speakers": 251,
+  "eligible_known_speakers": 209,
+  "eligible_unknown_speakers": 251,
+  "selected_known_speakers": 50,
+  "selected_unknown_speakers": 20,
+  "excluded_speakers": 146,
+  "excluded_speaker_ids_sha256": "35ef0252cea7bbc1c3a33ea5486e872ebe8151b9f106971b7ff0a731c890976f",
+  "recordings_by_role": {
+    "enrollment": 50,
+    "known_query": 150,
+    "unknown_query": 100,
+    "new_enrollment": 1,
+    "return_query": 1
+  },
+  "unique_source_utterances": 605,
+  "duration_seconds_by_role": {
+    "enrollment": {
+      "minimum": 30.1,
+      "maximum": 46.475
+    },
+    "known_query": {
+      "minimum": 15.005,
+      "maximum": 31.545
+    },
+    "new_enrollment": {
+      "minimum": 42.495,
+      "maximum": 42.495
+    },
+    "return_query": {
+      "minimum": 15.41,
+      "maximum": 15.41
+    },
+    "unknown_query": {
+      "minimum": 15.035,
+      "maximum": 30.255
+    }
+  },
+  "archive_provenance": [
+    {
+      "split": "train-clean-100",
+      "url": "https://www.openslr.org/resources/12/train-clean-100.tar.gz",
+      "size_bytes": 6387309499,
+      "upstream_md5": "2a93770f6d5c6c964bc36631d331a522",
+      "sha256": "d4ddd1d5a6ab303066f14971d768ee43278a5f2a0aa43dc716b0e64ecbbbf6e2",
+      "license": "CC-BY-4.0",
+      "attribution": "LibriSpeech: Panayotov, Chen, Povey and Khudanpur, ICASSP 2015; OpenSLR SLR12."
+    }
+  ],
+  "extracted_regular_files": 29129,
+  "extracted_bytes": 6618476609,
+  "extraction_byte_limit": 12884901888,
+  "extraction_member_limit": 60000,
+  "original_manifest_raw_sha256": {
+    "calibration": "a170d8fa88a13bd7059cd3e6e82747e3b05b7dfc7a814a451672cb4f98ac5c33",
+    "test": "0e4deb4d61e36e378a29e270fc4d1c070d3331a9839314f37261c403d1361ad9"
+  },
+  "public_evaluator_preflight": "passed",
+  "exact_manifest_and_pcm_reproduction": "passed",
+  "application_inference_executed": false,
+  "dataset_tests": {
+    "passed": 33,
+    "failed": 0,
+    "skipped": 0,
+    "private_junit_sha256": "5cdce1b0f5946c299c995e80947986ae6f75e4fe6e33c5616a2e5dda040cf4c0",
+    "public_junit_sha256": "ecbfb5232156efdd5d788f42e17d1d23c09dec27b8203bf7a96e04a2443435f7",
+    "junit_artifact": "fresh-dataset-windows-tests.xml",
+    "captured_pytest_console_available": false,
+    "summary_artifact": "fresh-dataset-windows-tests.txt"
+  },
+  "preparation_script_sha256": "5d086ffbb9eb5775165f415d692aad0aca0a90f0a454bedc4e32fe77e0ab4c6c",
+  "limitations": [
+    "English clean read speech only; no Turkish meeting accuracy claim.",
+    "Corpus labels are pseudonymous; model-training person overlap is unverified.",
+    "Queries sharing speaker or chapter are correlated.",
+    "Fresh clean-only accuracy is not a paired improvement estimate over mixed clean/other historical data.",
+    "No inference ran during preparation; freeze candidate before evaluation."
+  ],
+  "private_source_readiness_sha256": "994c52e99d3642cfd59734c2942b6263241ba14c04542c9366e05f4fdcb50d89",
+  "observation_scope": "Preparation snapshot before any inference on this fresh pool; later application runs have separate evidence.",
+  "preserved_original_recording_selections": 604,
+  "preserved_original_manifests": 2,
+  "deterministically_reproduced_recordings": 302,
+  "selected_previous_speaker_overlap": 0,
+  "extracted_flac_files": 28539,
+  "transfer_limits": {
+    "socket_timeout_seconds": 30,
+    "total_transfer_deadline_seconds": 1800,
+    "redirects_allowed": false,
+    "exact_pinned_size_required": true
+  },
+  "per_archive_member_byte_limit": 20971520,
+  "original_archive_limits_preserved": {
+    "bytes": 2147483648,
+    "members": 20000
+  },
+  "platform_coverage": {
+    "linux_evidence": "reference-and-evaluation.xml",
+    "linux_passed": 349,
+    "linux_skipped": 1,
+    "skipped_case": "tests.test_public_speaker_dataset::test_windows_junction_cannot_redirect_output",
+    "windows_skipped_case_passed": true,
+    "windows_cases_also_present_in_linux_suite": 33,
+    "combined_unique_test_cases": 350,
+    "double_count_windows_suite": false
+  },
+  "preparation_console": {
+    "artifact": "fresh-dataset-preparation.txt",
+    "sha256": "fe31fdf17094b54ec4070704920da1f4102fa8f7a5decfead2e5d06752f676ff",
+    "captured_stdout": true
+  },
+  "official_sources": {
+    "corpus_and_license": "https://www.openslr.org/12",
+    "checksums": "https://www.openslr.org/resources/12/md5sum.txt",
+    "license_text": "https://creativecommons.org/licenses/by/4.0/"
+  }
+}

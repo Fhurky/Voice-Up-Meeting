@@ -1,0 +1,29 @@
+........................................................................ [ 75%]
+.................F.....                                                  [100%]
+================================== FAILURES ===================================
+_______ test_native_process_preserves_arguments_stdin_and_hides_stderr ________
+
+    def test_native_process_preserves_arguments_stdin_and_hides_stderr():
+        binary = ROOT / "app/backend/.venv/Scripts/python.exe"
+        arguments = ["C:\\path with spaces\\", 'embedded "quote"', "a&b", "$name"]
+        code = "import json,sys; print(json.dumps({'args':sys.argv[1:],'input':sys.stdin.read()})); sys.stderr.write('private-native-error')"
+        result = invoke(
+            f". {quote(SCRIPT)}; "
+            f"$result=Invoke-StartupNative -FilePath {quote(binary)} -Arguments @('-c',{quote(code)},"
+            + ",".join(quote(argument) for argument in arguments)
+            + ") -InputText 'fixture input' -TimeoutSeconds 3; "
+            "$result | ConvertTo-Json -Compress"
+        )
+        assert result["ExitCode"] == 0
+>       assert json.loads(result["Stdout"]) == {"args": arguments, "input": "fixture input"}
+E       AssertionError: assert {'args': ['C:...ixture input'} == {'args': ['C:...ixture input'}
+E         
+E         Omitting 1 identical items, use -vv to show
+E         Differing items:
+E         {'input': '﻿fixture input'} != {'input': 'fixture input'}
+E         Use -v to get more diff
+
+tests\test_connect_spark.py:450: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_connect_spark.py::test_native_process_preserves_arguments_stdin_and_hides_stderr
+1 failed, 94 passed in 104.85s (0:01:44)

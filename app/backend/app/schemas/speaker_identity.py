@@ -6,7 +6,7 @@ from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
-from app.domain.speaker_identity import normalize_name
+from app.domain.speaker_identity import PreprocessingVersion, normalize_name
 
 
 class StrictRequest(BaseModel):
@@ -88,6 +88,10 @@ class SpeakerResult(BaseModel):
     device: str
     reason: str
     policy: MatchPolicyResponse
+    preprocessing_version: PreprocessingVersion | None = Field(
+        default=None,
+        description="Observed extraction path during the retained job lifetime; null when unreported.",
+    )
 
 
 class JobError(BaseModel):

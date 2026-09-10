@@ -1,0 +1,42 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.10, pytest-8.4.2, pluggy-1.6.0
+rootdir: C:\Users\furko\Desktop\VoiceUpMeating
+configfile: pyproject.toml
+plugins: anyio-4.15.1
+collected 579 items
+
+tests\test_audio.py .............................                        [  5%]
+tests\test_backends.py ............................................      [ 12%]
+tests\test_cli.py ........                                               [ 13%]
+tests\test_configure_spark_host.py ..................................... [ 20%]
+.                                                                        [ 20%]
+tests\test_connect_spark.py ........................................     [ 27%]
+tests\test_evaluation.py ............................................... [ 35%]
+................                                                         [ 38%]
+tests\test_identity.py ..........................                        [ 42%]
+tests\test_local_benchmark.py ......                                     [ 43%]
+tests\test_local_configuration.py ....                                   [ 44%]
+tests\test_pipeline.py ...............                                   [ 47%]
+tests\test_quality_gate_failure.py .                                     [ 47%]
+tests\test_registry.py .......................                           [ 51%]
+tests\test_spark_inspection.py .........                                 [ 52%]
+tests\test_spark_runtime_start.py ...................................... [ 59%]
+...s                                                                     [ 60%]
+tests\test_spark_service_config.py .........                             [ 61%]
+tests\test_spark_startup.py ............................................ [ 69%]
+...                                                                      [ 69%]
+tests\test_spark_transport_config.py sssssss.....s                       [ 72%]
+tests\test_spark_tunnel.py ............................................. [ 79%]
+...............................                                          [ 85%]
+tests\test_spark_wheelhouse.py ..........................s.............. [ 92%]
+........                                                                 [ 93%]
+tests\test_speaker_dataset.py .....................................      [100%]
+
+- generated xml file: C:\Users\furko\Desktop\VoiceUpMeating\docs\evidence\2026-09-09-public-speaker-evaluation\reference-tests.xml -
+=========================== short test summary info ===========================
+SKIPPED [1] tests\test_spark_runtime_start.py:367: This Windows account cannot create symbolic links
+SKIPPED [1] tests\test_spark_transport_config.py:22: Explicit Docker transport verification
+SKIPPED [6] tests\test_spark_transport_config.py:162: Explicit Docker transport verification
+SKIPPED [1] tests\test_spark_transport_config.py:326: Explicit RUN_DOCKER_TRANSPORT=1 enables the disposable Docker Desktop loopback test
+SKIPPED [1] tests\test_spark_wheelhouse.py:178: Windows account cannot create symlinks; real Linux symlink check required
+================= 569 passed, 10 skipped in 235.82s (0:03:55) =================

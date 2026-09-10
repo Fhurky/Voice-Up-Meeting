@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "candidate_revision": "guarded-product-1p5-v1",
+  "frozen_at": "2026-09-09T12:31:44.569034+00:00",
+  "scope": "calibration only; revised input-consistency guard; no application/profile/model/configuration changes",
+  "manifest_raw_sha256": "a170d8fa88a13bd7059cd3e6e82747e3b05b7dfc7a814a451672cb4f98ac5c33",
+  "recordings": 302,
+  "planned_known": 50,
+  "planned_unknown": 20,
+  "parent_protocol_sha256": "1138faa67a6072245a55fcd97383f895f9f4c659de1b06dcd511e404a492b820",
+  "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+  "fixed_policy": {
+    "match_threshold": 0.55,
+    "new_threshold": 0.45,
+    "margin": 0.1
+  },
+  "fixed_quality": {
+    "vad_min_silence_duration_ms": 100,
+    "minimum_window_seconds": 3,
+    "maximum_window_seconds": 8,
+    "maximum_windows": 20,
+    "minimum_pair_cosine": 0.55,
+    "minimum_rms": 0.0001,
+    "maximum_clipping_fraction": 0.05,
+    "clipping_amplitude": 0.999,
+    "enrollment_minimum_used_seconds": 10,
+    "enrollment_minimum_windows": 2,
+    "query_minimum_used_seconds": 3
+  },
+  "candidate_definition": "Execute the exact frozen application helper source in memory in the existing Spark container. The helper preserves sufficient and inconsistent baseline evidence; discards original blocks below1.5s or failing existing sample-quality checks; checks purpose minimum eligible PCM seconds before embedding; requires all original guard pair cosines>=0.55, uses unchanged reference extract_evidence for packed3\u20138s windows, then every guard-to-packed and existing partial-anchor cosine>=0.55. Runtime itself is unchanged. This exact helper snapshot replaces the independently written diagnostic implementation before any scoring of this candidate.",
+  "minimum_guard_block_seconds": 1.5,
+  "minimum_guard_cosine": 0.55,
+  "maximum_source_seconds": 120,
+  "compatibility": "Both candidate-query to original baseline40profile gallery and baseline-query to candidate gallery, all planned denominators plus baseline-covered people.",
+  "wrong_person_append": "For each pair(A,B), use full B enrollment audio as a hypothetical append into existing baseline profile A. Apply candidate enrollment-quality rules and the existing recognized/top-target guard against the fixed40profile baseline gallery; no database writes.",
+  "mixed_alternating": "For each pair(A,B), alternate disjoint2second chunks from the first16seconds of each enrollment waveform: A0:2,B0:2,...,A14:16,B14:16, yielding32seconds. No repeated samples or added silence. Run baseline and both candidates with enrollment purpose; report quality acceptance and baseline-gallery decision separately. Passing a mixed clip is not counted as a successful negative test.",
+  "mixed_gapped": "First8seconds per original speaker, alternating disjoint2s blocks for4cycles with0.4s inserted silence between blocks:18.8seconds. Silence is negative-fixture input only; not added by the algorithm or counted as eligible speech.",
+  "negative_verdict": "Any mixed enrollment passing quality is a failed negative; report both absolute failures and new failures vs baseline. Existing baseline successes are intentionally preserved.",
+  "held_out_policy": "Never load test.json or held-out audio/results during selection. All scores are calibration diagnostics, not new live application evidence.",
+  "product_source_path": "app/inference/voiceup_inference/evidence.py",
+  "product_source_sha256": "bf99e46d17e86ef4bff32be6124a76898ce88439b641933cf97424b9baee81ef",
+  "unscored_previous_protocol_sha256": "5543f59ea6fd7a441c99e019e32f647355ec8f00f84388b0087a2ef04e3bd80c",
+  "private_protocol_sha256": "e118d4fab41d35cd8b4e83d51e81ea0c21260ddb3829dcd37c4ea34bc3b3760b",
+  "negative_pair_count": 10,
+  "negative_pair_selection": "First20 baseline-usable calibration gallery speakers, paired in fixed gallery order before candidate scoring; no identities included here.",
+  "source_hash_chain": {
+    "evaluated_source_sha256": "bf99e46d17e86ef4bff32be6124a76898ce88439b641933cf97424b9baee81ef",
+    "formatted_source_sha256": "50788c193e93d0c85a7b9eb07706eb286304b76a5d9b963cee5d60cda749a813",
+    "ast_equal": true,
+    "comparison": "Python ast.dump(include_attributes=False); source text not included in public evidence"
+  },
+  "anonymization": "Speaker IDs, recording IDs, paths, waveforms, vectors, credentials and individual score rows omitted."
+}

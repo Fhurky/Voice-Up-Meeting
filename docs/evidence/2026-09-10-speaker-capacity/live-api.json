@@ -1,0 +1,12 @@
+{
+  "environment": "Windows Docker Compose / real HTTP / synthetic isolated tenant",
+  "checks": {
+    "ordinary_role": true,
+    "total_50_max_50": true,
+    "admission_409_profile_limit": true,
+    "no_profile_mutation": true,
+    "no_new_job": true,
+    "terminal_fixture_visible": true
+  },
+  "fixture_note": "50 profiles and 51 historical jobs seeded with synthetic data; no model accuracy claim"
+}

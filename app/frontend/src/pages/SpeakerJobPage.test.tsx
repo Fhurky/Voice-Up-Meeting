@@ -1,4 +1,4 @@
-import { act, cleanup, render, screen } from "@testing-library/react";
+import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { MemoryRouter, Route, Routes } from "react-router";
 import { IntlProvider } from "@/contexts/IntlContext";
@@ -11,6 +11,24 @@ afterEach(() => { cleanup(); vi.restoreAllMocks(); vi.useRealTimers(); });
 function setup() { return render(<IntlProvider><MemoryRouter initialEntries={[`/speaker-jobs/${jobFixture.public_id}`]}><Routes><Route path="/speaker-jobs/:publicId" element={<SpeakerJobPage />} /></Routes></MemoryRouter></IntlProvider>); }
 
 describe("saved job status", () => {
+  it.each(["tr", "en"])("explains a saved terminal profile_limit failure in %s as a historical rule without changing the job", async (locale) => {
+    const saved = { ...jobFixture, purpose: "enroll" as const, status: "failed" as const, error: { code: "profile_limit", message: "private backend diagnostic" } };
+    const get = vi.spyOn(SpeakerService, "job").mockResolvedValue(saved);
+    const create = vi.spyOn(SpeakerService, "createJob");
+    setup();
+    await screen.findByText("Başarısız");
+    if (locale === "en") {
+      fireEvent.click(screen.getByRole("button", { name: "English" }));
+      await screen.findByText("Failed");
+    }
+    expect(screen.getByRole("alert")).toHaveTextContent(locale === "tr" ? "Bu kayıt, o sırada geçerli olan profil sınırı nedeniyle reddedildi. Yeni profil oluşturulmadı. Artık yeni bir kayıt başlatabilirsiniz." : "This enrollment was rejected under the profile limit in effect at the time. No new profile was created. You can now start a new enrollment.");
+    expect(screen.queryByText("private backend diagnostic")).not.toBeInTheDocument();
+    expect(get).toHaveBeenCalledTimes(1);
+    expect(create).not.toHaveBeenCalled();
+    expect(saved.error.code).toBe("profile_limit");
+    expect(saved.status).toBe("failed");
+  });
+
   it("loads a job by its public URL after refresh without starting it again", async () => {
     const get = vi.spyOn(SpeakerService, "job").mockResolvedValue({ ...jobFixture, status: "succeeded", result: resultFixture });
     const create = vi.spyOn(SpeakerService, "createJob");

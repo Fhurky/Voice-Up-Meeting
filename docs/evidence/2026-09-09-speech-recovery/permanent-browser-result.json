@@ -1,0 +1,8 @@
+{
+  "command": [
+    "scripts/e2e.sh",
+    "speaker-identity"
+  ],
+  "exit_code": 2,
+  "elapsed_seconds": 0.062
+}

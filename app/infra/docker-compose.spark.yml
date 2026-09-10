@@ -1,0 +1,34 @@
+# Explicit Windows-to-Spark mode; use after the verified SSH loopback tunnel is ready.
+# The launcher must also reject explicit local-inference profiles/service targets in this mode.
+services:
+  backend:
+    environment:
+      VOICEUP_INFERENCE_URL: "http://nginx:9080"
+
+  worker:
+    environment:
+      VOICEUP_INFERENCE_URL: "http://nginx:9080"
+
+  migrate:
+    environment:
+      VOICEUP_INFERENCE_URL: "http://nginx:9080"
+
+  inference:
+    profiles: [local-inference]
+
+  nginx:
+    entrypoint: ["/bin/sh", "/opt/voiceup/start-spark-proxy.sh"]
+    command: []
+    user: "101:101"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    tmpfs:
+      - /var/cache/nginx:rw,nosuid,nodev,size=16777216,mode=1777
+      - /var/run:rw,nosuid,nodev,size=1048576,mode=1777
+      - /tmp:rw,nosuid,nodev,size=16777216,mode=1777
+    extra_hosts:
+      - "voiceup-spark-host:host-gateway"
+    volumes:
+      - ./nginx/nginx.spark.conf:/etc/nginx/spark.conf.template:ro
+      - ./nginx/start-spark-proxy.sh:/opt/voiceup/start-spark-proxy.sh:ro

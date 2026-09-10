@@ -1,0 +1,36 @@
+{
+  "started_at_utc": "2026-09-09T09:39:52.671768+00:00",
+  "finished_at_utc": "2026-09-09T09:41:22.672511+00:00",
+  "duration_seconds": 90.00074163799945,
+  "sample_count": 91,
+  "interval_seconds": 1,
+  "scope": "Whole Spark host /proc/meminfo; includes every host process and cache, not per-model or GPU allocated memory",
+  "memory_bytes": {
+    "MemTotal": {
+      "min": 130663165952,
+      "max": 130663165952
+    },
+    "MemAvailable": {
+      "min": 21893070848,
+      "max": 21939343360
+    },
+    "SwapTotal": {
+      "min": 17179865088,
+      "max": 17179865088
+    },
+    "SwapFree": {
+      "min": 17179291648,
+      "max": 17179291648
+    },
+    "SwapUsed": {
+      "min": 573440,
+      "max": 573440
+    }
+  },
+  "headroom_target_bytes": 17179869184,
+  "headroom_target_met_every_sample": true,
+  "model_calls_performed": false,
+  "workload_label": "Final parent-coordinated 21-job benchmark after Windows IPv4 proxy fix",
+  "workload_verification_scope": "The sampler observes host memory only; job success and latency are verified by the parent benchmark, not inferred from these samples",
+  "sampler_completed": true
+}

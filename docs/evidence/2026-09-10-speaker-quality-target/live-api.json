@@ -1,0 +1,18 @@
+{
+  "before_total": 50,
+  "after_total": 51,
+  "max_profiles_absent": true,
+  "status": "succeeded",
+  "decision": "enrolled",
+  "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+  "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+  "device": "cuda:0",
+  "idempotent_replay_same_job": true,
+  "existing_50_profiles_unchanged": true,
+  "historical_job_unchanged": true,
+  "historical_error_code": "profile_limit",
+  "historical_error_message": "This job was rejected by a previous profile limit. You can start a new enrollment.",
+  "fixture": "50 synthetic profiles plus one real Spark embedding from a repeated public clip; integration evidence only",
+  "audio_sha256": "bdc68e3362aed22d18a5b9f50b7467323ed13db7871452c3c6972bb1a7f13ff9",
+  "poll_elapsed_seconds": 4.047
+}

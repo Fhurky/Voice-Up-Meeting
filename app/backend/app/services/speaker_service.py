@@ -32,6 +32,7 @@ ERROR_MESSAGES = {
     "recording_expired": "The uploaded audio expired; upload it again with a new key.",
     "recording_in_use": "An active profile sample or job still uses this recording.",
     "sample_limit": "A profile can contain at most 20 verified samples.",
+    "profile_limit": "This job was rejected by a previous profile limit. You can start a new enrollment.",
     "forbidden": "The required permission is missing.",
     "insufficient_speech": "The recording contains insufficient usable speech.",
     "inconsistent_audio": "The speech windows are not sufficiently consistent.",
