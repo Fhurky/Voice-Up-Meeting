@@ -17,6 +17,7 @@
    | Yerel verinin korunması | [Önce](local-state-before.json)/[sonra](local-state-after.json): 11 kullanıcı, roller, üyelikler, tenant kayıtlarının hashleri ve 245 profil sayısı değişmedi; çalışma modu Spark kaldı. |
    | `scripts/security-gate.sh` | Çıkış 2: `required offline security tool is unavailable: gitleaks`; [çıktı](security-gate.txt). |
    | Yayın kapsamı | [33 kaynak/config/sözleşme/test hash bağı](source-manifest.json); Git'in LF biçimi esas alındı. Kaynak ve biçimli belge kontrolü geçti; ham test çıktılarının satır sonu boşlukları korunur. Bağımsız dar sır incelemesinde gerçek kimlik bilgisi bulunmadı. |
+   | GitHub yayını | Özellik commit'i `aa11e17f461d135b6e368e54a54111c74bdde9ae` gönderildi; [uzak `main` eşitliği ve temiz çalışma ağacı doğrulandı](publication.json). |
 
 3. Maddeler:
 
@@ -60,3 +61,6 @@
    M10 Git dışındaki yerel ayara yalnız yönetici seçicisi eklendi; backend yeniden
    oluşturuldu, frontend yeniden başlatıldı ve Nginx yapılandırması yeniden yüklendi.
    Spark model servisi ve başka Docker projeleri değiştirilmedi.
+
+   M11 Özellik ve kanıtları GitHub'a gönderildi; bu yayın kaydı doğrulanmış özellik
+   commit'ini izleyen belge güncellemesidir. Kimlik bilgileri Git'e yazılmadı.

@@ -74,10 +74,13 @@ Saklama politikası: N/A — yeni saklanan veri yoktur.
 - [x] TR/EN frontend testleri görünürlük, tek tık, bekleme, hata ve normal giriş akışını kapsar.
 - [x] Kalıcı tarayıcı senaryosunda tek tık, korunan sayfa, yenileme, çıkış ve iki dil gözlenir.
 - [x] OpenAPI/tipler, config ve tam kalite kapısı günceldir; güvenlik kapısı sonucu açık raporlanır.
-- [ ] Kod ve kanıtlar commit edilip istenen GitHub deposuna gönderilir; sırlar Git dışında kalır.
+- [x] Kod ve kanıtlar commit edilip istenen GitHub deposuna gönderilir; sırlar Git dışında kalır.
 
 10 Eylül kanıtı: [Koşum raporu](../../../../docs/evidence/2026-09-10-local-admin-login/README.md).
 153 backend/59 frontend testi, 12 gerçek HTTP kontrolü ve CUA ile iki dilde iki
 tarayıcı akışı geçti. Kalıcı Playwright dosyasının bağımsız çalıştırıcısı kullanılmadı;
 senaryo kabul adımları gerçek tarayıcıda elle otomasyonla uygulandı. Gitleaks
 olmadığından güvenlik kapısı tamamlanamadı; fiziksel Mac testi bu koşumda yapılmadı.
+
+Özellik yayını: `aa11e17f461d135b6e368e54a54111c74bdde9ae`; uzak `main` eşitliği
+doğrulandı. [Yayın kaydı](../../../../docs/evidence/2026-09-10-local-admin-login/publication.json).
