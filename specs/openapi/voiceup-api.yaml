@@ -1,6 +1,17 @@
 {
   "components": {
     "schemas": {
+      "AuthOptions": {
+        "properties": {
+          "local_admin_login_enabled": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "local_admin_login_enabled"
+        ],
+        "type": "object"
+      },
       "AuthenticatedUser": {
         "properties": {
           "is_super_admin": {
@@ -84,6 +95,36 @@
         "required": [
           "code",
           "message"
+        ],
+        "type": "object"
+      },
+      "LocalAdminErrorDetail": {
+        "properties": {
+          "code": {
+            "enum": [
+              "not_found",
+              "local_admin_unavailable"
+            ],
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ],
+        "type": "object"
+      },
+      "LocalAdminErrorResponse": {
+        "properties": {
+          "detail": {
+            "$ref": "#/components/schemas/LocalAdminErrorDetail"
+          }
+        },
+        "required": [
+          "detail"
         ],
         "type": "object"
       },
@@ -572,6 +613,46 @@
   },
   "openapi": "3.1.0",
   "paths": {
+    "/api/voiceup/v1/auth/local-admin": {
+      "post": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LocalAdminErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LocalAdminErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Local Admin",
+        "tags": [
+          "authentication"
+        ]
+      }
+    },
     "/api/voiceup/v1/auth/login": {
       "post": {
         "description": "Authenticate by username or email and issue a signed access token.",
@@ -635,6 +716,26 @@
           }
         ],
         "summary": "Me",
+        "tags": [
+          "authentication"
+        ]
+      }
+    },
+    "/api/voiceup/v1/auth/options": {
+      "get": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthOptions"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Options",
         "tags": [
           "authentication"
         ]

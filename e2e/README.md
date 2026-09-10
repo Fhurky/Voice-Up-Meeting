@@ -24,6 +24,14 @@ trust. A bank-connected development environment may explicitly select
 `KT_SCAFFOLD_E2E_MODE=private-index`; that mode also requires `KT_SCAFFOLD_NPM_REGISTRY` and a
 pre-provisioned `PLAYWRIGHT_BROWSERS_PATH`, and rejects public npm registries.
 
+The auth suite also includes `auth/02-local-admin-login.mjs`, which exercises the explicit local
+administrator button in Turkish and English. It requires a local development stack with
+`LOCAL_ADMIN_LOGIN_ENABLED=true` and an eligible existing administrator, selected through
+`LOCAL_ADMIN_USERNAME` if more than one administrator exists. The scenario does not provision an
+account, change fixtures, prefill credentials or inject a session. Its standalone harness invocation
+does not require password environment variables; the existing password scenario still requires them.
+Reload deliberately uses the application's default Turkish locale before reselecting English.
+
 On failure each suite writes a slugged `test-results/*-failure.png`; this is ignored local evidence.
 The root quality gate discovers every `e2e/*/run-all.mjs` runner, so generated domain suites cannot
 silently fall outside the browser evidence tier.

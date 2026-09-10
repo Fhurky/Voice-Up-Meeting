@@ -1,0 +1,536 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="32" skipped="0" tests="32" time="2.912" timestamp="2026-09-10T12:12:46.538985+03:00" hostname="DESKTOP-RJ78JKH"><testcase classname="tests.unit.test_local_admin_login" name="test_local_admin_is_disabled_by_default" time="0.002"><failure message="AttributeError: 'Settings' object has no attribute 'local_admin_login_enabled'">def test_local_admin_is_disabled_by_default() -&gt; None:
+        configured = settings()
+&gt;       assert configured.local_admin_login_enabled is False
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+app\backend\tests\unit\test_local_admin_login.py:26: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Settings(environment='development', debug=False, log_level='INFO', project_name='voiceup', api_prefix='/api/voiceup/v1...2.0, cleanup_interval_seconds=3600, speaker_match_threshold=0.55, speaker_new_threshold=0.45, speaker_match_margin=0.1)
+item = 'local_admin_login_enabled'
+
+    def __getattr__(self, item: str) -&gt; Any:
+        private_attributes = object.__getattribute__(self, '__private_attributes__')
+        if item in private_attributes:
+            attribute = private_attributes[item]
+            if hasattr(attribute, '__get__'):
+                return attribute.__get__(self, type(self))  # type: ignore
+    
+            try:
+                # Note: self.__pydantic_private__ cannot be None if self.__private_attributes__ has items
+                return self.__pydantic_private__[item]  # type: ignore
+            except KeyError as exc:
+                raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}') from exc
+        else:
+            # `__pydantic_extra__` can fail to be set if the model is not yet fully initialized.
+            # See `BaseModel.__repr_args__` for more details
+            try:
+                pydantic_extra = object.__getattribute__(self, '__pydantic_extra__')
+            except AttributeError:
+                pydantic_extra = None
+    
+            if pydantic_extra and item in pydantic_extra:
+                return pydantic_extra[item]
+            else:
+                if hasattr(self.__class__, item):
+                    return super().__getattribute__(item)  # Raises AttributeError if appropriate
+                else:
+                    # this is the current error
+&gt;                   raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')
+E                   AttributeError: 'Settings' object has no attribute 'local_admin_login_enabled'
+
+app\backend\.venv\Lib\site-packages\pydantic\main.py:1042: AttributeError</failure></testcase><testcase classname="tests.unit.test_local_admin_login" name="test_local_admin_cannot_be_enabled_outside_development[test]" time="0.001"><failure message="Failed: DID NOT RAISE ValidationError">environment = 'test'
+
+    @pytest.mark.parametrize("environment", ["test", "staging", "production"])
+    def test_local_admin_cannot_be_enabled_outside_development(environment: str) -&gt; None:
+&gt;       with pytest.raises(ValidationError, match="local_admin_login_enabled"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValidationError
+
+app\backend\tests\unit\test_local_admin_login.py:32: Failed</failure></testcase><testcase classname="tests.unit.test_local_admin_login" name="test_local_admin_cannot_be_enabled_outside_development[staging]" time="0.001"><failure message="Failed: DID NOT RAISE ValidationError">environment = 'staging'
+
+    @pytest.mark.parametrize("environment", ["test", "staging", "production"])
+    def test_local_admin_cannot_be_enabled_outside_development(environment: str) -&gt; None:
+&gt;       with pytest.raises(ValidationError, match="local_admin_login_enabled"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValidationError
+
+app\backend\tests\unit\test_local_admin_login.py:32: Failed</failure></testcase><testcase classname="tests.unit.test_local_admin_login" name="test_local_admin_cannot_be_enabled_outside_development[production]" time="0.001"><failure message="Failed: DID NOT RAISE ValidationError">environment = 'production'
+
+    @pytest.mark.parametrize("environment", ["test", "staging", "production"])
+    def test_local_admin_cannot_be_enabled_outside_development(environment: str) -&gt; None:
+&gt;       with pytest.raises(ValidationError, match="local_admin_login_enabled"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValidationError
+
+app\backend\tests\unit\test_local_admin_login.py:32: Failed</failure></testcase><testcase classname="tests.unit.test_local_admin_login" name="test_local_admin_username_is_normalized" time="0.001"><failure message="AttributeError: 'Settings' object has no attribute 'local_admin_username'">def test_local_admin_username_is_normalized() -&gt; None:
+&gt;       assert settings(local_admin_username="  Existing-Admin  ").local_admin_username == "existing-admin"
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+app\backend\tests\unit\test_local_admin_login.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Settings(environment='development', debug=False, log_level='INFO', project_name='voiceup', api_prefix='/api/voiceup/v1...2.0, cleanup_interval_seconds=3600, speaker_match_threshold=0.55, speaker_new_threshold=0.45, speaker_match_margin=0.1)
+item = 'local_admin_username'
+
+    def __getattr__(self, item: str) -&gt; Any:
+        private_attributes = object.__getattribute__(self, '__private_attributes__')
+        if item in private_attributes:
+            attribute = private_attributes[item]
+            if hasattr(attribute, '__get__'):
+                return attribute.__get__(self, type(self))  # type: ignore
+    
+            try:
+                # Note: self.__pydantic_private__ cannot be None if self.__private_attributes__ has items
+                return self.__pydantic_private__[item]  # type: ignore
+            except KeyError as exc:
+                raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}') from exc
+        else:
+            # `__pydantic_extra__` can fail to be set if the model is not yet fully initialized.
+            # See `BaseModel.__repr_args__` for more details
+            try:
+                pydantic_extra = object.__getattribute__(self, '__pydantic_extra__')
+            except AttributeError:
+                pydantic_extra = None
+    
+            if pydantic_extra and item in pydantic_extra:
+                return pydantic_extra[item]
+            else:
+                if hasattr(self.__class__, item):
+                    return super().__getattribute__(item)  # Raises AttributeError if appropriate
+                else:
+                    # this is the current error
+&gt;                   raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')
+E                   AttributeError: 'Settings' object has no attribute 'local_admin_username'
+
+app\backend\.venv\Lib\site-packages\pydantic\main.py:1042: AttributeError</failure></testcase><testcase classname="tests.unit.test_local_admin_login" name="test_options_permit_only_explicit_local_requests[http://127.0.0.1:8081-headers0]" time="0.004"><failure message="assert 400 == 200&#10; +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code">application = &lt;fastapi.applications.FastAPI object at 0x000001D5C6E01810&gt;
+base_url = 'http://127.0.0.1:8081', headers = {}
+
+    @pytest.mark.parametrize(
+        ("base_url", "headers"),
+        [
+            ("http://127.0.0.1:8081", {}),
+            ("http://localhost:8081", {"Origin": "http://localhost:8081"}),
+            ("http://[::1]:8081", {"Origin": "http://[::1]:8081"}),
+            ("https://localhost", {"Origin": "https://localhost:443"}),
+            (
+                "http://127.0.0.1:8081",
+                {"Origin": "http://127.0.0.1:8081", "Sec-Fetch-Site": "same-origin"},
+            ),
+        ],
+    )
+    async def test_options_permit_only_explicit_local_requests(application, base_url, headers) -&gt; None:
+        async with AsyncClient(transport=ASGITransport(app=application), base_url=base_url) as client:
+            response = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+&gt;       assert response.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:69: AssertionError</failure></testcase><testcase classname="tests.unit.test_local_admin_login" name="test_options_permit_only_explicit_local_requests[http://localhost:8081-headers1]" time="0.004"><failure message="assert 400 == 200&#10; +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code">application = &lt;fastapi.applications.FastAPI object at 0x000001D5C6E01E50&gt;
+base_url = 'http://localhost:8081'
+headers = {'Origin': 'http://localhost:8081'}
+
+    @pytest.mark.parametrize(
+        ("base_url", "headers"),
+        [
+            ("http://127.0.0.1:8081", {}),
+            ("http://localhost:8081", {"Origin": "http://localhost:8081"}),
+            ("http://[::1]:8081", {"Origin": "http://[::1]:8081"}),
+            ("https://localhost", {"Origin": "https://localhost:443"}),
+            (
+                "http://127.0.0.1:8081",
+                {"Origin": "http://127.0.0.1:8081", "Sec-Fetch-Site": "same-origin"},
+            ),
+        ],
+    )
+    async def test_options_permit_only_explicit_local_requests(application, base_url, headers) -&gt; None:
+        async with AsyncClient(transport=ASGITransport(app=application), base_url=base_url) as client:
+            response = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+&gt;       assert response.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:69: AssertionError</failure></testcase><testcase classname="tests.unit.test_local_admin_login" name="test_options_permit_only_explicit_local_requests[http://[::1]:8081-headers2]" time="0.003"><failure message="assert 400 == 200&#10; +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code">application = &lt;fastapi.applications.FastAPI object at 0x000001D5C6E02710&gt;
+base_url = 'http://[::1]:8081', headers = {'Origin': 'http://[::1]:8081'}
+
+    @pytest.mark.parametrize(
+        ("base_url", "headers"),
+        [
+            ("http://127.0.0.1:8081", {}),
+            ("http://localhost:8081", {"Origin": "http://localhost:8081"}),
+            ("http://[::1]:8081", {"Origin": "http://[::1]:8081"}),
+            ("https://localhost", {"Origin": "https://localhost:443"}),
+            (
+                "http://127.0.0.1:8081",
+                {"Origin": "http://127.0.0.1:8081", "Sec-Fetch-Site": "same-origin"},
+            ),
+        ],
+    )
+    async def test_options_permit_only_explicit_local_requests(application, base_url, headers) -&gt; None:
+        async with AsyncClient(transport=ASGITransport(app=application), base_url=base_url) as client:
+            response = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+&gt;       assert response.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:69: AssertionError</failure></testcase><testcase classname="tests.unit.test_local_admin_login" name="test_options_permit_only_explicit_local_requests[https://localhost-headers3]" time="0.003"><failure message="assert 400 == 200&#10; +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code">application = &lt;fastapi.applications.FastAPI object at 0x000001D5C6E039D0&gt;
+base_url = 'https://localhost', headers = {'Origin': 'https://localhost:443'}
+
+    @pytest.mark.parametrize(
+        ("base_url", "headers"),
+        [
+            ("http://127.0.0.1:8081", {}),
+            ("http://localhost:8081", {"Origin": "http://localhost:8081"}),
+            ("http://[::1]:8081", {"Origin": "http://[::1]:8081"}),
+            ("https://localhost", {"Origin": "https://localhost:443"}),
+            (
+                "http://127.0.0.1:8081",
+                {"Origin": "http://127.0.0.1:8081", "Sec-Fetch-Site": "same-origin"},
+            ),
+        ],
+    )
+    async def test_options_permit_only_explicit_local_requests(application, base_url, headers) -&gt; None:
+        async with AsyncClient(transport=ASGITransport(app=application), base_url=base_url) as client:
+            response = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+&gt;       assert response.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:69: AssertionError</failure></testcase><testcase classname="tests.unit.test_local_admin_login" name="test_options_permit_only_explicit_local_requests[http://127.0.0.1:8081-headers4]" time="0.003"><failure message="assert 400 == 200&#10; +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code">application = &lt;fastapi.applications.FastAPI object at 0x000001D5C6E02FD0&gt;
+base_url = 'http://127.0.0.1:8081'
+headers = {'Origin': 'http://127.0.0.1:8081', 'Sec-Fetch-Site': 'same-origin'}
+
+    @pytest.mark.parametrize(
+        ("base_url", "headers"),
+        [
+            ("http://127.0.0.1:8081", {}),
+            ("http://localhost:8081", {"Origin": "http://localhost:8081"}),
+            ("http://[::1]:8081", {"Origin": "http://[::1]:8081"}),
+            ("https://localhost", {"Origin": "https://localhost:443"}),
+            (
+                "http://127.0.0.1:8081",
+                {"Origin": "http://127.0.0.1:8081", "Sec-Fetch-Site": "same-origin"},
+            ),
+        ],
+    )
+    async def test_options_permit_only_explicit_local_requests(application, base_url, headers) -&gt; None:
+        async with AsyncClient(transport=ASGITransport(app=application), base_url=base_url) as client:
+            response = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+&gt;       assert response.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:69: AssertionError</failure></testcase><testcase classname="tests.unit.test_local_admin_login" name="test_nonlocal_requests_hide_options_and_cannot_login[headers0]" time="0.005"><failure message="assert 400 == 200&#10; +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code">application = &lt;fastapi.applications.FastAPI object at 0x000001D5C6E02350&gt;
+headers = {'Host': 'example.test:8081'}
+
+    @pytest.mark.parametrize("headers", REJECTED_HEADERS)
+    async def test_nonlocal_requests_hide_options_and_cannot_login(application, headers) -&gt; None:
+        async with AsyncClient(
+            transport=ASGITransport(app=application), base_url="http://127.0.0.1:8081"
+        ) as client:
+            options = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+            login = await client.post("/api/voiceup/v1/auth/local-admin", headers=headers)
+&gt;       assert options.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:106: AssertionError</failure></testcase><testcase classname="tests.unit.test_local_admin_login" name="test_nonlocal_requests_hide_options_and_cannot_login[headers1]" time="0.004"><failure message="assert 400 == 200&#10; +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code">application = &lt;fastapi.applications.FastAPI object at 0x000001D5C6E02FD0&gt;
+headers = {'Host': '127.0.0.1.example.test:8081'}
+
+    @pytest.mark.parametrize("headers", REJECTED_HEADERS)
+    async def test_nonlocal_requests_hide_options_and_cannot_login(application, headers) -&gt; None:
+        async with AsyncClient(
+            transport=ASGITransport(app=application), base_url="http://127.0.0.1:8081"
+        ) as client:
+            options = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+            login = await client.post("/api/voiceup/v1/auth/local-admin", headers=headers)
+&gt;       assert options.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:106: AssertionError</failure></testcase><testcase classname="tests.unit.test_local_admin_login" name="test_nonlocal_requests_hide_options_and_cannot_login[headers2]" time="0.004"><failure message="assert 400 == 200&#10; +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code">application = &lt;fastapi.applications.FastAPI object at 0x000001D5C6E02C10&gt;
+headers = {'Host': 'localhost:0'}
+
+    @pytest.mark.parametrize("headers", REJECTED_HEADERS)
+    async def test_nonlocal_requests_hide_options_and_cannot_login(application, headers) -&gt; None:
+        async with AsyncClient(
+            transport=ASGITransport(app=application), base_url="http://127.0.0.1:8081"
+        ) as client:
+            options = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+            login = await client.post("/api/voiceup/v1/auth/local-admin", headers=headers)
+&gt;       assert options.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:106: AssertionError</failure></testcase><testcase classname="tests.unit.test_local_admin_login" name="test_nonlocal_requests_hide_options_and_cannot_login[headers3]" time="0.004"><failure message="assert 400 == 200&#10; +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code">application = &lt;fastapi.applications.FastAPI object at 0x000001D5C6E02FD0&gt;
+headers = {'Host': 'localhost:65536'}
+
+    @pytest.mark.parametrize("headers", REJECTED_HEADERS)
+    async def test_nonlocal_requests_hide_options_and_cannot_login(application, headers) -&gt; None:
+        async with AsyncClient(
+            transport=ASGITransport(app=application), base_url="http://127.0.0.1:8081"
+        ) as client:
+            options = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+            login = await client.post("/api/voiceup/v1/auth/local-admin", headers=headers)
+&gt;       assert options.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:106: AssertionError</failure></testcase><testcase classname="tests.unit.test_local_admin_login" name="test_nonlocal_requests_hide_options_and_cannot_login[headers4]" time="0.004"><failure message="assert 400 == 200&#10; +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code">application = &lt;fastapi.applications.FastAPI object at 0x000001D5C6E02710&gt;
+headers = {'Host': 'localhost:'}
+
+    @pytest.mark.parametrize("headers", REJECTED_HEADERS)
+    async def test_nonlocal_requests_hide_options_and_cannot_login(application, headers) -&gt; None:
+        async with AsyncClient(
+            transport=ASGITransport(app=application), base_url="http://127.0.0.1:8081"
+        ) as client:
+            options = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+            login = await client.post("/api/voiceup/v1/auth/local-admin", headers=headers)
+&gt;       assert options.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:106: AssertionError</failure></testcase><testcase classname="tests.unit.test_local_admin_login" name="test_nonlocal_requests_hide_options_and_cannot_login[headers5]" time="0.004"><failure message="assert 400 == 200&#10; +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code">application = &lt;fastapi.applications.FastAPI object at 0x000001D5C6E02FD0&gt;
+headers = {'Host': 'user@localhost:8081'}
+
+    @pytest.mark.parametrize("headers", REJECTED_HEADERS)
+    async def test_nonlocal_requests_hide_options_and_cannot_login(application, headers) -&gt; None:
+        async with AsyncClient(
+            transport=ASGITransport(app=application), base_url="http://127.0.0.1:8081"
+        ) as client:
+            options = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+            login = await client.post("/api/voiceup/v1/auth/local-admin", headers=headers)
+&gt;       assert options.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:106: AssertionError</failure></testcase><testcase classname="tests.unit.test_local_admin_login" name="test_nonlocal_requests_hide_options_and_cannot_login[headers6]" time="0.005"><failure message="assert 400 == 200&#10; +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code">application = &lt;fastapi.applications.FastAPI object at 0x000001D5C6E02490&gt;
+headers = {'Host': 'localhost:8081/path'}
+
+    @pytest.mark.parametrize("headers", REJECTED_HEADERS)
+    async def test_nonlocal_requests_hide_options_and_cannot_login(application, headers) -&gt; None:
+        async with AsyncClient(
+            transport=ASGITransport(app=application), base_url="http://127.0.0.1:8081"
+        ) as client:
+            options = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+            login = await client.post("/api/voiceup/v1/auth/local-admin", headers=headers)
+&gt;       assert options.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:106: AssertionError</failure></testcase><testcase classname="tests.unit.test_local_admin_login" name="test_nonlocal_requests_hide_options_and_cannot_login[headers7]" time="0.005"><failure message="assert 400 == 200&#10; +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code">application = &lt;fastapi.applications.FastAPI object at 0x000001D5C6E02FD0&gt;
+headers = {'Origin': 'null'}
+
+    @pytest.mark.parametrize("headers", REJECTED_HEADERS)
+    async def test_nonlocal_requests_hide_options_and_cannot_login(application, headers) -&gt; None:
+        async with AsyncClient(
+            transport=ASGITransport(app=application), base_url="http://127.0.0.1:8081"
+        ) as client:
+            options = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+            login = await client.post("/api/voiceup/v1/auth/local-admin", headers=headers)
+&gt;       assert options.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:106: AssertionError</failure></testcase><testcase classname="tests.unit.test_local_admin_login" name="test_nonlocal_requests_hide_options_and_cannot_login[headers8]" time="0.005"><failure message="assert 400 == 200&#10; +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code">application = &lt;fastapi.applications.FastAPI object at 0x000001D5C6E02C10&gt;
+headers = {'Origin': 'http://example.test:8081'}
+
+    @pytest.mark.parametrize("headers", REJECTED_HEADERS)
+    async def test_nonlocal_requests_hide_options_and_cannot_login(application, headers) -&gt; None:
+        async with AsyncClient(
+            transport=ASGITransport(app=application), base_url="http://127.0.0.1:8081"
+        ) as client:
+            options = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+            login = await client.post("/api/voiceup/v1/auth/local-admin", headers=headers)
+&gt;       assert options.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:106: AssertionError</failure></testcase><testcase classname="tests.unit.test_local_admin_login" name="test_nonlocal_requests_hide_options_and_cannot_login[headers9]" time="0.005"><failure message="assert 400 == 200&#10; +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code">application = &lt;fastapi.applications.FastAPI object at 0x000001D5C6E02350&gt;
+headers = {'Origin': 'http://127.0.0.1:8082'}
+
+    @pytest.mark.parametrize("headers", REJECTED_HEADERS)
+    async def test_nonlocal_requests_hide_options_and_cannot_login(application, headers) -&gt; None:
+        async with AsyncClient(
+            transport=ASGITransport(app=application), base_url="http://127.0.0.1:8081"
+        ) as client:
+            options = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+            login = await client.post("/api/voiceup/v1/auth/local-admin", headers=headers)
+&gt;       assert options.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:106: AssertionError</failure></testcase><testcase classname="tests.unit.test_local_admin_login" name="test_nonlocal_requests_hide_options_and_cannot_login[headers10]" time="0.005"><failure message="assert 400 == 200&#10; +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code">application = &lt;fastapi.applications.FastAPI object at 0x000001D5C6E02C10&gt;
+headers = {'Origin': 'https://127.0.0.1:8081'}
+
+    @pytest.mark.parametrize("headers", REJECTED_HEADERS)
+    async def test_nonlocal_requests_hide_options_and_cannot_login(application, headers) -&gt; None:
+        async with AsyncClient(
+            transport=ASGITransport(app=application), base_url="http://127.0.0.1:8081"
+        ) as client:
+            options = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+            login = await client.post("/api/voiceup/v1/auth/local-admin", headers=headers)
+&gt;       assert options.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:106: AssertionError</failure></testcase><testcase classname="tests.unit.test_local_admin_login" name="test_nonlocal_requests_hide_options_and_cannot_login[headers11]" time="0.004"><failure message="assert 400 == 200&#10; +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code">application = &lt;fastapi.applications.FastAPI object at 0x000001D5C6E02FD0&gt;
+headers = {'Origin': 'http://localhost:8081'}
+
+    @pytest.mark.parametrize("headers", REJECTED_HEADERS)
+    async def test_nonlocal_requests_hide_options_and_cannot_login(application, headers) -&gt; None:
+        async with AsyncClient(
+            transport=ASGITransport(app=application), base_url="http://127.0.0.1:8081"
+        ) as client:
+            options = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+            login = await client.post("/api/voiceup/v1/auth/local-admin", headers=headers)
+&gt;       assert options.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:106: AssertionError</failure></testcase><testcase classname="tests.unit.test_local_admin_login" name="test_nonlocal_requests_hide_options_and_cannot_login[headers12]" time="0.004"><failure message="assert 400 == 200&#10; +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code">application = &lt;fastapi.applications.FastAPI object at 0x000001D5C6E039D0&gt;
+headers = {'Origin': 'http://127.0.0.1:8081/'}
+
+    @pytest.mark.parametrize("headers", REJECTED_HEADERS)
+    async def test_nonlocal_requests_hide_options_and_cannot_login(application, headers) -&gt; None:
+        async with AsyncClient(
+            transport=ASGITransport(app=application), base_url="http://127.0.0.1:8081"
+        ) as client:
+            options = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+            login = await client.post("/api/voiceup/v1/auth/local-admin", headers=headers)
+&gt;       assert options.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:106: AssertionError</failure></testcase><testcase classname="tests.unit.test_local_admin_login" name="test_nonlocal_requests_hide_options_and_cannot_login[headers13]" time="0.004"><failure message="assert 400 == 200&#10; +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code">application = &lt;fastapi.applications.FastAPI object at 0x000001D5C6E02FD0&gt;
+headers = {'Origin': 'http://user@127.0.0.1:8081'}
+
+    @pytest.mark.parametrize("headers", REJECTED_HEADERS)
+    async def test_nonlocal_requests_hide_options_and_cannot_login(application, headers) -&gt; None:
+        async with AsyncClient(
+            transport=ASGITransport(app=application), base_url="http://127.0.0.1:8081"
+        ) as client:
+            options = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+            login = await client.post("/api/voiceup/v1/auth/local-admin", headers=headers)
+&gt;       assert options.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:106: AssertionError</failure></testcase><testcase classname="tests.unit.test_local_admin_login" name="test_nonlocal_requests_hide_options_and_cannot_login[headers14]" time="0.004"><failure message="assert 400 == 200&#10; +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code">application = &lt;fastapi.applications.FastAPI object at 0x000001D5C6E02710&gt;
+headers = {'Origin': 'http://127.0.0.1:8081?value=1'}
+
+    @pytest.mark.parametrize("headers", REJECTED_HEADERS)
+    async def test_nonlocal_requests_hide_options_and_cannot_login(application, headers) -&gt; None:
+        async with AsyncClient(
+            transport=ASGITransport(app=application), base_url="http://127.0.0.1:8081"
+        ) as client:
+            options = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+            login = await client.post("/api/voiceup/v1/auth/local-admin", headers=headers)
+&gt;       assert options.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:106: AssertionError</failure></testcase><testcase classname="tests.unit.test_local_admin_login" name="test_nonlocal_requests_hide_options_and_cannot_login[headers15]" time="0.004"><failure message="assert 400 == 200&#10; +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code">application = &lt;fastapi.applications.FastAPI object at 0x000001D5C6E02FD0&gt;
+headers = {'Sec-Fetch-Site': 'cross-site'}
+
+    @pytest.mark.parametrize("headers", REJECTED_HEADERS)
+    async def test_nonlocal_requests_hide_options_and_cannot_login(application, headers) -&gt; None:
+        async with AsyncClient(
+            transport=ASGITransport(app=application), base_url="http://127.0.0.1:8081"
+        ) as client:
+            options = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+            login = await client.post("/api/voiceup/v1/auth/local-admin", headers=headers)
+&gt;       assert options.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:106: AssertionError</failure></testcase><testcase classname="tests.unit.test_local_admin_login" name="test_nonlocal_requests_hide_options_and_cannot_login[headers16]" time="0.004"><failure message="assert 400 == 200&#10; +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code">application = &lt;fastapi.applications.FastAPI object at 0x000001D5C6E02C10&gt;
+headers = {'Sec-Fetch-Site': 'same-site'}
+
+    @pytest.mark.parametrize("headers", REJECTED_HEADERS)
+    async def test_nonlocal_requests_hide_options_and_cannot_login(application, headers) -&gt; None:
+        async with AsyncClient(
+            transport=ASGITransport(app=application), base_url="http://127.0.0.1:8081"
+        ) as client:
+            options = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+            login = await client.post("/api/voiceup/v1/auth/local-admin", headers=headers)
+&gt;       assert options.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:106: AssertionError</failure></testcase><testcase classname="tests.unit.test_local_admin_login" name="test_nonlocal_requests_hide_options_and_cannot_login[headers17]" time="0.004"><failure message="assert 400 == 200&#10; +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code">application = &lt;fastapi.applications.FastAPI object at 0x000001D5C6E02FD0&gt;
+headers = {'Sec-Fetch-Site': 'none'}
+
+    @pytest.mark.parametrize("headers", REJECTED_HEADERS)
+    async def test_nonlocal_requests_hide_options_and_cannot_login(application, headers) -&gt; None:
+        async with AsyncClient(
+            transport=ASGITransport(app=application), base_url="http://127.0.0.1:8081"
+        ) as client:
+            options = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+            login = await client.post("/api/voiceup/v1/auth/local-admin", headers=headers)
+&gt;       assert options.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:106: AssertionError</failure></testcase><testcase classname="tests.unit.test_local_admin_login" name="test_nonlocal_requests_hide_options_and_cannot_login[headers18]" time="0.004"><failure message="assert 400 == 200&#10; +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code">application = &lt;fastapi.applications.FastAPI object at 0x000001D5C6E025D0&gt;
+headers = {'Sec-Fetch-Site': ''}
+
+    @pytest.mark.parametrize("headers", REJECTED_HEADERS)
+    async def test_nonlocal_requests_hide_options_and_cannot_login(application, headers) -&gt; None:
+        async with AsyncClient(
+            transport=ASGITransport(app=application), base_url="http://127.0.0.1:8081"
+        ) as client:
+            options = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+            login = await client.post("/api/voiceup/v1/auth/local-admin", headers=headers)
+&gt;       assert options.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:106: AssertionError</failure></testcase><testcase classname="tests.unit.test_local_admin_login" name="test_nonlocal_requests_hide_options_and_cannot_login[headers19]" time="0.004"><failure message="assert 400 == 200&#10; +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code">application = &lt;fastapi.applications.FastAPI object at 0x000001D5C6E02FD0&gt;
+headers = [('Host', '127.0.0.1:8081'), ('Host', 'localhost:8081')]
+
+    @pytest.mark.parametrize("headers", REJECTED_HEADERS)
+    async def test_nonlocal_requests_hide_options_and_cannot_login(application, headers) -&gt; None:
+        async with AsyncClient(
+            transport=ASGITransport(app=application), base_url="http://127.0.0.1:8081"
+        ) as client:
+            options = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+            login = await client.post("/api/voiceup/v1/auth/local-admin", headers=headers)
+&gt;       assert options.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:106: AssertionError</failure></testcase><testcase classname="tests.unit.test_local_admin_login" name="test_nonlocal_requests_hide_options_and_cannot_login[headers20]" time="0.004"><failure message="assert 400 == 200&#10; +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code">application = &lt;fastapi.applications.FastAPI object at 0x000001D5C6E03C50&gt;
+headers = [('Origin', 'http://127.0.0.1:8081'), ('Origin', 'http://example.test')]
+
+    @pytest.mark.parametrize("headers", REJECTED_HEADERS)
+    async def test_nonlocal_requests_hide_options_and_cannot_login(application, headers) -&gt; None:
+        async with AsyncClient(
+            transport=ASGITransport(app=application), base_url="http://127.0.0.1:8081"
+        ) as client:
+            options = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+            login = await client.post("/api/voiceup/v1/auth/local-admin", headers=headers)
+&gt;       assert options.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = &lt;Response [400 Bad Request]&gt;.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:106: AssertionError</failure></testcase><testcase classname="tests.unit.test_local_admin_login" name="test_disabled_mode_is_unavailable_without_database_access" time="0.005"><failure message="AssertionError: assert {'detail': {'...er_required'}} == {'local_admin...abled': False}&#10;  &#10;  Left contains 1 more item:&#10;  {'detail': {'code': 'tenant_header_required',&#10;              'message': 'Active tenant header is required'}}&#10;  Right contains 1 more item:&#10;  {'local_admin_login_enabled': False}&#10;  Use -v to get more diff">application = &lt;fastapi.applications.FastAPI object at 0x000001D5C6E03D90&gt;
+
+    async def test_disabled_mode_is_unavailable_without_database_access(application) -&gt; None:
+        application.dependency_overrides[get_settings] = settings
+        async with AsyncClient(
+            transport=ASGITransport(app=application), base_url="http://127.0.0.1:8081"
+        ) as client:
+            options = await client.get("/api/voiceup/v1/auth/options")
+            login = await client.post("/api/voiceup/v1/auth/local-admin")
+&gt;       assert options.json() == {"local_admin_login_enabled": False}
+E       AssertionError: assert {'detail': {'...er_required'}} == {'local_admin...abled': False}
+E         
+E         Left contains 1 more item:
+E         {'detail': {'code': 'tenant_header_required',
+E                     'message': 'Active tenant header is required'}}
+E         Right contains 1 more item:
+E         {'local_admin_login_enabled': False}
+E         Use -v to get more diff
+
+app\backend\tests\unit\test_local_admin_login.py:121: AssertionError</failure></testcase></testsuite></testsuites>

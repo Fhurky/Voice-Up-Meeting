@@ -1,0 +1,917 @@
+FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF                                         [100%]
+================================== FAILURES ===================================
+___________________ test_local_admin_is_disabled_by_default ___________________
+
+    def test_local_admin_is_disabled_by_default() -> None:
+        configured = settings()
+>       assert configured.local_admin_login_enabled is False
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+app\backend\tests\unit\test_local_admin_login.py:26: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Settings(environment='development', debug=False, log_level='INFO', project_name='voiceup', api_prefix='/api/voiceup/v1...2.0, cleanup_interval_seconds=3600, speaker_match_threshold=0.55, speaker_new_threshold=0.45, speaker_match_margin=0.1)
+item = 'local_admin_login_enabled'
+
+    def __getattr__(self, item: str) -> Any:
+        private_attributes = object.__getattribute__(self, '__private_attributes__')
+        if item in private_attributes:
+            attribute = private_attributes[item]
+            if hasattr(attribute, '__get__'):
+                return attribute.__get__(self, type(self))  # type: ignore
+    
+            try:
+                # Note: self.__pydantic_private__ cannot be None if self.__private_attributes__ has items
+                return self.__pydantic_private__[item]  # type: ignore
+            except KeyError as exc:
+                raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}') from exc
+        else:
+            # `__pydantic_extra__` can fail to be set if the model is not yet fully initialized.
+            # See `BaseModel.__repr_args__` for more details
+            try:
+                pydantic_extra = object.__getattribute__(self, '__pydantic_extra__')
+            except AttributeError:
+                pydantic_extra = None
+    
+            if pydantic_extra and item in pydantic_extra:
+                return pydantic_extra[item]
+            else:
+                if hasattr(self.__class__, item):
+                    return super().__getattribute__(item)  # Raises AttributeError if appropriate
+                else:
+                    # this is the current error
+>                   raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')
+E                   AttributeError: 'Settings' object has no attribute 'local_admin_login_enabled'
+
+app\backend\.venv\Lib\site-packages\pydantic\main.py:1042: AttributeError
+________ test_local_admin_cannot_be_enabled_outside_development[test] _________
+
+environment = 'test'
+
+    @pytest.mark.parametrize("environment", ["test", "staging", "production"])
+    def test_local_admin_cannot_be_enabled_outside_development(environment: str) -> None:
+>       with pytest.raises(ValidationError, match="local_admin_login_enabled"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValidationError
+
+app\backend\tests\unit\test_local_admin_login.py:32: Failed
+_______ test_local_admin_cannot_be_enabled_outside_development[staging] _______
+
+environment = 'staging'
+
+    @pytest.mark.parametrize("environment", ["test", "staging", "production"])
+    def test_local_admin_cannot_be_enabled_outside_development(environment: str) -> None:
+>       with pytest.raises(ValidationError, match="local_admin_login_enabled"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValidationError
+
+app\backend\tests\unit\test_local_admin_login.py:32: Failed
+_____ test_local_admin_cannot_be_enabled_outside_development[production] ______
+
+environment = 'production'
+
+    @pytest.mark.parametrize("environment", ["test", "staging", "production"])
+    def test_local_admin_cannot_be_enabled_outside_development(environment: str) -> None:
+>       with pytest.raises(ValidationError, match="local_admin_login_enabled"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValidationError
+
+app\backend\tests\unit\test_local_admin_login.py:32: Failed
+___________________ test_local_admin_username_is_normalized ___________________
+
+    def test_local_admin_username_is_normalized() -> None:
+>       assert settings(local_admin_username="  Existing-Admin  ").local_admin_username == "existing-admin"
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+app\backend\tests\unit\test_local_admin_login.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Settings(environment='development', debug=False, log_level='INFO', project_name='voiceup', api_prefix='/api/voiceup/v1...2.0, cleanup_interval_seconds=3600, speaker_match_threshold=0.55, speaker_new_threshold=0.45, speaker_match_margin=0.1)
+item = 'local_admin_username'
+
+    def __getattr__(self, item: str) -> Any:
+        private_attributes = object.__getattribute__(self, '__private_attributes__')
+        if item in private_attributes:
+            attribute = private_attributes[item]
+            if hasattr(attribute, '__get__'):
+                return attribute.__get__(self, type(self))  # type: ignore
+    
+            try:
+                # Note: self.__pydantic_private__ cannot be None if self.__private_attributes__ has items
+                return self.__pydantic_private__[item]  # type: ignore
+            except KeyError as exc:
+                raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}') from exc
+        else:
+            # `__pydantic_extra__` can fail to be set if the model is not yet fully initialized.
+            # See `BaseModel.__repr_args__` for more details
+            try:
+                pydantic_extra = object.__getattribute__(self, '__pydantic_extra__')
+            except AttributeError:
+                pydantic_extra = None
+    
+            if pydantic_extra and item in pydantic_extra:
+                return pydantic_extra[item]
+            else:
+                if hasattr(self.__class__, item):
+                    return super().__getattribute__(item)  # Raises AttributeError if appropriate
+                else:
+                    # this is the current error
+>                   raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')
+E                   AttributeError: 'Settings' object has no attribute 'local_admin_username'
+
+app\backend\.venv\Lib\site-packages\pydantic\main.py:1042: AttributeError
+_ test_options_permit_only_explicit_local_requests[http://127.0.0.1:8081-headers0] _
+
+application = <fastapi.applications.FastAPI object at 0x000001D5C6E01810>
+base_url = 'http://127.0.0.1:8081', headers = {}
+
+    @pytest.mark.parametrize(
+        ("base_url", "headers"),
+        [
+            ("http://127.0.0.1:8081", {}),
+            ("http://localhost:8081", {"Origin": "http://localhost:8081"}),
+            ("http://[::1]:8081", {"Origin": "http://[::1]:8081"}),
+            ("https://localhost", {"Origin": "https://localhost:443"}),
+            (
+                "http://127.0.0.1:8081",
+                {"Origin": "http://127.0.0.1:8081", "Sec-Fetch-Site": "same-origin"},
+            ),
+        ],
+    )
+    async def test_options_permit_only_explicit_local_requests(application, base_url, headers) -> None:
+        async with AsyncClient(transport=ASGITransport(app=application), base_url=base_url) as client:
+            response = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+>       assert response.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = <Response [400 Bad Request]>.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:69: AssertionError
+---------------------------- Captured stdout call -----------------------------
+{"duration_ms":0.404,"http_method":"GET","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"c78c5455-e8b7-4356-bacf-ffd9bd5b1ebf","timestamp":"2026-09-10T09:12:49.245961+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: GET http://127.0.0.1:8081/api/voiceup/v1/auth/options \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.246574+00:00"}
+------------------------------ Captured log call ------------------------------
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: GET http://127.0.0.1:8081/api/voiceup/v1/auth/options "HTTP/1.1 400 Bad Request"
+_ test_options_permit_only_explicit_local_requests[http://localhost:8081-headers1] _
+
+application = <fastapi.applications.FastAPI object at 0x000001D5C6E01E50>
+base_url = 'http://localhost:8081'
+headers = {'Origin': 'http://localhost:8081'}
+
+    @pytest.mark.parametrize(
+        ("base_url", "headers"),
+        [
+            ("http://127.0.0.1:8081", {}),
+            ("http://localhost:8081", {"Origin": "http://localhost:8081"}),
+            ("http://[::1]:8081", {"Origin": "http://[::1]:8081"}),
+            ("https://localhost", {"Origin": "https://localhost:443"}),
+            (
+                "http://127.0.0.1:8081",
+                {"Origin": "http://127.0.0.1:8081", "Sec-Fetch-Site": "same-origin"},
+            ),
+        ],
+    )
+    async def test_options_permit_only_explicit_local_requests(application, base_url, headers) -> None:
+        async with AsyncClient(transport=ASGITransport(app=application), base_url=base_url) as client:
+            response = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+>       assert response.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = <Response [400 Bad Request]>.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:69: AssertionError
+---------------------------- Captured stdout call -----------------------------
+{"duration_ms":0.239,"http_method":"GET","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"f8e8aefc-97eb-4d05-b128-4b19a21078d8","timestamp":"2026-09-10T09:12:49.253105+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: GET http://localhost:8081/api/voiceup/v1/auth/options \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.253455+00:00"}
+------------------------------ Captured log call ------------------------------
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: GET http://localhost:8081/api/voiceup/v1/auth/options "HTTP/1.1 400 Bad Request"
+_ test_options_permit_only_explicit_local_requests[http://[::1]:8081-headers2] _
+
+application = <fastapi.applications.FastAPI object at 0x000001D5C6E02710>
+base_url = 'http://[::1]:8081', headers = {'Origin': 'http://[::1]:8081'}
+
+    @pytest.mark.parametrize(
+        ("base_url", "headers"),
+        [
+            ("http://127.0.0.1:8081", {}),
+            ("http://localhost:8081", {"Origin": "http://localhost:8081"}),
+            ("http://[::1]:8081", {"Origin": "http://[::1]:8081"}),
+            ("https://localhost", {"Origin": "https://localhost:443"}),
+            (
+                "http://127.0.0.1:8081",
+                {"Origin": "http://127.0.0.1:8081", "Sec-Fetch-Site": "same-origin"},
+            ),
+        ],
+    )
+    async def test_options_permit_only_explicit_local_requests(application, base_url, headers) -> None:
+        async with AsyncClient(transport=ASGITransport(app=application), base_url=base_url) as client:
+            response = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+>       assert response.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = <Response [400 Bad Request]>.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:69: AssertionError
+---------------------------- Captured stdout call -----------------------------
+{"duration_ms":0.209,"http_method":"GET","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"5d4aef82-0c18-42e6-ac7b-9864be21c1f9","timestamp":"2026-09-10T09:12:49.260597+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: GET http://[::1]:8081/api/voiceup/v1/auth/options \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.260897+00:00"}
+------------------------------ Captured log call ------------------------------
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: GET http://[::1]:8081/api/voiceup/v1/auth/options "HTTP/1.1 400 Bad Request"
+_ test_options_permit_only_explicit_local_requests[https://localhost-headers3] _
+
+application = <fastapi.applications.FastAPI object at 0x000001D5C6E039D0>
+base_url = 'https://localhost', headers = {'Origin': 'https://localhost:443'}
+
+    @pytest.mark.parametrize(
+        ("base_url", "headers"),
+        [
+            ("http://127.0.0.1:8081", {}),
+            ("http://localhost:8081", {"Origin": "http://localhost:8081"}),
+            ("http://[::1]:8081", {"Origin": "http://[::1]:8081"}),
+            ("https://localhost", {"Origin": "https://localhost:443"}),
+            (
+                "http://127.0.0.1:8081",
+                {"Origin": "http://127.0.0.1:8081", "Sec-Fetch-Site": "same-origin"},
+            ),
+        ],
+    )
+    async def test_options_permit_only_explicit_local_requests(application, base_url, headers) -> None:
+        async with AsyncClient(transport=ASGITransport(app=application), base_url=base_url) as client:
+            response = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+>       assert response.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = <Response [400 Bad Request]>.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:69: AssertionError
+---------------------------- Captured stdout call -----------------------------
+{"duration_ms":0.184,"http_method":"GET","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"38c02d32-cd90-45f9-af2e-4a9648751474","timestamp":"2026-09-10T09:12:49.266971+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: GET https://localhost/api/voiceup/v1/auth/options \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.267252+00:00"}
+------------------------------ Captured log call ------------------------------
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: GET https://localhost/api/voiceup/v1/auth/options "HTTP/1.1 400 Bad Request"
+_ test_options_permit_only_explicit_local_requests[http://127.0.0.1:8081-headers4] _
+
+application = <fastapi.applications.FastAPI object at 0x000001D5C6E02FD0>
+base_url = 'http://127.0.0.1:8081'
+headers = {'Origin': 'http://127.0.0.1:8081', 'Sec-Fetch-Site': 'same-origin'}
+
+    @pytest.mark.parametrize(
+        ("base_url", "headers"),
+        [
+            ("http://127.0.0.1:8081", {}),
+            ("http://localhost:8081", {"Origin": "http://localhost:8081"}),
+            ("http://[::1]:8081", {"Origin": "http://[::1]:8081"}),
+            ("https://localhost", {"Origin": "https://localhost:443"}),
+            (
+                "http://127.0.0.1:8081",
+                {"Origin": "http://127.0.0.1:8081", "Sec-Fetch-Site": "same-origin"},
+            ),
+        ],
+    )
+    async def test_options_permit_only_explicit_local_requests(application, base_url, headers) -> None:
+        async with AsyncClient(transport=ASGITransport(app=application), base_url=base_url) as client:
+            response = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+>       assert response.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = <Response [400 Bad Request]>.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:69: AssertionError
+---------------------------- Captured stdout call -----------------------------
+{"duration_ms":0.176,"http_method":"GET","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"62052846-24ca-4156-b78a-af5ea9a0ebb1","timestamp":"2026-09-10T09:12:49.273736+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: GET http://127.0.0.1:8081/api/voiceup/v1/auth/options \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.274034+00:00"}
+------------------------------ Captured log call ------------------------------
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: GET http://127.0.0.1:8081/api/voiceup/v1/auth/options "HTTP/1.1 400 Bad Request"
+_______ test_nonlocal_requests_hide_options_and_cannot_login[headers0] ________
+
+application = <fastapi.applications.FastAPI object at 0x000001D5C6E02350>
+headers = {'Host': 'example.test:8081'}
+
+    @pytest.mark.parametrize("headers", REJECTED_HEADERS)
+    async def test_nonlocal_requests_hide_options_and_cannot_login(application, headers) -> None:
+        async with AsyncClient(
+            transport=ASGITransport(app=application), base_url="http://127.0.0.1:8081"
+        ) as client:
+            options = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+            login = await client.post("/api/voiceup/v1/auth/local-admin", headers=headers)
+>       assert options.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = <Response [400 Bad Request]>.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:106: AssertionError
+---------------------------- Captured stdout call -----------------------------
+{"duration_ms":0.177,"http_method":"GET","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"cf10a0c2-f865-4358-a7ec-31753ba41a83","timestamp":"2026-09-10T09:12:49.280259+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: GET http://127.0.0.1:8081/api/voiceup/v1/auth/options \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.280557+00:00"}
+{"duration_ms":0.125,"http_method":"POST","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"b7255b94-a133-4a58-be5b-4477fc4e7916","timestamp":"2026-09-10T09:12:49.281353+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: POST http://127.0.0.1:8081/api/voiceup/v1/auth/local-admin \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.282010+00:00"}
+------------------------------ Captured log call ------------------------------
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: GET http://127.0.0.1:8081/api/voiceup/v1/auth/options "HTTP/1.1 400 Bad Request"
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: POST http://127.0.0.1:8081/api/voiceup/v1/auth/local-admin "HTTP/1.1 400 Bad Request"
+_______ test_nonlocal_requests_hide_options_and_cannot_login[headers1] ________
+
+application = <fastapi.applications.FastAPI object at 0x000001D5C6E02FD0>
+headers = {'Host': '127.0.0.1.example.test:8081'}
+
+    @pytest.mark.parametrize("headers", REJECTED_HEADERS)
+    async def test_nonlocal_requests_hide_options_and_cannot_login(application, headers) -> None:
+        async with AsyncClient(
+            transport=ASGITransport(app=application), base_url="http://127.0.0.1:8081"
+        ) as client:
+            options = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+            login = await client.post("/api/voiceup/v1/auth/local-admin", headers=headers)
+>       assert options.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = <Response [400 Bad Request]>.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:106: AssertionError
+---------------------------- Captured stdout call -----------------------------
+{"duration_ms":0.174,"http_method":"GET","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"955b2fa2-2128-4275-ae21-1b8e6554651f","timestamp":"2026-09-10T09:12:49.288145+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: GET http://127.0.0.1:8081/api/voiceup/v1/auth/options \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.288431+00:00"}
+{"duration_ms":0.127,"http_method":"POST","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"f0000f9b-8470-44dc-8f08-ab979f1f5b31","timestamp":"2026-09-10T09:12:49.289212+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: POST http://127.0.0.1:8081/api/voiceup/v1/auth/local-admin \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.289411+00:00"}
+------------------------------ Captured log call ------------------------------
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: GET http://127.0.0.1:8081/api/voiceup/v1/auth/options "HTTP/1.1 400 Bad Request"
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: POST http://127.0.0.1:8081/api/voiceup/v1/auth/local-admin "HTTP/1.1 400 Bad Request"
+_______ test_nonlocal_requests_hide_options_and_cannot_login[headers2] ________
+
+application = <fastapi.applications.FastAPI object at 0x000001D5C6E02C10>
+headers = {'Host': 'localhost:0'}
+
+    @pytest.mark.parametrize("headers", REJECTED_HEADERS)
+    async def test_nonlocal_requests_hide_options_and_cannot_login(application, headers) -> None:
+        async with AsyncClient(
+            transport=ASGITransport(app=application), base_url="http://127.0.0.1:8081"
+        ) as client:
+            options = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+            login = await client.post("/api/voiceup/v1/auth/local-admin", headers=headers)
+>       assert options.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = <Response [400 Bad Request]>.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:106: AssertionError
+---------------------------- Captured stdout call -----------------------------
+{"duration_ms":0.181,"http_method":"GET","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"b71c7d86-f911-472d-9767-626c30757b43","timestamp":"2026-09-10T09:12:49.295794+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: GET http://127.0.0.1:8081/api/voiceup/v1/auth/options \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.296092+00:00"}
+{"duration_ms":0.124,"http_method":"POST","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"0769c490-eccc-4785-9ac6-b60a186bc938","timestamp":"2026-09-10T09:12:49.296880+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: POST http://127.0.0.1:8081/api/voiceup/v1/auth/local-admin \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.297059+00:00"}
+------------------------------ Captured log call ------------------------------
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: GET http://127.0.0.1:8081/api/voiceup/v1/auth/options "HTTP/1.1 400 Bad Request"
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: POST http://127.0.0.1:8081/api/voiceup/v1/auth/local-admin "HTTP/1.1 400 Bad Request"
+_______ test_nonlocal_requests_hide_options_and_cannot_login[headers3] ________
+
+application = <fastapi.applications.FastAPI object at 0x000001D5C6E02FD0>
+headers = {'Host': 'localhost:65536'}
+
+    @pytest.mark.parametrize("headers", REJECTED_HEADERS)
+    async def test_nonlocal_requests_hide_options_and_cannot_login(application, headers) -> None:
+        async with AsyncClient(
+            transport=ASGITransport(app=application), base_url="http://127.0.0.1:8081"
+        ) as client:
+            options = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+            login = await client.post("/api/voiceup/v1/auth/local-admin", headers=headers)
+>       assert options.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = <Response [400 Bad Request]>.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:106: AssertionError
+---------------------------- Captured stdout call -----------------------------
+{"duration_ms":0.183,"http_method":"GET","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"7447dc58-78c4-4f93-b7b0-2cf93c96fd12","timestamp":"2026-09-10T09:12:49.303204+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: GET http://127.0.0.1:8081/api/voiceup/v1/auth/options \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.303501+00:00"}
+{"duration_ms":0.145,"http_method":"POST","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"fd7654d8-5a7f-42ba-9074-fa71ac8a329e","timestamp":"2026-09-10T09:12:49.304428+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: POST http://127.0.0.1:8081/api/voiceup/v1/auth/local-admin \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.304633+00:00"}
+------------------------------ Captured log call ------------------------------
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: GET http://127.0.0.1:8081/api/voiceup/v1/auth/options "HTTP/1.1 400 Bad Request"
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: POST http://127.0.0.1:8081/api/voiceup/v1/auth/local-admin "HTTP/1.1 400 Bad Request"
+_______ test_nonlocal_requests_hide_options_and_cannot_login[headers4] ________
+
+application = <fastapi.applications.FastAPI object at 0x000001D5C6E02710>
+headers = {'Host': 'localhost:'}
+
+    @pytest.mark.parametrize("headers", REJECTED_HEADERS)
+    async def test_nonlocal_requests_hide_options_and_cannot_login(application, headers) -> None:
+        async with AsyncClient(
+            transport=ASGITransport(app=application), base_url="http://127.0.0.1:8081"
+        ) as client:
+            options = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+            login = await client.post("/api/voiceup/v1/auth/local-admin", headers=headers)
+>       assert options.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = <Response [400 Bad Request]>.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:106: AssertionError
+---------------------------- Captured stdout call -----------------------------
+{"duration_ms":0.168,"http_method":"GET","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"9a9b8272-2753-4f0c-8979-e3dbd7203fab","timestamp":"2026-09-10T09:12:49.311000+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: GET http://127.0.0.1:8081/api/voiceup/v1/auth/options \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.311276+00:00"}
+{"duration_ms":0.125,"http_method":"POST","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"50beefa0-507c-4506-bfd2-99e3ed285cde","timestamp":"2026-09-10T09:12:49.312004+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: POST http://127.0.0.1:8081/api/voiceup/v1/auth/local-admin \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.312350+00:00"}
+------------------------------ Captured log call ------------------------------
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: GET http://127.0.0.1:8081/api/voiceup/v1/auth/options "HTTP/1.1 400 Bad Request"
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: POST http://127.0.0.1:8081/api/voiceup/v1/auth/local-admin "HTTP/1.1 400 Bad Request"
+_______ test_nonlocal_requests_hide_options_and_cannot_login[headers5] ________
+
+application = <fastapi.applications.FastAPI object at 0x000001D5C6E02FD0>
+headers = {'Host': 'user@localhost:8081'}
+
+    @pytest.mark.parametrize("headers", REJECTED_HEADERS)
+    async def test_nonlocal_requests_hide_options_and_cannot_login(application, headers) -> None:
+        async with AsyncClient(
+            transport=ASGITransport(app=application), base_url="http://127.0.0.1:8081"
+        ) as client:
+            options = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+            login = await client.post("/api/voiceup/v1/auth/local-admin", headers=headers)
+>       assert options.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = <Response [400 Bad Request]>.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:106: AssertionError
+---------------------------- Captured stdout call -----------------------------
+{"duration_ms":0.2,"http_method":"GET","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"b5cfa3dd-9c74-47e8-b4b4-6f1c029db88e","timestamp":"2026-09-10T09:12:49.318289+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: GET http://127.0.0.1:8081/api/voiceup/v1/auth/options \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.318637+00:00"}
+{"duration_ms":0.16,"http_method":"POST","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"405fc984-537c-4e58-ba90-ee5070476def","timestamp":"2026-09-10T09:12:49.319695+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: POST http://127.0.0.1:8081/api/voiceup/v1/auth/local-admin \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.319918+00:00"}
+------------------------------ Captured log call ------------------------------
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: GET http://127.0.0.1:8081/api/voiceup/v1/auth/options "HTTP/1.1 400 Bad Request"
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: POST http://127.0.0.1:8081/api/voiceup/v1/auth/local-admin "HTTP/1.1 400 Bad Request"
+_______ test_nonlocal_requests_hide_options_and_cannot_login[headers6] ________
+
+application = <fastapi.applications.FastAPI object at 0x000001D5C6E02490>
+headers = {'Host': 'localhost:8081/path'}
+
+    @pytest.mark.parametrize("headers", REJECTED_HEADERS)
+    async def test_nonlocal_requests_hide_options_and_cannot_login(application, headers) -> None:
+        async with AsyncClient(
+            transport=ASGITransport(app=application), base_url="http://127.0.0.1:8081"
+        ) as client:
+            options = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+            login = await client.post("/api/voiceup/v1/auth/local-admin", headers=headers)
+>       assert options.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = <Response [400 Bad Request]>.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:106: AssertionError
+---------------------------- Captured stdout call -----------------------------
+{"duration_ms":0.184,"http_method":"GET","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"3b1fd383-1b56-44f6-b68a-f405e2f08e50","timestamp":"2026-09-10T09:12:49.326567+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: GET http://127.0.0.1:8081/api/voiceup/v1/auth/options \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.326934+00:00"}
+{"duration_ms":0.174,"http_method":"POST","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"a9984515-add4-4050-8b60-5ec44349b704","timestamp":"2026-09-10T09:12:49.328185+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: POST http://127.0.0.1:8081/api/voiceup/v1/auth/local-admin \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.328450+00:00"}
+------------------------------ Captured log call ------------------------------
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: GET http://127.0.0.1:8081/api/voiceup/v1/auth/options "HTTP/1.1 400 Bad Request"
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: POST http://127.0.0.1:8081/api/voiceup/v1/auth/local-admin "HTTP/1.1 400 Bad Request"
+_______ test_nonlocal_requests_hide_options_and_cannot_login[headers7] ________
+
+application = <fastapi.applications.FastAPI object at 0x000001D5C6E02FD0>
+headers = {'Origin': 'null'}
+
+    @pytest.mark.parametrize("headers", REJECTED_HEADERS)
+    async def test_nonlocal_requests_hide_options_and_cannot_login(application, headers) -> None:
+        async with AsyncClient(
+            transport=ASGITransport(app=application), base_url="http://127.0.0.1:8081"
+        ) as client:
+            options = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+            login = await client.post("/api/voiceup/v1/auth/local-admin", headers=headers)
+>       assert options.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = <Response [400 Bad Request]>.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:106: AssertionError
+---------------------------- Captured stdout call -----------------------------
+{"duration_ms":0.209,"http_method":"GET","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"f559c03e-1b87-4067-8b4e-b367a9f85230","timestamp":"2026-09-10T09:12:49.337738+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: GET http://127.0.0.1:8081/api/voiceup/v1/auth/options \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.338139+00:00"}
+{"duration_ms":0.154,"http_method":"POST","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"b880be27-e955-45bd-8ebb-bd8b42f7c188","timestamp":"2026-09-10T09:12:49.339120+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: POST http://127.0.0.1:8081/api/voiceup/v1/auth/local-admin \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.339350+00:00"}
+------------------------------ Captured log call ------------------------------
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: GET http://127.0.0.1:8081/api/voiceup/v1/auth/options "HTTP/1.1 400 Bad Request"
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: POST http://127.0.0.1:8081/api/voiceup/v1/auth/local-admin "HTTP/1.1 400 Bad Request"
+_______ test_nonlocal_requests_hide_options_and_cannot_login[headers8] ________
+
+application = <fastapi.applications.FastAPI object at 0x000001D5C6E02C10>
+headers = {'Origin': 'http://example.test:8081'}
+
+    @pytest.mark.parametrize("headers", REJECTED_HEADERS)
+    async def test_nonlocal_requests_hide_options_and_cannot_login(application, headers) -> None:
+        async with AsyncClient(
+            transport=ASGITransport(app=application), base_url="http://127.0.0.1:8081"
+        ) as client:
+            options = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+            login = await client.post("/api/voiceup/v1/auth/local-admin", headers=headers)
+>       assert options.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = <Response [400 Bad Request]>.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:106: AssertionError
+---------------------------- Captured stdout call -----------------------------
+{"duration_ms":0.206,"http_method":"GET","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"c27fa032-d5f5-4262-b928-ae74bd33d1a5","timestamp":"2026-09-10T09:12:49.345850+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: GET http://127.0.0.1:8081/api/voiceup/v1/auth/options \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.346210+00:00"}
+{"duration_ms":0.178,"http_method":"POST","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"905c103e-5267-4502-98c5-e48de092060c","timestamp":"2026-09-10T09:12:49.347147+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: POST http://127.0.0.1:8081/api/voiceup/v1/auth/local-admin \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.347382+00:00"}
+------------------------------ Captured log call ------------------------------
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: GET http://127.0.0.1:8081/api/voiceup/v1/auth/options "HTTP/1.1 400 Bad Request"
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: POST http://127.0.0.1:8081/api/voiceup/v1/auth/local-admin "HTTP/1.1 400 Bad Request"
+_______ test_nonlocal_requests_hide_options_and_cannot_login[headers9] ________
+
+application = <fastapi.applications.FastAPI object at 0x000001D5C6E02350>
+headers = {'Origin': 'http://127.0.0.1:8082'}
+
+    @pytest.mark.parametrize("headers", REJECTED_HEADERS)
+    async def test_nonlocal_requests_hide_options_and_cannot_login(application, headers) -> None:
+        async with AsyncClient(
+            transport=ASGITransport(app=application), base_url="http://127.0.0.1:8081"
+        ) as client:
+            options = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+            login = await client.post("/api/voiceup/v1/auth/local-admin", headers=headers)
+>       assert options.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = <Response [400 Bad Request]>.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:106: AssertionError
+---------------------------- Captured stdout call -----------------------------
+{"duration_ms":0.184,"http_method":"GET","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"5b20697d-8961-40a4-8cf9-6da4a788a55a","timestamp":"2026-09-10T09:12:49.353931+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: GET http://127.0.0.1:8081/api/voiceup/v1/auth/options \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.354293+00:00"}
+{"duration_ms":0.153,"http_method":"POST","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"a71a36e4-35dc-4d07-a268-49ec657e48eb","timestamp":"2026-09-10T09:12:49.355159+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: POST http://127.0.0.1:8081/api/voiceup/v1/auth/local-admin \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.355365+00:00"}
+------------------------------ Captured log call ------------------------------
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: GET http://127.0.0.1:8081/api/voiceup/v1/auth/options "HTTP/1.1 400 Bad Request"
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: POST http://127.0.0.1:8081/api/voiceup/v1/auth/local-admin "HTTP/1.1 400 Bad Request"
+_______ test_nonlocal_requests_hide_options_and_cannot_login[headers10] _______
+
+application = <fastapi.applications.FastAPI object at 0x000001D5C6E02C10>
+headers = {'Origin': 'https://127.0.0.1:8081'}
+
+    @pytest.mark.parametrize("headers", REJECTED_HEADERS)
+    async def test_nonlocal_requests_hide_options_and_cannot_login(application, headers) -> None:
+        async with AsyncClient(
+            transport=ASGITransport(app=application), base_url="http://127.0.0.1:8081"
+        ) as client:
+            options = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+            login = await client.post("/api/voiceup/v1/auth/local-admin", headers=headers)
+>       assert options.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = <Response [400 Bad Request]>.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:106: AssertionError
+---------------------------- Captured stdout call -----------------------------
+{"duration_ms":0.187,"http_method":"GET","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"02b32c50-e2a8-4692-87ee-624f65df117c","timestamp":"2026-09-10T09:12:49.363400+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: GET http://127.0.0.1:8081/api/voiceup/v1/auth/options \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.363698+00:00"}
+{"duration_ms":0.137,"http_method":"POST","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"1afdc175-5638-4d70-9319-1bec9c9a712e","timestamp":"2026-09-10T09:12:49.364538+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: POST http://127.0.0.1:8081/api/voiceup/v1/auth/local-admin \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.364752+00:00"}
+------------------------------ Captured log call ------------------------------
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: GET http://127.0.0.1:8081/api/voiceup/v1/auth/options "HTTP/1.1 400 Bad Request"
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: POST http://127.0.0.1:8081/api/voiceup/v1/auth/local-admin "HTTP/1.1 400 Bad Request"
+_______ test_nonlocal_requests_hide_options_and_cannot_login[headers11] _______
+
+application = <fastapi.applications.FastAPI object at 0x000001D5C6E02FD0>
+headers = {'Origin': 'http://localhost:8081'}
+
+    @pytest.mark.parametrize("headers", REJECTED_HEADERS)
+    async def test_nonlocal_requests_hide_options_and_cannot_login(application, headers) -> None:
+        async with AsyncClient(
+            transport=ASGITransport(app=application), base_url="http://127.0.0.1:8081"
+        ) as client:
+            options = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+            login = await client.post("/api/voiceup/v1/auth/local-admin", headers=headers)
+>       assert options.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = <Response [400 Bad Request]>.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:106: AssertionError
+---------------------------- Captured stdout call -----------------------------
+{"duration_ms":0.186,"http_method":"GET","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"dac5efdd-9b77-452d-9f37-80e6aa807b38","timestamp":"2026-09-10T09:12:49.371126+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: GET http://127.0.0.1:8081/api/voiceup/v1/auth/options \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.371438+00:00"}
+{"duration_ms":0.148,"http_method":"POST","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"721d41ab-ffe1-46bd-b806-80288ed1f666","timestamp":"2026-09-10T09:12:49.372307+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: POST http://127.0.0.1:8081/api/voiceup/v1/auth/local-admin \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.372531+00:00"}
+------------------------------ Captured log call ------------------------------
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: GET http://127.0.0.1:8081/api/voiceup/v1/auth/options "HTTP/1.1 400 Bad Request"
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: POST http://127.0.0.1:8081/api/voiceup/v1/auth/local-admin "HTTP/1.1 400 Bad Request"
+_______ test_nonlocal_requests_hide_options_and_cannot_login[headers12] _______
+
+application = <fastapi.applications.FastAPI object at 0x000001D5C6E039D0>
+headers = {'Origin': 'http://127.0.0.1:8081/'}
+
+    @pytest.mark.parametrize("headers", REJECTED_HEADERS)
+    async def test_nonlocal_requests_hide_options_and_cannot_login(application, headers) -> None:
+        async with AsyncClient(
+            transport=ASGITransport(app=application), base_url="http://127.0.0.1:8081"
+        ) as client:
+            options = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+            login = await client.post("/api/voiceup/v1/auth/local-admin", headers=headers)
+>       assert options.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = <Response [400 Bad Request]>.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:106: AssertionError
+---------------------------- Captured stdout call -----------------------------
+{"duration_ms":0.26,"http_method":"GET","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"8691ae6d-bf89-48d1-8702-4ccac3fe028a","timestamp":"2026-09-10T09:12:49.379280+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: GET http://127.0.0.1:8081/api/voiceup/v1/auth/options \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.379607+00:00"}
+{"duration_ms":0.13,"http_method":"POST","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"f2cb0957-b4b8-4faf-8a36-0a25da88c64d","timestamp":"2026-09-10T09:12:49.380387+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: POST http://127.0.0.1:8081/api/voiceup/v1/auth/local-admin \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.380581+00:00"}
+------------------------------ Captured log call ------------------------------
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: GET http://127.0.0.1:8081/api/voiceup/v1/auth/options "HTTP/1.1 400 Bad Request"
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: POST http://127.0.0.1:8081/api/voiceup/v1/auth/local-admin "HTTP/1.1 400 Bad Request"
+_______ test_nonlocal_requests_hide_options_and_cannot_login[headers13] _______
+
+application = <fastapi.applications.FastAPI object at 0x000001D5C6E02FD0>
+headers = {'Origin': 'http://user@127.0.0.1:8081'}
+
+    @pytest.mark.parametrize("headers", REJECTED_HEADERS)
+    async def test_nonlocal_requests_hide_options_and_cannot_login(application, headers) -> None:
+        async with AsyncClient(
+            transport=ASGITransport(app=application), base_url="http://127.0.0.1:8081"
+        ) as client:
+            options = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+            login = await client.post("/api/voiceup/v1/auth/local-admin", headers=headers)
+>       assert options.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = <Response [400 Bad Request]>.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:106: AssertionError
+---------------------------- Captured stdout call -----------------------------
+{"duration_ms":0.189,"http_method":"GET","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"15aa9bf0-b9e9-4c2e-9c8f-07ed0b2a34a5","timestamp":"2026-09-10T09:12:49.386825+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: GET http://127.0.0.1:8081/api/voiceup/v1/auth/options \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.387125+00:00"}
+{"duration_ms":0.128,"http_method":"POST","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"c3dc4215-9f3e-434b-85cc-8b9d57f5e9e5","timestamp":"2026-09-10T09:12:49.387953+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: POST http://127.0.0.1:8081/api/voiceup/v1/auth/local-admin \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.388149+00:00"}
+------------------------------ Captured log call ------------------------------
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: GET http://127.0.0.1:8081/api/voiceup/v1/auth/options "HTTP/1.1 400 Bad Request"
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: POST http://127.0.0.1:8081/api/voiceup/v1/auth/local-admin "HTTP/1.1 400 Bad Request"
+_______ test_nonlocal_requests_hide_options_and_cannot_login[headers14] _______
+
+application = <fastapi.applications.FastAPI object at 0x000001D5C6E02710>
+headers = {'Origin': 'http://127.0.0.1:8081?value=1'}
+
+    @pytest.mark.parametrize("headers", REJECTED_HEADERS)
+    async def test_nonlocal_requests_hide_options_and_cannot_login(application, headers) -> None:
+        async with AsyncClient(
+            transport=ASGITransport(app=application), base_url="http://127.0.0.1:8081"
+        ) as client:
+            options = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+            login = await client.post("/api/voiceup/v1/auth/local-admin", headers=headers)
+>       assert options.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = <Response [400 Bad Request]>.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:106: AssertionError
+---------------------------- Captured stdout call -----------------------------
+{"duration_ms":0.161,"http_method":"GET","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"62e00404-0605-4b23-8bd7-d4a8c3cf5d57","timestamp":"2026-09-10T09:12:49.393716+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: GET http://127.0.0.1:8081/api/voiceup/v1/auth/options \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.394068+00:00"}
+{"duration_ms":0.152,"http_method":"POST","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"7e33ed2a-2966-4c34-9616-9ecf11c5022f","timestamp":"2026-09-10T09:12:49.395133+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: POST http://127.0.0.1:8081/api/voiceup/v1/auth/local-admin \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.395355+00:00"}
+------------------------------ Captured log call ------------------------------
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: GET http://127.0.0.1:8081/api/voiceup/v1/auth/options "HTTP/1.1 400 Bad Request"
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: POST http://127.0.0.1:8081/api/voiceup/v1/auth/local-admin "HTTP/1.1 400 Bad Request"
+_______ test_nonlocal_requests_hide_options_and_cannot_login[headers15] _______
+
+application = <fastapi.applications.FastAPI object at 0x000001D5C6E02FD0>
+headers = {'Sec-Fetch-Site': 'cross-site'}
+
+    @pytest.mark.parametrize("headers", REJECTED_HEADERS)
+    async def test_nonlocal_requests_hide_options_and_cannot_login(application, headers) -> None:
+        async with AsyncClient(
+            transport=ASGITransport(app=application), base_url="http://127.0.0.1:8081"
+        ) as client:
+            options = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+            login = await client.post("/api/voiceup/v1/auth/local-admin", headers=headers)
+>       assert options.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = <Response [400 Bad Request]>.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:106: AssertionError
+---------------------------- Captured stdout call -----------------------------
+{"duration_ms":0.172,"http_method":"GET","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"1427b6a5-bb5e-4dea-988a-ea39653d03ad","timestamp":"2026-09-10T09:12:49.401908+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: GET http://127.0.0.1:8081/api/voiceup/v1/auth/options \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.402226+00:00"}
+{"duration_ms":0.13,"http_method":"POST","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"38817988-70cf-41d0-9668-cb43722e1c17","timestamp":"2026-09-10T09:12:49.403024+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: POST http://127.0.0.1:8081/api/voiceup/v1/auth/local-admin \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.403238+00:00"}
+------------------------------ Captured log call ------------------------------
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: GET http://127.0.0.1:8081/api/voiceup/v1/auth/options "HTTP/1.1 400 Bad Request"
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: POST http://127.0.0.1:8081/api/voiceup/v1/auth/local-admin "HTTP/1.1 400 Bad Request"
+_______ test_nonlocal_requests_hide_options_and_cannot_login[headers16] _______
+
+application = <fastapi.applications.FastAPI object at 0x000001D5C6E02C10>
+headers = {'Sec-Fetch-Site': 'same-site'}
+
+    @pytest.mark.parametrize("headers", REJECTED_HEADERS)
+    async def test_nonlocal_requests_hide_options_and_cannot_login(application, headers) -> None:
+        async with AsyncClient(
+            transport=ASGITransport(app=application), base_url="http://127.0.0.1:8081"
+        ) as client:
+            options = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+            login = await client.post("/api/voiceup/v1/auth/local-admin", headers=headers)
+>       assert options.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = <Response [400 Bad Request]>.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:106: AssertionError
+---------------------------- Captured stdout call -----------------------------
+{"duration_ms":0.149,"http_method":"GET","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"6115b8d1-2a1e-41e1-98f0-59c4fdcd8f3d","timestamp":"2026-09-10T09:12:49.408819+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: GET http://127.0.0.1:8081/api/voiceup/v1/auth/options \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.409092+00:00"}
+{"duration_ms":0.115,"http_method":"POST","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"fa45d6df-e976-419e-a213-68898ce44100","timestamp":"2026-09-10T09:12:49.409875+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: POST http://127.0.0.1:8081/api/voiceup/v1/auth/local-admin \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.410062+00:00"}
+------------------------------ Captured log call ------------------------------
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: GET http://127.0.0.1:8081/api/voiceup/v1/auth/options "HTTP/1.1 400 Bad Request"
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: POST http://127.0.0.1:8081/api/voiceup/v1/auth/local-admin "HTTP/1.1 400 Bad Request"
+_______ test_nonlocal_requests_hide_options_and_cannot_login[headers17] _______
+
+application = <fastapi.applications.FastAPI object at 0x000001D5C6E02FD0>
+headers = {'Sec-Fetch-Site': 'none'}
+
+    @pytest.mark.parametrize("headers", REJECTED_HEADERS)
+    async def test_nonlocal_requests_hide_options_and_cannot_login(application, headers) -> None:
+        async with AsyncClient(
+            transport=ASGITransport(app=application), base_url="http://127.0.0.1:8081"
+        ) as client:
+            options = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+            login = await client.post("/api/voiceup/v1/auth/local-admin", headers=headers)
+>       assert options.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = <Response [400 Bad Request]>.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:106: AssertionError
+---------------------------- Captured stdout call -----------------------------
+{"duration_ms":0.16,"http_method":"GET","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"62ec2033-bf14-4d4c-93f3-365301c9db9a","timestamp":"2026-09-10T09:12:49.415914+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: GET http://127.0.0.1:8081/api/voiceup/v1/auth/options \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.416207+00:00"}
+{"duration_ms":0.134,"http_method":"POST","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"2ef42485-3269-4a78-a4b0-3fb7302f60d1","timestamp":"2026-09-10T09:12:49.416990+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: POST http://127.0.0.1:8081/api/voiceup/v1/auth/local-admin \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.417193+00:00"}
+------------------------------ Captured log call ------------------------------
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: GET http://127.0.0.1:8081/api/voiceup/v1/auth/options "HTTP/1.1 400 Bad Request"
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: POST http://127.0.0.1:8081/api/voiceup/v1/auth/local-admin "HTTP/1.1 400 Bad Request"
+_______ test_nonlocal_requests_hide_options_and_cannot_login[headers18] _______
+
+application = <fastapi.applications.FastAPI object at 0x000001D5C6E025D0>
+headers = {'Sec-Fetch-Site': ''}
+
+    @pytest.mark.parametrize("headers", REJECTED_HEADERS)
+    async def test_nonlocal_requests_hide_options_and_cannot_login(application, headers) -> None:
+        async with AsyncClient(
+            transport=ASGITransport(app=application), base_url="http://127.0.0.1:8081"
+        ) as client:
+            options = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+            login = await client.post("/api/voiceup/v1/auth/local-admin", headers=headers)
+>       assert options.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = <Response [400 Bad Request]>.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:106: AssertionError
+---------------------------- Captured stdout call -----------------------------
+{"duration_ms":0.153,"http_method":"GET","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"641f486a-5845-4884-972d-2dff015006b5","timestamp":"2026-09-10T09:12:49.422843+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: GET http://127.0.0.1:8081/api/voiceup/v1/auth/options \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.423117+00:00"}
+{"duration_ms":0.115,"http_method":"POST","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"9571085b-9cd6-40a7-be49-ccb964151153","timestamp":"2026-09-10T09:12:49.423882+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: POST http://127.0.0.1:8081/api/voiceup/v1/auth/local-admin \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.424084+00:00"}
+------------------------------ Captured log call ------------------------------
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: GET http://127.0.0.1:8081/api/voiceup/v1/auth/options "HTTP/1.1 400 Bad Request"
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: POST http://127.0.0.1:8081/api/voiceup/v1/auth/local-admin "HTTP/1.1 400 Bad Request"
+_______ test_nonlocal_requests_hide_options_and_cannot_login[headers19] _______
+
+application = <fastapi.applications.FastAPI object at 0x000001D5C6E02FD0>
+headers = [('Host', '127.0.0.1:8081'), ('Host', 'localhost:8081')]
+
+    @pytest.mark.parametrize("headers", REJECTED_HEADERS)
+    async def test_nonlocal_requests_hide_options_and_cannot_login(application, headers) -> None:
+        async with AsyncClient(
+            transport=ASGITransport(app=application), base_url="http://127.0.0.1:8081"
+        ) as client:
+            options = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+            login = await client.post("/api/voiceup/v1/auth/local-admin", headers=headers)
+>       assert options.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = <Response [400 Bad Request]>.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:106: AssertionError
+---------------------------- Captured stdout call -----------------------------
+{"duration_ms":0.155,"http_method":"GET","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"c10a0c97-2a07-452e-8662-c2f373dedaa7","timestamp":"2026-09-10T09:12:49.430023+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: GET http://127.0.0.1:8081/api/voiceup/v1/auth/options \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.430295+00:00"}
+{"duration_ms":0.117,"http_method":"POST","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"94319d9d-c847-4ddb-8746-c76bd4be2162","timestamp":"2026-09-10T09:12:49.431058+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: POST http://127.0.0.1:8081/api/voiceup/v1/auth/local-admin \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.431242+00:00"}
+------------------------------ Captured log call ------------------------------
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: GET http://127.0.0.1:8081/api/voiceup/v1/auth/options "HTTP/1.1 400 Bad Request"
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: POST http://127.0.0.1:8081/api/voiceup/v1/auth/local-admin "HTTP/1.1 400 Bad Request"
+_______ test_nonlocal_requests_hide_options_and_cannot_login[headers20] _______
+
+application = <fastapi.applications.FastAPI object at 0x000001D5C6E03C50>
+headers = [('Origin', 'http://127.0.0.1:8081'), ('Origin', 'http://example.test')]
+
+    @pytest.mark.parametrize("headers", REJECTED_HEADERS)
+    async def test_nonlocal_requests_hide_options_and_cannot_login(application, headers) -> None:
+        async with AsyncClient(
+            transport=ASGITransport(app=application), base_url="http://127.0.0.1:8081"
+        ) as client:
+            options = await client.get("/api/voiceup/v1/auth/options", headers=headers)
+            login = await client.post("/api/voiceup/v1/auth/local-admin", headers=headers)
+>       assert options.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = <Response [400 Bad Request]>.status_code
+
+app\backend\tests\unit\test_local_admin_login.py:106: AssertionError
+---------------------------- Captured stdout call -----------------------------
+{"duration_ms":0.179,"http_method":"GET","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"b8c893ce-b52e-4350-813c-b49da0ce4a89","timestamp":"2026-09-10T09:12:49.437374+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: GET http://127.0.0.1:8081/api/voiceup/v1/auth/options \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.437665+00:00"}
+{"duration_ms":0.126,"http_method":"POST","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"36ee14a9-4702-4794-a1f8-1ca94169572e","timestamp":"2026-09-10T09:12:49.438426+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: POST http://127.0.0.1:8081/api/voiceup/v1/auth/local-admin \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.438618+00:00"}
+------------------------------ Captured log call ------------------------------
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: GET http://127.0.0.1:8081/api/voiceup/v1/auth/options "HTTP/1.1 400 Bad Request"
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: POST http://127.0.0.1:8081/api/voiceup/v1/auth/local-admin "HTTP/1.1 400 Bad Request"
+__________ test_disabled_mode_is_unavailable_without_database_access __________
+
+application = <fastapi.applications.FastAPI object at 0x000001D5C6E03D90>
+
+    async def test_disabled_mode_is_unavailable_without_database_access(application) -> None:
+        application.dependency_overrides[get_settings] = settings
+        async with AsyncClient(
+            transport=ASGITransport(app=application), base_url="http://127.0.0.1:8081"
+        ) as client:
+            options = await client.get("/api/voiceup/v1/auth/options")
+            login = await client.post("/api/voiceup/v1/auth/local-admin")
+>       assert options.json() == {"local_admin_login_enabled": False}
+E       AssertionError: assert {'detail': {'...er_required'}} == {'local_admin...abled': False}
+E         
+E         Left contains 1 more item:
+E         {'detail': {'code': 'tenant_header_required',
+E                     'message': 'Active tenant header is required'}}
+E         Right contains 1 more item:
+E         {'local_admin_login_enabled': False}
+E         Use -v to get more diff
+
+app\backend\tests\unit\test_local_admin_login.py:121: AssertionError
+---------------------------- Captured stdout call -----------------------------
+{"duration_ms":0.172,"http_method":"GET","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"6a165e96-bb8a-4670-bb9b-1f291a27b9ce","timestamp":"2026-09-10T09:12:49.444793+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: GET http://127.0.0.1:8081/api/voiceup/v1/auth/options \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.445117+00:00"}
+{"duration_ms":0.151,"http_method":"POST","http_route":"/api/voiceup/v1unmatched","http_status":400,"level":"INFO","logger":"app.http","message":"request.completed","request_id":"c1ef7884-0bd1-44cd-8a2c-dea188ebb795","timestamp":"2026-09-10T09:12:49.446015+00:00"}
+{"level":"INFO","logger":"httpx","message":"HTTP Request: POST http://127.0.0.1:8081/api/voiceup/v1/auth/local-admin \"HTTP/1.1 400 Bad Request\"","timestamp":"2026-09-10T09:12:49.446234+00:00"}
+------------------------------ Captured log call ------------------------------
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: GET http://127.0.0.1:8081/api/voiceup/v1/auth/options "HTTP/1.1 400 Bad Request"
+INFO     app.http:request_logging.py:41 request.completed
+INFO     httpx:_client.py:1740 HTTP Request: POST http://127.0.0.1:8081/api/voiceup/v1/auth/local-admin "HTTP/1.1 400 Bad Request"
+=========================== short test summary info ===========================
+FAILED app\backend\tests\unit\test_local_admin_login.py::test_local_admin_is_disabled_by_default
+FAILED app\backend\tests\unit\test_local_admin_login.py::test_local_admin_cannot_be_enabled_outside_development[test]
+FAILED app\backend\tests\unit\test_local_admin_login.py::test_local_admin_cannot_be_enabled_outside_development[staging]
+FAILED app\backend\tests\unit\test_local_admin_login.py::test_local_admin_cannot_be_enabled_outside_development[production]
+FAILED app\backend\tests\unit\test_local_admin_login.py::test_local_admin_username_is_normalized
+FAILED app\backend\tests\unit\test_local_admin_login.py::test_options_permit_only_explicit_local_requests[http://127.0.0.1:8081-headers0]
+FAILED app\backend\tests\unit\test_local_admin_login.py::test_options_permit_only_explicit_local_requests[http://localhost:8081-headers1]
+FAILED app\backend\tests\unit\test_local_admin_login.py::test_options_permit_only_explicit_local_requests[http://[::1]:8081-headers2]
+FAILED app\backend\tests\unit\test_local_admin_login.py::test_options_permit_only_explicit_local_requests[https://localhost-headers3]
+FAILED app\backend\tests\unit\test_local_admin_login.py::test_options_permit_only_explicit_local_requests[http://127.0.0.1:8081-headers4]
+FAILED app\backend\tests\unit\test_local_admin_login.py::test_nonlocal_requests_hide_options_and_cannot_login[headers0]
+FAILED app\backend\tests\unit\test_local_admin_login.py::test_nonlocal_requests_hide_options_and_cannot_login[headers1]
+FAILED app\backend\tests\unit\test_local_admin_login.py::test_nonlocal_requests_hide_options_and_cannot_login[headers2]
+FAILED app\backend\tests\unit\test_local_admin_login.py::test_nonlocal_requests_hide_options_and_cannot_login[headers3]
+FAILED app\backend\tests\unit\test_local_admin_login.py::test_nonlocal_requests_hide_options_and_cannot_login[headers4]
+FAILED app\backend\tests\unit\test_local_admin_login.py::test_nonlocal_requests_hide_options_and_cannot_login[headers5]
+FAILED app\backend\tests\unit\test_local_admin_login.py::test_nonlocal_requests_hide_options_and_cannot_login[headers6]
+FAILED app\backend\tests\unit\test_local_admin_login.py::test_nonlocal_requests_hide_options_and_cannot_login[headers7]
+FAILED app\backend\tests\unit\test_local_admin_login.py::test_nonlocal_requests_hide_options_and_cannot_login[headers8]
+FAILED app\backend\tests\unit\test_local_admin_login.py::test_nonlocal_requests_hide_options_and_cannot_login[headers9]
+FAILED app\backend\tests\unit\test_local_admin_login.py::test_nonlocal_requests_hide_options_and_cannot_login[headers10]
+FAILED app\backend\tests\unit\test_local_admin_login.py::test_nonlocal_requests_hide_options_and_cannot_login[headers11]
+FAILED app\backend\tests\unit\test_local_admin_login.py::test_nonlocal_requests_hide_options_and_cannot_login[headers12]
+FAILED app\backend\tests\unit\test_local_admin_login.py::test_nonlocal_requests_hide_options_and_cannot_login[headers13]
+FAILED app\backend\tests\unit\test_local_admin_login.py::test_nonlocal_requests_hide_options_and_cannot_login[headers14]
+FAILED app\backend\tests\unit\test_local_admin_login.py::test_nonlocal_requests_hide_options_and_cannot_login[headers15]
+FAILED app\backend\tests\unit\test_local_admin_login.py::test_nonlocal_requests_hide_options_and_cannot_login[headers16]
+FAILED app\backend\tests\unit\test_local_admin_login.py::test_nonlocal_requests_hide_options_and_cannot_login[headers17]
+FAILED app\backend\tests\unit\test_local_admin_login.py::test_nonlocal_requests_hide_options_and_cannot_login[headers18]
+FAILED app\backend\tests\unit\test_local_admin_login.py::test_nonlocal_requests_hide_options_and_cannot_login[headers19]
+FAILED app\backend\tests\unit\test_local_admin_login.py::test_nonlocal_requests_hide_options_and_cannot_login[headers20]
+FAILED app\backend\tests\unit\test_local_admin_login.py::test_disabled_mode_is_unavailable_without_database_access
+32 failed in 2.93s

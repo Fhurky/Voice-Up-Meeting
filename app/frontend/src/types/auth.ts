@@ -6,3 +6,6 @@ export type AuthenticatedUser =
 
 export type LoginResponse =
   paths["/api/voiceup/v1/auth/login"]["post"]["responses"][200]["content"]["application/json"];
+
+export type AuthOptions =
+  paths["/api/voiceup/v1/auth/options"]["get"]["responses"][200]["content"]["application/json"];

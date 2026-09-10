@@ -6,6 +6,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.api.auth.errors import register_auth_errors
 from app.api.router import router
 from app.api.speaker_identity.errors import register_speaker_errors
 from app.core.config import get_settings
@@ -52,6 +53,7 @@ def create_application() -> FastAPI:
     application.add_middleware(RequestLoggingMiddleware)
     application.include_router(router)
     register_speaker_errors(application)
+    register_auth_errors(application)
     return application
 
 

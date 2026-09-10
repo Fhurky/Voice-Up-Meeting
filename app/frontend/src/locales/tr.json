@@ -1,6 +1,9 @@
 {
   "login.subtitle": "Kurum içi uygulama kimliğinizle giriş yapın.",
   "login.title": "Giriş",
+  "login.admin": "Admin olarak giriş yap",
+  "login.adminUnavailable": "Yerel yönetici hesabı hazır değil. Yönetici kurulumunu tamamlayın veya kullanıcı adı ve parolanızla giriş yapın.",
+  "login.adminDisabled": "Yerel yönetici girişi bu adreste etkin değil. Kullanıcı adı ve parolanızla giriş yapın.",
   "login.error": "Kullanıcı adı veya parola geçersiz.",
   "login.unavailable": "Giriş servisine ulaşılamadı. Bağlantıyı kontrol edip tekrar deneyin.",
   "login.busy": "Giriş yapılıyor…",

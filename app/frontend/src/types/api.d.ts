@@ -4,6 +4,60 @@
  */
 
 export interface paths {
+    "/api/voiceup/v1/auth/local-admin": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Local Admin */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Successful Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["LoginResponse"];
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["LocalAdminErrorResponse"];
+                    };
+                };
+                /** @description Service Unavailable */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["LocalAdminErrorResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/voiceup/v1/auth/login": {
         parameters: {
             query?: never;
@@ -83,6 +137,42 @@ export interface paths {
                     };
                     content: {
                         "application/json": components["schemas"]["AuthenticatedUser"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/voiceup/v1/auth/options": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Options */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Successful Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["AuthOptions"];
                     };
                 };
             };
@@ -1150,6 +1240,9 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        AuthOptions: {
+            local_admin_login_enabled: boolean;
+        };
         AuthenticatedUser: {
             /** @default false */
             is_super_admin: boolean;
@@ -1173,6 +1266,14 @@ export interface components {
         JobError: {
             code: string;
             message: string;
+        };
+        LocalAdminErrorDetail: {
+            /** @enum {string} */
+            code: "not_found" | "local_admin_unavailable";
+            message: string;
+        };
+        LocalAdminErrorResponse: {
+            detail: components["schemas"]["LocalAdminErrorDetail"];
         };
         LoginRequest: {
             /** Format: password */

@@ -1,0 +1,52 @@
+KT_GATE_STEP name=configuration status=started
+KT_GATE_STEP name=configuration status=passed
+KT_GATE_STEP name=dependency-admission status=started
+dependency admission current: 143 coordinates, sha256:97045e273227b328c36fa6af69f3e5e71bb13a93a3f512fc874b6cc2970853e6
+KT_GATE_STEP name=dependency-admission status=passed
+KT_GATE_STEP name=configuration-sync status=started
+{"backend_profile":"python-fastapi","checked":{"compose_environment_keys":28,"env_example_assignments":29,"kubernetes_secret_refs":1,"source_files":55,"typed_configuration_keys":31},"env_prefix":"VOICEUP_","ok":true}
+KT_GATE_STEP name=configuration-sync status=passed
+KT_GATE_SCOPE scope=all postgres_integration=required database_mode=disposable-test
+KT_GATE_STEP name=database-test-create status=started
+CREATE DATABASE
+KT_GATE_STEP name=database-test-create status=passed
+KT_GATE_STEP name=database-migrations-apply status=started
+bash.exe : INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+At line:5 char:1
++ & 'C:/Program Files/Git/bin/bash.exe' scripts/quality-gate.sh all *>  ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (INFO  [alembic....PostgresqlImpl.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+INFO  [alembic.runtime.migration] Running upgrade  -> 202608060001, Create the tenant, user, and RBAC platform baseline
+.
+INFO  [alembic.runtime.migration] Running upgrade 202608060001 -> 9486b1bc12a9, speaker_identity_pilot
+KT_GATE_STEP name=database-migrations-apply status=passed
+KT_GATE_STEP name=backend-static status=started
+All checks passed!
+All done! ✨ 🍰 ✨
+71 files would be left unchanged.
+Success: no issues found in 55 source files
+KT_GATE_STEP name=backend-static status=passed
+KT_GATE_STEP name=backend-tests status=started
+.......................................................F................ [ 47%]
+........................................................................ [ 94%]
+.........                                                                [100%]
+=================================== FAILURES ===================================
+___________________ test_local_admin_is_disabled_by_default ____________________
+
+>   ???
+E   AssertionError: assert 'voiceup-admin' == ''
+E     
+E     + voiceup-admin
+
+C:\Users\furko\Desktop\VoiceUpMeating\app\backend\tests\unit\test_local_admin_login.py:27: AssertionError
+=========================== short test summary info ============================
+FAILED tests/unit/test_local_admin_login.py::test_local_admin_is_disabled_by_default
+1 failed, 152 passed in 21.60s
+KT_GATE_TESTS name=backend-tests runner=pytest total=153 passed=152 failed=1 skipped=0
+KT_GATE_STEP name=backend-tests status=failed exit_code=1
+KT_GATE_STEP name=database-test-drop status=started
+DROP DATABASE
+KT_GATE_STEP name=database-test-drop status=passed

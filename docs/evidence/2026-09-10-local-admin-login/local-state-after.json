@@ -1,0 +1,23 @@
+{
+  "app_user": {
+    "rows": 11,
+    "sha256": "bd5d74bb333faeda75059503e2640285869a3abccc6544a005cfe39962cacb25"
+  },
+  "app_role": {
+    "rows": 3,
+    "sha256": "7e097b050d8d7f7c98e2ee70810c861d96961545b86fa23018a54f669fd4cc17"
+  },
+  "app_user_role": {
+    "rows": 11,
+    "sha256": "0b0493d8ed91a44f8870926476419a2cb309eb9aa6211a55682700ed461d4452"
+  },
+  "tenant": {
+    "rows": 10,
+    "sha256": "9eaacecce8b5fb986b32b3ca094d634c78a68aa9deb0dacf756b37e985a99c13"
+  },
+  "speaker_profiles": 245,
+  "account_state_unchanged": true,
+  "speaker_profile_count_unchanged": true,
+  "runtime_mode_unchanged": true,
+  "local_configuration_change": "Added LOCAL_ADMIN_USERNAME selector for the existing pilot administrator; secrets were not written to Git."
+}

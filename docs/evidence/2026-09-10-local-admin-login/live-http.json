@@ -1,0 +1,69 @@
+{
+  "origin": "http://localhost:8081",
+  "via": "nginx loopback reverse proxy",
+  "checks": [
+    {
+      "name": "options_localhost",
+      "passed": false,
+      "status": 200
+    },
+    {
+      "name": "options_127.0.0.1",
+      "passed": false,
+      "status": 200
+    },
+    {
+      "name": "same_origin_local_admin",
+      "passed": false,
+      "status": 200
+    },
+    {
+      "name": "signed_session_me",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "tenant_still_required",
+      "passed": true,
+      "status": 400
+    },
+    {
+      "name": "foreign_origin",
+      "passed": false,
+      "status": 404
+    },
+    {
+      "name": "different_origin_port",
+      "passed": false,
+      "status": 404
+    },
+    {
+      "name": "same_site_request",
+      "passed": false,
+      "status": 404
+    },
+    {
+      "name": "cross_site_request",
+      "passed": false,
+      "status": 404
+    },
+    {
+      "name": "foreign_host",
+      "passed": false,
+      "status": 404
+    },
+    {
+      "name": "null_origin",
+      "passed": false,
+      "status": 404
+    },
+    {
+      "name": "foreign_origin_options_hidden",
+      "passed": true,
+      "status": 200
+    }
+  ],
+  "passed": 3,
+  "failed": 9,
+  "credentials_recorded": false
+}

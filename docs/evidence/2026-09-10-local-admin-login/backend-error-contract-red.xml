@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.854" timestamp="2026-09-10T12:24:16.266351+03:00" hostname="DESKTOP-RJ78JKH"><testcase classname="tests.unit.test_local_admin_login" name="test_local_admin_openapi_declares_errors_without_accepting_credentials" time="0.047"><failure message="KeyError: '404'">def test_local_admin_openapi_declares_errors_without_accepting_credentials() -&gt; None:
+        contract = create_application().openapi()
+        operation = contract["paths"]["/api/voiceup/v1/auth/local-admin"]["post"]
+        assert "requestBody" not in operation
+        assert not operation.get("security")
+        for code in ("404", "503"):
+&gt;           assert operation["responses"][code]["content"]["application/json"]["schema"] == {
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                "$ref": "#/components/schemas/LocalAdminErrorResponse"
+            }
+E           KeyError: '404'
+
+app\backend\tests\unit\test_local_admin_login.py:48: KeyError</failure></testcase></testsuite></testsuites>

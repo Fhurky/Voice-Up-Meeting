@@ -1,0 +1,139 @@
+{
+  "profile": "kt-vibecoding-python-web-v2",
+  "base_commit": "68c198b3d28f798035f7c24dc554364b2f102df1",
+  "hash_basis": "Git index bytes after repository LF normalization; implementation/configuration/contracts/tests only",
+  "files": [
+    {
+      "path": "app/backend/.env.example",
+      "sha256": "d12b68cbd5133abbf69136c384128c48d8a4404dd63f108229a4244fef13e0d3"
+    },
+    {
+      "path": "app/backend/app/api/auth/dependencies.py",
+      "sha256": "3d318fe2fa2e13a831cb8ccfe2cd9e5c9e871f0f319c4facba1abec24e02d7e1"
+    },
+    {
+      "path": "app/backend/app/api/auth/endpoints.py",
+      "sha256": "3aacc82afc45ff9d06477d69cc872b471b7b64524b276cb8ef31775ba9129695"
+    },
+    {
+      "path": "app/backend/app/api/auth/errors.py",
+      "sha256": "db24895ebd51cfcd05951486e1d95755da21bd9331100dd21ad06a4640806bba"
+    },
+    {
+      "path": "app/backend/app/core/config.py",
+      "sha256": "7913a7bb00da157d478ad53408e249471a950dd20e3f28d6626b93ece0dde5e9"
+    },
+    {
+      "path": "app/backend/app/infrastructure/repositories/user_repository.py",
+      "sha256": "61c0701e8886f52578978bcace220518983df39efbdbac37e593db4a8bbada28"
+    },
+    {
+      "path": "app/backend/app/main.py",
+      "sha256": "3776f6a397884c5deb3b1984df13a4f89d769013be5d5298f6c9b6811cef12a9"
+    },
+    {
+      "path": "app/backend/app/middleware/tenant_context.py",
+      "sha256": "2efade995c4cb26c58a3a618fb700e5ee84844617ab013581a0bba81ce134c17"
+    },
+    {
+      "path": "app/backend/app/schemas/auth/response.py",
+      "sha256": "4b992377aa3cd62ff81999469aa72af717fc3740852b2e629d1df413f08764fd"
+    },
+    {
+      "path": "app/backend/app/services/auth_service.py",
+      "sha256": "7a8aad18ff501cb2c9565ef71b2f7f075f1e364792fed37865e564ddbacb9baa"
+    },
+    {
+      "path": "app/backend/tests/conftest.py",
+      "sha256": "918bfc208787af1db842143da8e5631d57b8fb24a91024ebddb356fd03674516"
+    },
+    {
+      "path": "app/backend/tests/integration/test_local_admin_login.py",
+      "sha256": "7acfb2967cddd34d06542855401e19d9b2a4efa5e8234356a7ada38b2439bc25"
+    },
+    {
+      "path": "app/backend/tests/unit/test_local_admin_login.py",
+      "sha256": "42d6e7d16046bf0879f7a472dd37c5bd258ce1dbe307d47d6efaa5aa63006fc8"
+    },
+    {
+      "path": "app/frontend/src/contexts/AuthContext.test.tsx",
+      "sha256": "904fbd226bdf3a8245be359d116b6a80f30af94ab06a9e10b5524e04f14f368d"
+    },
+    {
+      "path": "app/frontend/src/contexts/AuthContext.tsx",
+      "sha256": "de58533ad24b2f6f4715e72ae4e96e0442363a0d5615d8cde13056637113650a"
+    },
+    {
+      "path": "app/frontend/src/lib/authStorage.ts",
+      "sha256": "f5f065c44a575c39ef90e48d31d4c3ad9a95d77f036349cdcaae9b1bacfcd23b"
+    },
+    {
+      "path": "app/frontend/src/locales/en.json",
+      "sha256": "24418fe10471d68f4813d11f36f840b4718ad64604bf99776bb7ee21ac8ef1e4"
+    },
+    {
+      "path": "app/frontend/src/locales/tr.json",
+      "sha256": "b346869c2729ed45515903a0d974e4c0ed4c711b15d700bff7bee318a9954337"
+    },
+    {
+      "path": "app/frontend/src/pages/LoginPage.test.tsx",
+      "sha256": "56d7a035caa60e83df70edddc69c6284f8cd3e92a1711d6de5783076acbfc773"
+    },
+    {
+      "path": "app/frontend/src/pages/LoginPage.tsx",
+      "sha256": "b1c0c70a19e84d84514a11fafb95b20904d226b8ee841616b3d80a7838c76196"
+    },
+    {
+      "path": "app/frontend/src/services/auth.test.ts",
+      "sha256": "a24bc771c94fde73bff1a1ae49572581af567a478a8d53736311929fa9d812ee"
+    },
+    {
+      "path": "app/frontend/src/services/auth.ts",
+      "sha256": "70f6a46a00c1a722e4cae55e71ebff7abeb61403d060468629aba8267bb66c4c"
+    },
+    {
+      "path": "app/frontend/src/types/api.d.ts",
+      "sha256": "b60c2e0a4e4fe655f00c9e9bf489c412ffb5e485885fa42cadbfac8a543023e2"
+    },
+    {
+      "path": "app/frontend/src/types/auth.ts",
+      "sha256": "d12d6f58bb406d9624c0b252674e3715c336d9c2423c16bfa1b777a2ad4b87cd"
+    },
+    {
+      "path": "app/infra/.env.example",
+      "sha256": "45e428d34d70d82441c081cd9d9c64f0ef9c928d32585670905eb869593aa8d5"
+    },
+    {
+      "path": "app/infra/docker-compose.local.yml",
+      "sha256": "68096ba1ecd7e81103302f1f9c34980d28f448b22fc54429dbd355236110de84"
+    },
+    {
+      "path": "app/infra/nginx/nginx.local.conf",
+      "sha256": "136088c714125a643fc5e6b71d8c4799c13ba76e3f1317bc0cc11ae2640f0523"
+    },
+    {
+      "path": "e2e/auth/01-super-admin-login.mjs",
+      "sha256": "c8afe586a92dd072034c33fb8991235ce06c55bed7630302239b92033a077834"
+    },
+    {
+      "path": "e2e/auth/02-local-admin-login.mjs",
+      "sha256": "2f82a4d95f57145597d19dd4a6519c4e7743d40ac4e9b8d4970f191de91e8b07"
+    },
+    {
+      "path": "e2e/auth/run-all.mjs",
+      "sha256": "526b507fe994c3971389ab25c09cc89be78eb28e403327b34c6a690fa3213a5b"
+    },
+    {
+      "path": "e2e/shared/harness.mjs",
+      "sha256": "a6029e8aa256f520b8498e81e02f9bf99f33343471cff95e2a06d3d6208b8d2d"
+    },
+    {
+      "path": "specs/openapi/voiceup-api.yaml",
+      "sha256": "2f9438cd194457e5475f90a5853bf08258a54e0843d9757c49109617424db414"
+    },
+    {
+      "path": "tests/test_local_configuration.py",
+      "sha256": "22665f41ffbecfc66070e1a7d49d3d3ae9a2f2b69ef4f0834bcf21aa1470380e"
+    }
+  ]
+}

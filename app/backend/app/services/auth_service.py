@@ -8,11 +8,16 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.request_context import RequestContext
 from app.core.security import create_access_token, verify_password
 from app.domain.models.role import SUPER_ADMIN_ROLE
+from app.domain.models.user import User
 from app.infrastructure.repositories.user_repository import (
     AuthorizationSnapshot,
     UserRepository,
 )
 from app.schemas.auth.response import AuthenticatedUser, LoginResponse
+
+
+class LocalAdminUnavailableError(Exception):
+    """No unambiguous active administrator exists for the configured local selector."""
 
 
 class AuthService:
@@ -36,6 +41,22 @@ class AuthService:
                 detail="User tenant is unavailable",
             ) from exc
 
+        return self._login_response(user, authorization)
+
+    async def authenticate_local_admin(self, username: str) -> LoginResponse:
+        candidates = await self.repository.local_admin_candidates(username)
+        if len(candidates) != 1:
+            raise LocalAdminUnavailableError
+        user = candidates[0]
+        try:
+            authorization = await self.repository.authorization_for(user)
+        except LookupError:
+            raise LocalAdminUnavailableError from None
+        if SUPER_ADMIN_ROLE not in authorization.roles:
+            raise LocalAdminUnavailableError
+        return self._login_response(user, authorization)
+
+    def _login_response(self, user: User, authorization: AuthorizationSnapshot) -> LoginResponse:
         is_super_admin = SUPER_ADMIN_ROLE in authorization.roles
         token = create_access_token(
             subject=UUID(user.public_id),

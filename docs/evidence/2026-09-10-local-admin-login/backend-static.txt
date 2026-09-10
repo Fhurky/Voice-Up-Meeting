@@ -1,0 +1,10 @@
+All checks passed!
+bash.exe : All done! ✨ 🍰 ✨
+At line:4 char:1
++ & 'C:/Program Files/Git/bin/bash.exe' (Join-Path $env:TEMP 'voiceup-l ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (All done! ✨ 🍰 ✨:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+71 files would be left unchanged.
+Success: no issues found in 55 source files

@@ -1,4 +1,4 @@
-import type {AuthenticatedUser} from '@/types/auth';
+import type {AuthenticatedUser, LoginResponse} from '@/types/auth';
 
 export const STORAGE_KEYS = {
   accessToken: 'voiceup.access_token',
@@ -19,3 +19,16 @@ export function clearAuth(): void {
   localStorage.removeItem(STORAGE_KEYS.user);
 }
 
+export function saveUser(user: AuthenticatedUser): void {
+  localStorage.setItem(STORAGE_KEYS.user, JSON.stringify(user));
+}
+
+export function saveAuth(response: LoginResponse): void {
+  try {
+    localStorage.setItem(STORAGE_KEYS.accessToken, response.access_token);
+    saveUser(response.user);
+  } catch (error) {
+    clearAuth();
+    throw error;
+  }
+}

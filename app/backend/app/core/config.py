@@ -65,6 +65,8 @@ class Settings(BaseSettings):
     jwt_issuer: str = "voiceup"
     jwt_audience: str = "voiceup-api"
     access_token_expire_minutes: int = 60
+    local_admin_login_enabled: bool = False
+    local_admin_username: str = Field(default="", max_length=120)
 
     bootstrap_super_admin_email: str = "admin@example.invalid"
     bootstrap_super_admin_username: str = "super-admin"
@@ -90,6 +92,11 @@ class Settings(BaseSettings):
         if value is not None and len(value.get_secret_value().encode("utf-8")) < 32:
             raise ValueError("inference_key must contain at least 32 bytes")
         return value
+
+    @field_validator("local_admin_username")
+    @classmethod
+    def normalize_local_admin_username(cls, value: str) -> str:
+        return value.strip().lower()
 
     @field_validator("inference_url")
     @classmethod
@@ -151,6 +158,8 @@ class Settings(BaseSettings):
 
     @model_validator(mode="after")
     def reject_development_secret_in_deployed_environments(self) -> "Settings":
+        if self.local_admin_login_enabled and self.environment != "development":
+            raise ValueError("local_admin_login_enabled requires the development environment")
         if self.speaker_new_threshold >= self.speaker_match_threshold:
             raise ValueError("speaker_new_threshold must be below speaker_match_threshold")
         if (

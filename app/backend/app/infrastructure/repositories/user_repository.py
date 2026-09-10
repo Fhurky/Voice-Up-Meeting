@@ -7,7 +7,7 @@ from sqlalchemy import func, or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.domain.models.permission import Permission, RolePermission
-from app.domain.models.role import Role, UserRole
+from app.domain.models.role import SUPER_ADMIN_ROLE, Role, UserRole
 from app.domain.models.tenant import Tenant
 from app.domain.models.user import User
 
@@ -44,6 +44,33 @@ class UserRepository:
             User.is_deleted.is_(False),
         )
         return (await self.session.execute(statement)).scalar_one_or_none()
+
+    async def local_admin_candidates(self, username: str) -> list[User]:
+        """Read at most two active administrators in their own active home tenants."""
+        statement = (
+            select(User)
+            .join(Tenant, Tenant.tenant_id == User.home_tenant_id)
+            .join(
+                UserRole,
+                (UserRole.user_id == User.user_id) & (UserRole.tenant_id == User.home_tenant_id),
+            )
+            .join(Role, Role.role_id == UserRole.role_id)
+            .where(
+                User.is_active.is_(True),
+                User.is_deleted.is_(False),
+                Tenant.is_active.is_(True),
+                Tenant.is_deleted.is_(False),
+                UserRole.is_deleted.is_(False),
+                Role.is_deleted.is_(False),
+                Role.code == SUPER_ADMIN_ROLE,
+            )
+            .distinct()
+            .order_by(User.user_id)
+            .limit(2)
+        )
+        if username:
+            statement = statement.where(func.lower(User.username) == username.strip().lower())
+        return list((await self.session.scalars(statement)).all())
 
     async def authorization_for(self, user: User) -> AuthorizationSnapshot:
         tenant_statement = select(Tenant).where(

@@ -49,6 +49,8 @@ class TenantContextMiddleware(BaseHTTPMiddleware):
             f"{api_prefix}/liveness",
             f"{api_prefix}/readiness",
             f"{api_prefix}/auth/login",
+            f"{api_prefix}/auth/options",
+            f"{api_prefix}/auth/local-admin",
         }
 
     async def dispatch(self, request: Request, call_next: RequestResponseEndpoint) -> Response:

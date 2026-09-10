@@ -1,0 +1,7 @@
+bash.exe : required offline security tool is unavailable: gitleaks
+At line:4 char:1
++ & 'C:/Program Files/Git/bin/bash.exe' scripts/security-gate.sh *> doc ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (required offlin...lable: gitleaks:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 

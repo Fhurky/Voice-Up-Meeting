@@ -45,9 +45,26 @@ uygular. Tekrar çalıştırmak mevcut sırları/verileri korur. İkinci komut i
 adını ve parolasını terminalden sorar; parola yazdırılmaz.
 
 Kurulum sonunda verilen adresi açın; varsayılan **http://127.0.0.1:8081**.
-Kendi hesabınızla giriş yapıp `Konuşmacılar` ekranında profil oluşturun; `Ses analizi`
+**Admin olarak giriş yap** düğmesine basıp `Konuşmacılar` ekranında profil oluşturun; `Ses analizi`
 ekranında başka kaydı karşılaştırın. Bugünkü pilotta profil oluşturma açık kullanıcı
 işlemidir; tanıma yeni kişiyi kendiliğinden kaydetmez.
+
+Yerel Compose bu düğmeyi varsayılan olarak etkinleştirir. Düğme mevcut aktif
+`super_admin` hesabıyla normal oturum açar; hesap oluşturmaz, parola sıfırlamaz
+ve yetki eklemez. İlk hesabı hazırlamak için yukarıdaki `create-super-admin.sh`
+adımı yine gereklidir. Normal kullanıcı adı/parola formu kullanılabilir; çıkıştan
+sonra kendiliğinden yeniden giriş yapılmaz.
+
+Tek bir aktif yönetici varsa ek ayar gerekmez. Birden çok aktif yönetici varsa
+`app/infra/.env` içindeki isteğe bağlı `LOCAL_ADMIN_USERNAME` değerine kullanmak
+istediğiniz mevcut hesabın kullanıcı adını yazın. Bu ad çözülemezse veya hesap
+kullanılamazsa başka yöneticiye otomatik geçilmez. Düğmeyi kapatmak için
+`LOCAL_ADMIN_LOGIN_ENABLED=false` ayarlayıp `sh scripts/start-local-cpu.sh`
+komutunu yeniden çalıştırın; ayar değişiklikleri servisler yeniden oluşturulunca uygulanır.
+
+Bu giriş yalnız `development` ortamında ve yerel loopback adresinden kullanılabilir.
+Uygulamanın genel ayar varsayılanı kapalıdır; staging/production/test ortamında
+etkinleştirme reddedilir. Mac CPU ve NVIDIA/Spark yerel modları aynı giriş kurallarını kullanır.
 
 İlk hazırlık resmî model dosyalarını indirir. Çalışan model servisi internet erişimi
 kapalı özel ağdadır; günlük başlangıç paket/model indirmez. Proxy kullanıyorsanız

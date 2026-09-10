@@ -1,6 +1,9 @@
 {
   "login.subtitle": "Use your internal application identity.",
   "login.title": "Sign in",
+  "login.admin": "Sign in as admin",
+  "login.adminUnavailable": "The local administrator account is not ready. Complete administrator setup or sign in with your username and password.",
+  "login.adminDisabled": "Local administrator sign-in is not enabled at this address. Sign in with your username and password.",
   "login.error": "The username or password is invalid.",
   "login.unavailable": "The sign-in service is unavailable. Check your connection and try again.",
   "login.busy": "Signing in…",

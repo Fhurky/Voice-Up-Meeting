@@ -10,15 +10,31 @@ bölümleme, metne çevirme ve toplantı platformlarına bağlanma sonraki yeten
 ## Hazırlanmış bilgisayarda kullanma
 
 1. Spark açık ve Ethernet bağlıyken proje kökündeki `Start-VoiceUp.cmd` dosyasına çift tıklayın; Docker, model bağlantısı ve uygulama hazırlanır. Yalnız yerel GPU modu için `./scripts/start-local.ps1 -Mode Local` kullanılır.
-2. `http://127.0.0.1:8081` adresini açın. Yerel yönetici bilgileri Git dışında
-   `outputs/local-pilot-credentials.json` dosyasındadır. Salt okunur deneme hesabı
-   `outputs/local-reader-credentials.json` içindedir.
+2. `http://127.0.0.1:8081` adresini açıp **Admin olarak giriş yap** düğmesine basın.
+   Mevcut aktif yerel yöneticiyle oturum açılır; normal kullanıcı adı/parola formu da kullanılabilir.
 3. Konuşmacılar ekranında kişiye bir ad verin ve 20–30 saniyelik temiz, tek kişilik
    ses yükleyin. En az 10 saniye kullanılabilir konuşma ve iki tutarlı pencere gerekir.
 4. Ses analizi ekranına aynı kişinin başka bir kaydını yükleyin. İşin adresi kalıcıdır;
    sayfayı yenilemek yeni iş oluşturmaz. Tanınan kişi, bilinmeyen veya belirsiz sonucu görünür.
 5. Yeni kişiyi açıkça profil oluşturarak ekleyin. Tanıma işlemi kendi kendine profil
    oluşturmaz veya kayıtlı kişinin ses örneklerini değiştirmez.
+
+Yerel Compose'ta tek tıkla yönetici girişi varsayılan açıktır. İlk yönetici hesabı
+henüz yoksa aşağıdaki kurulum bölümündeki `scripts/create-super-admin.sh` adımı
+gereklidir. Giriş düğmesi hesap oluşturmaz, parola sıfırlamaz, silinmiş hesabı
+geri getirmez veya yetki eklemez; her tıklamada hesabın güncel etkinliği ve
+`super_admin` rolü denetlenir. Çıkıştan sonra yeniden giriş için düğmeye basılır.
+
+Tek bir aktif yönetici varsa ek ayar gerekmez. Birden çok aktif yönetici varsa
+`app/infra/.env` içindeki isteğe bağlı `LOCAL_ADMIN_USERNAME` değerine mevcut hedef
+hesabın kullanıcı adını yazın. Geçersiz veya kullanılamayan bir ad başka hesaba
+geri dönüş yaptırmaz. Düğmeyi kapatmak için `LOCAL_ADMIN_LOGIN_ENABLED=false`
+ayarlayın; ardından kullandığınız başlatıcıyı yeniden çalıştırın.
+
+Bu özellik Mac CPU ve NVIDIA/Spark yerel modlarında aynı şekilde çalışır; yalnız
+`development` ortamında ve loopback adresinde kullanılabilir. Genel uygulama
+varsayılanı kapalıdır; staging/production/test ortamında etkinleştirme reddedilir.
+Kubernetes dağıtımı mevcut tek `existingSecret` sınırını kullanır.
 
 Kurulumda bir `Teknik deneme (tekrarlı örnek)` profili bırakıldı. Ona ait
 `outputs/live-browser/repeated-public-sample-30s.wav` dosyasıyla analiz akışını hemen

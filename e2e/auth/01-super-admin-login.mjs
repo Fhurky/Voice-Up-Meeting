@@ -15,7 +15,7 @@ await withBrowser(
     await page.getByRole("button", { name: "English", exact: true }).click();
     await page.getByLabel("Username").fill(username);
     await page.getByLabel("Password").fill(password);
-    await page.getByRole("button", { name: "Sign in" }).click();
+    await page.getByRole("button", { name: "Sign in", exact: true }).click();
     await page.waitForURL(baseUrl + "/");
     await page.getByRole("heading", { name: "Start recognizing voices" }).waitFor();
     const session = await page.evaluate(() =>

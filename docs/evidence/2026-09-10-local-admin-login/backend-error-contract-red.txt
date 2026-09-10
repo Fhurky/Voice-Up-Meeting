@@ -1,0 +1,20 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+___ test_local_admin_openapi_declares_errors_without_accepting_credentials ____
+
+    def test_local_admin_openapi_declares_errors_without_accepting_credentials() -> None:
+        contract = create_application().openapi()
+        operation = contract["paths"]["/api/voiceup/v1/auth/local-admin"]["post"]
+        assert "requestBody" not in operation
+        assert not operation.get("security")
+        for code in ("404", "503"):
+>           assert operation["responses"][code]["content"]["application/json"]["schema"] == {
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                "$ref": "#/components/schemas/LocalAdminErrorResponse"
+            }
+E           KeyError: '404'
+
+app\backend\tests\unit\test_local_admin_login.py:48: KeyError
+=========================== short test summary info ===========================
+FAILED app\backend\tests\unit\test_local_admin_login.py::test_local_admin_openapi_declares_errors_without_accepting_credentials
+1 failed, 32 deselected in 0.85s

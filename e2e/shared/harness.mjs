@@ -6,9 +6,11 @@ export const baseUrl = (process.env.APP_E2E_BASE || 'http://127.0.0.1:8081').rep
 export const username = process.env.APP_E2E_SUPER_ADMIN_USER || process.env.VOICEUP_SUPER_ADMIN_USER;
 export const password = process.env.APP_E2E_SUPER_ADMIN_PASS || process.env.VOICEUP_SUPER_ADMIN_PASS;
 
-export async function withBrowser(name, scenario) {
-  assert.ok(username, 'APP_E2E_SUPER_ADMIN_USER is required');
-  assert.ok(password, 'APP_E2E_SUPER_ADMIN_PASS is required');
+export async function withBrowser(name, scenario, {requireCredentials = true} = {}) {
+  if (requireCredentials) {
+    assert.ok(username, 'APP_E2E_SUPER_ADMIN_USER is required');
+    assert.ok(password, 'APP_E2E_SUPER_ADMIN_PASS is required');
+  }
   const browser = await chromium.launch({headless: true});
   const context = await browser.newContext();
   const allowedOrigin = new URL(baseUrl).origin;

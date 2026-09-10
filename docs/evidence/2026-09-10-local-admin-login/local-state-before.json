@@ -1,0 +1,26 @@
+{
+  "app_user": {
+    "rows": 11,
+    "sha256": "bd5d74bb333faeda75059503e2640285869a3abccc6544a005cfe39962cacb25"
+  },
+  "app_role": {
+    "rows": 3,
+    "sha256": "7e097b050d8d7f7c98e2ee70810c861d96961545b86fa23018a54f669fd4cc17"
+  },
+  "app_user_role": {
+    "rows": 11,
+    "sha256": "0b0493d8ed91a44f8870926476419a2cb309eb9aa6211a55682700ed461d4452"
+  },
+  "tenant": {
+    "rows": 10,
+    "sha256": "9eaacecce8b5fb986b32b3ca094d634c78a68aa9deb0dacf756b37e985a99c13"
+  },
+  "speaker_profiles": 245,
+  "active_local_admin_candidates": 9,
+  "app/infra/.env": {
+    "sha256": "80f88c616637502152cb2151221f1d26f504a44dc412e5375ac45331cbcb7113"
+  },
+  "outputs/local-runtime-mode.txt": {
+    "sha256": "b5d82b119941ee0f3fc0d90ef21ddb7fb98fa350ca073913ea8591b5302d1c28"
+  }
+}

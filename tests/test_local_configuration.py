@@ -1,6 +1,10 @@
 """Local setup preserves dotenv values and never selects an unrelated Compose project."""
 
 import importlib.util
+import json
+import os
+import shutil
+import subprocess
 from pathlib import Path
 
 import pytest
@@ -87,3 +91,71 @@ def test_startup_uses_resolved_port_and_cannot_pull_images(tmp_path: Path) -> No
     assert len(up) == 1
     assert up[0][up[0].index("--pull") + 1] == "never"
     assert up[0][up[0].index("-p") + 1] == "voiceup"
+
+
+@pytest.mark.parametrize("mode", ["local", "spark", "x86_64", "aarch64"])
+@pytest.mark.parametrize("explicit", [False, True], ids=["default", "disabled-with-user"])
+def test_real_compose_local_admin_settings_remain_local_and_inherited(
+    tmp_path: Path, mode: str, explicit: bool
+) -> None:
+    docker = shutil.which("docker")
+    assert docker, "Docker CLI is required for the local admin Compose contract"
+    infra = SCRIPTS.parent / "app/infra"
+    env_file = tmp_path / "fixture.env"
+    fixture = (
+        "INFERENCE_INTERNAL_KEY=fixture-inference-" + "x" * 32 + "\n"
+        "RUNTIME_DATABASE_PASSWORD=fixture-runtime-" + "x" * 32 + "\n"
+        "GRAFANA_ADMIN_PASSWORD=fixture-grafana\n"
+    )
+    if mode in {"x86_64", "aarch64"}:
+        fixture += f"CPU_ARCH={mode}\n"
+    if explicit:
+        fixture += "LOCAL_ADMIN_LOGIN_ENABLED=false\nLOCAL_ADMIN_USERNAME=fixture-admin\n"
+    env_file.write_text(fixture, encoding="utf-8")
+    command = [
+        docker,
+        "compose",
+        "--project-directory",
+        str(infra),
+        "--env-file",
+        str(env_file),
+        "-p",
+        "voiceup-local-admin-contract",
+        "-f",
+        str(infra / "docker-compose.local.yml"),
+        "-f",
+        str(infra / "docker-compose.observability.yml"),
+    ]
+    if mode != "local":
+        layer = "spark" if mode == "spark" else "cpu"
+        command += ["-f", str(infra / f"docker-compose.{layer}.yml")]
+    environment = {
+        key: value
+        for key, value in os.environ.items()
+        if not key.startswith(("COMPOSE_", "LOCAL_ADMIN_"))
+        and key
+        not in {
+            "CPU_ARCH",
+            "INFERENCE_INTERNAL_KEY",
+            "RUNTIME_DATABASE_PASSWORD",
+            "GRAFANA_ADMIN_PASSWORD",
+        }
+    }
+    result = subprocess.run(
+        [*command, "--profile", "*", "config", "--format", "json"],
+        env=environment,
+        capture_output=True,
+        text=True,
+        check=False,
+        timeout=30,
+    )
+    assert result.returncode == 0, "Compose contract failed; resolved values withheld"
+    services = json.loads(result.stdout)["services"]
+    for name in ("backend", "worker", "migrate"):
+        configured = services[name]["environment"]
+        assert configured["VOICEUP_LOCAL_ADMIN_LOGIN_ENABLED"] == ("false" if explicit else "true")
+        assert configured["VOICEUP_LOCAL_ADMIN_USERNAME"] == ("fixture-admin" if explicit else "")
+        assert configured["VOICEUP_ENVIRONMENT"] == "development"
+        assert not services[name].get("ports")
+    assert all(port["host_ip"] == "127.0.0.1" for port in services["nginx"]["ports"])
+    assert "VOICEUP_LOCAL_ADMIN_LOGIN_ENABLED" not in services["inference"]["environment"]

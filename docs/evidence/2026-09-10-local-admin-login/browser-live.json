@@ -1,0 +1,45 @@
+{
+  "method": "Manual CUA accessibility-driven browser verification",
+  "browser": "Brave extension",
+  "origin": "http://localhost:8081",
+  "scenario_source": "e2e/auth/02-local-admin-login.mjs",
+  "scenario_runner_executed": false,
+  "flows": [
+    {
+      "locale": "tr",
+      "passed": true,
+      "observed": [
+        "empty username/password fields",
+        "Admin olarak giri? yap button",
+        "button click navigates to protected home",
+        "reload stays signed in",
+        "logout returns to login without automatic re-login"
+      ]
+    },
+    {
+      "locale": "en",
+      "passed": true,
+      "observed": [
+        "Sign in as admin button",
+        "button click navigates to protected English home",
+        "reload stays signed in; existing locale default returns to Turkish",
+        "logout returns to login without automatic re-login"
+      ]
+    }
+  ],
+  "passed": 2,
+  "failed": 0,
+  "console_errors": 0,
+  "console_warnings": 0,
+  "first_attempt": {
+    "passed": false,
+    "cause": "Windows bind mount did not invalidate Vite transform cache; served LoginPage module lacked new code. Restarting only frontend loaded current source."
+  },
+  "final_state": "Turkish login screen with admin button visible; signed out",
+  "credentials_entered": false,
+  "token_injection": false,
+  "limits": [
+    "Script runner and browser request-count/storage assertions were not executed through CUA; frontend automated tests and separate real HTTP evidence cover those contracts.",
+    "Physical MacBook was not used."
+  ]
+}

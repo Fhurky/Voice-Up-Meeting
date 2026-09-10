@@ -1,0 +1,42 @@
+...F............                                                         [100%]
+================================== FAILURES ===================================
+___________ test_startup_uses_resolved_port_and_cannot_pull_images ____________
+
+tmp_path = WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-178/test_startup_uses_resolved_por0')
+
+    def test_startup_uses_resolved_port_and_cannot_pull_images(tmp_path: Path) -> None:
+        from test_spark_startup import build_native_docker, calls, make_startup, run_startup
+    
+        # The native fixture cannot invoke Docker or change any application service.
+        startup = make_startup(tmp_path, build_native_docker(tmp_path / "native-fixture"))
+        (tmp_path / "models/speaker-pilot").mkdir(parents=True)
+        (tmp_path / "models/speaker-pilot/manifest.json").write_text("{}")
+>       result = run_startup(startup, arguments="-Mode Local")
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_local_configuration.py:87: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_spark_startup.py:131: in run_startup
+    return subprocess.run(
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\subprocess.py:554: in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\subprocess.py:1039: in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\subprocess.py:1478: in _execute_child
+    args = list2cmdline(args)
+           ^^^^^^^^^^^^^^^^^^
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\subprocess.py:614: in list2cmdline
+    for arg in map(os.fsdecode, seq):
+               ^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+filename = None
+
+>   ???
+E   TypeError: expected str, bytes or os.PathLike object, not NoneType
+
+<frozen os>:862: TypeError
+=========================== short test summary info ===========================
+FAILED tests/test_local_configuration.py::test_startup_uses_resolved_port_and_cannot_pull_images
+1 failed, 15 passed in 2.28s

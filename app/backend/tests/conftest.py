@@ -6,6 +6,9 @@ import pytest
 from sqlalchemy.engine import make_url
 
 os.environ.setdefault("VOICEUP_ENVIRONMENT", "test")
+# Local Compose deliberately enables this convenience; tests opt in per application fixture.
+os.environ["VOICEUP_LOCAL_ADMIN_LOGIN_ENABLED"] = "false"
+os.environ["VOICEUP_LOCAL_ADMIN_USERNAME"] = ""
 os.environ.setdefault(
     "VOICEUP_JWT_SECRET",
     "unit-test-secret-do-not-deploy-at-least-32-bytes",

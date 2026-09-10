@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="16" time="2.011" timestamp="2026-09-10T12:13:57.537149+03:00" hostname="DESKTOP-RJ78JKH"><testcase classname="tests.test_local_configuration" name="test_existing_quoted_exported_values_are_preserved" time="0.032" /><testcase classname="tests.test_local_configuration" name="test_invalid_existing_secret_fails_without_rewriting" time="0.010" /><testcase classname="tests.test_local_configuration" name="test_runtime_provisioning_parses_quotes_and_pins_project" time="0.009" /><testcase classname="tests.test_local_configuration" name="test_startup_uses_resolved_port_and_cannot_pull_images" time="0.197"><failure message="TypeError: expected str, bytes or os.PathLike object, not NoneType">tmp_path = WindowsPath('C:/Users/furko/AppData/Local/Temp/pytest-of-furko/pytest-178/test_startup_uses_resolved_por0')
+
+    def test_startup_uses_resolved_port_and_cannot_pull_images(tmp_path: Path) -&gt; None:
+        from test_spark_startup import build_native_docker, calls, make_startup, run_startup
+    
+        # The native fixture cannot invoke Docker or change any application service.
+        startup = make_startup(tmp_path, build_native_docker(tmp_path / "native-fixture"))
+        (tmp_path / "models/speaker-pilot").mkdir(parents=True)
+        (tmp_path / "models/speaker-pilot/manifest.json").write_text("{}")
+&gt;       result = run_startup(startup, arguments="-Mode Local")
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_local_configuration.py:87: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_spark_startup.py:131: in run_startup
+    return subprocess.run(
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\subprocess.py:554: in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\subprocess.py:1039: in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\subprocess.py:1478: in _execute_child
+    args = list2cmdline(args)
+           ^^^^^^^^^^^^^^^^^^
+..\..\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\subprocess.py:614: in list2cmdline
+    for arg in map(os.fsdecode, seq):
+               ^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+filename = None
+
+&gt;   ???
+E   TypeError: expected str, bytes or os.PathLike object, not NoneType
+
+&lt;frozen os&gt;:862: TypeError</failure></testcase><testcase classname="tests.test_local_configuration" name="test_real_compose_local_admin_settings_remain_local_and_inherited[default-local]" time="0.122" /><testcase classname="tests.test_local_configuration" name="test_real_compose_local_admin_settings_remain_local_and_inherited[default-spark]" time="0.130" /><testcase classname="tests.test_local_configuration" name="test_real_compose_local_admin_settings_remain_local_and_inherited[default-x86_64]" time="0.124" /><testcase classname="tests.test_local_configuration" name="test_real_compose_local_admin_settings_remain_local_and_inherited[default-aarch64]" time="0.125" /><testcase classname="tests.test_local_configuration" name="test_real_compose_local_admin_settings_remain_local_and_inherited[disabled-with-user-local]" time="0.116" /><testcase classname="tests.test_local_configuration" name="test_real_compose_local_admin_settings_remain_local_and_inherited[disabled-with-user-spark]" time="0.116" /><testcase classname="tests.test_local_configuration" name="test_real_compose_local_admin_settings_remain_local_and_inherited[disabled-with-user-x86_64]" time="0.126" /><testcase classname="tests.test_local_configuration" name="test_real_compose_local_admin_settings_remain_local_and_inherited[disabled-with-user-aarch64]" time="0.130" /><testcase classname="tests.test_cpu_startup" name="test_real_compose_cpu_overlay_has_no_gpu_or_external_model_port[aarch64]" time="0.115" /><testcase classname="tests.test_cpu_startup" name="test_real_compose_cpu_overlay_has_no_gpu_or_external_model_port[x86_64]" time="0.116" /><testcase classname="tests.test_spark_transport_config" name="test_remote_consumers_use_private_origin_and_preserve_environment" time="0.344" /><testcase classname="tests.test_spark_transport_config" name="test_worker_and_backend_remain_internal_with_no_published_ports" time="0.000" /></testsuite></testsuites>
