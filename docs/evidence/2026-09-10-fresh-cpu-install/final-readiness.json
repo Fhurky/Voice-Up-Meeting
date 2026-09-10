@@ -1,0 +1,28 @@
+{
+  "windows_web": {
+    "status": 200,
+    "body": {
+      "status": "ready"
+    }
+  },
+  "cpu_web": {
+    "status": 200,
+    "body": {
+      "status": "ready"
+    }
+  },
+  "windows_model": {
+    "ready": true,
+    "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+    "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+    "dimensions": 192,
+    "device": "cuda:0"
+  },
+  "cpu_model": {
+    "ready": true,
+    "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+    "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+    "dimensions": 192,
+    "device": "cpu"
+  }
+}

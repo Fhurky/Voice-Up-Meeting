@@ -1,0 +1,11 @@
+{
+  "application": "http://127.0.0.1:8081/api/voiceup/v1",
+  "job_public_id": "fb03b667-bc77-4bec-b2fa-7eea2a1b8bce",
+  "status": "succeeded",
+  "decision": "unknown",
+  "device": "cuda:0",
+  "error_code": null,
+  "elapsed_seconds": 2.02,
+  "profile_count_before": 0,
+  "profile_count_after": 0
+}

@@ -1,0 +1,26 @@
+{
+  "source_commit": "8478335b282d17a9a4737632d5a4ced5b9964ef2",
+  "repository": "https://github.com/Fhurky/Voice-Up-Meeting.git",
+  "clean_checkout_patch": [
+    "scripts/check-governance-drift.py"
+  ],
+  "profile": "kt-vibecoding-python-web-v2",
+  "source_hashes": {
+    "scripts/check-governance-drift.py": "ec7d996ecc2e0a538839524489366c8bc3968087244b97083cd742106c0212d7",
+    "tests/test_governance_drift.py": "01290c89f76818c2086edda5f588493640a8d69dcc9d6c6e94c3629a5a26e400",
+    "specs/speaker-identity/PRDs/005-local-cpu-runtime/PRD.md": "a9b30c97a27772db773c6b24bb49f699f7e9bb385f3ede3e4108b7bed64cb797",
+    "specs/speaker-identity/PRDs/005-local-cpu-runtime/plan.md": "619853200a9148031b88ba8b3637c54e9447ee239d9d6181c43c903c9cc00826",
+    "specs/speaker-identity/PRDs/005-local-cpu-runtime/tasks.md": "d47607af9605ce50af08916feda71ca10153403d31e44c18c0869c7908b9bd14",
+    "docs/MACOS_SETUP.md": "9197530730b9a84e8c2928b082e84beeebb78e089dda635eb60905c6c3708f69",
+    "docs/evidence/2026-09-10-fresh-cpu-install/README.md": "19ac3691b74cf11ed31ff2e9ae051c120ac081919771a258c412d3a4434a4d7b"
+  },
+  "copied_model_matches_original": true,
+  "cpu_test_engine": "voiceup-fresh-install-20260910",
+  "cpu_test_engine_image": "docker@sha256:66d292e5c26bd33a6f6f61cacb880de2186339a524ecba1ce098dbbaceed6515",
+  "cpu_test_data_volume": "voiceup_fresh_engine_20260910",
+  "cpu_mode": "cpu",
+  "windows_mode": "local",
+  "windows_url": "http://127.0.0.1:8081",
+  "cpu_url": "http://127.0.0.1:8082",
+  "physical_mac_tested": false
+}

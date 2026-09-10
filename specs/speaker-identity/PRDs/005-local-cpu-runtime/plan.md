@@ -12,3 +12,8 @@
 5. Requirement 1–5: Odaklı testler, iki mimari Compose çözümleme, network-none CPU
    yükleme/HTTP akışı, `scripts/quality-gate.sh all`, `scripts/security-gate.sh` ve
    sabit koşum raporu. Mac L2/L3 yalnız cihazda gözlenebilir.
+6. Requirement 3: Temiz GitHub kopyasında görülen Windows/Linux kural sıralama
+   farkını `scripts/check-governance-drift.py` ve gerçek dosya tabanlı regresyon
+   testiyle gider; kayıtlı kural/üretim özetlerini değiştirme. Ayrı Docker motorunda
+   yeni ayar/veritabanı, kopyalanmış doğrulanmış model, ilk yönetici, profil kayıt/
+   tanıma ve günlük yeniden başlatmada kalıcılık deneyiyle kurulumu doğrula.

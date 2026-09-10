@@ -34,6 +34,12 @@ SSH özel anahtarını almanız gerekmez. Erişim ayrıntısı [Git rehberinde](
 
 Repo kökünde:
 
+Modeli başka bir kurulumdan alacaksanız, doğrulanmış `models/speaker-pilot`
+klasörünü `manifest.json` ve bütün alt dosyalarıyla yeni klondaki aynı konuma
+kopyalayın. Aşağıdaki kurulum komutu mevcut paketin hashlerini doğrular ve modeli
+yeniden indirmez; eksik diğer bağımlılıkları hazırlamaya devam eder. Model paketi
+kullanıcı hesabı veya ses profili taşımaz; eski `.env` ve veritabanını kopyalamayın.
+
 ```bash
 python3 scripts/setup-local-cpu.py
 sh scripts/create-super-admin.sh
@@ -121,3 +127,8 @@ CPU HTTP kontrolü geçti; CPU ile kalıcı profil oluşturma/tanıma entegrasyo
 ARM deneyi Spark üzerinde GPU erişimi kapalı bir test konteynerindeydi; Spark bu
 Mac kurulumunun bir parçası değildir. Docker ARM emülasyonundaki başarısız ses deneyi
 ayrı raporlandı. Fiziksel MacBook ilk kurulum ve tarayıcı kabulü hâlâ açıktır.
+
+Aynı gün ayrı, başlangıçta boş bir Docker motorunda GitHub kopyasından ilk kurulum
+ve günlük yeniden başlatma da doğrulandı: [temiz kurulum raporu](evidence/2026-09-10-fresh-cpu-install/README.md).
+Bu deneydeki Linux başlangıç düzeltmesi ve kopyalanan model ayrıntıları raporda kayıtlıdır;
+fiziksel Mac kabulünün yerini tutmaz.

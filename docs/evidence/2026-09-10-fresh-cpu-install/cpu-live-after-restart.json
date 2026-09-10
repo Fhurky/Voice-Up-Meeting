@@ -1,0 +1,49 @@
+{
+  "checks": [
+    {
+      "name": "web_ready_after_restart",
+      "passed": true
+    },
+    {
+      "name": "same_admin_can_sign_in_after_restart",
+      "passed": true
+    },
+    {
+      "name": "enrolled_profile_and_sample_persist",
+      "passed": true
+    },
+    {
+      "name": "original_job_result_persists",
+      "passed": true
+    },
+    {
+      "name": "idempotency_key_persists_across_restart",
+      "passed": true
+    },
+    {
+      "name": "same_person_recognized_on_cpu_after_restart",
+      "passed": true
+    },
+    {
+      "name": "configuration_secrets_preserved",
+      "passed": true
+    },
+    {
+      "name": "model_package_preserved",
+      "passed": true
+    },
+    {
+      "name": "daily_start_does_not_replace_or_build_images",
+      "passed": true
+    }
+  ],
+  "query_result": {
+    "job_public_id": "c4db6a54-b2f2-4ec7-9039-276d2c9c945d",
+    "status": "succeeded",
+    "decision": "recognized",
+    "device": "cpu",
+    "profile_public_id": "a7529d88-082b-46d2-ac5e-26366845d6a0",
+    "elapsed_seconds": 2.02,
+    "sample_count_after_restart": 1
+  }
+}

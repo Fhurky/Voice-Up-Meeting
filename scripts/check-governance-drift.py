@@ -17,7 +17,8 @@ PROJECTION_LOCK = PROJECTION_ROOT / "PROJECTIONS.lock.json"
 
 def digest_corpus() -> str:
     digest = hashlib.sha256()
-    for path in sorted(RULES.glob("*")):
+    # Preserve the recorded case-insensitive order independently of the host OS.
+    for path in sorted(RULES.glob("*"), key=lambda path: (path.name.casefold(), path.name)):
         if path.is_file() and path.name != "GENERATED.lock":
             digest.update(path.name.encode())
             digest.update(b"\0")

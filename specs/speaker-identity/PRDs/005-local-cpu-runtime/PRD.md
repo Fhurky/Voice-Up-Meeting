@@ -47,6 +47,9 @@ sırları üretir, model/paketleri doğrular, imajları hazırlar, yerel veritab
 migration'ı uygular, servis hazırlığını kontrol eder ve ilk yönetici oluşturma
 adımını açıklar. Tekrar mevcut sırları/veriyi korur. Günlük başlangıç indirme yapmaz;
 eksik hazırlıkta adını belirten hata verir. Başka Docker projelerini durdurmaz.
+Temiz Git kopyasındaki aynı kural dosyaları Windows ve Linux üzerinde aynı başlangıç
+doğrulamasını üretir; işletim sistemine göre dosya sıralaması kurulum engeli oluşturmaz.
+Gerçek içerik değişikliği mevcut kayıtlı özet tarafından reddedilmeye devam eder.
 
 Requirement 4: CPU Compose GPU rezervasyonu içermez; model yalnız özel ağda, web
 yalnız loopback'te sunulur. Model non-root/read-only, tek iş kilitli kalır. Mevcut

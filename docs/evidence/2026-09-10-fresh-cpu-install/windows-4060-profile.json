@@ -1,0 +1,22 @@
+[
+  {
+    "purpose": "enroll",
+    "job_public_id": "24e12c52-8692-4da3-9f42-24069cf1255f",
+    "status": "succeeded",
+    "decision": "enrolled",
+    "device": "cuda:0",
+    "profile_public_id": "ab76ccbf-5eee-4334-a639-7e2c8df5d2fc",
+    "error_code": null,
+    "elapsed_seconds": 2.02
+  },
+  {
+    "purpose": "identify",
+    "job_public_id": "8d9b0a7d-98a1-4805-bdd8-4c72b7e7b41a",
+    "status": "succeeded",
+    "decision": "recognized",
+    "device": "cuda:0",
+    "profile_public_id": "ab76ccbf-5eee-4334-a639-7e2c8df5d2fc",
+    "error_code": null,
+    "elapsed_seconds": 4.03
+  }
+]

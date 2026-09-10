@@ -1,0 +1,81 @@
+{
+  "base_url": "http://127.0.0.1:8082/api/voiceup/v1",
+  "checks": [
+    {
+      "name": "first_admin_login",
+      "passed": true
+    },
+    {
+      "name": "fresh_profile_list_is_empty",
+      "passed": true
+    },
+    {
+      "name": "recording_retry_keeps_one_recording",
+      "passed": true
+    },
+    {
+      "name": "job_retry_keeps_one_job",
+      "passed": true
+    },
+    {
+      "name": "conflicting_retry_is_rejected",
+      "passed": true
+    },
+    {
+      "name": "enrolled_on_cpu",
+      "passed": true
+    },
+    {
+      "name": "recognized_on_cpu",
+      "passed": true
+    },
+    {
+      "name": "separate_recording_matches_enrolled_person",
+      "passed": true
+    },
+    {
+      "name": "unknown_on_cpu",
+      "passed": true
+    },
+    {
+      "name": "unknown_person_has_no_matched_profile",
+      "passed": true
+    },
+    {
+      "name": "one_profile_one_sample_after_retries_and_queries",
+      "passed": true
+    }
+  ],
+  "jobs": [
+    {
+      "job_public_id": "e539e8b0-7043-4547-b228-186fb2bca090",
+      "purpose": "enroll",
+      "status": "succeeded",
+      "decision": "enrolled",
+      "device": "cpu",
+      "profile_public_id": "a7529d88-082b-46d2-ac5e-26366845d6a0",
+      "error_code": null,
+      "elapsed_seconds": 2.03
+    },
+    {
+      "job_public_id": "500629d7-eb3d-4463-821e-bd1a3fa24244",
+      "purpose": "identify",
+      "status": "succeeded",
+      "decision": "recognized",
+      "device": "cpu",
+      "profile_public_id": "a7529d88-082b-46d2-ac5e-26366845d6a0",
+      "error_code": null,
+      "elapsed_seconds": 4.03
+    },
+    {
+      "job_public_id": "5fd1ddc0-bac3-4b96-b2e4-21ab72c207b6",
+      "purpose": "identify",
+      "status": "succeeded",
+      "decision": "unknown",
+      "device": "cpu",
+      "profile_public_id": null,
+      "error_code": null,
+      "elapsed_seconds": 2.02
+    }
+  ]
+}
