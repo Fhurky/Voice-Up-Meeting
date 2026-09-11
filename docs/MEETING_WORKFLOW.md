@@ -7,12 +7,28 @@ Sabit dört kayıtta hafıza 5→5→5→6 ilerledi: aynı kişiler tanındı, k
 yeni kişi bekledi, yeterli konuştuğunda yalnız bir yeni profil eklendi.
 [API/model kanıtı](evidence/2026-09-10-meeting-delivery/frozen-meeting-flow-report.md)
 ve [tarayıcı kanıtı](evidence/2026-09-10-meeting-delivery/meeting-memory-browser-report.md)
-kontrollü İngilizce kaynaklarla sınırlıdır; Türkçe/50 kişilik toplantı doğruluğu
+kontrollü İngilizce kaynaklarla sınırlıdır; temsilî Türkçe toplantı doğruluğu
 ve native Spark/Apple toplantı çalışma zamanı ayrıca doğrulanmalıdır.
 Son kullanıcı seçimi "Kaydı yüklemek yeterli; tanıma ve hafızayı tamamla" oldu.
 Bu nedenle güncel teslim yüklenen dosyaya odaklanır; önceki mikrofon isteği ayrı
 [007 yeteneğinde](../specs/speaker-identity/PRDs/007-microphone-meeting-capture/PRD.md)
 Accepted ve henüz uygulanmamış olarak korunur. Teams kaydının otomatik alınması gerekmez.
+
+Elli kişilik ek ölçümde ilk toplantı 37 doğrulanmış profil oluşturdu; iki farklı
+dönüş kaydında katı kaynak eşlemesiyle 35/37 kayıtlı kişi, bütün katılımcılar
+içinde 35/50 kişi doğru tanındı. Bütün 37 kalıcı örnek temiz ve değişmeden kaldı,
+ancak bazı toplantı gruplarında başka kişilerin konuşmaları birleşti.
+[B dönüş ölçümü](evidence/2026-09-11-accuracy-audit/capacity50-native-b-memory-report.md)
+ve [C dönüş ölçümü](evidence/2026-09-11-accuracy-audit/capacity50-native-c-memory-report.md)
+bu nedenle elli kişi düzeyinde kusursuza yakın doğruluk iddiası vermez.
+
+Ayrı kontrollü klip ölçümünde 50 kayıt adayından 49'u değerlendirme galerisine
+alındı; 100 bilinen sorgunun 95'i doğru tanındı, yanlış kimlik ataması olmadı.
+Hiç kaydedilmemiş kişilerin 40 sorgusunda da yanlış kabul olmadı; 10 sorgu
+belirsiz kaldı. Birleşik kararın precision/recall/F1 değerleri %100/%95/%97,44'tür.
+Bu [kontrollü galeri deneyi](evidence/2026-09-11-accuracy-audit/nested-gallery-report.md)
+uzun toplantıda konuşmacı gruplaması ve otomatik yeni kişi kaydıyla aynı akış
+değildir; aynı sorguların tekrarları ve önceki kaynak kullanımı raporda korunur.
 
 ## Kullanıcının izleyeceği akış
 
@@ -33,6 +49,10 @@ bir yeni profil eklenir. Yeniden deneme ve servis yeniden başlatma bu sayılar�
 ve adları değiştirmedi. Altı kaydedilen ses örneğinin kaynak saflığı yüzde 99'u
 geçti; ayrı tekrar toplantısında mevcut altı profilin sesleri, vektörleri ve
 adları değişmedi. Bu saflık oranı genel kimlik tanıma doğruluğu değildir.
+
+Son doğruluk değişiklikleriyle aynı dört kayıt ve gerçek servis yeniden başlatma
+akışı yeniden geçti; [güncel beş kişilik regresyon](evidence/2026-09-11-accuracy-audit/five-person-live-report.md)
+altı örneğin fiziksel dosya ve kaynak denetimlerini de içerir.
 
 Bir saatlik kontrollü dayanıklılık kaydı gerçek worker'da 12 parçada tamamlandı;
 tanınan beş kişi ve mevcut profil hafızası korundu. Bu kayıt aynı sesin tekrarıyla
@@ -82,10 +102,15 @@ Toplantıda aynı kişiye güvenle bağlanan kısa sözler biriktirilir. Konuşm
 boşlukları, üst üste konuşma ve tekrar işlenen kaynak süreyi artırmaz. Yeni
 hafıza kaydı için kalite kontrolünden geçen tekil konuşmanın 20 saniyeyi aşması
 ve en az üç farklı doğal konuşma örneği bulunması gerekir. Seçilen örnekte
-destekli ikinci bir ses saptanırsa kişi hafızaya kaydedilmez; transkript ve
+iki bağımsız ses modelinden biri destekli ikinci bir ses saptarsa kişi hafızaya
+kaydedilmez; transkript ve
 toplantıdaki kişi etiketi korunur. Yetersiz ses, en yakın kayıtlı kişiye zorlanmaz.
 Tanınan kişilerin mevcut ses örnekleri ve vektörleri otomatik genişletilmez.
 İsim vermek yalnız gösterim adını değiştirir.
+
+Kalıcı örneğin temiz olması, o profile bağlanan toplantı grubunun her saniyesinin
+doğru kişiye ait olduğunu tek başına kanıtlamaz. Örnek saflığı, bütün konuşmacı
+grubunun kaynak saflığı ve sonraki kayıtta kimlik eşlemesi ayrı ölçülür.
 
 İki modelin vektörleri ayrı alanlarda, kendi model/sürüm kimliğiyle aranır;
 boyutlar birbirine dönüştürülmez. İki kanıt çelişirse sistem otomatik profil
@@ -180,9 +205,12 @@ güvenlik araç paketinin eksikliği yayına hazır güvenlik kanıtı olarak ay
 
 Yeni kişi hafızası, model ağırlıklarının her seferinde yeniden eğitilmesi değildir.
 Temiz ses örneği, model sürümü ve kişi vektörü mevcut tenant hafızasında tutulur.
-Kısa, tutarsız veya üst üste konuşma yanlış bir kalıcı profile çevrilmez; böyle bir
+Denetimin kısa, tutarsız veya üst üste konuşma olarak işaretlediği kanıt kalıcı
+profile çevrilmez; böyle bir
 kişi toplantı içinde etiketlenebilir fakat hafızaya kaydedildi olarak gösterilmez.
-Yeniden denemede veya eşzamanlı iki toplantıda aynı kişi için çift kayıt önlenir.
+Aynı isteğin yeniden denenmesi profil kaydını tekrarlamaz. Eşzamanlı toplantılarda
+hafıza kararları tenant içinde sırayla uygulanır; akustik tanımanın hata oranı
+[ayrı kalite ölçümleriyle](MEETING_ACCURACY.md) izlenir.
 
 20 saniye tek seferde konuşma zorunluluğu değildir: örneğin aynı kişiden güvenle
 ayrılmış 6 + 7 + 8 saniyelik temiz bölümler toplam 21 saniye eder. Tam 20 saniye

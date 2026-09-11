@@ -384,6 +384,155 @@ ASR rakibin kelimelerini üretmediğinde onun süresi diğer kişiye mal edilmez
 Bu düzeltme referans kaydı veya değerlendirme eşiğini değiştirmez; başarısız
 C koşumu korunur, aynı dört kaynak yeni ve boş bir test hafızasında tekrarlanır.
 
+Decision 19: 11 Eylül doğruluk incelemesinde, önceki normalize merkezin yeniden
+süreyle ağırlıklandırılmasının toplam vektörün büyüklüğünü kaybettiği doğrulandı.
+Aynı üç kanıtın geliş sırası, sonraki sorgunun tanınmış veya belirsiz olmasını
+değiştirebiliyordu. Toplantıya özgü 192 ve 256 boyutlu merkezlerin her biri için
+ayrı toplam kanıt ağırlığı ve ağırlıklı vektör toplamının normu, sürümlü özel
+`props` içinde korunur. Yeni katkı yalnız tekil, sahip olunan kaynak süresidir;
+vektör üretilemeyen süre o vektörün ağırlığına katılmaz. Güncelleme önceki
+normalize vektörü saklanan normla çarpar, yeni ağırlıklı kanıtı ekler ve ancak
+sonra normalize eder. Vektör, norm, ağırlık ve kaynak aralıkları aynı mevcut
+transaction içinde yazılır. Sıfır/tekrar kanıt merkezi değiştirmez; geçersiz veya
+desteklenmeyen mevcut durum sessizce sıfırlanmaz, model uyuşmazlığı olur.
+
+Eski kayıtlarda kaybolmuş norm geri üretilemez. Durum bulunmayan eski merkez,
+mevcut kayıtlı süresi kadar ağırlıklı tek başlangıç gözlemi olarak alınır ve
+`legacy_centroid_seed` kökeni korunur; geçmişin tam toplamı hesaplanmış sayılmaz.
+Yeni kaynak geçmişi `source_resultant` kökenini taşır. Kalıcı profil örnekleri,
+eşikler, model kimlikleri ve kaynak/örtüşme birleşme kuralları değişmez. Bu
+düzeltme merkez üzerinden zincirleme yanlış birleşmenin bütün nedenlerini
+çözmüş sayılmaz; ayrı yanlış birleşme/bölünme incelemesi ölçümde görünür kalır.
+
+Decision 20: Doğruluk değerlendirmesi yalnız kaynak aralığı uyuşmasına dayanmaz.
+Resmî referansı bütünüyle mevcut konuşmalarda kişi başına kronolojik metin
+birleştirilir; bütün kişi eşlemeleri içindeki en küçük kelime ekleme, silme ve
+değiştirme toplamı, bütün referans kelimelerine bölünerek kişi eşlemeli kelime
+hata oranı (`cpWER`) hesaplanır. Eksik veya fazla kişi boş akışlarla, kişisi
+belirsiz metin ayrı bir hipotez akışıyla hesaba katılır. Ayrıca belirsiz akışı
+gerçek kişiye eşlemeyen hata ve belirsiz kelime oranı ayrı raporlanır; çekinme
+metni veya zor örnekler paydadan çıkarılmaz. Normalizasyon, kaynak/çıktı
+hashleri, eşleme ve hesaplama sınırları deneyden önce sabitlenir. Resmî metnin
+yalnız bir kısmının çalındığı, zaman hizası bulunmayan kesite tam referans
+uydurulmaz; bu kaydın metin doğruluğu ölçülmediği belirtilir.
+
+Önceden model/ayar seçiminde kullanılan A/B/C ve tarihsel test grupları
+regresyon verisidir. Yeni kişi değerlendirmesi için bunlarla kişi, kaynak parça
+ve hash çakışması bulunmayan veri ayrılır; seçim model sonucuna göre değişmez.
+5/10/20/50 kişi kapsamı, ilk kayıt başarısı, doğru/yanlış kimlik, çekinme ve yeni
+kişi hatası ayrı paydalarla görünür olur. İngilizce sesli kitaplar üzerindeki
+sonuçlar Türkçe doğal toplantı veya eğitim verisiyle kişi bağımsızlığı kanıtı
+değildir. Yeni bir çıkarım tarifi ancak değişmeyen regresyon kaynakları,
+ayrılmış değerlendirme ve kaynak sınırlarında ölçüldükten sonra uygulanır;
+referans metin çıkarıma veya profil kabul kararına verilmez.
+
+Decision 20'nin bağımsız kişi seçimi ve değişmez kaynak üretimi, model çalışmadan
+önce [corpus-protocol.md](corpus-protocol.md) içinde dondurulur.
+
+Decision 21: Elli kişi incelemesinde bir belirsiz sonucun hangi modelden ve hangi
+eşikten kaynaklandığı mevcut son karar alanından ayırt edilemedi. Kullanılabilir
+hafıza kanıtı eşleştirilirken her modelin döndürdüğü en fazla iki benzerlik skoru,
+kendi karar/sebep değeri, sabit model kimliği ve kullanılan politika, sürümlü
+özel karar izi olarak toplantı konuşmacısının `props` alanında saklanır. İki
+modelin ilk adayının aynı olup olmadığı yalnız nullable boolean olarak yazılır;
+aday profil kimlikleri, kişi adları, vektörler, ses veya metin bu ize eklenmez.
+İz son karar ile aynı tenant/fencing/izin denetimli transaction içinde oluşur;
+tekrar tamamlanmış sonucu değiştirmez. Önceki kayıtların eksik izleri bugünkü
+galeriyle geriye dönük doldurulmaz. Kalite nedeniyle eşleştirme yapılmadığında
+skor uydurulmaz. Bu değişiklik eşikleri veya iki modelin birleşme kararını
+değiştirmez; karar nedenini ölçülebilir kılar. İz mevcut sonuç saklama/silme
+kurallarına tabidir ve genel API/arayüzde yayımlanmaz.
+
+Decision 22: Elli kişi kaydının sonlandırma aşamasında aynı WeSpeaker modelinin
+her kısa kalite penceresinde GPU'ya taşınıp CPU'ya geri alındığı görüldü. Mevcut
+özel istek kilidi bütün model işini zaten tekilleştirir. Bir hafıza doğrulama
+isteği boyunca model GPU'da tutulabilir; pencere seçimi, tek örnekli çağrı
+sırası, batch boyutu, hassasiyet ayarları, kalite eşikleri ve üretilen kararlar
+değişmez. Başarı veya hata sonunda kaynaklar CPU'ya döner; küresel hassasiyet
+ayarları her durumda geri yüklenir ve kilit serbest kalır. İç içe veya eşzamanlı
+yanlış kullanım açık hata olur. Değişiklik ancak aynı gerçek sabit örneklerde
+eski/yeni vektörler, saklanan PCM hashleri ve kalite kararları karşılaştırılıp
+GPU belleği ve süre ölçüldükten sonra etkinleştirilir. Model/bağımlılık kabulü,
+özel HTTP sözleşmesi ve 20 saniye kalite koşulu değişmez.
+
+Decision 23: Elli kişilik bağımsız A kaydında aynı kaynak parçasında modelin ayrı
+bulduğu iki native etiket, uygulamanın yalnız benzerlik ve zaman örtüşmesine
+bakan birleştirmesiyle aynı toplantı kişisine bağlandı. Bu kişinin kalıcı örneği
+iki ayrı kaynağı yaklaşık eşit süre içerdi; bu başarısız kayıt ve test hafızası
+korunur. Bütün ayrı native etiketlerin koşulsuz farklı kişi sayılması önce
+yeniden oynatıldı ve reddedildi: eski başarılı A kaydı 5 kişiden 11'e, C kaydı
+6 kişiden 8'e bölündü. Bu katı aday üretime alınmaz; ayrı native etiket tek
+başına farklı kişi kanıtı değildir.
+
+İkinci, önceden sabitlenen aday yalnız iki native etiketin de kullanılabilir
+ECAPA192 kanıtı varsa ve bu iki vektörün benzerliği mevcut yeni-kişi eşiği
+0,45'in altındaysa farklı kişilik kısıtı kurar. Eksik veya belirsiz ikinci-model
+kanıtı farklı kişi diye yorumlanmaz. Bu sınır sonuçlara göre taranmaz veya
+ayarlanmaz; aynı eski/yeni kaynaklarla karşılaştırılmadan etkinleşmez. Bütün
+adaylarla mevcut benzerlik ve fark hesabı yapılır; bağımsız ayrım kanıtıyla
+engellenen kazanan yerine düşük sıradaki bir adaya zorunlu atama yapılmaz.
+Ortak kaynak bağlamıyla yeniden bağlantı da kanıtlanan ayrımı aşamaz. Parça
+kimliği, model tarifi ve doğrulanmış native ayrım ilişkisi sınırlı, sürümlü
+özel kanıt olarak saklanır; yeni parçalardaki aynı kişi eşleştirmesi mevcut
+model politikasıyla sürer.
+
+Aynı kaynak parçasında yukarıdaki bağımsız kanıtla farklı kişi olduğu doğrulanan
+iki toplantı kişisi daha sonra tek kalıcı profile bağlanamaz. Mevcut zaman
+örtüşmesi çatışmasına ek olarak doğrulanan kaynak ayrımı da son hafıza atamasında
+denetlenir. Çatışan eşlemeler belirsiz
+olur; başka profile zorunlu atama, mevcut örneği değiştirme veya yeni örnek
+oluşturarak çatışmayı gizleme yapılmaz. Özel kanıt mevcut tenant, kaynak
+fingerprint, transaction, yeniden deneme ve sonuç temizliği sınırlarını taşır.
+Eski kayıtta bulunmayan kanıt bugünkü modelle uydurulmaz; geçersiz mevcut kanıt
+sessizce yok sayılmaz. Yeni karar genel sözleşmedeki `ambiguous` ve
+`inconsistent_audio` değerlerini kullanabilir; isim, ses veya özel etiketler
+genel API'ye eklenmez.
+
+Doğrulanmış ayrım, ayrı yaşam döngüsü olan yeni ilişki varlığı değil, mevcut
+toplantı/parça kaynak kanıtının yeniden üretilebilir özel önbelleğidir. İlk
+kanıtın model/sürüm, kaynak hash, parça, etiketler ve politika bilgisi korunur;
+aynı toplantının `meeting_speaker_id` değerleri en fazla 999 karşı konuşmacı
+içeren bir listede tutulur. Aynı kaynaktaki iki karşı kayıt simetrik ve mevcut olmalıdır. Bu
+sınırlı kanıt için yeni ilişki tablosu veya SQL üzerinden JSON içi join/arama
+oluşturulmaz; mevcut toplantı sahipliği ve transaction içinde tenant, eksik veya
+silinmiş hedef ve karşılıklılık doğrulanır. Bu tercih, kalıcı iş ilişkilerinin
+fiziksel yabancı anahtar sınırını değiştirmez. Önbellek kaynakla birlikte
+temizlenir; doğrulanamayan eski kanıt atlanarak kullanılmaz.
+
+Bu kural native modelin yanlış bölmesini düzelttiği iddiası değildir. Önceki
+A/B/D/C ve uzun kayıt kaynakları ile yeni elli kişilik A kaynak eşlemesi,
+değişmeyen model çıktıları üzerinden önce yeniden oynatılır. Saflık, yanlış
+birleşme ve bölünme birlikte raporlanır. Sonra gerçek PostgreSQL/HTTP sınırları
+ve boş bir hafızayla gerçek model koşumu doğrulanır; eski yanlış profil silinmez
+ve yeni deneyin galerisine taşınmaz. Eşikler, kişi sayısı girdisi ve model
+ağırlıkları bu düzeltmeyle değiştirilmez.
+
+Decision 24: Yeni karışık kalıcı örnekte mevcut WeSpeaker256 kontrolü iki ayrı
+grubu buldu ancak merkez benzerliği 0,626 olduğundan reddetmedi. Aynı kaynak
+pencerelerini kullanan bağımsız ECAPA192 tanısı iki grubu 0,542 benzerlikle
+ayırdı; ilk sabit karşılaştırmadaki 53 temiz örneği reddetmedi. Bu ilk bulgu
+tek başına yeni kalite kuralını etkinleştirmez. Eski 48 kontrol ve yeni kaydın
+bütün 37 kalıcı örneğinden oluşan, dosya hashleri sabit 85 vaka tamamlanır;
+yinelemeler varsa açıkça sayılır ve bağımsız örnek diye çoğaltılmaz.
+
+Sınanacak aday, son saklanacak PCM üzerinde mevcut ikincil-ses denetimini iki
+model uzayında bağımsız uygular. İki saniyelik pencere, yarım saniyelik adım,
+tekil PCM, en az bir saniye VAD, iki merkezli deterministik kümeleme, her grupta
+iki örtüşmeyen pencere ve üç saniye konuşma desteği değişmez. ECAPA192 kendi
+mevcut 0,55 tanıma ve 0,10 fark sınırlarını kullanır; iki merkez benzerliği
+0,55'in altındaysa ve iki grup da destekliyse karışık ses reddedilir. Modellerin
+vektörleri veya benzerlik skorları birbirine karıştırılmaz. Mevcut WeSpeaker
+reddi korunur; herhangi bir bağımsız model yeterli ikinci-ses kanıtı bulursa
+sonuç `inconsistent_audio` olur ve saklanacak hash, aralık veya kimlik vektörü
+dönmez. Reddetme yeni kişi üretmez ve mevcut profili değiştirmez.
+
+Aday ancak bütün sabit temiz kontroller korunup bütün bilinen karışımlar
+reddedildiğinde, gerçek model/özel HTTP ve hata sınırları doğrulandığında
+etkinleşir. Eşik taraması, kayıt değiştirme ve zor örnekleri çıkarma yapılmaz.
+Gerçek cihazdaki süre/bellek artışı ve sınıra yakın vakalar ayrıca kaydedilir.
+Bu kontrollere uyum, her gerçek toplantının karışımını bulma garantisi değildir;
+yeni hafızayla elli kişi koşumu ve sonraki bağımsız toplantılar ayrıca ölçülür.
+
 Requirement 1: `Toplantılar` ekranı dosya seçimini, kaynak süresini, aktarım
 ilerlemesini, iptal davranışını ve onaylanan aktarım miktarını gösterir.
 Desteklenmeyen format, boyut/süre sınırı, yetki ve bağlantı hatası yerelleştirilir.
@@ -532,6 +681,12 @@ işaretlenmemiş cihaz, kalite ve süre hedefleri tamamlanmış sayılmaz.
 - [x] Decision 10 / Requirement 8: Sayı girdisi boş, yalnız üst sınır, kesin konuşan sayısı ve çelişkili/geçersiz değerler gerçek API/UI testlerinden geçer; beş kişilik toplantının tek/iki kişili parçasına beş etiket zorlanmaz. Sayı uyuşmazlığı kör birleşme olmadan gösterilir.
 - [x] Decision 11 / Requirement 9: Elle ad verme TR/EN arayüzünde ve sıradan izinli kullanıcıyla çalışır; yenileme/yeniden başlatma/sonraki toplantıda korunur. İzin/tenant/sürüm çatışması, aynı adla iki ayrı profil ve bekleyen kişinin adı ayrı sınanır.
 - [x] Requirement 10: Gerçek model, HTTP, PostgreSQL ve tarayıcı üzerinden A=5 yeni profil → elle isim → B=aynı 5 kimlik/ad → C=aynı 5+1 yeni kimlik akışı gözlenir; bağımsız sesler, tekrar ve yeniden başlatma sonuçları raporlanır. Dublör yanıtı veya aynı dosyayı yeniden yüklemek çapraz toplantı tanıma kanıtı değildir.
+- [x] Decision 19: Ayrı 192/256 toplam norm ve gerçek katkı ağırlığı, sıfır/tekrar, eksik vektör, geçersiz durum ve eski başlangıç testleri geçer; gerçek worker yeniden oynatması ve son profil kapısı doğrulanır. [Kanıt](../../../../docs/evidence/2026-09-11-accuracy-audit/resultant-report.md).
+- [x] Decision 20 ölçüm aracı: Tam referans, eksik/fazla/atanmamış kişi, Unicode genişlemesi ve çalışma sınırları korunur; bağımsız küçük permütasyon hesabı ve gerçek A/B/C kelime ölçümleri kaydedilir. Bu madde kişi ölçeği kalite hedefini tamamlamaz. [Kanıt](../../../../docs/evidence/2026-09-11-accuracy-audit/metrics-report.md).
+- [x] Decision 21: Özel karar izi gerçek transaction, tenant, tekrar, temizlik ve genel yanıttan dışlama sınırlarından geçer; gerçek elli kişilik dönüş kaydında gözlenir. [Kanıt](../../../../docs/evidence/2026-09-11-accuracy-audit/memory-trace-report.md).
+- [x] Decision 22: İstek sahipliği, hata ve hassasiyet temizliği sınanır; sabit GPU kontrollerinde 2.979 vektör birebir aynı kalır, süre/bellek ve dağıtılmış kaynak kimliği kaydedilir. [Kanıt](../../../../docs/evidence/2026-09-11-accuracy-audit/residency-report.md).
+- [x] Decision 23: Bağımsız farklı ses kanıtı, yalnız bağlam, tam aday sırası, karşılıklı tenant/kaynak doğrulaması ve son kimlik çatışması gerçek PostgreSQL testleriyle korunur; eski beş kişilik akış ve taze galerinin bütün örnek denetimi geçer. Elli kişilik C'deki kalan yanlış birleşme açık tutulur. [Kanıt](../../../../docs/evidence/2026-09-11-accuracy-audit/native-exclusions-report.md).
+- [x] Decision 24: Sabit 76 temiz ve 9 karışık örnekte iki bağımsız kalite kontrolü doğru izin/veto üretir; eski karışık örnek çalışan özel HTTP ucunda saklanabilir çıktı olmadan reddedilir. [Kanıt](../../../../docs/evidence/2026-09-11-accuracy-audit/dual-coherence-report.md).
 - [ ] Decision 3–4: 1/2/4 saatlik kaynakta bellek kayıt süresiyle doğrusal büyümez; kesinti/devam, disk ve işleme/ses süresi oranı raporlanır.
 - [ ] Kalite: 5/10/20/50 toplantı kişisi ve 50/100/200 kayıtlı kişi havuzu ayrı ölçülür; kimlik precision/recall/F1, ilk kayıt kapsamı, konuşmacı ayrım hatası, kelime hata oranı ve kişi atamalı metin hatası raporlanır. Başarısız veya çözülemeyen kişiler paydadan çıkarılmaz.
 - [ ] Tam profil kapısı, üretilmiş OpenAPI/tipler, migrasyon/history/drift, güvenlik, chart ve gerçek Spark/browser kanıtı kaydedilir; temsilî Türkçe veriyle L3 kabulü ayrıca alınır.

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import math
+from contextlib import AbstractContextManager
 from numbers import Real
 from typing import Protocol
 
@@ -11,6 +12,7 @@ import numpy as np
 from voiceup.audio import Audio, Turn, validate_turns
 
 from .meeting_evidence import extract_track_evidence
+from .meeting_memory import VoiceMemoryModels
 from .meeting_models import (
     ASR_ID,
     ASR_REVISION,
@@ -32,6 +34,7 @@ class MeetingModels(Protocol):
     ) -> dict: ...
     def transcribe(self, audio: Audio, language: str | None) -> dict: ...
     def voice_embedding(self, samples: np.ndarray) -> np.ndarray: ...
+    def voice_embedding_session(self) -> AbstractContextManager[VoiceMemoryModels]: ...
 
 
 def model_identity() -> dict:

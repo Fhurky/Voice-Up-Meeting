@@ -1,0 +1,338 @@
+{
+  "profile_id": "kt-vibecoding-python-web-v2",
+  "accepted_decision": 23,
+  "evidence_tier": "L1",
+  "source_sha256": {
+    "app/backend/app/domain/meeting_native_exclusions.py": "6189065a59c11a6bd42473379f810790e5a12d8da81f7e97d50de727413e1586",
+    "app/backend/app/services/meeting_chunks.py": "40a292dc24bf388f15441671177153368b46a4e6f4159aa292efcda865a0322e",
+    "app/backend/app/services/meeting_memory.py": "4b757539c6fe2b0aecbbac7f9d5b828a11637c29f003be53cd4c826da9213d4f",
+    "app/backend/tests/unit/test_meeting_native_exclusions.py": "1c1406e9640e7c208b34884408cd80fa65d528e16d0eb7d2cdd4798119b0d7b9",
+    "app/backend/tests/integration/test_meeting_native_exclusions.py": "2c6aa58409b51019eae99fbbe5add0ce14623e28110e59fd2a605df20f0447f8"
+  },
+  "tests": {
+    "native-exclusions-unit-red.xml": {
+      "path": "outputs/2026-09-11-resultant-correctness/native-exclusions-unit-red.xml",
+      "sha256": "e2d76049f900670c9e3a1a86a8d851a867f649841a0b274c9e0341442dab2607",
+      "tests": 1,
+      "failures": 0,
+      "errors": 1,
+      "skipped": 0
+    },
+    "native-exclusions-pg-red.xml": {
+      "path": "outputs/2026-09-11-resultant-correctness/native-exclusions-pg-red.xml",
+      "sha256": "3e9458aa0b12ca4d0fc5e83ff0fc02e34eb424cfa6f5aef8ff4b4b1c5bfc9f95",
+      "tests": 12,
+      "failures": 9,
+      "errors": 0,
+      "skipped": 0
+    },
+    "native-exclusions-pg-green.xml": {
+      "path": "outputs/2026-09-11-resultant-correctness/native-exclusions-pg-green.xml",
+      "sha256": "d0e73683d2c88e0bd9f5b312283277a6a944a289b787bfa5c22ea497c2403cfc",
+      "tests": 119,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "native-context-pg-red.xml": {
+      "path": "outputs/2026-09-11-resultant-correctness/native-context-pg-red.xml",
+      "sha256": "5773ab4796ee165c66183a96f95759e91d42ea225f127d6bfcd6da1e5cb8ba56",
+      "tests": 1,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0
+    },
+    "native-exclusions-unit-final.xml": {
+      "path": "outputs/2026-09-11-resultant-correctness/native-exclusions-unit-final.xml",
+      "sha256": "f41c228e17eaf58342361ee04ae29b0548a4ab5b7338c42c46e76455e3cf1430",
+      "tests": 110,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "native-exclusions-pg-final.xml": {
+      "path": "outputs/2026-09-11-resultant-correctness/native-exclusions-pg-final.xml",
+      "sha256": "2ab93f66c499599cc89acc30b5dae3ad7cb98fece3782d542c7a66810125d2ba",
+      "tests": 121,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "production_replay": {
+    "database_writes": 0,
+    "gpu_calls": 0,
+    "adapter": "signature-constrained in-memory repository; float32 read roundtrip at each chunk; not PostgreSQL acceptance",
+    "cases": [
+      {
+        "case": "A",
+        "production_speaker_count": 5,
+        "checkpoints": 1,
+        "all_native_mappings_equal_frozen_candidate": true,
+        "all_owned_source_metrics_equal_frozen_candidate": true,
+        "reciprocal_peer_edges": 1,
+        "all_peer_proofs_match_actual_checkpoint": true
+      },
+      {
+        "case": "B",
+        "production_speaker_count": 5,
+        "checkpoints": 1,
+        "all_native_mappings_equal_frozen_candidate": true,
+        "all_owned_source_metrics_equal_frozen_candidate": true,
+        "reciprocal_peer_edges": 6,
+        "all_peer_proofs_match_actual_checkpoint": true
+      },
+      {
+        "case": "C",
+        "production_speaker_count": 6,
+        "checkpoints": 1,
+        "all_native_mappings_equal_frozen_candidate": true,
+        "all_owned_source_metrics_equal_frozen_candidate": true,
+        "reciprocal_peer_edges": 1,
+        "all_peer_proofs_match_actual_checkpoint": true
+      },
+      {
+        "case": "D",
+        "production_speaker_count": 6,
+        "checkpoints": 1,
+        "all_native_mappings_equal_frozen_candidate": true,
+        "all_owned_source_metrics_equal_frozen_candidate": true,
+        "reciprocal_peer_edges": 0,
+        "all_peer_proofs_match_actual_checkpoint": true
+      },
+      {
+        "case": "long3600",
+        "production_speaker_count": 5,
+        "checkpoints": 12,
+        "all_native_mappings_equal_frozen_candidate": true,
+        "all_owned_source_metrics_equal_frozen_candidate": true,
+        "reciprocal_peer_edges": 10,
+        "all_peer_proofs_match_actual_checkpoint": true
+      },
+      {
+        "case": "50A",
+        "production_speaker_count": 52,
+        "checkpoints": 8,
+        "all_native_mappings_equal_frozen_candidate": true,
+        "all_owned_source_metrics_equal_frozen_candidate": true,
+        "reciprocal_peer_edges": 515,
+        "all_peer_proofs_match_actual_checkpoint": true
+      }
+    ],
+    "production_sources": {
+      "app/backend/app/services/meeting_chunks.py": "40a292dc24bf388f15441671177153368b46a4e6f4159aa292efcda865a0322e",
+      "app/backend/app/domain/meeting_native_exclusions.py": "6189065a59c11a6bd42473379f810790e5a12d8da81f7e97d50de727413e1586"
+    },
+    "frozen_replay_sha256": "4aa022545f79123bbc726e17ece5c690ce81a80a4d3f8f88532ecfba674b1a59",
+    "harness_sha256": "20a4c05f7c246221a2be96017db75f1e588b54aaf13211f39fb0b3c3ce290937"
+  },
+  "rejected_strict_candidate": [
+    {
+      "case": "A",
+      "baseline_speakers": 5,
+      "strict_speakers": 11
+    },
+    {
+      "case": "B",
+      "baseline_speakers": 5,
+      "strict_speakers": 5
+    },
+    {
+      "case": "C",
+      "baseline_speakers": 6,
+      "strict_speakers": 8
+    },
+    {
+      "case": "D",
+      "baseline_speakers": 6,
+      "strict_speakers": 6
+    },
+    {
+      "case": "50A",
+      "baseline_speakers": 51,
+      "strict_speakers": 53
+    }
+  ],
+  "conditional_candidate": [
+    {
+      "case": "A",
+      "baseline_speakers": 5,
+      "conditional_speakers": 5,
+      "original_checkpoint_sha256": [
+        "26bfebaf97d1b27b13ca2f870d3f247b9b675c5312f5e2e2489b6274b9c4ffe3"
+      ],
+      "baseline_source_metrics": {
+        "speaker_count": 5,
+        "expected_source_people": 5,
+        "people_with_multiple_dominant_groups": 0,
+        "people_without_dominant_group": 0,
+        "groups_below_90pct_reference_share": 0,
+        "groups_above20_owned_seconds": 5
+      },
+      "conditional_source_metrics": {
+        "speaker_count": 5,
+        "expected_source_people": 5,
+        "people_with_multiple_dominant_groups": 0,
+        "people_without_dominant_group": 0,
+        "groups_below_90pct_reference_share": 0,
+        "groups_above20_owned_seconds": 5
+      }
+    },
+    {
+      "case": "B",
+      "baseline_speakers": 5,
+      "conditional_speakers": 5,
+      "original_checkpoint_sha256": [
+        "dd4a7e04a5cd61e812a32667b44a343fb146a740ecc48ce253226bd05cb3118e"
+      ],
+      "baseline_source_metrics": {
+        "speaker_count": 5,
+        "expected_source_people": 5,
+        "people_with_multiple_dominant_groups": 0,
+        "people_without_dominant_group": 0,
+        "groups_below_90pct_reference_share": 0,
+        "groups_above20_owned_seconds": 1
+      },
+      "conditional_source_metrics": {
+        "speaker_count": 5,
+        "expected_source_people": 5,
+        "people_with_multiple_dominant_groups": 0,
+        "people_without_dominant_group": 0,
+        "groups_below_90pct_reference_share": 0,
+        "groups_above20_owned_seconds": 1
+      }
+    },
+    {
+      "case": "C",
+      "baseline_speakers": 6,
+      "conditional_speakers": 6,
+      "original_checkpoint_sha256": [
+        "11922d6762c867d13a66797cf7ef89bb6362d5ce3d0ef0fbb7da5d0cfd8b9a8f"
+      ],
+      "baseline_source_metrics": {
+        "speaker_count": 6,
+        "expected_source_people": 6,
+        "people_with_multiple_dominant_groups": 0,
+        "people_without_dominant_group": 0,
+        "groups_below_90pct_reference_share": 0,
+        "groups_above20_owned_seconds": 3
+      },
+      "conditional_source_metrics": {
+        "speaker_count": 6,
+        "expected_source_people": 6,
+        "people_with_multiple_dominant_groups": 0,
+        "people_without_dominant_group": 0,
+        "groups_below_90pct_reference_share": 0,
+        "groups_above20_owned_seconds": 3
+      }
+    },
+    {
+      "case": "D",
+      "baseline_speakers": 6,
+      "conditional_speakers": 6,
+      "original_checkpoint_sha256": [
+        "457684740c93124094913fee0a79f87a75422c49a0d7a9a141bd382a7d75c348"
+      ],
+      "baseline_source_metrics": {
+        "speaker_count": 6,
+        "expected_source_people": 6,
+        "people_with_multiple_dominant_groups": 0,
+        "people_without_dominant_group": 0,
+        "groups_below_90pct_reference_share": 0,
+        "groups_above20_owned_seconds": 0
+      },
+      "conditional_source_metrics": {
+        "speaker_count": 6,
+        "expected_source_people": 6,
+        "people_with_multiple_dominant_groups": 0,
+        "people_without_dominant_group": 0,
+        "groups_below_90pct_reference_share": 0,
+        "groups_above20_owned_seconds": 0
+      }
+    },
+    {
+      "case": "long3600",
+      "baseline_speakers": 5,
+      "conditional_speakers": 5,
+      "original_checkpoint_sha256": [
+        "b32bb79db1757732a7bae65c8da760ce1ddd7df414ea5cb9880d565ab2a5d68f",
+        "6668da55ee687ad8e9cadbfbddef89072c391951044808f1fb0b6f1abf898c71",
+        "3dd2cbf079f01591a9d0f38bc8ad96092c2fa1d1aa65c08f484b83d5ca679c7c",
+        "7765f7c47ec9e8a8467662fb00ed434a8bb1495f2c8031c5766596259b1767bf",
+        "c964481a408f5dc1134596c92de4114db342ea43004fa0603f0f28d5cb559b5f",
+        "447b672ac0ca20943fccef1a071c9a455bc7ef986174616f0243a98f71b6a9d1",
+        "7c7247142659623cfeab30806abe72394b01f46c8c1687a3060aab11f66a1a31",
+        "406561d1fd1173d8df6f04ef5c9c9203eccc60977b622458304d631e94b3b587",
+        "c62f53eda22b6d207ef76b657adfc08f60ab3f3af1c1320c5987e5c769cd8dd2",
+        "46f0a0a8d9c7abd251f086f4020dafdf1a256ed51931045c7db1a6d59de3d7b1",
+        "b0994bb447f376809723d2f6c6f52609f761c62861530ea66c62bd9914ef105f",
+        "dbda7059bebd3678fff1f1bab6e592c729cbc8ada8263d165a0269b5ddd1c8d5"
+      ],
+      "baseline_source_metrics": {
+        "speaker_count": 5,
+        "source_metrics_unavailable": "Long recording source reference is not in the two frozen protocols"
+      },
+      "conditional_source_metrics": {
+        "speaker_count": 5,
+        "source_metrics_unavailable": "Long recording source reference is not in the two frozen protocols"
+      }
+    },
+    {
+      "case": "50A",
+      "baseline_speakers": 51,
+      "conditional_speakers": 52,
+      "original_checkpoint_sha256": [
+        "65c05c07ba584c19fbe8c85dc33023183bfb2b9d8e6328237fec21ad66c4a68c",
+        "db86c94ee47d00d1f4a9deb7ecf5029e670909390ed89c3b4bce6fdc14fd5454",
+        "ff17010bbe15a95bdbe04ea4e76d8a8e7b1058257286672b61df8bb961461430",
+        "3d019acf3595de6ab098adc9c6f9120365195c5fc1de80d08fd800e0a07a74af",
+        "24173aaa524f3eb9f5b05804b639c56059b0db2b36ee5f483209f619a1294abb",
+        "1033afcc94a4134f973494966e7edc166b9b142d14e95025cd113d25f247fb58",
+        "9aaadb5e96244c8c0ed902afb46597a09dba23120f4fe420c580d18bf220f095",
+        "f2cbd818498540307acea4907ed39daabe43917186cbfca8f6b02734cda7fa8c"
+      ],
+      "baseline_source_metrics": {
+        "speaker_count": 51,
+        "expected_source_people": 50,
+        "people_with_multiple_dominant_groups": 1,
+        "people_without_dominant_group": 2,
+        "groups_below_90pct_reference_share": 2,
+        "groups_above20_owned_seconds": 47
+      },
+      "conditional_source_metrics": {
+        "speaker_count": 52,
+        "expected_source_people": 50,
+        "people_with_multiple_dominant_groups": 1,
+        "people_without_dominant_group": 1,
+        "groups_below_90pct_reference_share": 1,
+        "groups_above20_owned_seconds": 48
+      }
+    }
+  ],
+  "evidence_sha256": {
+    "private-replay-input.json": "9860ab15092d114183c44b693187a2dbef89107dadf8992746053f370d178b09",
+    "capacity-replay-input.private.json": "5a2798fc810a3b7eb3f2259b052bfa0377d4f7dda9d82632a8733295e0e3aefa",
+    "mixed-native-provenance.json": "f10df6ec400ef54cc134e426ed122e7ea673e46016058eacfd14184627ac24e7",
+    "native-constraint-replay.private.json": "52abcd54bac4da0f9d7e32bae8b35a5fdfbf05342ef933155ba6b447fde16e8e",
+    "native-conditional-replay.private.json": "4aa022545f79123bbc726e17ece5c690ce81a80a4d3f8f88532ecfba674b1a59",
+    "native-production-replay-final.json": "407531286b9fe5d55fd31bee2b877bf27f0faa789e222928d547f32e94cea2a5"
+  },
+  "fuse_populations_ast_unchanged_from_a096cf8": true,
+  "constraints": {
+    "new_threshold_source": "active MatchPolicy.new_threshold",
+    "both_native_vectors_required": "usable ECAPA192",
+    "candidate_ranking": "all candidates, blocked winner abstains; no forced runner-up",
+    "peer_cache_maximum": 999,
+    "meeting_rows_maximum": 1000,
+    "new_schema": false,
+    "public_fields": false,
+    "source_context_only": "mapped existing row can add qualified proof without vector/duration contribution; unmatched row never created"
+  },
+  "limits": [
+    "No new GPU/model calls in this slice.",
+    "Recorded source reference shares are not final stored-sample purity.",
+    "Fresh-gallery real50/return, full quality gate and scanner evidence are separate.",
+    "One <90% dominant-reference source group remains in the fifty-person replay.",
+    "Historical bad profile and all37 baseline profiles remain untouched."
+  ]
+}

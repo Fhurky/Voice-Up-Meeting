@@ -1,0 +1,711 @@
+{
+  "schema_version": 1,
+  "scope": "Offline forensic replay of captured actual C; two rejected general candidates; no production edit or new model call",
+  "technology_profile": "kt-vibecoding-python-web-v2",
+  "database_writes": 0,
+  "model_calls": 0,
+  "actual_c_verification": {
+    "chunks": 8,
+    "speaker_rows": 52,
+    "all_owned_source_ranges_exact": true,
+    "both_embedding_populations_max_l2": 2.3898053863994303e-08,
+    "tolerance": 2e-07,
+    "source_sha256": "429868536378f62923e54e51b35388006670a5a3f8d1e329cbda1f9b5ff30cb5"
+  },
+  "metric_limitation": "Dominant-source fractions use complete utterance reference intervals including pauses, not DER/JER. Diagnostic dominant split counts and under90 counts differ from the frozen public strict mapping metric. Long3600 source purity unavailable in this replay helper.",
+  "actual_critical_timeline": [
+    {
+      "chunk_index": 2,
+      "native_label": "SPEAKER_10",
+      "status": "inconsistent_audio",
+      "native192_present": false,
+      "tracking256_present": true,
+      "owned_source_frames": {
+        "ls-1898": 21600,
+        "ls-1841": 169560
+      },
+      "native_context_source_frames": {
+        "ls-1898": 21600,
+        "ls-1841": 169560
+      },
+      "owned_frames": 191160,
+      "margin": 0.03437372971355712,
+      "primary_selected_ordinal": null,
+      "primary_reason": "below_new_threshold",
+      "final_selected_ordinal": null,
+      "final_reason": "below_new_threshold",
+      "would_create_ordinal": 47,
+      "primary_top_two": [
+        {
+          "ordinal": 24,
+          "primary_cosine": 0.44312992691993713,
+          "independent192_cosine": null,
+          "global192_present": true,
+          "global192_compatible": true,
+          "global_before_source_frames": {
+            "ls-2196": 201960
+          },
+          "blocked": false
+        },
+        {
+          "ordinal": 46,
+          "primary_cosine": 0.40875619720638,
+          "independent192_cosine": null,
+          "global192_present": true,
+          "global192_compatible": true,
+          "global_before_source_frames": {
+            "ls-248": 810,
+            "ls-3526": 169020
+          },
+          "blocked": false
+        }
+      ],
+      "relevant_earlier_native_labels": []
+    },
+    {
+      "chunk_index": 4,
+      "native_label": "SPEAKER_11",
+      "status": "usable",
+      "native192_present": true,
+      "tracking256_present": true,
+      "owned_source_frames": {
+        "ls-1898": 540,
+        "ls-1841": 184140
+      },
+      "native_context_source_frames": {
+        "ls-1898": 540,
+        "ls-1841": 184140
+      },
+      "owned_frames": 184680,
+      "margin": 0.4868551194667816,
+      "primary_selected_ordinal": 47,
+      "primary_reason": "matched",
+      "final_selected_ordinal": 47,
+      "final_reason": "matched",
+      "would_create_ordinal": null,
+      "primary_top_two": [
+        {
+          "ordinal": 47,
+          "primary_cosine": 0.9225837588310242,
+          "independent192_cosine": null,
+          "global192_present": false,
+          "global192_compatible": false,
+          "global_before_source_frames": {
+            "ls-1898": 21600,
+            "ls-1841": 169560
+          },
+          "blocked": false
+        },
+        {
+          "ordinal": 24,
+          "primary_cosine": 0.43572863936424255,
+          "independent192_cosine": 0.34959328174591064,
+          "global192_present": true,
+          "global192_compatible": true,
+          "global_before_source_frames": {
+            "ls-2196": 352620
+          },
+          "blocked": false
+        }
+      ],
+      "relevant_earlier_native_labels": []
+    },
+    {
+      "chunk_index": 4,
+      "native_label": "SPEAKER_13",
+      "status": "inconsistent_audio",
+      "native192_present": false,
+      "tracking256_present": true,
+      "owned_source_frames": {
+        "ls-1898": 188190,
+        "ls-1841": 270
+      },
+      "native_context_source_frames": {
+        "ls-1898": 188190,
+        "ls-1841": 270
+      },
+      "owned_frames": 188460,
+      "margin": 0.2289274273946436,
+      "primary_selected_ordinal": 47,
+      "primary_reason": "matched",
+      "final_selected_ordinal": 47,
+      "final_reason": "matched",
+      "would_create_ordinal": null,
+      "primary_top_two": [
+        {
+          "ordinal": 47,
+          "primary_cosine": 0.6105672684419027,
+          "independent192_cosine": null,
+          "global192_present": true,
+          "global192_compatible": true,
+          "global_before_source_frames": {
+            "ls-1898": 22140,
+            "ls-1841": 353700
+          },
+          "blocked": false
+        },
+        {
+          "ordinal": 13,
+          "primary_cosine": 0.38163984104725907,
+          "independent192_cosine": null,
+          "global192_present": true,
+          "global192_compatible": true,
+          "global_before_source_frames": {
+            "ls-1970": 33480,
+            "ls-4195": 366120
+          },
+          "blocked": false
+        }
+      ],
+      "relevant_earlier_native_labels": [
+        {
+          "label": "SPEAKER_11",
+          "ordinal": 47,
+          "status": "usable",
+          "native192_cosine": null,
+          "native_source_frames": {
+            "ls-1898": 540,
+            "ls-1841": 184140
+          },
+          "qualified_separation": false
+        }
+      ]
+    },
+    {
+      "chunk_index": 6,
+      "native_label": "SPEAKER_06",
+      "status": "usable",
+      "native192_present": true,
+      "tracking256_present": true,
+      "owned_source_frames": {
+        "ls-1898": 228420,
+        "ls-1841": 3240
+      },
+      "native_context_source_frames": {
+        "ls-1898": 228420,
+        "ls-1841": 3240
+      },
+      "owned_frames": 231660,
+      "margin": 0.2991204261779785,
+      "primary_selected_ordinal": 47,
+      "primary_reason": "matched",
+      "final_selected_ordinal": 47,
+      "final_reason": "matched",
+      "would_create_ordinal": null,
+      "primary_top_two": [
+        {
+          "ordinal": 47,
+          "primary_cosine": 0.6780495047569275,
+          "independent192_cosine": 0.47469592094421387,
+          "global192_present": true,
+          "global192_compatible": true,
+          "global_before_source_frames": {
+            "ls-1898": 210330,
+            "ls-1841": 353970
+          },
+          "blocked": false
+        },
+        {
+          "ordinal": 1,
+          "primary_cosine": 0.378929078578949,
+          "independent192_cosine": 0.23356333374977112,
+          "global192_present": true,
+          "global192_compatible": true,
+          "global_before_source_frames": {
+            "ls-200": 471690
+          },
+          "blocked": false
+        }
+      ],
+      "relevant_earlier_native_labels": []
+    },
+    {
+      "chunk_index": 6,
+      "native_label": "SPEAKER_07",
+      "status": "usable",
+      "native192_present": true,
+      "tracking256_present": true,
+      "owned_source_frames": {
+        "ls-1898": 540,
+        "ls-1841": 156600
+      },
+      "native_context_source_frames": {
+        "ls-1898": 540,
+        "ls-1841": 156600
+      },
+      "owned_frames": 157140,
+      "margin": 0.4187338752643528,
+      "primary_selected_ordinal": null,
+      "primary_reason": "overlap_conflict",
+      "final_selected_ordinal": null,
+      "final_reason": "overlap_conflict",
+      "would_create_ordinal": 51,
+      "primary_top_two": [
+        {
+          "ordinal": 47,
+          "primary_cosine": 0.8427645070449772,
+          "independent192_cosine": 0.7125454642919524,
+          "global192_present": true,
+          "global192_compatible": true,
+          "global_before_source_frames": {
+            "ls-1898": 438750,
+            "ls-1841": 357210
+          },
+          "blocked": true
+        },
+        {
+          "ordinal": 1,
+          "primary_cosine": 0.4240306317806244,
+          "independent192_cosine": 0.36520031094551086,
+          "global192_present": true,
+          "global192_compatible": true,
+          "global_before_source_frames": {
+            "ls-200": 471690
+          },
+          "blocked": false
+        }
+      ],
+      "relevant_earlier_native_labels": [
+        {
+          "label": "SPEAKER_06",
+          "ordinal": 47,
+          "status": "usable",
+          "native192_cosine": 0.40978663301525925,
+          "native_source_frames": {
+            "ls-1898": 228420,
+            "ls-1841": 3240
+          },
+          "qualified_separation": true
+        }
+      ]
+    },
+    {
+      "chunk_index": 7,
+      "native_label": "SPEAKER_03",
+      "status": "usable",
+      "native192_present": true,
+      "tracking256_present": true,
+      "owned_source_frames": {
+        "ls-1898": 62640
+      },
+      "native_context_source_frames": {
+        "ls-1898": 62640
+      },
+      "owned_frames": 62640,
+      "margin": 0.2520160675048828,
+      "primary_selected_ordinal": 47,
+      "primary_reason": "matched",
+      "final_selected_ordinal": 47,
+      "final_reason": "matched",
+      "would_create_ordinal": null,
+      "primary_top_two": [
+        {
+          "ordinal": 47,
+          "primary_cosine": 0.7622168660163879,
+          "independent192_cosine": 0.6857929825782776,
+          "global192_present": true,
+          "global192_compatible": true,
+          "global_before_source_frames": {
+            "ls-1898": 438750,
+            "ls-1841": 357210
+          },
+          "blocked": false
+        },
+        {
+          "ordinal": 51,
+          "primary_cosine": 0.5102007985115051,
+          "independent192_cosine": 0.40925705432891846,
+          "global192_present": true,
+          "global192_compatible": true,
+          "global_before_source_frames": {
+            "ls-1898": 540,
+            "ls-1841": 156600
+          },
+          "blocked": false
+        }
+      ],
+      "relevant_earlier_native_labels": []
+    },
+    {
+      "chunk_index": 7,
+      "native_label": "SPEAKER_04",
+      "status": "usable",
+      "native192_present": true,
+      "tracking256_present": true,
+      "owned_source_frames": {
+        "ls-4195": 142290,
+        "ls-1898": 15660
+      },
+      "native_context_source_frames": {
+        "ls-4195": 142290,
+        "ls-1898": 15660
+      },
+      "owned_frames": 157950,
+      "margin": 0.48398637771606445,
+      "primary_selected_ordinal": 13,
+      "primary_reason": "matched",
+      "final_selected_ordinal": 13,
+      "final_reason": "matched",
+      "would_create_ordinal": null,
+      "primary_top_two": [
+        {
+          "ordinal": 13,
+          "primary_cosine": 0.9215561151504517,
+          "independent192_cosine": 0.8596435189247131,
+          "global192_present": true,
+          "global192_compatible": true,
+          "global_before_source_frames": {
+            "ls-1970": 33480,
+            "ls-4195": 477090
+          },
+          "blocked": false
+        },
+        {
+          "ordinal": 14,
+          "primary_cosine": 0.4375697374343872,
+          "independent192_cosine": 0.35196876525878906,
+          "global192_present": true,
+          "global192_compatible": true,
+          "global_before_source_frames": {
+            "ls-4853": 538860
+          },
+          "blocked": false
+        }
+      ],
+      "relevant_earlier_native_labels": [
+        {
+          "label": "SPEAKER_03",
+          "ordinal": 47,
+          "status": "usable",
+          "native192_cosine": 0.2231755038965568,
+          "native_source_frames": {
+            "ls-1898": 62640
+          },
+          "qualified_separation": true
+        }
+      ]
+    }
+  ],
+  "actual_final_critical_rows": [
+    {
+      "ordinal": 47,
+      "owned_seconds": 53.6625,
+      "reference_seconds": 53.6625,
+      "dominant_reference": "ls-1898",
+      "dominant_share": 0.5839622641509434,
+      "source_reference_seconds": {
+        "ls-1898": 31.336875,
+        "ls-1841": 22.325625
+      },
+      "candidate_contexts": 9,
+      "reconciliation_ambiguous": false
+    }
+  ],
+  "candidate_one": {
+    "verdict": "rejected",
+    "protocol": {
+      "algorithm": "For a usable native192, add each compatible present global192 centroid with cosine below unchanged new_threshold .45 to the blocked set, retaining full primary256 ranking; same block applies to source-context fallback. No weaker runner-up selection. No source/reference input to algorithm.",
+      "threshold_search": false,
+      "database_writes": 0,
+      "model_calls": 0,
+      "source_sha256": "f32142be603fc161681abf5f64bbd7adfb2886871915b2d1c3d94649e9db5901",
+      "candidate_sha256": "d449b0645f029ca77bea7e90639d123f492983d815d4199b5e5490ede7b444b9",
+      "harness_sha256": "98f8358980c9deefc949569580e6da4987cb80ff8415c10aeff1932ed46dd252",
+      "script_sha256": "89345af206f3591f6e979e3905f00f304c4177e275591b8e5fcd8a6e41cc59ba",
+      "inputs": {
+        "outputs\\2026-09-11-accuracy-audit\\capacity50-native-v1\\c-merge-forensics\\checkpoint-input.private.json": "dbbafce0ab859c14df38c72f5ef055611c8dd683347df922c03806dff03b8f27",
+        "outputs\\2026-09-11-resultant-correctness\\private-replay-input.json": "9860ab15092d114183c44b693187a2dbef89107dadf8992746053f370d178b09",
+        "outputs\\2026-09-11-resultant-correctness\\capacity-replay-input.private.json": "5a2798fc810a3b7eb3f2259b052bfa0377d4f7dda9d82632a8733295e0e3aefa"
+      }
+    },
+    "cases": [
+      {
+        "case": "50C-native-v1",
+        "baseline": {
+          "speaker_count": 52,
+          "people_with_multiple_dominant_groups": 1,
+          "people_without_dominant_group": 0,
+          "groups_below_90pct_reference_share": 1
+        },
+        "candidate": {
+          "speaker_count": 52,
+          "people_with_multiple_dominant_groups": 1,
+          "people_without_dominant_group": 0,
+          "groups_below_90pct_reference_share": 1
+        },
+        "same_native_mappings": true
+      },
+      {
+        "case": "A",
+        "baseline": {
+          "speaker_count": 5,
+          "people_with_multiple_dominant_groups": 0,
+          "people_without_dominant_group": 0,
+          "groups_below_90pct_reference_share": 0
+        },
+        "candidate": {
+          "speaker_count": 5,
+          "people_with_multiple_dominant_groups": 0,
+          "people_without_dominant_group": 0,
+          "groups_below_90pct_reference_share": 0
+        },
+        "same_native_mappings": true
+      },
+      {
+        "case": "B",
+        "baseline": {
+          "speaker_count": 5,
+          "people_with_multiple_dominant_groups": 0,
+          "people_without_dominant_group": 0,
+          "groups_below_90pct_reference_share": 0
+        },
+        "candidate": {
+          "speaker_count": 5,
+          "people_with_multiple_dominant_groups": 0,
+          "people_without_dominant_group": 0,
+          "groups_below_90pct_reference_share": 0
+        },
+        "same_native_mappings": true
+      },
+      {
+        "case": "C",
+        "baseline": {
+          "speaker_count": 6,
+          "people_with_multiple_dominant_groups": 0,
+          "people_without_dominant_group": 0,
+          "groups_below_90pct_reference_share": 0
+        },
+        "candidate": {
+          "speaker_count": 6,
+          "people_with_multiple_dominant_groups": 0,
+          "people_without_dominant_group": 0,
+          "groups_below_90pct_reference_share": 0
+        },
+        "same_native_mappings": true
+      },
+      {
+        "case": "D",
+        "baseline": {
+          "speaker_count": 6,
+          "people_with_multiple_dominant_groups": 0,
+          "people_without_dominant_group": 0,
+          "groups_below_90pct_reference_share": 0
+        },
+        "candidate": {
+          "speaker_count": 6,
+          "people_with_multiple_dominant_groups": 0,
+          "people_without_dominant_group": 0,
+          "groups_below_90pct_reference_share": 0
+        },
+        "same_native_mappings": true
+      },
+      {
+        "case": "long3600",
+        "baseline": {
+          "speaker_count": 5,
+          "source_metrics_unavailable": "Long recording source reference is not in the two frozen protocols"
+        },
+        "candidate": {
+          "speaker_count": 20,
+          "source_metrics_unavailable": "Long recording source reference is not in the two frozen protocols"
+        },
+        "same_native_mappings": false
+      },
+      {
+        "case": "50A",
+        "baseline": {
+          "speaker_count": 52,
+          "people_with_multiple_dominant_groups": 1,
+          "people_without_dominant_group": 1,
+          "groups_below_90pct_reference_share": 1
+        },
+        "candidate": {
+          "speaker_count": 53,
+          "people_with_multiple_dominant_groups": 1,
+          "people_without_dominant_group": 0,
+          "groups_below_90pct_reference_share": 1
+        },
+        "same_native_mappings": false
+      }
+    ]
+  },
+  "candidate_two": {
+    "verdict": "rejected",
+    "protocol": {
+      "algorithm": "Only incoming native status inconsistent_audio disables primary acoustic merge; set identity=None and reason=inconsistent_audio before unchanged unique nonoverlap same-source-context fallback. Other missing192/short statuses unchanged. Create separate row when owned frames exist and no valid context reconnect. No threshold changes, no source-reference input, no claim of fixing intra-native mixtures.",
+      "threshold_search": false,
+      "database_writes": 0,
+      "model_calls": 0,
+      "source_sha256": "f32142be603fc161681abf5f64bbd7adfb2886871915b2d1c3d94649e9db5901",
+      "candidate_sha256": "848dbd8ff5697da1a574355aac77c322e3bb6e33680c206da49adfbe4a1df41f",
+      "helper_sha256": "89345af206f3591f6e979e3905f00f304c4177e275591b8e5fcd8a6e41cc59ba",
+      "script_sha256": "29b5c685bc689d38d9a5f09446903888b445a31fb6ae32aa70b026d672160a77",
+      "inputs": {
+        "outputs\\2026-09-11-accuracy-audit\\capacity50-native-v1\\c-merge-forensics\\checkpoint-input.private.json": "dbbafce0ab859c14df38c72f5ef055611c8dd683347df922c03806dff03b8f27",
+        "outputs\\2026-09-11-resultant-correctness\\private-replay-input.json": "9860ab15092d114183c44b693187a2dbef89107dadf8992746053f370d178b09",
+        "outputs\\2026-09-11-resultant-correctness\\capacity-replay-input.private.json": "5a2798fc810a3b7eb3f2259b052bfa0377d4f7dda9d82632a8733295e0e3aefa"
+      }
+    },
+    "cases": [
+      {
+        "case": "50C-native-v1",
+        "baseline": {
+          "speaker_count": 52,
+          "people_with_multiple_dominant_groups": 1,
+          "people_without_dominant_group": 0,
+          "groups_below_90pct_reference_share": 1
+        },
+        "candidate": {
+          "speaker_count": 91,
+          "people_with_multiple_dominant_groups": 23,
+          "people_without_dominant_group": 0,
+          "groups_below_90pct_reference_share": 6
+        },
+        "same_native_mappings": false
+      },
+      {
+        "case": "A",
+        "baseline": {
+          "speaker_count": 5,
+          "people_with_multiple_dominant_groups": 0,
+          "people_without_dominant_group": 0,
+          "groups_below_90pct_reference_share": 0
+        },
+        "candidate": {
+          "speaker_count": 11,
+          "people_with_multiple_dominant_groups": 2,
+          "people_without_dominant_group": 0,
+          "groups_below_90pct_reference_share": 0
+        },
+        "same_native_mappings": false
+      },
+      {
+        "case": "B",
+        "baseline": {
+          "speaker_count": 5,
+          "people_with_multiple_dominant_groups": 0,
+          "people_without_dominant_group": 0,
+          "groups_below_90pct_reference_share": 0
+        },
+        "candidate": {
+          "speaker_count": 5,
+          "people_with_multiple_dominant_groups": 0,
+          "people_without_dominant_group": 0,
+          "groups_below_90pct_reference_share": 0
+        },
+        "same_native_mappings": true
+      },
+      {
+        "case": "C",
+        "baseline": {
+          "speaker_count": 6,
+          "people_with_multiple_dominant_groups": 0,
+          "people_without_dominant_group": 0,
+          "groups_below_90pct_reference_share": 0
+        },
+        "candidate": {
+          "speaker_count": 8,
+          "people_with_multiple_dominant_groups": 2,
+          "people_without_dominant_group": 0,
+          "groups_below_90pct_reference_share": 0
+        },
+        "same_native_mappings": false
+      },
+      {
+        "case": "D",
+        "baseline": {
+          "speaker_count": 6,
+          "people_with_multiple_dominant_groups": 0,
+          "people_without_dominant_group": 0,
+          "groups_below_90pct_reference_share": 0
+        },
+        "candidate": {
+          "speaker_count": 6,
+          "people_with_multiple_dominant_groups": 0,
+          "people_without_dominant_group": 0,
+          "groups_below_90pct_reference_share": 0
+        },
+        "same_native_mappings": true
+      },
+      {
+        "case": "long3600",
+        "baseline": {
+          "speaker_count": 5,
+          "source_metrics_unavailable": "Long recording source reference is not in the two frozen protocols"
+        },
+        "candidate": {
+          "speaker_count": 24,
+          "source_metrics_unavailable": "Long recording source reference is not in the two frozen protocols"
+        },
+        "same_native_mappings": false
+      },
+      {
+        "case": "50A",
+        "baseline": {
+          "speaker_count": 52,
+          "people_with_multiple_dominant_groups": 1,
+          "people_without_dominant_group": 1,
+          "groups_below_90pct_reference_share": 1
+        },
+        "candidate": {
+          "speaker_count": 93,
+          "people_with_multiple_dominant_groups": 24,
+          "people_without_dominant_group": 0,
+          "groups_below_90pct_reference_share": 3
+        },
+        "same_native_mappings": false
+      }
+    ],
+    "critical_final_rows": [
+      {
+        "ordinal": 49,
+        "owned_seconds": 33.31125,
+        "reference_seconds": 33.31125,
+        "dominant_reference": "ls-1841",
+        "dominant_share": 0.9574468085106383,
+        "source_reference_seconds": {
+          "ls-1898": 1.4175,
+          "ls-1841": 31.89375
+        },
+        "candidate_contexts": 5,
+        "reconciliation_ambiguous": false
+      },
+      {
+        "ordinal": 64,
+        "owned_seconds": 30.1725,
+        "reference_seconds": 30.1725,
+        "dominant_reference": "ls-1898",
+        "dominant_share": 0.9927293064876958,
+        "source_reference_seconds": {
+          "ls-1898": 29.953125,
+          "ls-1841": 0.219375
+        },
+        "candidate_contexts": 5,
+        "reconciliation_ambiguous": false
+      }
+    ]
+  },
+  "failures_preserved": [
+    {
+      "attempt": "first candidate initial observer",
+      "failure": "NumPy float32 not JSON serializable; candidate protocol/source created, no completed result; scalar conversion corrected without candidate algorithm change"
+    },
+    {
+      "attempt": "second candidate initial loader",
+      "failure": "nested split marker caused SyntaxError before protocol/run; final-line rsplit corrected before candidate freeze"
+    }
+  ],
+  "artifacts": {
+    "outputs/2026-09-11-accuracy-audit/capacity50-native-v1/c-merge-forensics/checkpoint-input.private.json": "dbbafce0ab859c14df38c72f5ef055611c8dd683347df922c03806dff03b8f27",
+    "outputs/2026-09-11-accuracy-audit/capacity50-native-v1/c-merge-forensics/replay.py": "89345af206f3591f6e979e3905f00f304c4177e275591b8e5fcd8a6e41cc59ba",
+    "outputs/2026-09-11-accuracy-audit/capacity50-native-v1/c-merge-forensics/replay-protocol.json": "ce3e73254afd0e72c3273097d91a97b4cd607d1b403ac9ab104deb0629c7db13",
+    "outputs/2026-09-11-accuracy-audit/capacity50-native-v1/c-merge-forensics/replay-protocol-v2.json": "15f6b1d739826c73f45f7f038b6430e2fb0071f1287cd5a8c684e7c9f48d597c",
+    "outputs/2026-09-11-accuracy-audit/capacity50-native-v1/c-merge-forensics/candidate-source-v2.private.py": "d449b0645f029ca77bea7e90639d123f492983d815d4199b5e5490ede7b444b9",
+    "outputs/2026-09-11-accuracy-audit/capacity50-native-v1/c-merge-forensics/centroid-veto-replay-v2.json": "fdc9e75f7ee49d002e542d41ac8c89a2a4fb2ba8e6f8eddc52cd6efa5dffb00c",
+    "outputs/2026-09-11-accuracy-audit/capacity50-native-v1/c-merge-forensics/replay-inconsistent.py": "29b5c685bc689d38d9a5f09446903888b445a31fb6ae32aa70b026d672160a77",
+    "outputs/2026-09-11-accuracy-audit/capacity50-native-v1/c-merge-forensics/inconsistent-native-protocol.json": "3c360d32cb88f56a8f01e7be9157d312827ce611f2bf7c62ebaccb8ccf7f2cb3",
+    "outputs/2026-09-11-accuracy-audit/capacity50-native-v1/c-merge-forensics/inconsistent-native-source.private.py": "848dbd8ff5697da1a574355aac77c322e3bb6e33680c206da49adfbe4a1df41f",
+    "outputs/2026-09-11-accuracy-audit/capacity50-native-v1/c-merge-forensics/inconsistent-native-replay.json": "0a2ca17eba682559cfcc8d584dde88a76b7f5a7b1f7251d5a8107137cb1fc0d1"
+  },
+  "production_source_file_sha256": "40a292dc24bf388f15441671177153368b46a4e6f4159aa292efcda865a0322e"
+}

@@ -2,6 +2,16 @@
 
 Her satır bağımsız bir yetenek gereksinimine bağlanır. Draft durumu uygulama kabulü değildir.
 
+11 Eylül doğruluk incelemesinde 002'nin Decisions 19–24 düzeltmeleri yerel
+uygulamaya alındı; ilk elli kişilik kayıtta kişi eşlemeli kelime hata oranı
+%14,03→%11,50 oldu. Saklanan 37 örnek kaynak denetiminden geçti ve iki dönüş
+kaydında değişmedi; katı kaynak eşlemesinde her dönüşte 35/50 kişi doğru tanındı.
+Bu nedenle elli kişi hedefi tamamlanmış sayılmaz.
+Ayrı kontrollü klip galerisinde 49/50 kayıt adayı kabul edildi; birleşik kişi
+tanımada precision %100, planlı recall %95 ve F1 %97,44 ölçüldü. Bu sonuç
+toplantının konuşmacı gruplamasını ve otomatik yeni kişi kaydını kapsamaz.
+[Uygulama, canlı ölçümler ve açık kanıtlar](../../docs/evidence/2026-09-11-accuracy-audit/README.md).
+
 | Order | Capability | PRD | Status |
 |---:|---|---|---|
 | 001 | local-speaker-pilot | [PRD](PRDs/001-local-speaker-pilot/PRD.md) | Accepted — guarded speech recovery and fresh public holdout measured; quality target and Turkish acceptance incomplete |

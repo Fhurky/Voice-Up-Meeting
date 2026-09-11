@@ -119,9 +119,8 @@ class InferenceRuntime:
         self.meeting_readiness()
         assert self._models is not None and self._meeting_models is not None
         try:
-            return verify_memory(
-                payload, self._meeting_models, self._models, self.settings
-            )
+            with self._meeting_models.voice_embedding_session() as encoder:
+                return verify_memory(payload, encoder, self._models, self.settings)
         except InferenceError:
             raise
         except Exception:

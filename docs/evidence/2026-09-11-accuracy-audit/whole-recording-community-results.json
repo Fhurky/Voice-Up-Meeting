@@ -1,0 +1,1820 @@
+{
+  "status": "experiment_succeeded_candidate_rejected",
+  "scope": "Offline whole-source diarization research, not a production API/memory/profile-identity delivery.",
+  "technology_profile": "kt-vibecoding-python-web-v2",
+  "protocol_sha256": "65af2794090ac3a783d305db7f5cfc88df872c2a2189d6605fbc364913d5be73",
+  "runtime_protocol_sha256": "7d79d6b9a604e16edf414de2f860ad6f0de3b4b519016f7a7efcc0134e420e8d",
+  "source_sha256": "429868536378f62923e54e51b35388006670a5a3f8d1e329cbda1f9b5ff30cb5",
+  "source_seconds": 2152.875,
+  "source_frames": 34446000,
+  "model_image_id": "sha256:d14a4e65159af176eac50fe20334e49f64bdb199baa220d6ed36cb2edab0ef57",
+  "model": {
+    "id": "pyannote/speaker-diarization-community-1",
+    "revision": "3533c8cf8e369892e6b79ff1bf80f7b0286a54ee"
+  },
+  "recipe": {
+    "id": "community-vbx-fa015-v1",
+    "parameters": {
+      "clustering": {
+        "threshold": 0.6,
+        "Fa": 0.15,
+        "Fb": 0.8
+      },
+      "segmentation": {
+        "min_duration_off": 0.0
+      }
+    }
+  },
+  "batch": {
+    "segmentation": 1,
+    "embedding": 1
+  },
+  "execution": {
+    "exit_code": 0,
+    "timed_out": false,
+    "elapsed_seconds": 97.06299999999828,
+    "finished_at_utc": "2026-09-11T11:07:08.675604+00:00",
+    "protocol_sha256": "65af2794090ac3a783d305db7f5cfc88df872c2a2189d6605fbc364913d5be73",
+    "source_sha256": "429868536378f62923e54e51b35388006670a5a3f8d1e329cbda1f9b5ff30cb5",
+    "status": "passed",
+    "main_services_changed": false
+  },
+  "scoring": {
+    "exit_code": 0,
+    "elapsed_seconds": 5.968000000000757
+  },
+  "candidate_criteria": {
+    "strictly_lower_minority_source_seconds": true,
+    "no_more_missing_people": true,
+    "no_more_low_source_share_groups": true,
+    "no_higher_cpwer_errors": false,
+    "no_higher_assigned_only_errors": false,
+    "no_more_people_with_multiple_dominant_groups": false
+  },
+  "candidate_criteria_passed": false,
+  "gpu_attempts": 1,
+  "asr_calls": 0,
+  "model_inputs": {
+    "count_hints": 0,
+    "reference_inputs": 0,
+    "network_attempts": 0
+  },
+  "input_words": {
+    "raw_words": 5944,
+    "source_core_owned_words": 5752,
+    "core_owned_words_sha256": "a0a6eb9bffb5307ff54aecd9a631259007883d2340f486ce352eebb8659d9db1",
+    "words_export_sha256": "928aa1329e8bf1a532fefa595b4d53fd6308dbd150d4b72da0a0f82dab4a4a32",
+    "baseline_transcript_exact_match": true,
+    "baseline_transcript_rows": 352,
+    "same_raw_and_core_owned_word_observations": true
+  },
+  "critical_source_aliases": {
+    "known_source": "source_7",
+    "other_source": "source_5"
+  },
+  "baseline": {
+    "all_clusters": [
+      {
+        "cluster_ordinal": 0,
+        "owned_seconds": 32.67,
+        "reference_seconds": 32.67,
+        "dominant_source_alias": "source_43",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_43": 32.67
+        }
+      },
+      {
+        "cluster_ordinal": 1,
+        "owned_seconds": 29.480625,
+        "reference_seconds": 29.480625,
+        "dominant_source_alias": "source_11",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_11": 29.480625
+        }
+      },
+      {
+        "cluster_ordinal": 2,
+        "owned_seconds": 38.23875,
+        "reference_seconds": 38.23875,
+        "dominant_source_alias": "source_19",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_19": 38.23875
+        }
+      },
+      {
+        "cluster_ordinal": 3,
+        "owned_seconds": 35.2011875,
+        "reference_seconds": 35.2011875,
+        "dominant_source_alias": "source_18",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_18": 35.2011875
+        }
+      },
+      {
+        "cluster_ordinal": 4,
+        "owned_seconds": 41.023125,
+        "reference_seconds": 41.023125,
+        "dominant_source_alias": "source_10",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_10": 41.023125
+        }
+      },
+      {
+        "cluster_ordinal": 5,
+        "owned_seconds": 38.5425,
+        "reference_seconds": 38.5425,
+        "dominant_source_alias": "source_47",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_47": 38.5425
+        }
+      },
+      {
+        "cluster_ordinal": 6,
+        "owned_seconds": 33.10875,
+        "reference_seconds": 33.10875,
+        "dominant_source_alias": "source_40",
+        "dominant_source_share": 0.9994903160040775,
+        "minority_source_seconds": 0.016874999999998863,
+        "source_seconds": {
+          "source_26": 0.016875,
+          "source_40": 33.091875
+        }
+      },
+      {
+        "cluster_ordinal": 7,
+        "owned_seconds": 32.610625,
+        "reference_seconds": 32.610625,
+        "dominant_source_alias": "source_1",
+        "dominant_source_share": 0.9994825306169385,
+        "minority_source_seconds": 0.016874999999998863,
+        "source_seconds": {
+          "source_10": 0.016875,
+          "source_1": 32.59375
+        }
+      },
+      {
+        "cluster_ordinal": 8,
+        "owned_seconds": 31.201875,
+        "reference_seconds": 31.201875,
+        "dominant_source_alias": "source_9",
+        "dominant_source_share": 0.9994591671173607,
+        "minority_source_seconds": 0.016875000000002416,
+        "source_seconds": {
+          "source_9": 31.185,
+          "source_26": 0.016875
+        }
+      },
+      {
+        "cluster_ordinal": 9,
+        "owned_seconds": 31.42125,
+        "reference_seconds": 31.42125,
+        "dominant_source_alias": "source_45",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_45": 31.42125
+        }
+      },
+      {
+        "cluster_ordinal": 10,
+        "owned_seconds": 34.8975,
+        "reference_seconds": 34.8975,
+        "dominant_source_alias": "source_29",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_29": 34.8975
+        }
+      },
+      {
+        "cluster_ordinal": 11,
+        "owned_seconds": 31.775625,
+        "reference_seconds": 31.775625,
+        "dominant_source_alias": "source_6",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_6": 31.775625
+        }
+      },
+      {
+        "cluster_ordinal": 12,
+        "owned_seconds": 36.838125,
+        "reference_seconds": 36.838125,
+        "dominant_source_alias": "source_31",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_31": 36.838125
+        }
+      },
+      {
+        "cluster_ordinal": 13,
+        "owned_seconds": 41.7825,
+        "reference_seconds": 41.7825,
+        "dominant_source_alias": "source_26",
+        "dominant_source_share": 0.9264943457189014,
+        "minority_source_seconds": 3.071249999999999,
+        "source_seconds": {
+          "source_9": 2.0925,
+          "source_26": 38.71125,
+          "source_7": 0.97875
+        }
+      },
+      {
+        "cluster_ordinal": 14,
+        "owned_seconds": 33.67875,
+        "reference_seconds": 33.67875,
+        "dominant_source_alias": "source_33",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_33": 33.67875
+        }
+      },
+      {
+        "cluster_ordinal": 15,
+        "owned_seconds": 41.6475,
+        "reference_seconds": 41.1475,
+        "dominant_source_alias": "source_12",
+        "dominant_source_share": 0.9620754602345222,
+        "minority_source_seconds": 1.5604999999999976,
+        "source_seconds": {
+          "source_30": 1.5605,
+          "source_12": 39.587
+        }
+      },
+      {
+        "cluster_ordinal": 16,
+        "owned_seconds": 38.745,
+        "reference_seconds": 38.745,
+        "dominant_source_alias": "source_48",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_48": 38.745
+        }
+      },
+      {
+        "cluster_ordinal": 17,
+        "owned_seconds": 47.3850625,
+        "reference_seconds": 47.1205625,
+        "dominant_source_alias": "source_27",
+        "dominant_source_share": 0.9996418760917806,
+        "minority_source_seconds": 0.016874999999998863,
+        "source_seconds": {
+          "source_27": 47.1036875,
+          "source_8": 0.016875
+        }
+      },
+      {
+        "cluster_ordinal": 18,
+        "owned_seconds": 43.50375,
+        "reference_seconds": 43.480875,
+        "dominant_source_alias": "source_50",
+        "dominant_source_share": 0.9712804767613348,
+        "minority_source_seconds": 1.248749999999994,
+        "source_seconds": {
+          "source_50": 42.232125,
+          "source_18": 1.24875
+        }
+      },
+      {
+        "cluster_ordinal": 19,
+        "owned_seconds": 32.923125,
+        "reference_seconds": 32.923125,
+        "dominant_source_alias": "source_16",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_16": 32.923125
+        }
+      },
+      {
+        "cluster_ordinal": 20,
+        "owned_seconds": 40.5675,
+        "reference_seconds": 40.5675,
+        "dominant_source_alias": "source_30",
+        "dominant_source_share": 0.990432612312812,
+        "minority_source_seconds": 0.3881250000000023,
+        "source_seconds": {
+          "source_30": 40.179375,
+          "source_12": 0.388125
+        }
+      },
+      {
+        "cluster_ordinal": 21,
+        "owned_seconds": 41.188125,
+        "reference_seconds": 41.188125,
+        "dominant_source_alias": "source_8",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_8": 41.188125
+        }
+      },
+      {
+        "cluster_ordinal": 22,
+        "owned_seconds": 35.180625,
+        "reference_seconds": 35.180625,
+        "dominant_source_alias": "source_36",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_36": 35.180625
+        }
+      },
+      {
+        "cluster_ordinal": 23,
+        "owned_seconds": 41.799375,
+        "reference_seconds": 41.799375,
+        "dominant_source_alias": "source_22",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_22": 41.799375
+        }
+      },
+      {
+        "cluster_ordinal": 24,
+        "owned_seconds": 33.47625,
+        "reference_seconds": 33.47625,
+        "dominant_source_alias": "source_13",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_13": 33.47625
+        }
+      },
+      {
+        "cluster_ordinal": 25,
+        "owned_seconds": 48.465,
+        "reference_seconds": 48.465,
+        "dominant_source_alias": "source_23",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_23": 48.465
+        }
+      },
+      {
+        "cluster_ordinal": 26,
+        "owned_seconds": 35.994375,
+        "reference_seconds": 35.994375,
+        "dominant_source_alias": "source_17",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_17": 35.994375
+        }
+      },
+      {
+        "cluster_ordinal": 27,
+        "owned_seconds": 33.091875,
+        "reference_seconds": 33.091875,
+        "dominant_source_alias": "source_24",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_24": 33.091875
+        }
+      },
+      {
+        "cluster_ordinal": 28,
+        "owned_seconds": 37.847125,
+        "reference_seconds": 37.652,
+        "dominant_source_alias": "source_34",
+        "dominant_source_share": 0.9242570115797302,
+        "minority_source_seconds": 2.8518749999999997,
+        "source_seconds": {
+          "source_34": 34.800125,
+          "source_41": 2.851875
+        }
+      },
+      {
+        "cluster_ordinal": 29,
+        "owned_seconds": 41.00625,
+        "reference_seconds": 40.97775,
+        "dominant_source_alias": "source_2",
+        "dominant_source_share": 0.9489357029119461,
+        "minority_source_seconds": 2.092500000000001,
+        "source_seconds": {
+          "source_20": 2.0925,
+          "source_2": 38.88525
+        }
+      },
+      {
+        "cluster_ordinal": 30,
+        "owned_seconds": 35.91,
+        "reference_seconds": 35.91,
+        "dominant_source_alias": "source_28",
+        "dominant_source_share": 0.9577067669172933,
+        "minority_source_seconds": 1.5187499999999972,
+        "source_seconds": {
+          "source_28": 34.39125,
+          "source_35": 1.51875
+        }
+      },
+      {
+        "cluster_ordinal": 31,
+        "owned_seconds": 36.500625,
+        "reference_seconds": 36.500625,
+        "dominant_source_alias": "source_35",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_35": 36.500625
+        }
+      },
+      {
+        "cluster_ordinal": 32,
+        "owned_seconds": 43.5375,
+        "reference_seconds": 43.5375,
+        "dominant_source_alias": "source_4",
+        "dominant_source_share": 0.915891472868217,
+        "minority_source_seconds": 3.661875000000002,
+        "source_seconds": {
+          "source_3": 3.661875,
+          "source_4": 39.875625
+        }
+      },
+      {
+        "cluster_ordinal": 33,
+        "owned_seconds": 29.025,
+        "reference_seconds": 29.025,
+        "dominant_source_alias": "source_3",
+        "dominant_source_share": 0.9994186046511628,
+        "minority_source_seconds": 0.016874999999998863,
+        "source_seconds": {
+          "source_3": 29.008125,
+          "source_4": 0.016875
+        }
+      },
+      {
+        "cluster_ordinal": 34,
+        "owned_seconds": 43.824375,
+        "reference_seconds": 43.824375,
+        "dominant_source_alias": "source_46",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_46": 43.824375
+        }
+      },
+      {
+        "cluster_ordinal": 35,
+        "owned_seconds": 31.978125,
+        "reference_seconds": 31.978125,
+        "dominant_source_alias": "source_25",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_25": 31.978125
+        }
+      },
+      {
+        "cluster_ordinal": 36,
+        "owned_seconds": 34.39125,
+        "reference_seconds": 34.39125,
+        "dominant_source_alias": "source_14",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_14": 34.39125
+        }
+      },
+      {
+        "cluster_ordinal": 37,
+        "owned_seconds": 42.1538125,
+        "reference_seconds": 42.1538125,
+        "dominant_source_alias": "source_42",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_42": 42.1538125
+        }
+      },
+      {
+        "cluster_ordinal": 38,
+        "owned_seconds": 38.221875,
+        "reference_seconds": 38.210875,
+        "dominant_source_alias": "source_44",
+        "dominant_source_share": 0.9916090641734846,
+        "minority_source_seconds": 0.3206249999999997,
+        "source_seconds": {
+          "source_49": 0.320625,
+          "source_44": 37.89025
+        }
+      },
+      {
+        "cluster_ordinal": 39,
+        "owned_seconds": 39.7575,
+        "reference_seconds": 39.7575,
+        "dominant_source_alias": "source_32",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_32": 39.7575
+        }
+      },
+      {
+        "cluster_ordinal": 40,
+        "owned_seconds": 37.125,
+        "reference_seconds": 37.125,
+        "dominant_source_alias": "source_15",
+        "dominant_source_share": 0.9777272727272728,
+        "minority_source_seconds": 0.8268750000000011,
+        "source_seconds": {
+          "source_15": 36.298125,
+          "source_21": 0.826875
+        }
+      },
+      {
+        "cluster_ordinal": 41,
+        "owned_seconds": 34.0874375,
+        "reference_seconds": 34.0874375,
+        "dominant_source_alias": "source_49",
+        "dominant_source_share": 0.9995049495873664,
+        "minority_source_seconds": 0.016874999999998863,
+        "source_seconds": {
+          "source_49": 34.0705625,
+          "source_44": 0.016875
+        }
+      },
+      {
+        "cluster_ordinal": 42,
+        "owned_seconds": 48.110625,
+        "reference_seconds": 47.927125,
+        "dominant_source_alias": "source_41",
+        "dominant_source_share": 0.9400991609657371,
+        "minority_source_seconds": 2.870874999999998,
+        "source_seconds": {
+          "source_34": 2.870875,
+          "source_41": 45.05625
+        }
+      },
+      {
+        "cluster_ordinal": 43,
+        "owned_seconds": 17.28,
+        "reference_seconds": 17.28,
+        "dominant_source_alias": "source_39",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_39": 17.28
+        }
+      },
+      {
+        "cluster_ordinal": 44,
+        "owned_seconds": 35.893125,
+        "reference_seconds": 35.893125,
+        "dominant_source_alias": "source_37",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_37": 35.893125
+        }
+      },
+      {
+        "cluster_ordinal": 45,
+        "owned_seconds": 35.623125,
+        "reference_seconds": 35.60525,
+        "dominant_source_alias": "source_38",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_38": 35.60525
+        }
+      },
+      {
+        "cluster_ordinal": 46,
+        "owned_seconds": 27.590625,
+        "reference_seconds": 27.590625,
+        "dominant_source_alias": "source_21",
+        "dominant_source_share": 0.982874617737003,
+        "minority_source_seconds": 0.47250000000000014,
+        "source_seconds": {
+          "source_15": 0.050625,
+          "source_21": 27.118125,
+          "source_37": 0.421875
+        }
+      },
+      {
+        "cluster_ordinal": 47,
+        "owned_seconds": 53.6625,
+        "reference_seconds": 53.6625,
+        "dominant_source_alias": "source_7",
+        "dominant_source_share": 0.5839622641509434,
+        "minority_source_seconds": 22.325625000000002,
+        "source_seconds": {
+          "source_7": 31.336875,
+          "source_5": 22.325625
+        }
+      },
+      {
+        "cluster_ordinal": 48,
+        "owned_seconds": 14.613625,
+        "reference_seconds": 14.613625,
+        "dominant_source_alias": "source_39",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_39": 14.613625
+        }
+      },
+      {
+        "cluster_ordinal": 49,
+        "owned_seconds": 38.420625,
+        "reference_seconds": 38.420625,
+        "dominant_source_alias": "source_20",
+        "dominant_source_share": 0.9925333073056464,
+        "minority_source_seconds": 0.286875000000002,
+        "source_seconds": {
+          "source_20": 38.13375,
+          "source_2": 0.286875
+        }
+      },
+      {
+        "cluster_ordinal": 50,
+        "owned_seconds": 6.361875,
+        "reference_seconds": 6.361875,
+        "dominant_source_alias": "source_39",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_39": 6.361875
+        }
+      },
+      {
+        "cluster_ordinal": 51,
+        "owned_seconds": 9.82125,
+        "reference_seconds": 9.82125,
+        "dominant_source_alias": "source_5",
+        "dominant_source_share": 0.9965635738831615,
+        "minority_source_seconds": 0.0337499999999995,
+        "source_seconds": {
+          "source_7": 0.03375,
+          "source_5": 9.7875
+        }
+      }
+    ],
+    "speaker_count": 52,
+    "source_people_denominator": 50,
+    "missing_dominant_source_people": 0,
+    "groups_below90pct_reference_share": 1,
+    "groups_above20_owned_seconds": 48,
+    "total_minority_source_seconds": 43.63199999999999,
+    "minimum_nonempty_source_share": 0.5839622641509434,
+    "groups_without_reference_support": 0,
+    "dominant_groups_per_source": {
+      "source_6": [
+        11
+      ],
+      "source_48": [
+        16
+      ],
+      "source_9": [
+        8
+      ],
+      "source_26": [
+        13
+      ],
+      "source_50": [
+        18
+      ],
+      "source_18": [
+        3
+      ],
+      "source_16": [
+        19
+      ],
+      "source_40": [
+        6
+      ],
+      "source_47": [
+        5
+      ],
+      "source_43": [
+        0
+      ],
+      "source_29": [
+        10
+      ],
+      "source_19": [
+        2
+      ],
+      "source_45": [
+        9
+      ],
+      "source_31": [
+        12
+      ],
+      "source_27": [
+        17
+      ],
+      "source_33": [
+        14
+      ],
+      "source_11": [
+        1
+      ],
+      "source_8": [
+        21
+      ],
+      "source_30": [
+        20
+      ],
+      "source_12": [
+        15
+      ],
+      "source_10": [
+        4
+      ],
+      "source_1": [
+        7
+      ],
+      "source_28": [
+        30
+      ],
+      "source_14": [
+        36
+      ],
+      "source_17": [
+        26
+      ],
+      "source_46": [
+        34
+      ],
+      "source_39": [
+        43,
+        48,
+        50
+      ],
+      "source_25": [
+        35
+      ],
+      "source_34": [
+        28
+      ],
+      "source_41": [
+        42
+      ],
+      "source_3": [
+        33
+      ],
+      "source_4": [
+        32
+      ],
+      "source_49": [
+        41
+      ],
+      "source_44": [
+        38
+      ],
+      "source_42": [
+        37
+      ],
+      "source_32": [
+        39
+      ],
+      "source_22": [
+        23
+      ],
+      "source_35": [
+        31
+      ],
+      "source_13": [
+        24
+      ],
+      "source_23": [
+        25
+      ],
+      "source_24": [
+        27
+      ],
+      "source_36": [
+        22
+      ],
+      "source_20": [
+        49
+      ],
+      "source_2": [
+        29
+      ],
+      "source_15": [
+        40
+      ],
+      "source_21": [
+        46
+      ],
+      "source_37": [
+        44
+      ],
+      "source_38": [
+        45
+      ],
+      "source_7": [
+        47
+      ],
+      "source_5": [
+        51
+      ]
+    },
+    "transcript_metrics": {
+      "normalization": "unicode-words-v1",
+      "counts": {
+        "reference_speakers": 50,
+        "hypothesis_speakers": 52,
+        "reference_words": 5741,
+        "hypothesis_words": 5738,
+        "unassigned_words": 54
+      },
+      "cpwer": {
+        "errors": 713,
+        "substitutions": 194,
+        "deletions": 261,
+        "insertions": 258,
+        "rate": 0.12419439122104163
+      },
+      "assigned_only": {
+        "errors": 716,
+        "substitutions": 145,
+        "deletions": 287,
+        "insertions": 284,
+        "rate": 0.12471694826685246
+      },
+      "unassigned_word_fraction": 0.009410944579993029,
+      "note": "Corpus cpWER permits label permutation; assigned_only forbids unassigned-to-person matches. Neither is persistent identity accuracy, DER or word timestamp accuracy."
+    },
+    "critical_source_groups": [
+      {
+        "cluster_ordinal": 13,
+        "dominant_source_alias": "source_26",
+        "reference_seconds": 41.7825,
+        "dominant_source_share": 0.9264943457189014,
+        "critical_known_source_seconds": 0.97875,
+        "critical_other_source_seconds": 0
+      },
+      {
+        "cluster_ordinal": 47,
+        "dominant_source_alias": "source_7",
+        "reference_seconds": 53.6625,
+        "dominant_source_share": 0.5839622641509434,
+        "critical_known_source_seconds": 31.336875,
+        "critical_other_source_seconds": 22.325625
+      },
+      {
+        "cluster_ordinal": 51,
+        "dominant_source_alias": "source_5",
+        "reference_seconds": 9.82125,
+        "dominant_source_share": 0.9965635738831615,
+        "critical_known_source_seconds": 0.03375,
+        "critical_other_source_seconds": 9.7875
+      }
+    ],
+    "people_with_multiple_dominant_groups": 1
+  },
+  "candidate": {
+    "all_clusters": [
+      {
+        "cluster_ordinal": 0,
+        "owned_seconds": 41.7825,
+        "reference_seconds": 41.7825,
+        "dominant_source_alias": "source_22",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_22": 41.7825
+        }
+      },
+      {
+        "cluster_ordinal": 1,
+        "owned_seconds": 32.67,
+        "reference_seconds": 32.67,
+        "dominant_source_alias": "source_43",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_43": 32.67
+        }
+      },
+      {
+        "cluster_ordinal": 2,
+        "owned_seconds": 34.8975,
+        "reference_seconds": 34.8975,
+        "dominant_source_alias": "source_29",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_29": 34.8975
+        }
+      },
+      {
+        "cluster_ordinal": 3,
+        "owned_seconds": 35.825625,
+        "reference_seconds": 35.825625,
+        "dominant_source_alias": "source_37",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_37": 35.825625
+        }
+      },
+      {
+        "cluster_ordinal": 4,
+        "owned_seconds": 41.3775,
+        "reference_seconds": 41.3775,
+        "dominant_source_alias": "source_8",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_8": 41.3775
+        }
+      },
+      {
+        "cluster_ordinal": 5,
+        "owned_seconds": 33.091875,
+        "reference_seconds": 33.091875,
+        "dominant_source_alias": "source_24",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_24": 33.091875
+        }
+      },
+      {
+        "cluster_ordinal": 6,
+        "owned_seconds": 42.42375,
+        "reference_seconds": 41.92375,
+        "dominant_source_alias": "source_12",
+        "dominant_source_share": 0.9528638301678642,
+        "minority_source_seconds": 1.9761249999999961,
+        "source_seconds": {
+          "source_30": 1.976125,
+          "source_12": 39.947625
+        }
+      },
+      {
+        "cluster_ordinal": 7,
+        "owned_seconds": 32.94,
+        "reference_seconds": 32.94,
+        "dominant_source_alias": "source_16",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_16": 32.94
+        }
+      },
+      {
+        "cluster_ordinal": 8,
+        "owned_seconds": 36.48375,
+        "reference_seconds": 36.48375,
+        "dominant_source_alias": "source_35",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_35": 36.48375
+        }
+      },
+      {
+        "cluster_ordinal": 9,
+        "owned_seconds": 48.4818125,
+        "reference_seconds": 48.4818125,
+        "dominant_source_alias": "source_23",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_23": 48.4818125
+        }
+      },
+      {
+        "cluster_ordinal": 10,
+        "owned_seconds": 39.774375,
+        "reference_seconds": 39.774375,
+        "dominant_source_alias": "source_30",
+        "dominant_source_share": 0.9991514637250742,
+        "minority_source_seconds": 0.033749999999997726,
+        "source_seconds": {
+          "source_30": 39.740625,
+          "source_12": 0.03375
+        }
+      },
+      {
+        "cluster_ordinal": 11,
+        "owned_seconds": 24.553125,
+        "reference_seconds": 24.553125,
+        "dominant_source_alias": "source_17",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_17": 24.553125
+        }
+      },
+      {
+        "cluster_ordinal": 12,
+        "owned_seconds": 35.94375,
+        "reference_seconds": 35.94375,
+        "dominant_source_alias": "source_28",
+        "dominant_source_share": 0.9572769953051643,
+        "minority_source_seconds": 1.5356250000000031,
+        "source_seconds": {
+          "source_28": 34.408125,
+          "source_35": 1.535625
+        }
+      },
+      {
+        "cluster_ordinal": 13,
+        "owned_seconds": 11.424375,
+        "reference_seconds": 11.424375,
+        "dominant_source_alias": "source_17",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_17": 11.424375
+        }
+      },
+      {
+        "cluster_ordinal": 14,
+        "owned_seconds": 47.435625,
+        "reference_seconds": 47.164875,
+        "dominant_source_alias": "source_27",
+        "dominant_source_share": 0.9992844251150883,
+        "minority_source_seconds": 0.03375000000000483,
+        "source_seconds": {
+          "source_27": 47.131125,
+          "source_33": 0.016875,
+          "source_8": 0.016875
+        }
+      },
+      {
+        "cluster_ordinal": 15,
+        "owned_seconds": 42.15375,
+        "reference_seconds": 42.15375,
+        "dominant_source_alias": "source_42",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_42": 42.15375
+        }
+      },
+      {
+        "cluster_ordinal": 16,
+        "owned_seconds": 34.070625,
+        "reference_seconds": 34.070625,
+        "dominant_source_alias": "source_49",
+        "dominant_source_share": 0.9995047052996533,
+        "minority_source_seconds": 0.016874999999998863,
+        "source_seconds": {
+          "source_49": 34.05375,
+          "source_44": 0.016875
+        }
+      },
+      {
+        "cluster_ordinal": 17,
+        "owned_seconds": 38.659625,
+        "reference_seconds": 38.467625,
+        "dominant_source_alias": "source_34",
+        "dominant_source_share": 0.9534998586473691,
+        "minority_source_seconds": 1.7887500000000003,
+        "source_seconds": {
+          "source_34": 36.678875,
+          "source_41": 1.78875
+        }
+      },
+      {
+        "cluster_ordinal": 18,
+        "owned_seconds": 31.978125,
+        "reference_seconds": 31.978125,
+        "dominant_source_alias": "source_25",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_25": 31.978125
+        }
+      },
+      {
+        "cluster_ordinal": 19,
+        "owned_seconds": 38.255625,
+        "reference_seconds": 38.255625,
+        "dominant_source_alias": "source_19",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_19": 38.255625
+        }
+      },
+      {
+        "cluster_ordinal": 20,
+        "owned_seconds": 33.665625,
+        "reference_seconds": 33.665625,
+        "dominant_source_alias": "source_33",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_33": 33.665625
+        }
+      },
+      {
+        "cluster_ordinal": 21,
+        "owned_seconds": 31.35375,
+        "reference_seconds": 31.35375,
+        "dominant_source_alias": "source_45",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_45": 31.35375
+        }
+      },
+      {
+        "cluster_ordinal": 22,
+        "owned_seconds": 47.25,
+        "reference_seconds": 47.059625,
+        "dominant_source_alias": "source_41",
+        "dominant_source_share": 0.9789442648554891,
+        "minority_source_seconds": 0.9908749999999955,
+        "source_seconds": {
+          "source_34": 0.990875,
+          "source_41": 46.06875
+        }
+      },
+      {
+        "cluster_ordinal": 23,
+        "owned_seconds": 38.728125,
+        "reference_seconds": 38.728125,
+        "dominant_source_alias": "source_48",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_48": 38.728125
+        }
+      },
+      {
+        "cluster_ordinal": 24,
+        "owned_seconds": 4.01625,
+        "reference_seconds": 4.01625,
+        "dominant_source_alias": "source_39",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_39": 4.01625
+        }
+      },
+      {
+        "cluster_ordinal": 25,
+        "owned_seconds": 14.175,
+        "reference_seconds": 14.175,
+        "dominant_source_alias": "source_39",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_39": 14.175
+        }
+      },
+      {
+        "cluster_ordinal": 26,
+        "owned_seconds": 20.08125,
+        "reference_seconds": 20.08125,
+        "dominant_source_alias": "source_39",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_39": 20.08125
+        }
+      },
+      {
+        "cluster_ordinal": 27,
+        "owned_seconds": 26.8649375,
+        "reference_seconds": 26.8649375,
+        "dominant_source_alias": "source_21",
+        "dominant_source_share": 0.9736180290760029,
+        "minority_source_seconds": 0.7087499999999984,
+        "source_seconds": {
+          "source_15": 0.30375,
+          "source_21": 26.1561875,
+          "source_37": 0.405
+        }
+      },
+      {
+        "cluster_ordinal": 28,
+        "owned_seconds": 39.7068125,
+        "reference_seconds": 39.6845625,
+        "dominant_source_alias": "source_2",
+        "dominant_source_share": 0.9685346789447408,
+        "minority_source_seconds": 1.2486874999999955,
+        "source_seconds": {
+          "source_20": 1.2486875,
+          "source_2": 38.435875
+        }
+      },
+      {
+        "cluster_ordinal": 29,
+        "owned_seconds": 35.218125,
+        "reference_seconds": 35.218125,
+        "dominant_source_alias": "source_18",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_18": 35.218125
+        }
+      },
+      {
+        "cluster_ordinal": 30,
+        "owned_seconds": 42.5588125,
+        "reference_seconds": 42.5588125,
+        "dominant_source_alias": "source_4",
+        "dominant_source_share": 0.9377479106119326,
+        "minority_source_seconds": 2.649374999999999,
+        "source_seconds": {
+          "source_3": 2.649375,
+          "source_4": 39.9094375
+        }
+      },
+      {
+        "cluster_ordinal": 31,
+        "owned_seconds": 30.054375,
+        "reference_seconds": 30.054375,
+        "dominant_source_alias": "source_3",
+        "dominant_source_share": 0.9994385176866929,
+        "minority_source_seconds": 0.016874999999998863,
+        "source_seconds": {
+          "source_3": 30.0375,
+          "source_4": 0.016875
+        }
+      },
+      {
+        "cluster_ordinal": 32,
+        "owned_seconds": 36.838125,
+        "reference_seconds": 36.838125,
+        "dominant_source_alias": "source_31",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_31": 36.838125
+        }
+      },
+      {
+        "cluster_ordinal": 33,
+        "owned_seconds": 39.0825,
+        "reference_seconds": 39.0825,
+        "dominant_source_alias": "source_26",
+        "dominant_source_share": 0.9745250431778929,
+        "minority_source_seconds": 0.995625000000004,
+        "source_seconds": {
+          "source_9": 0.03375,
+          "source_26": 38.086875,
+          "source_7": 0.961875
+        }
+      },
+      {
+        "cluster_ordinal": 34,
+        "owned_seconds": 43.84125,
+        "reference_seconds": 43.84125,
+        "dominant_source_alias": "source_46",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_46": 43.84125
+        }
+      },
+      {
+        "cluster_ordinal": 35,
+        "owned_seconds": 33.901875,
+        "reference_seconds": 33.901875,
+        "dominant_source_alias": "source_9",
+        "dominant_source_share": 0.9810851169736187,
+        "minority_source_seconds": 0.6412499999999994,
+        "source_seconds": {
+          "source_9": 33.260625,
+          "source_26": 0.64125
+        }
+      },
+      {
+        "cluster_ordinal": 36,
+        "owned_seconds": 38.5425,
+        "reference_seconds": 38.5425,
+        "dominant_source_alias": "source_47",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_47": 38.5425
+        }
+      },
+      {
+        "cluster_ordinal": 37,
+        "owned_seconds": 35.623125,
+        "reference_seconds": 35.6115,
+        "dominant_source_alias": "source_38",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_38": 35.6115
+        }
+      },
+      {
+        "cluster_ordinal": 38,
+        "owned_seconds": 34.408125,
+        "reference_seconds": 34.408125,
+        "dominant_source_alias": "source_14",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_14": 34.408125
+        }
+      },
+      {
+        "cluster_ordinal": 39,
+        "owned_seconds": 32.619375,
+        "reference_seconds": 32.619375,
+        "dominant_source_alias": "source_1",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_1": 32.619375
+        }
+      },
+      {
+        "cluster_ordinal": 40,
+        "owned_seconds": 29.480625,
+        "reference_seconds": 29.480625,
+        "dominant_source_alias": "source_11",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_11": 29.480625
+        }
+      },
+      {
+        "cluster_ordinal": 41,
+        "owned_seconds": 34.02,
+        "reference_seconds": 34.02,
+        "dominant_source_alias": "source_13",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_13": 34.02
+        }
+      },
+      {
+        "cluster_ordinal": 42,
+        "owned_seconds": 32.36625,
+        "reference_seconds": 32.36625,
+        "dominant_source_alias": "source_5",
+        "dominant_source_share": 0.9572471324296142,
+        "minority_source_seconds": 1.3837499999999991,
+        "source_seconds": {
+          "source_7": 1.38375,
+          "source_5": 30.9825
+        }
+      },
+      {
+        "cluster_ordinal": 43,
+        "owned_seconds": 11.8125,
+        "reference_seconds": 11.8125,
+        "dominant_source_alias": "source_7",
+        "dominant_source_share": 0.9985714285714286,
+        "minority_source_seconds": 0.01687500000000064,
+        "source_seconds": {
+          "source_7": 11.795625,
+          "source_5": 0.016875
+        }
+      },
+      {
+        "cluster_ordinal": 44,
+        "owned_seconds": 19.288125,
+        "reference_seconds": 19.288125,
+        "dominant_source_alias": "source_7",
+        "dominant_source_share": 0.9440069991251093,
+        "minority_source_seconds": 1.0800000000000018,
+        "source_seconds": {
+          "source_7": 18.208125,
+          "source_5": 1.08
+        }
+      },
+      {
+        "cluster_ordinal": 45,
+        "owned_seconds": 38.221875,
+        "reference_seconds": 38.219,
+        "dominant_source_alias": "source_44",
+        "dominant_source_share": 0.9916108480075355,
+        "minority_source_seconds": 0.3206249999999997,
+        "source_seconds": {
+          "source_49": 0.320625,
+          "source_44": 37.898375
+        }
+      },
+      {
+        "cluster_ordinal": 46,
+        "owned_seconds": 33.091875,
+        "reference_seconds": 33.091875,
+        "dominant_source_alias": "source_40",
+        "dominant_source_share": 0.998470168281489,
+        "minority_source_seconds": 0.050625000000003695,
+        "source_seconds": {
+          "source_26": 0.050625,
+          "source_40": 33.04125
+        }
+      },
+      {
+        "cluster_ordinal": 47,
+        "owned_seconds": 13.314375,
+        "reference_seconds": 13.314375,
+        "dominant_source_alias": "source_10",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_10": 13.314375
+        }
+      },
+      {
+        "cluster_ordinal": 48,
+        "owned_seconds": 27.7425,
+        "reference_seconds": 27.7425,
+        "dominant_source_alias": "source_10",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_10": 27.7425
+        }
+      },
+      {
+        "cluster_ordinal": 49,
+        "owned_seconds": 37.783125,
+        "reference_seconds": 37.783125,
+        "dominant_source_alias": "source_15",
+        "dominant_source_share": 0.9535506922733363,
+        "minority_source_seconds": 1.7549999999999955,
+        "source_seconds": {
+          "source_15": 36.028125,
+          "source_21": 1.755
+        }
+      },
+      {
+        "cluster_ordinal": 50,
+        "owned_seconds": 39.69,
+        "reference_seconds": 39.69,
+        "dominant_source_alias": "source_20",
+        "dominant_source_share": 0.9821428571428571,
+        "minority_source_seconds": 0.7087499999999949,
+        "source_seconds": {
+          "source_20": 38.98125,
+          "source_2": 0.70875
+        }
+      },
+      {
+        "cluster_ordinal": 51,
+        "owned_seconds": 39.774375,
+        "reference_seconds": 39.774375,
+        "dominant_source_alias": "source_32",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_32": 39.774375
+        }
+      },
+      {
+        "cluster_ordinal": 52,
+        "owned_seconds": 43.4868125,
+        "reference_seconds": 43.4608125,
+        "dominant_source_alias": "source_50",
+        "dominant_source_share": 0.9716554999978428,
+        "minority_source_seconds": 1.2318750000000023,
+        "source_seconds": {
+          "source_50": 42.2289375,
+          "source_18": 1.231875
+        }
+      },
+      {
+        "cluster_ordinal": 53,
+        "owned_seconds": 35.116875,
+        "reference_seconds": 35.116875,
+        "dominant_source_alias": "source_36",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_36": 35.116875
+        }
+      },
+      {
+        "cluster_ordinal": 54,
+        "owned_seconds": 31.75875,
+        "reference_seconds": 31.75875,
+        "dominant_source_alias": "source_6",
+        "dominant_source_share": 1.0,
+        "minority_source_seconds": 0.0,
+        "source_seconds": {
+          "source_6": 31.75875
+        }
+      }
+    ],
+    "speaker_count": 55,
+    "source_people_denominator": 50,
+    "missing_dominant_source_people": 0,
+    "groups_below90pct_reference_share": 0,
+    "groups_above20_owned_seconds": 49,
+    "total_minority_source_seconds": 19.183812499999988,
+    "minimum_nonempty_source_share": 0.9377479106119326,
+    "groups_without_reference_support": 0,
+    "dominant_groups_per_source": {
+      "source_6": [
+        54
+      ],
+      "source_48": [
+        23
+      ],
+      "source_9": [
+        35
+      ],
+      "source_26": [
+        33
+      ],
+      "source_50": [
+        52
+      ],
+      "source_18": [
+        29
+      ],
+      "source_16": [
+        7
+      ],
+      "source_40": [
+        46
+      ],
+      "source_47": [
+        36
+      ],
+      "source_43": [
+        1
+      ],
+      "source_29": [
+        2
+      ],
+      "source_19": [
+        19
+      ],
+      "source_45": [
+        21
+      ],
+      "source_31": [
+        32
+      ],
+      "source_27": [
+        14
+      ],
+      "source_33": [
+        20
+      ],
+      "source_11": [
+        40
+      ],
+      "source_8": [
+        4
+      ],
+      "source_30": [
+        10
+      ],
+      "source_12": [
+        6
+      ],
+      "source_10": [
+        47,
+        48
+      ],
+      "source_1": [
+        39
+      ],
+      "source_28": [
+        12
+      ],
+      "source_14": [
+        38
+      ],
+      "source_17": [
+        11,
+        13
+      ],
+      "source_46": [
+        34
+      ],
+      "source_39": [
+        24,
+        25,
+        26
+      ],
+      "source_25": [
+        18
+      ],
+      "source_34": [
+        17
+      ],
+      "source_41": [
+        22
+      ],
+      "source_3": [
+        31
+      ],
+      "source_4": [
+        30
+      ],
+      "source_49": [
+        16
+      ],
+      "source_44": [
+        45
+      ],
+      "source_42": [
+        15
+      ],
+      "source_32": [
+        51
+      ],
+      "source_22": [
+        0
+      ],
+      "source_35": [
+        8
+      ],
+      "source_13": [
+        41
+      ],
+      "source_23": [
+        9
+      ],
+      "source_24": [
+        5
+      ],
+      "source_36": [
+        53
+      ],
+      "source_20": [
+        50
+      ],
+      "source_2": [
+        28
+      ],
+      "source_15": [
+        49
+      ],
+      "source_21": [
+        27
+      ],
+      "source_37": [
+        3
+      ],
+      "source_38": [
+        37
+      ],
+      "source_7": [
+        43,
+        44
+      ],
+      "source_5": [
+        42
+      ]
+    },
+    "transcript_metrics": {
+      "normalization": "unicode-words-v1",
+      "counts": {
+        "reference_speakers": 50,
+        "hypothesis_speakers": 55,
+        "reference_words": 5741,
+        "hypothesis_words": 5737,
+        "unassigned_words": 38
+      },
+      "cpwer": {
+        "errors": 774,
+        "substitutions": 148,
+        "deletions": 315,
+        "insertions": 311,
+        "rate": 0.13481971781919527
+      },
+      "assigned_only": {
+        "errors": 774,
+        "substitutions": 148,
+        "deletions": 315,
+        "insertions": 311,
+        "rate": 0.13481971781919527
+      },
+      "unassigned_word_fraction": 0.006623670908140143,
+      "note": "Corpus cpWER permits label permutation; assigned_only forbids unassigned-to-person matches. Neither is persistent identity accuracy, DER or word timestamp accuracy."
+    },
+    "critical_source_groups": [
+      {
+        "cluster_ordinal": 33,
+        "dominant_source_alias": "source_26",
+        "reference_seconds": 39.0825,
+        "dominant_source_share": 0.9745250431778929,
+        "critical_known_source_seconds": 0.961875,
+        "critical_other_source_seconds": 0
+      },
+      {
+        "cluster_ordinal": 42,
+        "dominant_source_alias": "source_5",
+        "reference_seconds": 32.36625,
+        "dominant_source_share": 0.9572471324296142,
+        "critical_known_source_seconds": 1.38375,
+        "critical_other_source_seconds": 30.9825
+      },
+      {
+        "cluster_ordinal": 43,
+        "dominant_source_alias": "source_7",
+        "reference_seconds": 11.8125,
+        "dominant_source_share": 0.9985714285714286,
+        "critical_known_source_seconds": 11.795625,
+        "critical_other_source_seconds": 0.016875
+      },
+      {
+        "cluster_ordinal": 44,
+        "dominant_source_alias": "source_7",
+        "reference_seconds": 19.288125,
+        "dominant_source_share": 0.9440069991251093,
+        "critical_known_source_seconds": 18.208125,
+        "critical_other_source_seconds": 1.08
+      }
+    ],
+    "people_with_multiple_dominant_groups": 4
+  },
+  "observed_resources": {
+    "pipeline_seconds": 86.22973259300124,
+    "wall_seconds": 95.27752696199968,
+    "peak_rss_bytes": 2893942784,
+    "cuda_peak_allocated_bytes": 124396032,
+    "cuda_peak_reserved_bytes": 161480704
+  },
+  "resource_limits": {
+    "container_memory_cap_bytes": 8589934592,
+    "process_rss_stop_bytes": 8053063680,
+    "wall_timeout_seconds": 1800
+  },
+  "resource_measurement_limits": [
+    "RSS is the recorded process high-water measurement; Docker RAM plus swap was separately capped to8GiB.",
+    "CUDA allocated/reserved values are PyTorch allocator measurements, not total device memory including driver or other libraries.",
+    "Elapsed duration excludes ASR, memory quality/enrollment, HTTP upload, and DB work; it is not end-to-end application latency."
+  ],
+  "native_output": {
+    "clusters": 55,
+    "embedding_shape": [
+      55,
+      256
+    ],
+    "vectors_exported": false,
+    "diarization_sha256": "8ac52e6de534ab7d3d4d2171ecfef192202a1f98f66ded65a17e0cb5633b6b0c"
+  },
+  "service_coordination": {
+    "root_stop_exit_code": 0,
+    "root_restore_exit_code": 0,
+    "launcher_changes_main_services": false,
+    "note": "Root coordinated idle inference stop/restore outside the experiment launcher; no model/production/DB mutation."
+  },
+  "followup_gpu_runs": 0,
+  "production_changes": 0,
+  "database_writes": 0,
+  "limitations": [
+    "Both execution scope and model minibatches differ: original independent windows/batch32 versus whole source/batch1. Effects are not isolated to the clustering operation alone.",
+    "Source-frame dominance includes in-utterance silence and is not manual voice-purity/DER; all107 baseline/candidate clusters remain in the result.",
+    "Same raw/core-owned ASR observations do not guarantee identical final tokens: different diarization support can change word retention and grouping; full reference denominators are preserved.",
+    "The critical heavy two-person mixture is reduced but residual cross-source edge durations and extra splits remain.",
+    "Native diarization was tested without persistent gallery matching, retained-sample purity or profile enrollment. No improvement of final identity recall/F1 is claimed.",
+    "C is a known constructed English regression source. No threshold sweep, retries, further old-five/A/B model runs or production proposal followed its failed frozen criteria."
+  ],
+  "artifacts": {
+    "outputs/2026-09-11-accuracy-audit/whole-recording-community-v1/protocol.json": "65af2794090ac3a783d305db7f5cfc88df872c2a2189d6605fbc364913d5be73",
+    "outputs/2026-09-11-accuracy-audit/whole-recording-community-v1/runtime/protocol.json": "7d79d6b9a604e16edf414de2f860ad6f0de3b4b519016f7a7efcc0134e420e8d",
+    "outputs/2026-09-11-accuracy-audit/whole-recording-community-v1/runtime/infer.py": "1c501aba59d96fc20c89cf27191841c644322b7ddbbf0ac7d986de9f66d22930",
+    "outputs/2026-09-11-accuracy-audit/whole-recording-community-v1/run.py": "2497cbe3840a88fbfa6c0baa70e766f6bc47fdab88ba55a9051c120624419fcb",
+    "outputs/2026-09-11-accuracy-audit/whole-recording-community-v1/score.py": "dab77ae668f740421d1f033bdf6469d5f821bb3cb00e2d9229fdf13a8c3f216c",
+    "outputs/2026-09-11-accuracy-audit/whole-recording-community-v1/preflight.json": "79f3545c0a16d4bd67c84b953bf75121fc9f4ef5bdedaf2e33a729e7c736ede5",
+    "outputs/2026-09-11-accuracy-audit/whole-recording-community-v1/resource-estimate.json": "b2c4a1ebf8c84b8b55676ab8f8744f98726f11ff262031729c5cce507bbc0a9f",
+    "outputs/2026-09-11-accuracy-audit/whole-recording-community-v1/installed-source-manifest.json": "4ec65cb665d7b2a40c1ecc3d617dfa2c886db6866acd9deee837b4d764444f6c",
+    "outputs/2026-09-11-accuracy-audit/whole-recording-community-v1/source-words.private.json": "928aa1329e8bf1a532fefa595b4d53fd6308dbd150d4b72da0a0f82dab4a4a32",
+    "outputs/2026-09-11-accuracy-audit/whole-recording-community-v1/baseline-preflight.private.json": "d2b9fe19452f8f02307311bbfb08ea8bccfe6778151883f2cbcb6b0147c1f63a",
+    "outputs/2026-09-11-accuracy-audit/whole-recording-community-v1/command.json": "fe299495aceb3eda203088d95fe5c4ae9b215ba4501a91851ac715a5b290bd4d",
+    "outputs/2026-09-11-accuracy-audit/whole-recording-community-v1/execution.json": "88596fca2d731b7e887e8522b1fd61265d6bdde6dc0b8af3951edbd92010e255",
+    "outputs/2026-09-11-accuracy-audit/whole-recording-community-v1/scoring-exit.json": "eff0c7ff5903cbc1f5136bccf780f080e3f69c52e2fbbae66f0666fd82e71230",
+    "outputs/2026-09-11-accuracy-audit/whole-recording-community-v1/model-output/result.json": "61c6f82a832eab267ee2b4d0f8df5f84feae93ffe4d5e9118301b9f853955b25",
+    "outputs/2026-09-11-accuracy-audit/whole-recording-community-v1/model-output/diarization.private.json": "8ac52e6de534ab7d3d4d2171ecfef192202a1f98f66ded65a17e0cb5633b6b0c",
+    "outputs/2026-09-11-accuracy-audit/whole-recording-community-v1/model-output/rss.jsonl": "11f0f911dd6261bdd34b261cd29f49814e13911fb62c2a7dd623ac034b2b7147",
+    "outputs/2026-09-11-accuracy-audit/whole-recording-community-v1/candidate-transcript.private.json": "c4693c7c6bbc8adfc070295362bb2063340625c27212f52473e952e33c04ac09",
+    "outputs/2026-09-11-accuracy-audit/whole-recording-community-v1/comparison.private.json": "931584afebc427258570c1bc8f02fd3cb0fe5e8bf2e08f376f922f54860228c8",
+    "outputs/2026-09-11-accuracy-audit/whole-recording-community-v1/runtime-coordination/before-stop-idle.json": "0f446df227253f9aec05c29e79e0c5ed30e161685359b3e625cf9d84646453cb",
+    "outputs/2026-09-11-accuracy-audit/whole-recording-community-v1/runtime-coordination/stop-result.json": "2da710d1d07f2bd4b1f25a494720662a070c35d306095828ea2d11aae9e7dc29",
+    "outputs/2026-09-11-accuracy-audit/whole-recording-community-v1/runtime-coordination/restore-result.json": "c175543798dca936ef2eaf4532746224e41ee752e77e5442d001808ca41de825"
+  },
+  "source_metric_definitions": {
+    "people_with_multiple_dominant_groups": "Number of reference people who are the largest frame contributor in more than one global cluster. This is the frozen source-range replay metric; baseline1 and candidate4. It is not the separate strict transcript/source_mapping_split metric, whose existing baseline value was2.",
+    "missing_dominant_source_people": "Number of all50 reference people who dominate no observed cluster; no missing people are removed from the denominator.",
+    "total_minority_source_seconds": "Sum over every observed cluster of its reference-overlap duration minus the largest source contribution. Baseline52 and candidate55 clusters participate. This is not final recognized-profile wrong-assignment duration or persistent identity accuracy.",
+    "dominant_source_share": "Largest source-frame contribution divided by total reference-overlap frames for that cluster. Outside-reference time is excluded; in-utterance silence remains part of source ownership."
+  }
+}

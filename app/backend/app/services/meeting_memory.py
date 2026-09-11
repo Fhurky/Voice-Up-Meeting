@@ -15,6 +15,12 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from app.core.config import Settings
 from app.domain.meeting import AUTO_ENROLL_SECONDS, clean_union
+from app.domain.meeting_memory_trace import build_memory_match_trace
+from app.domain.meeting_native_exclusions import (
+    ABSENT_EXCLUSIONS,
+    check_exclusion_graph,
+    read_exclusions,
+)
 from app.domain.models.meeting import Meeting, MeetingSpeaker
 from app.domain.models.mixins import new_public_id
 from app.domain.models.speaker_identity import Recording, SpeakerJob, SpeakerProfile, SpeakerSample
@@ -113,7 +119,22 @@ class MeetingMemory:
     async def competitors(
         repository: MeetingRepository, meeting: Meeting, row: MeetingSpeaker
     ) -> list[MeetingTracking]:
-        rows, _ = await repository.speakers(meeting.tenant_id, meeting.meeting_id, 0, 1000)
+        rows, total = await repository.speakers(meeting.tenant_id, meeting.meeting_id, 0, 1000)
+        try:
+            if total > 1000:
+                raise ValueError("invalid_native_exclusions")
+            check_exclusion_graph(
+                [
+                    (
+                        candidate.meeting_speaker_id,
+                        candidate.props.get("native_exclusions", ABSENT_EXCLUSIONS),
+                    )
+                    for candidate in rows
+                ],
+                meeting.source_sha256,
+            )
+        except (TypeError, ValueError) as exc:
+            raise SpeakerError("model_mismatch", 502) from exc
         result = []
         for candidate in rows:
             if (
@@ -164,6 +185,11 @@ class MeetingMemory:
         candidates: list[MemoryContext] = []
         tracking = None
         try:
+            native_exclusions = read_exclusions(
+                row.props.get("native_exclusions", ABSENT_EXCLUSIONS),
+                meeting.source_sha256,
+                row.meeting_speaker_id,
+            )
             if context_quality:
                 if row.props.get("candidate_version") != MEETING_PREPROCESSING_VERSION:
                     raise ValueError("unsupported_memory_candidate_version")
@@ -215,6 +241,9 @@ class MeetingMemory:
                 json.dumps(
                     {
                         "source": meeting.source_sha256,
+                        "native_exclusions": (
+                            native_exclusions.to_record() if native_exclusions else None
+                        ),
                         "rate": meeting.sample_rate,
                         "duration": meeting.duration_seconds,
                         "ranges": ranges,
@@ -482,21 +511,43 @@ class MeetingMemory:
                     self.validate_result(result, evidence)
                     vector = self.checked_vector(result.embedding)
                     ranked = await repository.speaker_repository.ranked(evidence.tenant_id, vector)
-                    decision = decide([score for _, score in ranked], self.policy)
+                    ecapa_scores = [score for _, score in ranked]
+                    community_scores = None
+                    winner_agreement = None
+                    decision = decide(ecapa_scores, self.policy)
                     if context_result is not None:
                         if context_result.memory_embedding is None:
                             raise SpeakerError("model_mismatch", 502)
                         meeting_ranked = await repository.speaker_repository.ranked_meeting(
                             evidence.tenant_id, context_result.memory_embedding.embedding
                         )
+                        community_scores = [score for _, score in meeting_ranked]
+                        if ranked and meeting_ranked:
+                            winner_agreement = (
+                                ranked[0][0].speaker_profile_id
+                                == meeting_ranked[0][0].speaker_profile_id
+                            )
                         decision, ranked = self.fuse_populations(ranked, meeting_ranked)
+                    try:
+                        match_trace = build_memory_match_trace(
+                            ecapa_scores,
+                            community_scores,
+                            policy=self.policy,
+                            evidence_sha256=evidence.fingerprint,
+                            preprocessing_version=result.preprocessing_version,
+                            winner_agreement=winner_agreement,
+                        )
+                    except (TypeError, ValueError) as exc:
+                        raise SpeakerError("model_mismatch", 502) from exc
+                    row.props = {**row.props, "memory_match_trace": match_trace}
                     row.reason = decision.reason
                     if decision.decision == "recognized":
                         profile = ranked[0][0]
-                        if await self.conflicting_assignment(
-                            repository, row, profile.speaker_profile_id
-                        ):
-                            row.decision, row.reason = "ambiguous", "overlapping_identity_conflict"
+                        conflict_reason = await self.conflicting_assignment(
+                            repository, row, profile.speaker_profile_id, meeting.source_sha256
+                        )
+                        if conflict_reason:
+                            row.decision, row.reason = "ambiguous", conflict_reason
                         else:
                             row.profile_id = profile.speaker_profile_id
                             row.decision = "recognized"
@@ -673,22 +724,34 @@ class MeetingMemory:
 
     @staticmethod
     async def conflicting_assignment(
-        repository: MeetingRepository, row: MeetingSpeaker, profile_id: int
-    ) -> bool:
+        repository: MeetingRepository,
+        row: MeetingSpeaker,
+        profile_id: int,
+        source_sha256: str | None,
+    ) -> str | None:
         others = await repository.speaker_profile_assignments(
             row.tenant_id, row.meeting_id, profile_id
         )
-        conflict = False
+        conflict = None
+        state = read_exclusions(
+            row.props.get("native_exclusions", ABSENT_EXCLUSIONS),
+            source_sha256,
+            row.meeting_speaker_id,
+        )
+        excluded = {peer.meeting_speaker_id for peer in state.peers} if state else set()
         current_ranges = row.props.get("speech_ranges", [])
         for other in others:
             if other.meeting_speaker_id == row.meeting_speaker_id:
                 continue
-            if any(
+            overlap = any(
                 max(start, left) < min(end, right)
                 for start, end in current_ranges
                 for left, right in other.props.get("speech_ranges", [])
-            ):
-                conflict = True
+            )
+            if overlap or other.meeting_speaker_id in excluded:
+                reason = "overlapping_identity_conflict" if overlap else "inconsistent_audio"
+                if conflict != "overlapping_identity_conflict":
+                    conflict = reason
                 other.profile_id = None
-                other.decision, other.reason = "ambiguous", "overlapping_identity_conflict"
+                other.decision, other.reason = "ambiguous", reason
         return conflict

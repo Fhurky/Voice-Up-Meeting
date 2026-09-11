@@ -3,6 +3,7 @@
 import base64
 import hashlib
 import io
+from contextlib import nullcontext
 
 import numpy as np
 import pytest
@@ -34,6 +35,9 @@ def tracking(index=0):
 
 
 class VoiceModels:
+    def voice_embedding_session(self):
+        return nullcontext(self)
+
     def voice_embedding(self, samples):
         return np.array(vector(256))
 

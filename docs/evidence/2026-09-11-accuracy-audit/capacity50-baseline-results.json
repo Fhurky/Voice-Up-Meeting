@@ -1,0 +1,3591 @@
+{
+  "artifacts": [
+    {
+      "path": "outputs/2026-09-11-accuracy-audit/capacity50/a-enrollment.results.json",
+      "sha256": "c04b798aef5d2c2f8983f50cd61ba1e6d8028ec3317f8f9f31e5f5a2362eb75a"
+    },
+    {
+      "path": "docs/evidence/2026-09-11-meeting-quality/capacity50-memory-before-b-results.json",
+      "sha256": "70a70f057c043df3be474c7ae2422ab338eda533586538cf344ba612bc6f56d2"
+    },
+    {
+      "path": "outputs/2026-09-11-resultant-correctness/mixed-native-provenance.json",
+      "sha256": "f10df6ec400ef54cc134e426ed122e7ea673e46016058eacfd14184627ac24e7"
+    },
+    {
+      "path": "outputs/2026-09-11-accuracy-audit/residency/old48-export/manifest.json",
+      "sha256": "156aa22765e714aca0eccdb1918a3281d201c8216580eb5d4bec6a476101351c"
+    },
+    {
+      "path": "outputs/2026-09-11-accuracy-audit/capacity50/retained-controls/manifest.json",
+      "sha256": "940ae17b71627f8c44efdcdc784f2609d1900349f0b120dbdad4224c0790f9a2"
+    },
+    {
+      "path": "outputs/2026-09-11-accuracy-audit/capacity50/retained-controls/combined85-manifest.json",
+      "sha256": "95961030ed373d55e49489a9e697ee6580c0865be2ce21e3e37e62b8feaff123"
+    },
+    {
+      "path": "outputs/2026-09-11-accuracy-audit/capacity50/memory-before-b.private.json",
+      "sha256": "0abdce8bb6415600dfe4e226e646906f0d1c095fac4d2bd11e0bac43a540e49a"
+    },
+    {
+      "path": "outputs/2026-09-11-accuracy-audit/capacity50/mixed-regression/manifest.json",
+      "sha256": "71d5d213a3026e0be7b346b672f63b6d36c199698747bbeb5b3fb5aa630bd7a1"
+    },
+    {
+      "path": "outputs/2026-09-11-accuracy-audit/capacity50/retained-controls/track-composition.json",
+      "sha256": "b3441803d6e85601f303c2899ecb2a3a4e9b1648e7937343288dc469777bf4b6"
+    }
+  ],
+  "blind_holdout": false,
+  "decisions": {
+    "ambiguous": 8,
+    "enrolled": 37,
+    "profile_pending": 6
+  },
+  "evidence_tier": "L2 live observation; quality acceptance failed",
+  "expected_people": 50,
+  "first_enrollment_coverage": {
+    "denominator": 50,
+    "numerator": 36,
+    "rate": 0.72
+  },
+  "held_cases": [
+    "b-return",
+    "c-return"
+  ],
+  "job_status": "succeeded",
+  "limitations": [
+    "36/50 is qualified first-enrollment coverage, not known-speaker return accuracy.",
+    "All37 profiles are included; the unqualified mixed profile is not excluded from the audit.",
+    "Source ownership includes within-utterance silence; it is not manually annotated speech purity or DER/JER.",
+    "cpWER permits speaker permutation and is not persistent identity accuracy.",
+    "Synthetic English complete-utterance meetings do not establish Turkish, overlap or live Teams quality.",
+    "No B/C return run or before/after profile immutability comparison has occurred.",
+    "This observed corpus and both control groups are regression data, not blind holdouts."
+  ],
+  "memory_audit": {
+    "all_actual_file_hashes_match": true,
+    "all_original_profiles_preserved": true,
+    "all_profiles_audited": true,
+    "all_stored_wav_source_reconstructions_match": true,
+    "before_after_comparison": null,
+    "minimum_qualified_correct_source_share": 0.9978908480860217,
+    "observed_at_utc": "2026-09-11 08:44:53.516402+00:00",
+    "profiles": [
+      {
+        "actual_file_hashes": [
+          "b351e75e3d572f6ee27baa74e86751a4397c696724c4cce6df4590f07b35b16f"
+        ],
+        "before_hashes": {
+          "embedding_sha256": "a3fd560db45f7146e972d4f4cada703fe2a98d483b48f7b2186d5092268353e6",
+          "immutable_sha256": "b3d33c6c8b00c9caf17e16975cc1ea898143033f282350c92ae76a9e92003165",
+          "meeting_embedding_sha256": "67be5cbd4224a4d32ef6a1674df84dabdd353536d31e2a5f533e98ee69885b47",
+          "name_sha256": "db814a0285939bbfcfa3eeb466a227b2304088bb376a76beec34310ef46f7b02"
+        },
+        "before_sample_rows_sha256": "ebdc352adb78c5ac6f6e27153cca29eff156ea0aac10e6a4ab0bbd1a6f9b7257",
+        "enrollment_row_count": 1,
+        "passed": true,
+        "profile_id_sha256": "97b0a800b24a1ba079b7acd0c1414d500fe1b7953921bc71bcbde2e9fde0adcb",
+        "sample_count": 1,
+        "source_checks": [
+          {
+            "actual_retained_files_verified": true,
+            "clean_ranges": [
+              [
+                5188652,
+                5209440
+              ],
+              [
+                5211692,
+                5227500
+              ],
+              [
+                5230636,
+                5257056
+              ],
+              [
+                5258796,
+                5275488
+              ],
+              [
+                5282348,
+                5297504
+              ],
+              [
+                5299244,
+                5342700
+              ],
+              [
+                5345696,
+                5360175
+              ],
+              [
+                15502826,
+                15573295
+              ],
+              [
+                15584839,
+                15619424
+              ],
+              [
+                15621703,
+                15667040
+              ],
+              [
+                15669152,
+                15699435
+              ],
+              [
+                26777504,
+                26816864
+              ],
+              [
+                26819026,
+                26846560
+              ],
+              [
+                26848672,
+                26883795
+              ],
+              [
+                33898912,
+                33965613
+              ],
+              [
+                33973869,
+                33993805
+              ],
+              [
+                34002541,
+                34013536
+              ],
+              [
+                34017696,
+                34026766
+              ]
+            ],
+            "correct_frames": 542192,
+            "correct_source_share": 1.0,
+            "dominant_source_identity": "ls-2952",
+            "dominant_source_share": 1.0,
+            "foreign_frames": 0,
+            "foreign_source_share": 0.0,
+            "gap_frames": 0,
+            "gap_source_share": 0.0,
+            "meeting_speaker_id_sha256": "554cb5c72a9c981a271fb46ea384217679779e1dc9e0c2dc7b253b0a0dc2dc54",
+            "qualified_purity_at_least_99_percent": true,
+            "qualified_source_identity": "ls-2952",
+            "reconstructed_wav_sha256": "b351e75e3d572f6ee27baa74e86751a4397c696724c4cce6df4590f07b35b16f",
+            "retained_frames": 542192,
+            "retained_seconds": 33.887,
+            "source_frame_counts": {
+              "ls-2952": 542192
+            },
+            "source_speech_seconds": 33.887,
+            "stored_sample_lineage_verified": true
+          }
+        ]
+      },
+      {
+        "actual_file_hashes": [
+          "e7742b80c26466bca99d581f4070010d0815546c29f6037abc5e58033c8f0447"
+        ],
+        "before_hashes": {
+          "embedding_sha256": "367da706a373590d83519519ee4821e33e575010a9b71d86b387de163a0ca93f",
+          "immutable_sha256": "491ecfd27124dae60f18882a3ee030a28ac00214d005df336052bfbead66407f",
+          "meeting_embedding_sha256": "abf9496824ccaa69e6953b2a6a51c3f396bfc0709a34432417e16772d0a957b2",
+          "name_sha256": "815839e1b9978b65993aa0ce58671a78dfd64c43480a66a2359fba2dba00225d"
+        },
+        "before_sample_rows_sha256": "9c1819c622de9cd3d36eb1a0d796735c743e1455749077dc20c0a361d08a8aea",
+        "enrollment_row_count": 1,
+        "passed": false,
+        "profile_id_sha256": "05d6b70ea728cb6fa5c858f2ef45c1aa0ed060daef271f15e0fdbf585c0ef139",
+        "sample_count": 1,
+        "source_checks": [
+          {
+            "actual_retained_files_verified": true,
+            "clean_ranges": [
+              [
+                8119530,
+                8140855
+              ],
+              [
+                8153834,
+                8168618
+              ],
+              [
+                8172778,
+                8207815
+              ],
+              [
+                8213738,
+                8247505
+              ],
+              [
+                8262560,
+                8305605
+              ],
+              [
+                9009056,
+                9033807
+              ],
+              [
+                9048207,
+                9084495
+              ],
+              [
+                9087631,
+                9126479
+              ],
+              [
+                9131424,
+                9175119
+              ],
+              [
+                9186721,
+                9251145
+              ],
+              [
+                18713936,
+                18731215
+              ],
+              [
+                18737398,
+                18764425
+              ],
+              [
+                18771360,
+                18798225
+              ],
+              [
+                19540616,
+                19582733
+              ],
+              [
+                19589965,
+                19689741
+              ],
+              [
+                19702346,
+                19745632
+              ],
+              [
+                19749792,
+                19769035
+              ],
+              [
+                29718944,
+                29754595
+              ],
+              [
+                29765788,
+                29802115
+              ],
+              [
+                29812646,
+                29841535
+              ],
+              [
+                29892266,
+                29943375
+              ]
+            ],
+            "correct_frames": null,
+            "correct_source_share": null,
+            "dominant_source_identity": "ls-3235",
+            "dominant_source_share": 0.5263696615203188,
+            "foreign_frames": null,
+            "foreign_source_share": null,
+            "gap_frames": 0,
+            "gap_source_share": 0.0,
+            "meeting_speaker_id_sha256": "5c408b4967cb057f0bbc06e4efa86089f40f8c92f0d524e774efee1750b3398a",
+            "qualified_purity_at_least_99_percent": false,
+            "qualified_source_identity": null,
+            "reconstructed_wav_sha256": "e7742b80c26466bca99d581f4070010d0815546c29f6037abc5e58033c8f0447",
+            "retained_frames": 783533,
+            "retained_seconds": 48.9708125,
+            "source_frame_counts": {
+              "ls-2196": 371105,
+              "ls-3235": 412428
+            },
+            "source_speech_seconds": 48.9708125,
+            "stored_sample_lineage_verified": true
+          }
+        ]
+      },
+      {
+        "actual_file_hashes": [
+          "666171636c8fd1b5b85209055afd892be5d816c1b35c704779fd937f233db2c9"
+        ],
+        "before_hashes": {
+          "embedding_sha256": "a1579c35e597f6d0893d022db30c49390cc3f222f969868622b3ddd89f4610c6",
+          "immutable_sha256": "0f8b568103cfdcb43ff94c20d7058d7241721c9fe8fd18f7fd07efd2fdb0ebf0",
+          "meeting_embedding_sha256": "e541da1463584e83bbfff30fe1cf50d874eba91479c76aab5d9d00856ed3e528",
+          "name_sha256": "4430918cf37222498f7a49a5d5dad3f88d612343388484ab01963f71cca3135c"
+        },
+        "before_sample_rows_sha256": "5da9f1f3e1246ae7393b0c19db453110c5b8f1675d7c06e2b06ae1777a035261",
+        "enrollment_row_count": 1,
+        "passed": true,
+        "profile_id_sha256": "ab49389148478a7762a8e2f245c742f8d227b866436068c6d14fef41cf4b0df3",
+        "sample_count": 1,
+        "source_checks": [
+          {
+            "actual_retained_files_verified": true,
+            "clean_ranges": [
+              [
+                2519032,
+                2547640
+              ],
+              [
+                2551328,
+                2645976
+              ],
+              [
+                13133366,
+                13177105
+              ],
+              [
+                13187158,
+                13215583
+              ],
+              [
+                13217878,
+                13255405
+              ],
+              [
+                13270614,
+                13274575
+              ],
+              [
+                13281366,
+                13295635
+              ],
+              [
+                13306272,
+                13332135
+              ],
+              [
+                23903546,
+                23953765
+              ],
+              [
+                23963040,
+                23990485
+              ],
+              [
+                24000329,
+                24006355
+              ],
+              [
+                24017824,
+                24040713
+              ]
+            ],
+            "correct_frames": 383619,
+            "correct_source_share": 1.0,
+            "dominant_source_identity": "ls-7517",
+            "dominant_source_share": 1.0,
+            "foreign_frames": 0,
+            "foreign_source_share": 0.0,
+            "gap_frames": 0,
+            "gap_source_share": 0.0,
+            "meeting_speaker_id_sha256": "242cc517b42671d102ba541d1cc632e3efb0c631022689c987f152c48f96e521",
+            "qualified_purity_at_least_99_percent": true,
+            "qualified_source_identity": "ls-7517",
+            "reconstructed_wav_sha256": "666171636c8fd1b5b85209055afd892be5d816c1b35c704779fd937f233db2c9",
+            "retained_frames": 383619,
+            "retained_seconds": 23.9761875,
+            "source_frame_counts": {
+              "ls-7517": 383619
+            },
+            "source_speech_seconds": 23.9761875,
+            "stored_sample_lineage_verified": true
+          }
+        ]
+      },
+      {
+        "actual_file_hashes": [
+          "0bd3868c22247bdafdae3a09264ec4b24f2da57aea95ae4c0f7d1663965f08fa"
+        ],
+        "before_hashes": {
+          "embedding_sha256": "d43299413c2a2fd249e5efa23248e6c5a602e953a1b4503e81b139ab68249a17",
+          "immutable_sha256": "010584078413a208320ab1c47fed95454a0116efa8c32143560cec1e7d6c628e",
+          "meeting_embedding_sha256": "77aa92cf3b48dbde54ea54bc47272cc481f349c4ba6f700a64536ee999abc0a0",
+          "name_sha256": "d944c1f3870b97faaaf4971e1aeb8a0da6987c4c6ac8cefdd759f40a58b68979"
+        },
+        "before_sample_rows_sha256": "b8add30ce5bdde4eea2754f541a90d092389ab27940b9f6a65932ad4df64ce00",
+        "enrollment_row_count": 1,
+        "passed": true,
+        "profile_id_sha256": "aa20e08874704bd634c35fdf091c2e9e365e7e549709de2932ec79bb26cf78d4",
+        "sample_count": 1,
+        "source_checks": [
+          {
+            "actual_retained_files_verified": true,
+            "clean_ranges": [
+              [
+                3485576,
+                3515895
+              ],
+              [
+                3528224,
+                3556832
+              ],
+              [
+                3562888,
+                3593696
+              ],
+              [
+                3596320,
+                3614688
+              ],
+              [
+                3619872,
+                3652515
+              ],
+              [
+                3663392,
+                3684168
+              ],
+              [
+                3685768,
+                3708455
+              ],
+              [
+                14034356,
+                14103795
+              ],
+              [
+                14126084,
+                14149984
+              ],
+              [
+                14158752,
+                14253105
+              ],
+              [
+                24873888,
+                24889696
+              ],
+              [
+                24892320,
+                24908546
+              ],
+              [
+                24913824,
+                24948576
+              ],
+              [
+                24958880,
+                25053735
+              ]
+            ],
+            "correct_frames": 533542,
+            "correct_source_share": 1.0,
+            "dominant_source_identity": "ls-200",
+            "dominant_source_share": 1.0,
+            "foreign_frames": 0,
+            "foreign_source_share": 0.0,
+            "gap_frames": 0,
+            "gap_source_share": 0.0,
+            "meeting_speaker_id_sha256": "3e86df6c98d005e25cdfe7ecdb70bb6a2883aa55d50d40722d6f14816a2b319b",
+            "qualified_purity_at_least_99_percent": true,
+            "qualified_source_identity": "ls-200",
+            "reconstructed_wav_sha256": "0bd3868c22247bdafdae3a09264ec4b24f2da57aea95ae4c0f7d1663965f08fa",
+            "retained_frames": 533542,
+            "retained_seconds": 33.346375,
+            "source_frame_counts": {
+              "ls-200": 533542
+            },
+            "source_speech_seconds": 33.346375,
+            "stored_sample_lineage_verified": true
+          }
+        ]
+      },
+      {
+        "actual_file_hashes": [
+          "cd01cbfac69d856ba0a49dde417c4b550a9086c6b5664f99c04dd86db7f4f11d"
+        ],
+        "before_hashes": {
+          "embedding_sha256": "f749fcf6f91699a3c3a048214f9e660bf77e2685dc529a35bfb23a839dc2b843",
+          "immutable_sha256": "bf0cd60cf2cdc9b7e4cce3114881292a769297a513379158ad76a4e9110eb467",
+          "meeting_embedding_sha256": "87eeb5aa5bf0d2a61c5fa32a49e954c3ddc1f590ac0a74acc3e19aca5e7e7fc4",
+          "name_sha256": "4f63d83bca3f3189601e43bacaea52f8c72975ff171deb5a86dcd217d0dd0688"
+        },
+        "before_sample_rows_sha256": "941a922df49274259071aea9b1ec508761d918ab386487a538d86a8b0484d53e",
+        "enrollment_row_count": 1,
+        "passed": true,
+        "profile_id_sha256": "dd69a6f8797127bd70f823230db178c2a936b9cd7e88d1351346ce6452418bfa",
+        "sample_count": 1,
+        "source_checks": [
+          {
+            "actual_retained_files_verified": true,
+            "clean_ranges": [
+              [
+                1380200,
+                1438245
+              ],
+              [
+                1445266,
+                1465565
+              ],
+              [
+                12134816,
+                12151136
+              ],
+              [
+                12155323,
+                12168032
+              ],
+              [
+                12173756,
+                12211552
+              ],
+              [
+                12221371,
+                12283405
+              ],
+              [
+                12293563,
+                12329625
+              ],
+              [
+                22964640,
+                22982496
+              ],
+              [
+                22993312,
+                23011515
+              ],
+              [
+                23037344,
+                23057760
+              ],
+              [
+                23060927,
+                23098405
+              ],
+              [
+                23106506,
+                23136608
+              ],
+              [
+                23140799,
+                23155155
+              ]
+            ],
+            "correct_frames": 381676,
+            "correct_source_share": 1.0,
+            "dominant_source_identity": "ls-6272",
+            "dominant_source_share": 1.0,
+            "foreign_frames": 0,
+            "foreign_source_share": 0.0,
+            "gap_frames": 0,
+            "gap_source_share": 0.0,
+            "meeting_speaker_id_sha256": "13d5d59406e269bd50cb038704cbfe891ad46a1cc40c28480ae744c97a30bd34",
+            "qualified_purity_at_least_99_percent": true,
+            "qualified_source_identity": "ls-6272",
+            "reconstructed_wav_sha256": "cd01cbfac69d856ba0a49dde417c4b550a9086c6b5664f99c04dd86db7f4f11d",
+            "retained_frames": 381676,
+            "retained_seconds": 23.85475,
+            "source_frame_counts": {
+              "ls-6272": 381676
+            },
+            "source_speech_seconds": 23.85475,
+            "stored_sample_lineage_verified": true
+          }
+        ]
+      },
+      {
+        "actual_file_hashes": [
+          "4075494243c4933c2327a6fbf2c202a8435a3b4b3815f7b7f0e38d1bf023674f"
+        ],
+        "before_hashes": {
+          "embedding_sha256": "bddf9fa09fb483e7e5eef17069269bfbbfb22742b6d1aba6ff3b814c1dada59b",
+          "immutable_sha256": "d5a3c7974c957e6d7955e995ebae885c74ca3dc265799baa806c2d66e0c1e5b8",
+          "meeting_embedding_sha256": "585292f45b6da7c96e5e69c4444b7ea75b65457be8d960b53d9328553a0b975d",
+          "name_sha256": "95dbc267bade0db725b8d954cd06e46f62e29c418f592e3e13100dd4757681b6"
+        },
+        "before_sample_rows_sha256": "f5e02d69ef8da8df05a92b4345934191ad2c1f6b2fa389528caeb7818490c57d",
+        "enrollment_row_count": 1,
+        "passed": true,
+        "profile_id_sha256": "1cff67a8c72fe86a94b3403fe26870adab3550fb4cc288e0505702506dfa9c42",
+        "sample_count": 1,
+        "source_checks": [
+          {
+            "actual_retained_files_verified": true,
+            "clean_ranges": [
+              [
+                8325782,
+                8424800
+              ],
+              [
+                8426400,
+                8452726
+              ],
+              [
+                18859196,
+                18940768
+              ],
+              [
+                18945756,
+                19007328
+              ],
+              [
+                19017436,
+                19068765
+              ],
+              [
+                29958560,
+                30039392
+              ],
+              [
+                30041357,
+                30100320
+              ],
+              [
+                30112013,
+                30170175
+              ]
+            ],
+            "correct_frames": 517774,
+            "correct_source_share": 1.0,
+            "dominant_source_identity": "ls-3699",
+            "dominant_source_share": 1.0,
+            "foreign_frames": 0,
+            "foreign_source_share": 0.0,
+            "gap_frames": 0,
+            "gap_source_share": 0.0,
+            "meeting_speaker_id_sha256": "4061d96be98a27cd4d3f651083951dfa248a34d22bc3e73623e91326954379af",
+            "qualified_purity_at_least_99_percent": true,
+            "qualified_source_identity": "ls-3699",
+            "reconstructed_wav_sha256": "4075494243c4933c2327a6fbf2c202a8435a3b4b3815f7b7f0e38d1bf023674f",
+            "retained_frames": 517774,
+            "retained_seconds": 32.360875,
+            "source_frame_counts": {
+              "ls-3699": 517774
+            },
+            "source_speech_seconds": 32.360875,
+            "stored_sample_lineage_verified": true
+          }
+        ]
+      },
+      {
+        "actual_file_hashes": [
+          "f1e5f190f60f8fa276e58734071208c1b619f71a9e662c9d0a118689d116518d"
+        ],
+        "before_hashes": {
+          "embedding_sha256": "05c4f9ba7ec2596470aba3fedc6a20eddec50926b9c0d33f3bae29c337b3a9ee",
+          "immutable_sha256": "b9f0f89dc521ac28a6a22a679d158a05662fcfcf41e525dcc6beb55111a65211",
+          "meeting_embedding_sha256": "e2cefd6bda270699cc972dd938dba72a30539a96304421068d85e2483662b182",
+          "name_sha256": "42713b7049142f3228f1fd2b5173de2c61a1dfe60ae8e526deedb1f5f10bae68"
+        },
+        "before_sample_rows_sha256": "9476473551c8b23f42d436edea448b0aac06461660e0cc9e0226f2197698c08b",
+        "enrollment_row_count": 1,
+        "passed": true,
+        "profile_id_sha256": "57f47111c378ce2cba7d239cdd2edacb517d9baee4719297d395b3fb6b60a670",
+        "sample_count": 1,
+        "source_checks": [
+          {
+            "actual_retained_files_verified": true,
+            "clean_ranges": [
+              [
+                9270298,
+                9332905
+              ],
+              [
+                9340954,
+                9382585
+              ],
+              [
+                9387034,
+                9418495
+              ],
+              [
+                9431968,
+                9465795
+              ],
+              [
+                19781456,
+                19814395
+              ],
+              [
+                19821686,
+                19848544
+              ],
+              [
+                19851783,
+                19876704
+              ],
+              [
+                19882503,
+                19908960
+              ],
+              [
+                19921824,
+                19988595
+              ],
+              [
+                30728756,
+                30818395
+              ],
+              [
+                30823464,
+                30879685
+              ],
+              [
+                30890400,
+                30935528
+              ],
+              [
+                30939176,
+                30960735
+              ]
+            ],
+            "correct_frames": 560019,
+            "correct_source_share": 1.0,
+            "dominant_source_identity": "ls-1263",
+            "dominant_source_share": 1.0,
+            "foreign_frames": 0,
+            "foreign_source_share": 0.0,
+            "gap_frames": 0,
+            "gap_source_share": 0.0,
+            "meeting_speaker_id_sha256": "7ef763f906b4c754ee8577c95b0ef8289067bf94990ec2cc23aaf00235f582b5",
+            "qualified_purity_at_least_99_percent": true,
+            "qualified_source_identity": "ls-1263",
+            "reconstructed_wav_sha256": "f1e5f190f60f8fa276e58734071208c1b619f71a9e662c9d0a118689d116518d",
+            "retained_frames": 560019,
+            "retained_seconds": 35.0011875,
+            "source_frame_counts": {
+              "ls-1263": 560019
+            },
+            "source_speech_seconds": 35.0011875,
+            "stored_sample_lineage_verified": true
+          }
+        ]
+      },
+      {
+        "actual_file_hashes": [
+          "b8615643db7abb17ee2c585ab449c08879f2e957cea9fd7b4028930759c71956"
+        ],
+        "before_hashes": {
+          "embedding_sha256": "9e18d63806aeb435ca312e7210517a761c8ec3c63c9eaa3776d65ff3d31637f5",
+          "immutable_sha256": "9b3c444e98cd2bb3d59d6b437949d7366e39f2f6e220699c6a0cade413e22d59",
+          "meeting_embedding_sha256": "30819ddf4f51a3cb735bc037d76ffb1fb0a533a4985744ae2cc041ea87ecde29",
+          "name_sha256": "9450ce502a6fe6a6b8bd743cf9a8638753152d2888e8a20e850f5187c12a2ebb"
+        },
+        "before_sample_rows_sha256": "3f9a2a5b4165d80f06cde51cfa65abb07ef348ead62ca7ce5e0e660d36758704",
+        "enrollment_row_count": 1,
+        "passed": true,
+        "profile_id_sha256": "c2a0ba9abb2395eabaf063cedd10264d3e92db8422c895c722f7aa91cd4a3eb6",
+        "sample_count": 1,
+        "source_checks": [
+          {
+            "actual_retained_files_verified": true,
+            "clean_ranges": [
+              [
+                8494560,
+                8563675
+              ],
+              [
+                8577504,
+                8617405
+              ],
+              [
+                8631776,
+                8693055
+              ],
+              [
+                19086752,
+                19148095
+              ],
+              [
+                19160009,
+                19195075
+              ],
+              [
+                19204041,
+                19227145
+              ],
+              [
+                19238345,
+                19247497
+              ],
+              [
+                19250121,
+                19273056
+              ],
+              [
+                19275721,
+                19300905
+              ],
+              [
+                30243744,
+                30375055
+              ],
+              [
+                30386666,
+                30417225
+              ]
+            ],
+            "correct_frames": 508949,
+            "correct_source_share": 1.0,
+            "dominant_source_identity": "ls-3857",
+            "dominant_source_share": 1.0,
+            "foreign_frames": 0,
+            "foreign_source_share": 0.0,
+            "gap_frames": 0,
+            "gap_source_share": 0.0,
+            "meeting_speaker_id_sha256": "6c0f83f3388d21a62fa38767741084e54212540c63df4321745059d398d3e5df",
+            "qualified_purity_at_least_99_percent": true,
+            "qualified_source_identity": "ls-3857",
+            "reconstructed_wav_sha256": "b8615643db7abb17ee2c585ab449c08879f2e957cea9fd7b4028930759c71956",
+            "retained_frames": 508949,
+            "retained_seconds": 31.8093125,
+            "source_frame_counts": {
+              "ls-3857": 508949
+            },
+            "source_speech_seconds": 31.8093125,
+            "stored_sample_lineage_verified": true
+          }
+        ]
+      },
+      {
+        "actual_file_hashes": [
+          "dc3b6da7943eed510a150d517ce470661660698f27a8061dd7f353cba9b2fb0b"
+        ],
+        "before_hashes": {
+          "embedding_sha256": "1d9476147fe4e6a8487600e9fb4579dc7b2e32a16bd4d9866add11de5b916af9",
+          "immutable_sha256": "2ce2962f633938d078f1a9e1ac0f60029f75b6d39581a820067df066ec263349",
+          "meeting_embedding_sha256": "c8725065fdd21cd73754ae94dc10b6539fdab33aa657aa0f1b8d475dc6d72803",
+          "name_sha256": "70c55d00fedcdee2bfc27549ca13e63b35827fda9d62d76df09d346287300ac6"
+        },
+        "before_sample_rows_sha256": "92b12612ee570b43b5d8f6f8b2450554553dd1cf4693a77717b1ff8cf955800e",
+        "enrollment_row_count": 1,
+        "passed": true,
+        "profile_id_sha256": "a600af3a0ceae757329cbbfff857ed41e64d926b7385c8d34d9d40eca65f8e53",
+        "sample_count": 1,
+        "source_checks": [
+          {
+            "actual_retained_files_verified": true,
+            "clean_ranges": [
+              [
+                3725308,
+                3737568
+              ],
+              [
+                3741692,
+                3768764
+              ],
+              [
+                3776032,
+                3790780
+              ],
+              [
+                3794464,
+                3815595
+              ],
+              [
+                3830304,
+                3855285
+              ],
+              [
+                3862048,
+                3920675
+              ],
+              [
+                14270066,
+                14318395
+              ],
+              [
+                14322603,
+                14340805
+              ],
+              [
+                14345643,
+                14376445
+              ],
+              [
+                14390699,
+                14394585
+              ],
+              [
+                25071520,
+                25103471
+              ],
+              [
+                25106336,
+                25150575
+              ],
+              [
+                25154976,
+                25183825
+              ],
+              [
+                25188256,
+                25227104
+              ],
+              [
+                25231776,
+                25289568
+              ],
+              [
+                25293999,
+                25310775
+              ]
+            ],
+            "correct_frames": 478493,
+            "correct_source_share": 1.0,
+            "dominant_source_identity": "ls-1963",
+            "dominant_source_share": 1.0,
+            "foreign_frames": 0,
+            "foreign_source_share": 0.0,
+            "gap_frames": 0,
+            "gap_source_share": 0.0,
+            "meeting_speaker_id_sha256": "160323901dfe44ad0f8b86360730992a2100f5244e05fb3e9fde8b8c68d6f008",
+            "qualified_purity_at_least_99_percent": true,
+            "qualified_source_identity": "ls-1963",
+            "reconstructed_wav_sha256": "dc3b6da7943eed510a150d517ce470661660698f27a8061dd7f353cba9b2fb0b",
+            "retained_frames": 478493,
+            "retained_seconds": 29.9058125,
+            "source_frame_counts": {
+              "ls-1963": 478493
+            },
+            "source_speech_seconds": 29.9058125,
+            "stored_sample_lineage_verified": true
+          }
+        ]
+      },
+      {
+        "actual_file_hashes": [
+          "f18982861acb0f39b675e4d6dbf1c7e6ec220bdcb2d7b90f05cc3ba92c03c5fc"
+        ],
+        "before_hashes": {
+          "embedding_sha256": "3b44107d8667186d0182ac898e0f5dd6e771dfc1985411cbbfe48c052b54bd23",
+          "immutable_sha256": "946637188d61d8f7f7323e5f3ae819b24083d0d51a45dcbb6a45fbef3ec8bb51",
+          "meeting_embedding_sha256": "899ced3aff908d770a09d82fa0f77532146e9702f4a6ca875b272290e5f69017",
+          "name_sha256": "27cafdfcadea9969987fa219018463a9f2f834dd00265fad96f204e3ec0e1b06"
+        },
+        "before_sample_rows_sha256": "a778c70ac7ca4a7cd64e01bccf27d5dba44801ce25b0ecbdc65f16753a43ba2c",
+        "enrollment_row_count": 1,
+        "passed": true,
+        "profile_id_sha256": "ee96770e84cd1f59e04de3f8079c4d8930d91763908cd175b9eb95241cc10651",
+        "sample_count": 1,
+        "source_checks": [
+          {
+            "actual_retained_files_verified": true,
+            "clean_ranges": [
+              [
+                2991858,
+                3022875
+              ],
+              [
+                3034354,
+                3067360
+              ],
+              [
+                3078386,
+                3088352
+              ],
+              [
+                3091698,
+                3121965
+              ],
+              [
+                3126002,
+                3209495
+              ],
+              [
+                13560224,
+                13636155
+              ],
+              [
+                13660676,
+                13703520
+              ],
+              [
+                13706656,
+                13722306
+              ],
+              [
+                13725088,
+                13756305
+              ],
+              [
+                24359516,
+                24378720
+              ],
+              [
+                24381856,
+                24409440
+              ],
+              [
+                24413088,
+                24444909
+              ],
+              [
+                24448045,
+                24487516
+              ],
+              [
+                24513440,
+                24522521
+              ],
+              [
+                24525657,
+                24565017
+              ],
+              [
+                24572832,
+                24586592
+              ],
+              [
+                24590240,
+                24603375
+              ]
+            ],
+            "correct_frames": 546807,
+            "correct_source_share": 1.0,
+            "dominant_source_identity": "ls-4267",
+            "dominant_source_share": 1.0,
+            "foreign_frames": 0,
+            "foreign_source_share": 0.0,
+            "gap_frames": 0,
+            "gap_source_share": 0.0,
+            "meeting_speaker_id_sha256": "aabca43daf6ad20cf6dcf4669e108a1063928d9fadbd75f67fe3a6a6682ac7a4",
+            "qualified_purity_at_least_99_percent": true,
+            "qualified_source_identity": "ls-4267",
+            "reconstructed_wav_sha256": "f18982861acb0f39b675e4d6dbf1c7e6ec220bdcb2d7b90f05cc3ba92c03c5fc",
+            "retained_frames": 546807,
+            "retained_seconds": 34.1754375,
+            "source_frame_counts": {
+              "ls-4267": 546807
+            },
+            "source_speech_seconds": 34.1754375,
+            "stored_sample_lineage_verified": true
+          }
+        ]
+      },
+      {
+        "actual_file_hashes": [
+          "1b9ac337b9ffe254933df910b6d8f77f812625a6fe082b703c61d5cac4ec48a9"
+        ],
+        "before_hashes": {
+          "embedding_sha256": "21cf09cee10b55a5395fa78144d9323bcb5ea5625bb1311b431afe63240e2b06",
+          "immutable_sha256": "4f05346ef6c8edc74bb5391d95a6317e218b09184af1bf98870e501bfd509a45",
+          "meeting_embedding_sha256": "2c395bb788fa22d9e7ad574f93644931b402e97e9eb248e2907ee9c815df6141",
+          "name_sha256": "ba47917cc20544369a866b3d23a4cb820cdc0c27d603445d1a03ec4a951758ba"
+        },
+        "before_sample_rows_sha256": "b5b3d944f7260b6dfdf997a39676396bc0ec964cb7aa14bf49edcb2a2f6f3b08",
+        "enrollment_row_count": 1,
+        "passed": true,
+        "profile_id_sha256": "41883560080b3a866108bcaadaacea12a7659420072bfadbaff759edbd59f6bb",
+        "sample_count": 1,
+        "source_checks": [
+          {
+            "actual_retained_files_verified": true,
+            "clean_ranges": [
+              [
+                4342640,
+                4382055
+              ],
+              [
+                4384756,
+                4443104
+              ],
+              [
+                4444704,
+                4466885
+              ],
+              [
+                14716320,
+                14734405
+              ],
+              [
+                14735486,
+                14735712
+              ],
+              [
+                14741920,
+                14797152
+              ],
+              [
+                14798752,
+                14902112
+              ],
+              [
+                14904224,
+                14931808
+              ],
+              [
+                14933920,
+                14945865
+              ],
+              [
+                25783712,
+                25832241
+              ],
+              [
+                25833841,
+                25904992
+              ],
+              [
+                25908128,
+                25996575
+              ]
+            ],
+            "correct_frames": 544503,
+            "correct_source_share": 1.0,
+            "dominant_source_identity": "ls-198",
+            "dominant_source_share": 1.0,
+            "foreign_frames": 0,
+            "foreign_source_share": 0.0,
+            "gap_frames": 0,
+            "gap_source_share": 0.0,
+            "meeting_speaker_id_sha256": "b7fd671885282c47521352309b0c455fcc94aa3a4b5f0dde1ac633a97ad05185",
+            "qualified_purity_at_least_99_percent": true,
+            "qualified_source_identity": "ls-198",
+            "reconstructed_wav_sha256": "1b9ac337b9ffe254933df910b6d8f77f812625a6fe082b703c61d5cac4ec48a9",
+            "retained_frames": 544503,
+            "retained_seconds": 34.0314375,
+            "source_frame_counts": {
+              "ls-198": 544503
+            },
+            "source_speech_seconds": 34.0314375,
+            "stored_sample_lineage_verified": true
+          }
+        ]
+      },
+      {
+        "actual_file_hashes": [
+          "3dd82d3196fdad552299c9ac12a264c0316525524f8f3b2d33e3f3bc0e5f2244"
+        ],
+        "before_hashes": {
+          "embedding_sha256": "d5d2f1e6fe6e464580b7fbcda9b0cffa41d3cfeae505ef2b84254e42d98dd08b",
+          "immutable_sha256": "5c601ae4197ae997ba6493c2145f191872978312acff0936869101b49cefbc3a",
+          "meeting_embedding_sha256": "d18daf85589f8659d00a1efab75afe1ba60b4fa363af49cd7123786ff6b24285",
+          "name_sha256": "7257a928b1a38f4e6324df3a9378b3f87e47d24f5e9d9b8a2d2d567a53828711"
+        },
+        "before_sample_rows_sha256": "33b8f24ab9c3b59c8ef0b1119cc5317f9e406f25856fee92dd8b30a2d23f82f7",
+        "enrollment_row_count": 1,
+        "passed": true,
+        "profile_id_sha256": "b592275befee80fd11d5a1a9da5c8b4995374fe82eea15bf8ea6552526299dd7",
+        "sample_count": 1,
+        "source_checks": [
+          {
+            "actual_retained_files_verified": true,
+            "clean_ranges": [
+              [
+                10059690,
+                10076000
+              ],
+              [
+                10083754,
+                10142560
+              ],
+              [
+                10151338,
+                10194145
+              ],
+              [
+                10202026,
+                10243424
+              ],
+              [
+                10250154,
+                10301115
+              ],
+              [
+                20746144,
+                20763488
+              ],
+              [
+                20770779,
+                20814176
+              ],
+              [
+                20820443,
+                20894665
+              ],
+              [
+                20902875,
+                20938185
+              ],
+              [
+                31630826,
+                31664480
+              ],
+              [
+                31668316,
+                31681045
+              ],
+              [
+                31695452,
+                31735648
+              ],
+              [
+                31738272,
+                31758876
+              ],
+              [
+                31760476,
+                31834995
+              ]
+            ],
+            "correct_frames": 562257,
+            "correct_source_share": 1.0,
+            "dominant_source_identity": "ls-6147",
+            "dominant_source_share": 1.0,
+            "foreign_frames": 0,
+            "foreign_source_share": 0.0,
+            "gap_frames": 0,
+            "gap_source_share": 0.0,
+            "meeting_speaker_id_sha256": "dbc1e43cfcb538a23dd543c418959c5c4b2e37aabb0cb6cd3e20b15abd17b080",
+            "qualified_purity_at_least_99_percent": true,
+            "qualified_source_identity": "ls-6147",
+            "reconstructed_wav_sha256": "3dd82d3196fdad552299c9ac12a264c0316525524f8f3b2d33e3f3bc0e5f2244",
+            "retained_frames": 562257,
+            "retained_seconds": 35.1410625,
+            "source_frame_counts": {
+              "ls-6147": 562257
+            },
+            "source_speech_seconds": 35.1410625,
+            "stored_sample_lineage_verified": true
+          }
+        ]
+      },
+      {
+        "actual_file_hashes": [
+          "e232e050a2852541edcada157607abd287892c9c7250db410b1fcb4f9db1fd1b"
+        ],
+        "before_hashes": {
+          "embedding_sha256": "c184041fd05a9e65660c02800472ce16526152fdc49af0dc2f145ef276f28a13",
+          "immutable_sha256": "4c4029c501c115e5a5466604ae7e84c5b5688aa0b8f26784c7cf99a87ab2ed51",
+          "meeting_embedding_sha256": "a7b7c034861d0476af6b98cca134daf6aa7b715f5b4a6eb9e20993160821594a",
+          "name_sha256": "8cbea654b90d936bda97bc38a1adaed9afc9b320db237ff2c960d2f54ea95f44"
+        },
+        "before_sample_rows_sha256": "c988de6d22feecea3c121cf15e694587802aa803e3f9e6570083ef8beb71dbf6",
+        "enrollment_row_count": 1,
+        "passed": true,
+        "profile_id_sha256": "bf764647b5e8ca31663018b7baf405b033693427f579e6fd2bfcf764b0fafe2a",
+        "sample_count": 1,
+        "source_checks": [
+          {
+            "actual_retained_files_verified": true,
+            "clean_ranges": [
+              [
+                6071878,
+                6108512
+              ],
+              [
+                6115910,
+                6135302
+              ],
+              [
+                6137926,
+                6159878
+              ],
+              [
+                6164038,
+                6199846
+              ],
+              [
+                16313096,
+                16385768
+              ],
+              [
+                16389025,
+                16454888
+              ],
+              [
+                16462752,
+                16528104
+              ],
+              [
+                16529824,
+                16555605
+              ],
+              [
+                27488276,
+                27521287
+              ],
+              [
+                27523911,
+                27553543
+              ],
+              [
+                27563424,
+                27655943
+              ],
+              [
+                27658055,
+                27674625
+              ]
+            ],
+            "correct_frames": 515186,
+            "correct_source_share": 1.0,
+            "dominant_source_identity": "ls-5456",
+            "dominant_source_share": 1.0,
+            "foreign_frames": 0,
+            "foreign_source_share": 0.0,
+            "gap_frames": 0,
+            "gap_source_share": 0.0,
+            "meeting_speaker_id_sha256": "faae810250af09e73477e524df53447966c20b97018f6f93f023b7614357d97a",
+            "qualified_purity_at_least_99_percent": true,
+            "qualified_source_identity": "ls-5456",
+            "reconstructed_wav_sha256": "e232e050a2852541edcada157607abd287892c9c7250db410b1fcb4f9db1fd1b",
+            "retained_frames": 515186,
+            "retained_seconds": 32.199125,
+            "source_frame_counts": {
+              "ls-5456": 515186
+            },
+            "source_speech_seconds": 32.199125,
+            "stored_sample_lineage_verified": true
+          }
+        ]
+      },
+      {
+        "actual_file_hashes": [
+          "91658073a2c05cffbc16f78302ca918e530acb23f43c8edd5f7969c8bae1827c"
+        ],
+        "before_hashes": {
+          "embedding_sha256": "9250b3720d1f5e5702344777f828962a7e140138d92a1419d76b8de0f9b50c6e",
+          "immutable_sha256": "928c0cd6ce04d61954a60f061ea2430e94345b4cf2cf544fe4a67d2c30efa552",
+          "meeting_embedding_sha256": "0d555de9cb0d61368e66ab6b6cb3a08ea4da22e7d5b45d579d8ae065e78b3df2",
+          "name_sha256": "7c5c6d68d959ffbfac1b4e1c49038fcd1b17aca246e8b9096a6157b14c22b7a6"
+        },
+        "before_sample_rows_sha256": "fbeacf0afce5a6d8cc394a5401cb41925853607b13c23bb19a6573cd11a545d8",
+        "enrollment_row_count": 1,
+        "passed": true,
+        "profile_id_sha256": "5a2c8669e114b26e1467978abc06ca07066bc85da107bc9b317238ee747673bb",
+        "sample_count": 1,
+        "source_checks": [
+          {
+            "actual_retained_files_verified": true,
+            "clean_ranges": [
+              [
+                2811656,
+                2857952
+              ],
+              [
+                2865928,
+                2910688
+              ],
+              [
+                2916104,
+                2937576
+              ],
+              [
+                13354400,
+                13468435
+              ],
+              [
+                13474308,
+                13512032
+              ],
+              [
+                13513732,
+                13541655
+              ],
+              [
+                24134048,
+                24188065
+              ],
+              [
+                24196593,
+                24275005
+              ],
+              [
+                24285681,
+                24342015
+              ]
+            ],
+            "correct_frames": 480973,
+            "correct_source_share": 1.0,
+            "dominant_source_identity": "ls-4640",
+            "dominant_source_share": 1.0,
+            "foreign_frames": 0,
+            "foreign_source_share": 0.0,
+            "gap_frames": 0,
+            "gap_source_share": 0.0,
+            "meeting_speaker_id_sha256": "b4bb9d5fa75e22da80c7373a15359cbca0e62e9ca3ab0fd96a0ec8a12d12f213",
+            "qualified_purity_at_least_99_percent": true,
+            "qualified_source_identity": "ls-4640",
+            "reconstructed_wav_sha256": "91658073a2c05cffbc16f78302ca918e530acb23f43c8edd5f7969c8bae1827c",
+            "retained_frames": 480973,
+            "retained_seconds": 30.0608125,
+            "source_frame_counts": {
+              "ls-4640": 480973
+            },
+            "source_speech_seconds": 30.0608125,
+            "stored_sample_lineage_verified": true
+          }
+        ]
+      },
+      {
+        "actual_file_hashes": [
+          "30349e32b0413972547634d6c178951ebb2b35f585ef24c8629124de5f8cd4d5"
+        ],
+        "before_hashes": {
+          "embedding_sha256": "7fc00fb61ca90de4d7ceea0612ae1ac5d27d5c61fa9780ced90de75b1e00b896",
+          "immutable_sha256": "60e9c0cdc2f23d7f658f5c0c22378f46cbad0c16f7665e829396ca2ef7dd4734",
+          "meeting_embedding_sha256": "b935a2f0a03fba431c2cff3fd7fcd869e6ee8505be288c3da656b6a1e18ec8ad",
+          "name_sha256": "8d39e5d834c8e1928d2dcd1281a5d704f5beb04a096d946eb5ccf509b8fc70bc"
+        },
+        "before_sample_rows_sha256": "5566b1ae5d723fd7c79b62bdeb5329cd6bf8c809b0b62cb1724b2254af02160a",
+        "enrollment_row_count": 1,
+        "passed": true,
+        "profile_id_sha256": "a856d079587d6c3bbd70fbdd02df0ec71733459507d0ca4653901b981413bae4",
+        "sample_count": 1,
+        "source_checks": [
+          {
+            "actual_retained_files_verified": true,
+            "clean_ranges": [
+              [
+                9483300,
+                9585504
+              ],
+              [
+                9588640,
+                9600000
+              ],
+              [
+                20006816,
+                20081965
+              ],
+              [
+                20090784,
+                20172415
+              ],
+              [
+                20182772,
+                20251035
+              ],
+              [
+                30975392,
+                31103266
+              ]
+            ],
+            "correct_frames": 466481,
+            "correct_source_share": 1.0,
+            "dominant_source_identity": "ls-248",
+            "dominant_source_share": 1.0,
+            "foreign_frames": 0,
+            "foreign_source_share": 0.0,
+            "gap_frames": 0,
+            "gap_source_share": 0.0,
+            "meeting_speaker_id_sha256": "b9d8f3bda5b4323318e0b4f4b6bcf4b175f9ff21c02b191f2ce82ddb0cac2c9b",
+            "qualified_purity_at_least_99_percent": true,
+            "qualified_source_identity": "ls-248",
+            "reconstructed_wav_sha256": "30349e32b0413972547634d6c178951ebb2b35f585ef24c8629124de5f8cd4d5",
+            "retained_frames": 466481,
+            "retained_seconds": 29.1550625,
+            "source_frame_counts": {
+              "ls-248": 466481
+            },
+            "source_speech_seconds": 29.1550625,
+            "stored_sample_lineage_verified": true
+          }
+        ]
+      },
+      {
+        "actual_file_hashes": [
+          "4ad4ad1289e4f657d582534d01a53f3e51c43ada45ed26425ad84ff6b420eca1"
+        ],
+        "before_hashes": {
+          "embedding_sha256": "f6e34d491d2b64050b381b7e8b5fffba0f69b36508ae344965fb70eb3378f8fc",
+          "immutable_sha256": "018832fa55611c1ed5acc4783685a44a3c249393e8a5c718f3a1430853c5106c",
+          "meeting_embedding_sha256": "d01c7f59df075e4dd30c2c48754abf1833271e5649ec29a6b94739a35a3e6cad",
+          "name_sha256": "83ceb2d1128440e677f1af993bc9181cfedae25e5d7ddb5e7d4da8b46e52fdf8"
+        },
+        "before_sample_rows_sha256": "d72bb0b310838c26949c2b4da98494e313729a88e8952827d7f568e90432a3c6",
+        "enrollment_row_count": 1,
+        "passed": true,
+        "profile_id_sha256": "25ce26c9a899a8bed581221dc0e7ddc36020667f467728aedba1fad8d3a4360b",
+        "sample_count": 1,
+        "source_checks": [
+          {
+            "actual_retained_files_verified": true,
+            "clean_ranges": [
+              [
+                6240358,
+                6300000
+              ],
+              [
+                6301798,
+                6355615
+              ],
+              [
+                6361702,
+                6413862
+              ],
+              [
+                6415776,
+                6437475
+              ],
+              [
+                16567712,
+                16604000
+              ],
+              [
+                16615933,
+                16677216
+              ],
+              [
+                16681376,
+                16713235
+              ],
+              [
+                16720893,
+                16762155
+              ],
+              [
+                27678626,
+                27679584
+              ],
+              [
+                27687328,
+                27697525
+              ],
+              [
+                27707296,
+                27739965
+              ],
+              [
+                33538464,
+                33585625
+              ],
+              [
+                33594784,
+                33600000
+              ]
+            ],
+            "correct_frames": 453253,
+            "correct_source_share": 0.9978908480860217,
+            "dominant_source_identity": "ls-6415",
+            "dominant_source_share": 0.9978908480860217,
+            "foreign_frames": 958,
+            "foreign_source_share": 0.0021091519139783054,
+            "gap_frames": 0,
+            "gap_source_share": 0.0,
+            "meeting_speaker_id_sha256": "ce484fbc19373c032b9506a67289996f89ca485ce557ab1ce7ed500dbaca5fa3",
+            "qualified_purity_at_least_99_percent": true,
+            "qualified_source_identity": "ls-6415",
+            "reconstructed_wav_sha256": "4ad4ad1289e4f657d582534d01a53f3e51c43ada45ed26425ad84ff6b420eca1",
+            "retained_frames": 454211,
+            "retained_seconds": 28.3881875,
+            "source_frame_counts": {
+              "ls-5456": 958,
+              "ls-6415": 453253
+            },
+            "source_speech_seconds": 28.3881875,
+            "stored_sample_lineage_verified": true
+          }
+        ]
+      },
+      {
+        "actual_file_hashes": [
+          "4c6d35a6f60e44812978dd014801e048ceb02fb96bcf853bf7992d3d3e3e5bd8"
+        ],
+        "before_hashes": {
+          "embedding_sha256": "7bdd4e019072dbd38aad5f6d777a1c00160a08107d967f0beabc9f1304ccf3c2",
+          "immutable_sha256": "68ad1a82e3ee59fe3ad953ad6f53972101e0c1e0e8232d142aef17782cfe1d2d",
+          "meeting_embedding_sha256": "f8e8a051e39ef3b77e1e73d29e759395317a34123a6f1411b4ac1a83b067ca03",
+          "name_sha256": "17ba6c2ada4915706d2558d52a6d2e83d9eff65d6fded8ed7f96df83685ce269"
+        },
+        "before_sample_rows_sha256": "f38d0cc1e06d7f0bd5c2753eb547739c1c992f32d5468805ae0a18cd878e3e36",
+        "enrollment_row_count": 1,
+        "passed": true,
+        "profile_id_sha256": "42c010bf4b84f6334e92d75f5448ce2113b4729caac4ca6b3533f7ed67dc6b8d",
+        "sample_count": 1,
+        "source_checks": [
+          {
+            "actual_retained_files_verified": true,
+            "clean_ranges": [
+              [
+                7500420,
+                7514464
+              ],
+              [
+                7519364,
+                7541316
+              ],
+              [
+                7542916,
+                7598432
+              ],
+              [
+                7600032,
+                7622496
+              ],
+              [
+                7624096,
+                7683795
+              ],
+              [
+                18034616,
+                18066272
+              ],
+              [
+                18073545,
+                18158944
+              ],
+              [
+                18161609,
+                18162616
+              ],
+              [
+                28973984,
+                29033101
+              ],
+              [
+                29042592,
+                29070688
+              ],
+              [
+                29084576,
+                29201955
+              ]
+            ],
+            "correct_frames": 496329,
+            "correct_source_share": 1.0,
+            "dominant_source_identity": "ls-4788",
+            "dominant_source_share": 1.0,
+            "foreign_frames": 0,
+            "foreign_source_share": 0.0,
+            "gap_frames": 0,
+            "gap_source_share": 0.0,
+            "meeting_speaker_id_sha256": "84548cd0a35dc7af4248e6f6758d2be760724840bc6c3abf24783fe700d0a08d",
+            "qualified_purity_at_least_99_percent": true,
+            "qualified_source_identity": "ls-4788",
+            "reconstructed_wav_sha256": "4c6d35a6f60e44812978dd014801e048ceb02fb96bcf853bf7992d3d3e3e5bd8",
+            "retained_frames": 496329,
+            "retained_seconds": 31.0205625,
+            "source_frame_counts": {
+              "ls-4788": 496329
+            },
+            "source_speech_seconds": 31.0205625,
+            "stored_sample_lineage_verified": true
+          }
+        ]
+      },
+      {
+        "actual_file_hashes": [
+          "093a882e95ff90d3a29a4131e460c7fd3e6a5d157e85bd3864b7485b9f5089de"
+        ],
+        "before_hashes": {
+          "embedding_sha256": "188b2c2ff1ebd7f2430df524e04abe30e0465b2421ebb711c1c9c620ca626056",
+          "immutable_sha256": "dc55e8f3c5e270d2ab0231a4b5ae2d4fc1b14c8f3d7527067d072576f7b2c56e",
+          "meeting_embedding_sha256": "4312246915eda3504bfcd40183157c9a4b3e5bd863c2d28ca285cfa0ed422114",
+          "name_sha256": "f017293f5fa17976c9b14044d6dc986540be34297b48e8160aab3cde80c1a2ab"
+        },
+        "before_sample_rows_sha256": "47a6350de621c22ee7567e035d1f1ecd5c012ab9579f126f623fbbb101e839b3",
+        "enrollment_row_count": 1,
+        "passed": true,
+        "profile_id_sha256": "75aed005c517d7cc1240ee7490337bc1130663a083b6e9a4aeb9fd69842e8a75",
+        "sample_count": 1,
+        "source_checks": [
+          {
+            "actual_retained_files_verified": true,
+            "clean_ranges": [
+              [
+                6460380,
+                6536032
+              ],
+              [
+                6538204,
+                6587836
+              ],
+              [
+                16773716,
+                16847924
+              ],
+              [
+                16851572,
+                16935985
+              ],
+              [
+                16943220,
+                16999755
+              ],
+              [
+                27756448,
+                27784032
+              ],
+              [
+                27798506,
+                27829600
+              ],
+              [
+                27832797,
+                27945885
+              ],
+              [
+                27951520,
+                27984585
+              ]
+            ],
+            "correct_frames": 545271,
+            "correct_source_share": 1.0,
+            "dominant_source_identity": "ls-150",
+            "dominant_source_share": 1.0,
+            "foreign_frames": 0,
+            "foreign_source_share": 0.0,
+            "gap_frames": 0,
+            "gap_source_share": 0.0,
+            "meeting_speaker_id_sha256": "39275f9cedb229d962472d8900776570cbe4ec9c2f980152eb1838b8f0ccbea2",
+            "qualified_purity_at_least_99_percent": true,
+            "qualified_source_identity": "ls-150",
+            "reconstructed_wav_sha256": "093a882e95ff90d3a29a4131e460c7fd3e6a5d157e85bd3864b7485b9f5089de",
+            "retained_frames": 545271,
+            "retained_seconds": 34.0794375,
+            "source_frame_counts": {
+              "ls-150": 545271
+            },
+            "source_speech_seconds": 34.0794375,
+            "stored_sample_lineage_verified": true
+          }
+        ]
+      },
+      {
+        "actual_file_hashes": [
+          "7d4adf5d1e0dc8be75e4e16e4a52d914d15e24d2d455294e845753f48dd956b3"
+        ],
+        "before_hashes": {
+          "embedding_sha256": "b43fe3ce0bcddce62e62b38099972585220f83c6728c7b5e6c02421bbc0b98cf",
+          "immutable_sha256": "426d211758db3102301a528dde0d48de2853e75b3c3f891f2a0f9f452a853659",
+          "meeting_embedding_sha256": "61eae2821d5390c71f6e3f11ea0d28e4040149df7d5815ee612a307564cd43b8",
+          "name_sha256": "59d8a8cce6067d14b77b6ce5f41e5fff885247bd3a79345000ceb1f0738888b7"
+        },
+        "before_sample_rows_sha256": "e9b81dc14480deeff7b1f6035960a7fbf39d78f11f3bf98dbb35f84e70e6daea",
+        "enrollment_row_count": 1,
+        "passed": true,
+        "profile_id_sha256": "32e718340237a9b63fde7603337b79e5e1cac9f5c1bb809c4d46c91e81d214e6",
+        "sample_count": 1,
+        "source_checks": [
+          {
+            "actual_retained_files_verified": true,
+            "clean_ranges": [
+              [
+                5586930,
+                5664096
+              ],
+              [
+                5668256,
+                5695840
+              ],
+              [
+                5700082,
+                5719904
+              ],
+              [
+                5724658,
+                5787488
+              ],
+              [
+                5799410,
+                5829435
+              ],
+              [
+                15930506,
+                15939936
+              ],
+              [
+                15941537,
+                15960416
+              ],
+              [
+                15974816,
+                15999328
+              ],
+              [
+                16006049,
+                16031584
+              ],
+              [
+                16039841,
+                16101216
+              ],
+              [
+                16102817,
+                16132785
+              ],
+              [
+                27136196,
+                27177505
+              ],
+              [
+                27194272,
+                27240404
+              ],
+              [
+                27251732,
+                27301332
+              ],
+              [
+                27314196,
+                27343335
+              ]
+            ],
+            "correct_frames": 553306,
+            "correct_source_share": 1.0,
+            "dominant_source_identity": "ls-6209",
+            "dominant_source_share": 1.0,
+            "foreign_frames": 0,
+            "foreign_source_share": 0.0,
+            "gap_frames": 0,
+            "gap_source_share": 0.0,
+            "meeting_speaker_id_sha256": "74850641ce0bf8952797dd139282cacb637bb2ba854cd64d3fa22d2970f733ea",
+            "qualified_purity_at_least_99_percent": true,
+            "qualified_source_identity": "ls-6209",
+            "reconstructed_wav_sha256": "7d4adf5d1e0dc8be75e4e16e4a52d914d15e24d2d455294e845753f48dd956b3",
+            "retained_frames": 553306,
+            "retained_seconds": 34.581625,
+            "source_frame_counts": {
+              "ls-6209": 553306
+            },
+            "source_speech_seconds": 34.581625,
+            "stored_sample_lineage_verified": true
+          }
+        ]
+      },
+      {
+        "actual_file_hashes": [
+          "0ca8c618bb8225d9f5274537d45bfcbcc1e6fc66b8590281062a504d4bed3fa7"
+        ],
+        "before_hashes": {
+          "embedding_sha256": "e0e7346bd99b2532cdd6d39c1f1eba297bf91571a150d3fa49da3e6e6ad323bd",
+          "immutable_sha256": "efef966d3de3404b4e60ec96363e90d8457895ea4ddf30435563d86dd609ce60",
+          "meeting_embedding_sha256": "83cbf6b4b777e53dc23e6d9aa44a79865cb7d8df04493f03ddb90a54abe2670c",
+          "name_sha256": "c178fc1987146f1870aed00b4c86611b6de45dedaa5793e2cbb9ed1179fd3cbb"
+        },
+        "before_sample_rows_sha256": "0e128df9184459746ba10bb921f597305cbeb12386b50e4666f942ec3d1c2328",
+        "enrollment_row_count": 1,
+        "passed": true,
+        "profile_id_sha256": "eb213d6ef20795fe8710a759bf41ba116937c5cf4586fefacb86ffbc09436970",
+        "sample_count": 1,
+        "source_checks": [
+          {
+            "actual_retained_files_verified": true,
+            "clean_ranges": [
+              [
+                8749142,
+                8991135
+              ],
+              [
+                19317152,
+                19385097
+              ],
+              [
+                19388320,
+                19486048
+              ],
+              [
+                19493096,
+                19528969
+              ],
+              [
+                30435414,
+                30490395
+              ],
+              [
+                33657760,
+                33699168
+              ],
+              [
+                33701792,
+                33715552
+              ],
+              [
+                33719200,
+                33734291
+              ],
+              [
+                33744595,
+                33776992
+              ],
+              [
+                33786067,
+                33888015
+              ]
+            ],
+            "correct_frames": 702474,
+            "correct_source_share": 0.9990755542407882,
+            "dominant_source_identity": "ls-6064",
+            "dominant_source_share": 0.9990755542407882,
+            "foreign_frames": 0,
+            "foreign_source_share": 0.0,
+            "gap_frames": 650,
+            "gap_source_share": 0.0009244457592117464,
+            "meeting_speaker_id_sha256": "01f891ce2a432b5d26682395837efbc26b69b68040921ffae540766ff06e5fb5",
+            "qualified_purity_at_least_99_percent": true,
+            "qualified_source_identity": "ls-6064",
+            "reconstructed_wav_sha256": "0ca8c618bb8225d9f5274537d45bfcbcc1e6fc66b8590281062a504d4bed3fa7",
+            "retained_frames": 703124,
+            "retained_seconds": 43.94525,
+            "source_frame_counts": {
+              "ls-6064": 702474
+            },
+            "source_speech_seconds": 43.94525,
+            "stored_sample_lineage_verified": true
+          }
+        ]
+      },
+      {
+        "actual_file_hashes": [
+          "046a1e3dbef55ff87f986b6b0caab368da233d809dcfc6d1631fab351f86d2a6"
+        ],
+        "before_hashes": {
+          "embedding_sha256": "e7fada14afc60152c0d567fe5c137cf30b181d1fb92e179e7c38d7ec91bf2fe8",
+          "immutable_sha256": "25b037947aa192991c8b2e1f1adb03b3bfd52bb4b35f90eb81bd1ffbd6331c6a",
+          "meeting_embedding_sha256": "43e493268e8b3fde5888fde67327e943f3a6ab2bd446e328edb803111055abd1",
+          "name_sha256": "1eae1415418f6299e21c3fe3598280eea3308a5ec4057e8f8373a67429073529"
+        },
+        "before_sample_rows_sha256": "14e2440f1ad8b6e2b5e5553e8d2740a4445c02c543e4d3d6844adbfb1802877c",
+        "enrollment_row_count": 1,
+        "passed": true,
+        "profile_id_sha256": "aeb7010e0c6affa2f138799e81ed989e6bac28e6130342305a3669bd6a6e57b4",
+        "sample_count": 1,
+        "source_checks": [
+          {
+            "actual_retained_files_verified": true,
+            "clean_ranges": [
+              [
+                10319970,
+                10363744
+              ],
+              [
+                10365345,
+                10401120
+              ],
+              [
+                10406816,
+                10426720
+              ],
+              [
+                10428320,
+                10470752
+              ],
+              [
+                10479536,
+                10530615
+              ],
+              [
+                20957600,
+                20991840
+              ],
+              [
+                20994053,
+                21040480
+              ],
+              [
+                21048837,
+                21084512
+              ],
+              [
+                21087749,
+                21166944
+              ],
+              [
+                21174277,
+                21211695
+              ],
+              [
+                31852960,
+                31888736
+              ],
+              [
+                31890848,
+                31925600
+              ],
+              [
+                31928937,
+                31973417
+              ],
+              [
+                31989353,
+                32023081
+              ],
+              [
+                32029801,
+                32071785
+              ]
+            ],
+            "correct_frames": 616639,
+            "correct_source_share": 1.0,
+            "dominant_source_identity": "ls-1898",
+            "dominant_source_share": 1.0,
+            "foreign_frames": 0,
+            "foreign_source_share": 0.0,
+            "gap_frames": 0,
+            "gap_source_share": 0.0,
+            "meeting_speaker_id_sha256": "fc2f31bedab082335890621caa712a0fc4d6dafa34647ce930d4d0008c294e72",
+            "qualified_purity_at_least_99_percent": true,
+            "qualified_source_identity": "ls-1898",
+            "reconstructed_wav_sha256": "046a1e3dbef55ff87f986b6b0caab368da233d809dcfc6d1631fab351f86d2a6",
+            "retained_frames": 616639,
+            "retained_seconds": 38.5399375,
+            "source_frame_counts": {
+              "ls-1898": 616639
+            },
+            "source_speech_seconds": 38.5399375,
+            "stored_sample_lineage_verified": true
+          }
+        ]
+      },
+      {
+        "actual_file_hashes": [
+          "2142ac7e0edc106005e20eefa8d9b81cb43a714f02c6ab4eaa8d9b4715eac715"
+        ],
+        "before_hashes": {
+          "embedding_sha256": "dc74f2e9d3a58ad7e5ca08d6aa45f05139505d2cf1ad46eacc2459c548c00f27",
+          "immutable_sha256": "55504fa5d42b2ce62facf8bc0ba163bdc6e50691a8ae41e562df05bdae8022e7",
+          "meeting_embedding_sha256": "116447c4db8ce18c97fe79538d0bdcaa65191dcfa2a8490034dcd1930e910c10",
+          "name_sha256": "322c8c8c1d4aa3c32aa17f4055fdf7e69d8509f127161bc646e9f43ac42a325b"
+        },
+        "before_sample_rows_sha256": "3cdc9811a4b1f1e5c3a81ad1fef629e562b212570e1b8e152cf9a638656dd690",
+        "enrollment_row_count": 1,
+        "passed": true,
+        "profile_id_sha256": "d095e7376d41150f8b22ee41cce7b265d913333665da5063b9310de20625015e",
+        "sample_count": 1,
+        "source_checks": [
+          {
+            "actual_retained_files_verified": true,
+            "clean_ranges": [
+              [
+                267018,
+                340695
+              ],
+              [
+                354058,
+                379575
+              ],
+              [
+                388362,
+                394986
+              ],
+              [
+                10859966,
+                10900320
+              ],
+              [
+                10904030,
+                10947175
+              ],
+              [
+                10963422,
+                10988384
+              ],
+              [
+                10994142,
+                11077905
+              ],
+              [
+                21624746,
+                21655904
+              ],
+              [
+                21660064,
+                21670915
+              ],
+              [
+                21680544,
+                21713845
+              ],
+              [
+                21719767,
+                21740845
+              ]
+            ],
+            "correct_frames": 394430,
+            "correct_source_share": 1.0,
+            "dominant_source_identity": "ls-8098",
+            "dominant_source_share": 1.0,
+            "foreign_frames": 0,
+            "foreign_source_share": 0.0,
+            "gap_frames": 0,
+            "gap_source_share": 0.0,
+            "meeting_speaker_id_sha256": "afaa6091cea9149cbe9647c412ce95307c4012314cf26158d327f763448135d1",
+            "qualified_purity_at_least_99_percent": true,
+            "qualified_source_identity": "ls-8098",
+            "reconstructed_wav_sha256": "2142ac7e0edc106005e20eefa8d9b81cb43a714f02c6ab4eaa8d9b4715eac715",
+            "retained_frames": 394430,
+            "retained_seconds": 24.651875,
+            "source_frame_counts": {
+              "ls-8098": 394430
+            },
+            "source_speech_seconds": 24.651875,
+            "stored_sample_lineage_verified": true
+          }
+        ]
+      },
+      {
+        "actual_file_hashes": [
+          "12599acaff31e3c832bab2af857324e4ce25e27a8a7624cf7e3a17a6ca7f9ce3"
+        ],
+        "before_hashes": {
+          "embedding_sha256": "62bfc2b4ab52f559995a5ba93fe8e7021eaf15960737598931b26e8a164783e7",
+          "immutable_sha256": "f9ee8fde68d26fb0d7b8b6906f9beaba235c41c7fe6f389edaab7440f0747661",
+          "meeting_embedding_sha256": "5f151c598a4d94f64d827ec76568cdb84c23cc7287f39285b17248ab65677a5a",
+          "name_sha256": "3416377abd6ef358f0c5756573ea647569d6f4b790bea7e82c05a15b0ae2a1d5"
+        },
+        "before_sample_rows_sha256": "084e3cb01b8c4e1da3d3d2267eaaee95fbe7984b1d6081c2e6735b3058b2bdf0",
+        "enrollment_row_count": 1,
+        "passed": true,
+        "profile_id_sha256": "e21e8038e6910547a862f6d37c704df806786a5b797c580cc638f0324befc948",
+        "sample_count": 1,
+        "source_checks": [
+          {
+            "actual_retained_files_verified": true,
+            "clean_ranges": [
+              [
+                2251760,
+                2323575
+              ],
+              [
+                2328560,
+                2369525
+              ],
+              [
+                2390048,
+                2397825
+              ],
+              [
+                2399815,
+                2424555
+              ],
+              [
+                2432583,
+                2458080
+              ],
+              [
+                2460231,
+                2495075
+              ],
+              [
+                12944288,
+                13002080
+              ],
+              [
+                13005216,
+                13068615
+              ],
+              [
+                23757728,
+                23773024
+              ],
+              [
+                23774624,
+                23797705
+              ],
+              [
+                23802272,
+                23822275
+              ],
+              [
+                23827872,
+                23847264
+              ],
+              [
+                23849376,
+                23881725
+              ],
+              [
+                32952736,
+                33010845
+              ],
+              [
+                33035366,
+                33072841
+              ],
+              [
+                33075616,
+                33111505
+              ],
+              [
+                33120672,
+                33152595
+              ]
+            ],
+            "correct_frames": 600346,
+            "correct_source_share": 1.0,
+            "dominant_source_identity": "ls-32",
+            "dominant_source_share": 1.0,
+            "foreign_frames": 0,
+            "foreign_source_share": 0.0,
+            "gap_frames": 0,
+            "gap_source_share": 0.0,
+            "meeting_speaker_id_sha256": "855f2c111761d4033709ee151df740fac8cea52918a340732949648b7051528a",
+            "qualified_purity_at_least_99_percent": true,
+            "qualified_source_identity": "ls-32",
+            "reconstructed_wav_sha256": "12599acaff31e3c832bab2af857324e4ce25e27a8a7624cf7e3a17a6ca7f9ce3",
+            "retained_frames": 600346,
+            "retained_seconds": 37.521625,
+            "source_frame_counts": {
+              "ls-32": 600346
+            },
+            "source_speech_seconds": 37.521625,
+            "stored_sample_lineage_verified": true
+          }
+        ]
+      },
+      {
+        "actual_file_hashes": [
+          "bbadf50fd0d948b846b2f3e9ceadee53ebbbdc855fc326716b4ebc60bf2bb586"
+        ],
+        "before_hashes": {
+          "embedding_sha256": "9d08c3eed15b7f369fe6bd5f3e04bfe411e6787b3f4218827c2021ae37806f90",
+          "immutable_sha256": "46609cd25efc0236441cc81f3e7c27bad9df3380efe3f63b10f52d183bd88b22",
+          "meeting_embedding_sha256": "359b24294cf2d20b9029399d1d711aebf8d4a56c12c80531929fb545d6fc02da",
+          "name_sha256": "79d1e4241c7e471e8709c16de229a4191666aa35191a62eb7fcacf0b5d6d5054"
+        },
+        "before_sample_rows_sha256": "257a35e45da991b3778ccbe1ef8baa1f355cfb719496bb539bb6dec963d214c5",
+        "enrollment_row_count": 1,
+        "passed": true,
+        "profile_id_sha256": "7bc196e92c0f6fd4549e75352a2789942bd89067c30f271b3917647abe01e799",
+        "sample_count": 1,
+        "source_checks": [
+          {
+            "actual_retained_files_verified": true,
+            "clean_ranges": [
+              [
+                9842638,
+                9857725
+              ],
+              [
+                9871496,
+                9897735
+              ],
+              [
+                9957355,
+                10008274
+              ],
+              [
+                10013088,
+                10030802
+              ],
+              [
+                10036128,
+                10044345
+              ],
+              [
+                20527008,
+                20576096
+              ],
+              [
+                20578208,
+                20679879
+              ],
+              [
+                20689159,
+                20728935
+              ],
+              [
+                31395116,
+                31493100
+              ],
+              [
+                31504800,
+                31549932
+              ],
+              [
+                31558560,
+                31614945
+              ]
+            ],
+            "correct_frames": 508212,
+            "correct_source_share": 1.0,
+            "dominant_source_identity": "ls-6081",
+            "dominant_source_share": 1.0,
+            "foreign_frames": 0,
+            "foreign_source_share": 0.0,
+            "gap_frames": 0,
+            "gap_source_share": 0.0,
+            "meeting_speaker_id_sha256": "a35b0c0440d7839844ea6dcea8702f4bd0b34494730f33d770b866c8942821fb",
+            "qualified_purity_at_least_99_percent": true,
+            "qualified_source_identity": "ls-6081",
+            "reconstructed_wav_sha256": "bbadf50fd0d948b846b2f3e9ceadee53ebbbdc855fc326716b4ebc60bf2bb586",
+            "retained_frames": 508212,
+            "retained_seconds": 31.76325,
+            "source_frame_counts": {
+              "ls-6081": 508212
+            },
+            "source_speech_seconds": 31.76325,
+            "stored_sample_lineage_verified": true
+          }
+        ]
+      },
+      {
+        "actual_file_hashes": [
+          "607956db41bc9ee26b833226f7ea31383e2159864e014a0d26e2efd40f82c70f"
+        ],
+        "before_hashes": {
+          "embedding_sha256": "5b5e5a7e63ae72c05d75f73c1ffc991396fe705708d0f7f0776e70652255c6cf",
+          "immutable_sha256": "f19f61ace013103e14a1145149267e1a2a90807f0ab555046386ce7e3de3998b",
+          "meeting_embedding_sha256": "69ae407b54d362076c43d000e47358f6734dce00e66b3a993ab38489a5d0ad2b",
+          "name_sha256": "8202fec18822dd8451bf43b76ef0896059c7f11b01c3d3b782d7198923fbe0de"
+        },
+        "before_sample_rows_sha256": "0ea4b941db69c73e0e0c36bd88985e10808384882697944333d90f4dde576e9d",
+        "enrollment_row_count": 1,
+        "passed": true,
+        "profile_id_sha256": "e26d2a2b0321863f6c97ac1d9572c459b26703192a20333becce44650febc55a",
+        "sample_count": 1,
+        "source_checks": [
+          {
+            "actual_retained_files_verified": true,
+            "clean_ranges": [
+              [
+                689568,
+                730035
+              ],
+              [
+                737184,
+                768864
+              ],
+              [
+                770592,
+                797536
+              ],
+              [
+                799776,
+                840160
+              ],
+              [
+                846752,
+                889824
+              ],
+              [
+                891424,
+                919355
+              ],
+              [
+                11378080,
+                11414005
+              ],
+              [
+                11430304,
+                11474727
+              ],
+              [
+                11478944,
+                11514663
+              ],
+              [
+                11528608,
+                11564839
+              ],
+              [
+                11570080,
+                11595765
+              ],
+              [
+                22347680,
+                22417058
+              ],
+              [
+                22423456,
+                22450016
+              ],
+              [
+                22458272,
+                22480736
+              ],
+              [
+                22487456,
+                22523042
+              ],
+              [
+                22526690,
+                22559535
+              ]
+            ],
+            "correct_frames": 575294,
+            "correct_source_share": 1.0,
+            "dominant_source_identity": "ls-8425",
+            "dominant_source_share": 1.0,
+            "foreign_frames": 0,
+            "foreign_source_share": 0.0,
+            "gap_frames": 0,
+            "gap_source_share": 0.0,
+            "meeting_speaker_id_sha256": "82d3d8719c0462e423c06e6e5eaf7d4b4accc6a058dd578040e905f6ce41ee8c",
+            "qualified_purity_at_least_99_percent": true,
+            "qualified_source_identity": "ls-8425",
+            "reconstructed_wav_sha256": "607956db41bc9ee26b833226f7ea31383e2159864e014a0d26e2efd40f82c70f",
+            "retained_frames": 575294,
+            "retained_seconds": 35.955875,
+            "source_frame_counts": {
+              "ls-8425": 575294
+            },
+            "source_speech_seconds": 35.955875,
+            "stored_sample_lineage_verified": true
+          }
+        ]
+      },
+      {
+        "actual_file_hashes": [
+          "bb2f2bdeabba30db76c3705cad4b7f7796ef6aff04db04900f1fda4acfafe1d5"
+        ],
+        "before_hashes": {
+          "embedding_sha256": "ed0d362af51abe8ca5c9201d94b54865da10d1967a6caf9b49d8166647f72445",
+          "immutable_sha256": "42db14cca2dfeaf19ae5106d16a174b6c052bcaf9257c754a1bab1bb56a04562",
+          "meeting_embedding_sha256": "83ce592d3b275e556ac2f6821c79a3592e95bac196a0cfbab364e21fae62b028",
+          "name_sha256": "4396e9a63dc3690d11cae1d98c6126ab6931115a6c524b191d190f37187473b2"
+        },
+        "before_sample_rows_sha256": "ac1bede10de3dc00c868c5ab68b04acc9b73aba63dafe34cb600a5cd4b902113",
+        "enrollment_row_count": 1,
+        "passed": true,
+        "profile_id_sha256": "4c58ff31e231bab94769133ede5ccf1f30551b963b4930bdf67dea85bf0331b2",
+        "sample_count": 1,
+        "source_checks": [
+          {
+            "actual_retained_files_verified": true,
+            "clean_ranges": [
+              [
+                2080,
+                69584
+              ],
+              [
+                72224,
+                107955
+              ],
+              [
+                114720,
+                167888
+              ],
+              [
+                170016,
+                174155
+              ],
+              [
+                10795976,
+                10814605
+              ],
+              [
+                10828781,
+                10845975
+              ],
+              [
+                21435746,
+                21436015
+              ],
+              [
+                21448166,
+                21463015
+              ],
+              [
+                21474086,
+                21480025
+              ],
+              [
+                21488792,
+                21498925
+              ],
+              [
+                21504152,
+                21514855
+              ],
+              [
+                21520536,
+                21544015
+              ],
+              [
+                21556640,
+                21563746
+              ],
+              [
+                32214566,
+                32246556
+              ],
+              [
+                32248736,
+                32317165
+              ],
+              [
+                32320928,
+                32342566
+              ]
+            ],
+            "correct_frames": 390631,
+            "correct_source_share": 0.9993118444614991,
+            "dominant_source_identity": "ls-1867",
+            "dominant_source_share": 0.9993118444614991,
+            "foreign_frames": 269,
+            "foreign_source_share": 0.0006881555385008953,
+            "gap_frames": 0,
+            "gap_source_share": 0.0,
+            "meeting_speaker_id_sha256": "9db76dcbbe1ec9d5dacca375672cda505058eb7cb3084b0df83b58a66f42aaba",
+            "qualified_purity_at_least_99_percent": true,
+            "qualified_source_identity": "ls-1867",
+            "reconstructed_wav_sha256": "bb2f2bdeabba30db76c3705cad4b7f7796ef6aff04db04900f1fda4acfafe1d5",
+            "retained_frames": 390900,
+            "retained_seconds": 24.43125,
+            "source_frame_counts": {
+              "ls-1841": 269,
+              "ls-1867": 390631
+            },
+            "source_speech_seconds": 24.43125,
+            "stored_sample_lineage_verified": true
+          }
+        ]
+      },
+      {
+        "actual_file_hashes": [
+          "810c218b816419dd7e97de94ec2cb08c688ec6b41155ee5f9cfe4988be519b14"
+        ],
+        "before_hashes": {
+          "embedding_sha256": "88a333c78df0300c532ae8c49af4979cb093f1ed074932a5c7d5c8365be500c4",
+          "immutable_sha256": "224921feb5d641e4aa80704101d67b8ac93198848ed9851867c2506cfb2537f9",
+          "meeting_embedding_sha256": "3d572b428e23010c62796941d88566997464f20217f6b2dd69de318f1cd456d1",
+          "name_sha256": "fa1f89195554cbf1253e86759f9fd01285b1757877b557264c6bc0936495e79a"
+        },
+        "before_sample_rows_sha256": "730775ffd6ec12d94d6f48a158084ba010796951aa2cc6972c2d9bd59da1e24a",
+        "enrollment_row_count": 1,
+        "passed": true,
+        "profile_id_sha256": "4a17b343a0524023c4e189ac10a7cf294b3f3f18e4bc6cfd1a3967ce47685d72",
+        "sample_count": 1,
+        "source_checks": [
+          {
+            "actual_retained_files_verified": true,
+            "clean_ranges": [
+              [
+                941180,
+                992475
+              ],
+              [
+                998686,
+                1106145
+              ],
+              [
+                1116284,
+                1148315
+              ],
+              [
+                11678624,
+                11714912
+              ],
+              [
+                11721665,
+                11784715
+              ],
+              [
+                11794881,
+                11806336
+              ],
+              [
+                22575008,
+                22642375
+              ],
+              [
+                22643186,
+                22782304
+              ],
+              [
+                22785117,
+                22815765
+              ]
+            ],
+            "correct_frames": 538711,
+            "correct_source_share": 1.0,
+            "dominant_source_identity": "ls-302",
+            "dominant_source_share": 1.0,
+            "foreign_frames": 0,
+            "foreign_source_share": 0.0,
+            "gap_frames": 0,
+            "gap_source_share": 0.0,
+            "meeting_speaker_id_sha256": "9284a0973dc31b9bdc8dd2407748b3855d067ba9ec0f590870c3a3c0be751766",
+            "qualified_purity_at_least_99_percent": true,
+            "qualified_source_identity": "ls-302",
+            "reconstructed_wav_sha256": "810c218b816419dd7e97de94ec2cb08c688ec6b41155ee5f9cfe4988be519b14",
+            "retained_frames": 538711,
+            "retained_seconds": 33.6694375,
+            "source_frame_counts": {
+              "ls-302": 538711
+            },
+            "source_speech_seconds": 33.6694375,
+            "stored_sample_lineage_verified": true
+          }
+        ]
+      },
+      {
+        "actual_file_hashes": [
+          "c740875cfbb4775caf44dd231c2ffdcd8b7d3d9e8a165fe4eb8aaf3693750722"
+        ],
+        "before_hashes": {
+          "embedding_sha256": "8160e51b1ef4eb1cd67a49ef648264b3c1da4f27ef22c8d260d3f74959954136",
+          "immutable_sha256": "bb1af66a47456fe47d4d641fa09c19abb66a5fb04f4f5a08040701f14215bfb8",
+          "meeting_embedding_sha256": "9e21b214be59e9e9fd218f7100779e85ae141ff74db8d0825ab7c508d82e9148",
+          "name_sha256": "f5aad5bb772ff665ca8ad613151df120e9b038ccadb23395336058c7f56fdbba"
+        },
+        "before_sample_rows_sha256": "fa31332d1c6d6b109470022acd5f2b751fab525e3b4945920e70fca72a9983b3",
+        "enrollment_row_count": 1,
+        "passed": true,
+        "profile_id_sha256": "72b60543d38a0a0666b4dd76339e132a9cc04cdd03719a57239a25ff55fb177c",
+        "sample_count": 1,
+        "source_checks": [
+          {
+            "actual_retained_files_verified": true,
+            "clean_ranges": [
+              [
+                3936858,
+                3976160
+              ],
+              [
+                3979354,
+                4006368
+              ],
+              [
+                4013088,
+                4038112
+              ],
+              [
+                4041306,
+                4064826
+              ],
+              [
+                14412836,
+                14434975
+              ],
+              [
+                14440004,
+                14477316
+              ],
+              [
+                14479940,
+                14501728
+              ],
+              [
+                14508960,
+                14546784
+              ],
+              [
+                14557764,
+                14608900
+              ],
+              [
+                14612896,
+                14652325
+              ],
+              [
+                25325576,
+                25345888
+              ],
+              [
+                25349536,
+                25381728
+              ],
+              [
+                25389472,
+                25410233
+              ],
+              [
+                25415929,
+                25439584
+              ],
+              [
+                25444768,
+                25463992
+              ],
+              [
+                25466272,
+                25493344
+              ],
+              [
+                25506041,
+                25541817
+              ],
+              [
+                25545120,
+                25566195
+              ]
+            ],
+            "correct_frames": 524555,
+            "correct_source_share": 1.0,
+            "dominant_source_identity": "ls-458",
+            "dominant_source_share": 1.0,
+            "foreign_frames": 0,
+            "foreign_source_share": 0.0,
+            "gap_frames": 0,
+            "gap_source_share": 0.0,
+            "meeting_speaker_id_sha256": "6ede02571d0a5fc0afd5374db8d7f3a96e22f7dfeffb54cc2053e23c4481a6ee",
+            "qualified_purity_at_least_99_percent": true,
+            "qualified_source_identity": "ls-458",
+            "reconstructed_wav_sha256": "c740875cfbb4775caf44dd231c2ffdcd8b7d3d9e8a165fe4eb8aaf3693750722",
+            "retained_frames": 524555,
+            "retained_seconds": 32.7846875,
+            "source_frame_counts": {
+              "ls-458": 524555
+            },
+            "source_speech_seconds": 32.7846875,
+            "stored_sample_lineage_verified": true
+          }
+        ]
+      },
+      {
+        "actual_file_hashes": [
+          "e9b7acc7f16212bcea744d1c8d56024e8e28e9876912f92bd8697370c29ed12b"
+        ],
+        "before_hashes": {
+          "embedding_sha256": "b9aa4d06ed44460969f4e3ddb661e377d9a6e1bdf350dab8ae54fce548dd4fb9",
+          "immutable_sha256": "ea6f3279a8b84626f283422a21a6e6656db3ff5ac04bcb6ae4dd1afc5fb45b9a",
+          "meeting_embedding_sha256": "6f5419a512561dcb31414e2bc5813e32f1c07be4c00eab920fc01bf68a152c02",
+          "name_sha256": "a34422dfc073438f9c30bcbd322a8c0791d8fc3f1ccf30213e070103ea2ea620"
+        },
+        "before_sample_rows_sha256": "b4fcf45c9c98e04fb72d30c3ffb71c258448c5db594eb5d0a2817c6982551117",
+        "enrollment_row_count": 1,
+        "passed": true,
+        "profile_id_sha256": "6a5c2900d6456afbda6284b4de71a1f25608b4af4e967092f6c3871e04a3277f",
+        "sample_count": 1,
+        "source_checks": [
+          {
+            "actual_retained_files_verified": true,
+            "clean_ranges": [
+              [
+                1591610,
+                1674765
+              ],
+              [
+                1682234,
+                1836005
+              ],
+              [
+                12348746,
+                12429205
+              ],
+              [
+                12435360,
+                12449455
+              ],
+              [
+                12455840,
+                12499405
+              ],
+              [
+                12505504,
+                12545887
+              ],
+              [
+                12550048,
+                12574245
+              ],
+              [
+                23210726,
+                23277415
+              ],
+              [
+                23281568,
+                23382765
+              ]
+            ],
+            "correct_frames": 607511,
+            "correct_source_share": 1.0,
+            "dominant_source_identity": "ls-7859",
+            "dominant_source_share": 1.0,
+            "foreign_frames": 0,
+            "foreign_source_share": 0.0,
+            "gap_frames": 0,
+            "gap_source_share": 0.0,
+            "meeting_speaker_id_sha256": "c6ede67591f5b560b15a242496140e227bce6a1384c7ea4b1de2efe8b625db4d",
+            "qualified_purity_at_least_99_percent": true,
+            "qualified_source_identity": "ls-7859",
+            "reconstructed_wav_sha256": "e9b7acc7f16212bcea744d1c8d56024e8e28e9876912f92bd8697370c29ed12b",
+            "retained_frames": 607511,
+            "retained_seconds": 37.9694375,
+            "source_frame_counts": {
+              "ls-7859": 607511
+            },
+            "source_speech_seconds": 37.9694375,
+            "stored_sample_lineage_verified": true
+          }
+        ]
+      },
+      {
+        "actual_file_hashes": [
+          "5f0c59462a48302cab6a34530a81e562835e9870e916c143593161eafafd5fbc"
+        ],
+        "before_hashes": {
+          "embedding_sha256": "e3c15daeafc3b714f18381909a96fa17a689d87dc31a94c9c5c0b00af5838e8f",
+          "immutable_sha256": "335779f3daffd23caa6443376dc98e808d1e2e8a68bda9a97c8277feef3fdc1c",
+          "meeting_embedding_sha256": "fbdcd9198bd81810970eb4dc947832abecad42ef9050bed4a19b39bd22729fb5",
+          "name_sha256": "9ea49eb2f78d1460676e565dab21e3c814094db73b6becc9881105c9dc67c5b9"
+        },
+        "before_sample_rows_sha256": "a184f26ca4a5313e2330a098135fbbdbf2c9e8dda478901e14856d152eefe889",
+        "enrollment_row_count": 1,
+        "passed": true,
+        "profile_id_sha256": "b4204612fbc10f2bb44779cad28dd0000f94ed548cd95cf149bcc44ccc7affa2",
+        "sample_count": 1,
+        "source_checks": [
+          {
+            "actual_retained_files_verified": true,
+            "clean_ranges": [
+              [
+                5373900,
+                5402976
+              ],
+              [
+                5404576,
+                5469024
+              ],
+              [
+                5472204,
+                5564835
+              ],
+              [
+                15713184,
+                15744703
+              ],
+              [
+                15753983,
+                15798975
+              ],
+              [
+                15803808,
+                15854271
+              ],
+              [
+                15860991,
+                15918945
+              ],
+              [
+                26895626,
+                26978144
+              ],
+              [
+                26987272,
+                27121395
+              ]
+            ],
+            "correct_frames": 587724,
+            "correct_source_share": 1.0,
+            "dominant_source_identity": "ls-7794",
+            "dominant_source_share": 1.0,
+            "foreign_frames": 0,
+            "foreign_source_share": 0.0,
+            "gap_frames": 0,
+            "gap_source_share": 0.0,
+            "meeting_speaker_id_sha256": "03f72a9d1f8aa56f8c3156ff2ee3291b6befedf42d04b994c4939a8cb8a77a32",
+            "qualified_purity_at_least_99_percent": true,
+            "qualified_source_identity": "ls-7794",
+            "reconstructed_wav_sha256": "5f0c59462a48302cab6a34530a81e562835e9870e916c143593161eafafd5fbc",
+            "retained_frames": 587724,
+            "retained_seconds": 36.73275,
+            "source_frame_counts": {
+              "ls-7794": 587724
+            },
+            "source_speech_seconds": 36.73275,
+            "stored_sample_lineage_verified": true
+          }
+        ]
+      },
+      {
+        "actual_file_hashes": [
+          "35823bce1683d0b0692e3a00c4f97575364aacc19c51f8f2f8039459579b1012"
+        ],
+        "before_hashes": {
+          "embedding_sha256": "7bbb3600e1d0379a724045f2c9080d8f1aefcd4f4ab2749bea7feb96e936a434",
+          "immutable_sha256": "87fcb656238a0bd497f1e5890bdece218ecd02363a4491b5a7d5a66e812d5654",
+          "meeting_embedding_sha256": "1963fd5dbbfbabbf23189a2ec467908cdc61e286df48967feb8e6849c7fb3234",
+          "name_sha256": "c85acfc639256f9dc065271b4356d6084f87af55dd67cc5a13270d98644146ab"
+        },
+        "before_sample_rows_sha256": "d6e3c3e0119a51fd9bc226295f75e4f4bd4f85e4a4fd90a20014f74f2425f728",
+        "enrollment_row_count": 1,
+        "passed": true,
+        "profile_id_sha256": "34d7527b0b3b5eb8aea4a65a238f4c1ee74f762c0e27ecb771fbfdfce85daeaa",
+        "sample_count": 1,
+        "source_checks": [
+          {
+            "actual_retained_files_verified": true,
+            "clean_ranges": [
+              [
+                4689562,
+                4710880
+              ],
+              [
+                4713504,
+                4751328
+              ],
+              [
+                4756122,
+                4785120
+              ],
+              [
+                4801178,
+                4906845
+              ],
+              [
+                15087836,
+                15140704
+              ],
+              [
+                15146400,
+                15265545
+              ],
+              [
+                26264906,
+                26326785
+              ],
+              [
+                26348448,
+                26416105
+              ],
+              [
+                26423712,
+                26476066
+              ]
+            ],
+            "correct_frames": 547710,
+            "correct_source_share": 1.0,
+            "dominant_source_identity": "ls-4397",
+            "dominant_source_share": 1.0,
+            "foreign_frames": 0,
+            "foreign_source_share": 0.0,
+            "gap_frames": 0,
+            "gap_source_share": 0.0,
+            "meeting_speaker_id_sha256": "976563fc3f0baa95e36cbab54177d2bcc734e43f9ebf7de9ba86bcfb6183df78",
+            "qualified_purity_at_least_99_percent": true,
+            "qualified_source_identity": "ls-4397",
+            "reconstructed_wav_sha256": "35823bce1683d0b0692e3a00c4f97575364aacc19c51f8f2f8039459579b1012",
+            "retained_frames": 547710,
+            "retained_seconds": 34.231875,
+            "source_frame_counts": {
+              "ls-4397": 547710
+            },
+            "source_speech_seconds": 34.231875,
+            "stored_sample_lineage_verified": true
+          }
+        ]
+      },
+      {
+        "actual_file_hashes": [
+          "52ab060ff995762cfcaf3a5f042a2f2bd84186d76c0702e82e3f841e3195d33b"
+        ],
+        "before_hashes": {
+          "embedding_sha256": "70b0058452d6465d917fe4d1a76d69541cdb669991db9317e376deb107e086a7",
+          "immutable_sha256": "1ddb45bbea0d18c1337fa6c87f5c63e78b9ea5822367ed7a119d8594b03769cf",
+          "meeting_embedding_sha256": "f2b0dc80e5531e9d21476bec81d077b1f488f25f1e662e074c028094e7467217",
+          "name_sha256": "67a940f30141dd2829e8e68f6932d484e2f61bfd370b0c2e5a3ad2290acfbe4a"
+        },
+        "before_sample_rows_sha256": "f7f81e453f2f144620cdf5f5e256d9c068d61eeca9b7dac7c106225b67a11b94",
+        "enrollment_row_count": 1,
+        "passed": true,
+        "profile_id_sha256": "7a7611e1f1348b4d837007444a50dc9be2c48a5eae64266baffdf974db7c033b",
+        "sample_count": 1,
+        "source_checks": [
+          {
+            "actual_retained_files_verified": true,
+            "clean_ranges": [
+              [
+                9660630,
+                9705445
+              ],
+              [
+                9721248,
+                9771325
+              ],
+              [
+                9776032,
+                9788086
+              ],
+              [
+                20268448,
+                20316055
+              ],
+              [
+                20331936,
+                20380362
+              ],
+              [
+                20383136,
+                20411365
+              ],
+              [
+                20421536,
+                20459360
+              ],
+              [
+                20464032,
+                20506455
+              ],
+              [
+                31138886,
+                31175605
+              ],
+              [
+                31181913,
+                31195855
+              ],
+              [
+                31202066,
+                31267675
+              ],
+              [
+                31278496,
+                31339033
+              ],
+              [
+                31348313,
+                31363424
+              ],
+              [
+                31365209,
+                31373295
+              ]
+            ],
+            "correct_frames": 511459,
+            "correct_source_share": 1.0,
+            "dominant_source_identity": "ls-3526",
+            "dominant_source_share": 1.0,
+            "foreign_frames": 0,
+            "foreign_source_share": 0.0,
+            "gap_frames": 0,
+            "gap_source_share": 0.0,
+            "meeting_speaker_id_sha256": "bf505aa2a725789740323a5d826d3c91177705e8ed56c896d96654b5a3567fd2",
+            "qualified_purity_at_least_99_percent": true,
+            "qualified_source_identity": "ls-3526",
+            "reconstructed_wav_sha256": "52ab060ff995762cfcaf3a5f042a2f2bd84186d76c0702e82e3f841e3195d33b",
+            "retained_frames": 511459,
+            "retained_seconds": 31.9661875,
+            "source_frame_counts": {
+              "ls-3526": 511459
+            },
+            "source_speech_seconds": 31.9661875,
+            "stored_sample_lineage_verified": true
+          }
+        ]
+      },
+      {
+        "actual_file_hashes": [
+          "a346a19c6d7273bb8970737824d7f1f85968e914286f2e4728b7e2b6b80f09b1"
+        ],
+        "before_hashes": {
+          "embedding_sha256": "d7a9a7ecdf49b9b1d27c2e6594f529b49e8b67e1e2988b07cd3f6db667b1f933",
+          "immutable_sha256": "fdb9956e6bfa3766395be3fe4da6f15cb8a811fa9f69956f8c22eb67c5e72d38",
+          "meeting_embedding_sha256": "581ee995c5d9e8ee373e4037f687a0cf0e699d1de5bc59581705cbbbe2f4e818",
+          "name_sha256": "c106f6b7da9b9a35bfa69427f150a07dcd61e0be962181fae859ddfbf66768e1"
+        },
+        "before_sample_rows_sha256": "a3252819d553f46f626600d62acfcb60bb92b6e8d5f77f891cb15219e3b97d72",
+        "enrollment_row_count": 1,
+        "passed": true,
+        "profile_id_sha256": "b60717a9c1e79fa8ac010dd2a1adb1b0e97bdd6141cd4de4587f8cdad6c00267",
+        "sample_count": 1,
+        "source_checks": [
+          {
+            "actual_retained_files_verified": true,
+            "clean_ranges": [
+              [
+                1848380,
+                1942335
+              ],
+              [
+                1954876,
+                2046065
+              ],
+              [
+                12587936,
+                12710752
+              ],
+              [
+                23395232,
+                23412415
+              ],
+              [
+                23423392,
+                23510695
+              ],
+              [
+                32768876,
+                32828758
+              ],
+              [
+                32831905,
+                32852823
+              ],
+              [
+                32856471,
+                32896876
+              ]
+            ],
+            "correct_frames": 533651,
+            "correct_source_share": 1.0,
+            "dominant_source_identity": "ls-7264",
+            "dominant_source_share": 1.0,
+            "foreign_frames": 0,
+            "foreign_source_share": 0.0,
+            "gap_frames": 0,
+            "gap_source_share": 0.0,
+            "meeting_speaker_id_sha256": "10552363603afa977ccb9d7b48f48f9558c06310eb09d745226720e7816bc10e",
+            "qualified_purity_at_least_99_percent": true,
+            "qualified_source_identity": "ls-7264",
+            "reconstructed_wav_sha256": "a346a19c6d7273bb8970737824d7f1f85968e914286f2e4728b7e2b6b80f09b1",
+            "retained_frames": 533651,
+            "retained_seconds": 33.3531875,
+            "source_frame_counts": {
+              "ls-7264": 533651
+            },
+            "source_speech_seconds": 33.3531875,
+            "stored_sample_lineage_verified": true
+          }
+        ]
+      },
+      {
+        "actual_file_hashes": [
+          "067cb05e3fade7bd7ca2e965d66566a3c504d9415b0360631ccc23e1c044f721"
+        ],
+        "before_hashes": {
+          "embedding_sha256": "1d36333ac9ffe300db1b8e6533be38a7ae77f0e9e18fffd8adaa081275d20f17",
+          "immutable_sha256": "be7fddb0cbb749c6cd3ab96dae5b66954a7cf056dce582bffabd51c98c9d61e4",
+          "meeting_embedding_sha256": "fd29826e78e5c871821bf56f7db71bf88fef2015dcb5dd8d868ef6505049147d",
+          "name_sha256": "0a0c61b5da3226028bd4827adfc4b4c5b50ccd847f4bb6c88f549ba05fe35b87"
+        },
+        "before_sample_rows_sha256": "a47322e22fe51bebd6757d3bb0af619f1cb2f6245adac2c220589cacfe40deda",
+        "enrollment_row_count": 1,
+        "passed": true,
+        "profile_id_sha256": "a3c32e6d914099d561db787f248034db9696096a87ba4d5242fea18e4994fc2f",
+        "sample_count": 1,
+        "source_checks": [
+          {
+            "actual_retained_files_verified": true,
+            "clean_ranges": [
+              [
+                1163808,
+                1288040
+              ],
+              [
+                1299488,
+                1361885
+              ],
+              [
+                11858156,
+                11893525
+              ],
+              [
+                11904417,
+                11918905
+              ],
+              [
+                11923872,
+                11940235
+              ],
+              [
+                11955991,
+                12039895
+              ],
+              [
+                12046240,
+                12062325
+              ],
+              [
+                22826912,
+                22845280
+              ],
+              [
+                22848036,
+                22884704
+              ],
+              [
+                22888484,
+                22933344
+              ],
+              [
+                22944292,
+                22947525
+              ]
+            ],
+            "correct_frames": 455967,
+            "correct_source_share": 1.0,
+            "dominant_source_identity": "ls-254",
+            "dominant_source_share": 1.0,
+            "foreign_frames": 0,
+            "foreign_source_share": 0.0,
+            "gap_frames": 0,
+            "gap_source_share": 0.0,
+            "meeting_speaker_id_sha256": "7e41c7b0d8a8863ddcabebd046fc48a9571eca5ffc91a1e2f737dc01f4a5c317",
+            "qualified_purity_at_least_99_percent": true,
+            "qualified_source_identity": "ls-254",
+            "reconstructed_wav_sha256": "067cb05e3fade7bd7ca2e965d66566a3c504d9415b0360631ccc23e1c044f721",
+            "retained_frames": 455967,
+            "retained_seconds": 28.4979375,
+            "source_frame_counts": {
+              "ls-254": 455967
+            },
+            "source_speech_seconds": 28.4979375,
+            "stored_sample_lineage_verified": true
+          }
+        ]
+      },
+      {
+        "actual_file_hashes": [
+          "9790fdea066f1f917657f89dd8aa4e6a59748f04ff9abb4251746623b0702a37"
+        ],
+        "before_hashes": {
+          "embedding_sha256": "4c9646361ee21d78b949f5f412d6c3502330fabc1af7f21f7f4b8e4976f629ee",
+          "immutable_sha256": "7971c556cbed311e38307708f2886887640054e4ded9c476c0f165fa556c66f9",
+          "meeting_embedding_sha256": "d646bcab5d3c791122518dbd37f6d0908f46c29746dc1ff722fe6d99fd7d9aed",
+          "name_sha256": "302f267ec4f9e3c3b5bf9e9d6909d07c86be4c7a17f33ae1f69779d7d77e428b"
+        },
+        "before_sample_rows_sha256": "9ac653c405a4b45acccf0a6fcd8d53f1c85c1409016641b451d73ef7323c0505",
+        "enrollment_row_count": 1,
+        "passed": true,
+        "profile_id_sha256": "9d93a08451b88e9584d3d3a75ea32083bbc8f7be2e1685552249c43b8925a93a",
+        "sample_count": 1,
+        "source_checks": [
+          {
+            "actual_retained_files_verified": true,
+            "clean_ranges": [
+              [
+                5846400,
+                5904192
+              ],
+              [
+                5905825,
+                5973856
+              ],
+              [
+                16148936,
+                16185256
+              ],
+              [
+                16187368,
+                16211845
+              ],
+              [
+                16217064,
+                16262065
+              ],
+              [
+                16264766,
+                16276936
+              ],
+              [
+                27358624,
+                27403430
+              ],
+              [
+                27405728,
+                27475635
+              ],
+              [
+                33452449,
+                33494365
+              ],
+              [
+                33497336,
+                33520605
+              ]
+            ],
+            "correct_frames": 423689,
+            "correct_source_share": 1.0,
+            "dominant_source_identity": "ls-4051",
+            "dominant_source_share": 1.0,
+            "foreign_frames": 0,
+            "foreign_source_share": 0.0,
+            "gap_frames": 0,
+            "gap_source_share": 0.0,
+            "meeting_speaker_id_sha256": "bd3ba0b139d1c3f5c408a82557d66b688cc19878b0ab896343a54749a2612a4b",
+            "qualified_purity_at_least_99_percent": true,
+            "qualified_source_identity": "ls-4051",
+            "reconstructed_wav_sha256": "9790fdea066f1f917657f89dd8aa4e6a59748f04ff9abb4251746623b0702a37",
+            "retained_frames": 423689,
+            "retained_seconds": 26.4805625,
+            "source_frame_counts": {
+              "ls-4051": 423689
+            },
+            "source_speech_seconds": 26.4805625,
+            "stored_sample_lineage_verified": true
+          }
+        ]
+      },
+      {
+        "actual_file_hashes": [
+          "e4a468edfdbae1212390e68c525876d161d700952dad6f59e505308f7ffec6b6"
+        ],
+        "before_hashes": {
+          "embedding_sha256": "09ad6e49eb254bb4f2ff28f4bc9e37a2fb811ff4c44a8b328236140d45b2bc3c",
+          "immutable_sha256": "39d505cc49a675ea7f19aff6a5ce9ee70dfa846811c4bf2957f9947176988ff9",
+          "meeting_embedding_sha256": "54aa9c8dfcd0d1f02a029dc4608fa35ea5f41e5a30a7b1356071e7387bca8d85",
+          "name_sha256": "104bc1c145fc22183e1184d3df9a43c978416c8a77830e7929207b0afa7ff036"
+        },
+        "before_sample_rows_sha256": "6184ef351f7e58bb60f128286cb52c8856b8700cad779bbadc6ab75afc40479e",
+        "enrollment_row_count": 1,
+        "passed": true,
+        "profile_id_sha256": "0c64b76a29d040133db661bdfff000441d2dda51903daf0081f1c7be6d8e5f81",
+        "sample_count": 1,
+        "source_checks": [
+          {
+            "actual_retained_files_verified": true,
+            "clean_ranges": [
+              [
+                4488896,
+                4571104
+              ],
+              [
+                4578496,
+                4666955
+              ],
+              [
+                14964986,
+                15064928
+              ],
+              [
+                15066575,
+                15069525
+              ],
+              [
+                26013600,
+                26047482
+              ],
+              [
+                26053690,
+                26090848
+              ],
+              [
+                26092448,
+                26111275
+              ],
+              [
+                26122810,
+                26169696
+              ],
+              [
+                26174010,
+                26209825
+              ],
+              [
+                26219578,
+                26247945
+              ]
+            ],
+            "correct_frames": 474494,
+            "correct_source_share": 1.0,
+            "dominant_source_identity": "ls-1088",
+            "dominant_source_share": 1.0,
+            "foreign_frames": 0,
+            "foreign_source_share": 0.0,
+            "gap_frames": 0,
+            "gap_source_share": 0.0,
+            "meeting_speaker_id_sha256": "031b5170937922fb5c75ad1046436c166e6aa8335a66ffad76e07fa4ba785ba6",
+            "qualified_purity_at_least_99_percent": true,
+            "qualified_source_identity": "ls-1088",
+            "reconstructed_wav_sha256": "e4a468edfdbae1212390e68c525876d161d700952dad6f59e505308f7ffec6b6",
+            "retained_frames": 474494,
+            "retained_seconds": 29.655875,
+            "source_frame_counts": {
+              "ls-1088": 474494
+            },
+            "source_speech_seconds": 29.655875,
+            "stored_sample_lineage_verified": true
+          }
+        ]
+      },
+      {
+        "actual_file_hashes": [
+          "2d56254d7aa668f5492c032c6a757568e1f33e4aff137e4f588fe0ef4031a284"
+        ],
+        "before_hashes": {
+          "embedding_sha256": "48dc52d1e42f493f0addaa72005c028430798b387e9ff6eefca80cd488017b5a",
+          "immutable_sha256": "6e87882fdf9a7e3e0f276af4f98d0f929deed67d5a246841a32a45d6bdd07e17",
+          "meeting_embedding_sha256": "a5a5813feda3372c45896143815fc7fd5654bdc6434f8f3b19a9b800d1b9d210",
+          "name_sha256": "0f9f523b6586eaf9fda20cfcb09d41e19410166e18edcd17e63bfa4d1f56be3c"
+        },
+        "before_sample_rows_sha256": "323e3a91518b6302a31e2b094a02c94e7fff7dba4f92c4708485103f4ea736a4",
+        "enrollment_row_count": 1,
+        "passed": true,
+        "profile_id_sha256": "1fd75b4daedb6bdcef2a6d6208996932d9b9e6e08a2957b7046ef8ed79111c90",
+        "sample_count": 1,
+        "source_checks": [
+          {
+            "actual_retained_files_verified": true,
+            "clean_ranges": [
+              [
+                7360802,
+                7381218
+              ],
+              [
+                7383330,
+                7469282
+              ],
+              [
+                7473954,
+                7480485
+              ],
+              [
+                17793776,
+                17816928
+              ],
+              [
+                17819085,
+                17879095
+              ],
+              [
+                17883597,
+                17906685
+              ],
+              [
+                17928096,
+                17941206
+              ],
+              [
+                17948576,
+                17981792
+              ],
+              [
+                17983392,
+                17998550
+              ],
+              [
+                18001174,
+                18016575
+              ],
+              [
+                28800000,
+                28816375
+              ],
+              [
+                28818999,
+                28872544
+              ],
+              [
+                28876855,
+                28889952
+              ],
+              [
+                28894263,
+                28960035
+              ]
+            ],
+            "correct_frames": 444823,
+            "correct_source_share": 1.0,
+            "dominant_source_identity": "ls-7148",
+            "dominant_source_share": 1.0,
+            "foreign_frames": 0,
+            "foreign_source_share": 0.0,
+            "gap_frames": 0,
+            "gap_source_share": 0.0,
+            "meeting_speaker_id_sha256": "4064b80e26d6f429534947dcfb536ef821dc6d38bbf1a658305c8abf427fca24",
+            "qualified_purity_at_least_99_percent": true,
+            "qualified_source_identity": "ls-7148",
+            "reconstructed_wav_sha256": "2d56254d7aa668f5492c032c6a757568e1f33e4aff137e4f588fe0ef4031a284",
+            "retained_frames": 444823,
+            "retained_seconds": 27.8014375,
+            "source_frame_counts": {
+              "ls-7148": 444823
+            },
+            "source_speech_seconds": 27.8014375,
+            "stored_sample_lineage_verified": true
+          }
+        ]
+      }
+    ],
+    "transaction_isolation": "repeatable read",
+    "transaction_read_only": "on"
+  },
+  "native_source_evidence": {
+    "checkpoints_examined": 8,
+    "historical_global_top2_margin_recorded": false,
+    "historical_global_winner_score_recorded": false,
+    "interpretation": "The provider emitted two separate usable native labels with 192-dimensional vectors. Their later persisted global sample contains both original speakers. Native pair cosine is not the unrecorded historical global winner or margin.",
+    "separate_native_speakers_in_same_core": {
+      "core_end": 600.0,
+      "core_start": 300.0,
+      "index": 1,
+      "native_pair_cosines": [
+        {
+          "cosine256": 0.5567067471037136,
+          "left": "SPEAKER_15",
+          "right": "SPEAKER_16"
+        }
+      ],
+      "native_tracks_supporting_retained": [
+        {
+          "has192": true,
+          "source_support": {
+            "ls-2196": 9.247375000000002
+          },
+          "speaker": "SPEAKER_15",
+          "status": "usable"
+        },
+        {
+          "has192": true,
+          "source_support": {
+            "ls-3235": 13.000375
+          },
+          "speaker": "SPEAKER_16",
+          "status": "usable"
+        }
+      ]
+    }
+  },
+  "observed_tracks": 51,
+  "persisted_profiles": 37,
+  "persisted_samples": 37,
+  "persistent_identity_return_accuracy": null,
+  "processing": {
+    "completed_chunks": 8,
+    "isolated_benchmark": false,
+    "observed_processing_seconds": 779.155999999999,
+    "source_seconds": 2129.659875,
+    "timing_note": "The runner timer begins after upload and upload completion; it includes request, polling and reporting work. Concurrent CPU test suites were active. This is not isolated model latency."
+  },
+  "profile": "kt-vibecoding-python-web-v2",
+  "qualified_source_profile_bindings": 36,
+  "reasons": {
+    "inconsistent_audio": 4,
+    "insufficient_margin": 8,
+    "insufficient_speech": 1,
+    "new_profile_created": 37,
+    "reconciliation_ambiguous": 1
+  },
+  "regression_controls": {
+    "all_wav_hashes_and_pcm_metadata_verified": true,
+    "case_count": 85,
+    "duplicate_hash_groups": {},
+    "mixed_expected_rejection_count": 9,
+    "model_comparison_status": "Separate coordinated run; no pass claimed here",
+    "pure_expected_nonrejection_count": 76,
+    "unique_wav_hashes": 85
+  },
+  "request": {
+    "auto_enroll": true,
+    "count_hint": null,
+    "language": "en"
+  },
+  "schema_version": 1,
+  "scope": "Actual capacity50 A enrollment, all persisted samples and frozen regression controls",
+  "source_mapping": {
+    "minimum_source_dominant_share": 0.3441331082977063,
+    "source_mapping_merged_tracks": 2,
+    "source_mapping_missing": 0,
+    "source_mapping_passed": false,
+    "source_mapping_split": 1,
+    "source_mapping_weak": 1
+  },
+  "source_observed": true,
+  "status": "failed_quality_persistent_mixed_profile",
+  "transcript_metrics": {
+    "assigned_only": {
+      "deletions": 366,
+      "errors": 886,
+      "insertions": 364,
+      "rate": 0.15478686233403213,
+      "substitutions": 156
+    },
+    "counts": {
+      "hypothesis_speakers": 51,
+      "hypothesis_words": 5722,
+      "reference_speakers": 50,
+      "reference_words": 5724,
+      "unassigned_words": 93
+    },
+    "cpwer": {
+      "deletions": 288,
+      "errors": 803,
+      "insertions": 286,
+      "rate": 0.14028651292802236,
+      "substitutions": 229
+    },
+    "normalization": "unicode-words-v1",
+    "note": "Corpus cpWER permits label permutation; assigned_only forbids unassigned-to-person matches. Neither is persistent identity accuracy, DER or word timestamp accuracy.",
+    "unassigned_word_fraction": 0.01625305837119888
+  },
+  "unassigned_transcript_seconds": 48.3799999999991,
+  "unqualified_mixed_profiles": 1
+}

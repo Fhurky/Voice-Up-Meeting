@@ -7,6 +7,119 @@ source choice is uploaded recordings; microphone capture moved to Accepted
 five-return/sixth-new-person workflow are part of the current 002 delivery.
 Profile: `kt-vibecoding-python-web-v2`. This plan is not implementation evidence.
 
+Decisions 19–20 follow the owner's 2026-09-11 accuracy audit request. First freeze
+the existing A/B/C reference protocol and identify unused public speakers without
+model-based selection. Add bounded, reusable transcription metrics in
+`src/voiceup/meeting_metrics.py` and a file-based evaluation script with immutable
+source hashes; independently compare small exact-permutation examples and test
+50-stream assignment, missing/extra speakers and retained unassigned words.
+This research tool adds no runtime dependency, network call, schema or public API.
+
+Audit outcome, recorded separately from planning: Decisions 19–24 are implemented
+and the frozen local full gate plus real memory/restart flows passed. The
+[evidence report](../../../../docs/evidence/2026-09-11-accuracy-audit/README.md)
+records the first fifty-person cpWER improvement, unchanged clean persistent
+samples, all 190 controlled clip extractions and correlated nested-gallery
+scores. Two ASR candidates, two extra reconciliation heuristics and one bounded
+whole-recording Community call were rejected rather than applied after their
+predefined regressions failed. The last candidate reduced minority-source time
+but increased splitting and complete-reference word errors; it does not justify
+a production whole-file API or a threshold change. This audit does not complete
+the separate representative-language, fifty-person end-to-end or device/release
+acceptance criteria.
+
+Task T19's frozen [corpus protocol](corpus-protocol.md) is implemented by
+`scripts/prepare-meeting-identity-evaluation.py` and filesystem-bound tests in
+`tests/test_prepare_meeting_identity_evaluation.py`. Reuse the existing admitted
+NumPy/SoundFile preparation environment; do not download or run models. Record
+selection and source/reference hashes before any evaluator consumes the corpus.
+Verify exclusion, chapter independence, deterministic duration-bounded whole
+utterances, immutable output, altered-source rejection and failure preservation.
+
+Correct meeting-only centroid accumulation in `domain/meeting_centroid.py` and
+`services/meeting_chunks.py`. Store validated per-population resultant magnitude,
+evidence weight and legacy provenance in existing private `props`, atomically
+with vectors and unique source ranges; no schema migration is necessary. Add
+red/green order/permutation and missing-vector-weight regressions plus real
+PostgreSQL round-trip, retry and legacy adoption coverage. Replay preserved
+provider results before new model runs, then exercise the changed worker through
+the real uploaded-recording flow. Keep permanent samples immutable and existing
+thresholds unchanged. Record all failed experiments and actual regression counts.
+
+The private `embedding_resultant` and `tracking_resultant` records each contain
+exactly `version`, `weight`, `norm` and `origin`. Version 1 records accept only
+positive finite magnitude and vector-present unique-source weight, bounded by
+the recorded population duration; present malformed state fails the transaction.
+Missing legacy state adopts one explicitly marked historical pseudoobservation
+only when a real new contribution arrives. A zero contribution preserves the
+stored float32 vector and existing metadata exactly. Persisted-vector comparisons
+use a numerical tolerance, not a claim of bit-identical permutation invariance.
+The Decision 19 [narrow evidence report](../../../../docs/evidence/2026-09-11-accuracy-audit/resultant-report.md)
+records unit and PostgreSQL regressions plus an old/new replay of preserved model
+outputs; new real-model evaluation and the full gate remain separate evidence.
+
+Investigate same-model ASR decoding against frozen reference text and timing
+diagnostics before selecting another production recipe. Do not treat standard VAD
+activation as a new candidate: the previous eight GPU comparisons removed no
+audio and did not improve words. Record selected behavior in the PRD before
+implementation. Run the full fixed-profile gate and applicable security checks
+after final edits; unsupported Turkish/50-person/device evidence stays explicit.
+
+Decision 21 adds private, bounded per-population decision provenance in the
+meeting memory transaction, with a pure helper and unit/real PostgreSQL tests.
+Preserve exact existing fusion output; include no profile identifiers or raw
+vectors, and do not backfill historical decisions. Verify public serialization,
+idempotency and cleanup. Existing JSON props suffice; schema and public contracts
+are unchanged. Capture the 50-person return result with explicit recipe/code
+provenance and separate end-to-end coverage from conditional identification.
+
+Decision 22 scopes model residency to the existing exclusive memory request.
+Implement the local adapter context and runtime wiring with error/precision/
+lock lifecycle regressions before implementation. Keep single-example inference
+and window order. Compare admitted-model old/new output and latency on frozen
+clean/mixed/threshold-near controls before rebuilding through the existing
+offline setup wrapper; never change the currently running experiment's image.
+
+Decision 23 preserves source-native speaker separation across both meeting
+reconciliation and persistent identity assignment only with independent usable
+ECAPA192 pair evidence below the existing 0.45 new-person bound. The earlier
+unconditional native-label constraint failed V8 A (5 to 11) and C (6 to 8) and
+must remain a rejected experiment. First replay the fixed V8
+and fifty-person A provider checkpoints with existing mapping reproduced before
+the candidate rule. Retain every failed result. Add a bounded versioned domain
+record for per-core native label/model provenance in existing private props;
+reject malformed records and keep absent legacy evidence explicitly absent.
+Prevent independently proven different native voices from consuming one global
+winner, including source-context reconnection. Missing or ambiguous second-model
+evidence does not establish a cannot-link. Keep full-population ambiguity checks.
+Use the same qualified shared-core evidence in the existing memory conflict check,
+preserve both records' uncertainty and all existing immutable samples, and bind
+the evidence into snapshot validation. No schema or public API expansion is
+needed: the private peer document is a bounded derived checkpoint-evidence cache,
+not a new entity lifecycle or SQL relationship lookup. Name cached references
+`meeting_speaker_id`; enforce same-tenant/meeting, symmetry and live peer presence
+on use, and scrub with the owning meeting result. Existing relational ownership
+foreign keys remain authoritative. Add real PostgreSQL/worker/HTTP regressions for separate sequential
+voices, context reconnection, cross-chunk reuse, memory conflicts, retry,
+malformed evidence and cleanup. Verify the changed production flow in a new
+isolated gallery before return meetings; inspect every retained sample, not
+only source-qualified identity bindings. Do not infer model accuracy from the
+checkpoint replay or fixture-vector tests.
+
+Decision 24 extends the final retained-PCM secondary-voice veto to an independent
+192-dimensional ECAPA evaluation while preserving the existing 256-dimensional
+decision. Freeze all 85 old/new source controls and retain failed candidates.
+Parameterize the existing pure coherence helper only for admitted dimensions
+192/256; preserve window selection, VAD, content deduplication, support and
+deterministic clustering. Run the ECAPA veto only after the existing veto allows
+the sample, before any final retained output is returned. Add red/green tests
+for disagreeing populations, no cross-space mixing, fail-closed encoder errors,
+unchanged pure samples and absent outputs on rejection. Validate every fixed
+control through production code, the actual unsafe memory request, and paired
+GPU latency/memory. No new model, dependency, schema, setting or public contract
+is required. Rebuild the selected runtime through the existing offline wrapper
+only after the candidate meets its frozen clean/mixed acceptance conditions.
+
 Decision 12 follow-up, derived from the frozen real A failure: add an explicitly
 tagged, normalized 256-dimensional Community embedding to the private provider
 track contract, with source-observed label ordering and immutable component

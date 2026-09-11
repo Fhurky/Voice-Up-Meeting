@@ -15,7 +15,7 @@ WINDOW = 2 * RATE
 STEP = RATE // 2
 
 
-def _two_means(matrix: np.ndarray) -> np.ndarray | None:
+def _two_means(matrix: np.ndarray, dimensions: int = 256) -> np.ndarray | None:
     similarities = matrix @ matrix.T
     upper = np.where(
         np.triu(np.ones(similarities.shape, dtype=bool), k=1), similarities, np.inf
@@ -29,7 +29,7 @@ def _two_means(matrix: np.ndarray) -> np.ndarray | None:
             return None
         centers = np.stack(
             [
-                normalize_embedding(np.mean(matrix[labels == label], axis=0), 256)
+                normalize_embedding(np.mean(matrix[labels == label], axis=0), dimensions)
                 for label in (0, 1)
             ]
         )
@@ -43,8 +43,12 @@ def has_secondary_voice(
     samples: np.ndarray,
     encode: Callable[[np.ndarray], np.ndarray],
     speech_spans: Iterable[tuple[float, float]],
+    *,
+    dimensions: int = 256,
 ) -> bool:
     """Veto only two separated, independently supported groups; never split profiles."""
+    if type(dimensions) is not int or dimensions not in {192, 256}:
+        raise ValueError("invalid_coherence_dimensions")
     if (
         samples.ndim != 1
         or samples.dtype.kind != "f"
@@ -78,11 +82,11 @@ def has_secondary_voice(
             continue
         seen.add(digest)
         starts.append(first)
-        vectors.append(normalize_embedding(encode(window), 256))
+        vectors.append(normalize_embedding(encode(window), dimensions))
     if len(vectors) < 2:
         return False
     matrix = np.stack(vectors)
-    centers = _two_means(matrix)
+    centers = _two_means(matrix, dimensions)
     if centers is None or float(centers[0] @ centers[1]) >= 0.55:
         return False
     scores = matrix @ centers.T

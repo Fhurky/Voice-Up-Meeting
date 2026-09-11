@@ -250,10 +250,16 @@ def verify_memory(
     final_audio = decode_audio(
         retained_body, settings.model_copy(update={"max_duration_seconds": 60.0})
     )
+    final_speech_spans = tuple(pilot.vad.speech_spans(final_audio.samples, 16000))
     if has_secondary_voice(
         final_audio.samples,
         models.voice_embedding,
-        pilot.vad.speech_spans(final_audio.samples, 16000),
+        final_speech_spans,
+    ) or has_secondary_voice(
+        final_audio.samples,
+        lambda window: pilot.embedder.encode(window, 16000),
+        final_speech_spans,
+        dimensions=192,
     ):
         result["status"] = "inconsistent_audio"
         return result

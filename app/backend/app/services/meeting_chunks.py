@@ -11,11 +11,17 @@ from app.domain.meeting_candidates import (
     build_candidate_contexts,
     native_overlap_ranges,
 )
+from app.domain.meeting_centroid import ABSENT_RESULTANT, advance_centroid
 from app.domain.meeting_identity import (
     AcousticCandidate,
     choose_acoustic_track,
-    merge_centroid,
     normalized_evidence,
+)
+from app.domain.meeting_native_exclusions import (
+    ABSENT_EXCLUSIONS,
+    check_exclusion_graph,
+    link_native_peers,
+    separation_score,
 )
 from app.domain.meeting_timeline import SpeechTurn, SpeechWord, align_words, stitch_words
 from app.domain.models.meeting import Meeting, MeetingChunk, MeetingSpeaker, MeetingTranscript
@@ -59,6 +65,18 @@ class MeetingChunkPersistence:
         rows, total = await repository.speakers(meeting.tenant_id, meeting.meeting_id, 0, 1001)
         if total > 1000:
             raise SpeakerError("audio_limit", 413)
+        try:
+            native_graph = check_exclusion_graph(
+                [
+                    (row.meeting_speaker_id, row.props.get("native_exclusions", ABSENT_EXCLUSIONS))
+                    for row in rows
+                ],
+                meeting.source_sha256,
+            )
+        except (TypeError, ValueError) as exc:
+            raise SpeakerError("model_mismatch", 502) from exc
+        native_tracks = {track.speaker: track for track in result.tracks}
+        by_id = {row.meeting_speaker_id: row for row in rows}
         mapped: dict[str, MeetingSpeaker] = {}
         local_ranges = {
             track.speaker: clean_union(
@@ -93,6 +111,18 @@ class MeetingChunkPersistence:
                 for label, row in mapped.items()
                 if intersections(speech, local_ranges[label]) > 0
             }
+            native_differences: dict[int, tuple[str, float]] = {}
+            if track.status == "usable" and vector is not None:
+                for label, previous_row in mapped.items():
+                    other = native_tracks[label]
+                    if other.status != "usable":
+                        continue
+                    score = separation_score(vector, other.embedding, self.policy)
+                    if score is not None:
+                        native_differences.setdefault(
+                            previous_row.meeting_speaker_id, (label, score)
+                        )
+            overlapping.update(native_differences)
             if tracking is not None:
                 candidates = [
                     AcousticCandidate(row.meeting_speaker_id, list(row.tracking_embedding))
@@ -172,9 +202,7 @@ class MeetingChunkPersistence:
                     if compatible:
                         identity, reason = candidate.meeting_speaker_id, "source_context"
             row = next((row for row in rows if row.meeting_speaker_id == identity), None)
-            if not owned:
-                if row is not None:
-                    mapped[track.speaker] = row
+            if not owned and row is None:
                 continue
             if row is None:
                 if len(rows) >= 1000:
@@ -196,6 +224,36 @@ class MeetingChunkPersistence:
                 repository.session.add(row)
                 await repository.session.flush()
                 rows.append(row)
+                by_id[row.meeting_speaker_id] = row
+                native_graph[row.meeting_speaker_id] = None
+            try:
+                for peer_id, (label, score) in native_differences.items():
+                    if meeting.source_sha256 is None:
+                        raise ValueError("missing_native_source")
+                    link_native_peers(
+                        native_graph,
+                        row.meeting_speaker_id,
+                        peer_id,
+                        source_sha256=meeting.source_sha256,
+                        chunk_index=index,
+                        labels=(track.speaker, label),
+                        recipe=result.model_identity.diarization.recipe,
+                        similarity=score,
+                        new_threshold=self.policy.new_threshold,
+                    )
+                    for owner in (row.meeting_speaker_id, peer_id):
+                        state = native_graph[owner]
+                        if state is None:
+                            raise ValueError("missing_native_exclusion")
+                        by_id[owner].props = {
+                            **by_id[owner].props,
+                            "native_exclusions": state.to_record(),
+                        }
+            except (TypeError, ValueError) as exc:
+                raise SpeakerError("model_mismatch", 502) from exc
+            if not owned:
+                mapped[track.speaker] = row
+                continue
             previous_seconds = row.speech_seconds
             ranges = clean_union(
                 [
@@ -216,12 +274,22 @@ class MeetingChunkPersistence:
             )
             seconds = sum(end - start for start, end in combined) / rate
             new_seconds = seconds - previous_seconds
-            if new_seconds > 0 and vector is not None:
-                row.embedding = (
-                    vector
-                    if row.embedding is None
-                    else merge_centroid(list(row.embedding), previous_seconds, vector, new_seconds)
+            resultant_props: dict[str, object] = {}
+            try:
+                centroid = advance_centroid(
+                    list(row.embedding) if row.embedding is not None else None,
+                    previous_seconds,
+                    vector,
+                    new_seconds,
+                    row.props.get("embedding_resultant", ABSENT_RESULTANT),
                 )
+            except (ValueError, TypeError, OverflowError) as exc:
+                raise SpeakerError("model_mismatch", 502) from exc
+            if new_seconds > 0 and vector is not None:
+                if centroid.embedding is None or centroid.state is None:
+                    raise SpeakerError("model_mismatch", 502)
+                row.embedding = centroid.embedding
+                resultant_props["embedding_resultant"] = centroid.state.to_record()
                 row.model_id, row.model_revision, row.source_sha256 = (
                     MODEL_ID,
                     MODEL_REVISION,
@@ -234,23 +302,28 @@ class MeetingChunkPersistence:
                 sum(b - a for a, b in speech_ranges) - sum(b - a for a, b in previous_speech)
             ) / rate
             tracking_seconds = float(row.props.get("tracking_seconds", 0))
-            if tracking is not None and tracking_vector is not None and new_tracking_seconds > 0:
-                row.tracking_embedding = (
-                    tracking_vector
-                    if row.tracking_embedding is None
-                    else merge_centroid(
-                        list(row.tracking_embedding),
-                        tracking_seconds,
-                        tracking_vector,
-                        new_tracking_seconds,
-                        dimensions=256,
-                    )
+            try:
+                tracking_centroid = advance_centroid(
+                    list(row.tracking_embedding) if row.tracking_embedding is not None else None,
+                    tracking_seconds,
+                    tracking_vector,
+                    new_tracking_seconds,
+                    row.props.get("tracking_resultant", ABSENT_RESULTANT),
+                    dimensions=256,
                 )
+            except (ValueError, TypeError, OverflowError) as exc:
+                raise SpeakerError("model_mismatch", 502) from exc
+            if tracking is not None and tracking_vector is not None and new_tracking_seconds > 0:
+                if tracking_centroid.embedding is None or tracking_centroid.state is None:
+                    raise SpeakerError("model_mismatch", 502)
+                row.tracking_embedding = tracking_centroid.embedding
+                resultant_props["tracking_resultant"] = tracking_centroid.state.to_record()
                 row.tracking_model_id = tracking.model_id
                 row.tracking_model_revision = tracking.model_revision
                 tracking_seconds += new_tracking_seconds
             row.props = {
                 **row.props,
+                **resultant_props,
                 "speech_ranges": [[a, b] for a, b in speech_ranges],
                 "tracking_seconds": tracking_seconds,
             }

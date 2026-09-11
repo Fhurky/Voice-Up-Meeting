@@ -6,7 +6,7 @@ from types import SimpleNamespace
 import numpy as np
 import pytest
 from fastapi.testclient import TestClient
-from test_meeting_memory import Pilot, request, vector, wav
+from test_meeting_memory import Pilot, VoiceModels, request, vector, wav
 from test_meeting_runtime import MeetingFixture
 from test_service import HEADERS
 
@@ -101,7 +101,7 @@ def test_invalid_model_vectors_fail_closed(bad):
 def test_private_http_veto_runs_after_primary_context_checks_before_persistent_vectors(
     mixed,
 ):
-    class Models(MeetingFixture):
+    class Models(VoiceModels, MeetingFixture):
         def voice_embedding(self, samples):
             # Whole contexts, 3-second guards and existing 1.5-second checks pass.
             # Only final 2-second windows expose the independent secondary voice.
@@ -112,9 +112,13 @@ def test_private_http_veto_runs_after_primary_context_checks_before_persistent_v
     class Embedder:
         def __init__(self):
             self.calls = 0
+            self.probe_calls = 0
 
         def encode(self, samples, sample_rate=RATE):
-            self.calls += 1
+            if len(samples) == 2 * RATE:
+                self.probe_calls += 1
+            else:
+                self.calls += 1
             return np.array(vector(192))
 
     embedder = Embedder()
@@ -142,6 +146,7 @@ def test_private_http_veto_runs_after_primary_context_checks_before_persistent_v
         assert result["embedding192"] is result["memory_embedding"] is None
         assert result["retained_sha256"] is None
         assert embedder.calls == 0
+        assert embedder.probe_calls == 0
     else:
         assert result["status"] == "usable"
         assert result["validated_seconds"] == 22.5

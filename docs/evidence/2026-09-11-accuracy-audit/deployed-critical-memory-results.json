@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "evidence_tier": "L2 - deployed private HTTP only",
+  "protocol_sha256": "0039b49ec60a004d46bcc96d681fc1d4895bc7e13e1040c5ba32dad917fd48ba",
+  "private_result_sha256": "494043cc51f5425f7a499c8f5d45c27ae023048ec791e1f31028ff728c9e10f2",
+  "baked_source_verification_sha256": "3ded9983f0fc1c7938ec7ced88c97b69829107c30e956796525b0960f01ac108",
+  "image_id": "sha256:d14a4e65159af176eac50fe20334e49f64bdb199baa220d6ed36cb2edab0ef57",
+  "container_started_at": "2026-09-11T09:37:15.277784012Z",
+  "same_container_image_id_and_start_before_after": true,
+  "loaded_source_files": [
+    {
+      "path": "/srv/inference/voiceup_inference/api.py",
+      "sha256": "e3eeb4bca0f59241f2c12c2727623e275ea08b9803e8608907ee62cc95fa0533",
+      "observed_sha256": "e3eeb4bca0f59241f2c12c2727623e275ea08b9803e8608907ee62cc95fa0533"
+    },
+    {
+      "path": "/srv/inference/voiceup_inference/meeting_coherence.py",
+      "sha256": "0af033aa5d3244fd66c90991c0665454bdab70789f93417a7a6ecef015fab392",
+      "observed_sha256": "0af033aa5d3244fd66c90991c0665454bdab70789f93417a7a6ecef015fab392"
+    },
+    {
+      "path": "/srv/inference/voiceup_inference/meeting_memory.py",
+      "sha256": "761c9566624b16dcc892eedfc2cb8fa7017832f31f78171150a73044a9f2d485",
+      "observed_sha256": "761c9566624b16dcc892eedfc2cb8fa7017832f31f78171150a73044a9f2d485"
+    },
+    {
+      "path": "/srv/inference/voiceup_inference/meeting_models.py",
+      "sha256": "144e490b494d1cd9d016d92d63f5a5d627d4232fce7073d96cf77cd4a24e31f4",
+      "observed_sha256": "144e490b494d1cd9d016d92d63f5a5d627d4232fce7073d96cf77cd4a24e31f4"
+    },
+    {
+      "path": "/srv/inference/voiceup_inference/meeting_runtime.py",
+      "sha256": "fa52fe2cf91941f188a3dc6e10856aa0e2c5e8adbaaf85423c1f7d53bbafb2a6",
+      "observed_sha256": "fa52fe2cf91941f188a3dc6e10856aa0e2c5e8adbaaf85423c1f7d53bbafb2a6"
+    },
+    {
+      "path": "/srv/inference/voiceup_inference/models.py",
+      "sha256": "7eeb3356ac57a69d197bb1a28ed5ebc90bbbbfca2c1f2f94772387b5da0a05a1",
+      "observed_sha256": "7eeb3356ac57a69d197bb1a28ed5ebc90bbbbfca2c1f2f94772387b5da0a05a1"
+    },
+    {
+      "path": "/srv/inference/voiceup_inference/runtime.py",
+      "sha256": "95a1158d153d14265ea184f7bd34c420f1a06f112573deec4ab8fa682582fdfb",
+      "observed_sha256": "95a1158d153d14265ea184f7bd34c420f1a06f112573deec4ab8fa682582fdfb"
+    },
+    {
+      "path": "/srv/reference/voiceup/backends.py",
+      "sha256": "53fab24a89092981093b81a5c9009be4b50b1666024bb79269d17bc73c64662a",
+      "observed_sha256": "53fab24a89092981093b81a5c9009be4b50b1666024bb79269d17bc73c64662a"
+    },
+    {
+      "path": "/srv/reference/voiceup/identity.py",
+      "sha256": "3adaaa6c8e8c22e6f4e373fc3804b83a8c53fc87a32221e27d97753d4e7e38dd",
+      "observed_sha256": "3adaaa6c8e8c22e6f4e373fc3804b83a8c53fc87a32221e27d97753d4e7e38dd"
+    },
+    {
+      "path": "/srv/reference/voiceup/meeting_metrics.py",
+      "sha256": "9fc963d6c953b8a7cdcd09efcf78e20a0274fba7a4394eac809fbf9c2fc6a7a7",
+      "observed_sha256": "9fc963d6c953b8a7cdcd09efcf78e20a0274fba7a4394eac809fbf9c2fc6a7a7"
+    }
+  ],
+  "dns_matched_inspected_container": true,
+  "request_sha256": "e4171f2d22a38908473fc013d7d36de641113059d01d7cca3458c5f02cc042b3",
+  "request_bytes": 2814452,
+  "response_bytes": 500,
+  "http_status": 200,
+  "result_status": "inconsistent_audio",
+  "all_persistable_output_absent": true,
+  "elapsed_http_seconds": 5.389852187001452,
+  "wall_seconds": 6.984000000000378,
+  "device": "cuda:0",
+  "model_identity": {
+    "diarization": {
+      "model_id": "pyannote/speaker-diarization-community-1",
+      "revision": "3533c8cf8e369892e6b79ff1bf80f7b0286a54ee",
+      "recipe": "community-vbx-fa015-v1"
+    },
+    "asr": {
+      "model_id": "Systran/faster-whisper-large-v3",
+      "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478"
+    },
+    "embedding": {
+      "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+      "revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+      "dimensions": 192
+    }
+  },
+  "private_request_preserved": true,
+  "database_or_profile_write": false,
+  "passed": true,
+  "limitations": [
+    "Exactly one frozen previously unsafe memory request through the actual deployed backend-to-inference network route; no new meeting or profile was created.",
+    "This complements isolated85sourcecontrols and does not establish a fresh50-person gallery outcome, browser acceptance, nativeSpark/macOS behavior, or general language accuracy.",
+    "Readiness identity alone does not distinguish both Fa.15quality versions; exact container/image identity,10loadedfilehashes and observed mixed rejection bind this result to the deployednewsource."
+  ]
+}

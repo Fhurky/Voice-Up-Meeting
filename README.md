@@ -45,6 +45,13 @@ Sabit dört gerçek ses kaydında **5 yeni kişi → aynı 5 kişi → kısa alt
 adları/kimlikleri korudu. [Canlı ölçümler](docs/evidence/2026-09-10-meeting-delivery/frozen-meeting-flow-report.md)
 ve [kullanım rehberi](docs/MEETING_WORKFLOW.md) kapsamı ve sınırları açıklar.
 
+[Toplantı doğruluğu rehberi](docs/MEETING_ACCURACY.md), kişi tanımayı metin
+hatasından ayırır ve tam referanslı kayıtlar için çevrimdışı kelime hata
+ölçümünü açıklar. Eksik, fazla ve kişisi belirsiz sözler ölçümde korunur.
+[11 Eylül doğruluk incelemesi](docs/evidence/2026-09-11-accuracy-audit/README.md)
+uygulanan düzeltmeleri, gerçek elli kişilik sonuçları ve henüz karşılanmayan
+doğruluk hedefini birlikte kaydeder.
+
 50 kişi kalite hedefidir, kayıt kotası değildir. Temsil edici Türkçe/50 kişilik
 toplantı doğruluğu, native Spark/Apple toplantı ortamı ve bağımsız güvenlik taraması
 henüz tamamlanmadı. Teams kaydı dosya olarak yüklenir; otomatik Teams bağlantısı

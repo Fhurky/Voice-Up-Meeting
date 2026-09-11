@@ -5,8 +5,10 @@ from __future__ import annotations
 import hashlib
 import json
 import re
-from collections.abc import Set
+from collections.abc import Iterator, Set
+from contextlib import contextmanager
 from pathlib import Path
+from threading import Lock, get_ident
 from typing import TYPE_CHECKING
 
 import numpy as np
@@ -17,6 +19,7 @@ if TYPE_CHECKING:
     from voiceup.audio import Audio
 
     from .config import Settings
+    from .meeting_memory import VoiceMemoryModels
 
 DIARIZATION_ID = "pyannote/speaker-diarization-community-1"
 DIARIZATION_REVISION = "3533c8cf8e369892e6b79ff1bf80f7b0286a54ee"
@@ -110,6 +113,40 @@ def verify_meeting_bundle(
         raise ValueError("meeting_model_package_invalid")
 
 
+class _VoiceEmbeddingSession:
+    """A thread-owned, expiring encoder; the request owns device cleanup."""
+
+    def __init__(self, models: LocalMeetingModels):
+        self._models = models
+        self._owner = get_ident()
+        self._active = True
+        self._upload_attempted = False
+
+    def voice_embedding(self, samples: np.ndarray) -> np.ndarray:
+        if not self._active or self._owner != get_ident():
+            raise RuntimeError("meeting_embedding_session_invalid")
+        models = self._models
+        torch = models._torch
+        matmul_tf32 = torch.backends.cuda.matmul.allow_tf32
+        matmul_precision = torch.get_float32_matmul_precision()
+        cudnn_tf32 = torch.backends.cudnn.allow_tf32
+        try:
+            if not self._upload_attempted:
+                self._upload_attempted = True
+                models._pipeline.to(models._device)
+            with torch.inference_mode():
+                output = models._pipeline._embedding(
+                    torch.from_numpy(samples.copy()).unsqueeze(0).unsqueeze(0)
+                )
+            if not isinstance(output, np.ndarray) or output.shape != (1, 256):
+                raise ValueError("invalid_meeting_memory_embedding")
+            return normalize_embedding(output[0], 256)
+        finally:
+            torch.backends.cuda.matmul.allow_tf32 = matmul_tf32
+            torch.backends.cudnn.allow_tf32 = cudnn_tf32
+            torch.set_float32_matmul_precision(matmul_precision)
+
+
 class LocalMeetingModels:
     """Use local artifacts and release each large GPU model before the next one."""
 
@@ -142,6 +179,7 @@ class LocalMeetingModels:
         )
         self._torch = torch
         self._device = torch.device(settings.device)
+        self._voice_embedding_slot = Lock()
         self._pipeline = Pipeline.from_pretrained(
             str(settings.meeting_diarization_dir), token=False
         )
@@ -242,27 +280,34 @@ class LocalMeetingModels:
                 torch.set_float32_matmul_precision(matmul_precision)
 
     def voice_embedding(self, samples: np.ndarray) -> np.ndarray:
+        with self.voice_embedding_session() as encoder:
+            return encoder.voice_embedding(samples)
+
+    @contextmanager
+    def voice_embedding_session(self) -> Iterator[VoiceMemoryModels]:
+        """Keep sequential batch-one probes resident within the HTTP admission slot."""
+        if not self._voice_embedding_slot.acquire(blocking=False):
+            raise RuntimeError("meeting_embedding_session_busy")
+        encoder = _VoiceEmbeddingSession(self)
         torch = self._torch
         matmul_tf32 = torch.backends.cuda.matmul.allow_tf32
         matmul_precision = torch.get_float32_matmul_precision()
         cudnn_tf32 = torch.backends.cudnn.allow_tf32
         try:
-            self._pipeline.to(self._device)
-            with torch.inference_mode():
-                output = self._pipeline._embedding(
-                    torch.from_numpy(samples.copy()).unsqueeze(0).unsqueeze(0)
-                )
-            if not isinstance(output, np.ndarray) or output.shape != (1, 256):
-                raise ValueError("invalid_meeting_memory_embedding")
-            return normalize_embedding(output[0], 256)
+            yield encoder
         finally:
+            encoder._active = False
             try:
-                self._pipeline.to(torch.device("cpu"))
-                torch.cuda.empty_cache()
+                if encoder._upload_attempted:
+                    self._pipeline.to(torch.device("cpu"))
+                    torch.cuda.empty_cache()
             finally:
-                torch.backends.cuda.matmul.allow_tf32 = matmul_tf32
-                torch.backends.cudnn.allow_tf32 = cudnn_tf32
-                torch.set_float32_matmul_precision(matmul_precision)
+                try:
+                    torch.backends.cuda.matmul.allow_tf32 = matmul_tf32
+                    torch.backends.cudnn.allow_tf32 = cudnn_tf32
+                    torch.set_float32_matmul_precision(matmul_precision)
+                finally:
+                    self._voice_embedding_slot.release()
 
     def transcribe(self, audio: Audio, language: str | None) -> dict:
         from dataclasses import asdict

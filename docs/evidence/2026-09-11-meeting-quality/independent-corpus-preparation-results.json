@@ -1,0 +1,115 @@
+{
+  "artifacts": [
+    {
+      "path": "outputs/meeting-identity-independent-v1/fixtures/protocol.json",
+      "sha256": "6279e3babb2147139dc65bc5b56730b9cf7a41b62b07b01eedff51b223cb39a9"
+    },
+    {
+      "path": "outputs/meeting-identity-independent-v1/fixtures/selection.json",
+      "sha256": "4dd67db598ce06b227ffafc74f267f25503e513ae479de6ae6e80f1f79977137"
+    },
+    {
+      "path": "outputs/meeting-identity-independent-v1/fixtures/meetings/protocol.json",
+      "sha256": "b76d06a80af7b6238b650f2599f9db3b0408e3e806afd7c0e8e7addd465ccf50"
+    },
+    {
+      "path": "outputs/meeting-identity-independent-v1/audit.py",
+      "sha256": "74ab4ca8ad96e946a9f0003dd676e7eddaa2fb97e272bd74ab9aa3f6f3dbf7a5"
+    },
+    {
+      "path": "scripts/prepare-meeting-identity-evaluation.py",
+      "sha256": "fbfe5e9e7fa1e50f345cfe4a19eed8a8c561669ac455f13273ce7c1aaf65f1c1"
+    },
+    {
+      "path": "tests/test_prepare_meeting_identity_evaluation.py",
+      "sha256": "1ce9b7b389a61568ba1ab2bda5c07bfacdb508507ac5367bc5656d079f1a3766"
+    },
+    {
+      "path": "outputs/meeting-identity-independent-v1/preparation-tests.xml",
+      "sha256": "707175e05095ebec3307e199023816cd6e6cd0937cdf60fd5420d84c7b882d21"
+    }
+  ],
+  "clip_duration_seconds": {
+    "max": 52.4,
+    "min": 35.01,
+    "total": 7985.570125
+  },
+  "clips_verified": 190,
+  "known_people": 50,
+  "limitations": [
+    "English audiobook corpus, not representative Turkish meetings.",
+    "Distinct chapters do not prove different sessions or microphones.",
+    "Audio duration does not prove usable speech duration.",
+    "Corpus speech boundaries are not manually annotated.",
+    "Person overlap with pretrained model training remains unverified.",
+    "Full archive SHA was previously verified; the complete archive was not rehashed in this preparation.",
+    "Only a frozen prepared corpus; no enrollment, query or 50-person live quality result exists in this audit."
+  ],
+  "meetings": [
+    {
+      "duration_seconds": 2129.659875,
+      "expected_speakers": 50,
+      "name": "a-enrollment",
+      "reference_word_count": 5724,
+      "sha256": "aee97490f1193da53aaeaa94ef8edae2299c43b5d4c41eed2531ef9f6c2e3fe3",
+      "source_utterances": 161
+    },
+    {
+      "duration_seconds": 2150.430125,
+      "expected_speakers": 50,
+      "name": "b-return",
+      "reference_word_count": 5716,
+      "sha256": "091bedcf53dcfafcf1e279fc6f6d1f07924b814e3b6ab8152b9fd7c63ef8bbe9",
+      "source_utterances": 160
+    },
+    {
+      "duration_seconds": 2152.875,
+      "expected_speakers": 50,
+      "name": "c-return",
+      "reference_word_count": 5741,
+      "sha256": "429868536378f62923e54e51b35388006670a5a3f8d1e329cbda1f9b5ff30cb5",
+      "source_utterances": 164
+    }
+  ],
+  "meetings_verified": 3,
+  "never_enrolled_people": 20,
+  "preparation_failures": 0,
+  "prior_manifest_hashes": [
+    {
+      "path": "data/public-speaker-evaluation/calibration.json",
+      "sha256": "a170d8fa88a13bd7059cd3e6e82747e3b05b7dfc7a814a451672cb4f98ac5c33"
+    },
+    {
+      "path": "data/public-speaker-evaluation/test.json",
+      "sha256": "0e4deb4d61e36e378a29e270fc4d1c070d3331a9839314f37261c403d1361ad9"
+    },
+    {
+      "path": "data/public-speaker-holdout-v2/test.json",
+      "sha256": "67fa0170afbe4c3a382a91506cd68d3e635fe7c1d562810c5fe9c2b8ad3c9eb7"
+    }
+  ],
+  "prior_people_overlap": 0,
+  "prior_recording_hash_overlap": 0,
+  "prior_utterance_overlap": 0,
+  "profile": "kt-vibecoding-python-web-v2",
+  "reference_word_count": 21845,
+  "role_counts": {
+    "enrollment": 50,
+    "known_query": 100,
+    "unknown_query": 40
+  },
+  "schema_version": 1,
+  "scope": "Offline independent corpus preparation and exact source/reference audit; no inference accuracy measured",
+  "selected_speaker_set_sha256": "1798eaedf6f10dfc31739bbdfdb881257309d67a60d6772eae0e1e5fef6fb637",
+  "selected_utterance_set_sha256": "2157c3dc6f2f2354341a44f7c4ee1376a09a5838f3807a7e9595da052435ad54",
+  "selection_counts": {
+    "remaining_people": 181,
+    "remaining_three_chapters": 78,
+    "remaining_two_chapters": 149,
+    "source_people": 251
+  },
+  "source_flac_digest_set_sha256": "9e3238ef4cee44689fafc0e41f0f5f03ecf4a418ab51a78fd9d6469d6065956f",
+  "status": "passed",
+  "unique_source_flac_hashes": 613,
+  "unique_source_utterances": 613
+}

@@ -78,3 +78,12 @@ aynı beş profil → altıncı yeni kişidir. Önceki mikrofon isteği ayrı
 [007 yeteneğinde](PRDs/007-microphone-meeting-capture/PRD.md) Accepted ve eksik
 olarak korunur; dosya teslimi otomatik Teams bağlantısına veya mikrofon UI'sine
 bağlanmaz. Model ön hazırlık kanıtı bu uçtan uca akışın tamamlandığı anlamına gelmez.
+
+11 Eylül yerel tesliminde yukarıdaki hazırlık notlarının ardından gerçek RTX
+uygulama/HTTP/tarayıcı akışı 5→5→5→6 profille doğrulandı; adlar yeniden başlatma
+sonrasında korundu. Yerel sağlayıcı ve decoder artık uygulanmıştır; native
+Spark/Apple toplantı ortamı ile temsilî Türkçe/50 kişi kalite kabulü ayrı açık
+hedeflerdir. Aynı gün istenen ayrıntılı doğruluk incelemesi 002 Decisions 19–20
+altında kaynak ağırlıklı merkez hesabını, metin hata ölçümünü ve eski örneklerden
+ayrılmış kişi değerlendirmesini ele alır. Tarihsel testler yeni ayar seçiminden
+sonra bağımsız test diye yeniden adlandırılmaz.

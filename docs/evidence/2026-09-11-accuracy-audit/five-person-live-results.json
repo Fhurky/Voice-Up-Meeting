@@ -1,0 +1,473 @@
+{
+  "status": "passed",
+  "evidence_tier": "L2",
+  "technology_profile": "kt-vibecoding-python-web-v2",
+  "environment": {
+    "cli_python": "3.12.10",
+    "host": "Windows",
+    "application": "existing local Docker Linux FastAPI/PostgreSQL/worker and GPU inference service",
+    "origin": "http://127.0.0.1:8081",
+    "ordinary_role": true,
+    "model_hints_used": false
+  },
+  "protocol_sha256": "6f6e9a731ad7efec7c09e18fe507077504dcdb1c545c59d5c96287a68dfe05dc",
+  "runner_sha256": "24a2b59e01abba08ecff8b04699c423c1c9b4cf032a1aaf58ca26f0cc92e0b41",
+  "source_manifest_sha256": "a170d8fa88a13bd7059cd3e6e82747e3b05b7dfc7a814a451672cb4f98ac5c33",
+  "frozen_sources": [
+    {
+      "sha256": "ab54c7d9fd92a64ab582390c41b8fcfddd9ad3922aacbd75884fb6581b907bd2",
+      "duration_seconds": 182.0250625,
+      "expected_speakers": 5,
+      "expected_gallery_total": 5
+    },
+    {
+      "sha256": "0072612fda0cb99b32fdf2430edf1ab01dff02e5c075ec3bc129cfb9ae67f25c",
+      "duration_seconds": 94.6249375,
+      "expected_speakers": 5,
+      "expected_gallery_total": 5
+    },
+    {
+      "sha256": "b2d42e721f740747d08544b97afd8ecb6bc89457bbe51c1820991b7b30e977a3",
+      "duration_seconds": 88.935,
+      "expected_speakers": 6,
+      "expected_gallery_total": 5
+    },
+    {
+      "sha256": "7e500bc46cfea313b222303500b00d4ce92549752dcc139ddb997da899540e06",
+      "duration_seconds": 137.2699375,
+      "expected_speakers": 6,
+      "expected_gallery_total": 6
+    }
+  ],
+  "counts": {
+    "live_http_cases_passed": 4,
+    "real_backend_worker_restart_passed": 1,
+    "readonly_profile_audits_passed": 3,
+    "profile_instances_audited": 16,
+    "final_profiles_and_samples_passed": 6,
+    "known_profiles_unchanged": 5,
+    "unit_passed": 0,
+    "browser_passed": 0,
+    "skipped": 0
+  },
+  "cases": [
+    {
+      "case": "A",
+      "passed": true,
+      "status": "succeeded",
+      "checkpoints": 1,
+      "decisions": {
+        "enrolled": 5
+      },
+      "reasons": {
+        "new_profile_created": 5
+      },
+      "observed_tracks": 5,
+      "gallery_total": 5,
+      "source_sha256": "ab54c7d9fd92a64ab582390c41b8fcfddd9ad3922aacbd75884fb6581b907bd2",
+      "source_mapping_passed": true,
+      "minimum_dominant_source_share": 0.9171832776982984,
+      "mapping_policy": {
+        "minimum_dominant_share": 0.9,
+        "split_minimum_seconds": 0.5,
+        "split_minimum_share": 0.1,
+        "minimum_assigned_seconds": 0.5
+      },
+      "mapping_failures": {
+        "split_identities": 0,
+        "merged_tracks": 0,
+        "missing_identities": 0,
+        "weak_majority_identities": 0
+      },
+      "unassigned_transcript_seconds": 6.500000000000008,
+      "transcript_segments": 52,
+      "transcript_characters": 2537,
+      "transcript_sha256": "eac232672ef3b07187ddaecea8dd80d1c84bc7abf38200ed995afa1f6147dafc",
+      "repeated_completion_idempotent": true
+    },
+    {
+      "case": "B",
+      "passed": true,
+      "status": "succeeded",
+      "checkpoints": 1,
+      "decisions": {
+        "recognized": 5
+      },
+      "reasons": {
+        "matched": 5
+      },
+      "observed_tracks": 5,
+      "gallery_total": 5,
+      "source_sha256": "0072612fda0cb99b32fdf2430edf1ab01dff02e5c075ec3bc129cfb9ae67f25c",
+      "source_mapping_passed": true,
+      "minimum_dominant_source_share": 0.9012240604030525,
+      "mapping_policy": {
+        "minimum_dominant_share": 0.9,
+        "split_minimum_seconds": 0.5,
+        "split_minimum_share": 0.1,
+        "minimum_assigned_seconds": 0.5
+      },
+      "mapping_failures": {
+        "split_identities": 0,
+        "merged_tracks": 0,
+        "missing_identities": 0,
+        "weak_majority_identities": 0
+      },
+      "unassigned_transcript_seconds": 2.9200000000000017,
+      "transcript_segments": 30,
+      "transcript_characters": 1454,
+      "transcript_sha256": "626f765af2edd15ad8f60d072188be8ede5e831a011f5555b196410d935ca842",
+      "repeated_completion_idempotent": true
+    },
+    {
+      "case": "D",
+      "passed": true,
+      "status": "succeeded",
+      "checkpoints": 1,
+      "decisions": {
+        "recognized": 5,
+        "profile_pending": 1
+      },
+      "reasons": {
+        "matched": 5,
+        "insufficient_speech": 1
+      },
+      "observed_tracks": 6,
+      "gallery_total": 5,
+      "source_sha256": "b2d42e721f740747d08544b97afd8ecb6bc89457bbe51c1820991b7b30e977a3",
+      "source_mapping_passed": true,
+      "minimum_dominant_source_share": 0.951194539249147,
+      "mapping_policy": {
+        "minimum_dominant_share": 0.9,
+        "split_minimum_seconds": 0.5,
+        "split_minimum_share": 0.1,
+        "minimum_assigned_seconds": 0.5
+      },
+      "mapping_failures": {
+        "split_identities": 0,
+        "merged_tracks": 0,
+        "missing_identities": 0,
+        "weak_majority_identities": 0
+      },
+      "unassigned_transcript_seconds": 9.36000000000001,
+      "transcript_segments": 26,
+      "transcript_characters": 1164,
+      "transcript_sha256": "6535eeee38fa671d2e646ef7d8d77a902b5dee70445e444dfb771392381ec9c8",
+      "repeated_completion_idempotent": true
+    },
+    {
+      "case": "C",
+      "passed": true,
+      "status": "succeeded",
+      "checkpoints": 1,
+      "decisions": {
+        "enrolled": 1,
+        "recognized": 5
+      },
+      "reasons": {
+        "new_profile_created": 1,
+        "matched": 5
+      },
+      "observed_tracks": 6,
+      "gallery_total": 6,
+      "source_sha256": "7e500bc46cfea313b222303500b00d4ce92549752dcc139ddb997da899540e06",
+      "source_mapping_passed": true,
+      "minimum_dominant_source_share": 0.9777070063694268,
+      "mapping_policy": {
+        "minimum_dominant_share": 0.9,
+        "split_minimum_seconds": 0.5,
+        "split_minimum_share": 0.1,
+        "minimum_assigned_seconds": 0.5
+      },
+      "mapping_failures": {
+        "split_identities": 0,
+        "merged_tracks": 0,
+        "missing_identities": 0,
+        "weak_majority_identities": 0
+      },
+      "unassigned_transcript_seconds": 16.480000000000004,
+      "transcript_segments": 40,
+      "transcript_characters": 1796,
+      "transcript_sha256": "537c516d5f8c5811727f879eb612daa4ae56a3d64be255ee73e20303de3ec5a4",
+      "repeated_completion_idempotent": true
+    }
+  ],
+  "retained_samples": [
+    {
+      "sample_ordinal": 1,
+      "enrollment_case": "A",
+      "retained_frames": 347891,
+      "retained_seconds": 21.7431875,
+      "correct_frames": 347123,
+      "gap_frames": 768,
+      "correct_source_share": 0.9977924119911121,
+      "retained_wav_sha256": "dc6bcfb894f111288e7b7218de23d9dcb31395ab88f2fdf2961efda3d52ec354",
+      "stored_lineage_verified": true,
+      "physical_files_verified": true,
+      "purity_at_least_99_percent": true,
+      "sample_count": 1,
+      "passed": true
+    },
+    {
+      "sample_ordinal": 2,
+      "enrollment_case": "A",
+      "retained_frames": 396252,
+      "retained_seconds": 24.76575,
+      "correct_frames": 395804,
+      "gap_frames": 448,
+      "correct_source_share": 0.9988694063373813,
+      "retained_wav_sha256": "8771f372cdd1676e435a8ed7114f5e66401e6677c48b77576f873e17160d4a83",
+      "stored_lineage_verified": true,
+      "physical_files_verified": true,
+      "purity_at_least_99_percent": true,
+      "sample_count": 1,
+      "passed": true
+    },
+    {
+      "sample_ordinal": 3,
+      "enrollment_case": "A",
+      "retained_frames": 402736,
+      "retained_seconds": 25.171,
+      "correct_frames": 399421,
+      "gap_frames": 639,
+      "correct_source_share": 0.9917688013984347,
+      "retained_wav_sha256": "da934d984215b7bf7c45c6e80bd1f460f9c09bf283441a77b02ff52c29df27e7",
+      "stored_lineage_verified": true,
+      "physical_files_verified": true,
+      "purity_at_least_99_percent": true,
+      "sample_count": 1,
+      "passed": true
+    },
+    {
+      "sample_ordinal": 4,
+      "enrollment_case": "A",
+      "retained_frames": 417251,
+      "retained_seconds": 26.0781875,
+      "correct_frames": 416707,
+      "gap_frames": 544,
+      "correct_source_share": 0.9986962284092789,
+      "retained_wav_sha256": "2d128d107b12e5d5748014c482c3a33685372051295fc1b2f657832375bfdda4",
+      "stored_lineage_verified": true,
+      "physical_files_verified": true,
+      "purity_at_least_99_percent": true,
+      "sample_count": 1,
+      "passed": true
+    },
+    {
+      "sample_ordinal": 5,
+      "enrollment_case": "A",
+      "retained_frames": 481509,
+      "retained_seconds": 30.0943125,
+      "correct_frames": 480709,
+      "gap_frames": 800,
+      "correct_source_share": 0.998338556496348,
+      "retained_wav_sha256": "4a21c1ce26f4975b26c4047770683ac98a8d1e0737833fb6f00d32b9cf4662ad",
+      "stored_lineage_verified": true,
+      "physical_files_verified": true,
+      "purity_at_least_99_percent": true,
+      "sample_count": 1,
+      "passed": true
+    },
+    {
+      "sample_ordinal": 6,
+      "enrollment_case": "C",
+      "retained_frames": 368145,
+      "retained_seconds": 23.0090625,
+      "correct_frames": 367729,
+      "gap_frames": 416,
+      "correct_source_share": 0.9988700104578359,
+      "retained_wav_sha256": "ec62732b583132013cfd54cee2c51a43a1b0e074ba0da71c53936df062d5d2f4",
+      "stored_lineage_verified": true,
+      "physical_files_verified": true,
+      "purity_at_least_99_percent": true,
+      "sample_count": 1,
+      "passed": true
+    }
+  ],
+  "minimum_retained_source_share": 0.9917688013984347,
+  "profile_model_lineages": [
+    {
+      "meeting_model_id": "pyannote/speaker-diarization-community-1",
+      "meeting_model_revision": "3533c8cf8e369892e6b79ff1bf80f7b0286a54ee",
+      "meeting_preprocessing_version": "meeting-natural-context-v1",
+      "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+      "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286"
+    }
+  ],
+  "audit_stages": {
+    "before-b": {
+      "status": "passed",
+      "captured_at_utc": "2026-09-11T10:13:14.777526+00:00",
+      "profiles": 5,
+      "all_profiles_passed": true,
+      "transaction_read_only": "on",
+      "transaction_isolation": "repeatable read",
+      "immutable_known": null
+    },
+    "after-restart": {
+      "status": "passed",
+      "captured_at_utc": "2026-09-11T10:13:48.837125+00:00",
+      "profiles": 5,
+      "all_profiles_passed": true,
+      "transaction_read_only": "on",
+      "transaction_isolation": "repeatable read",
+      "immutable_known": {
+        "all_equal": true,
+        "baseline_sha256": "00f01c8305ecd02afb4a2ff0f205cbcad7fe372737fffec0118501812e85cf57",
+        "known_profiles": 5,
+        "physical_files_equal": true,
+        "profiles_equal": true,
+        "samples_equal": true
+      }
+    },
+    "after-final": {
+      "status": "passed",
+      "captured_at_utc": "2026-09-11T10:15:37.571076+00:00",
+      "profiles": 6,
+      "all_profiles_passed": true,
+      "transaction_read_only": "on",
+      "transaction_isolation": "repeatable read",
+      "immutable_known": {
+        "all_equal": true,
+        "baseline_sha256": "00f01c8305ecd02afb4a2ff0f205cbcad7fe372737fffec0118501812e85cf57",
+        "known_profiles": 5,
+        "physical_files_equal": true,
+        "profiles_equal": true,
+        "samples_equal": true
+      }
+    }
+  },
+  "restart": {
+    "command": "scripts/stack.sh restart backend worker",
+    "exit_code": 0,
+    "before": {
+      "observed_at_utc": "2026-09-11T10:13:15.444289+00:00",
+      "label": "before",
+      "containers": [
+        {
+          "service": "backend",
+          "started_at": "2026-09-11T09:38:23.544177067Z",
+          "image": "sha256:e04840120dcc7386f8e612439fff10d72908db0bfef7e225dafe05168eba1994",
+          "running": true
+        },
+        {
+          "service": "worker",
+          "started_at": "2026-09-11T09:38:33.204969923Z",
+          "image": "sha256:e04840120dcc7386f8e612439fff10d72908db0bfef7e225dafe05168eba1994",
+          "running": true
+        }
+      ],
+      "frontend_http_status": 200,
+      "both_started_at_changed": null,
+      "restart_performed_by_this_probe": false,
+      "source_sha256": {
+        "app/backend/app/domain/meeting_native_exclusions.py": "6189065a59c11a6bd42473379f810790e5a12d8da81f7e97d50de727413e1586",
+        "app/backend/app/services/meeting_chunks.py": "40a292dc24bf388f15441671177153368b46a4e6f4159aa292efcda865a0322e",
+        "app/backend/app/services/meeting_memory.py": "4b757539c6fe2b0aecbbac7f9d5b828a11637c29f003be53cd4c826da9213d4f"
+      }
+    },
+    "after": {
+      "observed_at_utc": "2026-09-11T10:13:46.715667+00:00",
+      "label": "after",
+      "containers": [
+        {
+          "service": "backend",
+          "started_at": "2026-09-11T10:13:35.787349485Z",
+          "image": "sha256:e04840120dcc7386f8e612439fff10d72908db0bfef7e225dafe05168eba1994",
+          "running": true
+        },
+        {
+          "service": "worker",
+          "started_at": "2026-09-11T10:13:45.504537012Z",
+          "image": "sha256:e04840120dcc7386f8e612439fff10d72908db0bfef7e225dafe05168eba1994",
+          "running": true
+        }
+      ],
+      "frontend_http_status": 200,
+      "both_started_at_changed": true,
+      "restart_performed_by_this_probe": false,
+      "source_sha256": {
+        "app/backend/app/domain/meeting_native_exclusions.py": "6189065a59c11a6bd42473379f810790e5a12d8da81f7e97d50de727413e1586",
+        "app/backend/app/services/meeting_chunks.py": "40a292dc24bf388f15441671177153368b46a4e6f4159aa292efcda865a0322e",
+        "app/backend/app/services/meeting_memory.py": "4b757539c6fe2b0aecbbac7f9d5b828a11637c29f003be53cd4c826da9213d4f"
+      }
+    },
+    "both_started_at_changed": true,
+    "names_and_profile_ids_preserved": true,
+    "resume_uses_same_tenant_state": true
+  },
+  "phases": {
+    "audit-after-final": {
+      "exit_code": 0,
+      "finished_epoch": 1789121737.5843742
+    },
+    "audit-after-restart": {
+      "exit_code": 0,
+      "started_epoch": 1789121626.7293854,
+      "finished_epoch": 1789121628.8520145
+    },
+    "audit-before-b": {
+      "exit_code": 0,
+      "finished_epoch": 1789121594.7921884
+    },
+    "phase-a": {
+      "exit_code": 0,
+      "started_epoch": 1789121518.5571532,
+      "finished_epoch": 1789121557.7505891
+    },
+    "phase-bdc": {
+      "exit_code": 0,
+      "started_epoch": 1789121650.4728916,
+      "finished_epoch": 1789121724.4734902
+    },
+    "restart": {
+      "exit_code": 0,
+      "started_epoch": 1789121614.983782,
+      "finished_epoch": 1789121626.047795
+    },
+    "runtime-after": {
+      "exit_code": 0,
+      "started_epoch": 1789121626.0487955,
+      "finished_epoch": 1789121626.7283866
+    },
+    "runtime-before": {
+      "exit_code": 0,
+      "finished_epoch": 1789121595.456295
+    },
+    "seed": {
+      "exit_code": 0,
+      "finished_epoch": 1789121507.6225207
+    }
+  },
+  "artifacts": {
+    "outputs/2026-09-11-accuracy-audit/five-person-native-v1/preparation.json": "595235e09b203e93da2ac9d54776a0789d4a2e735059e619c017eceb83113f9a",
+    "outputs/2026-09-11-accuracy-audit/five-person-native-v1/seed.py": "681b58776de78aeaf8d2de612f72d14dde25f9069f9204d01389f5fb4fccfa33",
+    "outputs/2026-09-11-accuracy-audit/five-person-native-v1/audit.py": "5a8b6d0d01d303fd478ee362a11ac838578ce54807520862bb94f27968122e91",
+    "outputs/2026-09-11-accuracy-audit/five-person-native-v1/runtime.py": "726247075947b92230cbea51fa3049401eee7f26d904b71c041758d91407d3e1",
+    "outputs/2026-09-11-accuracy-audit/five-person-native-v1/commands.md": "9d404156dab606a70322f08cfadec43571ef8715fd84330ef84f8e0c124caac3",
+    "outputs/2026-09-11-accuracy-audit/five-person-native-v1/evaluation.json": "790fdb847aade3065c33e75e550d303e5833da46a6e87411880361ca01a2c907",
+    "outputs/2026-09-11-accuracy-audit/five-person-native-v1/evaluation.state.private.json": "fb8e6b22a5bc7ff09976ecf3d166e2b166944e981fd3457842711fce338f5060",
+    "outputs/2026-09-11-accuracy-audit/five-person-native-v1/audit-before-b.private.json": "00f01c8305ecd02afb4a2ff0f205cbcad7fe372737fffec0118501812e85cf57",
+    "outputs/2026-09-11-accuracy-audit/five-person-native-v1/audit-after-restart.private.json": "63e3908c259154a43c369a35fbebf2209bb475baaf42d1d6d6c6c81cbea4814b",
+    "outputs/2026-09-11-accuracy-audit/five-person-native-v1/audit-after-final.private.json": "49f28007e210e7fb3c69b2b30ac70d581941b51fa2ba1bb888a7f31bc4fdaac3",
+    "outputs/2026-09-11-accuracy-audit/five-person-native-v1/runtime-before.json": "6258a8669d8915882b32acda3f1f5d566e89994c850f58f524ffb1c05e07c5be",
+    "outputs/2026-09-11-accuracy-audit/five-person-native-v1/runtime-after.json": "80cb9db9badc0cd8b77ddd85c15862d89c0dbd64eb25d8b7e1573b17ad2e371e",
+    "outputs/2026-09-11-accuracy-audit/five-person-native-v1/seed-exit.json": "20994df263f12104cb4a75db49344230ec32a504edc7563202f6a2d3b2c91a79",
+    "outputs/2026-09-11-accuracy-audit/five-person-native-v1/phase-a-exit.json": "4cd66d35a77d862efd44fcd6554034e0aea96973db6cdd6fab70add3ba45445b",
+    "outputs/2026-09-11-accuracy-audit/five-person-native-v1/phase-bdc-exit.json": "bd101d1ccca4ac7c211e20d5fd9c17483379abba7d6e77d635c3db2648e0af26",
+    "outputs/2026-09-11-accuracy-audit/five-person-native-v1/restart-exit.json": "e57ff1ec9aaedb6bf9c52996eab12df746406cbda0f8b0322618fb6e02b3253b",
+    "outputs/2026-09-11-accuracy-audit/five-person-native-v1/audit-before-b-exit.json": "115cc6ec92bee8a81c7bfae0c1bdc3e5dcfe68621a5c18ef445663e2b0018b1e",
+    "outputs/2026-09-11-accuracy-audit/five-person-native-v1/runtime-before-exit.json": "0b545744b2d8af20ab98231b64a5b65b640018639f5d5b70b73dd045f442757d",
+    "outputs/2026-09-11-accuracy-audit/five-person-native-v1/runtime-after-exit.json": "9420dbb135d0aff657478a683608fd276dd4ecb392773c032ab9dd5e6dacd69e",
+    "outputs/2026-09-11-accuracy-audit/five-person-native-v1/audit-after-restart-exit.json": "963c2d47ed7500e03cd321f0f49b9049ae86187c71a6e6330cde099dcb586d10",
+    "outputs/2026-09-11-accuracy-audit/five-person-native-v1/audit-after-final-exit.json": "d9be3dd7c65c60b16580f5190f8491555b805f492c3afb13b5dec381ab4e0553"
+  },
+  "limitations": [
+    "Constructed English audiobook source intervals are not representative Turkish meetings or a 50-person accuracy result.",
+    "Retained-source share counts original source frame ownership including in-utterance silence; it is not manual voice purity annotation.",
+    "Whole-transcript source mapping uses the unchanged minimum 90% dominant-source protocol with split thresholds; passing is not zero ownership error, DER, WER or identity F1.",
+    "Unassigned transcript duration remains measured explicitly in every case.",
+    "This run does not independently repeat the full quality gate, security scanners, browser scenarios, Apple, or Spark hardware checks.",
+    "No production source files were changed; the authorized new ordinary tenant, four uploads, six profiles and one backend/worker restart remain as live-run side effects."
+  ]
+}

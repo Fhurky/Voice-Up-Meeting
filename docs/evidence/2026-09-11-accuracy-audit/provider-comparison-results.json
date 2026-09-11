@@ -1,0 +1,120 @@
+{
+  "checkpoint_pairs": 8,
+  "transaction_read_only": true,
+  "database_writes": 0,
+  "model_calls": 0,
+  "source_protocol_sha256": "b76d06a80af7b6238b650f2599f9db3b0408e3e806afd7c0e8e7addd465ccf50",
+  "before_word_count": 5914,
+  "after_word_count": 5914,
+  "all_raw_provider_outputs_exact_equal": true,
+  "all_raw_asr_words_exact_equal": true,
+  "all_raw_asr_segments_exact_equal": true,
+  "all_native_turns_exact_equal": true,
+  "all_model_identity_recipe_equal": true,
+  "all_vad_exact_equal": true,
+  "transcript": {
+    "transcript_rows": [
+      343,
+      343
+    ],
+    "chronological_rows_exact_equal": true,
+    "chronological_row_sha256": [
+      "8100d4e71475cf0ccbe51c39f640c0a4006af71fde2447bd3483e23b842480d4",
+      "8100d4e71475cf0ccbe51c39f640c0a4006af71fde2447bd3483e23b842480d4"
+    ],
+    "normalized_tokens_exact_equal": true,
+    "normalized_token_counts": [
+      5722,
+      5722
+    ],
+    "normalized_token_sha256": [
+      "5dfb4737c05c0c75e3fcdc9f11511b440ff964d3b73932016011b3786d3681ec",
+      "5dfb4737c05c0c75e3fcdc9f11511b440ff964d3b73932016011b3786d3681ec"
+    ],
+    "changed_pairwise_speaker_coassignments": 35,
+    "hypothesis_group_counts": [
+      51,
+      52
+    ]
+  },
+  "native_vectors": {
+    "192": {
+      "compared": 102,
+      "exact_vectors": 102,
+      "missing_in_both": 64,
+      "presence_mismatches": 0,
+      "maximum_l2": 0.0
+    },
+    "256": {
+      "compared": 166,
+      "exact_vectors": 166,
+      "missing_in_both": 0,
+      "presence_mismatches": 0,
+      "maximum_l2": 0.0
+    }
+  },
+  "conclusion": "Recorded model outputs, final chronological text and timing are identical. The observed concatenated-permutation WER change is attributable to downstream speaker grouping, not a lexical/timing improvement or observed model nondeterminism.",
+  "limitations": [
+    "Hidden transient model states are not observable from checkpoints.",
+    "The cpWER values803?658 are reported by the parent evaluation; this independent check isolates inputs and grouping without rerunning the metric.",
+    "Raw context words5914 include overlapping source windows; final normalized transcript words5722 are a different count."
+  ],
+  "evidence_sha256": {
+    "comparison.json": "5a1e3301f11e57e84f04b18847b117465fab7d29e6b8bc2c4873de85fe82b78f",
+    "transcript-comparison.json": "ade8d88d0ae928fe4c86f91f28be4c7ec3bee285ed0615670173194315f2cd0b",
+    "provider-checkpoints.private.json": "d8a714abdc4a9c9bc6a37b7b03dc554e3f5ad8a7fed431d71f20790e31b82e81",
+    "summary.json": "ba3d5cfb973956f253398119ca1473ee1ee488ab18b8061ef5ee9adffd5db460"
+  },
+  "profile_id": "kt-vibecoding-python-web-v2",
+  "evidence_scope": "Independent read-only causal comparison of actual source-bound provider checkpoints and public transcript exports",
+  "all_canonical_provider_hashes_equal": true,
+  "raw_checkpoint_export_contains_no_public_identifiers": true,
+  "helper_sha256": "75468bc551838073d06793e349c28723d0fe429521659180735e29f024365aa0",
+  "input_state_sha256": {
+    "before": "40e4c2db98c872dc90c7c82824f6f09435044b4f48b3dff776cb6b73513e75bc",
+    "after": "22eb50f915a2691e3138443e801f03ef217651abc7aba98d4394ee256888db66"
+  },
+  "checkpoint_provider_sha256": [
+    {
+      "index": 0,
+      "before": "c715512f13c6bca4eb25b95bee34273571fc8e51e488e2ff6d4319fbab922167",
+      "after": "c715512f13c6bca4eb25b95bee34273571fc8e51e488e2ff6d4319fbab922167"
+    },
+    {
+      "index": 1,
+      "before": "c9d40afb59d2b0bc1081af3969433ce6e9936103e3f9324c58eb3b2921140172",
+      "after": "c9d40afb59d2b0bc1081af3969433ce6e9936103e3f9324c58eb3b2921140172"
+    },
+    {
+      "index": 2,
+      "before": "1cd24e958b9d9025b437111bdd83cb1c1b688ca33b56b16ba222d0dc663cc5c5",
+      "after": "1cd24e958b9d9025b437111bdd83cb1c1b688ca33b56b16ba222d0dc663cc5c5"
+    },
+    {
+      "index": 3,
+      "before": "759452ee58b84e8ba9ef3c35ab7f8bd1e5e568a5f35d06928f4a311ccc53595a",
+      "after": "759452ee58b84e8ba9ef3c35ab7f8bd1e5e568a5f35d06928f4a311ccc53595a"
+    },
+    {
+      "index": 4,
+      "before": "8d8d4574c13bb97ba3455d83521ab1cd5b4631c35f9fe7cef83d3f7c8cd6af70",
+      "after": "8d8d4574c13bb97ba3455d83521ab1cd5b4631c35f9fe7cef83d3f7c8cd6af70"
+    },
+    {
+      "index": 5,
+      "before": "f5dccce34317692f07321fd1e221d631672b7c7e60976dfd5b5b3cde0c2f00a6",
+      "after": "f5dccce34317692f07321fd1e221d631672b7c7e60976dfd5b5b3cde0c2f00a6"
+    },
+    {
+      "index": 6,
+      "before": "49e3b3471c7b09c2a470001f1ae55ab766dfeb1406d87f059b46d92c46998563",
+      "after": "49e3b3471c7b09c2a470001f1ae55ab766dfeb1406d87f059b46d92c46998563"
+    },
+    {
+      "index": 7,
+      "before": "9089da8a6560678ba4e44d453a2fa7ca0216f91020fda7cdc5be974e785965b3",
+      "after": "9089da8a6560678ba4e44d453a2fa7ca0216f91020fda7cdc5be974e785965b3"
+    }
+  ],
+  "observed_at_utc": "2026-09-11 09:52:31.583134+00:00"
+}
