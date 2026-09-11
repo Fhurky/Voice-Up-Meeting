@@ -187,6 +187,14 @@ def test_prepared_runtime_starts_and_repeated_start_is_safe(helper, runtime):
     assert len(runtime["requests"]) == 2
 
 
+def test_current_reviewed_meeting_proxy_preparation_is_accepted_without_docker(helper, runtime):
+    assert helper.validate_preparation(runtime["root"]) == {
+        "SPARK_INFERENCE_IMAGE": IMAGE,
+        "INFERENCE_INTERNAL_KEY": KEY,
+    }
+    runtime["runner"].assert_not_called()
+
+
 @pytest.mark.parametrize(
     "missing",
     [

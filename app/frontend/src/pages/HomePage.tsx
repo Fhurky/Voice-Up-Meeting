@@ -11,6 +11,7 @@ export default function HomePage() {
       <section className="hero">
         <p>{t("home.intro")}</p>
         <div className="action-row">
+          {hasPermission("meeting_analysis:read") && <Link className="button-link" to="/meetings">{t("nav.meetings")}</Link>}
           {hasPermission("speaker_profiles:read") && <Link className="button-link" to="/speaker-profiles">{t("nav.profiles")}</Link>}
           {hasPermission("speaker_analysis:read") && <Link className="button-link button-secondary" to="/speaker-analysis">{t("nav.analysis")}</Link>}
         </div>

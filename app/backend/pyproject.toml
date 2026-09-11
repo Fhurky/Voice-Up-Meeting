@@ -13,6 +13,9 @@ profile = "black"
 line_length = 100
 known_first_party = ["app"]
 
+[tool.ruff]
+line-length = 100
+
 [tool.mypy]
 python_version = "3.13"
 packages = ["app"]

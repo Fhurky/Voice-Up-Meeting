@@ -1,0 +1,20 @@
+{
+  "status": "succeeded",
+  "source_sha256": "3c344e99c757b5c2448050821514aaa9571729fdae0984cefdb8e02384e14851",
+  "duration_seconds": 52.629333333333335,
+  "observed_speakers": 1,
+  "gallery_total": 1,
+  "decisions": [
+    "enrolled"
+  ],
+  "transcript_segments": 2,
+  "transcript_characters": 546,
+  "transcript_sha256": "f1ff5c5bb6a8d384786706c340dc15ac9f7ad49660eeb257cef7910c1d53daf9",
+  "idempotent_complete": true,
+  "language_input": "tr",
+  "speaker_count_hint": null,
+  "manual_reference_available": false,
+  "observed_speech_seconds": [
+    35.79895833333333
+  ]
+}

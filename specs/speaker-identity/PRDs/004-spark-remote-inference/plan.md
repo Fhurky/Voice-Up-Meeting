@@ -62,3 +62,18 @@ PowerShell 5.1 briefly selects the same encoding while creating the pipe and res
 the prior console encoding in finally, including failed process creation. Exercise
 UTF-8-with-BOM and OEM 857 consoles in both PowerShell engines using a real child
 process and exact input bytes. No interpreter or dependency is added to the launcher.
+
+Requirement 7 / accepted 002 private routes: review the current proxy template
+and update only its fixed SHA-256 in `scripts/ensure-spark-runtime.py`. Keep the
+unchanged Compose/image identities and exact pre-Docker tamper rejection.
+Add a regression for current real prepared files; preserve changed-template,
+symlink, secret, timeout and resolved-Compose guards. Run the native Windows
+prepared-runtime suite. An old prepared host still requires authorized
+provisioning; no remote rewrite or native Spark meeting claim follows this fix.
+
+Requirement 7 verification compatibility: the native startup test helper chooses
+its default from the discovered installed PowerShell engines. Explicit engine
+parameters and their coverage remain unchanged. Add a real inert-process
+regression for each available engine and rerun startup, tunnel and local
+configuration tests in native PowerShell; do not require an uninstalled `pwsh`
+binary or change production startup behavior to make the tests pass.

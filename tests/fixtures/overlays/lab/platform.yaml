@@ -13,6 +13,7 @@ global:
   tlsSecretName: voiceup-tls
 ingressController: {namespace: ingress-nginx, component: ingress-nginx}
 replicas: {backend: 1, frontend: 1}
+inference: {runtimeProfile: x86_64-cu128, meetingEnabled: false}
 images:
   inference: {digest: "sha256:5555555555555555555555555555555555555555555555555555555555555555"}
   backend: {digest: "sha256:1111111111111111111111111111111111111111111111111111111111111111"}

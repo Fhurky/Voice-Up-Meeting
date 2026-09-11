@@ -11,8 +11,16 @@ spec:
   template:
     metadata:
       labels: {app.kubernetes.io/part-of: "voiceup", app.kubernetes.io/component: inference}
+      annotations:
+        voiceup.internal/runtime-profile: {{ .Values.runtimeProfile | quote }}
+        voiceup.internal/meeting-enabled: {{ .Values.meeting.enabled | quote }}
     spec:
       automountServiceAccountToken: false
+      {{- if .Values.meeting.enabled }}
+      nodeSelector:
+        kubernetes.io/os: linux
+        kubernetes.io/arch: amd64
+      {{- end }}
       securityContext:
         runAsNonRoot: true
         runAsUser: 10001
@@ -30,10 +38,21 @@ spec:
             - {name: HOME, value: /tmp}
             - {name: VOICEUP_INFERENCE_MODEL_DIR, value: /models/speaker}
             - {name: VOICEUP_INFERENCE_DEVICE, value: "cuda:0"}
+            - {name: VOICEUP_INFERENCE_RUNTIME_PROFILE, value: {{ .Values.runtimeProfile | quote }}}
+            - {name: VOICEUP_INFERENCE_MEETING_ENABLED, value: {{ .Values.meeting.enabled | quote }}}
             - {name: VOICEUP_INFERENCE_MAX_UPLOAD_BYTES, value: "52428800"}
             - {name: VOICEUP_INFERENCE_MAX_DURATION_SECONDS, value: "120"}
             - {name: VOICEUP_INFERENCE_HOST, value: "0.0.0.0"}
             - {name: VOICEUP_INFERENCE_PORT, value: "8090"}
+            {{- if .Values.meeting.enabled }}
+            - {name: VOICEUP_INFERENCE_MEETING_DIARIZATION_DIR, value: /models/diarization}
+            - {name: VOICEUP_INFERENCE_MEETING_ASR_DIR, value: /models/asr}
+            - {name: VOICEUP_INFERENCE_MEETING_DIARIZATION_MANIFEST, value: /srv/inference/diarization-model-manifest.json}
+            - {name: VOICEUP_INFERENCE_MEETING_ASR_MANIFEST, value: /srv/inference/asr-model-manifest.json}
+            - {name: HF_HUB_OFFLINE, value: "1"}
+            - {name: HF_HUB_DISABLE_TELEMETRY, value: "1"}
+            - {name: PYANNOTE_METRICS_ENABLED, value: "0"}
+            {{- end }}
           envFrom:
             - secretRef: {name: "{{ .Values.existingSecret }}"}
           securityContext:
@@ -43,20 +62,28 @@ spec:
           volumeMounts:
             - {name: tmp, mountPath: /tmp}
             - {name: models, mountPath: /models/speaker, readOnly: true}
-          startupProbe: &probe
-            httpGet: {path: "/live", port: http}
+            {{- if .Values.meeting.enabled }}
+            - {name: meeting-models, mountPath: /models/diarization, subPath: diarization, readOnly: true}
+            - {name: meeting-models, mountPath: /models/asr, subPath: asr, readOnly: true}
+            {{- end }}
+          startupProbe:
+            httpGet: {path: {{ ternary "/meeting-ready" "/live" .Values.meeting.enabled | quote }}, port: http}
             periodSeconds: 2
             failureThreshold: 90
           readinessProbe:
-            httpGet: {path: "/ready", port: http}
+            httpGet: {path: {{ ternary "/meeting-ready" "/ready" .Values.meeting.enabled | quote }}, port: http}
             periodSeconds: 5
           livenessProbe:
-            <<: *probe
+            httpGet: {path: "/live", port: http}
             periodSeconds: 10
             failureThreshold: 3
           resources: {{- toYaml .Values.resources | nindent 12 }}
       volumes:
         - name: models
           persistentVolumeClaim: {claimName: "{{ .Values.modelStorage.claimName }}"}
+        {{- if .Values.meeting.enabled }}
+        - name: meeting-models
+          persistentVolumeClaim: {claimName: "{{ .Values.meeting.modelStorage.claimName }}", readOnly: true}
+        {{- end }}
         - name: tmp
           emptyDir: {sizeLimit: 512Mi}

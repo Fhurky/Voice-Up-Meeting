@@ -15,6 +15,7 @@ ingressController:
   namespace: __REQUIRED_INGRESS_NAMESPACE__
   component: __REQUIRED_INGRESS_COMPONENT__
 replicas: {backend: 1, frontend: 1}
+inference: {runtimeProfile: x86_64-cu128, meetingEnabled: false}
 images:
   inference: {digest: __REQUIRED_INFERENCE_IMAGE_DIGEST__}
   backend: {digest: __REQUIRED_BACKEND_IMAGE_DIGEST__}

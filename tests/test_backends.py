@@ -9,6 +9,7 @@ from unittest.mock import Mock
 import numpy as np
 import pytest
 
+from voiceup.audio import Turn, validate_turns
 from voiceup.backends import PyannoteDiarizer, SileroVAD, SpeechBrainEmbedder
 
 
@@ -258,3 +259,81 @@ def test_legacy_pyannote_output_fails_explicitly(fake_torch, samples):
     diarizer._pipeline = Mock(return_value=SimpleNamespace(itertracks=Mock()))
     with pytest.raises(RuntimeError, match="supported version"):
         diarizer.diarize(samples)
+
+
+def diarizer_with_turns(fake_torch, turns):
+    class Annotation:
+        def itertracks(self, yield_label=False):
+            assert yield_label is True
+            for track, (start, end, label) in enumerate(turns):
+                yield SimpleNamespace(start=start, end=end), track, label
+
+    def pipeline(audio, *, num_speakers=None, min_speakers=None, max_speakers=None):
+        return SimpleNamespace(speaker_diarization=Annotation())
+
+    diarizer = PyannoteDiarizer()
+    diarizer._torch = fake_torch
+    diarizer._pipeline = pipeline
+    return diarizer
+
+
+def test_pyannote_intersects_observed_padded_end_with_source_duration(fake_torch):
+    # Observed Community-1 output on both CPU and CUDA for an 18.8-second input.
+    raw = [(16.75409375, 18.96471875, "SPEAKER_01")]
+    samples = np.full(300800, 0.01, dtype=np.float32)
+    diarizer = diarizer_with_turns(fake_torch, raw)
+    turns = diarizer.diarize(samples)
+    assert turns == [(16.75409375, 18.8, "SPEAKER_01")]
+    assert validate_turns([Turn(*turn) for turn in turns], samples.size / 16000) == [
+        Turn(16.75409375, 18.8, "SPEAKER_01")
+    ]
+    assert raw == [(16.75409375, 18.96471875, "SPEAKER_01")]
+
+
+@pytest.mark.parametrize(
+    "start,end,expected",
+    [
+        (-0.2, 0.3, [(0.0, 0.3, "A")]),
+        (-0.2, 1.2, [(0.0, 1.0, "A")]),
+        (0.0, 1.0, [(0.0, 1.0, "A")]),
+        (0.0, 1.0000625, [(0.0, 1.0, "A")]),
+        (-1.0, -0.1, []),
+        (-1.0, 0.0, []),
+        (1.0, 1.2, []),
+        (1.1, 1.2, []),
+        (0.9999375, 1.2, [(0.9999375, 1.0, "A")]),
+    ],
+)
+def test_pyannote_keeps_only_positive_source_intersections(
+    fake_torch, samples, start, end, expected
+):
+    diarizer = diarizer_with_turns(fake_torch, [(start, end, "A")])
+    assert diarizer.diarize(samples) == expected
+
+
+@pytest.mark.parametrize(
+    "start,end",
+    [
+        (np.nan, 0.5),
+        (0.1, np.nan),
+        (-np.inf, 0.5),
+        (0.0, np.inf),
+        (0.9, 0.2),
+        (0.5, 0.5),
+        (-0.5, -0.5),
+        (-0.2, -0.3),
+    ],
+)
+def test_invalid_pyannote_intervals_still_fail_before_intersection(fake_torch, samples, start, end):
+    diarizer = diarizer_with_turns(fake_torch, [(start, end, "A")])
+    with pytest.raises(RuntimeError, match="invalid speaker interval"):
+        diarizer.diarize(samples)
+
+
+def test_pyannote_source_intersection_preserves_overlapping_tracks(fake_torch, samples):
+    diarizer = diarizer_with_turns(fake_torch, [(-0.1, 0.6, "A"), (0.4, 1.3, "B"), (0.4, 0.7, "C")])
+    assert diarizer.diarize(samples) == [
+        (0.0, 0.6, "A"),
+        (0.4, 1.0, "B"),
+        (0.4, 0.7, "C"),
+    ]

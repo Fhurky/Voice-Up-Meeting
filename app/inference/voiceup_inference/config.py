@@ -16,6 +16,11 @@ class Settings(BaseSettings):
 
     internal_key: SecretStr
     model_dir: Path = Path("/models/speaker")
+    meeting_enabled: bool = False
+    meeting_diarization_dir: Path = Path("/models/diarization")
+    meeting_asr_dir: Path = Path("/models/asr")
+    meeting_diarization_manifest: Path = Path("/srv/inference/diarization-model-manifest.json")
+    meeting_asr_manifest: Path = Path("/srv/inference/asr-model-manifest.json")
     device: str = Field(default="cuda:0", pattern=r"^(cpu|cuda:[0-9]+)$")
     runtime_profile: RuntimeProfile = "x86_64-cu128"
     max_upload_bytes: int = Field(default=50 * 1024 * 1024, gt=0, le=50 * 1024 * 1024)

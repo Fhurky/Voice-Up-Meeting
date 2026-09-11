@@ -1,0 +1,1701 @@
+{
+  "recorded_at_utc": "2026-09-10T20:24:23.289932+00:00",
+  "manifest_sha256": "e141138d509c3ba64903dd139fd0c6538f2d00e90016e63c917f607110188972",
+  "base_pins_preserved": true,
+  "base_count": 63,
+  "overlay_count": 68,
+  "combined_count": 131,
+  "wheel_checks": [
+    {
+      "name": "aiohappyeyeballs",
+      "version": "2.7.1",
+      "filename": "aiohappyeyeballs-2.7.1-py3-none-any.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\aiohappyeyeballs-2.7.1-py3-none-any.whl",
+      "sha256": "9243213661e29250eb41368e5daa826fc017156c3b8a11440826b2e3ed376472",
+      "metadata_sha256": "e68d1bf48aec9dcc2767343dedec25e12860085cba180e10bc3d3bdd031602ba",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "aiohttp",
+      "version": "3.14.3",
+      "filename": "aiohttp-3.14.3-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\aiohttp-3.14.3-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "sha256": "d7d2deec16eeedf55f2c7cf75b521ea3856a5177e123844f8fd0f114ce252cb5",
+      "metadata_sha256": "287d4346fb85cdf58dae89ac33639bef485653990a19af9bcd7d39e47e54ea1b",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "aiosignal",
+      "version": "1.4.0",
+      "filename": "aiosignal-1.4.0-py3-none-any.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\aiosignal-1.4.0-py3-none-any.whl",
+      "sha256": "053243f8b92b990551949e63930a839ff0cf0b0ebbe0597b0f3fb19e1a0fe82e",
+      "metadata_sha256": "09247ef1da8bc696728d47130e702e4307f6f7d101d6c485bff9f3a71ce7008d",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "alembic",
+      "version": "1.19.1",
+      "filename": "alembic-1.19.1-py3-none-any.whl",
+      "location": "models\\meeting-production-candidate\\wheelhouse\\alembic-1.19.1-py3-none-any.whl",
+      "sha256": "b39018cb3d9413a19cbd54cf3c02ad33998641f0538eb77413a488a21c3e14be",
+      "metadata_sha256": "b5ace39f60723a27beec126ce46fef5e288d47acd5875ccc3e9a8203f9c03939",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "asteroid-filterbanks",
+      "version": "0.4.0",
+      "filename": "asteroid_filterbanks-0.4.0-py3-none-any.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\asteroid_filterbanks-0.4.0-py3-none-any.whl",
+      "sha256": "4932ac8b6acc6e08fb87cbe8ece84215b5a74eee284fe83acf3540a72a02eaf5",
+      "metadata_sha256": "c0bfd88dc491f9dabe16ccf53652b3abca8969b9c698b618d23ef2311819e148",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "attrs",
+      "version": "26.1.0",
+      "filename": "attrs-26.1.0-py3-none-any.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\attrs-26.1.0-py3-none-any.whl",
+      "sha256": "c647aa4a12dfbad9333ca4e71fe62ddc36f4e63b2d260a37a8b83d2f043ac309",
+      "metadata_sha256": "4cd40e690f23bf37cbcad34efd6758e062df1df07c86833f7e3ce95bf1fa38cc",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "av",
+      "version": "18.0.0",
+      "filename": "av-18.0.0-cp311-abi3-manylinux_2_28_x86_64.whl",
+      "location": "models\\meeting-asr-research\\wheelhouse\\av-18.0.0-cp311-abi3-manylinux_2_28_x86_64.whl",
+      "sha256": "ae56b40b6f8b067a8ad2dac664fbfbabac7f7a55b9a7bb031eb99289252bc017",
+      "metadata_sha256": "bbc86f9dc89765a50aa5d852f687f604bec77556868344e3180bfdf508beea21",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "colorlog",
+      "version": "6.12.0",
+      "filename": "colorlog-6.12.0-py3-none-any.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\colorlog-6.12.0-py3-none-any.whl",
+      "sha256": "30d392604e9110045a2c2aeefc27d7a017abbab63f3a8aee594eac0801df784e",
+      "metadata_sha256": "47710c536b6c8a8eb074a08923a881e2ba76437ff633151675466c315c5c07b6",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "contourpy",
+      "version": "1.3.3",
+      "filename": "contourpy-1.3.3-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\contourpy-1.3.3-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl",
+      "sha256": "4debd64f124ca62069f313a9cb86656ff087786016d76927ae2cf37846b006c9",
+      "metadata_sha256": "c43cef86baef09cff9c77975e578fa8cca0c9454df40dc176938b499a63de54a",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "ctranslate2",
+      "version": "4.8.1",
+      "filename": "ctranslate2-4.8.1-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl",
+      "location": "models\\meeting-asr-research\\wheelhouse\\ctranslate2-4.8.1-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl",
+      "sha256": "4242a7f8e285f922525f4cffd5b1fb43cbacc61d0611cf54832e9c447d030840",
+      "metadata_sha256": "22fb4bddfe2c31c6046fadc18a4dcea4c281779f6651e89eb996b2dd8680b57b",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "cycler",
+      "version": "0.12.1",
+      "filename": "cycler-0.12.1-py3-none-any.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\cycler-0.12.1-py3-none-any.whl",
+      "sha256": "85cef7cff222d8644161529808465972e51340599459b8ac3ccbac5a854e0d30",
+      "metadata_sha256": "23289e19b76f1e01394227696e6af2b6cd1ce79e89731209bf9195148b18ed36",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "einops",
+      "version": "0.8.2",
+      "filename": "einops-0.8.2-py3-none-any.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\einops-0.8.2-py3-none-any.whl",
+      "sha256": "54058201ac7087911181bfec4af6091bb59380360f069276601256a76af08193",
+      "metadata_sha256": "0bd65db043688a44f4a29608c1cba521c932f7ff76f238bbd869441e15012653",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "faster-whisper",
+      "version": "1.2.1",
+      "filename": "faster_whisper-1.2.1-py3-none-any.whl",
+      "location": "models\\meeting-asr-research\\wheelhouse\\faster_whisper-1.2.1-py3-none-any.whl",
+      "sha256": "79a66ad50688c0b794dd501dc340a736992a6342f7f95e5811be60b5224a26a7",
+      "metadata_sha256": "b85622132a43897972924db98e024c0d40dcec19c577b1ee5640f1bc1b59aada",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "flatbuffers",
+      "version": "25.12.19",
+      "filename": "flatbuffers-25.12.19-py2.py3-none-any.whl",
+      "location": "models\\meeting-asr-research\\wheelhouse\\flatbuffers-25.12.19-py2.py3-none-any.whl",
+      "sha256": "7634f50c427838bb021c2d66a3d1168e9d199b0607e6329399f04846d42e20b4",
+      "metadata_sha256": "9f38239f96faa21522a6aadab6912e1e560708bbe9c9f696a0679c9403fa089e",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "fonttools",
+      "version": "4.63.0",
+      "filename": "fonttools-4.63.0-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+      "location": "models\\meeting-production-candidate\\wheelhouse\\fonttools-4.63.0-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+      "sha256": "22135da48a348785c5e2d5d2d9d6bec5ed44adacbaeb9db12d9493bf6c6bfa68",
+      "metadata_sha256": "878374d811bfa83c045c55eabbcaa09e646f426fd4777b5e7f716e4e2198fbc1",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "frozenlist",
+      "version": "1.8.0",
+      "filename": "frozenlist-1.8.0-cp313-cp313-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\frozenlist-1.8.0-cp313-cp313-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl",
+      "sha256": "fb30f9626572a76dfe4293c7194a09fb1fe93ba94c7d4f720dfae3b646b45027",
+      "metadata_sha256": "946c22dc9f7e2c76f2d698f00a4306dbe49a820e2b3f1a0e22fe5286cbec35f1",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "googleapis-common-protos",
+      "version": "1.75.1",
+      "filename": "googleapis_common_protos-1.75.1-py3-none-any.whl",
+      "location": "models\\meeting-production-candidate\\wheelhouse\\googleapis_common_protos-1.75.1-py3-none-any.whl",
+      "sha256": "28a1934bcd33b9c9da66ac301a0a4227e3367f095a17d0375cb98f0a09d93b79",
+      "metadata_sha256": "0d39d569dd7e9831709ac72df6b23bb2e75926198c325fc6e8bc159a9aa10407",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "greenlet",
+      "version": "3.5.5",
+      "filename": "greenlet-3.5.5-cp313-cp313-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\greenlet-3.5.5-cp313-cp313-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl",
+      "sha256": "2eabb980975cba5b93a95f6f69287d05fc05ac955bfd6a320a7c083eeb52c0b0",
+      "metadata_sha256": "16de87de070796e2e1f18019f963c3ba5972bb9bfca1b856b83096bf73c61f38",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "grpcio",
+      "version": "1.83.0",
+      "filename": "grpcio-1.83.0-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+      "location": "models\\meeting-production-candidate\\wheelhouse\\grpcio-1.83.0-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+      "sha256": "7bd82671b39065ba18cd536e9cd45b27ff649053f81ddd2c6a966d595067080f",
+      "metadata_sha256": "8ff7e4f0544dca875b6538c994a3d5f6ebbb6263a519d53a13597440f60bb74d",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "julius",
+      "version": "0.2.8",
+      "filename": "julius-0.2.8-py3-none-any.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\julius-0.2.8-py3-none-any.whl",
+      "sha256": "6891235cbc355e629d839f87489bff8ca46e57a0e7cc35abb909c7a2aa538c25",
+      "metadata_sha256": "3588a357640389582e3ffb146c25624a197fb94d2467916fda1721ec249497d0",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "kiwisolver",
+      "version": "1.5.0",
+      "filename": "kiwisolver-1.5.0-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+      "location": "models\\meeting-production-candidate\\wheelhouse\\kiwisolver-1.5.0-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+      "sha256": "332b4f0145c30b5f5ad9374881133e5aa64320428a57c2c2b61e9d891a51c2f3",
+      "metadata_sha256": "bb843307a98b7bd2a7055f831cbfa2fe7c864716dea9d04c7a5c03e51f648b79",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "lightning",
+      "version": "2.6.6",
+      "filename": "lightning-2.6.6-py3-none-any.whl",
+      "location": "models\\meeting-production-candidate\\wheelhouse\\lightning-2.6.6-py3-none-any.whl",
+      "sha256": "2bcbd6ee840071cd076c7dc9953d7ac1040df92f1c5fa76583aae644f037ab85",
+      "metadata_sha256": "c1c0e5562e9f0069b481fa18fb99d0e5411bf0d791feab10eacfa70067f21128",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "lightning-utilities",
+      "version": "0.15.3",
+      "filename": "lightning_utilities-0.15.3-py3-none-any.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\lightning_utilities-0.15.3-py3-none-any.whl",
+      "sha256": "6c55f1bee70084a1cbeaa41ada96e4b3a0fea5909e844dd335bd80f5a73c5f91",
+      "metadata_sha256": "ac702eed93d1de9bc66702a71930d833bfe44b59d6a318025e752e28bbaf1e26",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "mako",
+      "version": "1.4.1",
+      "filename": "mako-1.4.1-py3-none-any.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\mako-1.4.1-py3-none-any.whl",
+      "sha256": "a359d9a94a541213958742b2698d0a7757bb83551767bc468a74b9905aba9617",
+      "metadata_sha256": "1f427af53f47988519af11a1a04136154eadbda5b9607fe30a64eb653d5118a8",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "markdown-it-py",
+      "version": "4.2.0",
+      "filename": "markdown_it_py-4.2.0-py3-none-any.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\markdown_it_py-4.2.0-py3-none-any.whl",
+      "sha256": "9f7ebbcd14fe59494226453aed97c1070d83f8d24b6fc3a3bcf9a38092641c4a",
+      "metadata_sha256": "72c36ff516755443b1ecb61e17b2567a990230b49a504b0eb0c42d5f82448a9c",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "matplotlib",
+      "version": "3.11.1",
+      "filename": "matplotlib-3.11.1-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\matplotlib-3.11.1-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+      "sha256": "b0a19dcf73406d3746d25a5ed42d713604c9a3e024d129b102852b0d941cb9f3",
+      "metadata_sha256": "e42a4867d0c790804bce9ccd38972e1e71e24a81f2dbc9633efc71e63ce69f59",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "mdurl",
+      "version": "0.1.2",
+      "filename": "mdurl-0.1.2-py3-none-any.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\mdurl-0.1.2-py3-none-any.whl",
+      "sha256": "84008a41e51615a49fc9966191ff91509e3c40b939176e643fd50a5c2196b8f8",
+      "metadata_sha256": "b53b29d48f499367053fda3c81e7ce27d2558380ebbf83e66023b02eb7ddd25d",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "multidict",
+      "version": "6.7.1",
+      "filename": "multidict-6.7.1-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\multidict-6.7.1-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "sha256": "9d624335fd4fa1c08a53f8b4be7676ebde19cd092b3895c421045ca87895b429",
+      "metadata_sha256": "4913fdaae936a309c29b89b98c2dbebd237203fb27ab9e68ae5e4ec17ba3024f",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "narwhals",
+      "version": "2.24.0",
+      "filename": "narwhals-2.24.0-py3-none-any.whl",
+      "location": "models\\meeting-production-candidate\\wheelhouse\\narwhals-2.24.0-py3-none-any.whl",
+      "sha256": "42fdedf44e5b2ca7505630d45b4ac3058f38d8485cba9fe1652ca23152df7489",
+      "metadata_sha256": "c8aa441e88f6ee9e37ac5232c33552426f87a6a200c6c66038d37c17b3c1ca56",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "onnxruntime",
+      "version": "1.28.0",
+      "filename": "onnxruntime-1.28.0-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl",
+      "location": "models\\meeting-asr-research\\wheelhouse\\onnxruntime-1.28.0-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl",
+      "sha256": "54fa221d669282bd8f582708ce4c96010a7e9fb0661f9006b37fe2fedafb73fe",
+      "metadata_sha256": "0a2392d30b8117b2503bbf6af4bf1ec710a1ca2ef8460e9ec22456d8a2afcd16",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "opentelemetry-api",
+      "version": "1.44.0",
+      "filename": "opentelemetry_api-1.44.0-py3-none-any.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\opentelemetry_api-1.44.0-py3-none-any.whl",
+      "sha256": "94b98c893a91b88657eaac1e3ba89618cdb85be6918196705354f34728b2cdef",
+      "metadata_sha256": "42aabbbacd266627b5c3839a515150ca90c18f80c9d85ca6f6fa10d440a7eeaa",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "opentelemetry-exporter-otlp",
+      "version": "1.44.0",
+      "filename": "opentelemetry_exporter_otlp-1.44.0-py3-none-any.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\opentelemetry_exporter_otlp-1.44.0-py3-none-any.whl",
+      "sha256": "4a498fa8d8fd8be9e8e2d175fe5524a3fe581ccffadd8509db86526a5fb97051",
+      "metadata_sha256": "93748fe64ef0fd9aad15ee059433b0addf0bdfffc18ff07d78e8d91345bd36c9",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "opentelemetry-exporter-otlp-proto-common",
+      "version": "1.44.0",
+      "filename": "opentelemetry_exporter_otlp_proto_common-1.44.0-py3-none-any.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\opentelemetry_exporter_otlp_proto_common-1.44.0-py3-none-any.whl",
+      "sha256": "9a9fe61bba73d802904bc989f1d6b4a7b1ee40f06c40e98d6f85af65aaebb694",
+      "metadata_sha256": "fa4a20e2a52c82aa56ebabccdd4877da74ab47c9eaef10fea83bec2666560ebc",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "opentelemetry-exporter-otlp-proto-grpc",
+      "version": "1.44.0",
+      "filename": "opentelemetry_exporter_otlp_proto_grpc-1.44.0-py3-none-any.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\opentelemetry_exporter_otlp_proto_grpc-1.44.0-py3-none-any.whl",
+      "sha256": "6a1a645ea182a2f59440c51fa8301d309f3324a8f9d65f8395584b064b67ee4e",
+      "metadata_sha256": "b5fa42549816bc336a459a9d3bfdefbaf9ee9bae1e1581feeb7817ed4d45f3b4",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "opentelemetry-exporter-otlp-proto-http",
+      "version": "1.44.0",
+      "filename": "opentelemetry_exporter_otlp_proto_http-1.44.0-py3-none-any.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\opentelemetry_exporter_otlp_proto_http-1.44.0-py3-none-any.whl",
+      "sha256": "838592fce774c1c8bb7b9a0a7facbfa82e17be5a8a4e94cef10cb84ae026bae3",
+      "metadata_sha256": "dc21bafee23969fdf1b58052ca505eabf29705482af6b6a7634430bf96e7d3ec",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "opentelemetry-proto",
+      "version": "1.44.0",
+      "filename": "opentelemetry_proto-1.44.0-py3-none-any.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\opentelemetry_proto-1.44.0-py3-none-any.whl",
+      "sha256": "898b155a0e1557afd867478fb6158e8122a46329ca0bb8dc53cc55e98f017f56",
+      "metadata_sha256": "e239e361c2025a7e981dd99432160ba1186e9abe351290067a31fd12dc1ecce5",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "opentelemetry-sdk",
+      "version": "1.44.0",
+      "filename": "opentelemetry_sdk-1.44.0-py3-none-any.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\opentelemetry_sdk-1.44.0-py3-none-any.whl",
+      "sha256": "df081c4c6bcfdb1211e3e86140376792643128a25f8d72d1d27675936e7e96ad",
+      "metadata_sha256": "12cf968ea4d637e6adaa8a9b767f34c70a527e092fc7c7f0eb3e93d06148e7e0",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "opentelemetry-semantic-conventions",
+      "version": "0.65b0",
+      "filename": "opentelemetry_semantic_conventions-0.65b0-py3-none-any.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\opentelemetry_semantic_conventions-0.65b0-py3-none-any.whl",
+      "sha256": "1cacde7b0ad306f84c5ef08c3dbe1bbaf20165bba6f8bff43b670e555a086bcb",
+      "metadata_sha256": "93f167ca7673cbc0ed24ba8e052fb8c3936b260dff53b7106c574f515ec1deab",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "optuna",
+      "version": "4.9.0",
+      "filename": "optuna-4.9.0-py3-none-any.whl",
+      "location": "models\\meeting-production-candidate\\wheelhouse\\optuna-4.9.0-py3-none-any.whl",
+      "sha256": "f52f3be6148654850c92a5860d398fd88ec6b2c84ab68d9c3d07dcff02e7afee",
+      "metadata_sha256": "178c18d42bbb66eef92d0446fae6538283b5afc0f88f86b5d59d70cdfb8f9851",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "pandas",
+      "version": "3.0.5",
+      "filename": "pandas-3.0.5-cp313-cp313-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\pandas-3.0.5-cp313-cp313-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl",
+      "sha256": "4b11c36e218331d0387cbe3a0a5f75162357a1d92d57b2b08a336ff94b19b2be",
+      "metadata_sha256": "119bd5541f4e2d413f440c82ad75b7b0457602f368b4b02efb467297c3c4a5b1",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "pillow",
+      "version": "12.3.0",
+      "filename": "pillow-12.3.0-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\pillow-12.3.0-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl",
+      "sha256": "0847a763afefb695bc912d7c131e7e0632d4edc1d8698f58ddabec8e46b8b6d3",
+      "metadata_sha256": "8fc07146cab33ef7582361dab6eac596d340b03ec648f18217da7894f73838c8",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "primepy",
+      "version": "1.3",
+      "filename": "primePy-1.3-py3-none-any.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\primePy-1.3-py3-none-any.whl",
+      "sha256": "5ed443718765be9bf7e2ff4c56cdff71b42140a15b39d054f9d99f0009e2317a",
+      "metadata_sha256": "57372c6eeb6954b4bb5e2c2beab8feaa8818b089c6fe1ee0d29a7287bcd7eecc",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "propcache",
+      "version": "0.5.2",
+      "filename": "propcache-0.5.2-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\propcache-0.5.2-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "sha256": "4db0ba63d693afd40d249bd93f842b5f144f8fcbb83de05660373bcf30517b1d",
+      "metadata_sha256": "f534495cdd2f915af8e649783d95fddcb1a05a1ac181850f0c973c0a78f7bbae",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "protobuf",
+      "version": "7.35.1",
+      "filename": "protobuf-7.35.1-cp310-abi3-manylinux2014_x86_64.whl",
+      "location": "models\\meeting-production-candidate\\wheelhouse\\protobuf-7.35.1-cp310-abi3-manylinux2014_x86_64.whl",
+      "sha256": "74758715c53d7158fb76caf4f0cfdacc5329a4b1bb994f865d6cf302d413a1c4",
+      "metadata_sha256": "1c58cfd7acd805c087ceb1f14c27cdba3c52d074e1d7b05dacf31fdf413c0a8c",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "pyannote-audio",
+      "version": "4.0.7",
+      "filename": "pyannote_audio-4.0.7-py3-none-any.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\pyannote_audio-4.0.7-py3-none-any.whl",
+      "sha256": "852ea15c4d85bc34773e618267603ffca6a521669a74d33742692cc67fc700d6",
+      "metadata_sha256": "5411f7ef49a4d5c91aafbb90c924bd98848c918971138619b3f55c40560e91c4",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "pyannote-core",
+      "version": "6.0.1",
+      "filename": "pyannote_core-6.0.1-py3-none-any.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\pyannote_core-6.0.1-py3-none-any.whl",
+      "sha256": "924550d6ecf6b05ad13bf3f66f59c29fc740cf1c62a6fca860ac2e66908203e5",
+      "metadata_sha256": "f4a5736308dae4ba7d47e3b7daf0c576e223216b379026d4cf68dc19197f4819",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "pyannote-database",
+      "version": "6.1.1",
+      "filename": "pyannote_database-6.1.1-py3-none-any.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\pyannote_database-6.1.1-py3-none-any.whl",
+      "sha256": "36460c70ce9f50ff25c9ea365bc83ad625bb6b2494deccf6bd3fc750686ae684",
+      "metadata_sha256": "188840c16231955f4c0d7207f06d7c6a2b40f0ac744b0b337b1327146ace8456",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "pyannote-metrics",
+      "version": "4.1",
+      "filename": "pyannote_metrics-4.1-py3-none-any.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\pyannote_metrics-4.1-py3-none-any.whl",
+      "sha256": "34a54b7671f61709c1865d0484843e5b46ea3c4e4e5260ab065e5b3156c733d3",
+      "metadata_sha256": "4c459b6bd1c03c754bc80497047b73a07de7c4f0baf81229df7cbe08300878ad",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "pyannote-pipeline",
+      "version": "4.0.0",
+      "filename": "pyannote_pipeline-4.0.0-py3-none-any.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\pyannote_pipeline-4.0.0-py3-none-any.whl",
+      "sha256": "6b0bfc19e684d89cc1608bb39448e15ff1231d4a87e99fc7e812e7891b8cd555",
+      "metadata_sha256": "87a9a84e23e9be5dd9a265d3081d5c584db285789c8e37e3726f242367fc2d54",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "pyannoteai-sdk",
+      "version": "0.4.0",
+      "filename": "pyannoteai_sdk-0.4.0-py3-none-any.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\pyannoteai_sdk-0.4.0-py3-none-any.whl",
+      "sha256": "36a0175978e0427f27843d690eb4d1e8ec839009ea540516d6dfcdce749cd883",
+      "metadata_sha256": "206f9f6056bef6b13c267d8548aa3e6132d3884c655503886c4903bac42f005f",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "pygments",
+      "version": "2.20.0",
+      "filename": "pygments-2.20.0-py3-none-any.whl",
+      "location": "models\\meeting-production-candidate\\wheelhouse\\pygments-2.20.0-py3-none-any.whl",
+      "sha256": "81a9e26dd42fd28a23a2d169d86d7ac03b46e2f8b59ed4698fb4785f946d0176",
+      "metadata_sha256": "e0528f51b30427fae94723662ba622f8d8db2a4d8d3f1365698d67a52450a845",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "pyparsing",
+      "version": "3.3.2",
+      "filename": "pyparsing-3.3.2-py3-none-any.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\pyparsing-3.3.2-py3-none-any.whl",
+      "sha256": "850ba148bd908d7e2411587e247a1e4f0327839c40e2e5e6d05a007ecc69911d",
+      "metadata_sha256": "3311a8b949d70f71a2b9788a9327f11d9d5a6a8012d6c046ca254ad2de877f45",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "python-dateutil",
+      "version": "2.9.0.post0",
+      "filename": "python_dateutil-2.9.0.post0-py2.py3-none-any.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\python_dateutil-2.9.0.post0-py2.py3-none-any.whl",
+      "sha256": "a8b2bc7bffae282281c8140a97d3aa9c14da0b136dfe83f850eea9a5f7470427",
+      "metadata_sha256": "a9d436da322be808332f98d88325998e87cb693a678a9969feb4cfad729a6e93",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "pytorch-lightning",
+      "version": "2.6.6",
+      "filename": "pytorch_lightning-2.6.6-py3-none-any.whl",
+      "location": "models\\meeting-production-candidate\\wheelhouse\\pytorch_lightning-2.6.6-py3-none-any.whl",
+      "sha256": "71f95c7b22f25c4f91cc659e1734bcdc6c69c8b66543f2ed2d78dbe29ce2f167",
+      "metadata_sha256": "6ebe69d0b709f28457d31216e61a6dbd5c65bcbd287159af2034a072313b1723",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "pytorch-metric-learning",
+      "version": "2.9.0",
+      "filename": "pytorch_metric_learning-2.9.0-py3-none-any.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\pytorch_metric_learning-2.9.0-py3-none-any.whl",
+      "sha256": "d51646006dc87168f00cf954785db133a4c5aac81253877248737aa42ef6432a",
+      "metadata_sha256": "2cb018cbca2f9473f45c4042b39cff3943f760273c0132a9d2044bcad9ddcbd6",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "rich",
+      "version": "15.0.0",
+      "filename": "rich-15.0.0-py3-none-any.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\rich-15.0.0-py3-none-any.whl",
+      "sha256": "33bd4ef74232fb73fe9279a257718407f169c09b78a87ad3d296f548e27de0bb",
+      "metadata_sha256": "fad34fc603fac4481bf81f8dd629492fc302c0ec31909c86644751512afb2e3b",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "safetensors",
+      "version": "0.8.0",
+      "filename": "safetensors-0.8.0-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\safetensors-0.8.0-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+      "sha256": "fd6f3f93c9a0a7cc2788ee63fb763353d4bd2e89b0751bc78fcf7dda00bea774",
+      "metadata_sha256": "645be7b8d55e91534f991d144dc9e279581ea8dbea1a8c5b0be14e529d01e345",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "scikit-learn",
+      "version": "1.9.0",
+      "filename": "scikit_learn-1.9.0-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\scikit_learn-1.9.0-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl",
+      "sha256": "da76d09304a4706db7cc1e3ebaa3b6b98a67365cc11d2996c4f1e58ba47df714",
+      "metadata_sha256": "ee61a579f42d3edabe3e483db483475e33fffec04d7f3e69c539527bd93eaca6",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "six",
+      "version": "1.17.0",
+      "filename": "six-1.17.0-py2.py3-none-any.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\six-1.17.0-py2.py3-none-any.whl",
+      "sha256": "4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274",
+      "metadata_sha256": "562042078c2752549f6d8a7c86dbc5dd708088a7be6d80672ec7b07100b72468",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "sortedcontainers",
+      "version": "2.4.0",
+      "filename": "sortedcontainers-2.4.0-py2.py3-none-any.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\sortedcontainers-2.4.0-py2.py3-none-any.whl",
+      "sha256": "a163dcaede0f1c021485e957a39245190e74249897e2ae4b2aa38595db237ee0",
+      "metadata_sha256": "eedf115109e215001e904da0882851beae50b03c0b0161a8b9e74b7cfd679473",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "sqlalchemy",
+      "version": "2.0.52",
+      "filename": "sqlalchemy-2.0.52-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\sqlalchemy-2.0.52-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "sha256": "651d6d8782e80679e6151707c7b490834d46ada526328895abf567f25e63d29c",
+      "metadata_sha256": "21d72718662462c632bd5db16a74cfb31904f77bb9f080bdc49cf3f764543218",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "threadpoolctl",
+      "version": "3.6.0",
+      "filename": "threadpoolctl-3.6.0-py3-none-any.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\threadpoolctl-3.6.0-py3-none-any.whl",
+      "sha256": "43a0b8fd5a2928500110039e43a5eed8480b918967083ea48dc3ab9f13c4a7fb",
+      "metadata_sha256": "a45df8d07ea1883d772183a501d7d526076aa70dfcfddb276a2cbdc04def5341",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "tokenizers",
+      "version": "0.23.1",
+      "filename": "tokenizers-0.23.1-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+      "location": "models\\meeting-asr-research\\wheelhouse\\tokenizers-0.23.1-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+      "sha256": "5075b405006415ea148a992d093699c66eb01952bf59f4d5727089a98bda45a4",
+      "metadata_sha256": "67226b8d55c78feec1f100f38cd5b04ad7385af8484696b7fd332c1d8cec4345",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "torch-audiomentations",
+      "version": "0.12.0",
+      "filename": "torch_audiomentations-0.12.0-py3-none-any.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\torch_audiomentations-0.12.0-py3-none-any.whl",
+      "sha256": "1b80b91d2016ccf83979622cac8f702072a79b7dcc4c2bee40f00b26433a786b",
+      "metadata_sha256": "c4c8d18fc4cf77de04f59728c81c603d279154056500a94b907832ebf56075af",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "torch-pitch-shift",
+      "version": "1.2.5",
+      "filename": "torch_pitch_shift-1.2.5-py3-none-any.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\torch_pitch_shift-1.2.5-py3-none-any.whl",
+      "sha256": "6f8500cbc13f1c98b11cde1805ce5084f82cdd195c285f34287541f168a7c6a7",
+      "metadata_sha256": "33db43e2bcbc1b140c58ce83876d1158b2dbab5ad86b1a01362ccf34c1860916",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "torchcodec",
+      "version": "0.7.0",
+      "filename": "torchcodec-0.7.0-cp313-cp313-manylinux_2_28_x86_64.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\torchcodec-0.7.0-cp313-cp313-manylinux_2_28_x86_64.whl",
+      "sha256": "9c70f910f9f48e6625aacaed534f766e13d447b895dc7299e96d4db9a93f1514",
+      "metadata_sha256": "6e1c0468097c4b9288a17c4af1f5c246a72c1dcb4dd22ac240b5652a7cfecdc0",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "torchmetrics",
+      "version": "1.9.0",
+      "filename": "torchmetrics-1.9.0-py3-none-any.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\torchmetrics-1.9.0-py3-none-any.whl",
+      "sha256": "bfdcbff3dd1d96b3374bb2496eb39f23c4b28b8a845b6a18c313688e0d2d9ca1",
+      "metadata_sha256": "e9a6b10f6e5cabee5150afc30ed70fdd14e556b1b856979a3341d2cba21baadd",
+      "python_compatible": true,
+      "tag_compatible": true
+    },
+    {
+      "name": "yarl",
+      "version": "1.24.5",
+      "filename": "yarl-1.24.5-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "location": "models\\community-cuda-research\\wheelhouse\\yarl-1.24.5-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "sha256": "d46b86567dd4e248c6c159fcbcdcce01e0a5c8a7cd2334a0fff759d0fa075b16",
+      "metadata_sha256": "0fd7b817553598246289189dfb95b425a15c9319d1bae355a38860419937e1c7",
+      "python_compatible": true,
+      "tag_compatible": true
+    }
+  ],
+  "active_overlay_edges": [
+    {
+      "source": "aiohttp",
+      "requirement": "aiohappyeyeballs>=2.5.0",
+      "selected": "2.7.1",
+      "satisfied": true
+    },
+    {
+      "source": "aiohttp",
+      "requirement": "aiosignal>=1.4.0",
+      "selected": "1.4.0",
+      "satisfied": true
+    },
+    {
+      "source": "aiohttp",
+      "requirement": "attrs>=17.3.0",
+      "selected": "26.1.0",
+      "satisfied": true
+    },
+    {
+      "source": "aiohttp",
+      "requirement": "frozenlist>=1.1.1",
+      "selected": "1.8.0",
+      "satisfied": true
+    },
+    {
+      "source": "aiohttp",
+      "requirement": "multidict<7.0,>=4.5",
+      "selected": "6.7.1",
+      "satisfied": true
+    },
+    {
+      "source": "aiohttp",
+      "requirement": "propcache>=0.2.0",
+      "selected": "0.5.2",
+      "satisfied": true
+    },
+    {
+      "source": "aiohttp",
+      "requirement": "yarl<2.0,>=1.17.0",
+      "selected": "1.24.5",
+      "satisfied": true
+    },
+    {
+      "source": "aiosignal",
+      "requirement": "frozenlist>=1.1.0",
+      "selected": "1.8.0",
+      "satisfied": true
+    },
+    {
+      "source": "alembic",
+      "requirement": "SQLAlchemy>=1.4.23",
+      "selected": "2.0.52",
+      "satisfied": true
+    },
+    {
+      "source": "alembic",
+      "requirement": "Mako",
+      "selected": "1.4.1",
+      "satisfied": true
+    },
+    {
+      "source": "alembic",
+      "requirement": "typing-extensions>=4.12",
+      "selected": "4.16.0",
+      "satisfied": true
+    },
+    {
+      "source": "asteroid-filterbanks",
+      "requirement": "numpy",
+      "selected": "2.4.3",
+      "satisfied": true
+    },
+    {
+      "source": "asteroid-filterbanks",
+      "requirement": "torch (>=1.8.0)",
+      "selected": "2.8.0+cu128",
+      "satisfied": true
+    },
+    {
+      "source": "asteroid-filterbanks",
+      "requirement": "typing-extensions",
+      "selected": "4.16.0",
+      "satisfied": true
+    },
+    {
+      "source": "contourpy",
+      "requirement": "numpy>=1.25",
+      "selected": "2.4.3",
+      "satisfied": true
+    },
+    {
+      "source": "ctranslate2",
+      "requirement": "setuptools",
+      "selected": "84.0.0",
+      "satisfied": true
+    },
+    {
+      "source": "ctranslate2",
+      "requirement": "numpy",
+      "selected": "2.4.3",
+      "satisfied": true
+    },
+    {
+      "source": "ctranslate2",
+      "requirement": "pyyaml<7,>=5.3",
+      "selected": "6.0.3",
+      "satisfied": true
+    },
+    {
+      "source": "faster-whisper",
+      "requirement": "ctranslate2<5,>=4.0",
+      "selected": "4.8.1",
+      "satisfied": true
+    },
+    {
+      "source": "faster-whisper",
+      "requirement": "huggingface-hub>=0.21",
+      "selected": "0.36.2",
+      "satisfied": true
+    },
+    {
+      "source": "faster-whisper",
+      "requirement": "tokenizers<1,>=0.13",
+      "selected": "0.23.1",
+      "satisfied": true
+    },
+    {
+      "source": "faster-whisper",
+      "requirement": "onnxruntime<2,>=1.14",
+      "selected": "1.28.0",
+      "satisfied": true
+    },
+    {
+      "source": "faster-whisper",
+      "requirement": "av>=11",
+      "selected": "18.0.0",
+      "satisfied": true
+    },
+    {
+      "source": "faster-whisper",
+      "requirement": "tqdm",
+      "selected": "4.70.0",
+      "satisfied": true
+    },
+    {
+      "source": "googleapis-common-protos",
+      "requirement": "protobuf<8.0.0,>=6.33.5",
+      "selected": "7.35.1",
+      "satisfied": true
+    },
+    {
+      "source": "grpcio",
+      "requirement": "typing-extensions~=4.12",
+      "selected": "4.16.0",
+      "satisfied": true
+    },
+    {
+      "source": "julius",
+      "requirement": "torch>=1.13.0",
+      "selected": "2.8.0+cu128",
+      "satisfied": true
+    },
+    {
+      "source": "lightning",
+      "requirement": "PyYAML<8.0,>5.4",
+      "selected": "6.0.3",
+      "satisfied": true
+    },
+    {
+      "source": "lightning",
+      "requirement": "fsspec[http]<2028.0,>=2022.5.0",
+      "selected": "2026.7.0",
+      "satisfied": true
+    },
+    {
+      "source": "lightning",
+      "requirement": "lightning-utilities<2.0,>=0.10.0",
+      "selected": "0.15.3",
+      "satisfied": true
+    },
+    {
+      "source": "lightning",
+      "requirement": "packaging<27.0,>=23.0",
+      "selected": "26.3",
+      "satisfied": true
+    },
+    {
+      "source": "lightning",
+      "requirement": "torch<4.0,>=2.1.0",
+      "selected": "2.8.0+cu128",
+      "satisfied": true
+    },
+    {
+      "source": "lightning",
+      "requirement": "torchmetrics<3.0,>0.7.0",
+      "selected": "1.9.0",
+      "satisfied": true
+    },
+    {
+      "source": "lightning",
+      "requirement": "tqdm<6.0,>=4.57.0",
+      "selected": "4.70.0",
+      "satisfied": true
+    },
+    {
+      "source": "lightning",
+      "requirement": "typing-extensions<6.0,>4.5.0",
+      "selected": "4.16.0",
+      "satisfied": true
+    },
+    {
+      "source": "lightning",
+      "requirement": "pytorch-lightning",
+      "selected": "2.6.6",
+      "satisfied": true
+    },
+    {
+      "source": "lightning-utilities",
+      "requirement": "packaging>=22",
+      "selected": "26.3",
+      "satisfied": true
+    },
+    {
+      "source": "lightning-utilities",
+      "requirement": "typing_extensions",
+      "selected": "4.16.0",
+      "satisfied": true
+    },
+    {
+      "source": "mako",
+      "requirement": "MarkupSafe>=2.0",
+      "selected": "3.0.3",
+      "satisfied": true
+    },
+    {
+      "source": "markdown-it-py",
+      "requirement": "mdurl~=0.1",
+      "selected": "0.1.2",
+      "satisfied": true
+    },
+    {
+      "source": "matplotlib",
+      "requirement": "contourpy>=1.0.1",
+      "selected": "1.3.3",
+      "satisfied": true
+    },
+    {
+      "source": "matplotlib",
+      "requirement": "cycler>=0.10",
+      "selected": "0.12.1",
+      "satisfied": true
+    },
+    {
+      "source": "matplotlib",
+      "requirement": "fonttools>=4.28.2",
+      "selected": "4.63.0",
+      "satisfied": true
+    },
+    {
+      "source": "matplotlib",
+      "requirement": "kiwisolver>=1.3.1",
+      "selected": "1.5.0",
+      "satisfied": true
+    },
+    {
+      "source": "matplotlib",
+      "requirement": "numpy>=1.25",
+      "selected": "2.4.3",
+      "satisfied": true
+    },
+    {
+      "source": "matplotlib",
+      "requirement": "packaging>=20.0",
+      "selected": "26.3",
+      "satisfied": true
+    },
+    {
+      "source": "matplotlib",
+      "requirement": "pillow>=9",
+      "selected": "12.3.0",
+      "satisfied": true
+    },
+    {
+      "source": "matplotlib",
+      "requirement": "pyparsing>=3",
+      "selected": "3.3.2",
+      "satisfied": true
+    },
+    {
+      "source": "matplotlib",
+      "requirement": "python-dateutil>=2.7",
+      "selected": "2.9.0.post0",
+      "satisfied": true
+    },
+    {
+      "source": "onnxruntime",
+      "requirement": "flatbuffers",
+      "selected": "25.12.19",
+      "satisfied": true
+    },
+    {
+      "source": "onnxruntime",
+      "requirement": "numpy>=1.21.6",
+      "selected": "2.4.3",
+      "satisfied": true
+    },
+    {
+      "source": "onnxruntime",
+      "requirement": "packaging",
+      "selected": "26.3",
+      "satisfied": true
+    },
+    {
+      "source": "onnxruntime",
+      "requirement": "protobuf>=4.25.8",
+      "selected": "7.35.1",
+      "satisfied": true
+    },
+    {
+      "source": "opentelemetry-api",
+      "requirement": "typing-extensions>=4.5.0",
+      "selected": "4.16.0",
+      "satisfied": true
+    },
+    {
+      "source": "opentelemetry-exporter-otlp",
+      "requirement": "opentelemetry-exporter-otlp-proto-grpc==1.44.0",
+      "selected": "1.44.0",
+      "satisfied": true
+    },
+    {
+      "source": "opentelemetry-exporter-otlp",
+      "requirement": "opentelemetry-exporter-otlp-proto-http==1.44.0",
+      "selected": "1.44.0",
+      "satisfied": true
+    },
+    {
+      "source": "opentelemetry-exporter-otlp-proto-common",
+      "requirement": "opentelemetry-proto==1.44.0",
+      "selected": "1.44.0",
+      "satisfied": true
+    },
+    {
+      "source": "opentelemetry-exporter-otlp-proto-grpc",
+      "requirement": "googleapis-common-protos~=1.57",
+      "selected": "1.75.1",
+      "satisfied": true
+    },
+    {
+      "source": "opentelemetry-exporter-otlp-proto-grpc",
+      "requirement": "grpcio<2.0.0,>=1.66.2; python_version == '3.13'",
+      "selected": "1.83.0",
+      "satisfied": true
+    },
+    {
+      "source": "opentelemetry-exporter-otlp-proto-grpc",
+      "requirement": "opentelemetry-api~=1.15",
+      "selected": "1.44.0",
+      "satisfied": true
+    },
+    {
+      "source": "opentelemetry-exporter-otlp-proto-grpc",
+      "requirement": "opentelemetry-exporter-otlp-proto-common==1.44.0",
+      "selected": "1.44.0",
+      "satisfied": true
+    },
+    {
+      "source": "opentelemetry-exporter-otlp-proto-grpc",
+      "requirement": "opentelemetry-proto==1.44.0",
+      "selected": "1.44.0",
+      "satisfied": true
+    },
+    {
+      "source": "opentelemetry-exporter-otlp-proto-grpc",
+      "requirement": "opentelemetry-sdk~=1.44.0",
+      "selected": "1.44.0",
+      "satisfied": true
+    },
+    {
+      "source": "opentelemetry-exporter-otlp-proto-grpc",
+      "requirement": "typing-extensions>=4.6.0",
+      "selected": "4.16.0",
+      "satisfied": true
+    },
+    {
+      "source": "opentelemetry-exporter-otlp-proto-http",
+      "requirement": "googleapis-common-protos~=1.52",
+      "selected": "1.75.1",
+      "satisfied": true
+    },
+    {
+      "source": "opentelemetry-exporter-otlp-proto-http",
+      "requirement": "opentelemetry-api~=1.15",
+      "selected": "1.44.0",
+      "satisfied": true
+    },
+    {
+      "source": "opentelemetry-exporter-otlp-proto-http",
+      "requirement": "opentelemetry-exporter-otlp-proto-common==1.44.0",
+      "selected": "1.44.0",
+      "satisfied": true
+    },
+    {
+      "source": "opentelemetry-exporter-otlp-proto-http",
+      "requirement": "opentelemetry-proto==1.44.0",
+      "selected": "1.44.0",
+      "satisfied": true
+    },
+    {
+      "source": "opentelemetry-exporter-otlp-proto-http",
+      "requirement": "opentelemetry-sdk~=1.44.0",
+      "selected": "1.44.0",
+      "satisfied": true
+    },
+    {
+      "source": "opentelemetry-exporter-otlp-proto-http",
+      "requirement": "requests~=2.7",
+      "selected": "2.34.2",
+      "satisfied": true
+    },
+    {
+      "source": "opentelemetry-exporter-otlp-proto-http",
+      "requirement": "typing-extensions>=4.5.0",
+      "selected": "4.16.0",
+      "satisfied": true
+    },
+    {
+      "source": "opentelemetry-proto",
+      "requirement": "protobuf<8.0,>=5.0",
+      "selected": "7.35.1",
+      "satisfied": true
+    },
+    {
+      "source": "opentelemetry-sdk",
+      "requirement": "opentelemetry-api==1.44.0",
+      "selected": "1.44.0",
+      "satisfied": true
+    },
+    {
+      "source": "opentelemetry-sdk",
+      "requirement": "opentelemetry-semantic-conventions==0.65b0",
+      "selected": "0.65b0",
+      "satisfied": true
+    },
+    {
+      "source": "opentelemetry-sdk",
+      "requirement": "typing-extensions>=4.5.0",
+      "selected": "4.16.0",
+      "satisfied": true
+    },
+    {
+      "source": "opentelemetry-semantic-conventions",
+      "requirement": "opentelemetry-api==1.44.0",
+      "selected": "1.44.0",
+      "satisfied": true
+    },
+    {
+      "source": "opentelemetry-semantic-conventions",
+      "requirement": "typing-extensions>=4.5.0",
+      "selected": "4.16.0",
+      "satisfied": true
+    },
+    {
+      "source": "optuna",
+      "requirement": "alembic>=1.5.0",
+      "selected": "1.19.1",
+      "satisfied": true
+    },
+    {
+      "source": "optuna",
+      "requirement": "colorlog",
+      "selected": "6.12.0",
+      "satisfied": true
+    },
+    {
+      "source": "optuna",
+      "requirement": "numpy",
+      "selected": "2.4.3",
+      "satisfied": true
+    },
+    {
+      "source": "optuna",
+      "requirement": "packaging>=20.0",
+      "selected": "26.3",
+      "satisfied": true
+    },
+    {
+      "source": "optuna",
+      "requirement": "sqlalchemy>=1.4.2",
+      "selected": "2.0.52",
+      "satisfied": true
+    },
+    {
+      "source": "optuna",
+      "requirement": "tqdm",
+      "selected": "4.70.0",
+      "satisfied": true
+    },
+    {
+      "source": "optuna",
+      "requirement": "PyYAML",
+      "selected": "6.0.3",
+      "satisfied": true
+    },
+    {
+      "source": "pandas",
+      "requirement": "numpy>=1.26.0; python_version < \"3.14\"",
+      "selected": "2.4.3",
+      "satisfied": true
+    },
+    {
+      "source": "pandas",
+      "requirement": "python-dateutil>=2.8.2",
+      "selected": "2.9.0.post0",
+      "satisfied": true
+    },
+    {
+      "source": "pyannote-audio",
+      "requirement": "asteroid-filterbanks>=0.4.0",
+      "selected": "0.4.0",
+      "satisfied": true
+    },
+    {
+      "source": "pyannote-audio",
+      "requirement": "einops>=0.8.1",
+      "selected": "0.8.2",
+      "satisfied": true
+    },
+    {
+      "source": "pyannote-audio",
+      "requirement": "huggingface-hub>=0.28.1",
+      "selected": "0.36.2",
+      "satisfied": true
+    },
+    {
+      "source": "pyannote-audio",
+      "requirement": "lightning>=2.4",
+      "selected": "2.6.6",
+      "satisfied": true
+    },
+    {
+      "source": "pyannote-audio",
+      "requirement": "matplotlib>=3.10.0",
+      "selected": "3.11.1",
+      "satisfied": true
+    },
+    {
+      "source": "pyannote-audio",
+      "requirement": "opentelemetry-api>=1.34.0",
+      "selected": "1.44.0",
+      "satisfied": true
+    },
+    {
+      "source": "pyannote-audio",
+      "requirement": "opentelemetry-exporter-otlp>=1.34.0",
+      "selected": "1.44.0",
+      "satisfied": true
+    },
+    {
+      "source": "pyannote-audio",
+      "requirement": "opentelemetry-sdk>=1.34.0",
+      "selected": "1.44.0",
+      "satisfied": true
+    },
+    {
+      "source": "pyannote-audio",
+      "requirement": "pyannote-core>=6.0.1",
+      "selected": "6.0.1",
+      "satisfied": true
+    },
+    {
+      "source": "pyannote-audio",
+      "requirement": "pyannote-database>=6.1.1",
+      "selected": "6.1.1",
+      "satisfied": true
+    },
+    {
+      "source": "pyannote-audio",
+      "requirement": "pyannote-metrics>=4.0.0",
+      "selected": "4.1",
+      "satisfied": true
+    },
+    {
+      "source": "pyannote-audio",
+      "requirement": "pyannote-pipeline>=4.0.0",
+      "selected": "4.0.0",
+      "satisfied": true
+    },
+    {
+      "source": "pyannote-audio",
+      "requirement": "pyannoteai-sdk>=0.3.0",
+      "selected": "0.4.0",
+      "satisfied": true
+    },
+    {
+      "source": "pyannote-audio",
+      "requirement": "pytorch-metric-learning>=2.8.1",
+      "selected": "2.9.0",
+      "satisfied": true
+    },
+    {
+      "source": "pyannote-audio",
+      "requirement": "rich>=13.9.4",
+      "selected": "15.0.0",
+      "satisfied": true
+    },
+    {
+      "source": "pyannote-audio",
+      "requirement": "safetensors>=0.5.2",
+      "selected": "0.8.0",
+      "satisfied": true
+    },
+    {
+      "source": "pyannote-audio",
+      "requirement": "torch-audiomentations>=0.12.0",
+      "selected": "0.12.0",
+      "satisfied": true
+    },
+    {
+      "source": "pyannote-audio",
+      "requirement": "torch>=2.8.0",
+      "selected": "2.8.0+cu128",
+      "satisfied": true
+    },
+    {
+      "source": "pyannote-audio",
+      "requirement": "torchaudio>=2.8.0",
+      "selected": "2.8.0+cu128",
+      "satisfied": true
+    },
+    {
+      "source": "pyannote-audio",
+      "requirement": "torchcodec>=0.7.0",
+      "selected": "0.7.0",
+      "satisfied": true
+    },
+    {
+      "source": "pyannote-audio",
+      "requirement": "torchmetrics>=1.6.1",
+      "selected": "1.9.0",
+      "satisfied": true
+    },
+    {
+      "source": "pyannote-core",
+      "requirement": "numpy>=2.0",
+      "selected": "2.4.3",
+      "satisfied": true
+    },
+    {
+      "source": "pyannote-core",
+      "requirement": "pandas>=2.2.3",
+      "selected": "3.0.5",
+      "satisfied": true
+    },
+    {
+      "source": "pyannote-core",
+      "requirement": "sortedcontainers>=2.4.0",
+      "selected": "2.4.0",
+      "satisfied": true
+    },
+    {
+      "source": "pyannote-database",
+      "requirement": "pandas>=2.2.3",
+      "selected": "3.0.5",
+      "satisfied": true
+    },
+    {
+      "source": "pyannote-database",
+      "requirement": "pyannote-core>=6.0.0",
+      "selected": "6.0.1",
+      "satisfied": true
+    },
+    {
+      "source": "pyannote-database",
+      "requirement": "pyyaml>=6.0.2",
+      "selected": "6.0.3",
+      "satisfied": true
+    },
+    {
+      "source": "pyannote-metrics",
+      "requirement": "numpy>=2.2.2",
+      "selected": "2.4.3",
+      "satisfied": true
+    },
+    {
+      "source": "pyannote-metrics",
+      "requirement": "pandas>=2.2.3",
+      "selected": "3.0.5",
+      "satisfied": true
+    },
+    {
+      "source": "pyannote-metrics",
+      "requirement": "pyannote-core>=6.0.0",
+      "selected": "6.0.1",
+      "satisfied": true
+    },
+    {
+      "source": "pyannote-metrics",
+      "requirement": "pyannote-database>=6.0.0",
+      "selected": "6.1.1",
+      "satisfied": true
+    },
+    {
+      "source": "pyannote-metrics",
+      "requirement": "scikit-learn>=1.6.1",
+      "selected": "1.9.0",
+      "satisfied": true
+    },
+    {
+      "source": "pyannote-metrics",
+      "requirement": "scipy>=1.15.1",
+      "selected": "1.17.1",
+      "satisfied": true
+    },
+    {
+      "source": "pyannote-pipeline",
+      "requirement": "filelock>=3.17.0",
+      "selected": "3.32.5",
+      "satisfied": true
+    },
+    {
+      "source": "pyannote-pipeline",
+      "requirement": "optuna>=4.2.0",
+      "selected": "4.9.0",
+      "satisfied": true
+    },
+    {
+      "source": "pyannote-pipeline",
+      "requirement": "pyannote-core>=6.0.0",
+      "selected": "6.0.1",
+      "satisfied": true
+    },
+    {
+      "source": "pyannote-pipeline",
+      "requirement": "pyannote-database>=6.0.0",
+      "selected": "6.1.1",
+      "satisfied": true
+    },
+    {
+      "source": "pyannote-pipeline",
+      "requirement": "pyyaml>=6.0.2",
+      "selected": "6.0.3",
+      "satisfied": true
+    },
+    {
+      "source": "pyannote-pipeline",
+      "requirement": "tqdm>=4.67.1",
+      "selected": "4.70.0",
+      "satisfied": true
+    },
+    {
+      "source": "pyannoteai-sdk",
+      "requirement": "requests>=2.32.3",
+      "selected": "2.34.2",
+      "satisfied": true
+    },
+    {
+      "source": "python-dateutil",
+      "requirement": "six >=1.5",
+      "selected": "1.17.0",
+      "satisfied": true
+    },
+    {
+      "source": "pytorch-lightning",
+      "requirement": "torch>=2.1.0",
+      "selected": "2.8.0+cu128",
+      "satisfied": true
+    },
+    {
+      "source": "pytorch-lightning",
+      "requirement": "tqdm>=4.57.0",
+      "selected": "4.70.0",
+      "satisfied": true
+    },
+    {
+      "source": "pytorch-lightning",
+      "requirement": "PyYAML>5.4",
+      "selected": "6.0.3",
+      "satisfied": true
+    },
+    {
+      "source": "pytorch-lightning",
+      "requirement": "fsspec[http]>=2022.5.0",
+      "selected": "2026.7.0",
+      "satisfied": true
+    },
+    {
+      "source": "pytorch-lightning",
+      "requirement": "torchmetrics>0.7.0",
+      "selected": "1.9.0",
+      "satisfied": true
+    },
+    {
+      "source": "pytorch-lightning",
+      "requirement": "packaging>=23.0",
+      "selected": "26.3",
+      "satisfied": true
+    },
+    {
+      "source": "pytorch-lightning",
+      "requirement": "typing-extensions>4.5.0",
+      "selected": "4.16.0",
+      "satisfied": true
+    },
+    {
+      "source": "pytorch-lightning",
+      "requirement": "lightning-utilities>=0.10.0",
+      "selected": "0.15.3",
+      "satisfied": true
+    },
+    {
+      "source": "pytorch-metric-learning",
+      "requirement": "numpy",
+      "selected": "2.4.3",
+      "satisfied": true
+    },
+    {
+      "source": "pytorch-metric-learning",
+      "requirement": "scikit-learn",
+      "selected": "1.9.0",
+      "satisfied": true
+    },
+    {
+      "source": "pytorch-metric-learning",
+      "requirement": "torch (>=1.6.0)",
+      "selected": "2.8.0+cu128",
+      "satisfied": true
+    },
+    {
+      "source": "pytorch-metric-learning",
+      "requirement": "tqdm",
+      "selected": "4.70.0",
+      "satisfied": true
+    },
+    {
+      "source": "rich",
+      "requirement": "markdown-it-py (>=2.2.0)",
+      "selected": "4.2.0",
+      "satisfied": true
+    },
+    {
+      "source": "rich",
+      "requirement": "pygments (>=2.13.0,<3.0.0)",
+      "selected": "2.20.0",
+      "satisfied": true
+    },
+    {
+      "source": "scikit-learn",
+      "requirement": "numpy>=1.24.1",
+      "selected": "2.4.3",
+      "satisfied": true
+    },
+    {
+      "source": "scikit-learn",
+      "requirement": "scipy>=1.10.0",
+      "selected": "1.17.1",
+      "satisfied": true
+    },
+    {
+      "source": "scikit-learn",
+      "requirement": "joblib>=1.4.0",
+      "selected": "1.6.0",
+      "satisfied": true
+    },
+    {
+      "source": "scikit-learn",
+      "requirement": "narwhals>=2.0.1",
+      "selected": "2.24.0",
+      "satisfied": true
+    },
+    {
+      "source": "scikit-learn",
+      "requirement": "threadpoolctl>=3.5.0",
+      "selected": "3.6.0",
+      "satisfied": true
+    },
+    {
+      "source": "sqlalchemy",
+      "requirement": "greenlet>=1; platform_machine == \"aarch64\" or (platform_machine == \"ppc64le\" or (platform_machine == \"x86_64\" or (platform_machine == \"amd64\" or (platform_machine == \"AMD64\" or (platform_machine == \"win32\" or platform_machine == \"WIN32\")))))",
+      "selected": "3.5.5",
+      "satisfied": true
+    },
+    {
+      "source": "sqlalchemy",
+      "requirement": "typing-extensions>=4.6.0",
+      "selected": "4.16.0",
+      "satisfied": true
+    },
+    {
+      "source": "tokenizers",
+      "requirement": "huggingface-hub>=0.16.4,<2.0",
+      "selected": "0.36.2",
+      "satisfied": true
+    },
+    {
+      "source": "torch-audiomentations",
+      "requirement": "julius <0.3,>=0.2.3",
+      "selected": "0.2.8",
+      "satisfied": true
+    },
+    {
+      "source": "torch-audiomentations",
+      "requirement": "torch >=1.7.0",
+      "selected": "2.8.0+cu128",
+      "satisfied": true
+    },
+    {
+      "source": "torch-audiomentations",
+      "requirement": "torchaudio >=0.9.0",
+      "selected": "2.8.0+cu128",
+      "satisfied": true
+    },
+    {
+      "source": "torch-audiomentations",
+      "requirement": "torch-pitch-shift >=1.2.2",
+      "selected": "1.2.5",
+      "satisfied": true
+    },
+    {
+      "source": "torch-pitch-shift",
+      "requirement": "torch>=1.7.0",
+      "selected": "2.8.0+cu128",
+      "satisfied": true
+    },
+    {
+      "source": "torch-pitch-shift",
+      "requirement": "torchaudio>=0.7.0",
+      "selected": "2.8.0+cu128",
+      "satisfied": true
+    },
+    {
+      "source": "torch-pitch-shift",
+      "requirement": "primePy>=1.3",
+      "selected": "1.3",
+      "satisfied": true
+    },
+    {
+      "source": "torch-pitch-shift",
+      "requirement": "packaging>=21.3",
+      "selected": "26.3",
+      "satisfied": true
+    },
+    {
+      "source": "torchmetrics",
+      "requirement": "numpy>1.20.0",
+      "selected": "2.4.3",
+      "satisfied": true
+    },
+    {
+      "source": "torchmetrics",
+      "requirement": "packaging>17.1",
+      "selected": "26.3",
+      "satisfied": true
+    },
+    {
+      "source": "torchmetrics",
+      "requirement": "torch>=2.0.0",
+      "selected": "2.8.0+cu128",
+      "satisfied": true
+    },
+    {
+      "source": "torchmetrics",
+      "requirement": "lightning-utilities>=0.15.3",
+      "selected": "0.15.3",
+      "satisfied": true
+    },
+    {
+      "source": "yarl",
+      "requirement": "idna>=2.0",
+      "selected": "3.19",
+      "satisfied": true
+    },
+    {
+      "source": "yarl",
+      "requirement": "multidict>=4.0",
+      "selected": "6.7.1",
+      "satisfied": true
+    },
+    {
+      "source": "yarl",
+      "requirement": "propcache>=0.2.1",
+      "selected": "0.5.2",
+      "satisfied": true
+    }
+  ],
+  "all_active_overlay_edges_satisfied": true,
+  "security_fix_source_checks": [
+    {
+      "package": "lightning",
+      "version": "2.6.6",
+      "wheel_file": "lightning/pytorch/core/saving.py",
+      "source_sha256": "da958b64ddedb2d589ac729df25dce647dbb395e6ed604948bd7b7e1b69a76b0",
+      "upstream_url": "https://raw.githubusercontent.com/Lightning-AI/pytorch-lightning/771017e4f39b314b49abd4a1d65905c74268d248/src/lightning/pytorch/core/saving.py",
+      "upstream_sha256": "da958b64ddedb2d589ac729df25dce647dbb395e6ed604948bd7b7e1b69a76b0",
+      "ast_matches_upstream_after_pytorch_and_fabric_namespace_normalization": true
+    },
+    {
+      "package": "pytorch-lightning",
+      "version": "2.6.6",
+      "wheel_file": "pytorch_lightning/core/saving.py",
+      "source_sha256": "2ccf5ae904f3ee8b04e7e2d716f066a7d7da4f10b8e6db94055543c757f74619",
+      "upstream_url": "https://raw.githubusercontent.com/Lightning-AI/pytorch-lightning/771017e4f39b314b49abd4a1d65905c74268d248/src/lightning/pytorch/core/saving.py",
+      "upstream_sha256": "da958b64ddedb2d589ac729df25dce647dbb395e6ed604948bd7b7e1b69a76b0",
+      "ast_matches_upstream_after_pytorch_and_fabric_namespace_normalization": true
+    }
+  ],
+  "security_scanner_false_positive_requires_triage": "GHSA-qqmf-gpg7-g8gw conflicting fixed2022.6.15 versus upstream2.6.6",
+  "production_admission": false,
+  "packages_installed": false,
+  "side_effect": "Exact verified wheel files hardlinked into one candidate wheelhouse; no source packages changed."
+}

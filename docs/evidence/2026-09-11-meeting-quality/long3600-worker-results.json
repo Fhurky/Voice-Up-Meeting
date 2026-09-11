@@ -1,0 +1,1804 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "scope": "Actual one-hour uploaded recording, 12 sequential worker cores, and unchanged persistent memory",
+  "evidence_tier": "L2",
+  "independent_accuracy_evidence": false,
+  "sources": [
+    {
+      "path": "outputs/long3600-worker/run.py",
+      "sha256": "22f75555543bf13b0d78f90dc0b47794747601a33e819ae14bae8e69998611d3"
+    },
+    {
+      "path": "outputs/long3600-worker/fixture.json",
+      "sha256": "5da4ed5f9254223974114640aa2566fa0276d4346c3341a14cd2b9317e7fc859"
+    },
+    {
+      "path": "outputs/long3600-worker/before.json",
+      "sha256": "ce883bbcd7d8da29919a67700ce1cfc4316fced58b346532faef819ec051b5a7"
+    },
+    {
+      "path": "outputs/long3600-worker/state.json",
+      "sha256": "1d407e9bed01c6c492116a037ed64af8c7b94961b2d2d70aec13ee250d516bd7"
+    },
+    {
+      "path": "outputs/long3600-worker/results.json",
+      "sha256": "25a5702f412f2c7ccbd12c9aa3907c047b62c56432eb49b5c2b79a5f69c45142"
+    },
+    {
+      "path": "outputs/long3600-worker/resume-observation.py",
+      "sha256": "ae39ee728987f801a7c74215b952871aeb969560b0d8d3cd27e758b605d2b6b2"
+    },
+    {
+      "path": "outputs/long3600-worker/observation-resume-results.json",
+      "sha256": "97b9e743656b3970a849d0f269ee764f260061ce07cd84a0ebf548da78ae04e3"
+    },
+    {
+      "path": "outputs/long3600-worker/after-resumed.json",
+      "sha256": "1cc864cce67f7c56367fca4179958928618a063381ebbf9ab6b67200be1f3af1"
+    },
+    {
+      "path": "outputs/long3600-worker/audit-final.py",
+      "sha256": "fa9bba16e4423bfb92b580b9497bc148fa6d99fbe41672cd327c1b8f78aa725e"
+    },
+    {
+      "path": "outputs/long3600-worker/persisted-chunks-audit.json",
+      "sha256": "88ea0cde7b66919906831d6d37376df67771e03acc66d4cb666c0c3246c6eba1"
+    }
+  ],
+  "fixture": {
+    "schema_version": 1,
+    "kind": "worker_endurance_only",
+    "source_B_sha256": "0072612fda0cb99b32fdf2430edf1ab01dff02e5c075ec3bc129cfb9ae67f25c",
+    "path": "meeting-b-repeated-3600.wav",
+    "sha256": "3577740b457b26b208463897fe52336c5b5ae1ebace86f0539ab4e48bd7a2724",
+    "duration_seconds": 3600,
+    "size_bytes": 115200044,
+    "sample_rate": 16000,
+    "frames": 57600000,
+    "channels": 1,
+    "subtype": "PCM_16",
+    "gap_frames": 4000,
+    "assembly_block_frames": 65536,
+    "segments": [
+      {
+        "kind": "source_B",
+        "start_frame": 0,
+        "end_frame": 1513999,
+        "source_start_frame": 0,
+        "source_end_frame": 1513999
+      },
+      {
+        "kind": "silence",
+        "start_frame": 1513999,
+        "end_frame": 1517999
+      },
+      {
+        "kind": "source_B",
+        "start_frame": 1517999,
+        "end_frame": 3031998,
+        "source_start_frame": 0,
+        "source_end_frame": 1513999
+      },
+      {
+        "kind": "silence",
+        "start_frame": 3031998,
+        "end_frame": 3035998
+      },
+      {
+        "kind": "source_B",
+        "start_frame": 3035998,
+        "end_frame": 4549997,
+        "source_start_frame": 0,
+        "source_end_frame": 1513999
+      },
+      {
+        "kind": "silence",
+        "start_frame": 4549997,
+        "end_frame": 4553997
+      },
+      {
+        "kind": "source_B",
+        "start_frame": 4553997,
+        "end_frame": 6067996,
+        "source_start_frame": 0,
+        "source_end_frame": 1513999
+      },
+      {
+        "kind": "silence",
+        "start_frame": 6067996,
+        "end_frame": 6071996
+      },
+      {
+        "kind": "source_B",
+        "start_frame": 6071996,
+        "end_frame": 7585995,
+        "source_start_frame": 0,
+        "source_end_frame": 1513999
+      },
+      {
+        "kind": "silence",
+        "start_frame": 7585995,
+        "end_frame": 7589995
+      },
+      {
+        "kind": "source_B",
+        "start_frame": 7589995,
+        "end_frame": 9103994,
+        "source_start_frame": 0,
+        "source_end_frame": 1513999
+      },
+      {
+        "kind": "silence",
+        "start_frame": 9103994,
+        "end_frame": 9107994
+      },
+      {
+        "kind": "source_B",
+        "start_frame": 9107994,
+        "end_frame": 10621993,
+        "source_start_frame": 0,
+        "source_end_frame": 1513999
+      },
+      {
+        "kind": "silence",
+        "start_frame": 10621993,
+        "end_frame": 10625993
+      },
+      {
+        "kind": "source_B",
+        "start_frame": 10625993,
+        "end_frame": 12139992,
+        "source_start_frame": 0,
+        "source_end_frame": 1513999
+      },
+      {
+        "kind": "silence",
+        "start_frame": 12139992,
+        "end_frame": 12143992
+      },
+      {
+        "kind": "source_B",
+        "start_frame": 12143992,
+        "end_frame": 13657991,
+        "source_start_frame": 0,
+        "source_end_frame": 1513999
+      },
+      {
+        "kind": "silence",
+        "start_frame": 13657991,
+        "end_frame": 13661991
+      },
+      {
+        "kind": "source_B",
+        "start_frame": 13661991,
+        "end_frame": 15175990,
+        "source_start_frame": 0,
+        "source_end_frame": 1513999
+      },
+      {
+        "kind": "silence",
+        "start_frame": 15175990,
+        "end_frame": 15179990
+      },
+      {
+        "kind": "source_B",
+        "start_frame": 15179990,
+        "end_frame": 16693989,
+        "source_start_frame": 0,
+        "source_end_frame": 1513999
+      },
+      {
+        "kind": "silence",
+        "start_frame": 16693989,
+        "end_frame": 16697989
+      },
+      {
+        "kind": "source_B",
+        "start_frame": 16697989,
+        "end_frame": 18211988,
+        "source_start_frame": 0,
+        "source_end_frame": 1513999
+      },
+      {
+        "kind": "silence",
+        "start_frame": 18211988,
+        "end_frame": 18215988
+      },
+      {
+        "kind": "source_B",
+        "start_frame": 18215988,
+        "end_frame": 19729987,
+        "source_start_frame": 0,
+        "source_end_frame": 1513999
+      },
+      {
+        "kind": "silence",
+        "start_frame": 19729987,
+        "end_frame": 19733987
+      },
+      {
+        "kind": "source_B",
+        "start_frame": 19733987,
+        "end_frame": 21247986,
+        "source_start_frame": 0,
+        "source_end_frame": 1513999
+      },
+      {
+        "kind": "silence",
+        "start_frame": 21247986,
+        "end_frame": 21251986
+      },
+      {
+        "kind": "source_B",
+        "start_frame": 21251986,
+        "end_frame": 22765985,
+        "source_start_frame": 0,
+        "source_end_frame": 1513999
+      },
+      {
+        "kind": "silence",
+        "start_frame": 22765985,
+        "end_frame": 22769985
+      },
+      {
+        "kind": "source_B",
+        "start_frame": 22769985,
+        "end_frame": 24283984,
+        "source_start_frame": 0,
+        "source_end_frame": 1513999
+      },
+      {
+        "kind": "silence",
+        "start_frame": 24283984,
+        "end_frame": 24287984
+      },
+      {
+        "kind": "source_B",
+        "start_frame": 24287984,
+        "end_frame": 25801983,
+        "source_start_frame": 0,
+        "source_end_frame": 1513999
+      },
+      {
+        "kind": "silence",
+        "start_frame": 25801983,
+        "end_frame": 25805983
+      },
+      {
+        "kind": "source_B",
+        "start_frame": 25805983,
+        "end_frame": 27319982,
+        "source_start_frame": 0,
+        "source_end_frame": 1513999
+      },
+      {
+        "kind": "silence",
+        "start_frame": 27319982,
+        "end_frame": 27323982
+      },
+      {
+        "kind": "source_B",
+        "start_frame": 27323982,
+        "end_frame": 28837981,
+        "source_start_frame": 0,
+        "source_end_frame": 1513999
+      },
+      {
+        "kind": "silence",
+        "start_frame": 28837981,
+        "end_frame": 28841981
+      },
+      {
+        "kind": "source_B",
+        "start_frame": 28841981,
+        "end_frame": 30355980,
+        "source_start_frame": 0,
+        "source_end_frame": 1513999
+      },
+      {
+        "kind": "silence",
+        "start_frame": 30355980,
+        "end_frame": 30359980
+      },
+      {
+        "kind": "source_B",
+        "start_frame": 30359980,
+        "end_frame": 31873979,
+        "source_start_frame": 0,
+        "source_end_frame": 1513999
+      },
+      {
+        "kind": "silence",
+        "start_frame": 31873979,
+        "end_frame": 31877979
+      },
+      {
+        "kind": "source_B",
+        "start_frame": 31877979,
+        "end_frame": 33391978,
+        "source_start_frame": 0,
+        "source_end_frame": 1513999
+      },
+      {
+        "kind": "silence",
+        "start_frame": 33391978,
+        "end_frame": 33395978
+      },
+      {
+        "kind": "source_B",
+        "start_frame": 33395978,
+        "end_frame": 34909977,
+        "source_start_frame": 0,
+        "source_end_frame": 1513999
+      },
+      {
+        "kind": "silence",
+        "start_frame": 34909977,
+        "end_frame": 34913977
+      },
+      {
+        "kind": "source_B",
+        "start_frame": 34913977,
+        "end_frame": 36427976,
+        "source_start_frame": 0,
+        "source_end_frame": 1513999
+      },
+      {
+        "kind": "silence",
+        "start_frame": 36427976,
+        "end_frame": 36431976
+      },
+      {
+        "kind": "source_B",
+        "start_frame": 36431976,
+        "end_frame": 37945975,
+        "source_start_frame": 0,
+        "source_end_frame": 1513999
+      },
+      {
+        "kind": "silence",
+        "start_frame": 37945975,
+        "end_frame": 37949975
+      },
+      {
+        "kind": "source_B",
+        "start_frame": 37949975,
+        "end_frame": 39463974,
+        "source_start_frame": 0,
+        "source_end_frame": 1513999
+      },
+      {
+        "kind": "silence",
+        "start_frame": 39463974,
+        "end_frame": 39467974
+      },
+      {
+        "kind": "source_B",
+        "start_frame": 39467974,
+        "end_frame": 40981973,
+        "source_start_frame": 0,
+        "source_end_frame": 1513999
+      },
+      {
+        "kind": "silence",
+        "start_frame": 40981973,
+        "end_frame": 40985973
+      },
+      {
+        "kind": "source_B",
+        "start_frame": 40985973,
+        "end_frame": 42499972,
+        "source_start_frame": 0,
+        "source_end_frame": 1513999
+      },
+      {
+        "kind": "silence",
+        "start_frame": 42499972,
+        "end_frame": 42503972
+      },
+      {
+        "kind": "source_B",
+        "start_frame": 42503972,
+        "end_frame": 44017971,
+        "source_start_frame": 0,
+        "source_end_frame": 1513999
+      },
+      {
+        "kind": "silence",
+        "start_frame": 44017971,
+        "end_frame": 44021971
+      },
+      {
+        "kind": "source_B",
+        "start_frame": 44021971,
+        "end_frame": 45535970,
+        "source_start_frame": 0,
+        "source_end_frame": 1513999
+      },
+      {
+        "kind": "silence",
+        "start_frame": 45535970,
+        "end_frame": 45539970
+      },
+      {
+        "kind": "source_B",
+        "start_frame": 45539970,
+        "end_frame": 47053969,
+        "source_start_frame": 0,
+        "source_end_frame": 1513999
+      },
+      {
+        "kind": "silence",
+        "start_frame": 47053969,
+        "end_frame": 47057969
+      },
+      {
+        "kind": "source_B",
+        "start_frame": 47057969,
+        "end_frame": 48571968,
+        "source_start_frame": 0,
+        "source_end_frame": 1513999
+      },
+      {
+        "kind": "silence",
+        "start_frame": 48571968,
+        "end_frame": 48575968
+      },
+      {
+        "kind": "source_B",
+        "start_frame": 48575968,
+        "end_frame": 50089967,
+        "source_start_frame": 0,
+        "source_end_frame": 1513999
+      },
+      {
+        "kind": "silence",
+        "start_frame": 50089967,
+        "end_frame": 50093967
+      },
+      {
+        "kind": "source_B",
+        "start_frame": 50093967,
+        "end_frame": 51607966,
+        "source_start_frame": 0,
+        "source_end_frame": 1513999
+      },
+      {
+        "kind": "silence",
+        "start_frame": 51607966,
+        "end_frame": 51611966
+      },
+      {
+        "kind": "source_B",
+        "start_frame": 51611966,
+        "end_frame": 53125965,
+        "source_start_frame": 0,
+        "source_end_frame": 1513999
+      },
+      {
+        "kind": "silence",
+        "start_frame": 53125965,
+        "end_frame": 53129965
+      },
+      {
+        "kind": "source_B",
+        "start_frame": 53129965,
+        "end_frame": 54643964,
+        "source_start_frame": 0,
+        "source_end_frame": 1513999
+      },
+      {
+        "kind": "silence",
+        "start_frame": 54643964,
+        "end_frame": 54647964
+      },
+      {
+        "kind": "source_B",
+        "start_frame": 54647964,
+        "end_frame": 56161963,
+        "source_start_frame": 0,
+        "source_end_frame": 1513999
+      },
+      {
+        "kind": "silence",
+        "start_frame": 56161963,
+        "end_frame": 56165963
+      },
+      {
+        "kind": "source_B",
+        "start_frame": 56165963,
+        "end_frame": 57600000,
+        "source_start_frame": 0,
+        "source_end_frame": 1434037
+      }
+    ],
+    "independent_accuracy_evidence": false
+  },
+  "fixture_independent_stream_comparison": {
+    "passed": true,
+    "source_B_segments": 38,
+    "additional_silence_seconds": 9.25,
+    "total_frames": 57600000,
+    "total_seconds": 3600,
+    "last_source_segment_seconds": 89.6273125,
+    "audio_bytes_emitted": false
+  },
+  "initial_observation": {
+    "schema_version": 1,
+    "scope": "one-hour worker endurance on repeated frozen B",
+    "status": "incomplete",
+    "started_at_utc": "2026-09-11T06:58:24.507584+00:00",
+    "runner_sha256": "22f75555543bf13b0d78f90dc0b47794747601a33e819ae14bae8e69998611d3",
+    "helper_sha256": "24a2b59e01abba08ecff8b04699c423c1c9b4cf032a1aaf58ca26f0cc92e0b41",
+    "database_helper_sha256": "ef07731094a4aba364915008b33f9b5433256ec4f7e46852f849f91d79eca633",
+    "protocol_sha256": "6f6e9a731ad7efec7c09e18fe507077504dcdb1c545c59d5c96287a68dfe05dc",
+    "v8_state_sha256": "48151f8fb825bd795de73692a64b3db95f6fd912fba849f062c0a4320249cd5c",
+    "source_B_sha256": "0072612fda0cb99b32fdf2430edf1ab01dff02e5c075ec3bc129cfb9ae67f25c",
+    "fixture_manifest_sha256": "5da4ed5f9254223974114640aa2566fa0276d4346c3341a14cd2b9317e7fc859",
+    "fixture_sha256": "3577740b457b26b208463897fe52336c5b5ae1ebace86f0539ab4e48bd7a2724",
+    "tenant_public_id": "877377bd-8e5e-48e3-9591-a7d87e5082aa",
+    "ordinary_role": true,
+    "auto_enroll": true,
+    "language": "en",
+    "speaker_count_hint": null,
+    "independent_accuracy_evidence": false,
+    "expected_chunks": 12,
+    "expected_gallery": 6,
+    "observation_timeout_seconds": 1200,
+    "poll_seconds": 2,
+    "rss_sample_seconds": 10,
+    "progress": [
+      {
+        "elapsed_seconds": 0.438,
+        "status": "queued",
+        "completed_chunks": 0,
+        "total_chunks": 12,
+        "processed_seconds": 0.0,
+        "observed_speakers": 0,
+        "error_code": null
+      },
+      {
+        "elapsed_seconds": 2.703,
+        "status": "running",
+        "completed_chunks": 0,
+        "total_chunks": 12,
+        "processed_seconds": 0.0,
+        "observed_speakers": 0,
+        "error_code": null
+      },
+      {
+        "elapsed_seconds": 44.485,
+        "status": "running",
+        "completed_chunks": 1,
+        "total_chunks": 12,
+        "processed_seconds": 300.0,
+        "observed_speakers": 5,
+        "error_code": null
+      },
+      {
+        "elapsed_seconds": 86.125,
+        "status": "running",
+        "completed_chunks": 2,
+        "total_chunks": 12,
+        "processed_seconds": 600.0,
+        "observed_speakers": 5,
+        "error_code": null
+      },
+      {
+        "elapsed_seconds": 135.938,
+        "status": "running",
+        "completed_chunks": 3,
+        "total_chunks": 12,
+        "processed_seconds": 900.0,
+        "observed_speakers": 5,
+        "error_code": null
+      },
+      {
+        "elapsed_seconds": 178.094,
+        "status": "running",
+        "completed_chunks": 4,
+        "total_chunks": 12,
+        "processed_seconds": 1200.0,
+        "observed_speakers": 5,
+        "error_code": null
+      },
+      {
+        "elapsed_seconds": 217.719,
+        "status": "running",
+        "completed_chunks": 5,
+        "total_chunks": 12,
+        "processed_seconds": 1500.0,
+        "observed_speakers": 5,
+        "error_code": null
+      },
+      {
+        "elapsed_seconds": 257.438,
+        "status": "running",
+        "completed_chunks": 6,
+        "total_chunks": 12,
+        "processed_seconds": 1800.0,
+        "observed_speakers": 5,
+        "error_code": null
+      },
+      {
+        "elapsed_seconds": 297.156,
+        "status": "running",
+        "completed_chunks": 7,
+        "total_chunks": 12,
+        "processed_seconds": 2100.0,
+        "observed_speakers": 5,
+        "error_code": null
+      },
+      {
+        "elapsed_seconds": 336.844,
+        "status": "running",
+        "completed_chunks": 8,
+        "total_chunks": 12,
+        "processed_seconds": 2400.0,
+        "observed_speakers": 5,
+        "error_code": null
+      },
+      {
+        "elapsed_seconds": 378.5,
+        "status": "running",
+        "completed_chunks": 9,
+        "total_chunks": 12,
+        "processed_seconds": 2700.0,
+        "observed_speakers": 5,
+        "error_code": null
+      }
+    ],
+    "rss": [
+      {
+        "elapsed_seconds": 0.438,
+        "pid": 1,
+        "name": "python",
+        "rss_bytes": 96874496,
+        "lifetime_hwm_bytes": 140570624,
+        "start_ticks": 518000,
+        "memory.current": 86986752,
+        "memory.peak": 214585344,
+        "memory.max": "max",
+        "available": true
+      },
+      {
+        "elapsed_seconds": 10.797,
+        "pid": 1,
+        "name": "python",
+        "rss_bytes": 106643456,
+        "lifetime_hwm_bytes": 140570624,
+        "start_ticks": 518000,
+        "memory.current": 96358400,
+        "memory.peak": 214585344,
+        "memory.max": "max",
+        "available": true
+      },
+      {
+        "elapsed_seconds": 21.25,
+        "pid": 1,
+        "name": "python",
+        "rss_bytes": 106643456,
+        "lifetime_hwm_bytes": 140570624,
+        "start_ticks": 518000,
+        "memory.current": 96493568,
+        "memory.peak": 214585344,
+        "memory.max": "max",
+        "available": true
+      },
+      {
+        "elapsed_seconds": 31.719,
+        "pid": 1,
+        "name": "python",
+        "rss_bytes": 106643456,
+        "lifetime_hwm_bytes": 140570624,
+        "start_ticks": 518000,
+        "memory.current": 96374784,
+        "memory.peak": 214585344,
+        "memory.max": "max",
+        "available": true
+      },
+      {
+        "elapsed_seconds": 42.188,
+        "pid": 1,
+        "name": "python",
+        "rss_bytes": 106643456,
+        "lifetime_hwm_bytes": 140570624,
+        "start_ticks": 518000,
+        "memory.current": 95981568,
+        "memory.peak": 214585344,
+        "memory.max": "max",
+        "available": true
+      },
+      {
+        "elapsed_seconds": 52.563,
+        "pid": 1,
+        "name": "python",
+        "rss_bytes": 117673984,
+        "lifetime_hwm_bytes": 140570624,
+        "start_ticks": 518000,
+        "memory.current": 107487232,
+        "memory.peak": 214585344,
+        "memory.max": "max",
+        "available": true
+      },
+      {
+        "elapsed_seconds": 62.953,
+        "pid": 1,
+        "name": "python",
+        "rss_bytes": 117673984,
+        "lifetime_hwm_bytes": 140570624,
+        "start_ticks": 518000,
+        "memory.current": 107356160,
+        "memory.peak": 214585344,
+        "memory.max": "max",
+        "available": true
+      },
+      {
+        "elapsed_seconds": 73.375,
+        "pid": 1,
+        "name": "python",
+        "rss_bytes": 117673984,
+        "lifetime_hwm_bytes": 140570624,
+        "start_ticks": 518000,
+        "memory.current": 107487232,
+        "memory.peak": 214585344,
+        "memory.max": "max",
+        "available": true
+      },
+      {
+        "elapsed_seconds": 83.781,
+        "pid": 1,
+        "name": "python",
+        "rss_bytes": 117673984,
+        "lifetime_hwm_bytes": 140570624,
+        "start_ticks": 518000,
+        "memory.current": 107831296,
+        "memory.peak": 214585344,
+        "memory.max": "max",
+        "available": true
+      },
+      {
+        "elapsed_seconds": 94.203,
+        "pid": 1,
+        "name": "python",
+        "rss_bytes": 128512000,
+        "lifetime_hwm_bytes": 140570624,
+        "start_ticks": 518000,
+        "memory.current": 118530048,
+        "memory.peak": 214585344,
+        "memory.max": "max",
+        "available": true
+      },
+      {
+        "elapsed_seconds": 104.578,
+        "pid": 1,
+        "name": "python",
+        "rss_bytes": 128512000,
+        "lifetime_hwm_bytes": 140570624,
+        "start_ticks": 518000,
+        "memory.current": 118636544,
+        "memory.peak": 214585344,
+        "memory.max": "max",
+        "available": true
+      },
+      {
+        "elapsed_seconds": 115.11,
+        "pid": 1,
+        "name": "python",
+        "rss_bytes": 128512000,
+        "lifetime_hwm_bytes": 140570624,
+        "start_ticks": 518000,
+        "memory.current": 118415360,
+        "memory.peak": 214585344,
+        "memory.max": "max",
+        "available": true
+      },
+      {
+        "elapsed_seconds": 125.531,
+        "pid": 1,
+        "name": "python",
+        "rss_bytes": 128512000,
+        "lifetime_hwm_bytes": 140570624,
+        "start_ticks": 518000,
+        "memory.current": 118312960,
+        "memory.peak": 214585344,
+        "memory.max": "max",
+        "available": true
+      },
+      {
+        "elapsed_seconds": 135.938,
+        "pid": 1,
+        "name": "python",
+        "rss_bytes": 108945408,
+        "lifetime_hwm_bytes": 140570624,
+        "start_ticks": 518000,
+        "memory.current": 98328576,
+        "memory.peak": 214585344,
+        "memory.max": "max",
+        "available": true
+      },
+      {
+        "elapsed_seconds": 146.406,
+        "pid": 1,
+        "name": "python",
+        "rss_bytes": 108945408,
+        "lifetime_hwm_bytes": 140570624,
+        "start_ticks": 518000,
+        "memory.current": 98615296,
+        "memory.peak": 214585344,
+        "memory.max": "max",
+        "available": true
+      },
+      {
+        "elapsed_seconds": 156.75,
+        "pid": 1,
+        "name": "python",
+        "rss_bytes": 108945408,
+        "lifetime_hwm_bytes": 140570624,
+        "start_ticks": 518000,
+        "memory.current": 99246080,
+        "memory.peak": 214585344,
+        "memory.max": "max",
+        "available": true
+      },
+      {
+        "elapsed_seconds": 167.281,
+        "pid": 1,
+        "name": "python",
+        "rss_bytes": 108945408,
+        "lifetime_hwm_bytes": 140570624,
+        "start_ticks": 518000,
+        "memory.current": 98197504,
+        "memory.peak": 214585344,
+        "memory.max": "max",
+        "available": true
+      },
+      {
+        "elapsed_seconds": 178.094,
+        "pid": 1,
+        "name": "python",
+        "rss_bytes": 118865920,
+        "lifetime_hwm_bytes": 140570624,
+        "start_ticks": 518000,
+        "memory.current": 108642304,
+        "memory.peak": 214585344,
+        "memory.max": "max",
+        "available": true
+      },
+      {
+        "elapsed_seconds": 188.516,
+        "pid": 1,
+        "name": "python",
+        "rss_bytes": 118865920,
+        "lifetime_hwm_bytes": 140570624,
+        "start_ticks": 518000,
+        "memory.current": 108765184,
+        "memory.peak": 214585344,
+        "memory.max": "max",
+        "available": true
+      },
+      {
+        "elapsed_seconds": 198.891,
+        "pid": 1,
+        "name": "python",
+        "rss_bytes": 118865920,
+        "lifetime_hwm_bytes": 140570624,
+        "start_ticks": 518000,
+        "memory.current": 108933120,
+        "memory.peak": 214585344,
+        "memory.max": "max",
+        "available": true
+      },
+      {
+        "elapsed_seconds": 209.313,
+        "pid": 1,
+        "name": "python",
+        "rss_bytes": 118865920,
+        "lifetime_hwm_bytes": 140570624,
+        "start_ticks": 518000,
+        "memory.current": 109170688,
+        "memory.peak": 214585344,
+        "memory.max": "max",
+        "available": true
+      },
+      {
+        "elapsed_seconds": 219.735,
+        "pid": 1,
+        "name": "python",
+        "rss_bytes": 128872448,
+        "lifetime_hwm_bytes": 140570624,
+        "start_ticks": 518000,
+        "memory.current": 119185408,
+        "memory.peak": 214585344,
+        "memory.max": "max",
+        "available": true
+      },
+      {
+        "elapsed_seconds": 230.266,
+        "pid": 1,
+        "name": "python",
+        "rss_bytes": 128872448,
+        "lifetime_hwm_bytes": 140570624,
+        "start_ticks": 518000,
+        "memory.current": 119500800,
+        "memory.peak": 214585344,
+        "memory.max": "max",
+        "available": true
+      },
+      {
+        "elapsed_seconds": 240.656,
+        "pid": 1,
+        "name": "python",
+        "rss_bytes": 128872448,
+        "lifetime_hwm_bytes": 140570624,
+        "start_ticks": 518000,
+        "memory.current": 118845440,
+        "memory.peak": 214585344,
+        "memory.max": "max",
+        "available": true
+      },
+      {
+        "elapsed_seconds": 251.078,
+        "pid": 1,
+        "name": "python",
+        "rss_bytes": 128872448,
+        "lifetime_hwm_bytes": 140570624,
+        "start_ticks": 518000,
+        "memory.current": 118759424,
+        "memory.peak": 214585344,
+        "memory.max": "max",
+        "available": true
+      },
+      {
+        "elapsed_seconds": 261.5,
+        "pid": 1,
+        "name": "python",
+        "rss_bytes": 109248512,
+        "lifetime_hwm_bytes": 140570624,
+        "start_ticks": 518000,
+        "memory.current": 99905536,
+        "memory.peak": 214585344,
+        "memory.max": "max",
+        "available": true
+      },
+      {
+        "elapsed_seconds": 271.922,
+        "pid": 1,
+        "name": "python",
+        "rss_bytes": 109248512,
+        "lifetime_hwm_bytes": 140570624,
+        "start_ticks": 518000,
+        "memory.current": 99065856,
+        "memory.peak": 214585344,
+        "memory.max": "max",
+        "available": true
+      },
+      {
+        "elapsed_seconds": 282.375,
+        "pid": 1,
+        "name": "python",
+        "rss_bytes": 109248512,
+        "lifetime_hwm_bytes": 140570624,
+        "start_ticks": 518000,
+        "memory.current": 99012608,
+        "memory.peak": 214585344,
+        "memory.max": "max",
+        "available": true
+      },
+      {
+        "elapsed_seconds": 292.781,
+        "pid": 1,
+        "name": "python",
+        "rss_bytes": 109248512,
+        "lifetime_hwm_bytes": 140570624,
+        "start_ticks": 518000,
+        "memory.current": 98250752,
+        "memory.peak": 214585344,
+        "memory.max": "max",
+        "available": true
+      },
+      {
+        "elapsed_seconds": 303.235,
+        "pid": 1,
+        "name": "python",
+        "rss_bytes": 119291904,
+        "lifetime_hwm_bytes": 140570624,
+        "start_ticks": 518000,
+        "memory.current": 109387776,
+        "memory.peak": 214585344,
+        "memory.max": "max",
+        "available": true
+      },
+      {
+        "elapsed_seconds": 313.594,
+        "pid": 1,
+        "name": "python",
+        "rss_bytes": 119291904,
+        "lifetime_hwm_bytes": 140570624,
+        "start_ticks": 518000,
+        "memory.current": 108830720,
+        "memory.peak": 214585344,
+        "memory.max": "max",
+        "available": true
+      },
+      {
+        "elapsed_seconds": 324.094,
+        "pid": 1,
+        "name": "python",
+        "rss_bytes": 119291904,
+        "lifetime_hwm_bytes": 140570624,
+        "start_ticks": 518000,
+        "memory.current": 109072384,
+        "memory.peak": 214585344,
+        "memory.max": "max",
+        "available": true
+      },
+      {
+        "elapsed_seconds": 334.531,
+        "pid": 1,
+        "name": "python",
+        "rss_bytes": 119291904,
+        "lifetime_hwm_bytes": 140570624,
+        "start_ticks": 518000,
+        "memory.current": 109793280,
+        "memory.peak": 214585344,
+        "memory.max": "max",
+        "available": true
+      },
+      {
+        "elapsed_seconds": 344.938,
+        "pid": 1,
+        "name": "python",
+        "rss_bytes": 109510656,
+        "lifetime_hwm_bytes": 140570624,
+        "start_ticks": 518000,
+        "memory.current": 100134912,
+        "memory.peak": 214585344,
+        "memory.max": "max",
+        "available": true
+      },
+      {
+        "elapsed_seconds": 355.313,
+        "pid": 1,
+        "name": "python",
+        "rss_bytes": 109510656,
+        "lifetime_hwm_bytes": 140570624,
+        "start_ticks": 518000,
+        "memory.current": 99803136,
+        "memory.peak": 214585344,
+        "memory.max": "max",
+        "available": true
+      },
+      {
+        "elapsed_seconds": 365.75,
+        "pid": 1,
+        "name": "python",
+        "rss_bytes": 109510656,
+        "lifetime_hwm_bytes": 140570624,
+        "start_ticks": 518000,
+        "memory.current": 99147776,
+        "memory.peak": 214585344,
+        "memory.max": "max",
+        "available": true
+      },
+      {
+        "elapsed_seconds": 376.203,
+        "pid": 1,
+        "name": "python",
+        "rss_bytes": 119537664,
+        "lifetime_hwm_bytes": 140570624,
+        "start_ticks": 518000,
+        "memory.current": 109047808,
+        "memory.peak": 214585344,
+        "memory.max": "max",
+        "available": true
+      }
+    ],
+    "error_codes": [],
+    "before_sha256": "ce883bbcd7d8da29919a67700ce1cfc4316fced58b346532faef819ec051b5a7",
+    "containers_before": {
+      "voiceup-worker-1": {
+        "id": "250c85fe5628f029b8f9b0a8abf0f44776af01574ca6493830661c5a5e86486d",
+        "image": "sha256:e04840120dcc7386f8e612439fff10d72908db0bfef7e225dafe05168eba1994",
+        "started_at": "2026-09-11T06:36:20.094845926Z"
+      },
+      "voiceup-inference-1": {
+        "id": "0473cfa13819992246d9cd9fa11763b72aa1e95c172b8cf3e6769485741c8585",
+        "image": "sha256:09dbebcbdaff48b701260d8e837344aca6c5bb13cde762cf14781dc37bd08110",
+        "started_at": "2026-09-11T06:17:46.295289467Z"
+      },
+      "voiceup-backend-1": {
+        "id": "f2afcdac98c47053c7676738b55627ab6d5615771e1f08fb8500691067e576de",
+        "image": "sha256:e04840120dcc7386f8e612439fff10d72908db0bfef7e225dafe05168eba1994",
+        "started_at": "2026-09-11T06:36:10.184242382Z"
+      }
+    },
+    "rss_before": {
+      "pid": 1,
+      "name": "python",
+      "rss_bytes": 96874496,
+      "lifetime_hwm_bytes": 140570624,
+      "start_ticks": 518000,
+      "memory.current": 86728704,
+      "memory.peak": 214585344,
+      "memory.max": "max",
+      "available": true
+    },
+    "upload_seconds": 2.2030000000004293,
+    "meeting_public_id": "cad11eeb-19c1-4f94-a299-c8fb28244761",
+    "repeat_complete_verified": true,
+    "latest": {
+      "status": "running",
+      "completed_chunks": 9,
+      "total_chunks": 12,
+      "processed_seconds": 2700.0,
+      "observed_speakers": 5,
+      "error_code": null
+    },
+    "error_code": "bounded_worker_observation_failed",
+    "finished_at_utc": "2026-09-11T07:04:51.231984+00:00"
+  },
+  "resumed_observation": {
+    "schema_version": 1,
+    "status": "passed",
+    "scope": "same-job read-only observer continuation",
+    "runner_sha256": "ae39ee728987f801a7c74215b952871aeb969560b0d8d3cd27e758b605d2b6b2",
+    "original_observer_result_sha256": "25a5702f412f2c7ccbd12c9aa3907c047b62c56432eb49b5c2b79a5f69c45142",
+    "original_observer_state_sha256": "1d407e9bed01c6c492116a037ed64af8c7b94961b2d2d70aec13ee250d516bd7",
+    "original_observer_error": "bounded_worker_observation_failed",
+    "meeting_public_id": "cad11eeb-19c1-4f94-a299-c8fb28244761",
+    "started_at_utc": "2026-09-11T07:07:24.061434+00:00",
+    "progress": [
+      {
+        "elapsed_seconds": 539.63808,
+        "status": "finalizing",
+        "completed_chunks": 12,
+        "total_chunks": 12,
+        "processed_seconds": 3600.0,
+        "observed_speakers": 5,
+        "error_code": null
+      },
+      {
+        "elapsed_seconds": 600.141861,
+        "status": "succeeded",
+        "completed_chunks": 12,
+        "total_chunks": 12,
+        "processed_seconds": 3600.0,
+        "observed_speakers": 5,
+        "error_code": null
+      }
+    ],
+    "rss": [
+      {
+        "elapsed_seconds": 539.63808,
+        "pid": 1,
+        "name": "python",
+        "rss_bytes": 104751104,
+        "lifetime_hwm_bytes": 140570624,
+        "start_ticks": 518000,
+        "memory.current": 94326784,
+        "memory.peak": 214585344,
+        "memory.max": "max",
+        "available": true
+      },
+      {
+        "elapsed_seconds": 550.096912,
+        "pid": 1,
+        "name": "python",
+        "rss_bytes": 104673280,
+        "lifetime_hwm_bytes": 140570624,
+        "start_ticks": 518000,
+        "memory.current": 94310400,
+        "memory.peak": 214585344,
+        "memory.max": "max",
+        "available": true
+      },
+      {
+        "elapsed_seconds": 560.515403,
+        "pid": 1,
+        "name": "python",
+        "rss_bytes": 104673280,
+        "lifetime_hwm_bytes": 140570624,
+        "start_ticks": 518000,
+        "memory.current": 94838784,
+        "memory.peak": 214585344,
+        "memory.max": "max",
+        "available": true
+      },
+      {
+        "elapsed_seconds": 570.884498,
+        "pid": 1,
+        "name": "python",
+        "rss_bytes": 104730624,
+        "lifetime_hwm_bytes": 140570624,
+        "start_ticks": 518000,
+        "memory.current": 95006720,
+        "memory.peak": 214585344,
+        "memory.max": "max",
+        "available": true
+      },
+      {
+        "elapsed_seconds": 581.343826,
+        "pid": 1,
+        "name": "python",
+        "rss_bytes": 104718336,
+        "lifetime_hwm_bytes": 140570624,
+        "start_ticks": 518000,
+        "memory.current": 95084544,
+        "memory.peak": 214585344,
+        "memory.max": "max",
+        "available": true
+      },
+      {
+        "elapsed_seconds": 591.778154,
+        "pid": 1,
+        "name": "python",
+        "rss_bytes": 104718336,
+        "lifetime_hwm_bytes": 140570624,
+        "start_ticks": 518000,
+        "memory.current": 94351360,
+        "memory.peak": 214585344,
+        "memory.max": "max",
+        "available": true
+      }
+    ],
+    "observation_errors": [],
+    "same_original_1200_second_deadline": true,
+    "new_upload_or_complete_requests": 0,
+    "latest": {
+      "status": "succeeded",
+      "completed_chunks": 12,
+      "total_chunks": 12,
+      "processed_seconds": 3600.0,
+      "observed_speakers": 5,
+      "error_code": null
+    },
+    "total_wall_seconds_from_original_start": 600.177704,
+    "processing_per_audio_ratio_upper_bound": 0.16671602888888887,
+    "before_sha256": "ce883bbcd7d8da29919a67700ce1cfc4316fced58b346532faef819ec051b5a7",
+    "after_sha256": "1cc864cce67f7c56367fca4179958928618a063381ebbf9ab6b67200be1f3af1",
+    "profiles_exact_equal": true,
+    "samples_exact_equal": true,
+    "gallery_total": 6,
+    "decisions": {
+      "recognized": 5
+    },
+    "observed_speakers": 5,
+    "profile_ids": [
+      "2da9ba55-12f0-4451-863b-ad2312e61cbb",
+      "616f51bd-a5cc-4beb-9b06-387dcf490852",
+      "6c16b67b-bf1b-4bd7-abc3-ade1bb5d923a",
+      "7b1f95c6-8c56-4904-8c5d-467c7089b62f",
+      "d364c706-60f4-4c4b-8934-cf5c3254fcae"
+    ],
+    "all_linked_profiles_preexisting": true,
+    "transcript_segments": 1280,
+    "transcript_characters": 52366,
+    "transcript_sha256": "7477a1b1cf709c3f978d3349cb37d15d2dfd537641833186a276754d3c0f3f41",
+    "containers_after": {
+      "voiceup-worker-1": {
+        "id": "250c85fe5628f029b8f9b0a8abf0f44776af01574ca6493830661c5a5e86486d",
+        "image": "sha256:e04840120dcc7386f8e612439fff10d72908db0bfef7e225dafe05168eba1994",
+        "started_at": "2026-09-11T06:36:20.094845926Z"
+      },
+      "voiceup-inference-1": {
+        "id": "0473cfa13819992246d9cd9fa11763b72aa1e95c172b8cf3e6769485741c8585",
+        "image": "sha256:09dbebcbdaff48b701260d8e837344aca6c5bb13cde762cf14781dc37bd08110",
+        "started_at": "2026-09-11T06:17:46.295289467Z"
+      },
+      "voiceup-backend-1": {
+        "id": "f2afcdac98c47053c7676738b55627ab6d5615771e1f08fb8500691067e576de",
+        "image": "sha256:e04840120dcc7386f8e612439fff10d72908db0bfef7e225dafe05168eba1994",
+        "started_at": "2026-09-11T06:36:10.184242382Z"
+      }
+    },
+    "containers_unchanged": true,
+    "rss_after": {
+      "pid": 1,
+      "name": "python",
+      "rss_bytes": 100319232,
+      "lifetime_hwm_bytes": 140570624,
+      "start_ticks": 518000,
+      "memory.current": 90095616,
+      "memory.peak": 214585344,
+      "memory.max": "max",
+      "available": true
+    },
+    "rss_total_samples": 45,
+    "rss_peak_observed_bytes": 128872448,
+    "rss_lifetime_hwm_before_bytes": 140570624,
+    "rss_lifetime_hwm_after_bytes": 140570624,
+    "worker_process_unchanged": true,
+    "original_v8_state_unchanged": true,
+    "original_protocol_unchanged": true,
+    "original_observer_files_unchanged": true,
+    "source_B_unchanged": true,
+    "source_hash_matches": true,
+    "endurance_passed": true,
+    "five_known_tracks_observed": true,
+    "finished_at_utc": "2026-09-11T07:08:27.017219+00:00"
+  },
+  "persisted_source_core_audit": {
+    "schema_version": 1,
+    "runner_sha256": "fa9bba16e4423bfb92b580b9497bc148fa6d99fbe41672cd327c1b8f78aa725e",
+    "main_result_sha256": "97b9e743656b3970a849d0f269ee764f260061ce07cd84a0ebf548da78ae04e3",
+    "original_observer_result_sha256": "25a5702f412f2c7ccbd12c9aa3907c047b62c56432eb49b5c2b79a5f69c45142",
+    "observed_at_utc": "2026-09-11 07:09:23.629005+00:00",
+    "meeting_public_id": "cad11eeb-19c1-4f94-a299-c8fb28244761",
+    "transaction_read_only": "on",
+    "transaction_isolation": "repeatable read",
+    "persisted_chunks": [
+      {
+        "checkpoint_version": "1",
+        "committed_until": "295",
+        "context_end": 305.0,
+        "context_start": 0.0,
+        "core_end": 300.0,
+        "core_start": 0.0,
+        "device": "cuda:0",
+        "index": 0,
+        "input_seconds": "305.0",
+        "is_deleted": false,
+        "model_identity": {
+          "asr": {
+            "model_id": "Systran/faster-whisper-large-v3",
+            "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478"
+          },
+          "diarization": {
+            "model_id": "pyannote/speaker-diarization-community-1",
+            "recipe": "community-vbx-fa015-v1",
+            "revision": "3533c8cf8e369892e6b79ff1bf80f7b0286a54ee"
+          },
+          "embedding": {
+            "dimensions": 192,
+            "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+            "revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286"
+          }
+        },
+        "observed_tracks": 6,
+        "private_result_sha256": "b32bb79db1757732a7bae65c8da760ce1ddd7df414ea5cb9880d565ab2a5d68f",
+        "sample_rate": "16000",
+        "status": "succeeded"
+      },
+      {
+        "checkpoint_version": "1",
+        "committed_until": "595",
+        "context_end": 605.0,
+        "context_start": 295.0,
+        "core_end": 600.0,
+        "core_start": 300.0,
+        "device": "cuda:0",
+        "index": 1,
+        "input_seconds": "310.0",
+        "is_deleted": false,
+        "model_identity": {
+          "asr": {
+            "model_id": "Systran/faster-whisper-large-v3",
+            "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478"
+          },
+          "diarization": {
+            "model_id": "pyannote/speaker-diarization-community-1",
+            "recipe": "community-vbx-fa015-v1",
+            "revision": "3533c8cf8e369892e6b79ff1bf80f7b0286a54ee"
+          },
+          "embedding": {
+            "dimensions": 192,
+            "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+            "revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286"
+          }
+        },
+        "observed_tracks": 7,
+        "private_result_sha256": "6668da55ee687ad8e9cadbfbddef89072c391951044808f1fb0b6f1abf898c71",
+        "sample_rate": "16000",
+        "status": "succeeded"
+      },
+      {
+        "checkpoint_version": "1",
+        "committed_until": "895",
+        "context_end": 905.0,
+        "context_start": 595.0,
+        "core_end": 900.0,
+        "core_start": 600.0,
+        "device": "cuda:0",
+        "index": 2,
+        "input_seconds": "310.0",
+        "is_deleted": false,
+        "model_identity": {
+          "asr": {
+            "model_id": "Systran/faster-whisper-large-v3",
+            "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478"
+          },
+          "diarization": {
+            "model_id": "pyannote/speaker-diarization-community-1",
+            "recipe": "community-vbx-fa015-v1",
+            "revision": "3533c8cf8e369892e6b79ff1bf80f7b0286a54ee"
+          },
+          "embedding": {
+            "dimensions": 192,
+            "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+            "revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286"
+          }
+        },
+        "observed_tracks": 6,
+        "private_result_sha256": "3dd2cbf079f01591a9d0f38bc8ad96092c2fa1d1aa65c08f484b83d5ca679c7c",
+        "sample_rate": "16000",
+        "status": "succeeded"
+      },
+      {
+        "checkpoint_version": "1",
+        "committed_until": "1195",
+        "context_end": 1205.0,
+        "context_start": 895.0,
+        "core_end": 1200.0,
+        "core_start": 900.0,
+        "device": "cuda:0",
+        "index": 3,
+        "input_seconds": "310.0",
+        "is_deleted": false,
+        "model_identity": {
+          "asr": {
+            "model_id": "Systran/faster-whisper-large-v3",
+            "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478"
+          },
+          "diarization": {
+            "model_id": "pyannote/speaker-diarization-community-1",
+            "recipe": "community-vbx-fa015-v1",
+            "revision": "3533c8cf8e369892e6b79ff1bf80f7b0286a54ee"
+          },
+          "embedding": {
+            "dimensions": 192,
+            "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+            "revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286"
+          }
+        },
+        "observed_tracks": 6,
+        "private_result_sha256": "7765f7c47ec9e8a8467662fb00ed434a8bb1495f2c8031c5766596259b1767bf",
+        "sample_rate": "16000",
+        "status": "succeeded"
+      },
+      {
+        "checkpoint_version": "1",
+        "committed_until": "1495",
+        "context_end": 1505.0,
+        "context_start": 1195.0,
+        "core_end": 1500.0,
+        "core_start": 1200.0,
+        "device": "cuda:0",
+        "index": 4,
+        "input_seconds": "310.0",
+        "is_deleted": false,
+        "model_identity": {
+          "asr": {
+            "model_id": "Systran/faster-whisper-large-v3",
+            "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478"
+          },
+          "diarization": {
+            "model_id": "pyannote/speaker-diarization-community-1",
+            "recipe": "community-vbx-fa015-v1",
+            "revision": "3533c8cf8e369892e6b79ff1bf80f7b0286a54ee"
+          },
+          "embedding": {
+            "dimensions": 192,
+            "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+            "revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286"
+          }
+        },
+        "observed_tracks": 6,
+        "private_result_sha256": "c964481a408f5dc1134596c92de4114db342ea43004fa0603f0f28d5cb559b5f",
+        "sample_rate": "16000",
+        "status": "succeeded"
+      },
+      {
+        "checkpoint_version": "1",
+        "committed_until": "1795",
+        "context_end": 1805.0,
+        "context_start": 1495.0,
+        "core_end": 1800.0,
+        "core_start": 1500.0,
+        "device": "cuda:0",
+        "index": 5,
+        "input_seconds": "310.0",
+        "is_deleted": false,
+        "model_identity": {
+          "asr": {
+            "model_id": "Systran/faster-whisper-large-v3",
+            "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478"
+          },
+          "diarization": {
+            "model_id": "pyannote/speaker-diarization-community-1",
+            "recipe": "community-vbx-fa015-v1",
+            "revision": "3533c8cf8e369892e6b79ff1bf80f7b0286a54ee"
+          },
+          "embedding": {
+            "dimensions": 192,
+            "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+            "revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286"
+          }
+        },
+        "observed_tracks": 6,
+        "private_result_sha256": "447b672ac0ca20943fccef1a071c9a455bc7ef986174616f0243a98f71b6a9d1",
+        "sample_rate": "16000",
+        "status": "succeeded"
+      },
+      {
+        "checkpoint_version": "1",
+        "committed_until": "2095",
+        "context_end": 2105.0,
+        "context_start": 1795.0,
+        "core_end": 2100.0,
+        "core_start": 1800.0,
+        "device": "cuda:0",
+        "index": 6,
+        "input_seconds": "310.0",
+        "is_deleted": false,
+        "model_identity": {
+          "asr": {
+            "model_id": "Systran/faster-whisper-large-v3",
+            "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478"
+          },
+          "diarization": {
+            "model_id": "pyannote/speaker-diarization-community-1",
+            "recipe": "community-vbx-fa015-v1",
+            "revision": "3533c8cf8e369892e6b79ff1bf80f7b0286a54ee"
+          },
+          "embedding": {
+            "dimensions": 192,
+            "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+            "revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286"
+          }
+        },
+        "observed_tracks": 7,
+        "private_result_sha256": "7c7247142659623cfeab30806abe72394b01f46c8c1687a3060aab11f66a1a31",
+        "sample_rate": "16000",
+        "status": "succeeded"
+      },
+      {
+        "checkpoint_version": "1",
+        "committed_until": "2395",
+        "context_end": 2405.0,
+        "context_start": 2095.0,
+        "core_end": 2400.0,
+        "core_start": 2100.0,
+        "device": "cuda:0",
+        "index": 7,
+        "input_seconds": "310.0",
+        "is_deleted": false,
+        "model_identity": {
+          "asr": {
+            "model_id": "Systran/faster-whisper-large-v3",
+            "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478"
+          },
+          "diarization": {
+            "model_id": "pyannote/speaker-diarization-community-1",
+            "recipe": "community-vbx-fa015-v1",
+            "revision": "3533c8cf8e369892e6b79ff1bf80f7b0286a54ee"
+          },
+          "embedding": {
+            "dimensions": 192,
+            "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+            "revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286"
+          }
+        },
+        "observed_tracks": 6,
+        "private_result_sha256": "406561d1fd1173d8df6f04ef5c9c9203eccc60977b622458304d631e94b3b587",
+        "sample_rate": "16000",
+        "status": "succeeded"
+      },
+      {
+        "checkpoint_version": "1",
+        "committed_until": "2695",
+        "context_end": 2705.0,
+        "context_start": 2395.0,
+        "core_end": 2700.0,
+        "core_start": 2400.0,
+        "device": "cuda:0",
+        "index": 8,
+        "input_seconds": "310.0",
+        "is_deleted": false,
+        "model_identity": {
+          "asr": {
+            "model_id": "Systran/faster-whisper-large-v3",
+            "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478"
+          },
+          "diarization": {
+            "model_id": "pyannote/speaker-diarization-community-1",
+            "recipe": "community-vbx-fa015-v1",
+            "revision": "3533c8cf8e369892e6b79ff1bf80f7b0286a54ee"
+          },
+          "embedding": {
+            "dimensions": 192,
+            "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+            "revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286"
+          }
+        },
+        "observed_tracks": 6,
+        "private_result_sha256": "c62f53eda22b6d207ef76b657adfc08f60ab3f3af1c1320c5987e5c769cd8dd2",
+        "sample_rate": "16000",
+        "status": "succeeded"
+      },
+      {
+        "checkpoint_version": "1",
+        "committed_until": "2995",
+        "context_end": 3005.0,
+        "context_start": 2695.0,
+        "core_end": 3000.0,
+        "core_start": 2700.0,
+        "device": "cuda:0",
+        "index": 9,
+        "input_seconds": "310.0",
+        "is_deleted": false,
+        "model_identity": {
+          "asr": {
+            "model_id": "Systran/faster-whisper-large-v3",
+            "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478"
+          },
+          "diarization": {
+            "model_id": "pyannote/speaker-diarization-community-1",
+            "recipe": "community-vbx-fa015-v1",
+            "revision": "3533c8cf8e369892e6b79ff1bf80f7b0286a54ee"
+          },
+          "embedding": {
+            "dimensions": 192,
+            "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+            "revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286"
+          }
+        },
+        "observed_tracks": 5,
+        "private_result_sha256": "46f0a0a8d9c7abd251f086f4020dafdf1a256ed51931045c7db1a6d59de3d7b1",
+        "sample_rate": "16000",
+        "status": "succeeded"
+      },
+      {
+        "checkpoint_version": "1",
+        "committed_until": "3295",
+        "context_end": 3305.0,
+        "context_start": 2995.0,
+        "core_end": 3300.0,
+        "core_start": 3000.0,
+        "device": "cuda:0",
+        "index": 10,
+        "input_seconds": "310.0",
+        "is_deleted": false,
+        "model_identity": {
+          "asr": {
+            "model_id": "Systran/faster-whisper-large-v3",
+            "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478"
+          },
+          "diarization": {
+            "model_id": "pyannote/speaker-diarization-community-1",
+            "recipe": "community-vbx-fa015-v1",
+            "revision": "3533c8cf8e369892e6b79ff1bf80f7b0286a54ee"
+          },
+          "embedding": {
+            "dimensions": 192,
+            "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+            "revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286"
+          }
+        },
+        "observed_tracks": 6,
+        "private_result_sha256": "b0994bb447f376809723d2f6c6f52609f761c62861530ea66c62bd9914ef105f",
+        "sample_rate": "16000",
+        "status": "succeeded"
+      },
+      {
+        "checkpoint_version": "1",
+        "committed_until": "3600.0",
+        "context_end": 3600.0,
+        "context_start": 3295.0,
+        "core_end": 3600.0,
+        "core_start": 3300.0,
+        "device": "cuda:0",
+        "index": 11,
+        "input_seconds": "305.0",
+        "is_deleted": false,
+        "model_identity": {
+          "asr": {
+            "model_id": "Systran/faster-whisper-large-v3",
+            "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478"
+          },
+          "diarization": {
+            "model_id": "pyannote/speaker-diarization-community-1",
+            "recipe": "community-vbx-fa015-v1",
+            "revision": "3533c8cf8e369892e6b79ff1bf80f7b0286a54ee"
+          },
+          "embedding": {
+            "dimensions": 192,
+            "model_id": "speechbrain/spkrec-ecapa-voxceleb",
+            "revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286"
+          }
+        },
+        "observed_tracks": 8,
+        "private_result_sha256": "dbda7059bebd3678fff1f1bab6e592c729cbc8ada8263d165a0269b5ddd1c8d5",
+        "sample_rate": "16000",
+        "status": "succeeded"
+      }
+    ],
+    "exact_12_source_cores_passed": true,
+    "owned_seconds": 3600,
+    "maximum_context_seconds": 310.0,
+    "model_identity_same_all_chunks": true
+  },
+  "profile_immutability": [
+    {
+      "public_id": "2da9ba55-12f0-4451-863b-ad2312e61cbb",
+      "sample_count": 1,
+      "immutable_sha256": "8af46200515d301df8cf299775506afad6a10d17c98502cd59a45fce4b76afea",
+      "name_sha256": "7816edc0e776e6336bb1ea5acf1e31592a49d418d0c63f4f7ac2791386749f77",
+      "embedding_sha256": "295a84fa461def710a5628066a043c08aa933d4d00d6c2b52cc0c44f8ea6b994",
+      "meeting_embedding_sha256": "abff9059240472a7a55fc52a2a184807e97ee472527522fe14725015764c665c",
+      "source_sha256": "09ccebb9aa42249d49196b779708c2e2c3b1ce4dc4ab530e78d626f2a56bc8f5",
+      "meeting_source_sha256": "dc6bcfb894f111288e7b7218de23d9dcb31395ab88f2fdf2961efda3d52ec354",
+      "sample_immutable_sha256": "f4de72ab49265e0bfde79763b0fa17ab5e2c82567443cdb186cf10988d31ceb9",
+      "profile_and_sample_equal_after": true
+    },
+    {
+      "public_id": "616f51bd-a5cc-4beb-9b06-387dcf490852",
+      "sample_count": 1,
+      "immutable_sha256": "aa921542330b1c093357ed1d4da0bb9bdc7d3b0e53f2a3ec578f40f451081b99",
+      "name_sha256": "ce0af3e98fd0b536f62fe981f0b8ff60378718b9113d94881baec2ee5ad68e1f",
+      "embedding_sha256": "b2e38fab903fd7bdd999c30d11e16a5c01c86573803f5441197f5279201f87fa",
+      "meeting_embedding_sha256": "61b732c188f9864c268a425b85ac19ebd0bf43277ebea864832b8de6a48c42d2",
+      "source_sha256": "c81ef8c3b55bfb83da9c4a921d1cf8e6908db6885459befc41aa97a377cf336a",
+      "meeting_source_sha256": "4a21c1ce26f4975b26c4047770683ac98a8d1e0737833fb6f00d32b9cf4662ad",
+      "sample_immutable_sha256": "5509193ca34cedb0a19041f03504698bfbe14ff438e37e4cfab53ffffb4d7087",
+      "profile_and_sample_equal_after": true
+    },
+    {
+      "public_id": "6c16b67b-bf1b-4bd7-abc3-ade1bb5d923a",
+      "sample_count": 1,
+      "immutable_sha256": "e64f435b440cf50fe884637745c1170e7d7d13e5ad346196b4d3c5a292d8c31e",
+      "name_sha256": "a4a83c9b98471a1f59d39c1613e3e05d63c1a08774b34a4bbc54f9a8b60dd822",
+      "embedding_sha256": "cc6522e09c7639a9f07a65791a7f5be7a40abb75c81bc6e2e471a3a79f97f60d",
+      "meeting_embedding_sha256": "0dc8a77e8be530a36472c75f2b89b3d7d54595351362c97c038f39b1e9836d38",
+      "source_sha256": "f0d5fba41d3d820e02dceadeabe8b1913dd8c1aad35c59e8d56baaff8ca43263",
+      "meeting_source_sha256": "da934d984215b7bf7c45c6e80bd1f460f9c09bf283441a77b02ff52c29df27e7",
+      "sample_immutable_sha256": "d01b31c8ce1e36e80ae15b999bca5b9a22b4ffb3f134fd1c2184dfa2564457e1",
+      "profile_and_sample_equal_after": true
+    },
+    {
+      "public_id": "7b1f95c6-8c56-4904-8c5d-467c7089b62f",
+      "sample_count": 1,
+      "immutable_sha256": "3ea90010dee114ec4677d6401f082a199594dc54d65156cbca9215ff6e00d611",
+      "name_sha256": "90b5cb4bbcaa41d74c8fd12660415ed8359990fac438f6dfb82e008bdab4a280",
+      "embedding_sha256": "ae4587f2e526cfe645c14fa29f3a443294f5098f308f282778947bac518a4811",
+      "meeting_embedding_sha256": "08036ab03e99fd5c2b7c51fa3a100f1eaddff46ebdd4d497307657c45211f69f",
+      "source_sha256": "681c6ae4ad0ab7cc7e7b888de150307271d7c8d76625a095a125c307c70821dd",
+      "meeting_source_sha256": "8771f372cdd1676e435a8ed7114f5e66401e6677c48b77576f873e17160d4a83",
+      "sample_immutable_sha256": "78da1e0d802f9bbcfb9a8b0800f42e27d87cd87ef4e238e9e3018d9ecca94a86",
+      "profile_and_sample_equal_after": true
+    },
+    {
+      "public_id": "ad8ac660-c79d-46d1-9704-1961ded4144b",
+      "sample_count": 1,
+      "immutable_sha256": "04922f8378576fe89afd495b97d8a328db2296e88158b39a26f00d133ed44e2a",
+      "name_sha256": "15381b27b9c96b7d9c08828137c07340ec210b7552649f68c4e7dcac934ffb02",
+      "embedding_sha256": "7b9f8a4109c2000ffe030865d8ac2c147e4088e60fa0fa0d28bb21c0727ef386",
+      "meeting_embedding_sha256": "c87e08d689568efc4599dcb89c87b6734ed12e1ac40e6696d0527aeb83f1ac20",
+      "source_sha256": "687b54c29ad19d64a9b9c82c00ce9270f2af5e4d1685cd261e46197aa4992c77",
+      "meeting_source_sha256": "ec62732b583132013cfd54cee2c51a43a1b0e074ba0da71c53936df062d5d2f4",
+      "sample_immutable_sha256": "ce4f8374c4f2ce68cb0e0f7aebfe71dae264f5b6ae34a53c4b7c5d3868120b5d",
+      "profile_and_sample_equal_after": true
+    },
+    {
+      "public_id": "d364c706-60f4-4c4b-8934-cf5c3254fcae",
+      "sample_count": 1,
+      "immutable_sha256": "34d7a8557393d68709a065a1900f09df0df6167ee7db080b312e165cddbac265",
+      "name_sha256": "15fe95af03f721fc86582c09cb58d1a413834683df2c8ee324a14836dcce1999",
+      "embedding_sha256": "6eb734cef28d75113f6dbf1d1cdf3de1f1fbcfff790c569b126853280cf28b9c",
+      "meeting_embedding_sha256": "cdcb13dca67adfc7cf9e3d9cb403a87ca5af6811e6a0660037a556b2401f1f9e",
+      "source_sha256": "719f97c2c65821160598066b5d164f3cf66dc2bbb4df289e15e431d006aee297",
+      "meeting_source_sha256": "2d128d107b12e5d5748014c482c3a33685372051295fc1b2f657832375bfdda4",
+      "sample_immutable_sha256": "eba1f2cbd50043ff7de1a58235e5f00c4ccbf7fd743e3dd5822c26ab5b282e06",
+      "profile_and_sample_equal_after": true
+    }
+  ],
+  "limitations": [
+    "This repeats the same frozen English B source; it is worker endurance evidence, not additional independent accuracy, Turkish, or 50-person quality evidence.",
+    "The initial observer exited with a generic bounded_worker_observation_failed code. Its exception type was not captured; the cause is unknown. The application continued processing the same job without upload, complete, restart, or threshold changes.",
+    "Initial observer stopped at 07:04:51.231984 UTC; read-only observer continuation started at 07:07:24.061434 UTC. Per-process RSS samples are missing across this gap; original and resumed clocks have different origins.",
+    "RSS sampling is every approximately10 seconds. Observed peak122.90234375MiB is a sampled maximum, not an exact instantaneous maximum. The same worker process lifetime VmHWM was134.05859375MiB both before and after; this bounds process history but is not the exact peak attributable to this job.",
+    "The measured600.177704-second wall interval begins before upload and includes the observer interruption; it is an upper-bound end-to-end observation, not isolated model latency.",
+    "One actual3600-second repeated-source run does not establish all1/2/4-hour recordings or compute DER/WER/identityF1."
+  ]
+}

@@ -43,7 +43,7 @@ awk -v address="$address" '
   count += gsub(/http:\/\/voiceup-spark-host:/, "http://" address ":")
   print
 }
-END { if (count != 2) exit 1 }
+END { if (count != 5) exit 1 }
 ' /etc/nginx/spark.conf.template > "$directory/spark.conf" || fail
 
 awk -v private="$directory/spark.conf" '

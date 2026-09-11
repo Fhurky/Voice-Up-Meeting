@@ -7,7 +7,12 @@ from typing import Literal
 MODEL_ID = "speechbrain/spkrec-ecapa-voxceleb"
 MODEL_REVISION = "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286"
 DIMENSIONS = 192
-PreprocessingVersion = Literal["vad-windows-v1", "vad-packed-fallback-v1"]
+MEETING_MODEL_ID = "pyannote/speaker-diarization-community-1"
+MEETING_MODEL_REVISION = "3533c8cf8e369892e6b79ff1bf80f7b0286a54ee"
+MEETING_PREPROCESSING_VERSION = "meeting-natural-context-v1"
+PreprocessingVersion = Literal[
+    "vad-windows-v1", "vad-packed-fallback-v1", "meeting-natural-context-v1"
+]
 
 
 def normalize_name(value: str) -> str:

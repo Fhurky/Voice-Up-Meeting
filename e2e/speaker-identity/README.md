@@ -1,4 +1,4 @@
-# Yerel konuşmacı pilotu tarayıcı senaryoları
+# Konuşmacı ve toplantı tarayıcı senaryoları
 
 Kapsam [Accepted PRD](../../specs/speaker-identity/PRDs/001-local-speaker-pilot/PRD.md) ile tanımlıdır.
 `scripts/e2e.sh speaker-identity` mevcut ortak harness ve kabul edilmiş çevrimdışı tarayıcı paketini kullanır.
@@ -37,3 +37,31 @@ Ses dosyasının kendisini yeniden tanımak bağlantı kontrolüdür; ayrı otur
 değildir. Tekrarlanmış resmi test klibi kullanılabilir, ancak bunun oluşturulmuş fixture
 olduğu koşum raporunda belirtilmelidir. Gerçek kullanıcı veri seti olmadan beş kişilik
 tanıma hedefi tamamlanmış sayılmaz.
+
+Toplantı senaryoları [Accepted 002 PRD](../../specs/speaker-identity/PRDs/002-long-recording-analysis/PRD.md)
+kapsamındadır. Aynı `speaker-identity` koşucusuna kayıtlıdır; ek paket veya tarayıcı sürümü seçmez.
+
+- `APP_E2E_MEETING_USER` / `APP_E2E_MEETING_PASS`: boş ve yalnız test için ayrılmış tenant'ta sıradan hesap; `meeting_analysis:read`, `meeting_analysis:run`, `speaker_profiles:read`, `speaker_profiles:write` izinleri gerekir.
+- `APP_E2E_MEETING_READER_USER` / `APP_E2E_MEETING_READER_PASS`: aynı test tenant'ında yalnız toplantı/profil okuma izinleri olan sıradan hesap.
+- `APP_E2E_MEETING_AUDIO_A`: beş kişinin yeterli temiz konuşmasını içeren gerçek ses kaydı.
+- `APP_E2E_MEETING_AUDIO_B`: aynı beş kişinin farklı sözleri; A'nın tekrar kopyası olmamalıdır.
+- `APP_E2E_MEETING_AUDIO_D`: aynı beş kişi ve hafızaya yetecek kadar konuşmayan yeni altıncı kişi.
+- `APP_E2E_MEETING_AUDIO_C`: aynı altı kişinin, yeni kişiyi kaydetmeye yetecek temiz konuşması.
+
+`04-meeting-upload.mjs` iki dilde gerçek oturum, sayı girdisi, bozuk dosya,
+yükleme yenileme, gerçek hashli parça manifestiyle devam, yanlış dosyayı reddetme,
+iptal, silme ve salt okunur izinleri sınar. Sonuç uydurmaz; bozuk ses model doğruluğu kanıtı değildir.
+`05-meeting-memory.mjs` gerçek modellerle A→B→D→C akışını, elle ad vermeyi,
+aynı profil kimliklerini, yetersiz yeni kişinin beklemesini ve 5→5→5→6 profil sayısını sınar.
+Bu kayıtlı senaryo için ses fixture'ları İngilizcedir; formda konuşma dili `en` seçilir.
+Koşum sonunda yalnız oluşturduğu toplantı/profil kimliklerini public API ile temizler.
+Kaynakların lisansı, insan sayısı ve bağımsızlığı koşum protokolünde ayrıca belgelenmelidir;
+temiz birleştirilmiş kaynakların geçmesi doğal toplantı veya 50 kişi doğruluğu garantisi değildir.
+
+`06-meeting-observation.mjs`, kalıcı profil oluşturamayan tamamlanmış bir gerçek
+model sonucunu salt okunur inceler. `APP_E2E_MEETING_OBSERVATION_USER` / `_PASS`
+sıradan hesabı, `_ID` mevcut toplantı kimliğini, `_TRACKS` beklenen gözlenen
+etiket sayısını (1–20), `_GALLERY=0` ise boş profil hafızasını belirtir. Ekranı
+iki dilde gerçek API sayılarıyla karşılaştırır, veriyi değiştirmez; doğruluk
+veya başarılı hafıza kabulü değildir. Çıktı yalnız sayısal ölçüleri saklar;
+metin, ad, vektör veya kimlik doğrulama bilgisi rapora yazılmaz.

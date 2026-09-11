@@ -91,6 +91,12 @@ Konfigürasyon veya yeniden yükleme hatası başarı sayılmaz; dış web/API h
 kontrolü korunur. Bu işlem yalnız aynı projenin nginx sürecini hedefler.
 SSH üzerinden yürütülen hazırlık kaynağı, Windows konsol kod sayfasından bağımsız
 olarak BOM içermeyen UTF-8 baytlarıyla aktarılır; yerel konsol ayarı kalıcı değiştirilmez.
+002'nin kabul edilmiş özel toplantı uçları proxy şablonuna eklendiğinde hazırlanmış
+runtime yardımcısının sabit SHA-256 denetimi aynı incelenmiş kaynakla birlikte
+güncellenir. Çalışma anında yeni hash hesaplayıp kabul etmez; değişmiş veya eski
+hazırlık dosyası Docker işlemi başlamadan reddedilir. Eski hazırlanmış cihazın
+şablonunu güncellemek ayrı yetkili hazırlama işlemidir; başlatıcı uzaktaki dosyayı
+kendiliğinden düzeltmez ve yeni toplantı modelinin hazır olduğunu varsaymaz.
 
 Requirement 8: Masaüstü motoru, kablo, SSH, hedef ayarları veya model hazır olmazsa
 adımı belirten güvenli hata ve başarısız çıkış kodu döner. Wi-Fi/CPU/yerel GPU'ya

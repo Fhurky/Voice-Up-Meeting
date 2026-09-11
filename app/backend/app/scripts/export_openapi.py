@@ -15,12 +15,20 @@ def default_output() -> Path:
 
 
 def _canonicalize(value: Any, path: tuple[str, ...] = ()) -> Any:
+    # Example/default values are user payloads, and property/component keys are
+    # identifiers. Neither may be mistaken for a schema annotation named title.
+    if path and path[-1] in {"example", "examples", "default", "const", "enum"}:
+        return value
     if isinstance(value, dict):
         normalized: dict[str, Any] = {}
+        names = bool(
+            path
+            and path[-1] in {"properties", "patternProperties", "$defs", "definitions", "schemas"}
+        )
         for key in sorted(value):
-            if key == "operationId":
+            if key == "operationId" and not names:
                 continue
-            if key == "title" and path != ("info",):
+            if key == "title" and not names and path != ("info",):
                 continue
             normalized[key] = _canonicalize(value[key], (*path, key))
         return normalized

@@ -3,19 +3,80 @@
 Source: [PRD](PRD.md) and [plan](plan.md). Profile: `kt-vibecoding-python-web-v2`.
 
 - [x] T01 Record the user's file/microphone → speaker transcript → new-speaker memory workflow, its separation from 001/003, model roles and the real missing runtime/access prerequisites; output: PRD, plan, roadmap and `docs/MEETING_WORKFLOW.md`. Evidence: local source inspection and official model metadata, not executable feature evidence.
+- [x] T01.1 Record the latest uploaded-recording-only delivery, separate participant upper-bound/exact-speaker inputs, manual naming and five-return/sixth-new-person acceptance. Preserve prior microphone scope in Accepted 007; output: updated PRD/plan/tasks, domain/roadmap and workflow guide, not implemented flow evidence.
 - [ ] T02 Verify authorized Community-1 access; record exact model configuration/license/hash inventory and independently reviewed dependency/decoder admission. Output: reproducible offline provisioner/manifests and native Spark compatibility report.
-- [ ] T03 Exercise real diarization/transcription on a small public recording with multiple speakers; freeze provider/API contract and alignment policy. Output: `contracts.md` plus source-bound real provider evidence and negative cases.
-- [ ] T04 Add tenant-scoped meeting schema and additive migration. Evidence: real PostgreSQL integrity, lifecycle, migration desired-state/history/drift tests.
-- [ ] T05 Implement bounded source upload/storage, chunk checkpoint/worker, private Spark port and both proxy allowlists. Evidence: real disk/HTTP retry, interruption, fencing, size, duration, channel and cancellation tests.
-- [ ] T06 Implement transcript ownership, speaker reconciliation and idempotent automatic enrollment with short retained samples. Evidence: known/new/ambiguous/overlap/short cases, two-meeting return and concurrent enrollment tests.
-- [ ] T07 Implement typed public API and permissions, export OpenAPI and generate client types. Evidence: normal-user authorization, tenant isolation and committed-contract drift checks.
-- [ ] T08 Implement localized meeting/source/detail UI and microphone lifecycle with bounded streaming upload. Evidence: frontend tests and real file/microphone flows in TR/EN; no fake capture or token injection counted as live evidence.
-- [ ] T09 Wire retention, cleanup, settings, offline startup and deployment. Evidence: source/short-profile retention separation, configuration sync, readiness and chart checks.
-- [ ] T10 Run real Spark multi-speaker transcript and newcomer-return tests, permanent browser scenario and 1/2/4-hour resource/resume cases; record model accuracy separately.
+- [x] T02.1 Verify authorized access to the selected immutable Community-1 configuration. Evidence: HTTP 200 using the user's setup-only local token on 2026-09-10; this is access evidence only, not a completed model package or runtime result.
+- [x] T02.2 Prepare the exact model/license/size/SHA-256 inventory and a safe offline provisioner. Output: `scripts/diarization-model-manifest.json`, `scripts/prepare-diarization-model.py`, `tests/test_prepare_diarization_model.py`; evidence: 8/8 real artifacts verified, 78 tests each on Windows/Linux, offline reuse with zero token reads/network attempts, atomic no-replace publication and secret-safe failures. Native macOS publication remains unobserved; see `docs/evidence/2026-09-10-community-diarization/README.md`.
+- [x] T02.3 Verify the explicitly selected local RTX 4060 development provider on Python 3.13 with the offline package. Evidence: real authenticated private HTTP, exact offline model artifacts, 5 GPU cases and 261 inference/adapter/provisioner tests; see `docs/evidence/2026-09-10-meeting-runtime/` and `contracts.md`. This does not certify recognition quality or native Spark.
+- [ ] T02.4 Complete independent production dependency/decoder admission and Spark ARM64/Python 3.13/CUDA compatibility. Evidence: admitted dependency closure and native Spark report; local RTX 4060 or model-download success does not complete this task.
+- [x] T02.5 Prepare the selected CTranslate2 Whisper large-v3 distribution at `edaa852ec7e145841d8ffdb056a99866b5f0a478` without reading credentials. Output: `scripts/prepare-asr-model.py`, `scripts/asr-model-manifest.json`, `tests/test_prepare_asr_model.py`; evidence: 6 exact artifacts verified, 82 provisioner tests, token-free offline reuse and actual CUDA word timestamps. Dependency admission is recorded independently in the meeting runtime evidence and ledger.
+- [x] T03 Exercise real diarization/transcription on a small public recording with multiple speakers; freeze provider/API contract and alignment policy. Output: `contracts.md` plus source-bound real provider evidence and negative cases. The actual 16-second probe produced 55 positive-duration words; its voice-memory evidence abstained, so this is contract compatibility evidence only.
+- [x] T03.1 Protect the observed Community-1 padded end-time regression in the existing research diarization adapter. Output: source-bound turns and regression tests in `src/voiceup/backends.py` / `tests/test_backends.py`; evidence: 107 Linux tests passed, including the actual 18.96471875 end on an 18.8-second source, outside-only/overlap preservation and invalid-interval cases. Root Ruff 0.13.3 lint/format and final full gate passed; extra Ruff 0.16.1 reports three unchanged-HEAD findings. See `docs/evidence/2026-09-10-community-diarization/README.md`. This is not the full application/provider contract.
+- [x] T04 Add tenant-scoped meeting schema and additive migration. Evidence: `7e86c6c45b2a`, real PostgreSQL integrity/lifecycle tests and desired-state/history/drift in `outputs/2026-09-10-meeting-delivery/full-gate-third.txt` (311 backend and 87 frontend tests passed).
+- [x] T05 Implement bounded source upload/storage, chunk checkpoint/worker, private Spark port and both proxy allowlists. Evidence: real disk/HTTP retry, interruption, fencing, size, duration, channel and cancellation tests.
+- [x] T06 Implement transcript ownership, independent platform/acoustic/profile identities, evidence-based speaker reconciliation, manual display names and idempotent automatic enrollment from accumulated short retained samples. Evidence: clean union strictly over 20 seconds, exact-20 `profile_pending`, short-speaker text retained, quality/consistency/unknown gates, duplicate context/retry/gap exclusion, known/new/ambiguous/overlap cases, source/name collision, count mismatch without blind merges, cross-meeting return and concurrent enrollment tests; 001 semantics unchanged.
+- [x] T06.1 Separate source-observed Community256 meeting tracking from ECAPA192 enrollment under Decision 12. Output: tagged private contract, additive vector metadata migration, source-owned centroid matching, cleanup and regression tests. Evidence: unchanged real A/B/D/C protocol and full gate; no memory authorization from tracking alone.
+- [x] T06.2 Preserve Decision 6 source provenance in a frozen bounded sample manifest and pure provider-to-source frame mapper. Output: `app/domain/meeting_samples.py`, additive `MeetingAudioStorage.sample_with_manifest` and unit/real-file regressions; existing `sample()` bytes remain compatible. Evidence: 59 tests passed, including inward 8/24/44.1 kHz mapping, gap/overlap/duplicate rejection, exact 20-second source totals, deterministic 60-second cap and actual WAV/FLAC byte/hash agreement; see `docs/evidence/2026-09-10-meeting-delivery/sample-manifest-report.md`. This helper does not change quality policy, preprocessing or the private provider contract.
+- [x] T07 Implement typed public API for analysis/count inputs/manual names and permissions, export OpenAPI and generate client types. Evidence: normal-user run/read/profile-write authorization, tenant isolation, name/version/count validation, idempotency conflicts and committed-contract drift checks passed in the full gate; revoked owner permissions are checked again by the worker before writes.
+- [x] T08 Implement TR/EN meeting list/source/detail routes, paginated transcript/speakers, known/new/profile_pending/overlap states, distinct upper/exact count inputs and manual-name/conflict display. Use ≤4 MiB File.slice/SHA-256 chunks with ordered acknowledgement progress and refresh/reselect/server-hash resume. Evidence: frontend tests and ordinary-role real uploaded-file flows in both locales; no token injection counted as live evidence. Microphone lifecycle moved to 007.
+- [x] T09 Wire retention, cleanup, settings, offline startup and deployment. Evidence: source/short-profile retention separation, configuration sync, readiness and chart checks.
+- [x] T09.1 Await the private pinned Local meeting model readiness before printing the ready URL. Output: bounded `start-local.ps1` helper and native-process startup regressions; preserve standalone Local/Spark selection and secret-safe failure behavior. Evidence: 20 startup regressions passed and the actual helper confirmed the running model over private HTTP; see `docs/evidence/2026-09-10-meeting-delivery/local-meeting-readiness-report.md`. The real cold start and queued attempt=0/claim=0 observation were recorded in v6; the final v8 restart and identity continuity are recorded in the frozen flow report.
+- [x] T09.2 Gate production meeting claims on bounded, model-validated private readiness. Health GET exposes only pinned readiness metadata; analysis POSTs separately require the private key and job/tenant context. Evidence: temporary connection/503 outages preserve attempts and fencing counters; recovery advances the queued job, real admitted inference failures retain bounded retries, and pilot/cleanup/heartbeat continue. New admission also requires the Decision 15 recipe; legacy checkpoint identity stays compatible. See `docs/evidence/2026-09-10-meeting-delivery/worker-readiness-report.md` (narrow automated evidence; final full gate recorded separately).
+- [x] T09.3 Refresh Nginx upstream resolution after a successful backend/frontend/all-services shell-wrapper restart in Local/CPU/Spark modes. Preserve the selected active private configuration; fail on invalid/ambiguous/symlink config and leave unrelated or failed commands unchanged. Evidence: 62 shell/startup contracts and 4 real isolated stale-IP HTTP recovery cases passed; see `docs/evidence/2026-09-10-meeting-delivery/stack-restart-report.md`. Main-application restart and final full gate are recorded separately.
+- [ ] T10 Run the real selected local provider file→speaker/text→manual-name→memory browser/API flow: A creates five profiles, independent B returns to the same five IDs/names, C adds only the sixth new person. Verify retry/restart persistence, short sixth-person pending behavior and ordinary-role TR/EN access; register the permanent scenario. Run Spark and 1/2/4-hour resource/resume cases separately; never substitute local proof for unsupported target or quality claims.
 - [ ] T11 Run complete profile/security/browser gates and publish a fixed-format local report listing every unsupported tier; representative Turkish L3 acceptance remains explicit.
+- [x] T12 Implement Decision 13 natural-context candidate/verification contracts, source manifests and retained-sample hashes; add the separate 256 profile population, exact 192/256 fusion and immutable-known-profile behavior. Evidence: red/green tenant/fence/hash/range/20-second/three-context/mixed/legacy/idempotency contracts and the unchanged real A/B/D/C acceptance.
+- [x] T13 Implement Decision 14 bounded 300-second cores with 310-second private limits across storage, provider, typed contract, worker and documentation. Evidence: real full A and 310-second GPU/resource observations, renewed 1/2/4-hour source bounds, checkpoint restart and strict transport-limit regressions.
+- [x] T14 Implement Decisions 15–16 model recipe provenance, post-mapping source VAD candidates and the independent retained-PCM secondary-voice veto. Evidence: red/green private and source-frame regressions, frozen 48-control production CPU replay, critical real GPU replay, unchanged A/B/D/C application flow and final quality gate. Preserve earlier failed cases and report corpus/language limitations.
+- [x] T15 Implement Decision 17's explicit x86_64 CUDA meeting chart variant while preserving pilot defaults and rejecting ARM64 meeting activation. Output: typed-value/schema/template wiring, readonly 4 GiB model PVC, four consistent overlay shapes, renderer validation and deployment guide. Evidence: red/green off/on/ARM64-negative cases, unsafe workload mutations, render/self-test, config sync and final full gate; real Kubernetes metadata and native ARM64 meeting execution remain unverified.
+- [x] T16 Implement Decision 18's sequential-speaker word uncertainty and competing-speech grouping barrier. Evidence: three red regressions, 29 green timeline tests, preserved v6 C failure, unchanged A/B/D/C fixtures in a fresh gallery, and the final full gate; no removal of uncertain text or change to reference acceptance thresholds.
 
-Current blockers: T02 model-owner access conditions and a corresponding local read
-token are pending; TorchCodec/native ARM64 dependency admission also remains open.
-T03 depends on the selected real provider; its output contract
-must not be invented and then certified by mocks. T04–T11 remain incomplete,
-not removed from the accepted capability. The existing pilot remains functional.
+T14 backend component evidence: exact VAD identity/order/source/recipe contract,
+post-mapping pure source-frame helper and worker checkpoint wiring are present.
+Three missing-wiring regressions failed before implementation; targeted 15
+tests passed afterward. The expanded combined suite passed 88 tests, including
+real worker/HTTP/PostgreSQL boundaries at 8/44.1 kHz. See
+`docs/evidence/2026-09-11-meeting-memory-backend/postmapping-report.md`.
+This component evidence does not complete real model acceptance, T06/T10/T12,
+native Spark or the full profile gate.
+
+T13 backend/source evidence: 39 bounded contract, source, worker/tracking and
+legacy-checkpoint tests plus 5 real long-source/resource tests passed. New
+meetings retain `props.window_core_seconds=300`; historical missing metadata
+preserves 60-second progress and checkpoints. Migration `755327e73d5c` widens
+only the persisted context bound to 310 and retains old indices. Local
+apply/validate/status passed; see
+`docs/evidence/2026-09-11-long-meeting-source/window310-report.md`.
+The private 310-second real GPU request and unchanged A/B/D/C acceptance also passed; see `docs/evidence/2026-09-10-meeting-delivery/private310-gpu-report.md` and `frozen-meeting-flow-report.md`. This is not a full 1/2/4-hour model-quality run.
+
+On 2026-09-11 the admitted local x86_64 extension was prepared through
+`scripts/setup-local-meeting.py` and activated with `scripts/start-local.ps1
+-Mode Local`. The typed provider, schema, upload, checkpoint worker, memory
+service, public API and localized UI exist. The first complete profile gate
+passed 311 backend and 87 frontend tests. Later fixes require a final rerun.
+
+The first frozen real A recording exposed eleven meeting tracks and zero
+persistent profiles; its failed evidence remains recorded. Decisions 13–18 were
+implemented and the unchanged A/B/D/C protocol passed in a fresh v8 gallery on
+2026-09-11: five new, five returning, a short sixth pending, then only the sixth
+new profile. Actual backend/worker restart preserved the five names and IDs.
+The ordinary-role TR/EN browser upload and memory scenarios both passed.
+All six new samples exceeded 99% source purity and their stored WAV hashes
+matched reconstruction from the original source. An additional B meeting
+preserved all six profile/sample hashes across a real before/after DB snapshot.
+See `docs/evidence/2026-09-10-meeting-delivery/frozen-meeting-flow-report.md`,
+`meeting-memory-browser-report.md` and
+`docs/evidence/2026-09-11-meeting-quality/v8-source-purity-memory-report.md`.
+
+T10's local HTTP/browser/restart behavior is complete at L2. A real one-hour
+repeated-source worker job also completed 12/12 chunks, recognized the same five
+people and preserved all six profiles/samples; this is endurance evidence, not
+independent speaker accuracy. Native Spark and full 2/4-hour model measurements
+remain unsupported. T11's complete profile
+gate passed 478 backend and 89 frontend tests; independent security tools and the
+admitted generic browser bundle remain unavailable. Native Spark/Apple meeting
+runtime, representative Turkish/50-person quality and owner L3 acceptance are
+not claimed. The owner-provided 52.629-second Turkish source produced one speaker,
+a transcript and one profile; no manual reference made that an accuracy score.
+The user-selected current source is uploaded recordings; microphone capture
+remains Accepted/incomplete in 007 and automatic Teams transport is not requested.

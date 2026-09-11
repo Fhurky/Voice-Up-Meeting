@@ -1,14 +1,16 @@
 # VoiceUp
 
 Toplantılar arasında aynı konuşmacıyı yeniden tanımak için kalıcı ses profilleri.
-İlk ürün pilotu **RTX 4060 üzerinde tek konuşmacılı WAV/FLAC** akışını hazırlar.
-Çok kişili toplantı bölümleme, metne çevirme ve toplantı entegrasyonu sonraki aşamadır.
+**Yerel RTX 4060 üzerinde toplantı kaydı → konuşmacılı metin → kalıcı kişi hafızası**
+akışı çalışır. İlk toplantıda öğrenilen kişilere isim verilir; farklı sonraki
+kayıtta aynı kişiler tanınır ve yeterli temiz sesi bulunan yeni kişi eklenir.
+Tek konuşmacılı profil oluşturma ve karşılaştırma akışı da korunur.
 
 ## Yerel uygulama
 
-MacBook üzerinde bütün servisleri ve modeli yerel CPU ile çalıştırmak için
+MacBook üzerinde tek konuşmacılı pilotun bütün servislerini ve modelini yerel CPU ile çalıştırmak için
 [Mac kurulum rehberini](docs/MACOS_SETUP.md) kullanın. Apple Silicon/Intel paketleri
-ayrıdır; gerçek Mac cihazındaki doğrulama durumu rehberde belirtilir.
+ayrıdır; yeni çok konuşmacılı toplantı modeli henüz native Apple/Spark üzerinde doğrulanmadı.
 
 Hazırlanmış ortamda Docker Desktop açıkken:
 
@@ -19,9 +21,15 @@ Hazırlanmış ortamda Docker Desktop açıkken:
 Uygulama: **http://127.0.0.1:8081**. Yerel giriş bilgileri Git dışında
 `outputs/local-pilot-credentials.json` içindedir.
 
-Konuşmacılar ekranında 20–30 saniye temiz sesle profil oluşturun; Ses analizi ekranında
+Çok konuşmacılı kayıt için önce [toplantı modelini hazırlayın](docs/MEETING_WORKFLOW.md),
+ardından `Toplantılar` ekranında WAV/FLAC yükleyin. Kişi sayısı isteğe bağlıdır.
+Kayıt parçalar halinde işlenir; metin, konuşmacılar ve hafıza durumu sonuçta görünür.
+İlk hazırlık seçili model dosyalarını indirir; normal çalışmada ses buluta gönderilmez.
+
+Tek konuşmacılı pilotta Konuşmacılar ekranında temiz sesle profil oluşturun; Ses analizi ekranında
 başka bir kaydı karşılaştırın. Sonuç tanınan kişi, bilinmeyen veya belirsiz olur.
-Sayfa yenilendiğinde iş korunur. Tanıma kendi kendine profil oluşturmaz veya değiştirmez.
+Sayfa yenilendiğinde iş korunur. Pilotun karşılaştırma işlemi profil oluşturmaz;
+toplantıdaki otomatik hafıza seçeneği ayrı bir akıştır.
 
 [Kurulum, kullanım ve veri davranışı](docs/LOCAL_PILOT.md),
 [uygulama kapsamı](specs/speaker-identity/PRDs/001-local-speaker-pilot/PRD.md) ve
@@ -30,12 +38,17 @@ Gerçek RTX 4060/CUDA çıkarımı ve tarayıcı akışı doğrulandı. Tekrarl�
 teknik örnekle 20 işte işlem p95 0,87 sn, kuyruk dahil p95 2,72 sn ölçüldü.
 Bu ölçüm gerçek kişi doğruluğu veya onlarca konuşmacı kapasitesi kanıtı değildir.
 
-## Sıradaki çalışma
+## Doğrulanan toplantı akışı ve açık hedefler
 
-Önce farklı oturumlardan gerçek seslerle doğruluk, ardından uzun toplantı dosyaları,
-sonra canlı kimlik analizi. [Uzun kayıt kararı](docs/LONG_RECORDING_STRATEGY.md) ve
-[32 kayıtlık veri hazırlama rehberi](docs/DATA_COLLECTION.md) hazır.
-Dosya/oturum doğrulayıcısı doğruluk puanı üretmez; gerçek kişi deneyi henüz tamamlanmadı.
+Sabit dört gerçek ses kaydında **5 yeni kişi → aynı 5 kişi → kısa altıncı kişi beklemede
+→ yalnız altıncı kişi eklenir** senaryosu API ve tarayıcıdan geçti. Yeniden başlatma
+adları/kimlikleri korudu. [Canlı ölçümler](docs/evidence/2026-09-10-meeting-delivery/frozen-meeting-flow-report.md)
+ve [kullanım rehberi](docs/MEETING_WORKFLOW.md) kapsamı ve sınırları açıklar.
+
+50 kişi kalite hedefidir, kayıt kotası değildir. Temsil edici Türkçe/50 kişilik
+toplantı doğruluğu, native Spark/Apple toplantı ortamı ve bağımsız güvenlik taraması
+henüz tamamlanmadı. Teams kaydı dosya olarak yüklenir; otomatik Teams bağlantısı
+ve canlı analiz uygulanmadı. [Veri hazırlama rehberi](docs/DATA_COLLECTION.md).
 
 ## İki bilgisayardan geliştirme
 
@@ -46,9 +59,9 @@ eşitlenir; yerel sırlar, model paketleri, sesler ve PostgreSQL verisi ayrı ha
 
 | Yol | Sorumluluk |
 | --- | --- |
-| `app/backend/` | Python 3.13/FastAPI; tenant/RBAC; kalıcı profil, kayıt ve iş API'si; worker |
-| `app/frontend/` | React 19/Vite 8; Türkçe/İngilizce profil, analiz ve iş ekranları |
-| `app/inference/` | Ayrı CUDA veya açık CPU servisi; sabit ECAPA/Silero paketi; çalışma anında indirme yok |
+| `app/backend/` | Python 3.13/FastAPI; tenant/RBAC; kalıcı profil, parçalı toplantı yükleme, metin ve checkpoint worker |
+| `app/frontend/` | React 19/Vite 8; Türkçe/İngilizce profil, toplantı, metin ve isim düzenleme ekranları |
+| `app/inference/` | CUDA toplantı veya CPU/CUDA pilot servisi; sabit Community/Whisper/ECAPA/Silero paketleri; çalışma anında indirme yok |
 | `schema/` | PostgreSQL 17/pgvector; SQLAlchemy authority ve Alembic migrasyonları |
 | `app/infra/`, `app/devops/` | Yerel Compose ve ağ erişimi kısıtlı Helm tanımları |
 | `src/voiceup/`, kök `pyproject.toml` | Ayrı tutulan önceki CPU/SQLite araştırma çekirdeği |

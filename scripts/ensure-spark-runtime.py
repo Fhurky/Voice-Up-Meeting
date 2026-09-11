@@ -22,7 +22,7 @@ from pathlib import Path
 DOCKER = ["docker", "--host", "unix:///var/run/docker.sock"]
 TEMPLATE_HASHES = {
     "compose.spark.yml": "d11d08cd927da330bdfe63a7ed15776da4d428ee4c9bc5504b9e8e32b7b9ce60",
-    "nginx.spark.conf": "8eea1b3b3e560e1f286c3418832ea074a89fd74677e276cf0fa2790c936e3c93",
+    "nginx.spark.conf": "c9ba6d08fe8804e9fa1e818d97b34e60e4e3bdb3cc063ef842170fc005fc6ea8",
 }
 RELAY_IMAGE = "nginx:alpine@sha256:4a73073bd557c65b759505da037898b61f1be6cbcc3c2c3aeac22d2a470c1752"
 READY = {

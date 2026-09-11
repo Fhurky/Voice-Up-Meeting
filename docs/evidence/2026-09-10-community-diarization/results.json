@@ -1,0 +1,683 @@
+{
+  "schema_version": 1,
+  "recorded_date": "2026-09-10",
+  "profile": "kt-vibecoding-python-web-v2",
+  "scope": "offline_model_package_and_isolated_diarization_probe",
+  "snapshot_scope": "frozen_model_prerequisites; subsequent end_to_end_meeting_delivery_requires_separate_evidence",
+  "evidence_tier": {
+    "model_package_automated_tests": "L1",
+    "local_real_model_probe": "standalone_cli_observation_not_L2",
+    "new_meeting_flow_L2_claimed": false,
+    "meeting_product_feature": "not_verified",
+    "owner_acceptance": false,
+    "research_source_bounds_adapter_automated": "L1"
+  },
+  "model": {
+    "id": "pyannote/speaker-diarization-community-1",
+    "revision": "3533c8cf8e369892e6b79ff1bf80f7b0286a54ee",
+    "license": "cc-by-4.0",
+    "files": 8,
+    "bytes": 32832557,
+    "manifest_sha256": "8c69b42dac14a1c85d58ec4397c0a3f7fabaef0b9467e7d134369896ffd3ed48",
+    "speaker_count_hints": false,
+    "parameter_tuning": false
+  },
+  "sources": [
+    {
+      "source": "provided_file",
+      "original_file_sha256": "3c344e99c757b5c2448050821514aaa9571729fdae0984cefdb8e02384e14851"
+    },
+    {
+      "source": "public_source_1",
+      "original_file_sha256": "2912fb352d58e97bf7e5a5117edcafac2428f8b02b42594691c514c7880b83dd"
+    },
+    {
+      "source": "public_source_2",
+      "original_file_sha256": "3aed4d67355dbe5ad01705d5195405f3b08df68fdbddb041bd7a5c83202a0812"
+    },
+    {
+      "source": "public_source_3",
+      "original_file_sha256": "7cb09dff2e4766590d98b4657c10d2d80b120e752192cc6aefd46042cb3f54f8"
+    },
+    {
+      "source": "public_source_4",
+      "original_file_sha256": "e24cfec97848f7288357344659ffa4b6a39b119f0760a6ceb306d3b2dfac16aa"
+    }
+  ],
+  "protocol_sha256": {
+    "cpu_v1": "6e15f60ee7420f67ad289051cc25b9324614f4f9b94b752cacec99097ff3246a",
+    "cpu_v2": "e48b3623ae518a11ce09b8c133354bab78d6b1efe75c5f7252bd813cebc87375",
+    "cuda_v2": "cde8faf400b95cbbe157cc5b65bc25a385da2947c361a0fceaff0704b459042c"
+  },
+  "automated_tests": {
+    "count_semantics": "latest successful test execution per suite and target; earlier full-gate and red/green runs retained separately without adding them again",
+    "packager_windows": {
+      "tests": 78,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 78
+    },
+    "packager_linux": {
+      "tests": 78,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 78
+    },
+    "passed_total": 475,
+    "browser_passed": 0,
+    "source_bounds_adapter_final_evidence": "source-bounds-final.xml",
+    "source_bounds_linux": {
+      "tests": 107,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 107
+    },
+    "final_full_gate_backend": {
+      "total": 153,
+      "passed": 153,
+      "failed": 0,
+      "skipped": 0
+    },
+    "final_full_gate_frontend": {
+      "total": 59,
+      "passed": 59,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "cuda_probe": {
+    "python": "3.13.14",
+    "device": "cuda",
+    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "cuda_version": "12.8",
+    "versions": {
+      "torch": "2.8.0+cu128",
+      "torchaudio": "2.8.0+cu128",
+      "torchcodec": "0.7.0",
+      "pyannote.audio": "4.0.7",
+      "soundfile": "0.14.0",
+      "numpy": "2.4.3",
+      "scipy": "1.17.1"
+    },
+    "execution_exit_code": 0,
+    "case_count": 12,
+    "count_matches": 10,
+    "count_known_cases": 11,
+    "peak_cuda_allocated_bytes": 1707943936,
+    "peak_cuda_reserved_bytes": 2107637760,
+    "model_load_seconds": 2.749996846,
+    "network_mode": "none",
+    "attempted_network_connections": 0,
+    "runtime_token_present": false,
+    "api_or_database_writes": false,
+    "production_runtime_changed": false,
+    "identity_accuracy_benchmark": false,
+    "automatic_enrollment": false,
+    "input_contract": "predecoded in-memory waveform; native file decoder unverified",
+    "cases": [
+      {
+        "case": "provided_file",
+        "input_pcm_sha256": "20abf085623d4fa6bf267661a4e79d05876c594c195feeefebdd754cf73387f5",
+        "duration_seconds": 52.629375,
+        "expected_speakers": null,
+        "detected_speakers": 1,
+        "count_matches": null,
+        "elapsed_seconds": 4.702860369,
+        "regular_turn_count": 18,
+        "exclusive_turn_count": 18,
+        "exclusive_detected_speakers": 1,
+        "out_of_bounds_regular_count": 0,
+        "candidate_vad_intersection_unique_seconds": [
+          37.4445625
+        ],
+        "candidate_duration_only_over_20": [
+          true
+        ],
+        "enrollment_authorized": false,
+        "reference_metrics": null
+      },
+      {
+        "case": "single_1",
+        "input_pcm_sha256": "7ffb70bace13d5ddbcc53b22b79192898e244be8947521169d33f5163889c684",
+        "duration_seconds": 32.28,
+        "expected_speakers": 1,
+        "detected_speakers": 2,
+        "count_matches": false,
+        "elapsed_seconds": 1.029288763,
+        "regular_turn_count": 11,
+        "exclusive_turn_count": 10,
+        "exclusive_detected_speakers": 1,
+        "out_of_bounds_regular_count": 0,
+        "candidate_vad_intersection_unique_seconds": [
+          27.2031875,
+          0
+        ],
+        "candidate_duration_only_over_20": [
+          true,
+          false
+        ],
+        "enrollment_authorized": false,
+        "reference_metrics": {
+          "reference_speaker_seconds": 28.34,
+          "reference_overlap_seconds": 0.0,
+          "missed_speaker_seconds": 1.08,
+          "false_speaker_seconds": 0.39,
+          "confused_speaker_seconds": 0.0,
+          "vad_reference_error_rate": 0.05187014820042344
+        }
+      },
+      {
+        "case": "single_2",
+        "input_pcm_sha256": "47a326a67071a83ca33dd6876c7273f9f2b1403512da5fd9393aa004682bcf42",
+        "duration_seconds": 33.355,
+        "expected_speakers": 1,
+        "detected_speakers": 1,
+        "count_matches": true,
+        "elapsed_seconds": 1.11449859,
+        "regular_turn_count": 7,
+        "exclusive_turn_count": 7,
+        "exclusive_detected_speakers": 1,
+        "out_of_bounds_regular_count": 0,
+        "candidate_vad_intersection_unique_seconds": [
+          27.601
+        ],
+        "candidate_duration_only_over_20": [
+          true
+        ],
+        "enrollment_authorized": false,
+        "reference_metrics": {
+          "reference_speaker_seconds": 27.86,
+          "reference_overlap_seconds": 0.0,
+          "missed_speaker_seconds": 0.26,
+          "false_speaker_seconds": 0.89,
+          "confused_speaker_seconds": 0.0,
+          "vad_reference_error_rate": 0.041277817659727205
+        }
+      },
+      {
+        "case": "single_3",
+        "input_pcm_sha256": "78c5a7bc887ab8dc065cd2130287036b4632944d3ea86e718a72c119ee6e12d7",
+        "duration_seconds": 42.96,
+        "expected_speakers": 1,
+        "detected_speakers": 1,
+        "count_matches": true,
+        "elapsed_seconds": 1.30441947,
+        "regular_turn_count": 13,
+        "exclusive_turn_count": 13,
+        "exclusive_detected_speakers": 1,
+        "out_of_bounds_regular_count": 0,
+        "candidate_vad_intersection_unique_seconds": [
+          34.40665625
+        ],
+        "candidate_duration_only_over_20": [
+          true
+        ],
+        "enrollment_authorized": false,
+        "reference_metrics": {
+          "reference_speaker_seconds": 35.980000000000004,
+          "reference_overlap_seconds": 0.0,
+          "missed_speaker_seconds": 1.58,
+          "false_speaker_seconds": 0.23,
+          "confused_speaker_seconds": 0.0,
+          "vad_reference_error_rate": 0.05030572540300166
+        }
+      },
+      {
+        "case": "single_4",
+        "input_pcm_sha256": "a304e82556977322096530ec0493e7736a52a9b49862d1efdf0a3e30008e1fa6",
+        "duration_seconds": 31.78,
+        "expected_speakers": 1,
+        "detected_speakers": 1,
+        "count_matches": true,
+        "elapsed_seconds": 1.117280842,
+        "regular_turn_count": 4,
+        "exclusive_turn_count": 4,
+        "exclusive_detected_speakers": 1,
+        "out_of_bounds_regular_count": 0,
+        "candidate_vad_intersection_unique_seconds": [
+          28.00465625
+        ],
+        "candidate_duration_only_over_20": [
+          true
+        ],
+        "enrollment_authorized": false,
+        "reference_metrics": {
+          "reference_speaker_seconds": 28.43,
+          "reference_overlap_seconds": 0.0,
+          "missed_speaker_seconds": 0.43,
+          "false_speaker_seconds": 1.23,
+          "confused_speaker_seconds": 0.0,
+          "vad_reference_error_rate": 0.05838902567710165
+        }
+      },
+      {
+        "case": "mixed_1_continuous",
+        "input_pcm_sha256": "de4efaf5806bcd624ae8df553fa328fa47d7a3e6cc3bab8f69671fcf30347a2d",
+        "duration_seconds": 32.0,
+        "expected_speakers": 2,
+        "detected_speakers": 2,
+        "count_matches": true,
+        "elapsed_seconds": 0.924337941,
+        "regular_turn_count": 20,
+        "exclusive_turn_count": 20,
+        "exclusive_detected_speakers": 2,
+        "out_of_bounds_regular_count": 0,
+        "candidate_vad_intersection_unique_seconds": [
+          17.28328125,
+          8.1573125
+        ],
+        "candidate_duration_only_over_20": [
+          false,
+          false
+        ],
+        "enrollment_authorized": false,
+        "reference_metrics": {
+          "reference_speaker_seconds": 26.36,
+          "reference_overlap_seconds": 0.0,
+          "missed_speaker_seconds": 0.96,
+          "false_speaker_seconds": 0.55,
+          "confused_speaker_seconds": 3.79,
+          "vad_reference_error_rate": 0.20106221547799696
+        }
+      },
+      {
+        "case": "mixed_1_gapped",
+        "input_pcm_sha256": "95afefb36cb28650d9167a44cb47d1dfede92bfb093610227f722d797f47afff",
+        "duration_seconds": 18.8,
+        "expected_speakers": 2,
+        "detected_speakers": 2,
+        "count_matches": true,
+        "elapsed_seconds": 0.436076783,
+        "regular_turn_count": 9,
+        "exclusive_turn_count": 9,
+        "exclusive_detected_speakers": 2,
+        "out_of_bounds_regular_count": 0,
+        "candidate_vad_intersection_unique_seconds": [
+          6.78303125,
+          5.2734375
+        ],
+        "candidate_duration_only_over_20": [
+          false,
+          false
+        ],
+        "enrollment_authorized": false,
+        "reference_metrics": {
+          "reference_speaker_seconds": 12.88,
+          "reference_overlap_seconds": 0.0,
+          "missed_speaker_seconds": 0.84,
+          "false_speaker_seconds": 0.35000000000000003,
+          "confused_speaker_seconds": 0.0,
+          "vad_reference_error_rate": 0.09239130434782608
+        }
+      },
+      {
+        "case": "mixed_2_continuous",
+        "input_pcm_sha256": "2bb62f74587087a0761a4bea4f9eb3fffa0b1777c52bf34b512319802b5acc9d",
+        "duration_seconds": 32.0,
+        "expected_speakers": 2,
+        "detected_speakers": 2,
+        "count_matches": true,
+        "elapsed_seconds": 0.910893017,
+        "regular_turn_count": 19,
+        "exclusive_turn_count": 18,
+        "exclusive_detected_speakers": 2,
+        "out_of_bounds_regular_count": 0,
+        "candidate_vad_intersection_unique_seconds": [
+          16.047875,
+          11.04303125
+        ],
+        "candidate_duration_only_over_20": [
+          false,
+          false
+        ],
+        "enrollment_authorized": false,
+        "reference_metrics": {
+          "reference_speaker_seconds": 27.69,
+          "reference_overlap_seconds": 0.0,
+          "missed_speaker_seconds": 0.49,
+          "false_speaker_seconds": 0.73,
+          "confused_speaker_seconds": 2.09,
+          "vad_reference_error_rate": 0.11953773925604909
+        }
+      },
+      {
+        "case": "mixed_2_gapped",
+        "input_pcm_sha256": "c22a6754a6296bc3a0c67662d2ff3fbda1db493dd4c2f5b6307bd04035d64321",
+        "duration_seconds": 18.8,
+        "expected_speakers": 2,
+        "detected_speakers": 2,
+        "count_matches": true,
+        "elapsed_seconds": 0.415052294,
+        "regular_turn_count": 10,
+        "exclusive_turn_count": 10,
+        "exclusive_detected_speakers": 2,
+        "out_of_bounds_regular_count": 1,
+        "candidate_vad_intersection_unique_seconds": [
+          6.34225,
+          6.97421875
+        ],
+        "candidate_duration_only_over_20": [
+          false,
+          false
+        ],
+        "enrollment_authorized": false,
+        "reference_metrics": {
+          "reference_speaker_seconds": 13.75,
+          "reference_overlap_seconds": 0.0,
+          "missed_speaker_seconds": 0.65,
+          "false_speaker_seconds": 0.46,
+          "confused_speaker_seconds": 0.0,
+          "vad_reference_error_rate": 0.08072727272727273
+        }
+      },
+      {
+        "case": "silence",
+        "input_pcm_sha256": "02fadde899612bcd652dbfd66b6fed8a4549190006d27799be30d4ebe178348d",
+        "duration_seconds": 40.0,
+        "expected_speakers": 0,
+        "detected_speakers": 0,
+        "count_matches": true,
+        "elapsed_seconds": 0.247403484,
+        "regular_turn_count": 0,
+        "exclusive_turn_count": 0,
+        "exclusive_detected_speakers": 0,
+        "out_of_bounds_regular_count": 0,
+        "candidate_vad_intersection_unique_seconds": [],
+        "candidate_duration_only_over_20": [],
+        "enrollment_authorized": false,
+        "reference_metrics": {
+          "reference_speaker_seconds": 0.0,
+          "reference_overlap_seconds": 0.0,
+          "missed_speaker_seconds": 0.0,
+          "false_speaker_seconds": 0.0,
+          "confused_speaker_seconds": 0.0,
+          "vad_reference_error_rate": null
+        }
+      },
+      {
+        "case": "single_fragmented",
+        "input_pcm_sha256": "f768334359c64739162ceb02afd530408187902e6808e4997f54017ff4f84310",
+        "duration_seconds": 34.0,
+        "expected_speakers": 1,
+        "detected_speakers": 1,
+        "count_matches": true,
+        "elapsed_seconds": 0.943720833,
+        "regular_turn_count": 10,
+        "exclusive_turn_count": 10,
+        "exclusive_detected_speakers": 1,
+        "out_of_bounds_regular_count": 0,
+        "candidate_vad_intersection_unique_seconds": [
+          19.81653125
+        ],
+        "candidate_duration_only_over_20": [
+          false
+        ],
+        "enrollment_authorized": false,
+        "reference_metrics": {
+          "reference_speaker_seconds": 20.84,
+          "reference_overlap_seconds": 0.0,
+          "missed_speaker_seconds": 1.16,
+          "false_speaker_seconds": 0.38,
+          "confused_speaker_seconds": 0.0,
+          "vad_reference_error_rate": 0.07389635316698656
+        }
+      },
+      {
+        "case": "overlap_pair",
+        "input_pcm_sha256": "89693af326dfe420e81e2a3b50aa25c2e03da33958fefc97c40c552c947b3b5d",
+        "duration_seconds": 12.0,
+        "expected_speakers": 2,
+        "detected_speakers": 2,
+        "count_matches": true,
+        "elapsed_seconds": 0.193799988,
+        "regular_turn_count": 7,
+        "exclusive_turn_count": 2,
+        "exclusive_detected_speakers": 1,
+        "out_of_bounds_regular_count": 0,
+        "candidate_vad_intersection_unique_seconds": [
+          3.54375,
+          0
+        ],
+        "candidate_duration_only_over_20": [
+          false,
+          false
+        ],
+        "enrollment_authorized": false,
+        "reference_metrics": {
+          "reference_speaker_seconds": 19.59,
+          "reference_overlap_seconds": 7.88,
+          "missed_speaker_seconds": 1.76,
+          "false_speaker_seconds": 0.97,
+          "confused_speaker_seconds": 0.86,
+          "vad_reference_error_rate": 0.18325676365492596
+        }
+      }
+    ]
+  },
+  "cpu_observations": {
+    "python": "3.12.10",
+    "device": "cpu",
+    "versions": {
+      "torch": "2.8.0+cpu",
+      "torchaudio": "2.8.0+cpu",
+      "torchcodec": "0.7.0",
+      "pyannote.audio": "4.0.7",
+      "soundfile": "0.13.1",
+      "numpy": "2.5.3",
+      "scipy": "1.18.1"
+    },
+    "case_count": 12,
+    "wrapper_exit_code": 1,
+    "direct_final_python_exit_code": null,
+    "execution_pass_claimed": false,
+    "initial_completed_cases": 8,
+    "resumed_cases": 4,
+    "initial_aborted_case": "mixed_2_gapped",
+    "initial_source_seconds": 18.8,
+    "observed_raw_end_seconds": 18.96471875,
+    "source_intersection_revision": "raw turns preserved; evaluation clips to source bounds; model and inputs unchanged",
+    "same_counts_as_cuda": true,
+    "same_reference_metrics_as_cuda": true,
+    "runtime_token_present": false,
+    "attempted_network_connections": 0,
+    "product_runtime_compatibility_claimed": false
+  },
+  "metric_definition": {
+    "reference": "per-source Silero masks with min_silence_duration_ms=100, transformed using the known source schedule",
+    "frame_seconds": 0.01,
+    "collar_seconds": 0,
+    "vad_reference_error_rate": "(missed_speaker_seconds + false_speaker_seconds + confused_speaker_seconds) / reference_speaker_seconds; null for zero denominator",
+    "manual_der": false,
+    "identity_precision_recall_f1": null,
+    "fifty_speaker_acceptance": false,
+    "regular_output_preserves_overlap": true,
+    "exclusive_output_not_used_as_sole_evidence": true,
+    "meeting_duration_threshold_seconds": 20,
+    "meeting_duration_operator": "strictly_greater_than",
+    "duration_alone_authorizes_enrollment": false
+  },
+  "research_dependency_audit": {
+    "wheel_count": 62,
+    "wheel_bytes_verified": 68354431,
+    "retained_base_distributions": 63,
+    "added_distributions": 62,
+    "dependency_constraints_checked": 238,
+    "requires_python_checked": 125,
+    "conflict_count": 0,
+    "base_changes_required": false,
+    "installed_base_preserved": true,
+    "production_admission": false
+  },
+  "gates": {
+    "first_full_gate": {
+      "command": "scripts/quality-gate.sh all",
+      "exit_code": 0,
+      "records_verbatim": [
+        "KT_GATE_STEP name=configuration status=started",
+        "KT_GATE_STEP name=configuration status=passed",
+        "KT_GATE_STEP name=dependency-admission status=started",
+        "KT_GATE_STEP name=dependency-admission status=passed",
+        "KT_GATE_STEP name=configuration-sync status=started",
+        "KT_GATE_STEP name=configuration-sync status=passed",
+        "KT_GATE_SCOPE scope=all postgres_integration=required database_mode=disposable-test",
+        "KT_GATE_STEP name=database-test-create status=started",
+        "KT_GATE_STEP name=database-test-create status=passed",
+        "KT_GATE_STEP name=database-migrations-apply status=started",
+        "KT_GATE_STEP name=database-migrations-apply status=passed",
+        "KT_GATE_STEP name=backend-static status=started",
+        "KT_GATE_STEP name=backend-static status=passed",
+        "KT_GATE_STEP name=backend-tests status=started",
+        "KT_GATE_TESTS name=backend-tests runner=pytest total=153 passed=153 failed=0 skipped=0",
+        "KT_GATE_STEP name=backend-tests status=passed",
+        "KT_GATE_STEP name=database-validate status=started",
+        "KT_GATE_STEP name=database-validate status=passed",
+        "KT_GATE_STEP name=openapi-contract status=started",
+        "KT_GATE_STEP name=openapi-contract status=passed",
+        "KT_GATE_STEP name=frontend-static status=started",
+        "KT_GATE_STEP name=frontend-static status=passed",
+        "KT_GATE_STEP name=frontend-tests status=started",
+        "KT_GATE_TESTS name=frontend-tests runner=vitest total=59 passed=59 failed=0 skipped=0",
+        "KT_GATE_STEP name=frontend-tests status=passed",
+        "KT_GATE_STEP name=frontend-types-contract status=started",
+        "KT_GATE_STEP name=frontend-types-contract status=passed",
+        "KT_GATE_STEP name=governance-drift status=started",
+        "KT_GATE_STEP name=governance-drift status=passed",
+        "KT_GATE_STEP name=charts-render status=started",
+        "KT_GATE_STEP name=charts-render status=passed",
+        "KT_GATE_STEP name=database-test-drop status=started",
+        "KT_GATE_STEP name=database-test-drop status=passed"
+      ],
+      "later_adapter_source_covered": false
+    },
+    "security": {
+      "command": "scripts/security-gate.sh",
+      "exit_code": 2,
+      "reason": "required offline security tool is unavailable: gitleaks",
+      "passed": false
+    },
+    "final_full_gate": {
+      "command": "scripts/quality-gate.sh all",
+      "exit_code": 0,
+      "records_verbatim": [
+        "KT_GATE_STEP name=configuration status=started",
+        "KT_GATE_STEP name=configuration status=passed",
+        "KT_GATE_STEP name=dependency-admission status=started",
+        "KT_GATE_STEP name=dependency-admission status=passed",
+        "KT_GATE_STEP name=configuration-sync status=started",
+        "KT_GATE_STEP name=configuration-sync status=passed",
+        "KT_GATE_SCOPE scope=all postgres_integration=required database_mode=disposable-test",
+        "KT_GATE_STEP name=database-test-create status=started",
+        "KT_GATE_STEP name=database-test-create status=passed",
+        "KT_GATE_STEP name=database-migrations-apply status=started",
+        "KT_GATE_STEP name=database-migrations-apply status=passed",
+        "KT_GATE_STEP name=backend-static status=started",
+        "KT_GATE_STEP name=backend-static status=passed",
+        "KT_GATE_STEP name=backend-tests status=started",
+        "KT_GATE_TESTS name=backend-tests runner=pytest total=153 passed=153 failed=0 skipped=0",
+        "KT_GATE_STEP name=backend-tests status=passed",
+        "KT_GATE_STEP name=database-validate status=started",
+        "KT_GATE_STEP name=database-validate status=passed",
+        "KT_GATE_STEP name=openapi-contract status=started",
+        "KT_GATE_STEP name=openapi-contract status=passed",
+        "KT_GATE_STEP name=frontend-static status=started",
+        "KT_GATE_STEP name=frontend-static status=passed",
+        "KT_GATE_STEP name=frontend-tests status=started",
+        "KT_GATE_TESTS name=frontend-tests runner=vitest total=59 passed=59 failed=0 skipped=0",
+        "KT_GATE_STEP name=frontend-tests status=passed",
+        "KT_GATE_STEP name=frontend-types-contract status=started",
+        "KT_GATE_STEP name=frontend-types-contract status=passed",
+        "KT_GATE_STEP name=governance-drift status=started",
+        "KT_GATE_STEP name=governance-drift status=passed",
+        "KT_GATE_STEP name=charts-render status=started",
+        "KT_GATE_STEP name=charts-render status=passed",
+        "KT_GATE_STEP name=database-test-drop status=started",
+        "KT_GATE_STEP name=database-test-drop status=passed"
+      ],
+      "ran_after_adapter_change": true
+    },
+    "source_bounds_lint": {
+      "declared_research_tool_version": "0.13.3",
+      "lint_exit_code": 0,
+      "format_exit_code": 0,
+      "additional_backend_tool_version": "0.16.1",
+      "additional_lint_exit_code": 1,
+      "additional_findings": 3,
+      "same_findings_present_in_unchanged_HEAD": true
+    }
+  },
+  "application_preservation": {
+    "application_image_unchanged": true,
+    "image": "sha256:9b88596cd1c271b4830220a1e3c6e16c0c461e34f14af7d8efb0dc2ac3f63ecf",
+    "readiness_http_status": 200,
+    "readiness": {
+      "status": "ready"
+    },
+    "probe_container_left_running": false
+  },
+  "skipped_acceptance_checks": [
+    "physical_macos_publication",
+    "spark_arm64_real_model",
+    "native_torchcodec_file_decoder",
+    "full_meeting_asr_profile_browser_flow",
+    "one_two_four_hour_resource_resume",
+    "representative_turkish_fifty_speaker_accuracy"
+  ],
+  "unresolved_findings": [
+    "single_1_expected_one_detected_two",
+    "continuous_mixes_reference_confusion_3_79_and_2_09_seconds",
+    "overlap_contamination_remains_in_candidate_clean_evidence",
+    "security_scanner_unavailable",
+    "production_dependency_and_spark_admission_incomplete",
+    "additional_ruff_0_16_1_reports_three_preexisting_HEAD_findings"
+  ],
+  "local_raw_evidence": {
+    "directory": "outputs/2026-09-10-community-diarization",
+    "sha256": {
+      "protocol.json": "6e15f60ee7420f67ad289051cc25b9324614f4f9b94b752cacec99097ff3246a",
+      "protocol-v2.json": "e48b3623ae518a11ce09b8c133354bab78d6b1efe75c5f7252bd813cebc87375",
+      "measurements.json": "a1c5dcd5aa2273ce82f11d29632f424bf386ea50d36b45d8f19fd8e5f37dbfee",
+      "measurements.jsonl": "195b7846007b76545bc5ad64734b518785c24741cc292d0a72b67c1aede3aba3",
+      "cpu-run.txt": "c1a46badf6dbecf6261abdc9334ec706b481c85598f5631b1ec301e32df52faa",
+      "cpu-stderr.txt": "afbc1ded282f0442ea86f98a957427a72addb09db9104c4901abae7f48e41b0b",
+      "cpu-v2-run.txt": "bbb7db084ecccc73e0cfff2e185bb8992ab47fb72ac2357f6e6b4455327420e7",
+      "cpu-v2-stderr.txt": "f81ce004092f0ef5515e0601975f3613fd90c93400d51ea3a9f3113f03f8363d",
+      "cuda/protocol-v2.json": "cde8faf400b95cbbe157cc5b65bc25a385da2947c361a0fceaff0704b459042c",
+      "cuda/measurements.json": "056156bdcb2a8f04f06b401e217029d77eeab6688bb23abf37c1a24c40eecf74",
+      "cuda/execution-result.json": "302c5fcf0227d427ee240abdbd2a948557ea7ab09699f9c3bdeb0f98b67375ce",
+      "cuda/installed-environment.json": "2cd0283fc5983eed9fc7eb55ba3f1f3c54a7c65887f58fde1e5c1fc5c93b4425",
+      "cuda-wheel-metadata-audit.json": "ac094fc48f18fdd7453ad39606f08a393f2ff4c260205b058921a80746fb11a2",
+      "cuda-wheel-metadata-protocol.json": "364900039317faf088bb41923d82613547b34f5b297f2063667f60e900dbfed5",
+      "cuda-research-wheel-manifest.json": "5eb565e2e9fe75a7cceb30b4d9c2024cc4050b4ec7154f5883d86fcce8eb9f8b",
+      "packager-evidence.json": "e58317696b9cc3f357c3710bb4c2b53243e2e12a623ca2e5bdfaa3eac16364c9",
+      "packager-final-windows.xml": "38705997f760a9f0a90a457e7731fb218219a79c4cab6973666fde7d7f29ec37",
+      "packager-final-linux.xml": "60b7ab0baec2263edd7e7239634982426067ae9ca6e175d9be5d8e68e0062140",
+      "packager-offline-verification.json": "59e4838acf7bcb46b7cac1a4471b20fd688adc83d1f84d48d998dfe91429cb5c",
+      "application-preservation.json": "d25faf4172870a5bab5416c53e92f75705a4f3c58518afa0c4408b088378ee26",
+      "quality-gate-result.json": "3fffcee5600022af06caa9a58c6f617e5b510558f9096bec61758bd77ef68cbe",
+      "quality-gate.txt": "45c6075261af3a69fc7c2259158a5d12eb6a85e9ba794a47f2b61b125a81cbde",
+      "security-gate-result.json": "5379ad4e2e0fefff6158998845d259aa7d892c3bb2ccfc984744dafb68c587d9",
+      "security-gate.txt": "d1d3437eb7b609063917f74b1f636f93a8169896a73ce1b0c4d3f3694fe776c6",
+      "source-bounds-report.md": "3164fb47918f5908872fb8be73de47887f422c55c16322421227717d47bcda55",
+      "source-bounds-evidence.json": "b61f5b15ac19c0273e3d1f9764842b329a6b0f87368e3d0f1773de369d255c23",
+      "source-bounds-red.xml": "15f2743c786af4ffeb2461cacf601ed359d69c3f18e7d12923f007d08caf2400",
+      "source-bounds-final.xml": "003bbc047c823e0228634e3f0f96c2c4e419b8f5d7bba4a1d464fd496620ab1b",
+      "source-bounds-final-command.json": "9adda1fd5921d71bb8c33e641c71e35165fc4cf70ce7d4e3344a8d8c27168301",
+      "source-bounds-root-ruff-lint.txt": "af352a86840ad0af3d37ea0d9197f868363a6dac6b1c2ef5d2722f6b41d2d9af",
+      "source-bounds-root-ruff-format.txt": "1ba32d724ec0aa587aba7888f97338980bc34aae522616cf9f35d4e0b38e574d",
+      "source-bounds-root-config-lint.txt": "a20c14b9390dd39dc80dbc387bdf91a66073cc32aa02cdb59a68a6532cc7593e",
+      "source-bounds-baseline-lint.json": "e188f9da462e8b5920a8084c4d1c316cdbd04a9c765946b279f9040c70045c8d",
+      "quality-gate-final.txt": "1ba3d11631140eeb9f98b7cdb9101ee3a68f27cf510fe200389d2fa61739ef94",
+      "quality-gate-final-result.json": "3fffcee5600022af06caa9a58c6f617e5b510558f9096bec61758bd77ef68cbe"
+    }
+  },
+  "privacy": {
+    "raw_audio_included": false,
+    "raw_turns_included": false,
+    "embeddings_included": false,
+    "tokens_included": false,
+    "absolute_private_paths_included": false
+  }
+}

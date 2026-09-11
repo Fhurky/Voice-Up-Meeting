@@ -18,6 +18,7 @@ export function SpeakerLayout({ titleKey, children }: { titleKey: string; childr
         </div>
       </header>
       <nav className="workspace-nav" aria-label={t("nav.main")}>
+        {hasPermission("meeting_analysis:read") && <NavLink to="/meetings">{t("nav.meetings")}</NavLink>}
         {hasPermission("speaker_profiles:read") && <NavLink to="/speaker-profiles">{t("nav.profiles")}</NavLink>}
         {hasPermission("speaker_analysis:read") && <NavLink to="/speaker-analysis">{t("nav.analysis")}</NavLink>}
       </nav>

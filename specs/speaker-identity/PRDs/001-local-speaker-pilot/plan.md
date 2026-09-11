@@ -37,6 +37,15 @@ runner failure/denominator/idempotency contracts, actual browser workflows, the 
 quality gate and unavailable security/browser admission checks. Public data evidence
 does not complete the representative Turkish separate-session acceptance criterion.
 
+Decision 6 archive compatibility correction: preserve the existing bounded,
+no-overwrite extraction and Windows archive-name rejection on the root tool's
+declared Python range. Use `ntpath.isreserved` when available and otherwise
+check each component with `PureWindowsPath.is_reserved`; keep the existing
+ASCII, traversal and trailing-dot/space guards. Add absent-API and nested
+reserved-device regressions against actual archive extraction, then repeat
+the complete preparer suite on the existing Python 3.12 and 3.13 environments.
+Do not change package pins, backend runtime, source selections or model data.
+
 Earlier observations: [4060 foundation note](../../../../plans/RTX_4060_FOUNDATION.md).
 
 8. Decision 8: freeze the calibration-only diagnostic before running its scores.

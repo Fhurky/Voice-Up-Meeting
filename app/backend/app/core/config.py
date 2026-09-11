@@ -85,6 +85,14 @@ class Settings(BaseSettings):
     speaker_match_threshold: float = Field(default=0.55, ge=-1.0, le=1.0)
     speaker_new_threshold: float = Field(default=0.45, ge=-1.0, le=1.0)
     speaker_match_margin: float = Field(default=0.10, ge=0.0, le=2.0)
+    meeting_max_bytes: int = Field(default=2147483648, ge=1024, le=2147483648)
+    meeting_max_seconds: int = Field(default=14400, ge=1, le=14400)
+    meeting_tenant_max_bytes: int = Field(default=10737418240, ge=1024, le=10737418240)
+    meeting_active_uploads: int = Field(default=2, ge=1, le=2)
+    meeting_source_retention_days: int = Field(default=7, ge=1, le=7)
+    meeting_result_retention_days: int = Field(default=30, ge=1, le=30)
+    meeting_upload_retention_hours: int = Field(default=24, ge=1, le=24)
+    meeting_chunk_timeout_seconds: int = Field(default=600, ge=30, le=1800)
 
     @field_validator("inference_key")
     @classmethod

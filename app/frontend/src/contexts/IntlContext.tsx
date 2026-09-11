@@ -16,7 +16,7 @@ const loaders: Record<Locale, () => Promise<{ default: Catalogue }>> = {
 interface IntlValue {
   locale: string;
   setLocale: (value: string) => void;
-  t: (key: string) => string;
+  t: (key: string, values?: Record<string, string | number>) => string;
 }
 
 const Context = createContext<IntlValue | null>(null);
@@ -35,10 +35,11 @@ export function IntlProvider({ children }: { children: ReactNode }) {
     () => ({
       locale: loaded?.locale ?? locale,
       setLocale: (next: string) => selectLocale(next === "en" ? "en" : "tr"),
-      t: (key: string) => {
+      t: (key: string, values?: Record<string, string | number>) => {
         const message = loaded?.messages[key];
         if (message === undefined && import.meta.env.DEV && loaded) throw new Error(`Missing locale key: ${key}`);
-        return message ?? key;
+        return (message ?? key).replace(/\{(\w+)\}/g, (placeholder, name: string) =>
+          values && Object.hasOwn(values, name) ? String(values[name]) : placeholder);
       },
     }),
     [locale, loaded],

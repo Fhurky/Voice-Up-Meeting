@@ -129,6 +129,7 @@ def download_archive(split: str, archive_root: Path) -> tuple[Path, dict]:
 
 def member_path(name: str) -> PurePosixPath:
     posix, windows = PurePosixPath(name), PureWindowsPath(name)
+    is_reserved = getattr(ntpath, "isreserved", None)
     if (
         not name
         or "\\" in name
@@ -139,7 +140,11 @@ def member_path(name: str) -> PurePosixPath:
         or posix.parts[0] != "LibriSpeech"
         or any(not re.fullmatch(r"[A-Za-z0-9_.-]+", part) for part in posix.parts)
         or any(part.endswith((".", " ")) for part in posix.parts)
-        or ntpath.isreserved(name)
+        or (
+            is_reserved(name)
+            if is_reserved is not None
+            else any(PureWindowsPath(part).is_reserved() for part in posix.parts)
+        )
     ):
         raise PreparationError("unsafe_archive_path")
     return posix

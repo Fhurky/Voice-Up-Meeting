@@ -19,6 +19,25 @@ READY = {
     "model_id": "speechbrain/spkrec-ecapa-voxceleb",
     "model_revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
 }
+MEETING_READY = {
+    "ready": True,
+    "device": "cuda:0",
+    "model_identity": {
+        "diarization": {
+            "model_id": "pyannote/speaker-diarization-community-1",
+            "revision": "3533c8cf8e369892e6b79ff1bf80f7b0286a54ee",
+        },
+        "asr": {
+            "model_id": "Systran/faster-whisper-large-v3",
+            "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+        },
+        "embedding": {
+            "model_id": READY["model_id"],
+            "revision": READY["model_revision"],
+            "dimensions": 192,
+        },
+    },
+}
 
 
 def build_native_docker(directory):
@@ -48,6 +67,12 @@ class Fixture {
         if (reload) {
             if (Env("FAIL") == "reload") { Console.Error.Write("fixture-private-error"); return 1; }
             File.WriteAllText(Env("CALLS") + ".reloaded", "1"); return 0;
+        }
+        if (command == "exec" && args.Contains("python") && args.Last().Contains("/meeting-ready")) {
+            if (Env("RETRY") == "1" && !File.Exists(Env("CALLS") + ".retry")) {
+                File.WriteAllText(Env("CALLS") + ".retry", "1"); Console.Error.Write("fixture-private-error"); return 1;
+            }
+            Console.Write(Env("MEETING_READY")); return 0;
         }
         if (command == "exec" && Env("RETRY") == "1" && !File.Exists(Env("CALLS") + ".retry")) {
             File.WriteAllText(Env("CALLS") + ".retry", "1"); Console.Error.Write("fixture-private-error"); return 1;
@@ -97,7 +122,7 @@ def startup(tmp_path, native_docker):
 
 def run_startup(
     startup,
-    shell="pwsh",
+    shell=None,
     *,
     arguments="-Mode Spark",
     extra=None,
@@ -105,6 +130,10 @@ def run_startup(
     timeout=40,
     file_mode=False,
 ):
+    if shell is None:
+        if not SHELLS:
+            raise RuntimeError("An installed PowerShell engine is required")
+        shell = SHELLS[0]
     root, binary = startup
     env = {**os.environ, "PATH": str(binary.parent) + os.pathsep + os.environ["PATH"]}
     for key in ("COMPOSE_PROFILES", "COMPOSE_PROJECT_NAME"):
@@ -116,6 +145,7 @@ def run_startup(
                 {"services": {"nginx": {"ports": [{"published": "8173"}]}}}
             ),
             "VOICEUP_FIXTURE_READY": json.dumps(READY),
+            "VOICEUP_FIXTURE_MEETING_READY": json.dumps(MEETING_READY),
             **(extra or {}),
         }
     )
@@ -143,6 +173,168 @@ def run_startup(
 def calls(startup):
     path = startup[0] / "calls.txt"
     return [line.split("\t") for line in path.read_text().splitlines()] if path.exists() else []
+
+
+@pytest.mark.parametrize("shell", SHELLS)
+def test_startup_default_runs_installed_native_engine(startup, monkeypatch, shell):
+    monkeypatch.setitem(run_startup.__globals__, "SHELLS", [shell])
+    result = run_startup(startup)
+    assert result.returncode == 0, result.stderr
+    assert (startup[0] / "outputs/local-runtime-mode.txt").read_text() == "spark\n"
+    assert calls(startup)
+
+
+@pytest.mark.parametrize("enabled", [True, False])
+def test_local_meeting_selection_adds_only_the_explicit_overlay(startup, enabled):
+    root, _ = startup
+    (root / "models/speaker-pilot").mkdir(parents=True)
+    (root / "models/speaker-pilot/manifest.json").write_text("{}")
+    (root / "app/infra/docker-compose.meeting.yml").write_text("services: {}\n")
+    if enabled:
+        (root / "outputs/local-meeting-enabled.txt").write_text("enabled\n")
+    result = run_startup(startup, "powershell", arguments="-Mode Local")
+    assert result.returncode == 0, result.stderr
+    assert calls(startup)
+    for call in calls(startup):
+        assert ("app/infra/docker-compose.meeting.yml" in call) is enabled
+    up = next(call for call in calls(startup) if "up" in call)
+    assert "--no-build" in up and "never" in up
+
+
+def test_invalid_meeting_selection_stops_before_compose(startup):
+    root, _ = startup
+    (root / "models/speaker-pilot").mkdir(parents=True)
+    (root / "models/speaker-pilot/manifest.json").write_text("{}")
+    (root / "outputs/local-meeting-enabled.txt").write_text("anything\n")
+    result = run_startup(startup, "powershell", arguments="-Mode Local")
+    assert result.returncode != 0 and not calls(startup)
+
+
+def test_local_meeting_startup_retries_private_model_readiness_before_ready_url(
+    startup,
+):
+    root, _ = startup
+    (root / "models/speaker-pilot").mkdir(parents=True)
+    (root / "models/speaker-pilot/manifest.json").write_text("{}")
+    (root / "app/infra/docker-compose.meeting.yml").write_text("services: {}\n")
+    (root / "outputs/local-meeting-enabled.txt").write_text("enabled\n")
+    result = run_startup(
+        startup,
+        "powershell",
+        arguments="-Mode Local",
+        extra={"VOICEUP_FIXTURE_RETRY": "1"},
+    )
+    assert result.returncode == 0, result.stderr
+    probes = [call for call in calls(startup) if "python" in call]
+    assert len(probes) == 2
+    assert all(
+        call[call.index("exec") : -1] == ["exec", "-T", "inference", "python", "-c"]
+        for call in probes
+    )
+    assert all(
+        "/meeting-ready" in call[-1] and "VOICEUP_INFERENCE_INTERNAL_KEY" in call[-1]
+        for call in probes
+    )
+    assert "fixture-private-error" not in result.stdout + result.stderr
+    assert "VoiceUp: http://127.0.0.1:8173" in result.stdout
+    assert (root / "outputs/local-runtime-mode.txt").read_text() == "local\n"
+
+
+def meeting_helper_code():
+    return (
+        helper_code()
+        + r"""
+foreach ($name in @('Test-LocalMeetingIdentity', 'Wait-LocalMeetingReady')) {
+    $helper=$ast.Find({param($node) $node -is [Management.Automation.Language.FunctionDefinitionAst] -and $node.Name -eq $name},$false)
+    if (-not $helper) { throw 'missing meeting readiness helper' }
+    Invoke-Expression $helper.Extent.Text
+}
+"""
+    )
+
+
+@pytest.mark.parametrize(
+    "payload",
+    [
+        {**MEETING_READY, "ready": "true"},
+        {**MEETING_READY, "device": "cpu"},
+        {
+            **MEETING_READY,
+            "model_identity": {
+                **MEETING_READY["model_identity"],
+                "asr": {
+                    "model_id": "wrong",
+                    "revision": MEETING_READY["model_identity"]["asr"]["revision"],
+                },
+            },
+        },
+        {
+            **MEETING_READY,
+            "model_identity": {
+                **MEETING_READY["model_identity"],
+                "diarization": {
+                    "model_id": MEETING_READY["model_identity"]["diarization"]["model_id"],
+                    "revision": "wrong",
+                },
+            },
+        },
+        {
+            **MEETING_READY,
+            "model_identity": {
+                **MEETING_READY["model_identity"],
+                "embedding": {
+                    **MEETING_READY["model_identity"]["embedding"],
+                    "dimensions": "192",
+                },
+            },
+        },
+        READY,
+        [],
+    ],
+)
+def test_local_meeting_readiness_rejects_wrong_model_or_shape(startup, payload):
+    result = run_startup(
+        startup,
+        "powershell",
+        code=meeting_helper_code()
+        + r"""
+$value=$env:VOICEUP_FIXTURE_MEETING_READY | ConvertFrom-Json
+if (Test-LocalMeetingIdentity -Ready $value) { throw 'invalid identity accepted' }
+'rejected'
+""",
+        extra={"VOICEUP_FIXTURE_MEETING_READY": json.dumps(payload)},
+    )
+    assert result.returncode == 0, result.stderr
+    assert "rejected" in result.stdout
+
+
+def test_local_meeting_readiness_deadline_hides_raw_error_and_preserves_mode(startup):
+    begin = time.monotonic()
+    result = run_startup(
+        startup,
+        "powershell",
+        code=meeting_helper_code()
+        + r"""
+Wait-LocalMeetingReady -ComposeArguments @('compose') -TimeoutSeconds 2
+'unexpected-ready'
+""",
+        extra={"VOICEUP_FIXTURE_MEETING_READY": "fixture-private-error"},
+        timeout=10,
+    )
+    assert result.returncode != 0
+    assert "voiceup_local_meeting_not_ready" in result.stderr
+    assert any("python" in call for call in calls(startup))
+    assert "fixture-private-error" not in result.stdout + result.stderr
+    assert "unexpected-ready" not in result.stdout
+    assert time.monotonic() - begin < 8
+    assert (startup[0] / "outputs/local-runtime-mode.txt").read_text() == "local\n"
+
+
+def test_spark_ignores_local_meeting_selection(startup):
+    (startup[0] / "outputs/local-meeting-enabled.txt").write_text("enabled\n")
+    result = run_startup(startup, "powershell", arguments="-Mode Spark")
+    assert result.returncode == 0, result.stderr
+    assert all("app/infra/docker-compose.meeting.yml" not in call for call in calls(startup))
 
 
 def test_powershell_file_invocation_preserves_turkish_console_output(startup):
@@ -221,7 +413,12 @@ def test_failed_preflight_never_mutates_or_changes_mode(startup, failure):
         "config": {"VOICEUP_FIXTURE_FAIL": "config"},
         "inference": {
             "VOICEUP_FIXTURE_CONFIG": json.dumps(
-                {"services": {"inference": {}, "nginx": {"ports": [{"published": "8173"}]}}}
+                {
+                    "services": {
+                        "inference": {},
+                        "nginx": {"ports": [{"published": "8173"}]},
+                    }
+                }
             )
         },
         "ambient_profiles": {"COMPOSE_PROFILES": "*"},
@@ -251,6 +448,37 @@ def test_explicit_local_override_preserves_local_contract(startup, shell):
     assert result.returncode == 0, result.stderr
     assert all("app/infra/docker-compose.spark.yml" not in call for call in calls(startup))
     assert (root / "outputs/local-runtime-mode.txt").read_text() == "local\n"
+
+
+@pytest.mark.parametrize("shell", SHELLS)
+@pytest.mark.parametrize("failure", [False, True])
+def test_local_refreshes_nginx_after_replacement_and_fails_closed(startup, shell, failure):
+    root = startup[0]
+    (root / "models/speaker-pilot").mkdir(parents=True)
+    (root / "models/speaker-pilot/manifest.json").write_text("{}")
+    result = run_startup(
+        startup,
+        shell,
+        arguments="-Mode Local",
+        extra={"VOICEUP_FIXTURE_FAIL": "reload" if failure else ""},
+    )
+    recorded = calls(startup)
+    reloads = [call for call in recorded if "exec" in call and "sh" in call]
+    assert len(reloads) == 1
+    command = reloads[0]
+    assert command[command.index("-p") + 1] == "voiceup"
+    assert command[-1].index("nginx -t") < command[-1].index("nginx -s reload")
+    assert "/tmp/voiceup-spark" not in command[-1]
+    assert recorded.index(command) > next(
+        index for index, call in enumerate(recorded) if "up" in call
+    )
+    assert not any("stop" in call for call in recorded)
+    assert (root / "outputs/local-runtime-mode.txt").read_text() == "local\n"
+    assert "fixture-private-error" not in result.stdout + result.stderr
+    if failure:
+        assert result.returncode != 0 and "VoiceUp: http://" not in result.stdout
+    else:
+        assert result.returncode == 0 and "VoiceUp: http://" in result.stdout
 
 
 def helper_code():
@@ -301,7 +529,13 @@ if ($value.ExitCode -ne 0 -or $value.Stdout -cne "path with spaces\`nliteral`"qu
 
 
 def run_stack(
-    root, arguments, *, profiles="", project="", services="backend\nworker\nnginx", fail=False
+    root,
+    arguments,
+    *,
+    profiles="",
+    project="",
+    services="backend\nworker\nnginx",
+    fail=False,
 ):
     git_bash = Path("C:/Program Files/Git/bin/bash.exe")
     bash = str(git_bash) if git_bash.exists() else shutil.which("bash")
@@ -320,7 +554,13 @@ esac
     )
     binary.chmod(0o755)
     return subprocess.run(
-        [bash, "-c", 'PATH="$PWD/fake-bin:$PATH" bash scripts/stack.sh "$@"', "test", *arguments],
+        [
+            bash,
+            "-c",
+            'PATH="$PWD/fake-bin:$PATH" bash scripts/stack.sh "$@"',
+            "test",
+            *arguments,
+        ],
         check=False,
         cwd=root,
         env={
@@ -376,9 +616,11 @@ def test_stack_general_activation_fails_closed(startup, command, unsafe):
         profiles="*" if unsafe == "profiles" else "",
         project="voiceup" if unsafe == "project" else "",
         fail=unsafe == "config_error",
-        services="backend\nworker\nnginx\ninference"
-        if unsafe == "effective_inference"
-        else "backend\nworker\nnginx",
+        services=(
+            "backend\nworker\nnginx\ninference"
+            if unsafe == "effective_inference"
+            else "backend\nworker\nnginx"
+        ),
     )
     assert result.returncode != 0 and result.stdout == ""
     assert "fixture-private-error" not in result.stderr
@@ -391,7 +633,10 @@ def test_stack_allows_safe_general_restart_and_explicit_local_stop(startup):
     for arguments in (["restart"], ["stop", "inference"]):
         result = run_stack(startup[0], ["--mode", "spark", *arguments])
         assert result.returncode == 0, result.stderr
-        assert result.stdout.splitlines()[-len(arguments) :] == arguments
+        lines = result.stdout.splitlines()
+        assert any(
+            lines[index : index + len(arguments)] == arguments for index in range(len(lines))
+        )
 
 
 def test_terminal_readiness_failure_preserves_spark_and_never_stops_local(startup):
@@ -457,7 +702,9 @@ def test_dotenv_profile_is_detected_from_real_compose_before_any_mutation(startu
     assert result.returncode != 0 and all("config" in call for call in calls(startup))
     assert "fixture-private-config-secret" not in result.stdout + result.stderr
     result = run_stack(
-        startup[0], ["--mode", "spark", "restart"], services="\n".join(model["services"])
+        startup[0],
+        ["--mode", "spark", "restart"],
+        services="\n".join(model["services"]),
     )
     assert result.returncode != 0 and result.stdout == ""
     assert (startup[0] / "outputs/local-runtime-mode.txt").read_text() == "local\n"

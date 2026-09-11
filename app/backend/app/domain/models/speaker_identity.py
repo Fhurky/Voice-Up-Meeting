@@ -92,6 +92,21 @@ class SpeakerProfile(AuditSoftDeleteMixin, Base):
             "tenant_id", "speaker_profile_id", name="uq_speaker_profile_tenant_identity"
         ),
         CheckConstraint("sample_count BETWEEN 1 AND 20", name="speaker_profile_sample_count"),
+        ForeignKeyConstraint(
+            ["tenant_id", "meeting_recording_id"],
+            ["recording.tenant_id", "recording.recording_id"],
+            ondelete="RESTRICT",
+            name="fk_speaker_profile_meeting_recording",
+        ),
+        CheckConstraint(
+            "(meeting_embedding IS NULL AND meeting_model_id IS NULL AND "
+            "meeting_model_revision IS NULL AND meeting_preprocessing_version IS NULL AND "
+            "meeting_source_sha256 IS NULL AND meeting_recording_id IS NULL) OR "
+            "(meeting_embedding IS NOT NULL AND meeting_model_id IS NOT NULL AND "
+            "meeting_model_revision IS NOT NULL AND meeting_preprocessing_version IS NOT NULL AND "
+            "meeting_source_sha256 IS NOT NULL AND meeting_recording_id IS NOT NULL)",
+            name="speaker_profile_meeting_population",
+        ),
         Index(
             "ix_speaker_profile_active_tenant_model",
             "tenant_id",
@@ -127,6 +142,36 @@ class SpeakerProfile(AuditSoftDeleteMixin, Base):
         String(64),
         nullable=False,
         comment="Canonical hash of the sorted active sample source hashes composing this centroid.",
+    )
+    meeting_embedding: Mapped[list[float] | None] = mapped_column(
+        VECTOR(256),
+        nullable=True,
+        comment="Separate normalized Community embedding component for verified meeting memory; never scored with ECAPA.",
+    )
+    meeting_model_id: Mapped[str | None] = mapped_column(
+        String(120),
+        nullable=True,
+        comment="Immutable package identity of the optional meeting embedding component.",
+    )
+    meeting_model_revision: Mapped[str | None] = mapped_column(
+        String(64),
+        nullable=True,
+        comment="Immutable revision of the separate 256-dimensional meeting population.",
+    )
+    meeting_preprocessing_version: Mapped[str | None] = mapped_column(
+        String(64),
+        nullable=True,
+        comment="Versioned meeting quality and final retained-audio preprocessing lineage.",
+    )
+    meeting_source_sha256: Mapped[str | None] = mapped_column(
+        String(64),
+        nullable=True,
+        comment="SHA-256 of the exact retained PCM WAV used for the meeting memory vectors.",
+    )
+    meeting_recording_id: Mapped[int | None] = mapped_column(
+        BigInteger,
+        nullable=True,
+        comment="Same-tenant retained source recording for this optional immutable meeting template.",
     )
 
 

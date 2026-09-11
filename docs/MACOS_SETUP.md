@@ -5,10 +5,12 @@ Bu kurulum web arayüzünü, API'yi, PostgreSQL'i ve ses modelini aynı MacBook'
 uygun **CPU** paketi seçilir; Apple GPU/Metal kullanılmaz. Sabit
 `kt-vibecoding-python-web-v2` uygulama yapısı korunur.
 
-Mevcut ürün tek konuşmacılı WAV/FLAC kayıtlarıyla profil oluşturur ve ayrı kaydı
+Bu Mac CPU kurulumu tek konuşmacılı WAV/FLAC kayıtlarıyla profil oluşturur ve ayrı kaydı
 tanır. 20–30 saniye temiz, tek kişilik konuşmayla başlayın; sınır 50 MiB/120 saniyedir.
-Çok kişili toplantı transkripti/mikrofon akışı ayrı [002 gereksinimindedir](../specs/speaker-identity/PRDs/002-long-recording-analysis/PRD.md);
-bu kurulum onları uygulanmış hale getirmez.
+Çok kişili toplantı dökümü ve hafızası [002 kapsamında](../specs/speaker-identity/PRDs/002-long-recording-analysis/PRD.md)
+yerel x86_64 NVIDIA üzerinde doğrulandı; bu CPU paketi o toplantı modelini içermez.
+Mikrofon yakalama ayrı [007 gereksiniminde](../specs/speaker-identity/PRDs/007-microphone-meeting-capture/PRD.md)
+izlenir. Native Apple toplantı çalışma zamanı ve mikrofon özelliği bu rehberle tamamlanmış sayılmaz.
 
 ## Önkoşullar
 

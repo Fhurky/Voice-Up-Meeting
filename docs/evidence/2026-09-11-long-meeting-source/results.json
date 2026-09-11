@@ -1,0 +1,237 @@
+{
+  "schema_version": 1,
+  "date": "2026-09-11",
+  "technology_profile": "kt-vibecoding-python-web-v2",
+  "environment": {
+    "os": "Linux",
+    "architecture": "x86_64",
+    "python": "3.13",
+    "database": "PostgreSQL 17",
+    "transport": "real loopback TCP HTTP",
+    "gpu_calls": 0,
+    "model_calls": 0
+  },
+  "tests": {
+    "long_source": {
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "memory_worker_regression": {
+      "tests": 41,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "memory_count": 35,
+    "worker_count": 6,
+    "total_passed": 46,
+    "browser_passed": 0,
+    "first_measurement_helper_run": {
+      "passed": 1,
+      "failed": 3
+    },
+    "memory_reason_red": {
+      "passed": 0,
+      "failed": 1
+    }
+  },
+  "long_sources": [
+    {
+      "duration_seconds": 3600.0,
+      "size_bytes": 115200044,
+      "sha256": "291055293242ad5e301adabeb5a2621c05cce045383ae7cf9bd0fef78fdc2340",
+      "windows": 60,
+      "max_window_seconds": 70.0,
+      "max_window_payload_bytes": 2240044,
+      "core_frames": 57600000,
+      "context_frames_read": 67040000,
+      "baseline_rss_bytes": 39849984,
+      "peak_rss_bytes": 43646976,
+      "incremental_rss_bytes": 3796992,
+      "elapsed_seconds": 1.497917218001021,
+      "rss_method": "Linux /proc/self/status VmHWM of new address space",
+      "model_calls": 0,
+      "audio_content": "generated silence",
+      "http_upload_and_validation_seconds": 7.503573101999791,
+      "acknowledged_parts": 28,
+      "http_process_restart": true,
+      "distinct_server_processes": 2,
+      "resumed_part_index": 1,
+      "idempotent_create_and_first_part": true,
+      "final_upload_status": "queued",
+      "cleanup_status": "cancelled",
+      "model_worker_run": false,
+      "ordinary_role": true,
+      "transport": "real loopback TCP HTTP",
+      "persistence": "PostgreSQL",
+      "http_server_processes": [
+        {
+          "peak_rss_bytes": 122572800,
+          "rss_method": "Linux VmHWM"
+        },
+        {
+          "peak_rss_bytes": 122478592,
+          "rss_method": "Linux VmHWM"
+        }
+      ]
+    },
+    {
+      "duration_seconds": 7200.0,
+      "size_bytes": 230400044,
+      "sha256": "f4b25f96437b5c10ea484d52c52058a142d9fd9e6e5f9152c6b65822be506dc7",
+      "windows": 120,
+      "max_window_seconds": 70.0,
+      "max_window_payload_bytes": 2240044,
+      "core_frames": 115200000,
+      "context_frames_read": 134240000,
+      "baseline_rss_bytes": 39927808,
+      "peak_rss_bytes": 43810816,
+      "incremental_rss_bytes": 3883008,
+      "elapsed_seconds": 2.9389832239994576,
+      "rss_method": "Linux /proc/self/status VmHWM of new address space",
+      "model_calls": 0,
+      "audio_content": "generated silence",
+      "http_upload_and_validation_seconds": 8.77478834500107,
+      "acknowledged_parts": 55,
+      "http_process_restart": true,
+      "distinct_server_processes": 2,
+      "resumed_part_index": 1,
+      "idempotent_create_and_first_part": true,
+      "final_upload_status": "queued",
+      "cleanup_status": "cancelled",
+      "model_worker_run": false,
+      "ordinary_role": true,
+      "transport": "real loopback TCP HTTP",
+      "persistence": "PostgreSQL",
+      "http_server_processes": [
+        {
+          "peak_rss_bytes": 122449920,
+          "rss_method": "Linux VmHWM"
+        },
+        {
+          "peak_rss_bytes": 122978304,
+          "rss_method": "Linux VmHWM"
+        }
+      ]
+    },
+    {
+      "duration_seconds": 14400.0,
+      "size_bytes": 460800044,
+      "sha256": "1de64b2a92690fc1229ee1e4cd24f06a5889957e0288f15e93afffcf9644145c",
+      "windows": 240,
+      "max_window_seconds": 70.0,
+      "max_window_payload_bytes": 2240044,
+      "core_frames": 230400000,
+      "context_frames_read": 268640000,
+      "baseline_rss_bytes": 39862272,
+      "peak_rss_bytes": 43646976,
+      "incremental_rss_bytes": 3784704,
+      "elapsed_seconds": 5.955388836000566,
+      "rss_method": "Linux /proc/self/status VmHWM of new address space",
+      "model_calls": 0,
+      "audio_content": "generated silence",
+      "http_upload_and_validation_seconds": 12.0144095809992,
+      "acknowledged_parts": 110,
+      "http_process_restart": true,
+      "distinct_server_processes": 2,
+      "resumed_part_index": 1,
+      "idempotent_create_and_first_part": true,
+      "final_upload_status": "queued",
+      "cleanup_status": "cancelled",
+      "model_worker_run": false,
+      "ordinary_role": true,
+      "transport": "real loopback TCP HTTP",
+      "persistence": "PostgreSQL",
+      "http_server_processes": [
+        {
+          "peak_rss_bytes": 122626048,
+          "rss_method": "Linux VmHWM"
+        },
+        {
+          "peak_rss_bytes": 121614336,
+          "rss_method": "Linux VmHWM"
+        }
+      ]
+    }
+  ],
+  "maximum_rate_channels": {
+    "duration_seconds": 70.0,
+    "sample_rate": 192000,
+    "channels": 8,
+    "source_bytes": 215040044,
+    "source_sha256": "7d65504173d9524ee3e3bc2ee2fe07f170181cde03c4fb4d7876f2f81ffb76f7",
+    "baseline_rss_bytes": 77795328,
+    "peak_rss_bytes": 131870720,
+    "stages": [
+      {
+        "purpose": "window",
+        "seconds": 70,
+        "mono_payload_bytes": 26880044,
+        "frames_actually_read": 13440000,
+        "peak_rss_bytes": 108892160
+      },
+      {
+        "purpose": "sample",
+        "seconds": 60,
+        "mono_payload_bytes": 23040044,
+        "frames_actually_read": 11520000,
+        "peak_rss_bytes": 131870720
+      }
+    ],
+    "elapsed_seconds": 2.4073279469994304,
+    "model_calls": 0,
+    "worker_constructed": false,
+    "measurement_scope": "Worker module imports plus validate/window/sample; no HTTP/model inference",
+    "rss_method": "Linux /proc/self/status VmHWM of new address space",
+    "audio_content": "generated silence"
+  },
+  "four_hours_plus_one_sample": {
+    "duration_seconds": 14400.0000625,
+    "rejected": true,
+    "error_code": "audio_limit",
+    "boundary": "actual source adapter"
+  },
+  "checks": {
+    "ruff_exit": 0,
+    "black_exit": 0,
+    "isort_exit": 0
+  },
+  "database": {
+    "unique_owned_test_database_created": true,
+    "migrated_to": "7e86c6c45b2a",
+    "dropped": true,
+    "application_database_modified": false
+  },
+  "files_sha256": {
+    "app/backend/tests/integration/test_long_meeting_sources.py": "ab4a4c1f5b4fdcf08bb4245e26a83990623334a7cdc784e89184b58e30ffd85c",
+    "app/backend/app/infrastructure/meeting_audio.py": "d619763a94aa767169d65611894130ee12c4b939e23bfd465ff82b07f27f6a8d",
+    "app/backend/app/services/meeting_worker.py": "42aa346c06163f40369b4fb8526c42d01eb423efd11aa31e2277705263dd8133",
+    "app/backend/app/services/meeting_memory.py": "b1af6dcb04150e95999b892a94cd27e3ab9590f28c5574542fb175818c725c72",
+    "app/backend/tests/integration/test_meeting_worker.py": "688f74ef867fc3a34ba6ae1333ed318be4f0284128a0a8adfbcafe36c2d365b4",
+    "app/backend/tests/integration/test_meeting_memory.py": "cd124de058761ec5cb0531df2c797f3389419189f3c09f04e6dbcbfa713c8973"
+  },
+  "evidence_sha256": {
+    "tests.xml": "a90f606618a7e40d9f6d353a538ad9877cbfadc14a2eb10872920e402ab82ab3",
+    "worker-tests.xml": "6fa2d23a11112b5855661e067e1aab7d1826ca475daf9ff737442ad571e5b3e5",
+    "memory-worker-green.xml": "8c95b561defb1cc257c117d397b30c902e5390ce9e58dfd0ad71995accaf6339",
+    "memory-reason-red.xml": "248c8752c570ddf66b7554290689f151c0d1b83196c3e1f8107cefe78d383a0d"
+  },
+  "claims": {
+    "real_source_upload_http_observed": true,
+    "upload_process_restart_observed": true,
+    "worker_restart_during_real_model_inference_observed": false,
+    "four_hour_real_speech_model_run": false,
+    "full_capability_complete": false,
+    "full_quality_gate_run_in_this_scope": false,
+    "security_scans_run_in_this_scope": false,
+    "owner_acceptance_observed": false
+  },
+  "limitations": [
+    "All long audio is generated PCM16 silence, not a speaker or ASR accuracy benchmark.",
+    "Per-window source memory is distinct from GPU or HTTP model inference memory.",
+    "Worker regression uses real PostgreSQL but contract doubles for inference.",
+    "Old inherited rusage peaks are deliberately excluded from final reader RSS metrics."
+  ]
+}

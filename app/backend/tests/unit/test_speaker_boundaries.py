@@ -241,7 +241,7 @@ def test_worker_health_requires_recent_successful_heartbeat(
     path.touch()
     assert speaker_worker.healthcheck() is True
     modified = path.stat().st_mtime
-    monkeypatch.setattr(
-        speaker_worker.time, "time", lambda: modified + get_settings().job_timeout_seconds + 61
-    )
+    settings = get_settings()
+    longest_job = max(settings.job_timeout_seconds, settings.meeting_chunk_timeout_seconds)
+    monkeypatch.setattr(speaker_worker.time, "time", lambda: modified + longest_job + 61)
     assert speaker_worker.healthcheck() is False

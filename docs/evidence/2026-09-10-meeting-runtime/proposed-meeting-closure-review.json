@@ -1,0 +1,2288 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-09-10T20:12:55.744409+00:00",
+  "production_admission": false,
+  "source_sha256": {
+    "dependency-admission.json": "f9bc25e8406d6d06beef68ec4eeac94252854210885ff6ccbe8396f0be1bca19",
+    "uv.lock": "7dc7c2f037486d2c26232ed14aeb5bb0e0da426672f142883424e81b66a4ed43",
+    "outputs\\2026-09-10-meeting-delivery\\mature-production-candidate-replacements.json": "976f3bd90e98ffafa0b7bbe8d250eb024ae44abc94748038a406ec5385d8cb91",
+    "outputs\\2026-09-10-meeting-delivery\\independent-candidate-source-review.json": "d99505122488688fbbcf747caf77ce04c0989251ae06eb4bba0eb48cfd850332",
+    "outputs\\2026-09-10-meeting-delivery\\proposed-meeting-wheel-manifest.json": "e141138d509c3ba64903dd139fd0c6538f2d00e90016e63c917f607110188972"
+  },
+  "authority_fact": {
+    "source": "dependency-admission.json#authorities",
+    "registered_direct_authority_paths": [
+      "app/frontend/package.json",
+      "e2e/package.json",
+      "app/backend/requirements.in",
+      "app/backend/requirements-dev.in",
+      "app/devops/images.yaml",
+      "app/inference/requirements.in",
+      "app/infra/backend-apk.lock",
+      "app/inference/requirements.spark.in",
+      "app/inference/requirements.cpu-x86_64.in",
+      "app/inference/requirements.cpu-aarch64.in"
+    ],
+    "root_research_pyproject_listed": false,
+    "root_research_uv_lock_listed": false,
+    "conclusion": "Selecting mature first-production candidates does not lower an admitted runtime pin. All63 existing inference pins are retained; research artifacts remain historical evidence."
+  },
+  "base_pins_retained": {
+    "annotated-doc": "0.0.5",
+    "annotated-types": "0.8.0",
+    "anyio": "4.15.1",
+    "certifi": "2026.7.22",
+    "cffi": "2.1.1",
+    "charset-normalizer": "3.5.1",
+    "click": "8.5.0",
+    "cloudpickle": "3.1.2",
+    "fastapi": "0.141.1",
+    "filelock": "3.32.5",
+    "fsspec": "2026.7.0",
+    "h11": "0.16.0",
+    "hf-xet": "1.6.0",
+    "huggingface-hub": "0.36.2",
+    "hyperpyyaml": "1.2.3",
+    "idna": "3.19",
+    "jinja2": "3.1.6",
+    "joblib": "1.6.0",
+    "markupsafe": "3.0.3",
+    "mpmath": "1.3.0",
+    "networkx": "3.6.1",
+    "numpy": "2.4.3",
+    "nvidia-cublas-cu12": "12.8.4.1",
+    "nvidia-cuda-cupti-cu12": "12.8.90",
+    "nvidia-cuda-nvrtc-cu12": "12.8.93",
+    "nvidia-cuda-runtime-cu12": "12.8.90",
+    "nvidia-cudnn-cu12": "9.10.2.21",
+    "nvidia-cufft-cu12": "11.3.3.83",
+    "nvidia-cufile-cu12": "1.13.1.3",
+    "nvidia-curand-cu12": "10.3.9.90",
+    "nvidia-cusolver-cu12": "11.7.3.90",
+    "nvidia-cusparse-cu12": "12.5.8.93",
+    "nvidia-cusparselt-cu12": "0.7.1",
+    "nvidia-nccl-cu12": "2.27.3",
+    "nvidia-nvjitlink-cu12": "12.8.93",
+    "nvidia-nvtx-cu12": "12.8.90",
+    "packaging": "26.3",
+    "pip": "26.1.2",
+    "pycparser": "3.0",
+    "pydantic": "2.13.4",
+    "pydantic-core": "2.46.4",
+    "pydantic-settings": "2.14.2",
+    "python-dotenv": "1.2.3",
+    "pyyaml": "6.0.3",
+    "requests": "2.34.2",
+    "ruamel-yaml": "0.18.17",
+    "ruamel-yaml-clib": "0.2.15",
+    "scipy": "1.17.1",
+    "sentencepiece": "0.2.2",
+    "setuptools": "84.0.0",
+    "silero-vad": "6.2.1",
+    "soundfile": "0.14.0",
+    "speechbrain": "1.1.1",
+    "starlette": "1.6.0",
+    "sympy": "1.14.0",
+    "torch": "2.8.0+cu128",
+    "torchaudio": "2.8.0+cu128",
+    "tqdm": "4.70.0",
+    "triton": "3.4.0",
+    "typing-extensions": "4.16.0",
+    "typing-inspection": "0.4.4",
+    "urllib3": "2.7.0",
+    "uvicorn": "0.52.1"
+  },
+  "base_pin_changes": [],
+  "candidate_overlay_count": 68,
+  "combined_distribution_count": 131,
+  "replacement_count": 11,
+  "dependency_constraints": [
+    {
+      "parent": "aiohttp",
+      "requirement": "aiohappyeyeballs>=2.5.0",
+      "available": "2.7.1",
+      "satisfied": true
+    },
+    {
+      "parent": "aiohttp",
+      "requirement": "aiosignal>=1.4.0",
+      "available": "1.4.0",
+      "satisfied": true
+    },
+    {
+      "parent": "aiohttp",
+      "requirement": "attrs>=17.3.0",
+      "available": "26.1.0",
+      "satisfied": true
+    },
+    {
+      "parent": "aiohttp",
+      "requirement": "frozenlist>=1.1.1",
+      "available": "1.8.0",
+      "satisfied": true
+    },
+    {
+      "parent": "aiohttp",
+      "requirement": "multidict<7.0,>=4.5",
+      "available": "6.7.1",
+      "satisfied": true
+    },
+    {
+      "parent": "aiohttp",
+      "requirement": "propcache>=0.2.0",
+      "available": "0.5.2",
+      "satisfied": true
+    },
+    {
+      "parent": "aiohttp",
+      "requirement": "yarl<2.0,>=1.17.0",
+      "available": "1.24.5",
+      "satisfied": true
+    },
+    {
+      "parent": "aiosignal",
+      "requirement": "frozenlist>=1.1.0",
+      "available": "1.8.0",
+      "satisfied": true
+    },
+    {
+      "parent": "alembic",
+      "requirement": "SQLAlchemy>=1.4.23",
+      "available": "2.0.52",
+      "satisfied": true
+    },
+    {
+      "parent": "alembic",
+      "requirement": "Mako",
+      "available": "1.4.1",
+      "satisfied": true
+    },
+    {
+      "parent": "alembic",
+      "requirement": "typing-extensions>=4.12",
+      "available": "4.16.0",
+      "satisfied": true
+    },
+    {
+      "parent": "anyio",
+      "requirement": "idna>=2.8",
+      "available": "3.19",
+      "satisfied": true
+    },
+    {
+      "parent": "anyio",
+      "requirement": "typing_extensions>=4.16.0; python_version < \"3.15\"",
+      "available": "4.16.0",
+      "satisfied": true
+    },
+    {
+      "parent": "asteroid-filterbanks",
+      "requirement": "numpy",
+      "available": "2.4.3",
+      "satisfied": true
+    },
+    {
+      "parent": "asteroid-filterbanks",
+      "requirement": "torch (>=1.8.0)",
+      "available": "2.8.0+cu128",
+      "satisfied": true
+    },
+    {
+      "parent": "asteroid-filterbanks",
+      "requirement": "typing-extensions",
+      "available": "4.16.0",
+      "satisfied": true
+    },
+    {
+      "parent": "cffi",
+      "requirement": "pycparser; implementation_name != \"PyPy\"",
+      "available": "3.0",
+      "satisfied": true
+    },
+    {
+      "parent": "contourpy",
+      "requirement": "numpy>=1.25",
+      "available": "2.4.3",
+      "satisfied": true
+    },
+    {
+      "parent": "ctranslate2",
+      "requirement": "setuptools",
+      "available": "84.0.0",
+      "satisfied": true
+    },
+    {
+      "parent": "ctranslate2",
+      "requirement": "numpy",
+      "available": "2.4.3",
+      "satisfied": true
+    },
+    {
+      "parent": "ctranslate2",
+      "requirement": "pyyaml<7,>=5.3",
+      "available": "6.0.3",
+      "satisfied": true
+    },
+    {
+      "parent": "fastapi",
+      "requirement": "starlette>=0.46.0",
+      "available": "1.6.0",
+      "satisfied": true
+    },
+    {
+      "parent": "fastapi",
+      "requirement": "pydantic>=2.9.0",
+      "available": "2.13.4",
+      "satisfied": true
+    },
+    {
+      "parent": "fastapi",
+      "requirement": "typing-extensions>=4.8.0",
+      "available": "4.16.0",
+      "satisfied": true
+    },
+    {
+      "parent": "fastapi",
+      "requirement": "typing-inspection>=0.4.2",
+      "available": "0.4.4",
+      "satisfied": true
+    },
+    {
+      "parent": "fastapi",
+      "requirement": "annotated-doc>=0.0.2",
+      "available": "0.0.5",
+      "satisfied": true
+    },
+    {
+      "parent": "faster-whisper",
+      "requirement": "ctranslate2<5,>=4.0",
+      "available": "4.8.1",
+      "satisfied": true
+    },
+    {
+      "parent": "faster-whisper",
+      "requirement": "huggingface-hub>=0.21",
+      "available": "0.36.2",
+      "satisfied": true
+    },
+    {
+      "parent": "faster-whisper",
+      "requirement": "tokenizers<1,>=0.13",
+      "available": "0.23.1",
+      "satisfied": true
+    },
+    {
+      "parent": "faster-whisper",
+      "requirement": "onnxruntime<2,>=1.14",
+      "available": "1.28.0",
+      "satisfied": true
+    },
+    {
+      "parent": "faster-whisper",
+      "requirement": "av>=11",
+      "available": "18.0.0",
+      "satisfied": true
+    },
+    {
+      "parent": "faster-whisper",
+      "requirement": "tqdm",
+      "available": "4.70.0",
+      "satisfied": true
+    },
+    {
+      "parent": "fsspec",
+      "requirement": "aiohttp!=4.0.0a0,!=4.0.0a1; extra == 'http'",
+      "available": "3.14.3",
+      "satisfied": true
+    },
+    {
+      "parent": "googleapis-common-protos",
+      "requirement": "protobuf<8.0.0,>=6.33.5",
+      "available": "7.35.1",
+      "satisfied": true
+    },
+    {
+      "parent": "grpcio",
+      "requirement": "typing-extensions~=4.12",
+      "available": "4.16.0",
+      "satisfied": true
+    },
+    {
+      "parent": "huggingface-hub",
+      "requirement": "filelock",
+      "available": "3.32.5",
+      "satisfied": true
+    },
+    {
+      "parent": "huggingface-hub",
+      "requirement": "fsspec>=2023.5.0",
+      "available": "2026.7.0",
+      "satisfied": true
+    },
+    {
+      "parent": "huggingface-hub",
+      "requirement": "hf-xet<2.0.0,>=1.1.3; platform_machine == \"x86_64\" or platform_machine == \"amd64\" or platform_machine == \"arm64\" or platform_machine == \"aarch64\"",
+      "available": "1.6.0",
+      "satisfied": true
+    },
+    {
+      "parent": "huggingface-hub",
+      "requirement": "packaging>=20.9",
+      "available": "26.3",
+      "satisfied": true
+    },
+    {
+      "parent": "huggingface-hub",
+      "requirement": "pyyaml>=5.1",
+      "available": "6.0.3",
+      "satisfied": true
+    },
+    {
+      "parent": "huggingface-hub",
+      "requirement": "requests",
+      "available": "2.34.2",
+      "satisfied": true
+    },
+    {
+      "parent": "huggingface-hub",
+      "requirement": "tqdm>=4.42.1",
+      "available": "4.70.0",
+      "satisfied": true
+    },
+    {
+      "parent": "huggingface-hub",
+      "requirement": "typing-extensions>=3.7.4.3",
+      "available": "4.16.0",
+      "satisfied": true
+    },
+    {
+      "parent": "hyperpyyaml",
+      "requirement": "pyyaml>=5.1",
+      "available": "6.0.3",
+      "satisfied": true
+    },
+    {
+      "parent": "hyperpyyaml",
+      "requirement": "ruamel.yaml<0.19.0,>=0.17.28",
+      "available": "0.18.17",
+      "satisfied": true
+    },
+    {
+      "parent": "jinja2",
+      "requirement": "MarkupSafe>=2.0",
+      "available": "3.0.3",
+      "satisfied": true
+    },
+    {
+      "parent": "joblib",
+      "requirement": "cloudpickle>=3.0",
+      "available": "3.1.2",
+      "satisfied": true
+    },
+    {
+      "parent": "julius",
+      "requirement": "torch>=1.13.0",
+      "available": "2.8.0+cu128",
+      "satisfied": true
+    },
+    {
+      "parent": "lightning",
+      "requirement": "PyYAML<8.0,>5.4",
+      "available": "6.0.3",
+      "satisfied": true
+    },
+    {
+      "parent": "lightning",
+      "requirement": "fsspec[http]<2028.0,>=2022.5.0",
+      "available": "2026.7.0",
+      "satisfied": true
+    },
+    {
+      "parent": "lightning",
+      "requirement": "lightning-utilities<2.0,>=0.10.0",
+      "available": "0.15.3",
+      "satisfied": true
+    },
+    {
+      "parent": "lightning",
+      "requirement": "packaging<27.0,>=23.0",
+      "available": "26.3",
+      "satisfied": true
+    },
+    {
+      "parent": "lightning",
+      "requirement": "torch<4.0,>=2.1.0",
+      "available": "2.8.0+cu128",
+      "satisfied": true
+    },
+    {
+      "parent": "lightning",
+      "requirement": "torchmetrics<3.0,>0.7.0",
+      "available": "1.9.0",
+      "satisfied": true
+    },
+    {
+      "parent": "lightning",
+      "requirement": "tqdm<6.0,>=4.57.0",
+      "available": "4.70.0",
+      "satisfied": true
+    },
+    {
+      "parent": "lightning",
+      "requirement": "typing-extensions<6.0,>4.5.0",
+      "available": "4.16.0",
+      "satisfied": true
+    },
+    {
+      "parent": "lightning",
+      "requirement": "pytorch-lightning",
+      "available": "2.6.6",
+      "satisfied": true
+    },
+    {
+      "parent": "lightning-utilities",
+      "requirement": "packaging>=22",
+      "available": "26.3",
+      "satisfied": true
+    },
+    {
+      "parent": "lightning-utilities",
+      "requirement": "typing_extensions",
+      "available": "4.16.0",
+      "satisfied": true
+    },
+    {
+      "parent": "mako",
+      "requirement": "MarkupSafe>=2.0",
+      "available": "3.0.3",
+      "satisfied": true
+    },
+    {
+      "parent": "markdown-it-py",
+      "requirement": "mdurl~=0.1",
+      "available": "0.1.2",
+      "satisfied": true
+    },
+    {
+      "parent": "matplotlib",
+      "requirement": "contourpy>=1.0.1",
+      "available": "1.3.3",
+      "satisfied": true
+    },
+    {
+      "parent": "matplotlib",
+      "requirement": "cycler>=0.10",
+      "available": "0.12.1",
+      "satisfied": true
+    },
+    {
+      "parent": "matplotlib",
+      "requirement": "fonttools>=4.28.2",
+      "available": "4.63.0",
+      "satisfied": true
+    },
+    {
+      "parent": "matplotlib",
+      "requirement": "kiwisolver>=1.3.1",
+      "available": "1.5.0",
+      "satisfied": true
+    },
+    {
+      "parent": "matplotlib",
+      "requirement": "numpy>=1.25",
+      "available": "2.4.3",
+      "satisfied": true
+    },
+    {
+      "parent": "matplotlib",
+      "requirement": "packaging>=20.0",
+      "available": "26.3",
+      "satisfied": true
+    },
+    {
+      "parent": "matplotlib",
+      "requirement": "pillow>=9",
+      "available": "12.3.0",
+      "satisfied": true
+    },
+    {
+      "parent": "matplotlib",
+      "requirement": "pyparsing>=3",
+      "available": "3.3.2",
+      "satisfied": true
+    },
+    {
+      "parent": "matplotlib",
+      "requirement": "python-dateutil>=2.7",
+      "available": "2.9.0.post0",
+      "satisfied": true
+    },
+    {
+      "parent": "nvidia-cudnn-cu12",
+      "requirement": "nvidia-cublas-cu12",
+      "available": "12.8.4.1",
+      "satisfied": true
+    },
+    {
+      "parent": "nvidia-cufft-cu12",
+      "requirement": "nvidia-nvjitlink-cu12",
+      "available": "12.8.93",
+      "satisfied": true
+    },
+    {
+      "parent": "nvidia-cusolver-cu12",
+      "requirement": "nvidia-cublas-cu12",
+      "available": "12.8.4.1",
+      "satisfied": true
+    },
+    {
+      "parent": "nvidia-cusolver-cu12",
+      "requirement": "nvidia-nvjitlink-cu12",
+      "available": "12.8.93",
+      "satisfied": true
+    },
+    {
+      "parent": "nvidia-cusolver-cu12",
+      "requirement": "nvidia-cusparse-cu12",
+      "available": "12.5.8.93",
+      "satisfied": true
+    },
+    {
+      "parent": "nvidia-cusparse-cu12",
+      "requirement": "nvidia-nvjitlink-cu12",
+      "available": "12.8.93",
+      "satisfied": true
+    },
+    {
+      "parent": "onnxruntime",
+      "requirement": "flatbuffers",
+      "available": "25.12.19",
+      "satisfied": true
+    },
+    {
+      "parent": "onnxruntime",
+      "requirement": "numpy>=1.21.6",
+      "available": "2.4.3",
+      "satisfied": true
+    },
+    {
+      "parent": "onnxruntime",
+      "requirement": "packaging",
+      "available": "26.3",
+      "satisfied": true
+    },
+    {
+      "parent": "onnxruntime",
+      "requirement": "protobuf>=4.25.8",
+      "available": "7.35.1",
+      "satisfied": true
+    },
+    {
+      "parent": "opentelemetry-api",
+      "requirement": "typing-extensions>=4.5.0",
+      "available": "4.16.0",
+      "satisfied": true
+    },
+    {
+      "parent": "opentelemetry-exporter-otlp",
+      "requirement": "opentelemetry-exporter-otlp-proto-grpc==1.44.0",
+      "available": "1.44.0",
+      "satisfied": true
+    },
+    {
+      "parent": "opentelemetry-exporter-otlp",
+      "requirement": "opentelemetry-exporter-otlp-proto-http==1.44.0",
+      "available": "1.44.0",
+      "satisfied": true
+    },
+    {
+      "parent": "opentelemetry-exporter-otlp-proto-common",
+      "requirement": "opentelemetry-proto==1.44.0",
+      "available": "1.44.0",
+      "satisfied": true
+    },
+    {
+      "parent": "opentelemetry-exporter-otlp-proto-grpc",
+      "requirement": "googleapis-common-protos~=1.57",
+      "available": "1.75.1",
+      "satisfied": true
+    },
+    {
+      "parent": "opentelemetry-exporter-otlp-proto-grpc",
+      "requirement": "grpcio<2.0.0,>=1.66.2; python_version == '3.13'",
+      "available": "1.83.0",
+      "satisfied": true
+    },
+    {
+      "parent": "opentelemetry-exporter-otlp-proto-grpc",
+      "requirement": "opentelemetry-api~=1.15",
+      "available": "1.44.0",
+      "satisfied": true
+    },
+    {
+      "parent": "opentelemetry-exporter-otlp-proto-grpc",
+      "requirement": "opentelemetry-exporter-otlp-proto-common==1.44.0",
+      "available": "1.44.0",
+      "satisfied": true
+    },
+    {
+      "parent": "opentelemetry-exporter-otlp-proto-grpc",
+      "requirement": "opentelemetry-proto==1.44.0",
+      "available": "1.44.0",
+      "satisfied": true
+    },
+    {
+      "parent": "opentelemetry-exporter-otlp-proto-grpc",
+      "requirement": "opentelemetry-sdk~=1.44.0",
+      "available": "1.44.0",
+      "satisfied": true
+    },
+    {
+      "parent": "opentelemetry-exporter-otlp-proto-grpc",
+      "requirement": "typing-extensions>=4.6.0",
+      "available": "4.16.0",
+      "satisfied": true
+    },
+    {
+      "parent": "opentelemetry-exporter-otlp-proto-http",
+      "requirement": "googleapis-common-protos~=1.52",
+      "available": "1.75.1",
+      "satisfied": true
+    },
+    {
+      "parent": "opentelemetry-exporter-otlp-proto-http",
+      "requirement": "opentelemetry-api~=1.15",
+      "available": "1.44.0",
+      "satisfied": true
+    },
+    {
+      "parent": "opentelemetry-exporter-otlp-proto-http",
+      "requirement": "opentelemetry-exporter-otlp-proto-common==1.44.0",
+      "available": "1.44.0",
+      "satisfied": true
+    },
+    {
+      "parent": "opentelemetry-exporter-otlp-proto-http",
+      "requirement": "opentelemetry-proto==1.44.0",
+      "available": "1.44.0",
+      "satisfied": true
+    },
+    {
+      "parent": "opentelemetry-exporter-otlp-proto-http",
+      "requirement": "opentelemetry-sdk~=1.44.0",
+      "available": "1.44.0",
+      "satisfied": true
+    },
+    {
+      "parent": "opentelemetry-exporter-otlp-proto-http",
+      "requirement": "requests~=2.7",
+      "available": "2.34.2",
+      "satisfied": true
+    },
+    {
+      "parent": "opentelemetry-exporter-otlp-proto-http",
+      "requirement": "typing-extensions>=4.5.0",
+      "available": "4.16.0",
+      "satisfied": true
+    },
+    {
+      "parent": "opentelemetry-proto",
+      "requirement": "protobuf<8.0,>=5.0",
+      "available": "7.35.1",
+      "satisfied": true
+    },
+    {
+      "parent": "opentelemetry-sdk",
+      "requirement": "opentelemetry-api==1.44.0",
+      "available": "1.44.0",
+      "satisfied": true
+    },
+    {
+      "parent": "opentelemetry-sdk",
+      "requirement": "opentelemetry-semantic-conventions==0.65b0",
+      "available": "0.65b0",
+      "satisfied": true
+    },
+    {
+      "parent": "opentelemetry-sdk",
+      "requirement": "typing-extensions>=4.5.0",
+      "available": "4.16.0",
+      "satisfied": true
+    },
+    {
+      "parent": "opentelemetry-semantic-conventions",
+      "requirement": "opentelemetry-api==1.44.0",
+      "available": "1.44.0",
+      "satisfied": true
+    },
+    {
+      "parent": "opentelemetry-semantic-conventions",
+      "requirement": "typing-extensions>=4.5.0",
+      "available": "4.16.0",
+      "satisfied": true
+    },
+    {
+      "parent": "optuna",
+      "requirement": "alembic>=1.5.0",
+      "available": "1.19.1",
+      "satisfied": true
+    },
+    {
+      "parent": "optuna",
+      "requirement": "colorlog",
+      "available": "6.12.0",
+      "satisfied": true
+    },
+    {
+      "parent": "optuna",
+      "requirement": "numpy",
+      "available": "2.4.3",
+      "satisfied": true
+    },
+    {
+      "parent": "optuna",
+      "requirement": "packaging>=20.0",
+      "available": "26.3",
+      "satisfied": true
+    },
+    {
+      "parent": "optuna",
+      "requirement": "sqlalchemy>=1.4.2",
+      "available": "2.0.52",
+      "satisfied": true
+    },
+    {
+      "parent": "optuna",
+      "requirement": "tqdm",
+      "available": "4.70.0",
+      "satisfied": true
+    },
+    {
+      "parent": "optuna",
+      "requirement": "PyYAML",
+      "available": "6.0.3",
+      "satisfied": true
+    },
+    {
+      "parent": "pandas",
+      "requirement": "numpy>=1.26.0; python_version < \"3.14\"",
+      "available": "2.4.3",
+      "satisfied": true
+    },
+    {
+      "parent": "pandas",
+      "requirement": "python-dateutil>=2.8.2",
+      "available": "2.9.0.post0",
+      "satisfied": true
+    },
+    {
+      "parent": "pyannote-audio",
+      "requirement": "asteroid-filterbanks>=0.4.0",
+      "available": "0.4.0",
+      "satisfied": true
+    },
+    {
+      "parent": "pyannote-audio",
+      "requirement": "einops>=0.8.1",
+      "available": "0.8.2",
+      "satisfied": true
+    },
+    {
+      "parent": "pyannote-audio",
+      "requirement": "huggingface-hub>=0.28.1",
+      "available": "0.36.2",
+      "satisfied": true
+    },
+    {
+      "parent": "pyannote-audio",
+      "requirement": "lightning>=2.4",
+      "available": "2.6.6",
+      "satisfied": true
+    },
+    {
+      "parent": "pyannote-audio",
+      "requirement": "matplotlib>=3.10.0",
+      "available": "3.11.1",
+      "satisfied": true
+    },
+    {
+      "parent": "pyannote-audio",
+      "requirement": "opentelemetry-api>=1.34.0",
+      "available": "1.44.0",
+      "satisfied": true
+    },
+    {
+      "parent": "pyannote-audio",
+      "requirement": "opentelemetry-exporter-otlp>=1.34.0",
+      "available": "1.44.0",
+      "satisfied": true
+    },
+    {
+      "parent": "pyannote-audio",
+      "requirement": "opentelemetry-sdk>=1.34.0",
+      "available": "1.44.0",
+      "satisfied": true
+    },
+    {
+      "parent": "pyannote-audio",
+      "requirement": "pyannote-core>=6.0.1",
+      "available": "6.0.1",
+      "satisfied": true
+    },
+    {
+      "parent": "pyannote-audio",
+      "requirement": "pyannote-database>=6.1.1",
+      "available": "6.1.1",
+      "satisfied": true
+    },
+    {
+      "parent": "pyannote-audio",
+      "requirement": "pyannote-metrics>=4.0.0",
+      "available": "4.1",
+      "satisfied": true
+    },
+    {
+      "parent": "pyannote-audio",
+      "requirement": "pyannote-pipeline>=4.0.0",
+      "available": "4.0.0",
+      "satisfied": true
+    },
+    {
+      "parent": "pyannote-audio",
+      "requirement": "pyannoteai-sdk>=0.3.0",
+      "available": "0.4.0",
+      "satisfied": true
+    },
+    {
+      "parent": "pyannote-audio",
+      "requirement": "pytorch-metric-learning>=2.8.1",
+      "available": "2.9.0",
+      "satisfied": true
+    },
+    {
+      "parent": "pyannote-audio",
+      "requirement": "rich>=13.9.4",
+      "available": "15.0.0",
+      "satisfied": true
+    },
+    {
+      "parent": "pyannote-audio",
+      "requirement": "safetensors>=0.5.2",
+      "available": "0.8.0",
+      "satisfied": true
+    },
+    {
+      "parent": "pyannote-audio",
+      "requirement": "torch-audiomentations>=0.12.0",
+      "available": "0.12.0",
+      "satisfied": true
+    },
+    {
+      "parent": "pyannote-audio",
+      "requirement": "torch>=2.8.0",
+      "available": "2.8.0+cu128",
+      "satisfied": true
+    },
+    {
+      "parent": "pyannote-audio",
+      "requirement": "torchaudio>=2.8.0",
+      "available": "2.8.0+cu128",
+      "satisfied": true
+    },
+    {
+      "parent": "pyannote-audio",
+      "requirement": "torchcodec>=0.7.0",
+      "available": "0.7.0",
+      "satisfied": true
+    },
+    {
+      "parent": "pyannote-audio",
+      "requirement": "torchmetrics>=1.6.1",
+      "available": "1.9.0",
+      "satisfied": true
+    },
+    {
+      "parent": "pyannote-core",
+      "requirement": "numpy>=2.0",
+      "available": "2.4.3",
+      "satisfied": true
+    },
+    {
+      "parent": "pyannote-core",
+      "requirement": "pandas>=2.2.3",
+      "available": "3.0.5",
+      "satisfied": true
+    },
+    {
+      "parent": "pyannote-core",
+      "requirement": "sortedcontainers>=2.4.0",
+      "available": "2.4.0",
+      "satisfied": true
+    },
+    {
+      "parent": "pyannote-database",
+      "requirement": "pandas>=2.2.3",
+      "available": "3.0.5",
+      "satisfied": true
+    },
+    {
+      "parent": "pyannote-database",
+      "requirement": "pyannote-core>=6.0.0",
+      "available": "6.0.1",
+      "satisfied": true
+    },
+    {
+      "parent": "pyannote-database",
+      "requirement": "pyyaml>=6.0.2",
+      "available": "6.0.3",
+      "satisfied": true
+    },
+    {
+      "parent": "pyannote-metrics",
+      "requirement": "numpy>=2.2.2",
+      "available": "2.4.3",
+      "satisfied": true
+    },
+    {
+      "parent": "pyannote-metrics",
+      "requirement": "pandas>=2.2.3",
+      "available": "3.0.5",
+      "satisfied": true
+    },
+    {
+      "parent": "pyannote-metrics",
+      "requirement": "pyannote-core>=6.0.0",
+      "available": "6.0.1",
+      "satisfied": true
+    },
+    {
+      "parent": "pyannote-metrics",
+      "requirement": "pyannote-database>=6.0.0",
+      "available": "6.1.1",
+      "satisfied": true
+    },
+    {
+      "parent": "pyannote-metrics",
+      "requirement": "scikit-learn>=1.6.1",
+      "available": "1.9.0",
+      "satisfied": true
+    },
+    {
+      "parent": "pyannote-metrics",
+      "requirement": "scipy>=1.15.1",
+      "available": "1.17.1",
+      "satisfied": true
+    },
+    {
+      "parent": "pyannote-pipeline",
+      "requirement": "filelock>=3.17.0",
+      "available": "3.32.5",
+      "satisfied": true
+    },
+    {
+      "parent": "pyannote-pipeline",
+      "requirement": "optuna>=4.2.0",
+      "available": "4.9.0",
+      "satisfied": true
+    },
+    {
+      "parent": "pyannote-pipeline",
+      "requirement": "pyannote-core>=6.0.0",
+      "available": "6.0.1",
+      "satisfied": true
+    },
+    {
+      "parent": "pyannote-pipeline",
+      "requirement": "pyannote-database>=6.0.0",
+      "available": "6.1.1",
+      "satisfied": true
+    },
+    {
+      "parent": "pyannote-pipeline",
+      "requirement": "pyyaml>=6.0.2",
+      "available": "6.0.3",
+      "satisfied": true
+    },
+    {
+      "parent": "pyannote-pipeline",
+      "requirement": "tqdm>=4.67.1",
+      "available": "4.70.0",
+      "satisfied": true
+    },
+    {
+      "parent": "pyannoteai-sdk",
+      "requirement": "requests>=2.32.3",
+      "available": "2.34.2",
+      "satisfied": true
+    },
+    {
+      "parent": "pydantic",
+      "requirement": "annotated-types>=0.6.0",
+      "available": "0.8.0",
+      "satisfied": true
+    },
+    {
+      "parent": "pydantic",
+      "requirement": "pydantic-core==2.46.4",
+      "available": "2.46.4",
+      "satisfied": true
+    },
+    {
+      "parent": "pydantic",
+      "requirement": "typing-extensions>=4.14.1",
+      "available": "4.16.0",
+      "satisfied": true
+    },
+    {
+      "parent": "pydantic",
+      "requirement": "typing-inspection>=0.4.2",
+      "available": "0.4.4",
+      "satisfied": true
+    },
+    {
+      "parent": "pydantic-core",
+      "requirement": "typing-extensions>=4.14.1",
+      "available": "4.16.0",
+      "satisfied": true
+    },
+    {
+      "parent": "pydantic-settings",
+      "requirement": "pydantic>=2.7.0",
+      "available": "2.13.4",
+      "satisfied": true
+    },
+    {
+      "parent": "pydantic-settings",
+      "requirement": "python-dotenv>=0.21.0",
+      "available": "1.2.3",
+      "satisfied": true
+    },
+    {
+      "parent": "pydantic-settings",
+      "requirement": "typing-inspection>=0.4.0",
+      "available": "0.4.4",
+      "satisfied": true
+    },
+    {
+      "parent": "python-dateutil",
+      "requirement": "six >=1.5",
+      "available": "1.17.0",
+      "satisfied": true
+    },
+    {
+      "parent": "pytorch-lightning",
+      "requirement": "torch>=2.1.0",
+      "available": "2.8.0+cu128",
+      "satisfied": true
+    },
+    {
+      "parent": "pytorch-lightning",
+      "requirement": "tqdm>=4.57.0",
+      "available": "4.70.0",
+      "satisfied": true
+    },
+    {
+      "parent": "pytorch-lightning",
+      "requirement": "PyYAML>5.4",
+      "available": "6.0.3",
+      "satisfied": true
+    },
+    {
+      "parent": "pytorch-lightning",
+      "requirement": "fsspec[http]>=2022.5.0",
+      "available": "2026.7.0",
+      "satisfied": true
+    },
+    {
+      "parent": "pytorch-lightning",
+      "requirement": "torchmetrics>0.7.0",
+      "available": "1.9.0",
+      "satisfied": true
+    },
+    {
+      "parent": "pytorch-lightning",
+      "requirement": "packaging>=23.0",
+      "available": "26.3",
+      "satisfied": true
+    },
+    {
+      "parent": "pytorch-lightning",
+      "requirement": "typing-extensions>4.5.0",
+      "available": "4.16.0",
+      "satisfied": true
+    },
+    {
+      "parent": "pytorch-lightning",
+      "requirement": "lightning-utilities>=0.10.0",
+      "available": "0.15.3",
+      "satisfied": true
+    },
+    {
+      "parent": "pytorch-metric-learning",
+      "requirement": "numpy",
+      "available": "2.4.3",
+      "satisfied": true
+    },
+    {
+      "parent": "pytorch-metric-learning",
+      "requirement": "scikit-learn",
+      "available": "1.9.0",
+      "satisfied": true
+    },
+    {
+      "parent": "pytorch-metric-learning",
+      "requirement": "torch (>=1.6.0)",
+      "available": "2.8.0+cu128",
+      "satisfied": true
+    },
+    {
+      "parent": "pytorch-metric-learning",
+      "requirement": "tqdm",
+      "available": "4.70.0",
+      "satisfied": true
+    },
+    {
+      "parent": "requests",
+      "requirement": "charset_normalizer<4,>=2",
+      "available": "3.5.1",
+      "satisfied": true
+    },
+    {
+      "parent": "requests",
+      "requirement": "idna<4,>=2.5",
+      "available": "3.19",
+      "satisfied": true
+    },
+    {
+      "parent": "requests",
+      "requirement": "urllib3<3,>=1.26",
+      "available": "2.7.0",
+      "satisfied": true
+    },
+    {
+      "parent": "requests",
+      "requirement": "certifi>=2023.5.7",
+      "available": "2026.7.22",
+      "satisfied": true
+    },
+    {
+      "parent": "rich",
+      "requirement": "markdown-it-py (>=2.2.0)",
+      "available": "4.2.0",
+      "satisfied": true
+    },
+    {
+      "parent": "rich",
+      "requirement": "pygments (>=2.13.0,<3.0.0)",
+      "available": "2.20.0",
+      "satisfied": true
+    },
+    {
+      "parent": "ruamel-yaml",
+      "requirement": "ruamel.yaml.clib>=0.2.15; platform_python_implementation == \"CPython\" and python_version < \"3.15\"",
+      "available": "0.2.15",
+      "satisfied": true
+    },
+    {
+      "parent": "scikit-learn",
+      "requirement": "numpy>=1.24.1",
+      "available": "2.4.3",
+      "satisfied": true
+    },
+    {
+      "parent": "scikit-learn",
+      "requirement": "scipy>=1.10.0",
+      "available": "1.17.1",
+      "satisfied": true
+    },
+    {
+      "parent": "scikit-learn",
+      "requirement": "joblib>=1.4.0",
+      "available": "1.6.0",
+      "satisfied": true
+    },
+    {
+      "parent": "scikit-learn",
+      "requirement": "narwhals>=2.0.1",
+      "available": "2.24.0",
+      "satisfied": true
+    },
+    {
+      "parent": "scikit-learn",
+      "requirement": "threadpoolctl>=3.5.0",
+      "available": "3.6.0",
+      "satisfied": true
+    },
+    {
+      "parent": "scipy",
+      "requirement": "numpy<2.7,>=1.26.4",
+      "available": "2.4.3",
+      "satisfied": true
+    },
+    {
+      "parent": "silero-vad",
+      "requirement": "packaging",
+      "available": "26.3",
+      "satisfied": true
+    },
+    {
+      "parent": "silero-vad",
+      "requirement": "torch>=1.12.0",
+      "available": "2.8.0+cu128",
+      "satisfied": true
+    },
+    {
+      "parent": "silero-vad",
+      "requirement": "torchaudio>=0.12.0",
+      "available": "2.8.0+cu128",
+      "satisfied": true
+    },
+    {
+      "parent": "soundfile",
+      "requirement": "cffi >=1.0",
+      "available": "2.1.1",
+      "satisfied": true
+    },
+    {
+      "parent": "soundfile",
+      "requirement": "numpy",
+      "available": "2.4.3",
+      "satisfied": true
+    },
+    {
+      "parent": "soundfile",
+      "requirement": "typing-extensions",
+      "available": "4.16.0",
+      "satisfied": true
+    },
+    {
+      "parent": "speechbrain",
+      "requirement": "hyperpyyaml>=0.0.1",
+      "available": "1.2.3",
+      "satisfied": true
+    },
+    {
+      "parent": "speechbrain",
+      "requirement": "joblib>=0.14.1",
+      "available": "1.6.0",
+      "satisfied": true
+    },
+    {
+      "parent": "speechbrain",
+      "requirement": "numpy>=1.17.0",
+      "available": "2.4.3",
+      "satisfied": true
+    },
+    {
+      "parent": "speechbrain",
+      "requirement": "packaging",
+      "available": "26.3",
+      "satisfied": true
+    },
+    {
+      "parent": "speechbrain",
+      "requirement": "requests>=2.20.0",
+      "available": "2.34.2",
+      "satisfied": true
+    },
+    {
+      "parent": "speechbrain",
+      "requirement": "scipy>=1.4.1",
+      "available": "1.17.1",
+      "satisfied": true
+    },
+    {
+      "parent": "speechbrain",
+      "requirement": "sentencepiece>=0.1.91",
+      "available": "0.2.2",
+      "satisfied": true
+    },
+    {
+      "parent": "speechbrain",
+      "requirement": "soundfile>=0.12.1",
+      "available": "0.14.0",
+      "satisfied": true
+    },
+    {
+      "parent": "speechbrain",
+      "requirement": "torch>=2.1.0",
+      "available": "2.8.0+cu128",
+      "satisfied": true
+    },
+    {
+      "parent": "speechbrain",
+      "requirement": "torchaudio>=2.1.0",
+      "available": "2.8.0+cu128",
+      "satisfied": true
+    },
+    {
+      "parent": "speechbrain",
+      "requirement": "tqdm>=4.42.0",
+      "available": "4.70.0",
+      "satisfied": true
+    },
+    {
+      "parent": "speechbrain",
+      "requirement": "huggingface_hub>=0.8.0",
+      "available": "0.36.2",
+      "satisfied": true
+    },
+    {
+      "parent": "sqlalchemy",
+      "requirement": "greenlet>=1; platform_machine == \"aarch64\" or (platform_machine == \"ppc64le\" or (platform_machine == \"x86_64\" or (platform_machine == \"amd64\" or (platform_machine == \"AMD64\" or (platform_machine == \"win32\" or platform_machine == \"WIN32\")))))",
+      "available": "3.5.5",
+      "satisfied": true
+    },
+    {
+      "parent": "sqlalchemy",
+      "requirement": "typing-extensions>=4.6.0",
+      "available": "4.16.0",
+      "satisfied": true
+    },
+    {
+      "parent": "starlette",
+      "requirement": "anyio<5,>=3.6.2",
+      "available": "4.15.1",
+      "satisfied": true
+    },
+    {
+      "parent": "sympy",
+      "requirement": "mpmath<1.4,>=1.1.0",
+      "available": "1.3.0",
+      "satisfied": true
+    },
+    {
+      "parent": "tokenizers",
+      "requirement": "huggingface-hub>=0.16.4,<2.0",
+      "available": "0.36.2",
+      "satisfied": true
+    },
+    {
+      "parent": "torch",
+      "requirement": "filelock",
+      "available": "3.32.5",
+      "satisfied": true
+    },
+    {
+      "parent": "torch",
+      "requirement": "typing-extensions>=4.10.0",
+      "available": "4.16.0",
+      "satisfied": true
+    },
+    {
+      "parent": "torch",
+      "requirement": "setuptools; python_version >= \"3.12\"",
+      "available": "84.0.0",
+      "satisfied": true
+    },
+    {
+      "parent": "torch",
+      "requirement": "sympy>=1.13.3",
+      "available": "1.14.0",
+      "satisfied": true
+    },
+    {
+      "parent": "torch",
+      "requirement": "networkx",
+      "available": "3.6.1",
+      "satisfied": true
+    },
+    {
+      "parent": "torch",
+      "requirement": "jinja2",
+      "available": "3.1.6",
+      "satisfied": true
+    },
+    {
+      "parent": "torch",
+      "requirement": "fsspec",
+      "available": "2026.7.0",
+      "satisfied": true
+    },
+    {
+      "parent": "torch",
+      "requirement": "nvidia-cuda-nvrtc-cu12==12.8.93; platform_system == \"Linux\" and platform_machine == \"x86_64\"",
+      "available": "12.8.93",
+      "satisfied": true
+    },
+    {
+      "parent": "torch",
+      "requirement": "nvidia-cuda-runtime-cu12==12.8.90; platform_system == \"Linux\" and platform_machine == \"x86_64\"",
+      "available": "12.8.90",
+      "satisfied": true
+    },
+    {
+      "parent": "torch",
+      "requirement": "nvidia-cuda-cupti-cu12==12.8.90; platform_system == \"Linux\" and platform_machine == \"x86_64\"",
+      "available": "12.8.90",
+      "satisfied": true
+    },
+    {
+      "parent": "torch",
+      "requirement": "nvidia-cudnn-cu12==9.10.2.21; platform_system == \"Linux\" and platform_machine == \"x86_64\"",
+      "available": "9.10.2.21",
+      "satisfied": true
+    },
+    {
+      "parent": "torch",
+      "requirement": "nvidia-cublas-cu12==12.8.4.1; platform_system == \"Linux\" and platform_machine == \"x86_64\"",
+      "available": "12.8.4.1",
+      "satisfied": true
+    },
+    {
+      "parent": "torch",
+      "requirement": "nvidia-cufft-cu12==11.3.3.83; platform_system == \"Linux\" and platform_machine == \"x86_64\"",
+      "available": "11.3.3.83",
+      "satisfied": true
+    },
+    {
+      "parent": "torch",
+      "requirement": "nvidia-curand-cu12==10.3.9.90; platform_system == \"Linux\" and platform_machine == \"x86_64\"",
+      "available": "10.3.9.90",
+      "satisfied": true
+    },
+    {
+      "parent": "torch",
+      "requirement": "nvidia-cusolver-cu12==11.7.3.90; platform_system == \"Linux\" and platform_machine == \"x86_64\"",
+      "available": "11.7.3.90",
+      "satisfied": true
+    },
+    {
+      "parent": "torch",
+      "requirement": "nvidia-cusparse-cu12==12.5.8.93; platform_system == \"Linux\" and platform_machine == \"x86_64\"",
+      "available": "12.5.8.93",
+      "satisfied": true
+    },
+    {
+      "parent": "torch",
+      "requirement": "nvidia-cusparselt-cu12==0.7.1; platform_system == \"Linux\" and platform_machine == \"x86_64\"",
+      "available": "0.7.1",
+      "satisfied": true
+    },
+    {
+      "parent": "torch",
+      "requirement": "nvidia-nccl-cu12==2.27.3; platform_system == \"Linux\" and platform_machine == \"x86_64\"",
+      "available": "2.27.3",
+      "satisfied": true
+    },
+    {
+      "parent": "torch",
+      "requirement": "nvidia-nvtx-cu12==12.8.90; platform_system == \"Linux\" and platform_machine == \"x86_64\"",
+      "available": "12.8.90",
+      "satisfied": true
+    },
+    {
+      "parent": "torch",
+      "requirement": "nvidia-nvjitlink-cu12==12.8.93; platform_system == \"Linux\" and platform_machine == \"x86_64\"",
+      "available": "12.8.93",
+      "satisfied": true
+    },
+    {
+      "parent": "torch",
+      "requirement": "nvidia-cufile-cu12==1.13.1.3; platform_system == \"Linux\" and platform_machine == \"x86_64\"",
+      "available": "1.13.1.3",
+      "satisfied": true
+    },
+    {
+      "parent": "torch",
+      "requirement": "triton==3.4.0; platform_system == \"Linux\" and platform_machine == \"x86_64\"",
+      "available": "3.4.0",
+      "satisfied": true
+    },
+    {
+      "parent": "torch-audiomentations",
+      "requirement": "julius <0.3,>=0.2.3",
+      "available": "0.2.8",
+      "satisfied": true
+    },
+    {
+      "parent": "torch-audiomentations",
+      "requirement": "torch >=1.7.0",
+      "available": "2.8.0+cu128",
+      "satisfied": true
+    },
+    {
+      "parent": "torch-audiomentations",
+      "requirement": "torchaudio >=0.9.0",
+      "available": "2.8.0+cu128",
+      "satisfied": true
+    },
+    {
+      "parent": "torch-audiomentations",
+      "requirement": "torch-pitch-shift >=1.2.2",
+      "available": "1.2.5",
+      "satisfied": true
+    },
+    {
+      "parent": "torch-pitch-shift",
+      "requirement": "torch>=1.7.0",
+      "available": "2.8.0+cu128",
+      "satisfied": true
+    },
+    {
+      "parent": "torch-pitch-shift",
+      "requirement": "torchaudio>=0.7.0",
+      "available": "2.8.0+cu128",
+      "satisfied": true
+    },
+    {
+      "parent": "torch-pitch-shift",
+      "requirement": "primePy>=1.3",
+      "available": "1.3",
+      "satisfied": true
+    },
+    {
+      "parent": "torch-pitch-shift",
+      "requirement": "packaging>=21.3",
+      "available": "26.3",
+      "satisfied": true
+    },
+    {
+      "parent": "torchaudio",
+      "requirement": "torch==2.8.0",
+      "available": "2.8.0+cu128",
+      "satisfied": true
+    },
+    {
+      "parent": "torchmetrics",
+      "requirement": "numpy>1.20.0",
+      "available": "2.4.3",
+      "satisfied": true
+    },
+    {
+      "parent": "torchmetrics",
+      "requirement": "packaging>17.1",
+      "available": "26.3",
+      "satisfied": true
+    },
+    {
+      "parent": "torchmetrics",
+      "requirement": "torch>=2.0.0",
+      "available": "2.8.0+cu128",
+      "satisfied": true
+    },
+    {
+      "parent": "torchmetrics",
+      "requirement": "lightning-utilities>=0.15.3",
+      "available": "0.15.3",
+      "satisfied": true
+    },
+    {
+      "parent": "triton",
+      "requirement": "setuptools>=40.8.0",
+      "available": "84.0.0",
+      "satisfied": true
+    },
+    {
+      "parent": "typing-inspection",
+      "requirement": "typing-extensions>=4.15.0",
+      "available": "4.16.0",
+      "satisfied": true
+    },
+    {
+      "parent": "uvicorn",
+      "requirement": "click>=7.0",
+      "available": "8.5.0",
+      "satisfied": true
+    },
+    {
+      "parent": "uvicorn",
+      "requirement": "h11>=0.8",
+      "available": "0.16.0",
+      "satisfied": true
+    },
+    {
+      "parent": "yarl",
+      "requirement": "idna>=2.0",
+      "available": "3.19",
+      "satisfied": true
+    },
+    {
+      "parent": "yarl",
+      "requirement": "multidict>=4.0",
+      "available": "6.7.1",
+      "satisfied": true
+    },
+    {
+      "parent": "yarl",
+      "requirement": "propcache>=0.2.1",
+      "available": "0.5.2",
+      "satisfied": true
+    }
+  ],
+  "requires_python_checks": [
+    {
+      "name": "aiohappyeyeballs",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "aiohttp",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "aiosignal",
+      "requires_python": ">=3.9",
+      "satisfied": true
+    },
+    {
+      "name": "alembic",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "annotated-doc",
+      "requires_python": ">=3.9",
+      "satisfied": true
+    },
+    {
+      "name": "annotated-types",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "anyio",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "asteroid-filterbanks",
+      "requires_python": ">=3.6",
+      "satisfied": true
+    },
+    {
+      "name": "attrs",
+      "requires_python": ">=3.9",
+      "satisfied": true
+    },
+    {
+      "name": "av",
+      "requires_python": ">=3.11",
+      "satisfied": true
+    },
+    {
+      "name": "certifi",
+      "requires_python": ">=3.7",
+      "satisfied": true
+    },
+    {
+      "name": "cffi",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "charset-normalizer",
+      "requires_python": ">=3.7",
+      "satisfied": true
+    },
+    {
+      "name": "click",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "cloudpickle",
+      "requires_python": ">=3.8",
+      "satisfied": true
+    },
+    {
+      "name": "colorlog",
+      "requires_python": ">=3.6",
+      "satisfied": true
+    },
+    {
+      "name": "contourpy",
+      "requires_python": ">=3.11",
+      "satisfied": true
+    },
+    {
+      "name": "ctranslate2",
+      "requires_python": ">=3.9",
+      "satisfied": true
+    },
+    {
+      "name": "cycler",
+      "requires_python": ">=3.8",
+      "satisfied": true
+    },
+    {
+      "name": "einops",
+      "requires_python": ">=3.9",
+      "satisfied": true
+    },
+    {
+      "name": "fastapi",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "faster-whisper",
+      "requires_python": ">=3.9",
+      "satisfied": true
+    },
+    {
+      "name": "filelock",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "flatbuffers",
+      "requires_python": null,
+      "satisfied": true
+    },
+    {
+      "name": "fonttools",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "frozenlist",
+      "requires_python": ">=3.9",
+      "satisfied": true
+    },
+    {
+      "name": "fsspec",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "googleapis-common-protos",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "greenlet",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "grpcio",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "h11",
+      "requires_python": ">=3.8",
+      "satisfied": true
+    },
+    {
+      "name": "hf-xet",
+      "requires_python": ">=3.8",
+      "satisfied": true
+    },
+    {
+      "name": "huggingface-hub",
+      "requires_python": ">=3.8.0",
+      "satisfied": true
+    },
+    {
+      "name": "hyperpyyaml",
+      "requires_python": null,
+      "satisfied": true
+    },
+    {
+      "name": "idna",
+      "requires_python": ">=3.9",
+      "satisfied": true
+    },
+    {
+      "name": "jinja2",
+      "requires_python": ">=3.7",
+      "satisfied": true
+    },
+    {
+      "name": "joblib",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "julius",
+      "requires_python": ">=3.9.0",
+      "satisfied": true
+    },
+    {
+      "name": "kiwisolver",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "lightning",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "lightning-utilities",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "mako",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "markdown-it-py",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "markupsafe",
+      "requires_python": ">=3.9",
+      "satisfied": true
+    },
+    {
+      "name": "matplotlib",
+      "requires_python": ">=3.11",
+      "satisfied": true
+    },
+    {
+      "name": "mdurl",
+      "requires_python": ">=3.7",
+      "satisfied": true
+    },
+    {
+      "name": "mpmath",
+      "requires_python": null,
+      "satisfied": true
+    },
+    {
+      "name": "multidict",
+      "requires_python": ">=3.9",
+      "satisfied": true
+    },
+    {
+      "name": "narwhals",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "networkx",
+      "requires_python": "!=3.14.1,>=3.11",
+      "satisfied": true
+    },
+    {
+      "name": "numpy",
+      "requires_python": ">=3.11",
+      "satisfied": true
+    },
+    {
+      "name": "nvidia-cublas-cu12",
+      "requires_python": ">=3",
+      "satisfied": true
+    },
+    {
+      "name": "nvidia-cuda-cupti-cu12",
+      "requires_python": ">=3",
+      "satisfied": true
+    },
+    {
+      "name": "nvidia-cuda-nvrtc-cu12",
+      "requires_python": ">=3",
+      "satisfied": true
+    },
+    {
+      "name": "nvidia-cuda-runtime-cu12",
+      "requires_python": ">=3",
+      "satisfied": true
+    },
+    {
+      "name": "nvidia-cudnn-cu12",
+      "requires_python": ">=3",
+      "satisfied": true
+    },
+    {
+      "name": "nvidia-cufft-cu12",
+      "requires_python": ">=3",
+      "satisfied": true
+    },
+    {
+      "name": "nvidia-cufile-cu12",
+      "requires_python": ">=3",
+      "satisfied": true
+    },
+    {
+      "name": "nvidia-curand-cu12",
+      "requires_python": ">=3",
+      "satisfied": true
+    },
+    {
+      "name": "nvidia-cusolver-cu12",
+      "requires_python": ">=3",
+      "satisfied": true
+    },
+    {
+      "name": "nvidia-cusparse-cu12",
+      "requires_python": ">=3",
+      "satisfied": true
+    },
+    {
+      "name": "nvidia-cusparselt-cu12",
+      "requires_python": null,
+      "satisfied": true
+    },
+    {
+      "name": "nvidia-nccl-cu12",
+      "requires_python": ">=3",
+      "satisfied": true
+    },
+    {
+      "name": "nvidia-nvjitlink-cu12",
+      "requires_python": ">=3",
+      "satisfied": true
+    },
+    {
+      "name": "nvidia-nvtx-cu12",
+      "requires_python": ">=3",
+      "satisfied": true
+    },
+    {
+      "name": "onnxruntime",
+      "requires_python": ">=3.11",
+      "satisfied": true
+    },
+    {
+      "name": "opentelemetry-api",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "opentelemetry-exporter-otlp",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "opentelemetry-exporter-otlp-proto-common",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "opentelemetry-exporter-otlp-proto-grpc",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "opentelemetry-exporter-otlp-proto-http",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "opentelemetry-proto",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "opentelemetry-sdk",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "opentelemetry-semantic-conventions",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "optuna",
+      "requires_python": ">=3.9",
+      "satisfied": true
+    },
+    {
+      "name": "packaging",
+      "requires_python": ">=3.9",
+      "satisfied": true
+    },
+    {
+      "name": "pandas",
+      "requires_python": ">=3.11",
+      "satisfied": true
+    },
+    {
+      "name": "pillow",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "pip",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "primepy",
+      "requires_python": null,
+      "satisfied": true
+    },
+    {
+      "name": "propcache",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "protobuf",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "pyannote-audio",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "pyannote-core",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "pyannote-database",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "pyannote-metrics",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "pyannote-pipeline",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "pyannoteai-sdk",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "pycparser",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "pydantic",
+      "requires_python": ">=3.9",
+      "satisfied": true
+    },
+    {
+      "name": "pydantic-core",
+      "requires_python": ">=3.9",
+      "satisfied": true
+    },
+    {
+      "name": "pydantic-settings",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "pygments",
+      "requires_python": ">=3.9",
+      "satisfied": true
+    },
+    {
+      "name": "pyparsing",
+      "requires_python": ">=3.9",
+      "satisfied": true
+    },
+    {
+      "name": "python-dateutil",
+      "requires_python": "!=3.0.*,!=3.1.*,!=3.2.*,>=2.7",
+      "satisfied": true
+    },
+    {
+      "name": "python-dotenv",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "pytorch-lightning",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "pytorch-metric-learning",
+      "requires_python": ">=3.0",
+      "satisfied": true
+    },
+    {
+      "name": "pyyaml",
+      "requires_python": ">=3.8",
+      "satisfied": true
+    },
+    {
+      "name": "requests",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "rich",
+      "requires_python": ">=3.9.0",
+      "satisfied": true
+    },
+    {
+      "name": "ruamel-yaml",
+      "requires_python": ">=3.9",
+      "satisfied": true
+    },
+    {
+      "name": "ruamel-yaml-clib",
+      "requires_python": ">=3.9",
+      "satisfied": true
+    },
+    {
+      "name": "safetensors",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "scikit-learn",
+      "requires_python": ">=3.11",
+      "satisfied": true
+    },
+    {
+      "name": "scipy",
+      "requires_python": ">=3.11",
+      "satisfied": true
+    },
+    {
+      "name": "sentencepiece",
+      "requires_python": ">=3.9",
+      "satisfied": true
+    },
+    {
+      "name": "setuptools",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "silero-vad",
+      "requires_python": ">=3.8",
+      "satisfied": true
+    },
+    {
+      "name": "six",
+      "requires_python": ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*",
+      "satisfied": true
+    },
+    {
+      "name": "sortedcontainers",
+      "requires_python": null,
+      "satisfied": true
+    },
+    {
+      "name": "soundfile",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "speechbrain",
+      "requires_python": ">=3.8.1",
+      "satisfied": true
+    },
+    {
+      "name": "sqlalchemy",
+      "requires_python": ">=3.7",
+      "satisfied": true
+    },
+    {
+      "name": "starlette",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "sympy",
+      "requires_python": ">=3.9",
+      "satisfied": true
+    },
+    {
+      "name": "threadpoolctl",
+      "requires_python": ">=3.9",
+      "satisfied": true
+    },
+    {
+      "name": "tokenizers",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "torch",
+      "requires_python": ">=3.9.0",
+      "satisfied": true
+    },
+    {
+      "name": "torch-audiomentations",
+      "requires_python": ">=3.6",
+      "satisfied": true
+    },
+    {
+      "name": "torch-pitch-shift",
+      "requires_python": ">=3.4",
+      "satisfied": true
+    },
+    {
+      "name": "torchaudio",
+      "requires_python": null,
+      "satisfied": true
+    },
+    {
+      "name": "torchcodec",
+      "requires_python": ">=3.8",
+      "satisfied": true
+    },
+    {
+      "name": "torchmetrics",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "tqdm",
+      "requires_python": ">=3.8",
+      "satisfied": true
+    },
+    {
+      "name": "triton",
+      "requires_python": ">=3.9,<3.14",
+      "satisfied": true
+    },
+    {
+      "name": "typing-extensions",
+      "requires_python": ">=3.9",
+      "satisfied": true
+    },
+    {
+      "name": "typing-inspection",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "urllib3",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "uvicorn",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    },
+    {
+      "name": "yarl",
+      "requires_python": ">=3.10",
+      "satisfied": true
+    }
+  ],
+  "conflicts": [],
+  "security_fix_proposal": {
+    "packages": [
+      "lightning==2.6.6",
+      "pytorch-lightning==2.6.6"
+    ],
+    "advisory": "CVE-2026-58659",
+    "official_fixed_release": "https://github.com/Lightning-AI/pytorch-lightning/releases/tag/2.6.6",
+    "fix_commit": "d710d689510d50e800f53b3cd773cbca20b1f86f",
+    "maturity_reason": "security remediation; explicit advisory-linked exemption would be recorded in final reviewed admission",
+    "remaining_scanner_issue": "GHSA-qqmf-gpg7-g8gw lists fixed2022.6.15, conflicting with its own description, PYSEC fixed2.6.6 and upstream2.6.6 release. Actual wheel saving.py fix verification and recorded triage remain required."
+  },
+  "not_yet_verified": [
+    "11 replacement wheel bytes and actual metadata",
+    "native isolated model probe with replacement versions",
+    "reviewed product authority and ledger binding"
+  ],
+  "candidate_runtime_installed": false
+}

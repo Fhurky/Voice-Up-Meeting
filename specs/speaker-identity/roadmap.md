@@ -5,11 +5,12 @@ Her satır bağımsız bir yetenek gereksinimine bağlanır. Draft durumu uygula
 | Order | Capability | PRD | Status |
 |---:|---|---|---|
 | 001 | local-speaker-pilot | [PRD](PRDs/001-local-speaker-pilot/PRD.md) | Accepted — guarded speech recovery and fresh public holdout measured; quality target and Turkish acceptance incomplete |
-| 002 | long-recording-analysis | [PRD](PRDs/002-long-recording-analysis/PRD.md) | Accepted — file/microphone transcript and automatic new-speaker memory requested; provider access/runtime preparation pending, implementation not complete |
+| 002 | long-recording-analysis | [PRD](PRDs/002-long-recording-analysis/PRD.md) | Accepted — uploaded-recording five-return/sixth-new memory verified through real local RTX API/browser and restart; native Spark/Apple, representative 50-person quality and release evidence remain incomplete |
 | 003 | live-speaker-analysis | [PRD](PRDs/003-live-speaker-analysis/PRD.md) | Draft — selected after 002 identity continuity |
 | 004 | spark-remote-inference | [PRD](PRDs/004-spark-remote-inference/PRD.md) | Accepted — Spark application path live; security release evidence unavailable |
 | 005 | local-cpu-runtime | [PRD](PRDs/005-local-cpu-runtime/PRD.md) | Accepted — fully local MacBook CPU environment requested; implementation and device evidence tracked in tasks |
 | 006 | local-admin-login | [PRD](PRDs/006-local-admin-login/PRD.md) | Accepted — local one-click login verified and published; environment evidence limits recorded |
+| 007 | microphone-meeting-capture | [PRD](PRDs/007-microphone-meeting-capture/PRD.md) | Accepted — prior microphone request preserved separately after owner selected file upload for current 002 delivery; implementation and device proof incomplete |
 
 9 Eylül 2026 sıralama kararı: [uzun kayıt ve canlı çalışma](../../docs/LONG_RECORDING_STRATEGY.md).
 001'in gerçek kişi deneyi önce gelir; sonraki model seçimi ölçüme dayanır.
@@ -43,3 +44,35 @@ konuşmacılı transkript ve yeni kişilerin otomatik hafızaya alınması şimd
 etme 002, canlı konuşmacı kimliği 003'tür; canlı transkript kapsamı eklenmedi.
 [Akış](../../docs/MEETING_WORKFLOW.md),
 [uygulama planı](PRDs/002-long-recording-analysis/plan.md).
+
+10 Eylül sonraki Teams açıklaması: kısa konuşmalar metinde korunur; aynı akustik
+konuşmacıya ait ayrı temiz aralıklar biriktirilir. Otomatik toplantı profili için
+toplamın 20 saniyeyi aşması gerekir; tam 20 saniye yetmez, süre kalite/tutarlılık
+ve bilinmeyen kişi kararının yerine geçmez. Kaynak platform katılımcısı,
+toplantı akustik kümesi ve kalıcı profil ayrı kalır; 001 API/eşikleri değişmez.
+Community-1 sabit yapılandırmasına yetkili HTTP 200 erişimi doğrulandı; güvenli
+çevrimdışı paket, açık yerel RTX 4060/Python 3.13 deneyi ve üretim/Spark ARM64
+uyumu [002 görevlerinde](PRDs/002-long-recording-analysis/tasks.md) ayrı izlenir.
+Bu karar Teams bağlantısını uygulamaz, 003'ü Accepted yapmaz veya .NET servis
+eklemez; 50 kişilik yüksek doğruluk hedefinin eksik kanıtı açık kalır.
+
+Aynı gün sekiz dosyalı model paketi doğrulandı ve mevcut uygulama değiştirilmeden
+RTX 4060/Python 3.13 ile 12 çevrimdışı tanı örneği işlendi. Bilinen 11 örneğin
+10'unda konuşmacı sayısı doğruydu; tek kişiyi bölme ve geçişte kişi karıştırma
+bulguları nedeniyle bu deney kimlik doğruluğu veya otomatik hafıza kabulü değildir.
+[Paket, cihaz ve model kanıtı](../../docs/evidence/2026-09-10-community-diarization/README.md).
+
+Son kullanıcı kararı: "Kaydı yüklemek yeterli; tanıma ve hafızayı tamamla".
+Güncel 002 teslimi yüklenen dosyadan konuşmacılı metin, elle kişi isimleri ve
+kalıcı hafızadır. Beş kişi ilk toplantıda kaydolur, farklı ikinci kayıtta aynı beş
+kimlik/ad geri gelir, üçüncü kayıttaki altıncı yeni kişiyle yalnız bir profil eklenir.
+Katılımcı üst sınırı ve kesin konuşan sayısı isteğe bağlı ayrı girdilerdir;
+global sayı parçaya zorlanmaz ve sayıyı tutturmak için sesler kör birleştirilmez.
+Önceki mikrofon isteği yukarıdaki tarihsel kabulden silinmeden Accepted 007'ye
+taşındı; otomatik Teams kaydı ve mikrofon UI'si bu dosya teslimini bekletmez.
+
+11 Eylül 2026: Değişmeyen dört kaynakla yerel RTX uygulama ve tarayıcı kabulü
+geçti; hafıza toplamı 5→5→5→6, geri dönen kişilerin ad/kimlikleri aynı kaldı.
+Altı yeni örnek yüzde 99 kaynak saflığını geçti; ayrı B tekrarında altı mevcut
+profil/örnek değişmedi. [Canlı kanıt](../../docs/evidence/2026-09-10-meeting-delivery/frozen-meeting-flow-report.md)
+50 kişilik doğruluk veya native Spark/Apple toplantı çalışma zamanı kanıtı değildir.

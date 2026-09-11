@@ -86,6 +86,20 @@ input[type="file"]::file-selector-button { border: 0; background: var(--color-pr
 .result-details dt { color: var(--color-muted); text-transform: none; font-size: .8rem; }
 .result-details dd { color: var(--color-foreground); font-weight: 650; }
 .text-link { text-underline-offset: .3rem; font-weight: 650; }
+.meeting-results { display: grid; grid-template-columns: minmax(16rem, .8fr) minmax(0, 1.5fr); align-items: start; gap: 1.5rem; }
+.meeting-name, .meeting-transcript strong, .job-list strong { overflow-wrap: anywhere; }
+.meeting-transcript { list-style: none; padding: 0; margin: 1.5rem 0; }
+.meeting-transcript li { border-bottom: 1px solid var(--color-border); padding: 1.25rem 0; }
+.meeting-transcript p { white-space: pre-wrap; overflow-wrap: anywhere; }
+.meeting-transcript .section-heading { flex-wrap: wrap; gap: .4rem; }
+.meeting-timestamp { font-size: .75rem; font-variant-numeric: tabular-nums; }
+.checkbox-label { display: flex; gap: .7rem; align-items: start; line-height: 1.5; }
+.audio-form input[type="checkbox"] { width: auto; margin-top: .3rem; accent-color: var(--color-primary); }
+select { font: inherit; border: 1px solid var(--color-border); border-radius: .75rem; padding: .85rem 1rem; color: var(--color-foreground); background: var(--color-surface); margin-bottom: .5rem; }
+select:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+progress { width: 100%; height: .8rem; accent-color: var(--color-primary); }
+.workspace-nav { flex-wrap: wrap; }
+@media (max-width: 850px) { .meeting-results { grid-template-columns: 1fr; } }
 @media (max-width: 850px) { .pilot-grid { grid-template-columns: 1fr; } .enrollment-panel { grid-row: 1; } }
 @media (max-width: 480px) { .header-actions { gap: 0; } .header-actions button { font-size: .8rem; padding: .6rem; } .brand { font-size: 1.35rem; } .job-list li { align-items: start; } .pagination { flex-wrap: wrap; } }
 * { box-sizing: border-box; }

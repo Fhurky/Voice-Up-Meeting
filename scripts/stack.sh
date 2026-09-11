@@ -13,8 +13,41 @@ if [ "${1:-}" = "--mode" ]; then
 elif [ -f "$mode_file" ]; then
   mode="$(tr -d '\r' < "$mode_file")"
 fi
+# Only upstream restarts need fresh DNS resolution in the existing proxy workers.
+# Parse the restart command before adding the selected Compose overlay arguments.
+restarts_upstream() {
+  [ "${1:-}" = restart ] || return 1
+  shift
+  has_services=false
+  has_upstream=false
+  options=true
+  while [ "$#" -gt 0 ]; do
+    if [ "$options" = true ]; then
+      case "$1" in
+        --help|-h) return 1 ;;
+        --timeout|-t) [ "$#" -ge 2 ] || return 1; shift 2; continue ;;
+        --timeout=*|-t[0-9]*|--no-deps) shift; continue ;;
+        --) options=false; shift; continue ;;
+        -*) return 1 ;;
+      esac
+    fi
+    has_services=true
+    case "$1" in backend|frontend) has_upstream=true ;; esac
+    shift
+  done
+  [ "$has_services" = false ] || [ "$has_upstream" = true ]
+}
+reload_upstream=false
+if restarts_upstream "$@"; then reload_upstream=true; fi
 case "$mode" in
-  local) ;;
+  local)
+    meeting_file="$root/outputs/local-meeting-enabled.txt"
+    if [ -f "$meeting_file" ]; then
+      [ "$(tr -d '\r\n' < "$meeting_file")" = "enabled" ] || { echo "Invalid local meeting selection" >&2; exit 2; }
+      [ -f "$root/app/infra/docker-compose.meeting.yml" ] || { echo "Local meeting overlay is missing" >&2; exit 2; }
+      set -- -f "$root/app/infra/docker-compose.meeting.yml" "$@"
+    fi
+    ;;
   cpu)
     [ -z "${COMPOSE_PROFILES:-}" ] || { echo "CPU mode requires empty COMPOSE_PROFILES" >&2; exit 2; }
     [ -z "${COMPOSE_PROJECT_NAME:-}" ] || { echo "CPU mode requires empty COMPOSE_PROJECT_NAME" >&2; exit 2; }
@@ -69,4 +102,15 @@ if [ -f "$observability" ]; then
 else
   set -- docker compose --project-directory "$root/app/infra" -p "voiceup" -f "$base" "$@"
 fi
-exec "$@"
+if [ "$reload_upstream" = false ]; then exec "$@"; fi
+"$@"
+# Reuse the same mode's wrapper so its Compose/profile guards also protect exec.
+# Never regenerate Spark's private config or replace its active include chain.
+stack_nginx_reload_local='set -eu; nginx -t; nginx -s reload'
+stack_nginx_reload_spark='set -eu; set -- /tmp/voiceup-spark.*/nginx.conf; [ "$#" -eq 1 ]; [ -f "$1" ]; [ ! -L "$1" ]; [ -d "${1%/*}" ]; [ ! -L "${1%/*}" ]; nginx -t -c "$1"; nginx -s reload -c "$1"'
+if [ "$mode" = spark ]; then
+  reload_command="$stack_nginx_reload_spark"
+else
+  reload_command="$stack_nginx_reload_local"
+fi
+exec sh "$root/scripts/stack.sh" --mode "$mode" exec -T nginx sh -c "$reload_command"

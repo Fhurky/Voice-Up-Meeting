@@ -4,7 +4,11 @@ Status: Implemented and live-verified; security release evidence unavailable
 
 Startup extension: Implemented and verified; explicit user request for one-command connection.
 
+- [x] T11 Synchronize the prepared-runtime helper's fixed reviewed Nginx template digest with accepted 002 private meeting routes. Evidence: current real preparation RED/GREEN and native Windows suite 42 passed/1 symbolic-link skip; tamper rejection retained. See `docs/evidence/2026-09-10-meeting-delivery/spark-reviewed-template-report.md`; no remote provisioning or dependency/image change.
+
 Authority: [Accepted PRD](PRD.md), [plan](plan.md).
+
+- [x] T12 Make the native startup test helper select an installed default PowerShell engine while preserving all explicit engine cases. Evidence: one real-process RED regression followed by 109 startup/tunnel/local-configuration tests passing in Windows PowerShell; production startup is unchanged. See `docs/evidence/2026-09-11-meeting-quality/native-startup-helper-report.md`.
 
 - [x] T01 Record the user's explicit remote Spark request and retain the fixed stack/private model boundary.
 - [x] T02 Establish authorized SSH; inspect the device and actual Ethernet route. Windows 192.168.137.1 reaches Spark 192.168.137.2; Wi-Fi remains intact. Docker and native CDI access are verified.
@@ -21,4 +25,4 @@ Evidence is recorded in [the runtime report](../../../../docs/evidence/2026-09-0
 
 T06 observations: The single-fixture cross-device cosine similarity is 0.9999999525; no accuracy or predefined tolerance pass is inferred. The first application benchmark was aborted because one job retried through an unreachable IPv6 host address; that failed attempt is preserved. After correction, 20/20 measured jobs completed on their first attempt: worker execution p95 0.198461 seconds, queue-inclusive server p95 2.111148 seconds. Available whole-host memory stayed above 20.38 GiB in the 90-second sample; this is not model-only memory. The latest security gate retry exited 2 because the admitted offline gitleaks tool is unavailable; no security pass is claimed.
 
-Scope limits: The pilot's 120-second/50-MiB limit remains. Long recordings and live streams belong to Draft capabilities 002/003. Natural Turkish multi-person accuracy and owner acceptance remain unmeasured. Native Torch warns that its compiled architecture list ends at SM120 while GB10 reports SM121; the observed real model checks passed, but do not establish all-kernel compatibility.
+Scope limits: The pilot's 120-second/50-MiB limit remains. Long recordings belong to Accepted 002, whose uploaded-recording memory flow is now verified locally on RTX; its native Spark meeting runtime remains unverified. Live streams remain Draft 003. Natural Turkish multi-person accuracy and owner acceptance remain unmeasured. Native Torch warns that its compiled architecture list ends at SM120 while GB10 reports SM121; the observed pilot checks passed, but do not establish all-kernel compatibility or meeting runtime support.

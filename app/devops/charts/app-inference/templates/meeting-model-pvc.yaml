@@ -1,0 +1,11 @@
+{{- if .Values.meeting.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Values.meeting.modelStorage.claimName }}
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: {{ .Values.meeting.modelStorage.className | quote }}
+  resources:
+    requests: {storage: {{ .Values.meeting.modelStorage.size }}}
+{{- end }}

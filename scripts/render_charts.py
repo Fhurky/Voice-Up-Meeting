@@ -184,6 +184,18 @@ def validate_overlay(name: str, overlay: dict[str, Any]) -> None:
     for path in required:
         require(bool(nested(overlay, path)), f"{name}: empty {path}")
 
+    runtime_profile = nested(overlay, "inference.runtimeProfile")
+    meeting_enabled = nested(overlay, "inference.meetingEnabled")
+    require(
+        isinstance(runtime_profile, str) and runtime_profile in {"x86_64-cu128", "aarch64-cu129"},
+        f"{name}: unsupported inference runtime profile",
+    )
+    require(isinstance(meeting_enabled, bool), f"{name}: meeting selection must be boolean")
+    require(
+        not meeting_enabled or runtime_profile == "x86_64-cu128",
+        f"{name}: meeting inference requires the admitted x86_64 runtime",
+    )
+
     registry = str(nested(overlay, "global.registry")).rstrip("/")
     registry_host = registry.split("/", 1)[0].split(":", 1)[0].lower()
     require("://" not in registry and "@" not in registry, f"{name}: malformed registry")
@@ -244,7 +256,16 @@ def chart_values(chart: str, overlay: dict[str, Any]) -> dict[str, Any]:
             "dns": dns,
         }
     if chart == "app-inference":
-        return {"image": image_value(overlay, "inference"), "existingSecret": global_values["inferenceSecretName"], "modelStorage": {"className": global_values["storageClass"]}}
+        return {
+            "image": image_value(overlay, "inference"),
+            "existingSecret": global_values["inferenceSecretName"],
+            "modelStorage": {"className": global_values["storageClass"]},
+            "runtimeProfile": nested(overlay, "inference.runtimeProfile"),
+            "meeting": {
+                "enabled": nested(overlay, "inference.meetingEnabled"),
+                "modelStorage": {"className": global_values["storageClass"]},
+            },
+        }
     if chart == "app-frontend":
         return {
             "replicaCount": overlay["replicas"]["frontend"],
@@ -301,7 +322,9 @@ def chart_values(chart: str, overlay: dict[str, Any]) -> dict[str, Any]:
 def helm(command: list[str]) -> str:
     completed = subprocess.run(command, text=True, capture_output=True, check=False)
     if completed.returncode:
-        detail = "\n".join(part.strip() for part in (completed.stdout, completed.stderr) if part.strip())
+        detail = "\n".join(
+            part.strip() for part in (completed.stdout, completed.stderr) if part.strip()
+        )
         raise PolicyError(f"{' '.join(command[:3])} failed: {detail}")
     return completed.stdout
 
@@ -355,6 +378,114 @@ def validate_runtime_hosts(documents: list[dict[str, Any]]) -> None:
             host in allowed or host.endswith(".svc") or host.endswith(".svc.cluster.local"),
             f"runtime URL host has no rendered Service: {host}",
         )
+
+
+def validate_inference_runtime(document: dict[str, Any], documents: list[dict[str, Any]]) -> None:
+    name = str(document.get("metadata", {}).get("name"))
+    annotations = (
+        document.get("spec", {}).get("template", {}).get("metadata", {}).get("annotations", {})
+    )
+    runtime_profile = annotations.get("voiceup.internal/runtime-profile")
+    meeting_value = annotations.get("voiceup.internal/meeting-enabled")
+    require(
+        isinstance(runtime_profile, str) and runtime_profile in {"x86_64-cu128", "aarch64-cu129"},
+        f"{name}: runtime profile missing",
+    )
+    require(
+        isinstance(meeting_value, str) and meeting_value in {"true", "false"},
+        f"{name}: explicit meeting selection missing",
+    )
+    enabled = meeting_value == "true"
+    require(
+        not enabled or runtime_profile == "x86_64-cu128", f"{name}: meeting runtime not admitted"
+    )
+    spec = pod_spec(document)
+    main = [item for item in spec.get("containers", []) if item.get("name") == "inference"]
+    require(len(main) == 1, f"{name}: one inference container is required")
+    container = main[0]
+    environment = {item.get("name"): item.get("value") for item in container.get("env", [])}
+    require(
+        environment.get("VOICEUP_INFERENCE_RUNTIME_PROFILE") == runtime_profile,
+        f"{name}: runtime profile environment mismatch",
+    )
+    require(
+        environment.get("VOICEUP_INFERENCE_MEETING_ENABLED") == meeting_value,
+        f"{name}: meeting environment mismatch",
+    )
+    for probe, path in (
+        ("startupProbe", "/meeting-ready" if enabled else "/live"),
+        ("readinessProbe", "/meeting-ready" if enabled else "/ready"),
+        ("livenessProbe", "/live"),
+    ):
+        http = container.get(probe, {}).get("httpGet", {})
+        require(
+            http.get("path") == path and http.get("port") == "http",
+            f"{name}: {probe} does not check the selected runtime",
+        )
+        require(
+            not http.get("httpHeaders"), f"{name}: runtime health probes must not embed headers"
+        )
+    mounts = {item.get("mountPath"): item for item in container.get("volumeMounts", [])}
+    require(
+        mounts.get("/models/speaker", {}).get("readOnly") is True,
+        f"{name}: pilot models must stay read-only",
+    )
+    if not enabled:
+        return
+    selector = spec.get("nodeSelector", {})
+    require(
+        selector.get("kubernetes.io/os") == "linux"
+        and selector.get("kubernetes.io/arch") == "amd64",
+        f"{name}: meeting inference requires Linux amd64 nodes",
+    )
+    for kind in ("requests", "limits"):
+        require(
+            str(container.get("resources", {}).get(kind, {}).get("nvidia.com/gpu")) == "1",
+            f"{name}: meeting inference requires one GPU",
+        )
+    expected_environment = {
+        "VOICEUP_INFERENCE_MEETING_DIARIZATION_DIR": "/models/diarization",
+        "VOICEUP_INFERENCE_MEETING_ASR_DIR": "/models/asr",
+        "VOICEUP_INFERENCE_MEETING_DIARIZATION_MANIFEST": "/srv/inference/diarization-model-manifest.json",
+        "VOICEUP_INFERENCE_MEETING_ASR_MANIFEST": "/srv/inference/asr-model-manifest.json",
+        "HF_HUB_OFFLINE": "1",
+        "HF_HUB_DISABLE_TELEMETRY": "1",
+        "PYANNOTE_METRICS_ENABLED": "0",
+    }
+    for key, value in expected_environment.items():
+        require(environment.get(key) == value, f"{name}: meeting environment missing {key}")
+    selected_volumes = set()
+    for component in ("diarization", "asr"):
+        mount = mounts.get(f"/models/{component}", {})
+        require(
+            mount.get("readOnly") is True and mount.get("subPath") == component,
+            f"{name}: {component} model mount must use its read-only source subdirectory",
+        )
+        selected_volumes.add(mount.get("name"))
+    require(
+        len(selected_volumes) == 1 and None not in selected_volumes,
+        f"{name}: meeting models must share the dedicated volume",
+    )
+    volume_name = next(iter(selected_volumes))
+    volumes = {item.get("name"): item for item in spec.get("volumes", [])}
+    claim = volumes.get(volume_name, {}).get("persistentVolumeClaim", {}).get("claimName")
+    require(isinstance(claim, str) and bool(claim), f"{name}: meeting model PVC missing")
+    claims = [
+        item
+        for item in documents
+        if item.get("kind") == "PersistentVolumeClaim"
+        and item.get("metadata", {}).get("name") == claim
+    ]
+    require(len(claims) == 1, f"{name}: meeting model PVC must be rendered")
+    require(
+        claims[0].get("spec", {}).get("resources", {}).get("requests", {}).get("storage") == "4Gi",
+        f"{name}: meeting model PVC must reserve 4Gi",
+    )
+    require(not spec.get("initContainers"), f"{name}: runtime model preparation is forbidden")
+    for item in containers(spec):
+        for mount in item.get("volumeMounts", []):
+            if mount.get("name") == volume_name:
+                require(mount.get("readOnly") is True, f"{name}: meeting model volume is writable")
 
 
 def validate_documents(documents: list[dict[str, Any]], allowed_registry: str) -> None:
@@ -434,6 +565,8 @@ def validate_documents(documents: list[dict[str, Any]], allowed_registry: str) -
         require(labels.get("app.kubernetes.io/part-of"), f"{name}: missing part-of label")
         require(component, f"{name}: missing component label")
         workload_components.add(component)
+        if component == "inference":
+            validate_inference_runtime(document, documents)
         require(
             spec.get("automountServiceAccountToken") is False,
             f"{name}: service token mounted",
@@ -657,6 +790,108 @@ def expect_rejected(
     except PolicyError:
         return
     raise PolicyError(f"self-test failed: {label} mutation was accepted")
+
+
+def self_test_inference(documents: list[dict[str, Any]], overlay: dict[str, Any]) -> None:
+    registry = str(nested(overlay, "global.registry"))
+
+    def deployment(items: list[dict[str, Any]]) -> dict[str, Any]:
+        return next(
+            item
+            for item in items
+            if item.get("kind") == "Deployment"
+            and pod_labels(item).get("app.kubernetes.io/component") == "inference"
+        )
+
+    def main_container(items: list[dict[str, Any]]) -> dict[str, Any]:
+        return next(
+            item
+            for item in pod_spec(deployment(items))["containers"]
+            if item["name"] == "inference"
+        )
+
+    def asr_mount(items: list[dict[str, Any]]) -> dict[str, Any]:
+        return next(
+            item
+            for item in main_container(items)["volumeMounts"]
+            if item["mountPath"] == "/models/asr"
+        )
+
+    def remove_mount(items: list[dict[str, Any]]) -> None:
+        main_container(items)["volumeMounts"].remove(asr_mount(items))
+
+    def remove_model_claim(items: list[dict[str, Any]]) -> None:
+        volume_name = asr_mount(items)["name"]
+        volume = next(
+            item for item in pod_spec(deployment(items))["volumes"] if item["name"] == volume_name
+        )
+        claim_name = volume["persistentVolumeClaim"]["claimName"]
+        items.remove(
+            next(
+                item
+                for item in items
+                if item["kind"] == "PersistentVolumeClaim"
+                and item["metadata"]["name"] == claim_name
+            )
+        )
+
+    def mismatched_enable(items: list[dict[str, Any]]) -> None:
+        next(
+            item
+            for item in main_container(items)["env"]
+            if item["name"] == "VOICEUP_INFERENCE_MEETING_ENABLED"
+        )["value"] = "false"
+
+    mutations: list[tuple[str, Callable[[list[dict[str, Any]]], None]]] = [
+        (
+            "meeting pilot readiness",
+            lambda items: main_container(items)["readinessProbe"]["httpGet"].__setitem__(
+                "path", "/ready"
+            ),
+        ),
+        (
+            "meeting pilot startup",
+            lambda items: main_container(items)["startupProbe"]["httpGet"].__setitem__(
+                "path", "/live"
+            ),
+        ),
+        ("meeting model mount missing", remove_mount),
+        ("meeting model writable", lambda items: asr_mount(items).__setitem__("readOnly", False)),
+        (
+            "meeting model subdirectory",
+            lambda items: asr_mount(items).__setitem__("subPath", "diarization"),
+        ),
+        (
+            "meeting wrong architecture",
+            lambda items: pod_spec(deployment(items))["nodeSelector"].__setitem__(
+                "kubernetes.io/arch", "arm64"
+            ),
+        ),
+        (
+            "meeting runtime profile",
+            lambda items: deployment(items)["spec"]["template"]["metadata"][
+                "annotations"
+            ].__setitem__("voiceup.internal/runtime-profile", "aarch64-cu129"),
+        ),
+        ("meeting model claim missing", remove_model_claim),
+        ("meeting environment mismatch", mismatched_enable),
+    ]
+    for label, mutation in mutations:
+        expect_rejected(label, documents, registry, mutation)
+
+    for selection in (
+        {"runtimeProfile": "aarch64-cu129", "meetingEnabled": True},
+        {"runtimeProfile": "unknown", "meetingEnabled": False},
+        {"runtimeProfile": "x86_64-cu128", "meetingEnabled": "false"},
+        {"runtimeProfile": "x86_64-cu128"},
+    ):
+        changed = copy.deepcopy(overlay)
+        changed["inference"] = selection
+        try:
+            validate_overlay("self-test", changed)
+        except PolicyError:
+            continue
+        raise PolicyError("self-test failed: invalid inference selection was accepted")
 
 
 def self_test(documents: list[dict[str, Any]], overlay: dict[str, Any]) -> None:
@@ -939,6 +1174,7 @@ def main() -> int:
             return 0
 
         rendered: dict[str, list[dict[str, Any]]] = {}
+        meeting_rendered: dict[str, list[dict[str, Any]]] = {}
         overlays: dict[str, dict[str, Any]] = {}
         for name in ("lab", "cluster"):
             overlay = load_overlay(FIXTURES, name)
@@ -947,15 +1183,33 @@ def main() -> int:
             validate_documents(documents, str(nested(overlay, "global.registry")))
             rendered[name] = documents
             overlays[name] = overlay
+            meeting_overlay = copy.deepcopy(overlay)
+            meeting_overlay["inference"] = {
+                "runtimeProfile": "x86_64-cu128",
+                "meetingEnabled": True,
+            }
+            validate_overlay(f"fixture/{name}/meeting", meeting_overlay)
+            meeting_documents = render(meeting_overlay)
+            validate_documents(meeting_documents, str(nested(meeting_overlay, "global.registry")))
+            meeting_rendered[name] = meeting_documents
         require(
             signature(rendered["lab"]) == signature(rendered["cluster"]),
             "overlay release shapes differ",
         )
+        require(
+            signature(meeting_rendered["lab"]) == signature(meeting_rendered["cluster"]),
+            "meeting overlay release shapes differ",
+        )
         if args.self_test:
             self_test(rendered["lab"], overlays["lab"])
+            self_test_inference(meeting_rendered["lab"], overlays["lab"])
         print(
             "chart contract passed: "
             f"{len(rendered['lab'])} resources x {len(rendered)} fixture overlays"
+        )
+        print(
+            "meeting chart contract passed: "
+            f"{len(meeting_rendered['lab'])} resources x {len(meeting_rendered)} fixture overlays"
         )
         return 0
     except PolicyError as exc:

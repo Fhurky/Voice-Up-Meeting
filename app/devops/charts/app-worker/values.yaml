@@ -9,5 +9,5 @@ dns:
   component: kube-dns
 command: ["python", "-m", "app.scripts.speaker_worker"]
 resources:
-  requests: {cpu: 50m, memory: 64Mi}
-  limits: {cpu: 500m, memory: 256Mi}
+  requests: {cpu: 50m, memory: 256Mi}
+  limits: {cpu: 500m, memory: 512Mi}

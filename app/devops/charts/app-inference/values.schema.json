@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["runtimeProfile", "meeting"],
+  "properties": {
+    "runtimeProfile": {
+      "type": "string",
+      "enum": ["x86_64-cu128", "aarch64-cu129"]
+    },
+    "meeting": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["enabled", "modelStorage"],
+      "properties": {
+        "enabled": {"type": "boolean"},
+        "modelStorage": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["claimName", "className", "size"],
+          "properties": {
+            "claimName": {"type": "string", "minLength": 1, "maxLength": 253},
+            "className": {"type": "string", "minLength": 1},
+            "size": {"type": "string", "const": "4Gi"}
+          }
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"meeting": {"properties": {"enabled": {"const": true}}}}},
+      "then": {"properties": {"runtimeProfile": {"const": "x86_64-cu128"}}}
+    }
+  ]
+}

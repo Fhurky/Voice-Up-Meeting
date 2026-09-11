@@ -24,20 +24,29 @@ INFRA = ROOT / "app" / "infra"
     os.environ.get("RUN_DOCKER_TRANSPORT") != "1",
     reason="Explicit Docker transport verification uses a disposable internal network",
 )
+@pytest.mark.parametrize("mode", ["spark", "local"])
+@pytest.mark.parametrize("launcher", ["startup", "stack"])
 def test_nginx_reload_refreshes_replaced_backend_and_checks_active_private_config(
-    compose_models, tmp_path
+    compose_models, tmp_path, mode, launcher
 ):
     """Exercise real cached upstream addresses without touching any application container."""
     image = compose_models["remote"]["services"]["nginx"]["image"]
-    match = re.search(
-        r"(?m)^\s+\$nginxReloadCommand = '([^'\r\n]+)'$",
-        (ROOT / "scripts/start-local.ps1").read_text(encoding="utf-8-sig"),
-    )
+    if launcher == "startup":
+        variable = "nginxReloadCommand" if mode == "spark" else "localNginxReloadCommand"
+        source = ROOT / "scripts/start-local.ps1"
+        pattern = rf"(?m)^\s+\${variable} = '([^'\r\n]+)'$"
+    else:
+        source = ROOT / "scripts/stack.sh"
+        pattern = rf"(?m)^stack_nginx_reload_{mode}='([^'\r\n]+)'$"
+    match = re.search(pattern, source.read_text(encoding="utf-8-sig"))
     assert match is not None, "The launcher must provide its bounded active-config reload"
     reload_command = match[1]
     suffix = secrets.token_hex(6)
     network, proxy = f"voiceup-reload-{suffix}", f"voiceup-reload-proxy-{suffix}"
-    old_backend, new_backend = f"voiceup-reload-old-{suffix}", f"voiceup-reload-new-{suffix}"
+    old_backend, new_backend = (
+        f"voiceup-reload-old-{suffix}",
+        f"voiceup-reload-new-{suffix}",
+    )
     created = []
     network_created = False
 
@@ -96,7 +105,19 @@ def test_nginx_reload_refreshes_replaced_backend_and_checks_active_private_confi
             arguments.extend(["--ip", address])
         if alias:
             arguments.extend(["--network-alias", alias])
-        if name == proxy:
+        if name == proxy and mode == "local":
+            arguments.extend(
+                [
+                    "--mount",
+                    f"type=bind,source={tmp_path / 'proxy.conf'},target=/etc/nginx/nginx.conf,readonly",
+                    "--entrypoint",
+                    "nginx",
+                    image,
+                    "-g",
+                    "daemon off;",
+                ]
+            )
+        elif name == proxy:
             arguments.extend(
                 [
                     "--entrypoint",
@@ -111,7 +132,15 @@ def test_nginx_reload_refreshes_replaced_backend_and_checks_active_private_confi
             )
         else:
             arguments.extend(
-                ["--entrypoint", "nginx", image, "-c", f"/fixture/{config}", "-g", "daemon off;"]
+                [
+                    "--entrypoint",
+                    "nginx",
+                    image,
+                    "-c",
+                    f"/fixture/{config}",
+                    "-g",
+                    "daemon off;",
+                ]
             )
         docker(*arguments)
         created.append(name)
@@ -167,14 +196,62 @@ def test_nginx_reload_refreshes_replaced_backend_and_checks_active_private_confi
         assert stale.returncode != 0 and any(code in stale.stderr for code in (b"502", b"504"))
         docker("exec", proxy, "sh", "-c", reload_command)
         wait_for(b"new-backend")
+        if mode == "local":
+            return
         docker(
-            "exec", proxy, "mv", "/tmp/voiceup-spark.fixture/nginx.conf", "/tmp/active-nginx.saved"
+            "exec",
+            proxy,
+            "mv",
+            "/tmp/voiceup-spark.fixture/nginx.conf",
+            "/tmp/active-nginx.saved",
         )
         assert docker("exec", proxy, "sh", "-c", reload_command, check=False).returncode != 0
         wait_for(b"new-backend")
         docker(
-            "exec", proxy, "mv", "/tmp/active-nginx.saved", "/tmp/voiceup-spark.fixture/nginx.conf"
+            "exec",
+            proxy,
+            "mv",
+            "/tmp/active-nginx.saved",
+            "/tmp/voiceup-spark.fixture/nginx.conf",
         )
+        if launcher == "stack":
+            docker(
+                "exec",
+                proxy,
+                "mv",
+                "/tmp/voiceup-spark.fixture/nginx.conf",
+                "/tmp/active-nginx.saved",
+            )
+            docker(
+                "exec",
+                proxy,
+                "ln",
+                "-s",
+                "/tmp/active-nginx.saved",
+                "/tmp/voiceup-spark.fixture/nginx.conf",
+            )
+            assert docker("exec", proxy, "sh", "-c", reload_command, check=False).returncode != 0
+            docker("exec", proxy, "rm", "/tmp/voiceup-spark.fixture/nginx.conf")
+            docker(
+                "exec",
+                proxy,
+                "mv",
+                "/tmp/active-nginx.saved",
+                "/tmp/voiceup-spark.fixture/nginx.conf",
+            )
+            docker("exec", proxy, "mv", "/tmp/voiceup-spark.fixture", "/tmp/active-nginx-directory")
+            docker(
+                "exec",
+                proxy,
+                "ln",
+                "-s",
+                "/tmp/active-nginx-directory",
+                "/tmp/voiceup-spark.fixture",
+            )
+            assert docker("exec", proxy, "sh", "-c", reload_command, check=False).returncode != 0
+            docker("exec", proxy, "rm", "/tmp/voiceup-spark.fixture")
+            docker("exec", proxy, "mv", "/tmp/active-nginx-directory", "/tmp/voiceup-spark.fixture")
+            wait_for(b"new-backend")
         docker("exec", proxy, "mkdir", "/tmp/voiceup-spark.second")
         docker("exec", proxy, "touch", "/tmp/voiceup-spark.second/nginx.conf")
         assert docker("exec", proxy, "sh", "-c", reload_command, check=False).returncode != 0
@@ -191,7 +268,8 @@ def test_nginx_reload_refreshes_replaced_backend_and_checks_active_private_confi
 
 
 @pytest.mark.skipif(
-    os.environ.get("RUN_DOCKER_TRANSPORT") != "1", reason="Explicit Docker transport verification"
+    os.environ.get("RUN_DOCKER_TRANSPORT") != "1",
+    reason="Explicit Docker transport verification",
 )
 def test_ipv4_proxy_reaches_all_workers_without_post_retries(compose_models, tmp_path):
     """A nonce server uses an ephemeral port; the real SSH tunnel is untouched."""
@@ -274,8 +352,16 @@ def test_ipv4_proxy_reaches_all_workers_without_post_retries(compose_models, tmp
             (private, "/etc/nginx/spark.conf.template"),
             (INFRA / "nginx/start-spark-proxy.sh", "/opt/voiceup/start-spark-proxy.sh"),
         ]:
-            command += ["--mount", f"type=bind,source={source},target={target},readonly"]
-        command += ["--entrypoint", "/bin/sh", image, "/opt/voiceup/start-spark-proxy.sh"]
+            command += [
+                "--mount",
+                f"type=bind,source={source},target={target},readonly",
+            ]
+        command += [
+            "--entrypoint",
+            "/bin/sh",
+            image,
+            "/opt/voiceup/start-spark-proxy.sh",
+        ]
         docker(*command)
         created = True
         port = int(
@@ -289,7 +375,10 @@ def test_ipv4_proxy_reaches_all_workers_without_post_retries(compose_models, tmp
             for line in mapping.splitlines()
             if "voiceup-spark-host" in line.split()[1:]
         ]
-        assert sorted(families) == [4, 6], "This regression must exercise dual-stack host-gateway"
+        assert sorted(families) == [
+            4,
+            6,
+        ], "This regression must exercise dual-stack host-gateway"
 
         def post(index):
             client = http.client.HTTPConnection("127.0.0.1", port, timeout=10)
@@ -301,7 +390,11 @@ def test_ipv4_proxy_reaches_all_workers_without_post_retries(compose_models, tmp
                     headers={"Connection": "close"},
                 )
                 response = client.getresponse()
-                return response.status, response.read(2048), response.getheader("X-Proxy-Worker")
+                return (
+                    response.status,
+                    response.read(2048),
+                    response.getheader("X-Proxy-Worker"),
+                )
             finally:
                 client.close()
 
@@ -331,7 +424,8 @@ def test_ipv4_proxy_reaches_all_workers_without_post_retries(compose_models, tmp
 
 
 @pytest.mark.skipif(
-    os.environ.get("RUN_DOCKER_TRANSPORT") != "1", reason="Explicit Docker transport verification"
+    os.environ.get("RUN_DOCKER_TRANSPORT") != "1",
+    reason="Explicit Docker transport verification",
 )
 @pytest.mark.parametrize(
     "hosts",
@@ -438,7 +532,10 @@ def test_remote_consumers_use_private_origin_and_preserve_environment(compose_mo
     for name in ("backend", "worker", "migrate"):
         assert remote[name]["environment"]["VOICEUP_INFERENCE_URL"] == "http://nginx:9080"
     for name in ("backend", "worker"):
-        expected = {**local[name]["environment"], "VOICEUP_INFERENCE_URL": "http://nginx:9080"}
+        expected = {
+            **local[name]["environment"],
+            "VOICEUP_INFERENCE_URL": "http://nginx:9080",
+        }
         assert remote[name]["environment"] == expected
         assert remote[name]["volumes"] == local[name]["volumes"]
 
@@ -461,7 +558,9 @@ def test_local_inference_is_excluded_from_remote_autostart_only(compose_models):
     assert gated["deploy"]["resources"]["reservations"]["devices"][0]["capabilities"] == ["gpu"]
 
 
-def test_nginx_private_listener_is_not_published_and_public_mount_is_preserved(compose_models):
+def test_nginx_private_listener_is_not_published_and_public_mount_is_preserved(
+    compose_models,
+):
     local = compose_models["local"]["services"]["nginx"]
     remote = compose_models["remote"]["services"]["nginx"]
     assert remote["ports"] == local["ports"]
@@ -498,7 +597,8 @@ def test_overlay_adds_no_dependency_or_application_setting(compose_models):
     os.environ.get("RUN_DOCKER_TRANSPORT") != "1",
     reason="Explicit RUN_DOCKER_TRANSPORT=1 enables the disposable Docker Desktop loopback test",
 )
-def test_nginx_live_transport_contract(compose_models, tmp_path):
+@pytest.mark.parametrize("mode", ["private", "relay"])
+def test_nginx_live_transport_contract(compose_models, tmp_path, mode):
     """Only a task-owned proxy and in-memory HTTP fixture are started; no model runs."""
     image = compose_models["remote"]["services"]["nginx"]["image"]
     assert "@sha256:" in image
@@ -514,7 +614,9 @@ def test_nginx_live_transport_contract(compose_models, tmp_path):
                     "method": self.command,
                     "path": self.path,
                     "headers": dict(self.headers),
-                    "body": body,
+                    "body": body if len(body) <= 1024 else None,
+                    "body_bytes": len(body),
+                    "body_sha256": hashlib.sha256(body).hexdigest(),
                 }
             )
             payload = json.dumps({"transport_fixture": nonce}).encode()
@@ -531,11 +633,17 @@ def test_nginx_live_transport_contract(compose_models, tmp_path):
 
     server = http.server.HTTPServer(("127.0.0.1", 0), Handler)
     private = tmp_path / "spark.conf"
-    template = (INFRA / "nginx/nginx.spark.conf").read_text()
-    assert template.count("http://voiceup-spark-host:18090;") == 2
-    private.write_text(
-        template.replace(":18090;", f":{server.server_port};"), encoding="utf-8", newline="\n"
-    )
+    if mode == "private":
+        template = (INFRA / "nginx/nginx.spark.conf").read_text()
+        assert template.count("http://voiceup-spark-host:18090;") == 5
+        template = template.replace(":18090;", f":{server.server_port};")
+    else:
+        template = (ROOT / "app/inference/nginx.spark.conf").read_text()
+        template = template.replace("listen 8090;", "listen 9080;").replace(
+            "http://inference:8090;",
+            f"http://host.docker.internal:{server.server_port};",
+        )
+    private.write_text(template, encoding="utf-8", newline="\n")
     thread = threading.Thread(target=server.serve_forever, daemon=True)
     thread.start()
     name = "voiceup-spark-transport-test-" + secrets.token_hex(5)
@@ -551,14 +659,14 @@ def test_nginx_live_transport_contract(compose_models, tmp_path):
             raise AssertionError("Disposable Docker probe failed; diagnostic output withheld")
         return result.stdout
 
-    def request(method, path, *, body=b"", headers=None):
+    def request(method, path, *, body=b"", headers=None, repeat_bytes=None):
         fields = {
             "Host": "private-transport-test",
             "Connection": "close",
-            "Content-Length": str(len(body)),
+            "Content-Length": str(len(body) if repeat_bytes is None else repeat_bytes),
             **(headers or {}),
         }
-        code = "import http.client,json,sys; q=json.load(sys.stdin); c=http.client.HTTPConnection(q['host'],9080,timeout=5); c.request(q['method'],q['path'],body=bytes.fromhex(q['body']),headers=q['headers']); r=c.getresponse(); print(json.dumps({'status':r.status,'body':r.read(2048).hex()})); c.close()"
+        code = "import http.client,json,sys; q=json.load(sys.stdin); c=http.client.HTTPConnection(q['host'],9080,timeout=10); b=bytes.fromhex(q['body']) if q['repeat_bytes'] is None else b'x'*q['repeat_bytes']; c.request(q['method'],q['path'],body=b,headers=q['headers']); r=c.getresponse(); print(json.dumps({'status':r.status,'body':r.read(2048).hex()})); c.close()"
         payload = json.dumps(
             {
                 "host": proxy_address,
@@ -566,6 +674,7 @@ def test_nginx_live_transport_contract(compose_models, tmp_path):
                 "path": path,
                 "headers": fields,
                 "body": body.hex(),
+                "repeat_bytes": repeat_bytes,
             }
         ).encode()
         response = json.loads(docker("exec", "-i", worker_id, "python", "-c", code, input=payload))
@@ -600,13 +709,23 @@ def test_nginx_live_transport_contract(compose_models, tmp_path):
             "--mount",
             f"type=bind,source={INFRA / 'nginx/nginx.local.conf'},target=/etc/nginx/conf.d/default.conf,readonly",
             "--mount",
-            f"type=bind,source={private},target=/etc/nginx/spark.conf.template,readonly",
+            f"type=bind,source={private},target="
+            + (
+                "/etc/nginx/spark.conf.template"
+                if mode == "private"
+                else "/etc/nginx/conf.d/relay.conf"
+            )
+            + ",readonly",
             "--mount",
             f"type=bind,source={INFRA / 'nginx/start-spark-proxy.sh'},target=/opt/voiceup/start-spark-proxy.sh,readonly",
             "--entrypoint",
-            "/bin/sh",
+            "/bin/sh" if mode == "private" else "nginx",
             image,
-            "/opt/voiceup/start-spark-proxy.sh",
+            *(
+                ["/opt/voiceup/start-spark-proxy.sh"]
+                if mode == "private"
+                else ["-g", "daemon off;"]
+            ),
         )
         created = True
         # Only the disposable proxy joins the edge network; the existing worker is unchanged.
@@ -637,7 +756,13 @@ def test_nginx_live_transport_contract(compose_models, tmp_path):
         )
         assert len(workers) == 1, "The live test requires exactly one running VoiceUp worker"
         worker_id = workers[0]
-        docker("exec", name, "sh", "-c", "nginx -t -c /tmp/voiceup-spark.*/nginx.conf")
+        docker(
+            "exec",
+            name,
+            "sh",
+            "-c",
+            ("nginx -t -c /tmp/voiceup-spark.*/nginx.conf" if mode == "private" else "nginx -t"),
+        )
         mapping = docker("exec", name, "cat", "/etc/hosts").decode()
         addresses = [
             ipaddress.ip_address(line.split()[0])
@@ -673,6 +798,50 @@ def test_nginx_live_transport_contract(compose_models, tmp_path):
         assert captured["headers"]["X-Inference-Key"] == fixture_key
         assert captured["headers"]["X-Job-Id"] == "fixture-job"
         assert captured["headers"]["X-Tenant-Id"] == "fixture-tenant"
+        assert request("GET", "/meeting-ready")[0] == 200
+        meeting_query = "/v1/meeting-chunks?language=tr&max_speakers=6&num_speakers=3"
+        assert (
+            request(
+                "POST",
+                meeting_query,
+                body=payload,
+                headers={
+                    "Content-Type": "application/octet-stream",
+                    "X-Inference-Key": fixture_key,
+                    "X-Job-Id": "fixture-meeting-chunk",
+                    "X-Tenant-Id": "fixture-tenant",
+                },
+            )[0]
+            == 200
+        )
+        assert seen[-1]["path"] == meeting_query and seen[-1]["body"] == payload
+        assert seen[-1]["headers"]["X-Inference-Key"] == fixture_key
+        # Exercise the actual largest accepted mono PCM analysis payload through
+        # nginx; this fixture deliberately performs no audio/model analysis.
+        analysis_bytes = 310 * 192000 * 2 + 44
+        assert request("POST", "/v1/meeting-chunks", repeat_bytes=analysis_bytes)[0] == 200
+        assert seen[-1]["body_bytes"] == analysis_bytes
+        assert seen[-1]["body_sha256"] == hashlib.sha256(b"x" * analysis_bytes).hexdigest()
+        memory_body = b'{"transport_fixture":"bounded-memory-json"}'
+        assert (
+            request(
+                "POST",
+                "/v1/meeting-memory",
+                body=memory_body,
+                headers={
+                    "Content-Type": "application/json",
+                    "X-Inference-Key": fixture_key,
+                    "X-Job-Id": "fixture-memory",
+                    "X-Tenant-Id": "fixture-tenant",
+                },
+            )[0]
+            == 200
+        )
+        assert seen[-1]["path"] == "/v1/meeting-memory" and seen[-1]["body"] == memory_body
+        assert seen[-1]["headers"]["X-Inference-Key"] == fixture_key
+        assert seen[-1]["headers"]["X-Job-Id"] == "fixture-memory"
+        assert seen[-1]["headers"]["X-Tenant-Id"] == "fixture-tenant"
+        assert seen[-1]["headers"]["Content-Type"] == "application/json"
         count = len(seen)
         for method, path, expected in [
             ("HEAD", "/ready", 405),
@@ -681,14 +850,32 @@ def test_nginx_live_transport_contract(compose_models, tmp_path):
             ("PUT", "/v1/embeddings", 405),
             ("GET", "/api/voiceup/v1/speaker-jobs", 404),
             ("GET", "/ready/extra", 404),
+            ("POST", "/meeting-ready", 405),
+            ("GET", "/v1/meeting-chunks", 405),
+            ("GET", "/v1/meeting-memory", 405),
+            ("PUT", "/v1/meeting-memory", 405),
+            ("GET", "/meeting-ready/extra", 404),
+            ("POST", "/v1/meeting-chunks/extra", 404),
+            ("POST", "/v1/meeting-memory/extra", 404),
         ]:
             assert request(method, path)[0] == expected
         assert (
             request(
-                "POST", "/v1/embeddings", headers={"Content-Length": str(51 * 1024 * 1024 + 1)}
+                "POST",
+                "/v1/embeddings",
+                headers={"Content-Length": str(51 * 1024 * 1024 + 1)},
             )[0]
             == 413
         )
+        for route, maximum in (("/v1/meeting-chunks", 120), ("/v1/meeting-memory", 36)):
+            assert (
+                request(
+                    "POST",
+                    route,
+                    headers={"Content-Length": str(maximum * 1024 * 1024 + 1)},
+                )[0]
+                == 413
+            )
         assert len(seen) == count, (
             "Rejected routes/methods/body lengths must never reach the upstream"
         )
@@ -700,7 +887,14 @@ def test_nginx_live_transport_contract(compose_models, tmp_path):
         started = time.monotonic()
         assert request("GET", "/ready")[0] == 502
         assert time.monotonic() - started < 6
-        print("transport_checks=21; upstream_body_sha256=" + hashlib.sha256(payload).hexdigest())
+        print(
+            "transport_mode="
+            + mode
+            + "; largest_analysis_bytes="
+            + str(analysis_bytes)
+            + "; upstream_body_sha256="
+            + hashlib.sha256(payload).hexdigest()
+        )
     except BaseException:
         if created:
             diagnostic = subprocess.run(
@@ -722,6 +916,9 @@ def test_nginx_live_transport_contract(compose_models, tmp_path):
         thread.join(timeout=2)
         if created:
             cleanup = subprocess.run(
-                ["docker", "rm", "--force", name], capture_output=True, timeout=15, check=False
+                ["docker", "rm", "--force", name],
+                capture_output=True,
+                timeout=15,
+                check=False,
             )
             assert cleanup.returncode == 0 or b"No such container" in cleanup.stderr

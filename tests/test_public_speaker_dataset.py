@@ -8,6 +8,7 @@ import subprocess
 import sys
 import tarfile
 from pathlib import Path
+from types import SimpleNamespace
 
 import numpy as np
 import pytest
@@ -53,6 +54,27 @@ def test_archive_rejects_unsafe_members(preparer, tmp_path, name, kind):
     with pytest.raises(preparer.PreparationError):
         preparer.extract_archive(source, tmp_path / "raw")
     assert not (tmp_path / "escape").exists()
+
+
+@pytest.mark.parametrize("device", ["CON", "NUL.txt", "COM1", "lpt9.logs", "AUX"])
+def test_archive_without_new_path_api_rejects_nested_devices(
+    preparer, tmp_path, monkeypatch, device
+):
+    # Replace only the preparer's binding; newer pathlib may itself use ntpath.isreserved.
+    monkeypatch.setattr(preparer, "ntpath", SimpleNamespace())
+    source = tmp_path / "source.tar.gz"
+    archive_at(source, [(f"LibriSpeech/{device}/sample.flac", b"payload", tarfile.REGTYPE)])
+    with pytest.raises(preparer.PreparationError, match="unsafe_archive_path"):
+        preparer.extract_archive(source, tmp_path / "raw")
+    assert not (tmp_path / "raw").exists()
+
+
+def test_archive_without_new_path_api_preserves_valid_files(preparer, tmp_path, monkeypatch):
+    monkeypatch.setattr(preparer, "ntpath", SimpleNamespace())
+    source = tmp_path / "source.tar.gz"
+    archive_at(source, [("LibriSpeech/clean/README.TXT", b"license", tarfile.REGTYPE)])
+    preparer.extract_archive(source, tmp_path / "raw")
+    assert (tmp_path / "raw/LibriSpeech/clean/README.TXT").read_bytes() == b"license"
 
 
 def test_extraction_preserves_identical_metadata_and_refuses_conflict(preparer, tmp_path):

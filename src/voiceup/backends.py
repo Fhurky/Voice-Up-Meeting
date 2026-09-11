@@ -229,9 +229,13 @@ class PyannoteDiarizer:
                 "`uv sync --extra ml --extra diarization`."
             )
         turns = []
+        duration = audio.size / sample_rate
         for segment, _, label in output.speaker_diarization.itertracks(yield_label=True):
             start, end = float(segment.start), float(segment.end)
-            if not np.isfinite([start, end]).all() or not 0 <= start < end:
+            if not np.isfinite([start, end]).all() or not start < end:
                 raise RuntimeError("Pyannote returned an invalid speaker interval")
-            turns.append((start, end, str(label)))
+            # Model padding can extend turns beyond the actual source samples.
+            start, end = max(0.0, start), min(duration, end)
+            if start < end:
+                turns.append((start, end, str(label)))
         return turns

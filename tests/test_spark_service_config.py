@@ -2,6 +2,7 @@
 
 import json
 import os
+import re
 import subprocess
 from pathlib import Path
 
@@ -17,7 +18,9 @@ def resolve(tmp_path, **overrides):
     fixture_env = tmp_path / ".env"
     fixture_env.write_text("# This fixture loads no local secrets.\n", encoding="utf-8")
     environment = {
-        key: value for key, value in os.environ.items() if not key.startswith("COMPOSE_")
+        key: value
+        for key, value in os.environ.items()
+        if not key.startswith("COMPOSE_")
     }
     environment.update(SPARK_INFERENCE_IMAGE=IMAGE, INFERENCE_INTERNAL_KEY=KEY)
     environment.update(overrides)
@@ -58,7 +61,11 @@ def test_service_requires_explicit_image_and_single_native_gpu(model):
     assert service["pull_policy"] == "never"
     assert service["platform"] == "linux/arm64"
     assert service["devices"] == [
-        {"source": "nvidia.com/gpu=0", "target": "nvidia.com/gpu=0", "permissions": "rwm"}
+        {
+            "source": "nvidia.com/gpu=0",
+            "target": "nvidia.com/gpu=0",
+            "permissions": "rwm",
+        }
     ]
     assert "build" not in service and "runtime" not in service and "gpus" not in service
     assert service["restart"] == "unless-stopped"
@@ -84,7 +91,9 @@ def test_loopback_publication_and_internal_network_are_exclusive(model):
     assert model["networks"]["edge"].get("internal", False) is False
 
 
-def test_relay_reuses_pinned_arm_image_without_gpu_secrets_or_privileges(model, tmp_path):
+def test_relay_reuses_pinned_arm_image_without_gpu_secrets_or_privileges(
+    model, tmp_path
+):
     relay = model["services"]["relay"]
     assert relay["image"] == (
         "nginx:alpine@sha256:4a73073bd557c65b759505da037898b61f1be6cbcc3c2c3aeac22d2a470c1752"
@@ -104,7 +113,10 @@ def test_relay_reuses_pinned_arm_image_without_gpu_secrets_or_privileges(model, 
     mount = relay["volumes"][0]
     assert len(relay["volumes"]) == 1
     assert Path(mount["source"]) == tmp_path / "nginx.spark.conf"
-    assert mount["target"] == "/etc/nginx/conf.d/default.conf" and mount["read_only"] is True
+    assert (
+        mount["target"] == "/etc/nginx/conf.d/default.conf"
+        and mount["read_only"] is True
+    )
     assert mount["bind"]["create_host_path"] is False
     assert relay["depends_on"]["inference"]["condition"] == "service_healthy"
 
@@ -135,7 +147,24 @@ def test_relay_has_fixed_authenticated_routes_and_bounded_forwarding():
         "return 404;",
     ):
         assert directive in config
-    assert config.count("proxy_pass $inference_origin;") == 2
+    assert config.count("proxy_pass $inference_origin;") == 5
+
+
+@pytest.mark.parametrize(
+    "path", ["app/inference/nginx.spark.conf", "app/infra/nginx/nginx.spark.conf"]
+)
+def test_meeting_proxy_routes_have_separate_exact_body_limits(path):
+    config = (ROOT / path).read_text(encoding="utf-8")
+    for route, limit in (("/v1/meeting-chunks", "120m"), ("/v1/meeting-memory", "36m")):
+        match = re.search(
+            r"location = " + re.escape(route) + r" \{(.*?)\n  \}", config, re.DOTALL
+        )
+        assert match is not None, "Missing exact meeting route"
+        body = match[1]
+        assert "if ($request_method != POST) { return 405; }" in body
+        assert "client_max_body_size " + limit + ";" in body
+        assert "proxy_send_timeout 600s;" in body and "proxy_read_timeout 600s;" in body
+    assert "client_max_body_size 51m;" in config
 
 
 def test_readonly_nonroot_and_bounded_scratch(model, tmp_path):
@@ -184,5 +213,7 @@ def test_missing_required_deployment_value_fails_closed(tmp_path, missing):
 
 def test_template_has_no_usable_secret_or_mutable_image_default():
     template = (COMPOSE.parent / ".env.spark.example").read_text(encoding="utf-8")
-    assignments = [line for line in template.splitlines() if line and not line.startswith("#")]
+    assignments = [
+        line for line in template.splitlines() if line and not line.startswith("#")
+    ]
     assert assignments == ["SPARK_INFERENCE_IMAGE=", "INFERENCE_INTERNAL_KEY="]

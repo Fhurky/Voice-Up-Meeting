@@ -4,6 +4,7 @@ from fastapi import APIRouter
 
 from app.api.auth.router import router as auth_router
 from app.api.health import router as health_router
+from app.api.meetings.router import router as meeting_router
 from app.api.speaker_identity.router import router as speaker_router
 from app.core.config import get_settings
 
@@ -13,4 +14,5 @@ router = APIRouter(prefix=get_settings().api_prefix)
 router.include_router(health_router)
 router.include_router(auth_router)
 router.include_router(speaker_router)
+router.include_router(meeting_router)
 # kt-scaffold:router-registration

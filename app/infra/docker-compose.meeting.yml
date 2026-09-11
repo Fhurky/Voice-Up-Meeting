@@ -1,0 +1,34 @@
+# Explicit local x86_64 CUDA meeting extension. The normal startup remains offline.
+services:
+  inference:
+    image: voiceup-inference-meeting:local
+    platform: linux/amd64
+    pull_policy: never
+    build:
+      dockerfile: app/inference/Dockerfile.meeting
+      network: none
+      additional_contexts:
+        wheelhouse: ${INFERENCE_WHEELHOUSE_CONTEXT:-../../models/inference-wheelhouse}
+        meeting_wheelhouse: ${MEETING_WHEELHOUSE_CONTEXT:-../../models/meeting-inference-wheelhouse}
+    environment:
+      VOICEUP_INFERENCE_MEETING_ENABLED: "true"
+      VOICEUP_INFERENCE_MEETING_DIARIZATION_DIR: /models/diarization
+      VOICEUP_INFERENCE_MEETING_ASR_DIR: /models/asr
+      VOICEUP_INFERENCE_MEETING_DIARIZATION_MANIFEST: /srv/inference/diarization-model-manifest.json
+      VOICEUP_INFERENCE_MEETING_ASR_MANIFEST: /srv/inference/asr-model-manifest.json
+      HF_HUB_OFFLINE: "1"
+      HF_HUB_DISABLE_TELEMETRY: "1"
+      PYANNOTE_METRICS_ENABLED: "0"
+    volumes:
+      - type: bind
+        source: ../../models/diarization-community-1/3533c8cf8e369892e6b79ff1bf80f7b0286a54ee
+        target: /models/diarization
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ../../models/asr-large-v3/edaa852ec7e145841d8ffdb056a99866b5f0a478
+        target: /models/asr
+        read_only: true
+        bind:
+          create_host_path: false

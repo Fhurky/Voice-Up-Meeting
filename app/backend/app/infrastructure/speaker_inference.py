@@ -9,14 +9,13 @@ from app.core.config import Settings
 from app.domain.speaker_identity import (
     MODEL_ID,
     MODEL_REVISION,
-    PreprocessingVersion,
     normalize,
 )
 from app.services.speaker_ports import EmbeddingResult, SpeakerError
 
 
 class InferenceQuality(BaseModel):
-    preprocessing_version: PreprocessingVersion | None = None
+    preprocessing_version: Literal["vad-windows-v1", "vad-packed-fallback-v1"] | None = None
 
 
 class InferenceResponse(BaseModel):

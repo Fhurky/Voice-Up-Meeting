@@ -14,7 +14,13 @@ from app.domain.models.speaker_identity import (
 )
 from app.domain.models.tenant import Tenant
 from app.domain.models.user import User
-from app.domain.speaker_identity import MODEL_ID, MODEL_REVISION
+from app.domain.speaker_identity import (
+    MEETING_MODEL_ID,
+    MEETING_MODEL_REVISION,
+    MEETING_PREPROCESSING_VERSION,
+    MODEL_ID,
+    MODEL_REVISION,
+)
 from app.services.speaker_ports import SpeakerError
 
 
@@ -60,6 +66,17 @@ class SpeakerRepository:
             await self.session.scalars(
                 select(Recording).where(
                     Recording.tenant_id == tenant_id, Recording.idempotency_key == key
+                )
+            )
+        ).one_or_none()
+
+    async def recording_by_storage_key(self, tenant_id: int, storage_key: str) -> Recording | None:
+        """Check committed ownership even after retry keys expire or soft deletion occurs."""
+        return (
+            await self.session.scalars(
+                select(Recording).where(
+                    Recording.tenant_id == tenant_id,
+                    Recording.storage_key == storage_key,
                 )
             )
         ).one_or_none()
@@ -129,6 +146,35 @@ class SpeakerRepository:
                 SpeakerProfile.is_deleted.is_(False),
                 SpeakerProfile.model_id == MODEL_ID,
                 SpeakerProfile.model_revision == MODEL_REVISION,
+            )
+            .order_by(distance, SpeakerProfile.public_id)
+            .limit(2)
+        )
+        return [(profile, max(-1.0, min(1.0, 1.0 - float(value)))) for profile, value in rows]
+
+    async def ranked_meeting(
+        self, tenant_id: int, vector: list[float]
+    ) -> list[tuple[SpeakerProfile, float]]:
+        distance = SpeakerProfile.meeting_embedding.cosine_distance(vector)
+        rows = await self.session.execute(
+            select(SpeakerProfile, distance.label("distance"))
+            .join(
+                Recording,
+                and_(
+                    Recording.tenant_id == SpeakerProfile.tenant_id,
+                    Recording.recording_id == SpeakerProfile.meeting_recording_id,
+                ),
+            )
+            .where(
+                SpeakerProfile.tenant_id == tenant_id,
+                SpeakerProfile.is_deleted.is_(False),
+                SpeakerProfile.meeting_embedding.is_not(None),
+                SpeakerProfile.meeting_model_id == MEETING_MODEL_ID,
+                SpeakerProfile.meeting_model_revision == MEETING_MODEL_REVISION,
+                SpeakerProfile.meeting_preprocessing_version == MEETING_PREPROCESSING_VERSION,
+                Recording.is_deleted.is_(False),
+                Recording.file_removed_at.is_(None),
+                Recording.sha256 == SpeakerProfile.meeting_source_sha256,
             )
             .order_by(distance, SpeakerProfile.public_id)
             .limit(2)

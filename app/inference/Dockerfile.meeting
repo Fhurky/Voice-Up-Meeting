@@ -1,0 +1,23 @@
+# Explicit local x86_64 meeting image; requires reviewed extension admission.
+# Supply the unchanged base wheelhouse and the verified meeting wheelhouse.
+FROM python:3.13.14-slim-bookworm@sha256:67a1e1f215ccda113cfc024e8639049257e88f273898f595b61476d128d387e8
+WORKDIR /srv/inference
+COPY app/inference/requirements.txt /srv/inference/requirements.txt
+COPY app/inference/requirements.meeting-x86_64.txt /srv/inference/requirements.meeting-x86_64.txt
+RUN --mount=type=bind,from=wheelhouse,target=/wheelhouse,readonly \
+    python -m pip install --no-cache-dir --no-index --only-binary=:all: \
+    --find-links=/wheelhouse --require-hashes -r requirements.txt
+RUN --mount=type=bind,from=meeting_wheelhouse,target=/meeting_wheelhouse,readonly \
+    python -m pip install --no-cache-dir --no-index --only-binary=:all: \
+    --find-links=/meeting_wheelhouse --require-hashes -r requirements.meeting-x86_64.txt \
+    && python -m pip check
+COPY src/voiceup /srv/reference/voiceup
+COPY app/inference/voiceup_inference /srv/inference/voiceup_inference
+COPY scripts/diarization-model-manifest.json /srv/inference/diarization-model-manifest.json
+COPY scripts/asr-model-manifest.json /srv/inference/asr-model-manifest.json
+ENV PYTHONPATH=/srv/reference:/srv/inference PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 \
+    HF_HUB_OFFLINE=1 HF_HUB_DISABLE_TELEMETRY=1 PYANNOTE_METRICS_ENABLED=0 \
+    MPLCONFIGDIR=/tmp/matplotlib XDG_CACHE_HOME=/tmp/cache HF_HOME=/tmp/huggingface
+USER 10001:10001
+EXPOSE 8090
+CMD ["python", "-m", "voiceup_inference"]

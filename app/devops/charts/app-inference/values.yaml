@@ -4,6 +4,13 @@ image:
   digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
 existingSecret: speaker-inference
 service: {port: 8090}
+runtimeProfile: x86_64-cu128
+meeting:
+  enabled: false
+  modelStorage:
+    claimName: meeting-models
+    className: local-path
+    size: 4Gi
 modelStorage:
   claimName: speaker-models
   className: local-path

@@ -37,7 +37,8 @@
         "app/inference/Dockerfile.offline",
         "app/inference/Dockerfile.spark",
         "app/inference/compose.spark.yml",
-        "app/inference/Dockerfile.cpu"
+        "app/inference/Dockerfile.cpu",
+        "app/inference/Dockerfile.meeting"
       ]
     },
     {
@@ -65,14 +66,18 @@
     {
       "kind": "requirements",
       "path": "app/inference/requirements.cpu-aarch64.in"
+    },
+    {
+      "kind": "requirements",
+      "path": "app/inference/requirements.meeting-x86_64.in"
     }
   ],
   "decision": {
-    "id": "VOICEUP-CPU-ARTIFACT-SOURCES-2026-09-10",
+    "id": "VOICEUP-MEETING-X86-ARTIFACT-SOURCES-2026-09-10",
     "reviewed_on": "2026-09-10",
-    "inventory_sha256": "97045e273227b328c36fa6af69f3e5e71bb13a93a3f512fc874b6cc2970853e6",
-    "spec_path": "specs/speaker-identity/PRDs/005-local-cpu-runtime/PRD.md",
-    "review_scope": "Local CPU source and build evaluation under accepted capability 005. Independent official artifact metadata, full wheel hashes and active dependency closure reviewed for both Linux architectures; existing GPU baselines and model identity retained. Native macOS execution, security release scanning and owner acceptance are not claimed.",
+    "inventory_sha256": "403862bbd150130d09566193560c011863d2ece858028ca2ab5a487c39b14ef6",
+    "spec_path": "specs/speaker-identity/PRDs/002-long-recording-analysis/PRD.md",
+    "review_scope": "Independent official metadata and actual wheel review for the explicit local x86_64 meeting extension. All 63 admitted base pins retained; 68 new packages have exact verified artifacts and satisfied native Python3.13 dependency closure. Two Lightning packages use the mandatory CVE-2026-58659 security fix with immutable upstream code verification. This admits the local build, not native ARM64, physical Mac, full security-gate or end-to-end meeting accuracy.",
     "compatibility_evidence": [
       "docs/evidence/2026-09-08-local-speaker-pilot/package-releases.json: new backend packages released more than30 days ago",
       "docs/evidence/2026-09-08-local-speaker-pilot/inference-package-releases.json: runtime release dates",
@@ -92,9 +97,13 @@
       "docs/evidence/2026-09-10-local-cpu-runtime/cpu-x86_64-http.json: genuine networking-disabled CPU ECAPA/Silero and nine HTTP smoke checks; constructed fixture establishes software compatibility, not speaker accuracy or Mac acceptance.",
       "CPU ARM64 OpenMP loader alias reuses the exact hash-verified library already inside the admitted Torch wheel; no new package or version. Final Dockerfile binding and independent source review record its SHA256. Runtime evidence is recorded separately.",
       "docs/evidence/2026-09-10-local-cpu-runtime/cpu-x86_64-final-http.json: final Dockerfile image passed nine real CPU HTTP checks with networking disabled.",
-      "docs/evidence/2026-09-10-local-cpu-runtime/cpu-aarch64-native-verification.json and cpu-aarch64-native-http-smoke.json: the final ARM64 image passed nine real CPU HTTP checks on native Linux ARM64, without GPU access or network and with read-only filesystem, two CPUs and 4 GiB memory. Existing Spark services and model hashes were unchanged. This resolves model runtime compatibility beyond the separately recorded QEMU failure; it is not physical MacBook acceptance or a speaker accuracy benchmark."
+      "docs/evidence/2026-09-10-local-cpu-runtime/cpu-aarch64-native-verification.json and cpu-aarch64-native-http-smoke.json: the final ARM64 image passed nine real CPU HTTP checks on native Linux ARM64, without GPU access or network and with read-only filesystem, two CPUs and 4 GiB memory. Existing Spark services and model hashes were unchanged. This resolves model runtime compatibility beyond the separately recorded QEMU failure; it is not physical MacBook acceptance or a speaker accuracy benchmark.",
+      "docs/evidence/2026-09-10-meeting-runtime/production-candidate-actual-wheel-audit.json: all68 actual artifacts verified; all63 base pins preserved; native Python3.13 target tags and dependency edges satisfied.",
+      "docs/evidence/2026-09-10-meeting-runtime/proposed-meeting-closure-review.json: independent252 active constraints across131 distributions, zero conflicts.",
+      "The exact extension installed with pip check passing in a network-disabled native Python3.13.14/Torch2.8.0+cu128 RTX4060 probe. Community1 processed the16-second public fixture. ASR execution and full application acceptance are recorded separately after model preparation.",
+      "https://github.com/Lightning-AI/pytorch-lightning/releases/tag/2.6.6 documents both checkpoint code execution fixes. Actual wheel saving.py matches immutable upstream771017e4f39b314b49abd4a1d65905c74268d248 after package namespace normalization; remaining GHSA-qqmf-gpg7-g8gw metadata contradiction is explicitly triaged, not a passing release scanner."
     ],
-    "supersedes": "VOICEUP-SPARK-ARTIFACT-SOURCES-2026-09-09",
+    "supersedes": "VOICEUP-CPU-ARTIFACT-SOURCES-2026-09-10",
     "artifact_bindings": {
       "app/inference/requirements.spark.in": "db031496e3b7c1fc6742d7d930f8bbfcf82ebdf76d500b276aa114f33d27c3fe",
       "app/inference/requirements.spark.txt": "6f2880fab78cf65116e0276ff8f1ecef603137760833a7d4744e2cfb17730e8a",
@@ -108,10 +117,46 @@
       "app/inference/requirements.cpu-aarch64.txt": "f2aa463aa277df1af6cda7dd41873092ca4fa7a10b20f819500af15c58af0f20",
       "app/inference/cpu-aarch64-wheelhouse-manifest.json": "64a7c7b2888acc8cb519117b29f4302ba23a5db2846a5709659ac49236d40e6b",
       "app/inference/Dockerfile.cpu": "b9d40c42068f56bac77ac700464ad7860b1ba6bffe9c12f0e6ed54a4fd6a1a3c",
-      "docs/evidence/2026-09-10-local-cpu-runtime/cpu-artifact-source-review.json": "fc11dc281e2bd30d6a74e6ab5fb5cbd03e0c1ff503589f2727793042443ccaec"
+      "docs/evidence/2026-09-10-local-cpu-runtime/cpu-artifact-source-review.json": "fc11dc281e2bd30d6a74e6ab5fb5cbd03e0c1ff503589f2727793042443ccaec",
+      "app/inference/requirements.meeting-x86_64.in": "912963062785e00d533f6aa3d50f845f44d72168c982af8f781bf109eaf437f3",
+      "app/inference/requirements.meeting-x86_64.txt": "ff025674f9fcda4b8badc94e1463c36bc091d9320d9ea2256e239df9c14ecf35",
+      "app/inference/meeting-x86_64-wheelhouse-manifest.json": "e3d8675559781fad52020147989059675698ea15e6691dee92041e2e1bf30e4a",
+      "app/inference/Dockerfile.meeting": "947291681b932eb834e1d1a2d9650f776ef0b265782e270cee83636a9ada6aee",
+      "docs/evidence/2026-09-10-meeting-runtime/independent-candidate-source-review.json": "d99505122488688fbbcf747caf77ce04c0989251ae06eb4bba0eb48cfd850332",
+      "docs/evidence/2026-09-10-meeting-runtime/mature-production-candidate-replacements.json": "976f3bd90e98ffafa0b7bbe8d250eb024ae44abc94748038a406ec5385d8cb91",
+      "docs/evidence/2026-09-10-meeting-runtime/proposed-meeting-closure-review.json": "306eb541b1c7cff24390af902ca574d8239ebb954ada04d4c219e46cb9b68b2d",
+      "docs/evidence/2026-09-10-meeting-runtime/production-candidate-actual-wheel-audit.json": "606d0b3a826fd7bb1426e4d939122364f9e2b673db3f1cb96eaaf75b62f2452b",
+      "docs/evidence/2026-09-10-meeting-runtime/independent-osv-findings.json": "55f3c37b57ba7195ae22a52db1f765af3d93c32090d476bc59608143e6c728cc"
     }
   },
-  "exceptions": [],
+  "exceptions": [
+    {
+      "artifact": "lightning",
+      "version": "2.6.6",
+      "released_on": "2026-09-10",
+      "release_evidence": [
+        "https://pypi.org/pypi/lightning/2.6.6/json",
+        "https://github.com/Lightning-AI/pytorch-lightning/releases/tag/2.6.6"
+      ],
+      "reason": "security",
+      "advisory_ids": [
+        "CVE-2026-58659"
+      ]
+    },
+    {
+      "artifact": "pytorch-lightning",
+      "version": "2.6.6",
+      "released_on": "2026-09-10",
+      "release_evidence": [
+        "https://pypi.org/pypi/pytorch-lightning/2.6.6/json",
+        "https://github.com/Lightning-AI/pytorch-lightning/releases/tag/2.6.6"
+      ],
+      "reason": "security",
+      "advisory_ids": [
+        "CVE-2026-58659"
+      ]
+    }
+  ],
   "release_evidence": [
     {
       "artifact": "pgvector",
@@ -292,6 +337,550 @@
       "release_evidence": "https://pypi.org/pypi/torchaudio/2.8.0/json",
       "source": "https://download.pytorch.org/whl/cpu/torchaudio/",
       "scope": "CPU build variant of the existing mature 2.8.0 release; exact architecture-specific publisher bytes are pinned in the reviewed manifests. ARM64 TorchAudio retains public version 2.8.0 without a local suffix."
+    },
+    {
+      "artifact": "aiohappyeyeballs",
+      "version": "2.7.1",
+      "release_evidence": "https://pypi.org/pypi/aiohappyeyeballs/2.7.1/json",
+      "released_on": "2026-07-01",
+      "artifact_sha256": "9243213661e29250eb41368e5daa826fc017156c3b8a11440826b2e3ed376472",
+      "requires_python": ">=3.10"
+    },
+    {
+      "artifact": "aiohttp",
+      "version": "3.14.3",
+      "release_evidence": "https://pypi.org/pypi/aiohttp/3.14.3/json",
+      "released_on": "2026-07-23",
+      "artifact_sha256": "d7d2deec16eeedf55f2c7cf75b521ea3856a5177e123844f8fd0f114ce252cb5",
+      "requires_python": ">=3.10"
+    },
+    {
+      "artifact": "aiosignal",
+      "version": "1.4.0",
+      "release_evidence": "https://pypi.org/pypi/aiosignal/1.4.0/json",
+      "released_on": "2025-07-03",
+      "artifact_sha256": "053243f8b92b990551949e63930a839ff0cf0b0ebbe0597b0f3fb19e1a0fe82e",
+      "requires_python": ">=3.9"
+    },
+    {
+      "artifact": "alembic",
+      "version": "1.19.1",
+      "release_evidence": "https://pypi.org/pypi/alembic/1.19.1/json",
+      "released_on": "2026-08-08",
+      "artifact_sha256": "b39018cb3d9413a19cbd54cf3c02ad33998641f0538eb77413a488a21c3e14be",
+      "requires_python": ">=3.10"
+    },
+    {
+      "artifact": "asteroid-filterbanks",
+      "version": "0.4.0",
+      "release_evidence": "https://pypi.org/pypi/asteroid-filterbanks/0.4.0/json",
+      "released_on": "2021-04-09",
+      "artifact_sha256": "4932ac8b6acc6e08fb87cbe8ece84215b5a74eee284fe83acf3540a72a02eaf5",
+      "requires_python": ">=3.6"
+    },
+    {
+      "artifact": "attrs",
+      "version": "26.1.0",
+      "release_evidence": "https://pypi.org/pypi/attrs/26.1.0/json",
+      "released_on": "2026-03-19",
+      "artifact_sha256": "c647aa4a12dfbad9333ca4e71fe62ddc36f4e63b2d260a37a8b83d2f043ac309",
+      "requires_python": ">=3.9"
+    },
+    {
+      "artifact": "av",
+      "version": "18.0.0",
+      "release_evidence": "https://pypi.org/pypi/av/18.0.0/json",
+      "released_on": "2026-07-02",
+      "artifact_sha256": "ae56b40b6f8b067a8ad2dac664fbfbabac7f7a55b9a7bb031eb99289252bc017",
+      "requires_python": ">=3.11"
+    },
+    {
+      "artifact": "colorlog",
+      "version": "6.12.0",
+      "release_evidence": "https://pypi.org/pypi/colorlog/6.12.0/json",
+      "released_on": "2026-07-23",
+      "artifact_sha256": "30d392604e9110045a2c2aeefc27d7a017abbab63f3a8aee594eac0801df784e",
+      "requires_python": ">=3.6"
+    },
+    {
+      "artifact": "contourpy",
+      "version": "1.3.3",
+      "release_evidence": "https://pypi.org/pypi/contourpy/1.3.3/json",
+      "released_on": "2025-07-26",
+      "artifact_sha256": "4debd64f124ca62069f313a9cb86656ff087786016d76927ae2cf37846b006c9",
+      "requires_python": ">=3.11"
+    },
+    {
+      "artifact": "ctranslate2",
+      "version": "4.8.1",
+      "release_evidence": "https://pypi.org/pypi/ctranslate2/4.8.1/json",
+      "released_on": "2026-07-03",
+      "artifact_sha256": "4242a7f8e285f922525f4cffd5b1fb43cbacc61d0611cf54832e9c447d030840",
+      "requires_python": ">=3.9"
+    },
+    {
+      "artifact": "cycler",
+      "version": "0.12.1",
+      "release_evidence": "https://pypi.org/pypi/cycler/0.12.1/json",
+      "released_on": "2023-10-07",
+      "artifact_sha256": "85cef7cff222d8644161529808465972e51340599459b8ac3ccbac5a854e0d30",
+      "requires_python": ">=3.8"
+    },
+    {
+      "artifact": "einops",
+      "version": "0.8.2",
+      "release_evidence": "https://pypi.org/pypi/einops/0.8.2/json",
+      "released_on": "2026-01-26",
+      "artifact_sha256": "54058201ac7087911181bfec4af6091bb59380360f069276601256a76af08193",
+      "requires_python": ">=3.9"
+    },
+    {
+      "artifact": "faster-whisper",
+      "version": "1.2.1",
+      "release_evidence": "https://pypi.org/pypi/faster-whisper/1.2.1/json",
+      "released_on": "2025-10-31",
+      "artifact_sha256": "79a66ad50688c0b794dd501dc340a736992a6342f7f95e5811be60b5224a26a7",
+      "requires_python": ">=3.9"
+    },
+    {
+      "artifact": "flatbuffers",
+      "version": "25.12.19",
+      "release_evidence": "https://pypi.org/pypi/flatbuffers/25.12.19/json",
+      "released_on": "2025-12-19",
+      "artifact_sha256": "7634f50c427838bb021c2d66a3d1168e9d199b0607e6329399f04846d42e20b4",
+      "requires_python": null
+    },
+    {
+      "artifact": "fonttools",
+      "version": "4.63.0",
+      "release_evidence": "https://pypi.org/pypi/fonttools/4.63.0/json",
+      "released_on": "2026-05-14",
+      "artifact_sha256": "22135da48a348785c5e2d5d2d9d6bec5ed44adacbaeb9db12d9493bf6c6bfa68",
+      "requires_python": ">=3.10"
+    },
+    {
+      "artifact": "frozenlist",
+      "version": "1.8.0",
+      "release_evidence": "https://pypi.org/pypi/frozenlist/1.8.0/json",
+      "released_on": "2025-10-06",
+      "artifact_sha256": "fb30f9626572a76dfe4293c7194a09fb1fe93ba94c7d4f720dfae3b646b45027",
+      "requires_python": ">=3.9"
+    },
+    {
+      "artifact": "googleapis-common-protos",
+      "version": "1.75.1",
+      "release_evidence": "https://pypi.org/pypi/googleapis-common-protos/1.75.1/json",
+      "released_on": "2026-08-06",
+      "artifact_sha256": "28a1934bcd33b9c9da66ac301a0a4227e3367f095a17d0375cb98f0a09d93b79",
+      "requires_python": ">=3.10"
+    },
+    {
+      "artifact": "greenlet",
+      "version": "3.5.5",
+      "release_evidence": "https://pypi.org/pypi/greenlet/3.5.5/json",
+      "released_on": "2026-08-10",
+      "artifact_sha256": "2eabb980975cba5b93a95f6f69287d05fc05ac955bfd6a320a7c083eeb52c0b0",
+      "requires_python": ">=3.10"
+    },
+    {
+      "artifact": "grpcio",
+      "version": "1.83.0",
+      "release_evidence": "https://pypi.org/pypi/grpcio/1.83.0/json",
+      "released_on": "2026-07-23",
+      "artifact_sha256": "7bd82671b39065ba18cd536e9cd45b27ff649053f81ddd2c6a966d595067080f",
+      "requires_python": ">=3.10"
+    },
+    {
+      "artifact": "julius",
+      "version": "0.2.8",
+      "release_evidence": "https://pypi.org/pypi/julius/0.2.8/json",
+      "released_on": "2026-06-03",
+      "artifact_sha256": "6891235cbc355e629d839f87489bff8ca46e57a0e7cc35abb909c7a2aa538c25",
+      "requires_python": ">=3.9.0"
+    },
+    {
+      "artifact": "kiwisolver",
+      "version": "1.5.0",
+      "release_evidence": "https://pypi.org/pypi/kiwisolver/1.5.0/json",
+      "released_on": "2026-03-09",
+      "artifact_sha256": "332b4f0145c30b5f5ad9374881133e5aa64320428a57c2c2b61e9d891a51c2f3",
+      "requires_python": ">=3.10"
+    },
+    {
+      "artifact": "lightning",
+      "version": "2.6.6",
+      "release_evidence": "https://pypi.org/pypi/lightning/2.6.6/json",
+      "released_on": "2026-09-10",
+      "artifact_sha256": "2bcbd6ee840071cd076c7dc9953d7ac1040df92f1c5fa76583aae644f037ab85",
+      "requires_python": ">=3.10"
+    },
+    {
+      "artifact": "lightning-utilities",
+      "version": "0.15.3",
+      "release_evidence": "https://pypi.org/pypi/lightning-utilities/0.15.3/json",
+      "released_on": "2026-02-22",
+      "artifact_sha256": "6c55f1bee70084a1cbeaa41ada96e4b3a0fea5909e844dd335bd80f5a73c5f91",
+      "requires_python": ">=3.10"
+    },
+    {
+      "artifact": "mako",
+      "version": "1.4.1",
+      "release_evidence": "https://pypi.org/pypi/mako/1.4.1/json",
+      "released_on": "2026-08-05",
+      "artifact_sha256": "a359d9a94a541213958742b2698d0a7757bb83551767bc468a74b9905aba9617",
+      "requires_python": ">=3.10"
+    },
+    {
+      "artifact": "markdown-it-py",
+      "version": "4.2.0",
+      "release_evidence": "https://pypi.org/pypi/markdown-it-py/4.2.0/json",
+      "released_on": "2026-05-07",
+      "artifact_sha256": "9f7ebbcd14fe59494226453aed97c1070d83f8d24b6fc3a3bcf9a38092641c4a",
+      "requires_python": ">=3.10"
+    },
+    {
+      "artifact": "matplotlib",
+      "version": "3.11.1",
+      "release_evidence": "https://pypi.org/pypi/matplotlib/3.11.1/json",
+      "released_on": "2026-07-18",
+      "artifact_sha256": "b0a19dcf73406d3746d25a5ed42d713604c9a3e024d129b102852b0d941cb9f3",
+      "requires_python": ">=3.11"
+    },
+    {
+      "artifact": "mdurl",
+      "version": "0.1.2",
+      "release_evidence": "https://pypi.org/pypi/mdurl/0.1.2/json",
+      "released_on": "2022-08-14",
+      "artifact_sha256": "84008a41e51615a49fc9966191ff91509e3c40b939176e643fd50a5c2196b8f8",
+      "requires_python": ">=3.7"
+    },
+    {
+      "artifact": "multidict",
+      "version": "6.7.1",
+      "release_evidence": "https://pypi.org/pypi/multidict/6.7.1/json",
+      "released_on": "2026-01-26",
+      "artifact_sha256": "9d624335fd4fa1c08a53f8b4be7676ebde19cd092b3895c421045ca87895b429",
+      "requires_python": ">=3.9"
+    },
+    {
+      "artifact": "narwhals",
+      "version": "2.24.0",
+      "release_evidence": "https://pypi.org/pypi/narwhals/2.24.0/json",
+      "released_on": "2026-07-13",
+      "artifact_sha256": "42fdedf44e5b2ca7505630d45b4ac3058f38d8485cba9fe1652ca23152df7489",
+      "requires_python": ">=3.10"
+    },
+    {
+      "artifact": "onnxruntime",
+      "version": "1.28.0",
+      "release_evidence": "https://pypi.org/pypi/onnxruntime/1.28.0/json",
+      "released_on": "2026-07-25",
+      "artifact_sha256": "54fa221d669282bd8f582708ce4c96010a7e9fb0661f9006b37fe2fedafb73fe",
+      "requires_python": ">=3.11"
+    },
+    {
+      "artifact": "opentelemetry-api",
+      "version": "1.44.0",
+      "release_evidence": "https://pypi.org/pypi/opentelemetry-api/1.44.0/json",
+      "released_on": "2026-07-16",
+      "artifact_sha256": "94b98c893a91b88657eaac1e3ba89618cdb85be6918196705354f34728b2cdef",
+      "requires_python": ">=3.10"
+    },
+    {
+      "artifact": "opentelemetry-exporter-otlp",
+      "version": "1.44.0",
+      "release_evidence": "https://pypi.org/pypi/opentelemetry-exporter-otlp/1.44.0/json",
+      "released_on": "2026-07-16",
+      "artifact_sha256": "4a498fa8d8fd8be9e8e2d175fe5524a3fe581ccffadd8509db86526a5fb97051",
+      "requires_python": ">=3.10"
+    },
+    {
+      "artifact": "opentelemetry-exporter-otlp-proto-common",
+      "version": "1.44.0",
+      "release_evidence": "https://pypi.org/pypi/opentelemetry-exporter-otlp-proto-common/1.44.0/json",
+      "released_on": "2026-07-16",
+      "artifact_sha256": "9a9fe61bba73d802904bc989f1d6b4a7b1ee40f06c40e98d6f85af65aaebb694",
+      "requires_python": ">=3.10"
+    },
+    {
+      "artifact": "opentelemetry-exporter-otlp-proto-grpc",
+      "version": "1.44.0",
+      "release_evidence": "https://pypi.org/pypi/opentelemetry-exporter-otlp-proto-grpc/1.44.0/json",
+      "released_on": "2026-07-16",
+      "artifact_sha256": "6a1a645ea182a2f59440c51fa8301d309f3324a8f9d65f8395584b064b67ee4e",
+      "requires_python": ">=3.10"
+    },
+    {
+      "artifact": "opentelemetry-exporter-otlp-proto-http",
+      "version": "1.44.0",
+      "release_evidence": "https://pypi.org/pypi/opentelemetry-exporter-otlp-proto-http/1.44.0/json",
+      "released_on": "2026-07-16",
+      "artifact_sha256": "838592fce774c1c8bb7b9a0a7facbfa82e17be5a8a4e94cef10cb84ae026bae3",
+      "requires_python": ">=3.10"
+    },
+    {
+      "artifact": "opentelemetry-proto",
+      "version": "1.44.0",
+      "release_evidence": "https://pypi.org/pypi/opentelemetry-proto/1.44.0/json",
+      "released_on": "2026-07-16",
+      "artifact_sha256": "898b155a0e1557afd867478fb6158e8122a46329ca0bb8dc53cc55e98f017f56",
+      "requires_python": ">=3.10"
+    },
+    {
+      "artifact": "opentelemetry-sdk",
+      "version": "1.44.0",
+      "release_evidence": "https://pypi.org/pypi/opentelemetry-sdk/1.44.0/json",
+      "released_on": "2026-07-16",
+      "artifact_sha256": "df081c4c6bcfdb1211e3e86140376792643128a25f8d72d1d27675936e7e96ad",
+      "requires_python": ">=3.10"
+    },
+    {
+      "artifact": "opentelemetry-semantic-conventions",
+      "version": "0.65b0",
+      "release_evidence": "https://pypi.org/pypi/opentelemetry-semantic-conventions/0.65b0/json",
+      "released_on": "2026-07-16",
+      "artifact_sha256": "1cacde7b0ad306f84c5ef08c3dbe1bbaf20165bba6f8bff43b670e555a086bcb",
+      "requires_python": ">=3.10"
+    },
+    {
+      "artifact": "optuna",
+      "version": "4.9.0",
+      "release_evidence": "https://pypi.org/pypi/optuna/4.9.0/json",
+      "released_on": "2026-06-01",
+      "artifact_sha256": "f52f3be6148654850c92a5860d398fd88ec6b2c84ab68d9c3d07dcff02e7afee",
+      "requires_python": ">=3.9"
+    },
+    {
+      "artifact": "pandas",
+      "version": "3.0.5",
+      "release_evidence": "https://pypi.org/pypi/pandas/3.0.5/json",
+      "released_on": "2026-07-22",
+      "artifact_sha256": "4b11c36e218331d0387cbe3a0a5f75162357a1d92d57b2b08a336ff94b19b2be",
+      "requires_python": ">=3.11"
+    },
+    {
+      "artifact": "pillow",
+      "version": "12.3.0",
+      "release_evidence": "https://pypi.org/pypi/pillow/12.3.0/json",
+      "released_on": "2026-07-01",
+      "artifact_sha256": "0847a763afefb695bc912d7c131e7e0632d4edc1d8698f58ddabec8e46b8b6d3",
+      "requires_python": ">=3.10"
+    },
+    {
+      "artifact": "primepy",
+      "version": "1.3",
+      "release_evidence": "https://pypi.org/pypi/primepy/1.3/json",
+      "released_on": "2018-05-29",
+      "artifact_sha256": "5ed443718765be9bf7e2ff4c56cdff71b42140a15b39d054f9d99f0009e2317a",
+      "requires_python": ""
+    },
+    {
+      "artifact": "propcache",
+      "version": "0.5.2",
+      "release_evidence": "https://pypi.org/pypi/propcache/0.5.2/json",
+      "released_on": "2026-05-08",
+      "artifact_sha256": "4db0ba63d693afd40d249bd93f842b5f144f8fcbb83de05660373bcf30517b1d",
+      "requires_python": ">=3.10"
+    },
+    {
+      "artifact": "protobuf",
+      "version": "7.35.1",
+      "release_evidence": "https://pypi.org/pypi/protobuf/7.35.1/json",
+      "released_on": "2026-06-11",
+      "artifact_sha256": "74758715c53d7158fb76caf4f0cfdacc5329a4b1bb994f865d6cf302d413a1c4",
+      "requires_python": ">=3.10"
+    },
+    {
+      "artifact": "pyannote-audio",
+      "version": "4.0.7",
+      "release_evidence": "https://pypi.org/pypi/pyannote-audio/4.0.7/json",
+      "released_on": "2026-06-30",
+      "artifact_sha256": "852ea15c4d85bc34773e618267603ffca6a521669a74d33742692cc67fc700d6",
+      "requires_python": ">=3.10"
+    },
+    {
+      "artifact": "pyannote-core",
+      "version": "6.0.1",
+      "release_evidence": "https://pypi.org/pypi/pyannote-core/6.0.1/json",
+      "released_on": "2025-09-16",
+      "artifact_sha256": "924550d6ecf6b05ad13bf3f66f59c29fc740cf1c62a6fca860ac2e66908203e5",
+      "requires_python": ">=3.10"
+    },
+    {
+      "artifact": "pyannote-database",
+      "version": "6.1.1",
+      "release_evidence": "https://pypi.org/pypi/pyannote-database/6.1.1/json",
+      "released_on": "2025-12-07",
+      "artifact_sha256": "36460c70ce9f50ff25c9ea365bc83ad625bb6b2494deccf6bd3fc750686ae684",
+      "requires_python": ">=3.10"
+    },
+    {
+      "artifact": "pyannote-metrics",
+      "version": "4.1",
+      "release_evidence": "https://pypi.org/pypi/pyannote-metrics/4.1/json",
+      "released_on": "2026-05-06",
+      "artifact_sha256": "34a54b7671f61709c1865d0484843e5b46ea3c4e4e5260ab065e5b3156c733d3",
+      "requires_python": ">=3.10"
+    },
+    {
+      "artifact": "pyannote-pipeline",
+      "version": "4.0.0",
+      "release_evidence": "https://pypi.org/pypi/pyannote-pipeline/4.0.0/json",
+      "released_on": "2025-09-09",
+      "artifact_sha256": "6b0bfc19e684d89cc1608bb39448e15ff1231d4a87e99fc7e812e7891b8cd555",
+      "requires_python": ">=3.10"
+    },
+    {
+      "artifact": "pyannoteai-sdk",
+      "version": "0.4.0",
+      "release_evidence": "https://pypi.org/pypi/pyannoteai-sdk/0.4.0/json",
+      "released_on": "2026-01-14",
+      "artifact_sha256": "36a0175978e0427f27843d690eb4d1e8ec839009ea540516d6dfcdce749cd883",
+      "requires_python": ">=3.10"
+    },
+    {
+      "artifact": "pygments",
+      "version": "2.20.0",
+      "release_evidence": "https://pypi.org/pypi/pygments/2.20.0/json",
+      "released_on": "2026-03-29",
+      "artifact_sha256": "81a9e26dd42fd28a23a2d169d86d7ac03b46e2f8b59ed4698fb4785f946d0176",
+      "requires_python": ">=3.9"
+    },
+    {
+      "artifact": "pyparsing",
+      "version": "3.3.2",
+      "release_evidence": "https://pypi.org/pypi/pyparsing/3.3.2/json",
+      "released_on": "2026-01-21",
+      "artifact_sha256": "850ba148bd908d7e2411587e247a1e4f0327839c40e2e5e6d05a007ecc69911d",
+      "requires_python": ">=3.9"
+    },
+    {
+      "artifact": "python-dateutil",
+      "version": "2.9.0.post0",
+      "release_evidence": "https://pypi.org/pypi/python-dateutil/2.9.0.post0/json",
+      "released_on": "2024-03-01",
+      "artifact_sha256": "a8b2bc7bffae282281c8140a97d3aa9c14da0b136dfe83f850eea9a5f7470427",
+      "requires_python": "!=3.0.*,!=3.1.*,!=3.2.*,>=2.7"
+    },
+    {
+      "artifact": "pytorch-lightning",
+      "version": "2.6.6",
+      "release_evidence": "https://pypi.org/pypi/pytorch-lightning/2.6.6/json",
+      "released_on": "2026-09-10",
+      "artifact_sha256": "71f95c7b22f25c4f91cc659e1734bcdc6c69c8b66543f2ed2d78dbe29ce2f167",
+      "requires_python": ">=3.10"
+    },
+    {
+      "artifact": "pytorch-metric-learning",
+      "version": "2.9.0",
+      "release_evidence": "https://pypi.org/pypi/pytorch-metric-learning/2.9.0/json",
+      "released_on": "2025-08-17",
+      "artifact_sha256": "d51646006dc87168f00cf954785db133a4c5aac81253877248737aa42ef6432a",
+      "requires_python": ">=3.0"
+    },
+    {
+      "artifact": "rich",
+      "version": "15.0.0",
+      "release_evidence": "https://pypi.org/pypi/rich/15.0.0/json",
+      "released_on": "2026-04-12",
+      "artifact_sha256": "33bd4ef74232fb73fe9279a257718407f169c09b78a87ad3d296f548e27de0bb",
+      "requires_python": ">=3.9.0"
+    },
+    {
+      "artifact": "safetensors",
+      "version": "0.8.0",
+      "release_evidence": "https://pypi.org/pypi/safetensors/0.8.0/json",
+      "released_on": "2026-06-09",
+      "artifact_sha256": "fd6f3f93c9a0a7cc2788ee63fb763353d4bd2e89b0751bc78fcf7dda00bea774",
+      "requires_python": ">=3.10"
+    },
+    {
+      "artifact": "scikit-learn",
+      "version": "1.9.0",
+      "release_evidence": "https://pypi.org/pypi/scikit-learn/1.9.0/json",
+      "released_on": "2026-06-02",
+      "artifact_sha256": "da76d09304a4706db7cc1e3ebaa3b6b98a67365cc11d2996c4f1e58ba47df714",
+      "requires_python": ">=3.11"
+    },
+    {
+      "artifact": "six",
+      "version": "1.17.0",
+      "release_evidence": "https://pypi.org/pypi/six/1.17.0/json",
+      "released_on": "2024-12-04",
+      "artifact_sha256": "4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274",
+      "requires_python": "!=3.0.*,!=3.1.*,!=3.2.*,>=2.7"
+    },
+    {
+      "artifact": "sortedcontainers",
+      "version": "2.4.0",
+      "release_evidence": "https://pypi.org/pypi/sortedcontainers/2.4.0/json",
+      "released_on": "2021-05-16",
+      "artifact_sha256": "a163dcaede0f1c021485e957a39245190e74249897e2ae4b2aa38595db237ee0",
+      "requires_python": ""
+    },
+    {
+      "artifact": "sqlalchemy",
+      "version": "2.0.52",
+      "release_evidence": "https://pypi.org/pypi/sqlalchemy/2.0.52/json",
+      "released_on": "2026-08-11",
+      "artifact_sha256": "651d6d8782e80679e6151707c7b490834d46ada526328895abf567f25e63d29c",
+      "requires_python": ">=3.7"
+    },
+    {
+      "artifact": "threadpoolctl",
+      "version": "3.6.0",
+      "release_evidence": "https://pypi.org/pypi/threadpoolctl/3.6.0/json",
+      "released_on": "2025-03-13",
+      "artifact_sha256": "43a0b8fd5a2928500110039e43a5eed8480b918967083ea48dc3ab9f13c4a7fb",
+      "requires_python": ">=3.9"
+    },
+    {
+      "artifact": "tokenizers",
+      "version": "0.23.1",
+      "release_evidence": "https://pypi.org/pypi/tokenizers/0.23.1/json",
+      "released_on": "2026-04-27",
+      "artifact_sha256": "5075b405006415ea148a992d093699c66eb01952bf59f4d5727089a98bda45a4",
+      "requires_python": ">=3.10"
+    },
+    {
+      "artifact": "torch-audiomentations",
+      "version": "0.12.0",
+      "release_evidence": "https://pypi.org/pypi/torch-audiomentations/0.12.0/json",
+      "released_on": "2025-01-15",
+      "artifact_sha256": "1b80b91d2016ccf83979622cac8f702072a79b7dcc4c2bee40f00b26433a786b",
+      "requires_python": ">=3.6"
+    },
+    {
+      "artifact": "torch-pitch-shift",
+      "version": "1.2.5",
+      "release_evidence": "https://pypi.org/pypi/torch-pitch-shift/1.2.5/json",
+      "released_on": "2024-09-25",
+      "artifact_sha256": "6f8500cbc13f1c98b11cde1805ce5084f82cdd195c285f34287541f168a7c6a7",
+      "requires_python": ">=3.4"
+    },
+    {
+      "artifact": "torchcodec",
+      "version": "0.7.0",
+      "release_evidence": "https://pypi.org/pypi/torchcodec/0.7.0/json",
+      "released_on": "2025-09-08",
+      "artifact_sha256": "9c70f910f9f48e6625aacaed534f766e13d447b895dc7299e96d4db9a93f1514",
+      "requires_python": ">=3.8"
+    },
+    {
+      "artifact": "torchmetrics",
+      "version": "1.9.0",
+      "release_evidence": "https://pypi.org/pypi/torchmetrics/1.9.0/json",
+      "released_on": "2026-03-09",
+      "artifact_sha256": "bfdcbff3dd1d96b3374bb2496eb39f23c4b28b8a845b6a18c313688e0d2d9ca1",
+      "requires_python": ">=3.10"
+    },
+    {
+      "artifact": "yarl",
+      "version": "1.24.5",
+      "release_evidence": "https://pypi.org/pypi/yarl/1.24.5/json",
+      "released_on": "2026-07-20",
+      "artifact_sha256": "d46b86567dd4e248c6c159fcbcdcce01e0a5c8a7cd2334a0fff759d0fa075b16",
+      "requires_python": ">=3.10"
     }
   ],
   "retained_existing_pins": [
