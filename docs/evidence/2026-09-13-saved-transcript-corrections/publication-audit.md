@@ -36,7 +36,7 @@
 
    M7 Yerel test günlükleri Git dışında kalır ve başka bir klonda bulunmaz; kamu raporundaki sonuç özetleri bunların yerini almaz. Bu inceleme kapsamında ham çıktılar yayımlanmadı.
 
-   M8 Tam kalite/güvenlik kapısı, canlı tarayıcı, commit ve GitHub push sonuçları bu incelemede çalıştırılmadı veya doğrulanmadı; ana teslimin ayrı kanıtı bekleniyor.
+   M8 Tam kalite/güvenlik kapısı, canlı tarayıcı, commit ve GitHub push bu ön incelemenin parçası değildir; sonraki [kalite](quality-report.md), [tarayıcı](browser-report.md) ve [yayın](publication-report.md) kayıtları ayrı kanıttır.
 
    **YAN-ETKİ**
 

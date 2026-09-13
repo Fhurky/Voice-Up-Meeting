@@ -155,4 +155,4 @@ rota/status/süre ve sınırlı hata kodlarıdır; model ve kullanıcı metni ha
 - [x] Onaylı sürüm saklama, tenant/yetki/kaynak/yarış/retention testli.
 - [x] TR/EN yeşil değişiklik ve kayıt/özgün görünüm akışı canlı gözlendi; dar görsel yakalama ve doğrudan headless yürütüm eksikleri [tarayıcı raporunda](../../../../docs/evidence/2026-09-13-saved-transcript-corrections/browser-report.md).
 - [x] Model deneyleri, migration ve kalite/güvenlik kanıtları [teslim raporunda](../../../../docs/evidence/2026-09-13-saved-transcript-corrections/README.md); 1.084 test başarılı, güvenlik aracı eksikliği açık.
-- [ ] Kullanıcının istediği commit ve push uzaktan doğrulandı.
+- [x] Kullanıcının istediği commit ve push uzaktan doğrulandı — [yayın kanıtı](../../../../docs/evidence/2026-09-13-saved-transcript-corrections/publication-report.md).

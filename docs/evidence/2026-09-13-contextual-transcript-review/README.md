@@ -31,7 +31,8 @@ kanıt sınırlarıdır. Ayrıntıları ilgili koşum raporları taşır.
 Üretilmiş OpenAPI/tipler, TR/EN rehberler ve kalıcı tarayıcı senaryosu güncel.
 Şema veya migration eklenmedi; ASR/ses kimlik modelleri değiştirilmedi.
 Özel transkript/model cevapları ve hesap bilgileri Git dışındaki `outputs/`
-alanında kaldı. Değişiklikler commit edilmedi veya yayımlanmadı.
+alanında kaldı. Bu 012 koşumu sırasında değişiklikler commit edilmedi veya
+yayımlanmadı; sonraki 013 teslimiyle birlikte [yayınlandı ve uzak commit doğrulandı](../2026-09-13-saved-transcript-corrections/publication-report.md).
 
 Kaynak: [Accepted PRD](../../../specs/speaker-identity/PRDs/012-contextual-transcript-review/PRD.md),
 [görevler](../../../specs/speaker-identity/PRDs/012-contextual-transcript-review/tasks.md).
