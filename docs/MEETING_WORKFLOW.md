@@ -9,10 +9,12 @@ yeni kişi bekledi, yeterli konuştuğunda yalnız bir yeni profil eklendi.
 ve [tarayıcı kanıtı](evidence/2026-09-10-meeting-delivery/meeting-memory-browser-report.md)
 kontrollü İngilizce kaynaklarla sınırlıdır; temsilî Türkçe toplantı doğruluğu
 ve native Spark/Apple toplantı çalışma zamanı ayrıca doğrulanmalıdır.
-Son kullanıcı seçimi "Kaydı yüklemek yeterli; tanıma ve hafızayı tamamla" oldu.
-Bu nedenle güncel teslim yüklenen dosyaya odaklanır; önceki mikrofon isteği ayrı
-[007 yeteneğinde](../specs/speaker-identity/PRDs/007-microphone-meeting-capture/PRD.md)
-Accepted ve henüz uygulanmamış olarak korunur. Teams kaydının otomatik alınması gerekmez.
+O teslimde kullanıcı yüklenen kaydı yeterli seçti. 11 Eylül sonraki talimatıyla
+uygulama içi mikrofon kaydı ayrı [007 yeteneğinde](../specs/speaker-identity/PRDs/007-microphone-meeting-capture/PRD.md)
+etkinleştirildi; kullanıcı kaydı durdurunca aynı analiz akışı kullanılır.
+[Mikrofon kullanım rehberi](tr/microphone-recording.md) adımları ve cihaz/disk
+sınırlarını açıklar. Geçmiş dosya testi yeni mikrofon cihaz kanıtı sayılmaz.
+Teams kaydının otomatik alınması gerekmez.
 
 Elli kişilik ek ölçümde ilk toplantı 37 doğrulanmış profil oluşturdu; iki farklı
 dönüş kaydında katı kaynak eşlemesiyle 35/37 kayıtlı kişi, bütün katılımcılar
@@ -32,8 +34,8 @@ değildir; aynı sorguların tekrarları ve önceki kaynak kullanımı raporda k
 
 ## Kullanıcının izleyeceği akış
 
-1. `Toplantılar` ekranında toplantıya ad ver ve WAV/FLAC ses dosyasını seç; sınır 4 saat ve 2 GiB'dır.
-2. İstersen katılımcı üst sınırını veya gerçekten konuşan kişi sayısını belirt; dosya aktarımı tamamlanınca analizi başlat.
+1. `Toplantılar` ekranında toplantıya ad ver; `Dosya yükle` ile WAV/FLAC seç veya `Mikrofonla kaydet` ile uygulamada kayıt al. Kaynak sınırı 4 saat ve 2 GiB'dır.
+2. İstersen katılımcı üst sınırını veya gerçekten konuşan kişi sayısını belirt. Dosyada `Yüklemeyi başlat`, mikrofonda `Kaydı başlat` ve sonunda `Durdur ve analiz et` eylemlerini kullan; analiz doğrulanmış aktarım tamamlandıktan sonra başlar.
 3. Sistem uzun kaydı sınırlı parçalarda işler; kişi etiketlerini parçalar arasında birleştirir.
 4. Sonuçta zaman, konuşmacı ve söylenen metin satırlarını gör.
 5. Tanınan kişi mevcut adıyla görünür. Yeni kişinin kısa sözleri toplantı etiketiyle

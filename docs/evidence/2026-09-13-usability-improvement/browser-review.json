@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "profile": "kt-vibecoding-python-web-v2",
+  "browser": "Brave / CUA",
+  "evidence_tier": "L2",
+  "ui_login": "real_local_admin_button",
+  "ordinary_role_proof": "live-preview-http.json",
+  "model_job": {
+    "status": "succeeded",
+    "duration_seconds": 300,
+    "expected_speakers": 2,
+    "observed_speakers": 2,
+    "auto_enroll": false,
+    "transcript_rows": 101,
+    "source_sha256": "1244b7d58a10e11268aac821717b9a8344391a5683f6110d41cd4936d07e0f84",
+    "profiles_before": 1,
+    "profiles_after": 1,
+    "profiles_unchanged": true
+  },
+  "variants": [
+    {
+      "locale": "tr",
+      "observed_css_width": 1901,
+      "scroll_width": 1901,
+      "decoded_seconds": 6.06,
+      "ready_state": 4,
+      "playback_started_via_keyboard": true,
+      "media_error": null
+    },
+    {
+      "locale": "tr",
+      "observed_css_width": 469,
+      "scroll_width": 469,
+      "decoded_seconds": 6.06,
+      "ready_state": 4,
+      "playback_started_via_keyboard": true,
+      "media_error": null
+    },
+    {
+      "locale": "en",
+      "observed_css_width": 469,
+      "scroll_width": 469,
+      "decoded_seconds": 6.06,
+      "ready_state": 4,
+      "playback_started_via_keyboard": true,
+      "media_error": null
+    },
+    {
+      "locale": "en",
+      "observed_css_width": 1901,
+      "scroll_width": 1901,
+      "decoded_seconds": 6.06,
+      "ready_state": 4,
+      "playback_started_via_keyboard": true,
+      "media_error": null
+    }
+  ],
+  "narrow_requested_viewport_width": 390,
+  "narrow_observed_css_width": 469,
+  "first_turn_range": {
+    "start_seconds": 0.0,
+    "end_seconds": 6.06
+  },
+  "verified": {
+    "close_focus_return": 3,
+    "only_one_player_on_new_speaker": true,
+    "next_page_clears_player": true,
+    "return_page_does_not_reopen_player": true,
+    "rename_explanation_visible": true,
+    "logout_clears_player": true,
+    "real_login_page_after_logout": true,
+    "viewport_override_reset": true,
+    "test_tab_closed": true,
+    "snapshots_unchanged": {
+      "meeting_snapshot": true,
+      "speaker_snapshot": true,
+      "transcript_snapshot": true,
+      "profiles_after_job": true
+    }
+  },
+  "initial_runtime_failure": {
+    "cause": "Vite served stale lazy catalogue after Windows file edits",
+    "observed_errors": 2,
+    "served_key_before_restart": false,
+    "served_key_after_restart": true,
+    "recovery": "scripts/stack.sh restart frontend and browser reload",
+    "new_console_errors_after_restart": 0
+  },
+  "unrun": [
+    "extension filechooser upload rejected: Not allowed",
+    "permanent headless scenario not executed; CUA equivalents observed",
+    "physical speaker output and L3 owner acceptance"
+  ],
+  "browser_fixture_upload": "real loopback API, 3 parts and source hash checked",
+  "model_accuracy_rescored": false
+}

@@ -1,0 +1,24 @@
+{
+  "profile": "kt-vibecoding-python-web-v2",
+  "source_files_unchanged_after_gate": {
+    "app/backend/app/api/meetings/router.py": true,
+    "app/backend/app/infrastructure/meeting_audio.py": true,
+    "app/backend/app/services/meeting_service.py": true,
+    "app/backend/app/services/meeting_chunks.py": true,
+    "app/backend/app/domain/meeting_timeline.py": true,
+    "app/frontend/src/components/MeetingAudioReview.tsx": true,
+    "app/frontend/src/components/MeetingResults.tsx": true,
+    "app/frontend/src/lib/apiClient.ts": true,
+    "app/frontend/src/services/meetings.ts": true,
+    "app/frontend/src/locales/tr.json": true,
+    "app/frontend/src/locales/en.json": true,
+    "specs/openapi/voiceup-api.yaml": true,
+    "app/frontend/src/types/api.d.ts": true,
+    "e2e/speaker-identity/09-meeting-audio-review.mjs": true
+  },
+  "document_count": 17,
+  "local_links_checked": 148,
+  "missing_links": [],
+  "results_ledger_sha256": "11bba77d094b28c657abd18b6ea1613a48755bd153dcc499997eebe46357d6d5",
+  "results_ledger_unchanged": true
+}

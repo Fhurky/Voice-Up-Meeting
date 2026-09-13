@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "date": "2026-09-13",
+  "real_http": true,
+  "observations": [
+    {
+      "experiment": "baseline",
+      "ordinary_role": true,
+      "meetings_succeeded": 6,
+      "expected_speakers": null,
+      "participant_count": null,
+      "gallery_total": 6
+    },
+    {
+      "experiment": "known-count-2",
+      "ordinary_role": true,
+      "meetings_succeeded": 6,
+      "expected_speakers": 2,
+      "participant_count": 2,
+      "gallery_total": 6
+    }
+  ]
+}

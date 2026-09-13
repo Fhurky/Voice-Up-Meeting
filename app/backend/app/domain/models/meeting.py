@@ -407,6 +407,12 @@ class MeetingTranscript(AuditSoftDeleteMixin, Base):
     __tablename__ = "meeting_transcript"
     __table_args__ = (
         UniqueConstraint(
+            "tenant_id",
+            "meeting_id",
+            "meeting_transcript_id",
+            name="uq_meeting_transcript_tenant_identity",
+        ),
+        UniqueConstraint(
             "tenant_id", "meeting_id", "ordinal", name="uq_meeting_transcript_ordinal"
         ),
         ForeignKeyConstraint(

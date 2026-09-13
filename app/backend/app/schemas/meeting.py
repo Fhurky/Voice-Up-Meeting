@@ -8,6 +8,7 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator, model_valida
 
 from app.domain.meeting import MAX_SOURCE_BYTES, UPLOAD_PART_BYTES
 from app.domain.speaker_identity import normalize_name
+from app.schemas.transcript_suggestions import SavedTranscriptCorrection
 
 MeetingStatus = Literal[
     "uploading", "queued", "running", "finalizing", "succeeded", "failed", "cancelled"
@@ -142,6 +143,7 @@ class MeetingTranscriptResponse(BaseModel):
     language: str
     overlap: bool
     uncertain: bool
+    correction: SavedTranscriptCorrection | None = None
 
 
 class MeetingTranscriptPage(BaseModel):

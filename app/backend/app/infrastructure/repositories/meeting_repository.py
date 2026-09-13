@@ -257,6 +257,55 @@ class MeetingRepository:
             )
         ).one_or_none()
 
+    async def transcript_for_review(
+        self, tenant_id: int, meeting_id: int, public_id: str
+    ) -> MeetingTranscript | None:
+        return (
+            await self.session.scalars(
+                select(MeetingTranscript).where(
+                    MeetingTranscript.tenant_id == tenant_id,
+                    MeetingTranscript.meeting_id == meeting_id,
+                    MeetingTranscript.public_id == public_id,
+                    MeetingTranscript.is_deleted.is_(False),
+                )
+            )
+        ).one_or_none()
+
+    async def transcript_neighbors(
+        self, tenant_id: int, meeting_id: int, ordinal: int, *, before: bool
+    ) -> list[MeetingTranscript]:
+        position = MeetingTranscript.ordinal
+        return list(
+            await self.session.scalars(
+                select(MeetingTranscript)
+                .where(
+                    MeetingTranscript.tenant_id == tenant_id,
+                    MeetingTranscript.meeting_id == meeting_id,
+                    MeetingTranscript.is_deleted.is_(False),
+                    position < ordinal if before else position > ordinal,
+                )
+                .order_by(position.desc() if before else position.asc())
+                .limit(3)
+            )
+        )
+
+    async def current_reviewer_allowed(
+        self, context: RequestContext, tenant_id: int, actor_id: int
+    ) -> bool:
+        user = await self.session.get(User, actor_id)
+        if user is None or user.is_deleted or not user.is_active:
+            return False
+        try:
+            authorization = await UserRepository(self.session).authorization_for(user)
+        except LookupError:
+            return False
+        if context.is_super_admin and SUPER_ADMIN_ROLE in authorization.roles:
+            return True
+        return user.home_tenant_id == tenant_id and {
+            "meeting_analysis:read",
+            "meeting_analysis:run",
+        }.issubset(authorization.permissions)
+
     async def fenced(self, meeting_id: int, token: int, now: datetime) -> Meeting | None:
         return (
             await self.session.scalars(

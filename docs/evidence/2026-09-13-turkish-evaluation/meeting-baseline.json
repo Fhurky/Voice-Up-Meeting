@@ -1,0 +1,245 @@
+{
+  "support": {
+    "known_probes": 6,
+    "unknown_probes": 6,
+    "known_speakers": 4,
+    "unique_speakers": 6,
+    "observed_probes": 12,
+    "planned_probes": 12
+  },
+  "identity": {
+    "true_positive": 3,
+    "false_positive": 0,
+    "false_negative": 3,
+    "precision": 1.0,
+    "recall": 0.5,
+    "micro_f1": 0.6666666666666666,
+    "macro_f1": 0.5
+  },
+  "unknown": {
+    "true_positive": 4,
+    "false_positive": 2,
+    "false_negative": 2,
+    "precision": 0.6666666666666666,
+    "recall": 0.6666666666666666,
+    "f1": 0.6666666666666666
+  },
+  "decision_coverage": 0.75,
+  "voiceup_score": 57.14285714285714,
+  "schema_version": 1,
+  "metrics_protocol": "voiceup-real-turnturk-v1",
+  "status": "complete",
+  "language": "tr",
+  "dataset_revision": "db8f20f6eb6b215ec75fb466374fc5cc861b91df",
+  "protocol_sha256": "483e4810b3cd4559f9f00ce232deb12974e483be280e012f6117324911e7414c",
+  "reference_quality": "automatic-activity-unverified-text-diagnostic",
+  "planned_meetings": 6,
+  "observed_meetings": 6,
+  "enrollment_coverage": 1.0,
+  "meetings": [
+    {
+      "case": "rec01",
+      "source_sha256": "a4a1798b16e27f372f3310b09174091b8c3eea0f145ac8f19aef518996d4685f",
+      "status": "succeeded",
+      "observed_tracks": 2,
+      "gallery_total": 2,
+      "transcript_metrics": {
+        "normalization": "turkish-words-v1",
+        "counts": {
+          "reference_speakers": 2,
+          "hypothesis_speakers": 2,
+          "reference_words": 350,
+          "hypothesis_words": 347,
+          "unassigned_words": 1
+        },
+        "cpwer": {
+          "errors": 79,
+          "substitutions": 34,
+          "deletions": 24,
+          "insertions": 21,
+          "rate": 0.2257142857142857
+        },
+        "assigned_only": {
+          "errors": 79,
+          "substitutions": 34,
+          "deletions": 24,
+          "insertions": 21,
+          "rate": 0.2257142857142857
+        },
+        "unassigned_word_fraction": 0.002881844380403458,
+        "note": "Corpus cpWER permits label permutation; assigned_only forbids unassigned-to-person matches. Neither is persistent identity accuracy, DER or word timestamp accuracy."
+      },
+      "mapping_passed": true
+    },
+    {
+      "case": "rec02",
+      "source_sha256": "c7f4bd9ac6a4e7078a3d0bc5dce15726e5242441f34e6e44cae696cf91deaa1e",
+      "status": "succeeded",
+      "observed_tracks": 2,
+      "gallery_total": 2,
+      "transcript_metrics": {
+        "normalization": "turkish-words-v1",
+        "counts": {
+          "reference_speakers": 2,
+          "hypothesis_speakers": 2,
+          "reference_words": 390,
+          "hypothesis_words": 361,
+          "unassigned_words": 4
+        },
+        "cpwer": {
+          "errors": 115,
+          "substitutions": 54,
+          "deletions": 45,
+          "insertions": 16,
+          "rate": 0.2948717948717949
+        },
+        "assigned_only": {
+          "errors": 115,
+          "substitutions": 54,
+          "deletions": 45,
+          "insertions": 16,
+          "rate": 0.2948717948717949
+        },
+        "unassigned_word_fraction": 0.0110803324099723,
+        "note": "Corpus cpWER permits label permutation; assigned_only forbids unassigned-to-person matches. Neither is persistent identity accuracy, DER or word timestamp accuracy."
+      },
+      "mapping_passed": true
+    },
+    {
+      "case": "rec03",
+      "source_sha256": "b10023895e5d6fc2aa505ec8b40b7c166810b7200f2638a732eb114d78c85090",
+      "status": "succeeded",
+      "observed_tracks": 3,
+      "gallery_total": 2,
+      "transcript_metrics": {
+        "normalization": "turkish-words-v1",
+        "counts": {
+          "reference_speakers": 2,
+          "hypothesis_speakers": 3,
+          "reference_words": 411,
+          "hypothesis_words": 386,
+          "unassigned_words": 1
+        },
+        "cpwer": {
+          "errors": 124,
+          "substitutions": 45,
+          "deletions": 52,
+          "insertions": 27,
+          "rate": 0.30170316301703165
+        },
+        "assigned_only": {
+          "errors": 124,
+          "substitutions": 45,
+          "deletions": 52,
+          "insertions": 27,
+          "rate": 0.30170316301703165
+        },
+        "unassigned_word_fraction": 0.0025906735751295338,
+        "note": "Corpus cpWER permits label permutation; assigned_only forbids unassigned-to-person matches. Neither is persistent identity accuracy, DER or word timestamp accuracy."
+      },
+      "mapping_passed": true
+    },
+    {
+      "case": "rec04",
+      "source_sha256": "3a4077788f1d1b10e935e3a0da0f2bb9cd905ceb35540882007658df9b62e009",
+      "status": "succeeded",
+      "observed_tracks": 3,
+      "gallery_total": 4,
+      "transcript_metrics": {
+        "normalization": "turkish-words-v1",
+        "counts": {
+          "reference_speakers": 2,
+          "hypothesis_speakers": 3,
+          "reference_words": 386,
+          "hypothesis_words": 302,
+          "unassigned_words": 1
+        },
+        "cpwer": {
+          "errors": 154,
+          "substitutions": 52,
+          "deletions": 93,
+          "insertions": 9,
+          "rate": 0.39896373056994816
+        },
+        "assigned_only": {
+          "errors": 154,
+          "substitutions": 52,
+          "deletions": 93,
+          "insertions": 9,
+          "rate": 0.39896373056994816
+        },
+        "unassigned_word_fraction": 0.0033112582781456954,
+        "note": "Corpus cpWER permits label permutation; assigned_only forbids unassigned-to-person matches. Neither is persistent identity accuracy, DER or word timestamp accuracy."
+      },
+      "mapping_passed": true
+    },
+    {
+      "case": "rec05",
+      "source_sha256": "63954ddf861ea5f663b567283e1a1854fe9f9eea43508aff67ed1c075d09646d",
+      "status": "succeeded",
+      "observed_tracks": 2,
+      "gallery_total": 5,
+      "transcript_metrics": {
+        "normalization": "turkish-words-v1",
+        "counts": {
+          "reference_speakers": 2,
+          "hypothesis_speakers": 2,
+          "reference_words": 431,
+          "hypothesis_words": 389,
+          "unassigned_words": 4
+        },
+        "cpwer": {
+          "errors": 109,
+          "substitutions": 43,
+          "deletions": 54,
+          "insertions": 12,
+          "rate": 0.2529002320185615
+        },
+        "assigned_only": {
+          "errors": 109,
+          "substitutions": 43,
+          "deletions": 54,
+          "insertions": 12,
+          "rate": 0.2529002320185615
+        },
+        "unassigned_word_fraction": 0.010282776349614395,
+        "note": "Corpus cpWER permits label permutation; assigned_only forbids unassigned-to-person matches. Neither is persistent identity accuracy, DER or word timestamp accuracy."
+      },
+      "mapping_passed": true
+    },
+    {
+      "case": "rec06",
+      "source_sha256": "ffc1d8d518227aff110bb2bfb8d3650d53429e42a05e0c63f0e3c57314a1549d",
+      "status": "succeeded",
+      "observed_tracks": 3,
+      "gallery_total": 6,
+      "transcript_metrics": {
+        "normalization": "turkish-words-v1",
+        "counts": {
+          "reference_speakers": 2,
+          "hypothesis_speakers": 3,
+          "reference_words": 373,
+          "hypothesis_words": 348,
+          "unassigned_words": 4
+        },
+        "cpwer": {
+          "errors": 153,
+          "substitutions": 38,
+          "deletions": 70,
+          "insertions": 45,
+          "rate": 0.4101876675603217
+        },
+        "assigned_only": {
+          "errors": 153,
+          "substitutions": 38,
+          "deletions": 70,
+          "insertions": 45,
+          "rate": 0.4101876675603217
+        },
+        "unassigned_word_fraction": 0.011494252873563218,
+        "note": "Corpus cpWER permits label permutation; assigned_only forbids unassigned-to-person matches. Neither is persistent identity accuracy, DER or word timestamp accuracy."
+      },
+      "mapping_passed": false
+    }
+  ]
+}

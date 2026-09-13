@@ -1,0 +1,32 @@
+{
+  "comparison": "frame-center occupancy without timestamp shift or threshold tuning",
+  "device": "cpu",
+  "diagnostic": "source-activity-alignment-v1",
+  "gold_reference": false,
+  "grid_seconds": 0.0625,
+  "limitations": [
+    "Source Silero model version and exact frame rasterization are not certified. Agreement diagnoses reference alignment and is not independent diarization or identity accuracy."
+  ],
+  "model": "silero-vad",
+  "model_sha256": "e1122837f4154c511485fe0b9c64455f7b929c96fbb8d79fbdb336383ebd3720",
+  "parameters": {
+    "min_silence_duration_ms": 300,
+    "min_speech_duration_ms": 120,
+    "sampling_rate": 16000,
+    "speech_pad_ms": 100,
+    "threshold": 0.5
+  },
+  "protocol_sha256": "483e4810b3cd4559f9f00ce232deb12974e483be280e012f6117324911e7414c",
+  "reference_quality": "automatic-silero",
+  "schema_version": 1,
+  "timeline_policy": "decoded-sample-clock-v1",
+  "channels": 12,
+  "frames": 34560,
+  "counts": {
+    "tp": 16116,
+    "tn": 17208,
+    "fp": 1141,
+    "fn": 95
+  },
+  "frame_agreement": 0.9642361111111111
+}

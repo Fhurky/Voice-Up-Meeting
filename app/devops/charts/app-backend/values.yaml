@@ -3,6 +3,8 @@ image:
   repository: registry.internal.invalid/app/backend
   digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
 existingSecret: app-runtime
+textReview:
+  enabled: false
 service:
   port: 8000
 ingress:

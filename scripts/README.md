@@ -16,6 +16,28 @@ fail-closed browser entry point; it defaults to the admitted offline bundle name
 fixed profile's typed settings, `.env.example`, local Compose environment and the chart's single
 pre-created `existingSecret` boundary remain synchronized.
 
+For model experiments, include `--experiment-metadata <public-metadata.json>` and
+`--results-md results.md` in the canonical identity evaluator or scorer and the
+transcript scorer. `record-experiment.py` records existing aggregate evidence or
+repeats the explicit historical backfill. The shared ledger preserves failed and
+incomplete runs, planned denominators, and idempotent resume without publishing
+private transcripts or identities. See [the experiment guide](../docs/EXPERIMENTS.md).
+
+For the expanded Turkish benchmark, `prepare-fleurs-turkish.py --download`
+prepares all 743 official Turkish test WAVs at a pinned source revision without
+transcoding. `evaluate-expanded-turkish-asr.py prepare-mediaspeech --root
+data/turkish/mediaspeech-expanded-v1` prepares all 2,433 remaining MediaSpeech
+clips while preserving and excluding the old 80 clips by identity and content.
+The `evaluate` action uses the existing offline Whisper bundle and records each
+experiment automatically. An explicit `--resume` validates the source, model,
+configuration and durable per-clip checkpoints before skipping completed work.
+Use `report-expanded-turkish-asr.py` for anonymous word-weighted error distributions
+and conditional clip-bootstrap intervals. The meeting preparer now supports
+`--preset window300` and `--preset window600` with separate output directories;
+these are new time regions from the same six people and source sessions.
+See [the Turkish execution guide](../docs/TURKISH_EVALUATION.md) and
+[accepted scope](../specs/speaker-identity/PRDs/010-expanded-turkish-benchmark/PRD.md).
+
 `check-dependency-admission.py` reconstructs the normalized direct dependency, OCI and workflow
 action inventory without network access and compares it with `dependency-admission.json`. A pin
 change therefore fails bootstrap, the local quality gate and CI until its maturity/security

@@ -75,6 +75,10 @@ services:
       VOICEUP_MEETING_RESULT_RETENTION_DAYS: "30"
       VOICEUP_MEETING_UPLOAD_RETENTION_HOURS: "24"
       VOICEUP_MEETING_CHUNK_TIMEOUT_SECONDS: "600"
+      VOICEUP_TEXT_REVIEW_ENABLED: "${TEXT_REVIEW_ENABLED:-false}"
+      VOICEUP_TEXT_REVIEW_URL: "${TEXT_REVIEW_URL:-http://nginx:9081}"
+      VOICEUP_TEXT_REVIEW_MODEL: "${TEXT_REVIEW_MODEL:-qwen3.5:27b}"
+      VOICEUP_TEXT_REVIEW_MODEL_DIGEST: "${TEXT_REVIEW_MODEL_DIGEST:-}"
     volumes:
       - ../backend:/workspace/app/backend
       - ../../schema:/workspace/schema

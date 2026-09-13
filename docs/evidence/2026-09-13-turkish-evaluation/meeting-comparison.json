@@ -1,0 +1,119 @@
+{
+  "schema_version": 1,
+  "protocol_sha256": "483e4810b3cd4559f9f00ce232deb12974e483be280e012f6117324911e7414c",
+  "normalization": "turkish-words-v1",
+  "reference_quality": "automatic-activity-unverified-text-diagnostic",
+  "model_or_threshold_changed": false,
+  "independent_new_dataset": false,
+  "unique_speakers": 6,
+  "unique_source_minutes": 18,
+  "summary": {
+    "baseline": {
+      "identity": {
+        "true_positive": 3,
+        "false_positive": 0,
+        "false_negative": 3,
+        "precision": 1.0,
+        "recall": 0.5,
+        "micro_f1": 0.6666666666666666,
+        "macro_f1": 0.5
+      },
+      "unknown": {
+        "true_positive": 4,
+        "false_positive": 2,
+        "false_negative": 2,
+        "precision": 0.6666666666666666,
+        "recall": 0.6666666666666666,
+        "f1": 0.6666666666666666
+      },
+      "voiceup_score": 57.14285714285714,
+      "first_enrollment_coverage": 0.6666666666666666,
+      "cumulative_enrollment_coverage": 1.0,
+      "reference_words": 2341,
+      "cpwer_errors": 734,
+      "diagnostic_cpwer": 0.31354122170012816
+    },
+    "known_count_2": {
+      "identity": {
+        "true_positive": 5,
+        "false_positive": 0,
+        "false_negative": 1,
+        "precision": 1.0,
+        "recall": 0.8333333333333334,
+        "micro_f1": 0.9090909090909091,
+        "macro_f1": 0.75
+      },
+      "unknown": {
+        "true_positive": 5,
+        "false_positive": 1,
+        "false_negative": 1,
+        "precision": 0.8333333333333334,
+        "recall": 0.8333333333333334,
+        "f1": 0.8333333333333334
+      },
+      "voiceup_score": 78.94736842105263,
+      "first_enrollment_coverage": 0.8333333333333334,
+      "cumulative_enrollment_coverage": 1.0,
+      "reference_words": 2341,
+      "cpwer_errors": 651,
+      "diagnostic_cpwer": 0.2780862879111491
+    }
+  },
+  "cases": [
+    {
+      "case": "rec01",
+      "same_source_sha256": true,
+      "same_normalized_transcript_words": true,
+      "baseline_tracks": 2,
+      "count2_tracks": 2,
+      "baseline_mapping_passed": true,
+      "count2_mapping_passed": true
+    },
+    {
+      "case": "rec02",
+      "same_source_sha256": true,
+      "same_normalized_transcript_words": true,
+      "baseline_tracks": 2,
+      "count2_tracks": 2,
+      "baseline_mapping_passed": true,
+      "count2_mapping_passed": true
+    },
+    {
+      "case": "rec03",
+      "same_source_sha256": true,
+      "same_normalized_transcript_words": true,
+      "baseline_tracks": 3,
+      "count2_tracks": 2,
+      "baseline_mapping_passed": true,
+      "count2_mapping_passed": true
+    },
+    {
+      "case": "rec04",
+      "same_source_sha256": true,
+      "same_normalized_transcript_words": true,
+      "baseline_tracks": 3,
+      "count2_tracks": 2,
+      "baseline_mapping_passed": true,
+      "count2_mapping_passed": true
+    },
+    {
+      "case": "rec05",
+      "same_source_sha256": true,
+      "same_normalized_transcript_words": true,
+      "baseline_tracks": 2,
+      "count2_tracks": 2,
+      "baseline_mapping_passed": true,
+      "count2_mapping_passed": true
+    },
+    {
+      "case": "rec06",
+      "same_source_sha256": true,
+      "same_normalized_transcript_words": true,
+      "baseline_tracks": 3,
+      "count2_tracks": 2,
+      "baseline_mapping_passed": false,
+      "count2_mapping_passed": true
+    }
+  ],
+  "selection": "Use the existing known speaking-count input when the exact count is known; no hard-coded global speaker count and no enrollment threshold relaxation."
+}

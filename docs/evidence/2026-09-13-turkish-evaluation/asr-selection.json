@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "decision_date": "2026-09-13",
+  "dataset": "MediaSpeech-TR",
+  "manifest_sha256": "b7776df4f4744fa364ac358a541b3db056ff8d1d1f9863c00481c713e3ee172e",
+  "evaluation_source_sha256": "9e97320bb42f2adc3b680ea802c171c9a45c0bea7ca5d13393aaf50dbfba8a89",
+  "selection_role": "calibration",
+  "calibration_clips": 40,
+  "reference_words": 1140,
+  "fixed_turkish_errors": 182,
+  "automatic_language_errors": 182,
+  "selected_language": "tr",
+  "reason": "The automatic-language candidate provides no development WER gain. Preserve the existing explicit Turkish setting.",
+  "heldout_used_for_selection": false,
+  "model_or_threshold_changed": false,
+  "limitations": [
+    "Direct ASR segment text is measured; downstream application word-timestamp filtering is a separate boundary.",
+    "Clip-disjoint partitions do not establish speaker or session independence.",
+    "Neither calibration result is a new blind test or a persistent-identity score."
+  ]
+}

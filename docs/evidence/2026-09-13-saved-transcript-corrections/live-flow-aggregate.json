@@ -1,0 +1,22 @@
+{
+  "status": "unscored",
+  "source_sha256": "8c6f82f8215f771d8c324656b2ffb9fa3fb50b92b24852b816fcf89ac7b59d30",
+  "observations": {"transcript_segments": 6},
+  "live_flow": {
+    "installed_models": 3,
+    "http_requests": 16,
+    "http_model_calls": 1,
+    "browser_model_calls": 2,
+    "browser_functional_variants": 4,
+    "saved_revisions": 2,
+    "synthetic_meetings": 2,
+    "source_unchanged": true,
+    "idempotent_http_save": true,
+    "foreign_tenant_hidden": true,
+    "saved_revision_survives_reload": true,
+    "unmapped_model_proposal_visible": true,
+    "narrow_dom_horizontal_overflow": false,
+    "narrow_visual_capture_completed": false,
+    "headless_scenarios_executed": 0
+  }
+}

@@ -6,8 +6,10 @@ import math
 import os
 import re
 import shutil
+import stat
 from dataclasses import dataclass
 from pathlib import Path
+from typing import BinaryIO
 
 import soundfile as sf  # type: ignore[import-untyped]
 
@@ -19,6 +21,9 @@ from app.domain.meeting import (
 )
 from app.domain.meeting_samples import SourceFrameManifest, select_source_ranges
 from app.services.speaker_ports import SpeakerError
+
+PREVIEW_MAX_SECONDS = 30
+PREVIEW_MAX_BYTES = 11520128
 
 
 @dataclass(frozen=True, slots=True)
@@ -38,6 +43,7 @@ class MeetingAudioSample:
 
 class MeetingAudioStorage:
     def __init__(self, root: Path) -> None:
+        self._preview_root = Path(os.path.abspath(root))
         self.root = root.resolve()
 
     def path(self, key: str) -> Path:
@@ -88,6 +94,8 @@ class MeetingAudioStorage:
                 )
                 if not valid:
                     raise SpeakerError("unsupported_audio", 415)
+                if prefix[:4] == b"RIFF":
+                    self._validate_riff_chunks(stream, prefix, expected_bytes)
                 stream.seek(0)
                 while block := stream.read(1024 * 1024):
                     digest.update(block)
@@ -117,6 +125,24 @@ class MeetingAudioStorage:
         except (OSError, RuntimeError, ValueError) as exc:
             raise SpeakerError("invalid_audio", 400) from exc
 
+    @staticmethod
+    def _validate_riff_chunks(stream: BinaryIO, prefix: bytes, expected_bytes: int) -> None:
+        # libsndfile tolerates truncated chunks and trailing bytes. A completed source
+        # must account for every byte before that permissive decoder can accept it.
+        if int.from_bytes(prefix[4:8], "little") + 8 != expected_bytes:
+            raise SpeakerError("invalid_audio", 400)
+        offset = 12
+        while offset < expected_bytes:
+            stream.seek(offset)
+            header = stream.read(8)
+            if len(header) != 8:
+                raise SpeakerError("invalid_audio", 400)
+            size = int.from_bytes(header[4:8], "little")
+            # RIFF allows unknown chunks and requires a pad byte for odd lengths.
+            offset += 8 + size + size % 2
+            if offset > expected_bytes:
+                raise SpeakerError("invalid_audio", 400)
+
     def window(self, key: str, start: float, end: float) -> bytes:
         if (
             not all(math.isfinite(value) for value in (start, end))
@@ -139,6 +165,105 @@ class MeetingAudioStorage:
                 )
         except (OSError, RuntimeError, ValueError) as exc:
             raise SpeakerError("recording_unavailable", 410) from exc
+
+    def preview(
+        self,
+        key: str,
+        start: float,
+        end: float,
+        *,
+        expected_bytes: int,
+        expected_format: str,
+        sample_rate: int,
+        channels: int,
+        duration_seconds: float,
+    ) -> bytes:
+        if (
+            not all(math.isfinite(value) for value in (start, end))
+            or start < 0
+            or not 0 < end - start <= PREVIEW_MAX_SECONDS
+            or end > duration_seconds
+        ):
+            raise SpeakerError("invalid_audio_range", 422)
+        if (
+            expected_format not in {"WAV", "FLAC"}
+            or not 8000 <= sample_rate <= 192000
+            or not 1 <= channels <= 8
+            or not math.isfinite(duration_seconds)
+            or not 0 < duration_seconds <= MAX_SOURCE_SECONDS
+            or not 0 < expected_bytes <= MAX_SOURCE_BYTES
+        ):
+            raise SpeakerError("recording_unavailable", 410)
+        first, last = round(start * sample_rate), round(end * sample_rate)
+        if first >= last:
+            raise SpeakerError("invalid_audio_range", 422)
+        try:
+            path = self._preview_path(key)
+            before = path.stat(follow_symlinks=False)
+            if not stat.S_ISREG(before.st_mode) or before.st_nlink != 1:
+                raise SpeakerError("recording_unavailable", 410)
+            flags = os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0) | getattr(os, "O_NONBLOCK", 0)
+            with os.fdopen(os.open(path, flags), "rb") as stream:
+                opened = os.fstat(stream.fileno())
+                if opened.st_size != expected_bytes or self._preview_identity(
+                    opened
+                ) != self._preview_identity(before):
+                    raise SpeakerError("recording_unavailable", 410)
+                prefix = stream.read(12)
+                if expected_format == "WAV":
+                    if prefix[:4] not in {b"RIFF", b"RF64"} or prefix[8:12] != b"WAVE":
+                        raise SpeakerError("recording_unavailable", 410)
+                    if prefix[:4] == b"RIFF":
+                        self._validate_riff_chunks(stream, prefix, expected_bytes)
+                elif not prefix.startswith(b"fLaC"):
+                    raise SpeakerError("recording_unavailable", 410)
+                stream.seek(0)
+                with sf.SoundFile(stream) as source:
+                    formats = {"FLAC"} if expected_format == "FLAC" else {"WAV", "WAVEX", "RF64"}
+                    if (
+                        source.format not in formats
+                        or source.samplerate != sample_rate
+                        or source.channels != channels
+                        or source.frames != round(duration_seconds * sample_rate)
+                        or last > source.frames
+                    ):
+                        raise SpeakerError("recording_unavailable", 410)
+                    output = self._extract(source, [(first, last)], allow_clipped=True)
+                # Observe the same opened file and opaque path after reading, including
+                # deletion/replacement and in-place changes during extraction. This is
+                # a metadata fence, not a fresh hash of the entire sealed recording.
+                after = self._preview_path(key).stat(follow_symlinks=False)
+                if (
+                    self._preview_identity(opened)
+                    != self._preview_identity(os.fstat(stream.fileno()))
+                    or self._preview_identity(opened) != self._preview_identity(after)
+                    or len(output) > PREVIEW_MAX_BYTES
+                ):
+                    raise SpeakerError("recording_unavailable", 410)
+                return output
+        except SpeakerError as exc:
+            if exc.code == "recording_unavailable":
+                raise
+            raise SpeakerError("recording_unavailable", 410) from exc
+        except (OSError, RuntimeError, ValueError) as exc:
+            raise SpeakerError("recording_unavailable", 410) from exc
+
+    def _preview_path(self, key: str) -> Path:
+        if self._preview_root.resolve() != self._preview_root:
+            raise SpeakerError("recording_unavailable", 410)
+        return self.path(key)
+
+    @staticmethod
+    def _preview_identity(value: os.stat_result) -> tuple[int, ...]:
+        return (
+            value.st_dev,
+            value.st_ino,
+            value.st_mode,
+            value.st_nlink,
+            value.st_size,
+            value.st_mtime_ns,
+            value.st_ctime_ns,
+        )
 
     def sample(self, key: str, ranges: list[tuple[int, int]], sample_rate: int) -> bytes:
         return self.sample_with_manifest(key, ranges, sample_rate).data
@@ -164,7 +289,9 @@ class MeetingAudioStorage:
             raise SpeakerError("recording_unavailable", 410) from exc
 
     @staticmethod
-    def _extract(source: sf.SoundFile, ranges: list[tuple[int, int]]) -> bytes:
+    def _extract(
+        source: sf.SoundFile, ranges: list[tuple[int, int]], *, allow_clipped: bool = False
+    ) -> bytes:
         output = io.BytesIO()
         clipped, samples = 0, 0
         with sf.SoundFile(
@@ -189,7 +316,7 @@ class MeetingAudioStorage:
                     samples += block.size
                     destination.write(block.mean(axis=1))
                     remaining -= len(block)
-        if samples and clipped / samples > 0.05:
+        if not allow_clipped and samples and clipped / samples > 0.05:
             raise SpeakerError("clipped_audio", 422)
         return output.getvalue()
 

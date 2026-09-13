@@ -1,6 +1,7 @@
 import { lazy, Suspense, type ReactNode } from "react";
 import { PermissionRoute } from "@/components/auth/PermissionRoute";
 import { useIntl } from "@/contexts/IntlContext";
+import { Icon } from "@/components/ui/Icon";
 
 const ProfilesPage = lazy(() => import("@/pages/SpeakerProfilesPage"));
 const AnalysisPage = lazy(() => import("@/pages/SpeakerAnalysisPage"));
@@ -10,7 +11,7 @@ const MeetingPage = lazy(() => import("@/pages/MeetingPage"));
 
 function DeferredPage({ permission, children }: { permission: string; children: ReactNode }) {
   const { t } = useIntl();
-  return <PermissionRoute permission={permission}><Suspense fallback={<main className="center" role="status">{t("common.loading")}</main>}>{children}</Suspense></PermissionRoute>;
+  return <PermissionRoute permission={permission}><Suspense fallback={<main className="center route-loading" role="status"><span className="section-icon"><Icon name="audio" size={24} /></span>{t("common.loading")}</main>}>{children}</Suspense></PermissionRoute>;
 }
 
 export function SpeakerProfilesRoute() { return <DeferredPage permission="speaker_profiles:read"><ProfilesPage /></DeferredPage>; }

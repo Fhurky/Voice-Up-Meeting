@@ -29,6 +29,15 @@ def _benchmark_module():
     return module
 
 
+def _experiment_module(filename):
+    spec = importlib.util.spec_from_file_location(
+        filename, Path(__file__).with_name(filename + ".py")
+    )
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
 benchmark = _benchmark_module()
 MODEL_ID = "speechbrain/spkrec-ecapa-voxceleb"
 MODEL_REVISION = "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286"
@@ -865,9 +874,34 @@ def main(argv: list[str] | None = None) -> int:
         default=4,
         help="Bounded queued identify jobs; inference remains serialized",
     )
+    parser.add_argument("--experiment-metadata", type=Path)
+    parser.add_argument("--results-md", type=Path)
     args = parser.parse_args(argv)
+    if args.results_md and not args.experiment_metadata:
+        parser.error("--results-md requires --experiment-metadata")
     runner = None
+    ledger_module = metadata = None
+    exit_code = 0
     try:
+        if args.experiment_metadata:
+            ledger_module = _experiment_module("experiment_ledger")
+            metadata = ledger_module.read_document(args.experiment_metadata)
+            ledger_module.public_label(metadata["experiment_id"])
+            ledger_module.validate_metadata(
+                {key: item for key, item in metadata.items() if key != "experiment_id"}
+            )
+            ledger_path = args.results_md or ledger_module.DEFAULT_LEDGER
+            if ledger_path.resolve() in {
+                path.resolve()
+                for path in (
+                    args.output,
+                    args.state,
+                    args.manifest,
+                    args.credentials,
+                    args.experiment_metadata,
+                )
+            }:
+                raise EvaluationError("ledger_source_path_conflict")
         sizes = [int(value) for value in args.gallery_sizes.split(",")]
         if (
             not 0 < args.job_timeout <= 900
@@ -901,6 +935,8 @@ def main(argv: list[str] | None = None) -> int:
         }
         if args.require_preprocessing_provenance:
             binding["required_preprocessing_versions"] = list(PREPROCESSING_VERSIONS)
+        if metadata is not None:
+            binding["experiment_metadata_sha256"] = ledger_module.digest(metadata)
         protected = {
             args.manifest,
             args.credentials,
@@ -969,7 +1005,27 @@ def main(argv: list[str] | None = None) -> int:
             else "invalid_local_input_or_response"
         )
         print("Evaluation incomplete: " + code, file=sys.stderr)
-        return 1
+        exit_code = 1
+    if ledger_module is not None and metadata is not None:
+        try:
+            report = {"status": "incomplete"}
+            if runner is not None:
+                metrics = _experiment_module("speaker_metrics")
+                report = metrics.summarize_metrics(runner.report(), runner.manifest)
+            ledger_module.record_from_metadata_file(
+                args.results_md or ledger_module.DEFAULT_LEDGER,
+                args.experiment_metadata,
+                report=report,
+                kind="identity",
+            )
+        except (OSError, ValueError, KeyError, TypeError, OverflowError, RecursionError):
+            print(
+                "Experiment was not recorded; check public metadata and ledger path.",
+                file=sys.stderr,
+            )
+            exit_code = 1
+    if exit_code:
+        return exit_code
     print(
         "Evaluation complete. Inspect planned denominators, quality errors, and external-data limitations."
     )

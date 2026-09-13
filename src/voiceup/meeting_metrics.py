@@ -9,24 +9,33 @@ from __future__ import annotations
 import unicodedata
 
 NORMALIZATION = "unicode-words-v1"
+TURKISH_NORMALIZATION = "turkish-words-v1"
+NORMALIZATIONS = (NORMALIZATION, TURKISH_NORMALIZATION)
 MAX_STREAMS = 200
 MAX_TEXT_CHARACTERS = 2_000_000
 MAX_WORDS = 50_000
 MAX_EDIT_CELLS = 50_000_000
 
 
-def _normalize_text(text: str) -> str:
+def _normalize_text(text: str, normalization: str = NORMALIZATION) -> str:
+    if normalization not in NORMALIZATIONS:
+        raise ValueError("unsupported_text_normalization")
     if not isinstance(text, str) or len(text) > MAX_TEXT_CHARACTERS:
         raise ValueError("invalid_transcript_text")
-    text = unicodedata.normalize("NFKC", text).casefold().translate({0x2018: "'", 0x2019: "'"})
+    text = unicodedata.normalize("NFKC", text)
+    if normalization == TURKISH_NORMALIZATION:
+        # NFKC first makes a decomposed capital I + dot equivalent to capital dotted I.
+        # Map both Turkish I forms before language-neutral casefold can lose the distinction.
+        text = text.translate({ord("I"): "ı", ord("İ"): "i"})
+    text = text.casefold().translate({0x2018: "'", 0x2019: "'"})
     if len(text) > MAX_TEXT_CHARACTERS:
         raise ValueError("transcript_text_limit")
     return text
 
 
-def tokenize(text: str) -> list[str]:
-    """NFKC/casefold; retain letters, numbers, marks and interior apostrophes."""
-    return _tokenize_normalized(_normalize_text(text))
+def tokenize(text: str, *, normalization: str = NORMALIZATION) -> list[str]:
+    """Versioned NFKC/casefold; retain letters, numbers, marks and interior apostrophes."""
+    return _tokenize_normalized(_normalize_text(text, normalization))
 
 
 def _tokenize_normalized(text: str) -> list[str]:
@@ -44,7 +53,9 @@ def _tokenize_normalized(text: str) -> list[str]:
     return "".join(normalized).split()
 
 
-def _streams(value: dict, *, reference: bool) -> list[tuple[str | None, list[str]]]:
+def _streams(
+    value: dict, *, reference: bool, normalization: str
+) -> list[tuple[str | None, list[str]]]:
     if not isinstance(value, dict) or len(value) > MAX_STREAMS:
         raise ValueError("invalid_transcript_streams")
     total_characters = 0
@@ -61,7 +72,7 @@ def _streams(value: dict, *, reference: bool) -> list[tuple[str | None, list[str
     normalized = []
     normalized_characters = 0
     for key in sorted(value, key=lambda key: (key is None, key)):
-        text = _normalize_text(value[key])
+        text = _normalize_text(value[key], normalization)
         normalized_characters += len(text)
         if normalized_characters > MAX_TEXT_CHARACTERS:
             raise ValueError("transcript_text_limit")
@@ -145,15 +156,22 @@ def _assignment(cost: list[list[int]]) -> list[int]:
     return result
 
 
-def score_transcript(reference: dict[str, str], hypothesis: dict[str | None, str]) -> dict:
+def score_transcript(
+    reference: dict[str, str],
+    hypothesis: dict[str | None, str],
+    *,
+    normalization: str = NORMALIZATION,
+) -> dict:
     """Score all streams after caller-provided chronological per-speaker concatenation.
 
     None is permitted only as the unassigned hypothesis speaker. Empty/missing streams
     have ordinary insertion/deletion costs. Undefined reference denominators return
     None. Input limits fail explicitly instead of truncating the evaluation population.
     """
-    refs = _streams(reference, reference=True)
-    hyps = _streams(hypothesis, reference=False)
+    if normalization not in NORMALIZATIONS:
+        raise ValueError("unsupported_text_normalization")
+    refs = _streams(reference, reference=True, normalization=normalization)
+    hyps = _streams(hypothesis, reference=False, normalization=normalization)
     reference_words = sum(len(words) for _, words in refs)
     hypothesis_words = sum(len(words) for _, words in hyps)
     if max(reference_words, hypothesis_words) > MAX_WORDS:
@@ -215,7 +233,7 @@ def score_transcript(reference: dict[str, str], hypothesis: dict[str | None, str
         }
 
     return {
-        "normalization": NORMALIZATION,
+        "normalization": normalization,
         "counts": {
             "reference_speakers": len(refs),
             "hypothesis_speakers": len(hyps) - int(has_unassigned),

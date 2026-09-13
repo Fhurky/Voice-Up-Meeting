@@ -9,6 +9,7 @@ import { ApiError } from "@/lib/apiClient";
 import { meetingErrorKey, recordingTime } from "@/lib/meetingErrors";
 import { MeetingService, type Meeting } from "@/services/meetings";
 import { MeetingUploadContext } from "@/contexts/meetingUploadSelection";
+import { Icon } from "@/components/ui/Icon";
 
 function MeetingDetail({ publicId }: { publicId: string }) {
   const { t, locale } = useIntl();
@@ -68,20 +69,25 @@ function MeetingDetail({ publicId }: { publicId: string }) {
   const run = hasPermission("meeting_analysis:run");
   const number = new Intl.NumberFormat(locale);
   return <SpeakerLayout titleKey="meeting.detailTitle">
-    <p><Link className="text-link" to="/meetings">{t("meeting.back")}</Link></p>
-    <div className="section-heading"><h2 className="meeting-name">{meeting?.title}</h2><button className="button-secondary" onClick={() => setReload((value) => value + 1)}>{t("common.refresh")}</button></div>
+    <p><Link className="text-link back-link" to="/meetings"><Icon name="arrow-left" size={16} />{t("meeting.back")}</Link></p>
+    <div className="section-heading meeting-detail-heading">
+      <div><h2 className="meeting-name">{meeting?.title}</h2>
+        {meeting && <time className="muted" dateTime={meeting.created_at}>{new Intl.DateTimeFormat(locale, { dateStyle: "long", timeStyle: "short" }).format(new Date(meeting.created_at))}</time>}</div>
+      <button className="button-secondary" onClick={() => setReload((value) => value + 1)}><Icon name="refresh" size={16} />{t("common.refresh")}</button>
+    </div>
     {error && <p className="error-message" role="alert">{t(error)}</p>}
     {paused && <p className="notice">{t("meeting.pollPaused")}</p>}
     {!meeting && !error && <p role="status">{t("common.loading")}</p>}
     {meeting && <>
-      <section className="panel job-status" aria-label={t("meeting.detailTitle")}>
-        <p role="status"><span className={`status-badge status-${meeting.status}`} data-meeting-status={meeting.status}>{t(`meeting.status.${meeting.status}`)}</span></p>
+      <section className="panel job-status meeting-status-panel" aria-label={t("meeting.detailTitle")}>
+        <div className="meeting-status-top"><p role="status"><span className={`status-badge status-${meeting.status}`} data-meeting-status={meeting.status}>{t(`meeting.status.${meeting.status}`)}</span></p>
+          <span className="muted meeting-format"><Icon name="file" size={16} />{meeting.format}</span></div>
         {(["queued", "running", "finalizing"] as string[]).includes(meeting.status) && <p>{t(`meeting.statusHint.${meeting.status}`)}</p>}
         {meeting.error_code && <p className="error-message" role="alert">{t(meetingErrorKey(new ApiError(503, "Meeting analysis failed", meeting.error_code)))}</p>}
-        <dl className="compact-details">
-          <div><dt>{t("meeting.duration")}</dt><dd>{meeting.duration_seconds == null ? t("meeting.unset") : recordingTime(meeting.duration_seconds)}</dd></div>
-          <div><dt>{t("meeting.processed")}</dt><dd>{recordingTime(meeting.processed_seconds)}</dd></div>
-          <div><dt>{t("meeting.observed")}</dt><dd>{number.format(meeting.observed_speakers)}</dd></div>
+        <dl className="meeting-facts">
+          <div><dt><Icon name="clock" size={16} />{t("meeting.duration")}</dt><dd>{meeting.duration_seconds == null ? t("meeting.unset") : recordingTime(meeting.duration_seconds)}</dd></div>
+          <div><dt><Icon name="audio" size={16} />{t("meeting.processed")}</dt><dd>{recordingTime(meeting.processed_seconds)}</dd></div>
+          <div><dt><Icon name="users" size={16} />{t("meeting.observed")}</dt><dd>{number.format(meeting.observed_speakers)}</dd></div>
         </dl>
         <p className="field-hint">{t("meeting.countSummary", { participants: meeting.participant_count == null ? t("meeting.unset") : number.format(meeting.participant_count), speakers: meeting.expected_speakers == null ? t("meeting.unset") : number.format(meeting.expected_speakers) })}</p>
         {meeting.count_mismatch && <p className="notice" role="alert">{t("meeting.countMismatch")}</p>}
@@ -100,7 +106,7 @@ function MeetingDetail({ publicId }: { publicId: string }) {
       </section>
       {meeting.status === "uploading" && run && <MeetingSourceUpload meeting={meeting} initialFile={initialFile} onComplete={(updated) => { setInitialFile(null); clearSelection?.(null); setMeeting(updated); setReload((value) => value + 1); }} />}
       {meeting.status !== "uploading" && <MeetingResults key={meeting.public_id} meeting={meeting} revision={revision} />}
-      <p className="field-hint">{t("meeting.retention")}</p>
+      <p className="retention-note"><Icon name="shield" size={16} />{t("meeting.retention")}</p>
     </>}
   </SpeakerLayout>;
 }

@@ -1,0 +1,24 @@
+{
+  "checks": {
+    "discourse_word_with_non_ascii_letters_recognized": true,
+    "fleurs_discourse_lexicon_exact_unicode": true,
+    "fleurs_numeric_lexicon_exact_unicode": true,
+    "fleurs_utf8_json_roundtrip": true,
+    "legacy_literal_corruption_reproduced": true,
+    "legacy_model_error_totals_preserved": true,
+    "mediaspeech_discourse_lexicon_exact_unicode": true,
+    "mediaspeech_numeric_lexicon_exact_unicode": true,
+    "mediaspeech_utf8_json_roundtrip": true,
+    "number_word_with_non_ascii_letters_recognized": true
+  },
+  "checks_failed": 0,
+  "checks_passed": 10,
+  "input_source_transport": "ASCII-only Python source with explicit Unicode escapes; JSON files decoded as UTF-8.",
+  "inputs_sha256": {
+    "fleurs-error-analysis-v2.json": "c794247b2815696eb1661b4896b12434a20efc4e7b19d02f9e829042be3f1e1f",
+    "mediaspeech-error-analysis-v2.json": "eb7d1a0131fef0ebd25d84c4d413155be2734b26cd6cada0f81fbbfb344ef524"
+  },
+  "schema_version": 1,
+  "scope": "diagnostic-literal-transport-only-no-model-or-metric-change",
+  "status": "complete"
+}

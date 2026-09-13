@@ -374,17 +374,20 @@ class MeetingEvaluation:
             ):
                 raise EvaluationError("resume_gallery_identity_or_name_changed")
 
-    def upload(self, key: str, case: dict[str, Any]) -> tuple[str, dict]:
-        path = self.args.protocol.parent / case["path"]
-        size = path.stat().st_size
-        checkpoint = self.state["cases"].setdefault(key, {})
-        body = {
+    def creation_body(self, key: str, size: int) -> dict[str, Any]:
+        return {
             "title": f"Evaluation {key}",
             "format": "WAV",
             "size_bytes": size,
             "language": "en",
             "auto_enroll": True,
         }
+
+    def upload(self, key: str, case: dict[str, Any]) -> tuple[str, dict]:
+        path = self.args.protocol.parent / case["path"]
+        size = path.stat().st_size
+        checkpoint = self.state["cases"].setdefault(key, {})
+        body = self.creation_body(key, size)
         if "meeting_public_id" not in checkpoint:
             meeting = self.request(
                 "POST",

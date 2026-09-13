@@ -31,8 +31,12 @@ class TranscriptLine:
     uncertain: bool
 
 
-def _token(word: SpeechWord) -> str:
-    value = word.text.strip().casefold()
+def _token(word: SpeechWord, language: str | None) -> str:
+    value = word.text.strip()
+    if language == "tr":
+        # Compose decomposed dotted I before applying Turkish casing to the match key only.
+        value = unicodedata.normalize("NFC", value).replace("I", "ı").replace("İ", "i")
+    value = value.casefold()
     while value and unicodedata.category(value[0]).startswith("P"):
         value = value[1:]
     while value and unicodedata.category(value[-1]).startswith("P"):
@@ -45,7 +49,11 @@ def _midpoint(word: SpeechWord) -> float:
 
 
 def stitch_words(
-    previous: list[SpeechWord], current: list[SpeechWord], boundary: float
+    previous: list[SpeechWord],
+    current: list[SpeechWord],
+    boundary: float,
+    *,
+    language: str | None = None,
 ) -> list[SpeechWord]:
     """Join two source-time observations at a neighboring-word anchor near the core edge.
 
@@ -88,7 +96,8 @@ def stitch_words(
     # unbounded quadratic comparison. Preserve its words as uncertain evidence.
     if max(len(left), len(right)) > 256:
         return fallback()
-    left_tokens, right_tokens = [_token(word) for word in left], [_token(word) for word in right]
+    left_tokens = [_token(word, language) for word in left]
+    right_tokens = [_token(word, language) for word in right]
     distances = {
         (i, j): abs(_midpoint(before) - _midpoint(after))
         for i, before in enumerate(left)

@@ -3,6 +3,7 @@ import { useIntl } from "@/contexts/IntlContext";
 import { meetingErrorKey, validateMeetingFile } from "@/lib/meetingErrors";
 import { uploadMeeting, type UploadProgress } from "@/services/meetingUpload";
 import type { Meeting } from "@/services/meetings";
+import { Icon } from "@/components/ui/Icon";
 
 export function MeetingSourceUpload({ meeting, initialFile, onComplete }: { meeting: Meeting; initialFile: File | null; onComplete: (meeting: Meeting) => void }) {
   const { t, locale } = useIntl();
@@ -38,16 +39,21 @@ export function MeetingSourceUpload({ meeting, initialFile, onComplete }: { meet
   function submit(event: FormEvent) { event.preventDefault(); if (file) void start(file); }
   const uploaded = progress?.uploadedBytes ?? meeting.uploaded_bytes;
   const number = new Intl.NumberFormat(locale, { maximumFractionDigits: 1 });
-  return <section className="panel">
-    <h2>{t("meeting.resume")}</h2>
+  return <section className="panel meeting-source-panel">
+    <div className="section-heading"><h2>{t("meeting.resume")}</h2><Icon name="upload" size={22} /></div>
     {!initialFile && <p className="muted">{t("meeting.resumeHint")}</p>}
     <form className="audio-form" onSubmit={submit} aria-label={t("meeting.uploadForm")}>
-      <label htmlFor="meeting-source">{t("meeting.file")}</label>
-      <input id="meeting-source" type="file" accept=".wav,.flac,audio/wav,audio/flac" disabled={busy} onChange={(event) => { setFile(event.target.files?.[0] ?? null); setError(null); }} />
-      {file && <p className="field-hint">{file.name}</p>}
-      <p className="field-hint">{t("meeting.limits")}</p>
-      <label htmlFor="meeting-upload-progress">{t("meeting.uploadProgress", { uploaded: number.format(uploaded / 1024 ** 2), total: number.format(meeting.size_bytes / 1024 ** 2) })}</label>
-      <progress id="meeting-upload-progress" value={uploaded} max={meeting.size_bytes} />
+      <div className="upload-surface">
+        <span className="upload-surface-icon"><Icon name="file" size={24} /></span>
+        <label htmlFor="meeting-source">{t("meeting.file")}</label>
+        <input id="meeting-source" type="file" accept=".wav,.flac,audio/wav,audio/flac" disabled={busy} aria-describedby="meeting-source-limits" onChange={(event) => { setFile(event.target.files?.[0] ?? null); setError(null); }} />
+        {file && <p className="upload-file-name">{file.name}</p>}
+      </div>
+      <p id="meeting-source-limits" className="field-hint">{t("meeting.limits")}</p>
+      <div className="upload-progress">
+        <label htmlFor="meeting-upload-progress">{t("meeting.uploadProgress", { uploaded: number.format(uploaded / 1024 ** 2), total: number.format(meeting.size_bytes / 1024 ** 2) })}</label>
+        <progress id="meeting-upload-progress" value={uploaded} max={meeting.size_bytes} />
+      </div>
       {busy && progress && <p role="status">{t(`meeting.upload.${progress.phase}`)}</p>}
       {error && <p className="error-message" role="alert">{t(error)}</p>}
       <div className="action-row">{busy ? <button type="button" className="button-secondary" onClick={pause}>{t("meeting.pauseUpload")}</button> : <button type="submit" disabled={!file}>{t("meeting.resume")}</button>}</div>

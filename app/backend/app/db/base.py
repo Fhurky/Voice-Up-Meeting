@@ -19,6 +19,7 @@ from app.domain.models.speaker_identity import (  # noqa: F401
     SpeakerSample,
 )
 from app.domain.models.tenant import Tenant  # noqa: F401
+from app.domain.models.transcript_revision import MeetingTranscriptRevision  # noqa: F401
 from app.domain.models.user import User  # noqa: F401
 
 # kt-scaffold:model-registry

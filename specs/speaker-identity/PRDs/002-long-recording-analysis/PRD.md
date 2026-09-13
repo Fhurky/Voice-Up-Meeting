@@ -90,7 +90,9 @@ ayrı mikrofon yeteneğine taşınmıştır; dosya aktarımı bellekte bütün k
 
 Dosya kaynakları WAV/FLAC'tır. Diğer kapsayıcı/codec desteği ancak ilgili
 çevrimdışı decoder kabulü ve gerçek dosya testleriyle açılır; uzantı değiştirmek
-dönüştürme sayılmaz. Önceki WebM/Opus mikrofon hedefi ayrı yetenekte korunur.
+dönüştürme sayılmaz. Mikrofon kaynağının güncel seçimi ayrı Accepted
+[007 yeteneğinde](../007-microphone-meeting-capture/PRD.md) yerleşik PCM16/OPFS/WAV
+olarak kaydedilmiştir; bu kaynak aynı dosya aktarım sözleşmesini kullanır.
 Decoder/binary hashları uygulama öncesi
 sağlayıcı sözleşmesinde dondurulur; keyfi dosya, URL, codec veya kabuk komutu kabul edilmez.
 
@@ -616,6 +618,25 @@ profil altı olur. İşi tekrar çalıştırma profil sayısını artırmaz; ser
 başlatıldığında adlar ve eşlemeler korunur. Altıncı kişinin kanıtı yetersizse
 `profile_pending` görünür; bunu başarılı altıncı profil kabulü diye raporlamak
 veya eşiği gevşetmek yasaktır. Tanınan kişilerin örnekleri kendiliğinden büyümez.
+
+Decision 25 (13 Eylül 2026): Kullanıcının kullanılabilirlik ve doğruluk planını
+uygulama talimatıyla, komşu parçalardaki Türkçe sözcük eşleştirmesi düzeltilir.
+Mevcut `casefold` aynı kaynak sözlerinin `IŞIK YENİ` / `ışık yeni` gözlemlerini
+eşleyemeyip dört belirsiz sözcük üretebiliyor. Yalnız Türkçe eşleştirme anahtarı
+NFC ile kanonik birleştirilir, `I→ı` ve `İ→i` dönüşümünden sonra küçük harfe
+getirilir. Özgün gösterim metni, zamanlar, olasılıklar, komşu ankrajlar ve bütün
+eşleşme/kimlik eşikleri korunur. NFKC uyumluluk dönüşümü uygulanmaz.
+Açık toplantı dili `tr` ise bu yol kullanılır; otomatik dilde iki komşu
+sağlayıcı sonucu da `tr` olmalıdır. Önceki checkpoint'in sağlayıcı dili yoksa
+otomatik dil eski yolu kullanır. Diğer/açıkça farklı diller ve dil verilmeyen
+eski doğrudan çağrılar mevcut davranışı korur. `I` ve `i` Türkçede farklıdır;
+gerçek tekrarlar, ayrı zamanlardaki eş sözcükler ve belirsiz sınırlar silinmez.
+Yeni parçalar bu davranışla işlenir; tamamlanmış metinler ve checkpoint'ler
+geriye dönük yazılmaz, model/normalizasyon deneyi yeniden adlandırılmaz.
+Saf domain ve gerçek PostgreSQL parça kalıcılığı testleri kırmızı/yeşil
+doğrulanır; korunmuş sağlayıcı çıktılarıyla regresyon ve tam profil kapısı
+çalıştırılır. Bu düzeltme MediaSpeech sınır silmesinin nedeni veya genel WER
+iyileşmesi olarak sunulmaz; API, şema, ayar, model ve bağımlılık değişimi yoktur.
 
 ## Güvenlik, çalışma ve dağıtım
 

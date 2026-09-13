@@ -5,6 +5,9 @@ metadata:
   name: {{ .Release.Name }}
   annotations:
     nginx.ingress.kubernetes.io/proxy-body-size: "51m"
+    {{- if .Values.textReview.enabled }}
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "110"
+    {{- end }}
 spec:
   ingressClassName: {{ .Values.ingress.className }}
   tls:

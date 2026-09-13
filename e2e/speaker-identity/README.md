@@ -65,3 +65,110 @@ etiket sayısını (1–20), `_GALLERY=0` ise boş profil hafızasını belirtir
 iki dilde gerçek API sayılarıyla karşılaştırır, veriyi değiştirmez; doğruluk
 veya başarılı hafıza kabulü değildir. Çıktı yalnız sayısal ölçüleri saklar;
 metin, ad, vektör veya kimlik doğrulama bilgisi rapora yazılmaz.
+
+`07-modern-workspace.mjs`, [Accepted 008 PRD](../../specs/speaker-identity/PRDs/008-modern-workspace/PRD.md)
+için gerçek şifreli girişten sonra ortak çalışma alanını iki dilde ve 1440/390
+piksel genişlikte inceler. `APP_E2E_WORKSPACE_USER` / `APP_E2E_WORKSPACE_PASS`,
+toplantı, profil ve ses analizi okuma izinlerinin üçüne sahip sıradan salt okunur
+test hesabını belirtir; yazma/başlatma ve super-admin izinleri bulunmamalıdır.
+Klavye ile içeriğe geçişi, etkin gezinmeyi, yazma formlarının yokluğunu, yatay
+taşmayı ve konsol/HTTP hatalarını denetler. İsteğe bağlı
+`APP_E2E_WORKSPACE_MEETING_ID`, aynı test tenant'ındaki tamamlanmış, metin ve
+konuşmacı içeren mevcut bir toplantı sonucunu ek olarak gözler; verilmezse bu
+adım çalıştırılmış sayılmaz. Hesap veya biyometrik fixture oluşturmaz, mevcut
+veriyi değiştirmez; `finally` yolu oturumu kapatır. Görüntüler ve ölçülü JSON
+raporu `test-results/` altına yazılır. Senaryo kaydı ve sözdizimi kontrolü canlı
+tarayıcı geçişi değildir; kullanılan gerçek koşucu ve ortam ayrıca raporlanır.
+
+`08-microphone-capture.mjs`, [Accepted 007 PRD](../../specs/speaker-identity/PRDs/007-microphone-meeting-capture/PRD.md)
+için mevcut sıradan toplantı yazarı/okuyucusu hesaplarını kullanır. Varsayılan
+koşum iki dilde mikrofon/dosya kaynak seçimini, ortak toplantı seçeneklerinin
+korunmasını, erişilebilir kayıt göstergelerini ve salt okunur kullanıcıya kayıt
+kontrolü sunulmamasını doğrular; ses kaydetmez veya toplantı/profil yaratmaz.
+
+- `APP_E2E_MICROPHONE_LIVE=1`: gerçek fiziksel mikrofonla kayıt dalını açıkça etkinleştirir. Sağlıklı bir mikrofon, güvenli köken, OPFS/AudioWorklet desteği ve hazır gerçek model gerekir.
+- `APP_E2E_MICROPHONE_SECONDS`: her dilde gerçek kaydın gözlenen süresi; varsayılan 35 saniye, izin verilen aralık 25–300 saniyedir.
+- `APP_E2E_MICROPHONE_LANGUAGE`: kaydedilen konuşmanın dili `tr`, `en` veya `auto`; arayüz diliyle aynı olmak zorunda değildir, varsayılan `tr`.
+
+Gerçek kayıt dalı boş ve yalnız test için ayrılmış profil tenant'ı gerektirir.
+Koşucu yazdığı başlangıç iletisi boyunca mikrofona temiz konuşma sağlanmalıdır;
+ses dosyası, sahte mikrofon, simüle edilmiş model veya enjekte edilmiş oturum
+kullanılmaz. Headless tarayıcının fiziksel giriş cihazına erişimi ayrıca
+doğrulanmalıdır. Koşucu mikrofon iznini tarayıcı bağlamına verir; tarayıcının
+insana gösterdiği izin penceresini tıklama kanıtı değildir. Bir saniyelik iptal
+denemesinin ardından kayıt gözlenen hedef süreye gelince "Durdur ve analiz et"
+tıklanır. Son WAV için gerçek kaynak hash/boyut/süre eşitliği, başarılı analiz,
+boş olmayan metin ve görünür konuşmacı/hafıza kararı aranır. Sessizlik veya boş
+metin bu deneyi geçirmez; kalite nedeniyle `profile_pending`/`ambiguous` sonucu
+zorla başarılı kişi kaydına dönüştürülmez.
+
+Senaryo kendi başlık önekiyle oluşturduğu toplantıları ve yalnız bunların
+`enrolled` sonucundan doğan profilleri `finally` yolunda public API ile temizler.
+Önceki kullanıcı verisiyle çalıştırılmamalıdır. `test-results/microphone-capture.json`
+yalnız durum/sayım kanıtını yazar; ses, cihaz etiketi, ad, transkript veya token
+raporlanmaz. Bayrak kapalıysa fiziksel kayıt açıkça çalıştırılmamış sayılır.
+Gerçek cihaz kesilmesi, reddedilen izin penceresi, zorla kapanma sonrası disk
+temizliği ve L3 kullanıcı kabulü bu senaryonun geçtiği varsayılarak kapatılmaz.
+
+`09-meeting-audio-review.mjs`, [Accepted 011 PRD](../../specs/speaker-identity/PRDs/011-meeting-audio-review/PRD.md)
+için `APP_E2E_AUDIO_REVIEW_USER` / `APP_E2E_AUDIO_REVIEW_PASS` ile sıradan
+okuyucu hesabından gerçek parola girişi yapar. `APP_E2E_AUDIO_REVIEW_MEETING_ID`
+aynı tenant'taki mevcut, tamamlanmış, kaynağı tutulmuş ve en az iki metin
+satırlı toplantıyı belirtir. Senaryo hesap, toplantı veya profil oluşturmaz;
+başlangıç ve bitiş public verisini karşılaştırır, sonunda oturumu kapatır.
+
+TR/EN ve 1440/390 pikselde klavyeyle satır seçimi, en çok 30 saniyelik
+yetkili WAV, cache engeli, oynatıcı decode/süre/denetimleri, kapatma ve odağın
+geri gelmesi doğrulanır. `test-results/meeting-audio-review.json` yalnız toplu
+gözlemleri içerir. Tarayıcı oynatmayı engellerse decode başarısıyla karıştırılmaz;
+`playback_started` ayrıca kaydedilir. Fiziksel hoparlör, uzun satırın tüm
+bölümleri, kaynak süresinin dolması ve model doğruluğu bu dar senaryodan
+çıkarılmaz. Başarısızlık ekranları metin içerebilir ve özel `test-results/`
+alanında kalmalıdır. Senaryo kaydı veya sözdizimi kontrolü gerçek koşum değildir.
+
+`10-contextual-transcript-review.mjs`, [Accepted 013 PRD](../../specs/speaker-identity/PRDs/013-model-selection-saved-corrections/PRD.md)
+için `APP_E2E_TEXT_REVIEW_USER` / `APP_E2E_TEXT_REVIEW_PASS` ile sıradan okuma ve
+çalıştırma yetkili hesaptan gerçek giriş yapar. `APP_E2E_TEXT_REVIEW_MEETING_ID`
+aynı tenant'taki tamamlanmış bir toplantıyı seçer; ilk metin sayfasında en az
+bir boş olmayan, en çok 1.024 Unicode kod noktalı satır gerekir. Gerçek yerel
+model ve uygulamadaki metin inceleme ayarı hazır olmalıdır. Kaynak sesin
+tutulması gerekmez. İsteğe bağlı `APP_E2E_TEXT_REVIEW_MODEL` listelenen gerçek
+kullanılabilir modelin tam adını seçer; verilmezse kullanılabilir kayıtlı
+varsayılan gerekir. Başka modele sessiz geçiş yapılmaz.
+
+Senaryo kurulu seçenekleri gerçek API ile karşılaştırır; panel açma ve seçim
+tek başına hesaplama başlatmaz. Her dilde açık kontrol eylemi bir gerçek model
+çağrısı yapar; 100 saniyelik model sınırına uygun bekler ve gerçek 200 yanıtı
+gerektirir. TR/EN ve 1440/390 pikselde yeşil ve altı çizili kelimeler, tüm
+anlamsal inceleme/eşlenememe önerileri, düz metin model cevabı ve modelin o
+koşumda döndürdüğü durum denetlenir. Kaynak ID/metin/SHA256, model adı/digest
+ve mevcut sürüm eşitliği, yalnız model seçimi içeren istek, kapatma/odak ve
+ham toplantı/kişi/metin verisinin değişmediği kontrol edilir. Kaydetmez veya
+fixture oluşturmaz; `finally` oturumu kapatır. `test-results/contextual-transcript-review.json`
+yalnız toplu kanıttır; metin, model cevabı veya kaydetme kanıtı raporlanmaz.
+
+`11-saved-transcript-corrections.mjs` aynı sıradan hesapla ayrı, silinebilir
+test toplantısında gerçek öneriyi kaydeder. Çalıştırmadan önce yalnız bu test
+için oluşturulmuş toplantı aşağıdaki açık sözleşmeyle sağlanmalıdır:
+
+- `APP_E2E_CORRECTION_SAVE_MEETING_ID`: aynı tenant'ta tamamlanmış test toplantısı; başlığı `e2e-text-correction-` ile başlamalıdır.
+- `APP_E2E_CORRECTION_SAVE_CONFIRM=disposable-test-meeting`: bu test toplantısına sürüm kaydedilmesini ve `finally` içinde public API ile toplantının silinmesini açıkça etkinleştirir.
+- `APP_E2E_CORRECTION_SAVE_TRANSCRIPT_ID`: isteğe bağlı ilk sayfadaki hedef satır; verilmezse ilk uygun satır seçilir.
+- `APP_E2E_TEXT_REVIEW_MODEL`: isteğe bağlı gerçek model seçimi, senaryo 10 ile aynı kurala tabidir.
+
+Fixture gerçek kullanıcı verisi içermemeli, başka senaryonun kalıcı okuma
+fixture'ı olmamalıdır. Koşucu hesap veya ses profili oluşturmaz; yalnız
+kimliği ve başlık öneki doğrulanmış bu toplantıyı sonunda temizler.
+Gerçek modelin en az bir tam eşlenmiş, kaydedilebilir değişiklik üretmesi
+gerekir; boş veya bozuk sonuç yerine sahte başarı konmaz. Kaydetme isteğinin
+yalnız gösterilen önerinin kanıtını gönderdiği, tek sürüm oluşturduğu,
+özgün kaynak/zaman/konuşmacıyı koruduğu, yenilemeden sonra yeşil görünüm ve
+TR/EN Orijinal/Düzeltilmiş geçişi doğrulanır.
+`test-results/saved-transcript-corrections.json` toplu sayımları ve temizlik
+sonucunu içerir; kaynak metin veya token içermez.
+
+İki senaryo da kelime doğruluğu, insan kabulü veya gözlenmeyen hata dalları
+için kanıt değildir. Paylaşılan `text-review-support.mjs` gerçek giriş,
+yerel public API okuma ve seçilen modelin görünür öneri sözleşmesini kullanır.
+Senaryoları kaydetmek ve sözdizimini kontrol etmek canlı koşum sayılmaz.
+Başarısızlık ekranları metin içerebilir ve özel `test-results/` alanında kalır.

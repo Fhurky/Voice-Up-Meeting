@@ -1,0 +1,14 @@
+{
+  "profile": "kt-vibecoding-python-web-v2",
+  "date": "2026-09-13",
+  "mode": "local",
+  "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 610.62",
+  "inference_image_id": "sha256:d14a4e65159af176eac50fe20334e49f64bdb199baa220d6ed36cb2edab0ef57",
+  "source_commit": "d00036d5e8ac02545ac32ef4b535c248d717c1fc",
+  "worktree_has_uncommitted_changes": true,
+  "model_manifest_sha256": {
+    "scripts/asr-model-manifest.json": "4b732a1ccb96003631bc799fcdfd9fb5f22705ac6c164e7d88c6b505ecf8b85f",
+    "scripts/diarization-model-manifest.json": "8c69b42dac14a1c85d58ec4397c0a3f7fabaef0b9467e7d134369896ffd3ed48"
+  },
+  "scope": "Local RTX model runs; no Spark or Apple execution claim"
+}

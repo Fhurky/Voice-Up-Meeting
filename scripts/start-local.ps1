@@ -103,6 +103,7 @@ $projectRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 $infraPath = Join-Path $projectRoot 'app/infra'
 $modePath = Join-Path $projectRoot 'outputs/local-runtime-mode.txt'
 $meetingPath = Join-Path $projectRoot 'outputs/local-meeting-enabled.txt'
+$textReviewPath = Join-Path $projectRoot 'outputs/local-text-review-enabled.txt'
 if ($Mode -eq 'Auto') {
     $Mode = 'Local'
     if (Test-Path -LiteralPath $modePath) {
@@ -129,12 +130,20 @@ if ($Mode -eq 'Spark') {
     $tunnel = & (Join-Path $PSScriptRoot 'spark-tunnel.ps1') -Action Start -ConfigPath $SparkConfigPath
     if ($tunnel.status -ne 'ready') { throw 'Spark model tüneli hazır değil.' }
 }
+$textReviewEnabled = $false
+if (Test-Path -LiteralPath $textReviewPath) {
+    $textReviewSelection = [IO.File]::ReadAllText($textReviewPath).Trim()
+    if ($textReviewSelection -cnotin @('enabled', 'disabled')) { throw 'Kayıtlı metin inceleme modu geçersiz.' }
+    $textReviewEnabled = $textReviewSelection -ceq 'enabled'
+    if ($textReviewEnabled -and -not (Test-Path -LiteralPath (Join-Path $infraPath 'docker-compose.text-review.yml'))) { throw 'Metin inceleme çalışma ayarları eksik.' }
+}
 Push-Location -LiteralPath $projectRoot
 try {
     $composeArgs = @('compose', '--project-directory', 'app/infra', '-p', 'voiceup',
         '-f', 'app/infra/docker-compose.local.yml', '-f', 'app/infra/docker-compose.observability.yml')
     if ($Mode -eq 'Spark') { $composeArgs += @('-f', 'app/infra/docker-compose.spark.yml') }
     if ($meetingEnabled) { $composeArgs += @('-f', 'app/infra/docker-compose.meeting.yml') }
+    if ($textReviewEnabled) { $composeArgs += @('-f', 'app/infra/docker-compose.text-review.yml') }
     # Capture resolved configuration without printing its secret-bearing environment blocks.
     $configuration = Invoke-LocalDocker -Arguments ($composeArgs + @('config', '--format', 'json'))
     if ($configuration.ExitCode -ne 0) { throw 'VoiceUp Compose ayarları çözümlenemedi.' }
@@ -187,7 +196,7 @@ try {
         }
         # Local Compose can also replace upstream containers without recreating nginx.
         # Validate its standard active config before refreshing cached upstream addresses.
-        $localNginxReloadCommand = 'set -eu; nginx -t; nginx -s reload'
+        $localNginxReloadCommand = 'set -eu; if [ -f /etc/nginx/text-review.conf.template ]; then set -- /tmp/voiceup-text.*/nginx.conf; [ "$#" -eq 1 ]; [ -f "$1" ]; [ ! -L "$1" ]; [ -d "${1%/*}" ]; [ ! -L "${1%/*}" ]; nginx -t -c "$1"; nginx -s reload -c "$1"; else nginx -t; nginx -s reload; fi'
         $reloaded = Invoke-LocalDocker -Arguments ($composeArgs + @('exec', '-T', 'nginx', 'sh', '-c', $localNginxReloadCommand)) -TimeoutSeconds 15
         if ($reloaded.ExitCode -ne 0) { throw 'VoiceUp nginx ayarları yeniden yüklenemedi; yerel seçim korundu.' }
     }

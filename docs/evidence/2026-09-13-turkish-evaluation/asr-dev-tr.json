@@ -1,0 +1,16 @@
+{
+  "protocol": "voiceup-mediaspeech-tr-v1",
+  "status": "complete",
+  "normalization": "turkish-words-v1",
+  "input_sha256": "b7776df4f4744fa364ac358a541b3db056ff8d1d1f9863c00481c713e3ee172e",
+  "source_sha256": "c3f8aeebe085553d9fa0baf2fed25613b3d80f07b4d6665e88e0610250fc5b3c",
+  "planned_clips": 40,
+  "observed_clips": 40,
+  "reference_words": 1140,
+  "hypothesis_words": 1116,
+  "errors": 182,
+  "substitutions": 82,
+  "deletions": 62,
+  "insertions": 38,
+  "wer": 0.15964912280701754
+}

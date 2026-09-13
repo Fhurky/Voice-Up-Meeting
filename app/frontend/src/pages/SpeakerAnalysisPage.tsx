@@ -6,6 +6,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useIntl } from "@/contexts/IntlContext";
 import { errorMessageKey } from "@/lib/speakerErrors";
 import { SpeakerService, type SpeakerJob } from "@/services/speakers";
+import { Icon } from "@/components/ui/Icon";
 
 export default function SpeakerAnalysisPage() {
   const { t, locale } = useIntl();
@@ -27,18 +28,18 @@ export default function SpeakerAnalysisPage() {
 
   return <SpeakerLayout titleKey="speaker.analysis.title">
     <p className="page-intro">{t("speaker.analysis.intro")}</p>
-    <div className="pilot-grid">
-      <section className="panel" aria-labelledby="identify-heading"><h2 id="identify-heading">{t("speaker.analysis.new")}</h2>
+    <div className="pilot-grid analysis-workspace">
+      <section className="panel" aria-labelledby="identify-heading"><div className="section-heading"><div className="section-title-group"><span className="section-icon"><Icon name="audio" size={20} /></span><h2 id="identify-heading">{t("speaker.analysis.new")}</h2></div></div>
         {hasPermission("speaker_analysis:run") ? <AudioJobForm purpose="identify" /> : <p>{t("speaker.analysis.readOnly")}</p>}
       </section>
       <section className="panel" aria-labelledby="jobs-heading">
-        <div className="section-heading"><h2 id="jobs-heading">{t("speaker.jobs.history")}</h2><button className="button-quiet" disabled={loading} onClick={() => { setLoading(true); setRevision((value) => value + 1); }}>{t("common.refresh")}</button></div>
+        <div className="section-heading"><h2 id="jobs-heading">{t("speaker.jobs.history")}</h2><button className="button-quiet" disabled={loading} onClick={() => { setLoading(true); setRevision((value) => value + 1); }}><Icon name="refresh" size={16} />{t("common.refresh")}</button></div>
         <p className="muted">{t("speaker.jobs.retention")}</p>
         {error && <p role="alert" className="error-message">{t(error)}</p>}
         {loading ? <p role="status">{t("common.loading")}</p> : <>
-          {jobs.length === 0 ? <p className="empty-card">{t("speaker.jobs.empty")}</p> : <ul className="job-list">
+          {jobs.length === 0 ? <div className="empty-card"><span className="empty-icon"><Icon name="audio" size={28} /></span><p>{t("speaker.jobs.empty")}</p></div> : <ul className="job-list">
             {jobs.map((job) => <li key={job.public_id}>
-              <Link to={`/speaker-jobs/${encodeURIComponent(job.public_id)}`}><strong>{t(`speaker.purpose.${job.purpose}`)}</strong><time dateTime={job.created_at}>{new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeStyle: "short" }).format(new Date(job.created_at))}</time></Link>
+              <Link className="job-identity" to={`/speaker-jobs/${encodeURIComponent(job.public_id)}`}><span className="section-icon"><Icon name={job.purpose === "enroll" ? "users" : "audio"} size={18} /></span><span className="job-copy"><strong>{t(`speaker.purpose.${job.purpose}`)}</strong><time dateTime={job.created_at}>{new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeStyle: "short" }).format(new Date(job.created_at))}</time></span><Icon name="chevron-right" size={16} /></Link>
               <span className={`status-badge status-${job.status}`}>{t(`speaker.status.${job.status}`)}</span>
             </li>)}
           </ul>}

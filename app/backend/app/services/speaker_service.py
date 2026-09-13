@@ -45,6 +45,14 @@ ERROR_MESSAGES = {
     "worker_interrupted": "The worker lease expired after the allowed attempts.",
     "recording_unavailable": "The source audio is no longer available.",
     "validation_error": "The request contains invalid fields.",
+    "text_review_unavailable": "The configured local text review service is unavailable.",
+    "text_review_model_mismatch": "The installed text model does not match the configured identity.",
+    "text_review_timeout": "The text review time limit was exceeded.",
+    "text_review_invalid_response": "The text review response could not be validated safely.",
+    "text_review_context_limit": "The transcript segment exceeds the supported text review limits.",
+    "transcript_changed": "The transcript changed during review. Reload it before trying again.",
+    "invalid_correction_token": "The correction approval is invalid or expired. Request a new review.",
+    "correction_conflict": "Another correction was saved. Reload the transcript before reviewing it again.",
 }
 
 

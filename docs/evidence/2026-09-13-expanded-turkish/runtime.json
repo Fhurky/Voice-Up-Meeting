@@ -1,0 +1,21 @@
+{
+  "date": "2026-09-13",
+  "profile": "kt-vibecoding-python-web-v2",
+  "mode": "local",
+  "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, 610.62",
+  "inference_image_id": "sha256:d14a4e65159af176eac50fe20334e49f64bdb199baa220d6ed36cb2edab0ef57",
+  "source_commit": "d00036d5e8ac02545ac32ef4b535c248d717c1fc",
+  "worktree_has_uncommitted_changes": true,
+  "source_hashes": {
+    "scripts/asr-model-manifest.json": "4b732a1ccb96003631bc799fcdfd9fb5f22705ac6c164e7d88c6b505ecf8b85f",
+    "scripts/diarization-model-manifest.json": "8c69b42dac14a1c85d58ec4397c0a3f7fabaef0b9467e7d134369896ffd3ed48",
+    "scripts/evaluate-expanded-turkish-asr.py": "c6df5fa1c158db423df324f50900bd495a9ddef6ab54b7dbd606d259e5821310",
+    "scripts/prepare-fleurs-turkish.py": "31e62aecac72107667de82816255bea73c49b05feaa8596b8bca31e6c9869aec",
+    "scripts/prepare-turkish-meeting-evaluation.py": "ac9deb52dd551b95b667f7ff94321731caae82dd20bfec9dc3c91735feef8029",
+    "scripts/run-turkish-meeting-evaluation.py": "68e34aff9a44861bf88666385d08d8458a12b5ebc7a05d2781f46aa7976308d5",
+    "scripts/experiment_ledger.py": "a65d2e6350648e22eca6f4700b1c9c25f9f1497e94bd64957472866e0b9f8360",
+    "scripts/report-expanded-turkish-asr.py": "1fadee8c35ded614172c314882025a99530ad525b6adb1f0e0560f43eb463bd3"
+  },
+  "scope": "Local RTX offline ASR and real HTTP meeting evaluation; no Spark or Apple execution claim",
+  "asr_preflight_source_sha256": "9939cdca3c5916e368b5204e61742f9ac6800894ec878e73d186146cf48ee7d7"
+}

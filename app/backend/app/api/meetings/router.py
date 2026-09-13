@@ -1,17 +1,26 @@
 """Authenticated upload, result and naming endpoints for meetings."""
 
-from typing import Annotated
+from collections.abc import AsyncIterator, Callable, Coroutine
+from typing import Annotated, Any
 from uuid import UUID
 
+import httpx
 from fastapi import APIRouter, Depends, Header, Path, Query, Request, Response
+from fastapi.exceptions import RequestValidationError
+from fastapi.routing import APIRoute
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.api.auth.dependencies import CurrentContext, require_permission
 from app.core.config import Settings, get_settings
 from app.db.session import get_db
 from app.domain.meeting import UPLOAD_PART_BYTES
-from app.infrastructure.meeting_audio import MeetingAudioStorage
+from app.infrastructure.correction_receipts import CorrectionReceiptSigner
+from app.infrastructure.meeting_audio import PREVIEW_MAX_BYTES, MeetingAudioStorage
+from app.infrastructure.ollama_correction import OllamaCorrectionAdapter
 from app.infrastructure.repositories.meeting_repository import MeetingRepository
+from app.infrastructure.repositories.transcript_revision_repository import (
+    TranscriptRevisionRepository,
+)
 from app.schemas.meeting import (
     MeetingCreate,
     MeetingPage,
@@ -23,8 +32,18 @@ from app.schemas.meeting import (
     MeetingUploadManifest,
 )
 from app.schemas.speaker_identity import ErrorResponse
+from app.schemas.transcript_correction import TranscriptCorrectionPreview
+from app.schemas.transcript_suggestions import (
+    ReviewModelList,
+    SavedTranscriptCorrection,
+    TranscriptCorrectionSave,
+    TranscriptCorrectionSelection,
+    TranscriptCorrectionSuggestion,
+)
 from app.services.meeting_service import MeetingService
 from app.services.speaker_ports import SpeakerError
+from app.services.transcript_correction import TranscriptCorrectionService
+from app.services.transcript_suggestions import TranscriptSuggestionService
 
 router = APIRouter(
     prefix="/meetings",
@@ -48,6 +67,39 @@ def get_meeting_service(
 
 
 Service = Annotated[MeetingService, Depends(get_meeting_service)]
+
+
+async def get_transcript_correction_service(
+    session: Annotated[AsyncSession, Depends(get_db)],
+    settings: Annotated[Settings, Depends(get_settings)],
+) -> AsyncIterator[TranscriptCorrectionService]:
+    async with httpx.AsyncClient(trust_env=False, follow_redirects=False) as client:
+        yield TranscriptCorrectionService(
+            MeetingRepository(session), OllamaCorrectionAdapter(settings, client)
+        )
+
+
+CorrectionService = Annotated[
+    TranscriptCorrectionService, Depends(get_transcript_correction_service)
+]
+
+
+async def get_transcript_suggestion_service(
+    session: Annotated[AsyncSession, Depends(get_db)],
+    settings: Annotated[Settings, Depends(get_settings)],
+) -> AsyncIterator[TranscriptSuggestionService]:
+    async with httpx.AsyncClient(trust_env=False, follow_redirects=False) as client:
+        yield TranscriptSuggestionService(
+            MeetingRepository(session),
+            TranscriptRevisionRepository(session),
+            OllamaCorrectionAdapter(settings, client),
+            CorrectionReceiptSigner(settings),
+        )
+
+
+SuggestionService = Annotated[
+    TranscriptSuggestionService, Depends(get_transcript_suggestion_service)
+]
 IdempotencyKey = Annotated[
     str, Header(alias="Idempotency-Key", min_length=8, max_length=128, pattern=r"^[\x21-\x7e]+$")
 ]
@@ -76,6 +128,24 @@ async def list_meetings(
     context: CurrentContext, service: Service, offset: Offset = 0, limit: Limit = 20
 ) -> MeetingPage:
     return await service.list(context, offset, limit)
+
+
+@router.get(
+    "/review-models",
+    operation_id="meeting_review_models",
+    response_model=ReviewModelList,
+    responses={502: {"model": ErrorResponse}, 504: {"model": ErrorResponse}},
+    dependencies=[
+        Depends(require_permission("meeting_analysis:read")),
+        Depends(require_permission("meeting_analysis:run")),
+    ],
+)
+async def list_review_models(
+    context: CurrentContext, service: SuggestionService, response: Response
+) -> ReviewModelList:
+    result = await service.models(context)
+    response.headers["Cache-Control"] = "no-store"
+    return result
 
 
 @router.get(
@@ -222,3 +292,130 @@ async def get_transcript(
     limit: Limit = 50,
 ) -> MeetingTranscriptPage:
     return await service.transcript(context, str(public_id), offset, limit)
+
+
+@router.post(
+    "/{public_id}/transcript/{transcript_id}/correction-preview",
+    operation_id="meeting_transcript_correction_preview",
+    response_model=TranscriptCorrectionPreview,
+    responses={502: {"model": ErrorResponse}, 504: {"model": ErrorResponse}},
+    dependencies=[
+        Depends(require_permission("meeting_analysis:read")),
+        Depends(require_permission("meeting_analysis:run")),
+    ],
+)
+async def preview_transcript_correction(
+    public_id: UUID,
+    transcript_id: UUID,
+    context: CurrentContext,
+    service: CorrectionService,
+    response: Response,
+) -> TranscriptCorrectionPreview:
+    result = await service.preview(context, str(public_id), str(transcript_id))
+    response.headers["Cache-Control"] = "no-store"
+    return result
+
+
+@router.post(
+    "/{public_id}/transcript/{transcript_id}/correction-suggestion",
+    operation_id="meeting_transcript_correction_suggestion",
+    response_model=TranscriptCorrectionSuggestion,
+    responses={502: {"model": ErrorResponse}, 504: {"model": ErrorResponse}},
+    dependencies=[
+        Depends(require_permission("meeting_analysis:read")),
+        Depends(require_permission("meeting_analysis:run")),
+    ],
+)
+async def suggest_transcript_correction(
+    public_id: UUID,
+    transcript_id: UUID,
+    body: TranscriptCorrectionSelection,
+    context: CurrentContext,
+    service: SuggestionService,
+    response: Response,
+) -> TranscriptCorrectionSuggestion:
+    result = await service.suggest(context, str(public_id), str(transcript_id), body)
+    response.headers["Cache-Control"] = "no-store"
+    return result
+
+
+@router.post(
+    "/{public_id}/transcript/{transcript_id}/corrections",
+    operation_id="meeting_transcript_correction_save",
+    response_model=SavedTranscriptCorrection,
+    dependencies=[
+        Depends(require_permission("meeting_analysis:read")),
+        Depends(require_permission("meeting_analysis:run")),
+    ],
+)
+async def save_transcript_correction(
+    public_id: UUID,
+    transcript_id: UUID,
+    body: TranscriptCorrectionSave,
+    context: CurrentContext,
+    service: SuggestionService,
+    response: Response,
+) -> SavedTranscriptCorrection:
+    result = await service.save(context, str(public_id), str(transcript_id), body.save_token)
+    response.headers["Cache-Control"] = "no-store"
+    return result
+
+
+class AudioPreviewRoute(APIRoute):
+    """Keep the preview range error code without changing other route validation."""
+
+    def get_route_handler(self) -> Callable[[Request], Coroutine[Any, Any, Response]]:
+        original = super().get_route_handler()
+
+        async def handler(request: Request) -> Response:
+            try:
+                return await original(request)
+            except RequestValidationError as exc:
+                if any(
+                    error["loc"][:2]
+                    in {
+                        ("query", "start_seconds"),
+                        ("query", "end_seconds"),
+                    }
+                    for error in exc.errors()
+                ):
+                    raise SpeakerError("invalid_audio_range", 422) from exc
+                raise
+
+        return handler
+
+
+async def get_audio_preview(
+    public_id: UUID,
+    context: CurrentContext,
+    service: Service,
+    start_seconds: Annotated[float, Query(ge=0, allow_inf_nan=False)],
+    end_seconds: Annotated[float, Query(gt=0, allow_inf_nan=False)],
+) -> Response:
+    data = await service.audio_preview(context, str(public_id), start_seconds, end_seconds)
+    return Response(
+        content=data,
+        media_type="audio/wav",
+        headers={"Cache-Control": "no-store", "X-Content-Type-Options": "nosniff"},
+    )
+
+
+router.add_api_route(
+    "/{public_id}/audio-preview",
+    get_audio_preview,
+    methods=["GET"],
+    operation_id="meeting_audio_preview",
+    response_class=Response,
+    responses={
+        200: {
+            "description": "At most 30 seconds of source audio as mono PCM16 WAV.",
+            "content": {
+                "audio/wav": {
+                    "schema": {"type": "string", "format": "binary", "maxLength": PREVIEW_MAX_BYTES}
+                }
+            },
+        }
+    },
+    dependencies=[Depends(require_permission("meeting_analysis:read"))],
+    route_class_override=AudioPreviewRoute,
+)

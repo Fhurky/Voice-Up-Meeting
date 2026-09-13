@@ -473,7 +473,17 @@ class MeetingChunkPersistence:
             if previous is None or previous.result.get("checkpoint_version") != 1:
                 raise SpeakerError("model_mismatch", 502)
             previous_words = [SpeechWord(**value) for value in previous.result["pending_words"]]
-            words = stitch_words(previous_words, words, core_start)
+            previous_provider = previous.result.get("provider")
+            # Automatic language requires agreement across the actual neighboring observations.
+            turkish = meeting.language == "tr" or (
+                meeting.language == "auto"
+                and result.language == "tr"
+                and isinstance(previous_provider, dict)
+                and previous_provider.get("language") == "tr"
+            )
+            words = stitch_words(
+                previous_words, words, core_start, language="tr" if turkish else None
+            )
             regular = [SpeechTurn(**value) for value in previous.result["pending_turns"]] + regular
             exclusive = [
                 SpeechTurn(**value) for value in previous.result["pending_exclusive"]

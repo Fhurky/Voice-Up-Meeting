@@ -28,6 +28,7 @@ await withBrowser("real meeting transcript and five-to-six speaker memory", asyn
     await page.getByLabel("Toplantı adı", { exact: true }).fill(`E2E ${label} ${randomUUID()}`);
     await page.getByLabel("Toplantı ses dosyası").setInputFiles(source);
     await page.getByLabel("Konuşma dili", { exact: true }).selectOption("en");
+    await page.getByText("Katılımcı bilgileri", { exact: true }).click();
     await page.getByLabel("Toplam katılımcı sayısı (isteğe bağlı)").fill(String(count));
     await page.getByLabel("Konuşan kişi sayısı (kesin biliniyorsa)").fill(String(count));
     await page.getByRole("checkbox").check();

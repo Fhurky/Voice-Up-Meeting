@@ -39,8 +39,21 @@ restarts_upstream() {
 }
 reload_upstream=false
 if restarts_upstream "$@"; then reload_upstream=true; fi
+text_review_file="$root/outputs/local-text-review-enabled.txt"
+text_review_enabled=false
+if [ -f "$text_review_file" ]; then
+  case "$(tr -d '\r\n' < "$text_review_file")" in
+    enabled)
+      [ -f "$root/app/infra/docker-compose.text-review.yml" ] || { echo "Text review overlay is missing" >&2; exit 2; }
+      text_review_enabled=true
+      ;;
+    disabled) ;;
+    *) echo "Invalid local text review selection" >&2; exit 2 ;;
+  esac
+fi
 case "$mode" in
   local)
+    if [ "$text_review_enabled" = true ]; then set -- -f "$root/app/infra/docker-compose.text-review.yml" "$@"; fi
     meeting_file="$root/outputs/local-meeting-enabled.txt"
     if [ -f "$meeting_file" ]; then
       [ "$(tr -d '\r\n' < "$meeting_file")" = "enabled" ] || { echo "Invalid local meeting selection" >&2; exit 2; }
@@ -57,6 +70,7 @@ case "$mode" in
           echo "Compose model overrides are disabled in CPU mode" >&2; exit 2 ;;
       esac
     done
+    if [ "$text_review_enabled" = true ]; then set -- -f "$root/app/infra/docker-compose.text-review.yml" "$@"; fi
     set -- -f "$root/app/infra/docker-compose.cpu.yml" "$@"
     ;;
   spark)
@@ -93,6 +107,7 @@ case "$mode" in
     for service in $services; do
       [ "$service" != "inference" ] || { echo "Local inference is active in effective Spark Compose profiles" >&2; exit 2; }
     done
+    if [ "$text_review_enabled" = true ]; then set -- -f "$root/app/infra/docker-compose.text-review.yml" "$@"; fi
     set -- -f "$root/app/infra/docker-compose.spark.yml" "$@"
     ;;
   *) echo "runtime mode must be local, cpu or spark" >&2; exit 2 ;;
@@ -106,7 +121,7 @@ if [ "$reload_upstream" = false ]; then exec "$@"; fi
 "$@"
 # Reuse the same mode's wrapper so its Compose/profile guards also protect exec.
 # Never regenerate Spark's private config or replace its active include chain.
-stack_nginx_reload_local='set -eu; nginx -t; nginx -s reload'
+stack_nginx_reload_local='set -eu; if [ -f /etc/nginx/text-review.conf.template ]; then set -- /tmp/voiceup-text.*/nginx.conf; [ "$#" -eq 1 ]; [ -f "$1" ]; [ ! -L "$1" ]; [ -d "${1%/*}" ]; [ ! -L "${1%/*}" ]; nginx -t -c "$1"; nginx -s reload -c "$1"; else nginx -t; nginx -s reload; fi'
 stack_nginx_reload_spark='set -eu; set -- /tmp/voiceup-spark.*/nginx.conf; [ "$#" -eq 1 ]; [ -f "$1" ]; [ ! -L "$1" ]; [ -d "${1%/*}" ]; [ ! -L "${1%/*}" ]; nginx -t -c "$1"; nginx -s reload -c "$1"'
 if [ "$mode" = spark ]; then
   reload_command="$stack_nginx_reload_spark"

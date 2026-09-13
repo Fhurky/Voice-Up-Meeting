@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "protocol": "voiceup-mediaspeech-tr-expanded-v1",
+  "source_sha256": "c3f8aeebe085553d9fa0baf2fed25613b3d80f07b4d6665e88e0610250fc5b3c",
+  "exclusion_manifest_sha256": "b7776df4f4744fa364ac358a541b3db056ff8d1d1f9863c00481c713e3ee172e",
+  "manifest_sha256": "e5439bc09b057af136bac6d85be1a511eea646c6f942fe519f06a7d0db3929ef",
+  "archive_clips": 2513,
+  "previous_clips": 80,
+  "prepared_clips": 2433,
+  "excluded_clips": 80,
+  "duration_seconds": 34852.1,
+  "shared_old_ids": 0,
+  "shared_old_audio_hashes": 0
+}

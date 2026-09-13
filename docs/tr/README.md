@@ -18,3 +18,7 @@ yayımlıyorsa bu Türkçe ağacı `../en/` ile eşlenik tutun.
 
 Repo çalışma akışı: [spesifikasyonlar](../../specs/README.md). Platform ilk çalıştırma:
 [kök README](../../README.md).
+
+Uygulama içinden kayıt: [mikrofonla toplantı kaydetme](microphone-recording.md).
+Sonucu inceleme: [toplantı metnini sesle kontrol etme](meeting-audio-review.md).
+Kelime kontrolü: [konuşma kelimelerini bağlamla inceleme](contextual-transcript-review.md).

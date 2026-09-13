@@ -38,6 +38,7 @@ await withBrowser("meeting upload, resume and ordinary permissions in both local
     await page.goto(baseUrl + "/meetings");
     await page.getByLabel("Toplantı adı", { exact: true }).fill("E2E meeting " + randomUUID());
     await page.getByLabel("Toplantı ses dosyası").setInputFiles({ name: "invalid.wav", mimeType: "audio/wav", buffer: Buffer.from("invalid audio") });
+    await page.getByText("Katılımcı bilgileri", { exact: true }).click();
     await page.getByLabel("Toplam katılımcı sayısı (isteğe bağlı)").fill("5");
     await page.getByLabel("Konuşan kişi sayısı (kesin biliniyorsa)").fill("6");
     await page.getByRole("checkbox").uncheck();

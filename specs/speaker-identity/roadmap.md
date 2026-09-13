@@ -20,7 +20,13 @@ toplantının konuşmacı gruplamasını ve otomatik yeni kişi kaydını kapsam
 | 004 | spark-remote-inference | [PRD](PRDs/004-spark-remote-inference/PRD.md) | Accepted — Spark application path live; security release evidence unavailable |
 | 005 | local-cpu-runtime | [PRD](PRDs/005-local-cpu-runtime/PRD.md) | Accepted — fully local MacBook CPU environment requested; implementation and device evidence tracked in tasks |
 | 006 | local-admin-login | [PRD](PRDs/006-local-admin-login/PRD.md) | Accepted — local one-click login verified and published; environment evidence limits recorded |
-| 007 | microphone-meeting-capture | [PRD](PRDs/007-microphone-meeting-capture/PRD.md) | Accepted — prior microphone request preserved separately after owner selected file upload for current 002 delivery; implementation and device proof incomplete |
+| 007 | microphone-meeting-capture | [PRD](PRDs/007-microphone-meeting-capture/PRD.md) | Accepted — PCM16/OPFS/WAV ve ortak toplantı arayüzü uygulandı; tam profil kapısı 738 testle geçti, 11 sınırlı tarayıcı kontrolü gözlendi. Fiziksel mikrofon izni, uçtan uca cihaz kabulü ve eksik güvenlik/tarayıcı araçları [görevlerde](PRDs/007-microphone-meeting-capture/tasks.md) açık |
+| 008 | modern-workspace | [PRD](PRDs/008-modern-workspace/PRD.md) | Accepted — ortak tasarım uygulandı; 691 otomatik test ve 22 TR/EN dar/geniş tarayıcı kontrolü başarılı; güvenlik taraması, paketli senaryo yürütücüsü ve kullanıcı tasarım kabulü açık |
+| 009 | turkish-evaluation-ledger | [PRD](PRDs/009-turkish-evaluation-ledger/PRD.md) | Accepted — otomatik günlük, Türkçe kaynak hazırlama ve RTX/HTTP karşılaştırması doğrulandı; sayısı bilinen küçük deneyde dönüş 3/6→5/6, mikro F1 %66,67→%90,91; insan referansı, 50 kişi ve güvenlik taraması sınırları [raporda](../../docs/evidence/2026-09-13-turkish-evaluation/README.md) |
+| 010 | expanded-turkish-benchmark | [PRD](PRDs/010-expanded-turkish-benchmark/PRD.md) | Accepted — 3.176 yeni Türkçe klip ve 12 yeni görüşme kesiti RTX/HTTP ile ölçüldü; MediaSpeech WER %14,12, FLEURS WER %6,50; aynı altı kişilik iki zincirde kimlik F1 %100. 1.231 otomatik test başarılı, 2 Windows atlaması ve eksik güvenlik aracı açık; 50 kişi/genelleme sınırları [raporda](../../docs/evidence/2026-09-13-expanded-turkish/README.md) |
+| 011 | meeting-audio-review | [PRD](PRDs/011-meeting-audio-review/PRD.md) | Accepted — 30 saniyelik yetkili kaynak dinleme, TR/EN tek oynatıcı ve gerekçe açıklamaları tamam; 845 otomatik test, 182 gerçek HTTP işlemi ve 4 canlı oynatma varyantı başarılı. Güvenlik aracı, headless koşumu ve fiziksel ses/L3 açık; [kanıt](../../docs/evidence/2026-09-13-usability-improvement/README.md), [görevler](PRDs/011-meeting-audio-review/tasks.md) |
+| 012 | contextual-transcript-review | [PRD](PRDs/012-contextual-transcript-review/PRD.md) | Accepted — kaynak değişmeden yerel Qwen3.5 27B önizlemesi; 967 otomatik test, 30 gerçek HTTP isteği, dört canlı TR/EN varyantı ve 59 eşlenmiş model isteği raporlu. Gerçek Türkçe örneklerde hata oranı azalmadı; güvenlik aracı ve diğer açık kanıtlar [raporda](../../docs/evidence/2026-09-13-contextual-transcript-review/README.md); [görevler](PRDs/012-contextual-transcript-review/tasks.md) |
+| 013 | model-selection-saved-corrections | [PRD](PRDs/013-model-selection-saved-corrections/PRD.md) | Accepted — üç kurulu model seçimi, tüm önerilerin görünürlüğü ve yeşil kullanıcı kayıtları L2; 1.084 tam kapı testi, 16 HTTP isteği ve dört canlı görünüm. Güvenlik aracı/diğer açık kanıtlar [raporda](../../docs/evidence/2026-09-13-saved-transcript-corrections/README.md); [görevler](PRDs/013-model-selection-saved-corrections/tasks.md) |
 
 9 Eylül 2026 sıralama kararı: [uzun kayıt ve canlı çalışma](../../docs/LONG_RECORDING_STRATEGY.md).
 001'in gerçek kişi deneyi önce gelir; sonraki model seçimi ölçüme dayanır.
@@ -86,3 +92,12 @@ geçti; hafıza toplamı 5→5→5→6, geri dönen kişilerin ad/kimlikleri ayn
 Altı yeni örnek yüzde 99 kaynak saflığını geçti; ayrı B tekrarında altı mevcut
 profil/örnek değişmedi. [Canlı kanıt](../../docs/evidence/2026-09-10-meeting-delivery/frozen-meeting-flow-report.md)
 50 kişilik doğruluk veya native Spark/Apple toplantı çalışma zamanı kanıtı değildir.
+
+11 Eylül sonraki kullanıcı talimatı, uygulama içinden doğrudan ses kaydetmeyi
+yeniden istedi ve Accepted 007'yi etkin uygulama kapsamına aldı. `AudioWorklet`
+mono PCM16 sesi en çok 16 MiB bellekle OPFS geçici diskine yazar; kullanıcı
+durdurduğunda kesin WAV başlığı tamamlanıp mevcut 002 hashli dosya aktarımı ve
+metin/hafıza analizi kullanılır. Yeni decoder, API veya şema gerektirmeyen bu
+karar, çalışma anında metin yayını veya otomatik Teams ses yakalama eklemez.
+Gerçek mikrofon ve tarayıcı kanıtı [007 görevlerinde](PRDs/007-microphone-meeting-capture/tasks.md)
+tamamlanıncaya kadar geçmiş dosya testiyle karşılanmış sayılmaz.

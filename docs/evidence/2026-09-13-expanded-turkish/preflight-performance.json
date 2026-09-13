@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "old_source_sha256": "9939cdca3c5916e368b5204e61742f9ac6800894ec878e73d186146cf48ee7d7",
+  "new_source_sha256": "c6df5fa1c158db423df324f50900bd495a9ddef6ab54b7dbd606d259e5821310",
+  "environment": "Docker Linux on Windows workspace bind mount; existing inference image; no GPU",
+  "operation": "one validate_paths pass; no locks or output writes",
+  "old_measurements": [
+    {"clips": 2, "seconds": 0.27845737600000575},
+    {"clips": 5, "seconds": 0.45949096099957387}
+  ],
+  "new_measurements": [
+    {"clips": 5, "seconds": 0.12097739599994384},
+    {"clips": 2433, "seconds": 17.20449762000044}
+  ],
+  "full_source_content_validation_changed": false,
+  "linux_source_symlink_checks_passed": 2,
+  "windows_unit_tests_passed": 46,
+  "windows_unit_tests_skipped": 2,
+  "skip_reason": "Windows account lacks symbolic link privilege; the same source-file and source-parent checks passed in Linux"
+}

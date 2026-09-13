@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "scope": "local-document-links-report-shape-and-frozen-source-hashes",
+  "documents": 27,
+  "local_links_checked": 171,
+  "fixed_reports_checked": 17,
+  "runtime_source_hashes_checked": 8,
+  "failures": [],
+  "input_sha256": {
+    "docs/evidence/2026-09-13-expanded-turkish/automated-report.md": "3704a6f996b787b978b81852dec0068cfcd8706fcd5ad53aa12a5f16e268cfd9",
+    "docs/evidence/2026-09-13-expanded-turkish/dataset-coverage-report.md": "d3b9d6af830b4319046c3f1bb6f8db224dc6109172af26f9e58c8607061da813",
+    "docs/evidence/2026-09-13-expanded-turkish/distribution-report.md": "db63d69a29402b0e5f152970e00b6037022aae6fda9cba2a3356e6c4bbc97356",
+    "docs/evidence/2026-09-13-expanded-turkish/expanded-asr-runner-report.md": "88af90192d5cc228559de7374436fc6b175c25dc73f66523bf57cee09ac65433",
+    "docs/evidence/2026-09-13-expanded-turkish/fleurs-error-analysis-v2-report.md": "4266ead2ad5461003f2c9a7d2c3e9a6576bf1a6938f971a266cba44fd2b44b74",
+    "docs/evidence/2026-09-13-expanded-turkish/fleurs-independent-report.md": "4452fd205bd9438c621f754e1c6fa159eaca1671fb7c74abaa6caff2f0814aec",
+    "docs/evidence/2026-09-13-expanded-turkish/fleurs-source-report.md": "5e0f29cc49651d50291d9d5d7577cbea99f38cdc4373bede4fb075c377b2f007",
+    "docs/evidence/2026-09-13-expanded-turkish/ledger-report.md": "2dccbd5d074664e136e394f2d5b81eeb557b353ded18d674d5657008938e0275",
+    "docs/evidence/2026-09-13-expanded-turkish/mediaspeech-error-analysis-report.md": "e3bff34376ca8f22bb939730675af1d5ef7d3baa5722e1fc44116882c36ff260",
+    "docs/evidence/2026-09-13-expanded-turkish/mediaspeech-error-analysis-v2-report.md": "09542c7fd1f17df4dbecbeef1cb4171e696ae185e4fcd196f6ece30414d71186",
+    "docs/evidence/2026-09-13-expanded-turkish/mediaspeech-independent-report.md": "5b7c7451b94aefdf7b87417c03fb2740972c0b0fbcabc421b5dc7d6c093f029f",
+    "docs/evidence/2026-09-13-expanded-turkish/meeting-live-report.md": "8d7469e025ed9c1b323cd8bd8e7ee582eac1bb29e21311d0ad15d9541bb741f1",
+    "docs/evidence/2026-09-13-expanded-turkish/meeting-preparation-report.md": "7340748a444f799674e24603a3a20db9c78d61926a5d7063b5c024261ef7d5d9",
+    "docs/evidence/2026-09-13-expanded-turkish/partial-diagnostic-report.md": "511791bb0b1f6b0c30c2d9b0514ce82c18879dcba0f8056ae4e5fca010a18a0f",
+    "docs/evidence/2026-09-13-expanded-turkish/post-performance-verification-report.md": "bccd812c83b1f0d47ae88873dc80039dd7930c364e89e0bb7a44ba866873c50f",
+    "docs/evidence/2026-09-13-expanded-turkish/quality-report.md": "9af0b428191527431fcd6e181f31ef5cf09aebef7cf1f8794e7d814ad4845d63",
+    "docs/evidence/2026-09-13-expanded-turkish/README.md": "28841ca6a47a4d56e35eb6ab47f267329a3f2d54e137a84b002f3302c736d073",
+    "specs/speaker-identity/PRDs/010-expanded-turkish-benchmark/plan.md": "c0001b7390dc399402aaf5cb19ef41e2574fa623344b74a01e4da8b6f1bb72d5",
+    "specs/speaker-identity/PRDs/010-expanded-turkish-benchmark/PRD.md": "93fc274bbe9ccf0ec7b751494b53b34b48da488470a6eccf4afa3a2b5905278c",
+    "specs/speaker-identity/PRDs/010-expanded-turkish-benchmark/tasks.md": "b6cc34411c2b0e1f2bca0c5b641ce2a3fb1dcd83597b8612e1950a551e4d44f8",
+    "README.md": "059e5dd15ddba93b90bdf29dd0b59ea5520f178d31a5a82d4aeabbca86008794",
+    "results.md": "11bba77d094b28c657abd18b6ea1613a48755bd153dcc499997eebe46357d6d5",
+    "scripts/README.md": "88446225fa3650ad4aa0871efa8f5e1dd757edaaf3c6ea3a90155d48f324dab8",
+    "docs/TURKISH_EVALUATION.md": "b120c8933c0f968cecda221d331679d7a68cb5146d8b512c4bd91c02ef19933d",
+    "plans/TURKISH_DATASET_RESEARCH.md": "1a193c5c337dad969736620db617ea4d263ec44246daef1fae11dc424e0e0aa3",
+    "plans/TURKISH_SPEAKER_MEMORY_SOURCES_ADDENDUM.md": "a0e3f5cd602b36ccc96d965504fb4367a4f6e3d4cec4d31460ae0b0f57e4f0c5",
+    "specs/speaker-identity/roadmap.md": "405148c15ae781d9bee701b091537bc26f6c2f199095c9e311473217d3dbf89b"
+  },
+  "limitations": [
+    "External URLs and Markdown anchors were not rechecked.",
+    "This is not a security scan or a new model experiment."
+  ]
+}

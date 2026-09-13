@@ -7,6 +7,17 @@ source choice is uploaded recordings; microphone capture moved to Accepted
 five-return/sixth-new-person workflow are part of the current 002 delivery.
 Profile: `kt-vibecoding-python-web-v2`. This plan is not implementation evidence.
 
+Decision 25 follows the owner's 2026-09-13 usability and improvement request.
+Protect the observed Turkish boundary-duplication regression in
+`app/backend/app/domain/meeting_timeline.py` and propagate the explicit or
+agreed adjacent-provider language through `services/meeting_chunks.py`.
+Use NFC and Turkish I/İ only for matching keys; preserve emitted words and all
+time/anchor rules. Cover genuine repetitions, distinct Turkish I/i, canonical
+Unicode equivalents, unchanged English/default calls and legacy checkpoints.
+Verify real PostgreSQL persistence/retry language selection, replay retained
+provider results without fresh inference where practical, and run the full
+profile gate. No public contract, migration, dependency or model change is needed.
+
 Decisions 19–20 follow the owner's 2026-09-11 accuracy audit request. First freeze
 the existing A/B/C reference protocol and identify unused public speakers without
 model-based selection. Add bounded, reusable transcription metrics in

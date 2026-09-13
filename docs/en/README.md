@@ -19,3 +19,7 @@ locales.
 
 Repository workflow: [specifications](../../specs/README.md). Platform first run:
 [root README](../../README.md).
+
+Record directly in the app: [microphone meeting recording](microphone-recording.md).
+Review a result: [check the transcript against its audio](meeting-audio-review.md).
+Word review: [check speech words in context](contextual-transcript-review.md).

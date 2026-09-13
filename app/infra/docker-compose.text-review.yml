@@ -1,0 +1,18 @@
+# Optional installed host Ollama bridge; never publishes its private listener.
+services:
+  nginx:
+    entrypoint: ["/bin/sh", "/opt/voiceup/start-text-review-proxy.sh"]
+    command: []
+    user: "101:101"
+    read_only: true
+    cap_drop: !override [ALL]
+    security_opt: !override ["no-new-privileges:true"]
+    tmpfs: !override
+      - /var/cache/nginx:rw,nosuid,nodev,size=16777216,mode=1777
+      - /var/run:rw,nosuid,nodev,size=1048576,mode=1777
+      - /tmp:rw,nosuid,nodev,size=16777216,mode=1777
+    extra_hosts:
+      - "voiceup-text-host:host-gateway"
+    volumes:
+      - ./nginx/nginx.text-review.conf:/etc/nginx/text-review.conf.template:ro
+      - ./nginx/start-text-review-proxy.sh:/opt/voiceup/start-text-review-proxy.sh:ro

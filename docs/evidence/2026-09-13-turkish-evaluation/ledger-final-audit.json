@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "ledger_sha256": "9e0f0e76039e68e04eb0443fa3fba3d4f28299e0a3743c85db654b54e7191f9a",
+  "audit_source_sha256": "1c9ea199700d79c9682a937ecd1ab5b6883f06c031e5d1cee3deffe36f8bd0f4",
+  "snapshots": 18,
+  "experiments": 18,
+  "checks": 676,
+  "passed": 676,
+  "checks_by_category": {
+    "ledger": 36,
+    "hash": 40,
+    "privacy": 300,
+    "scope": 40,
+    "arithmetic": 195,
+    "inventory": 5,
+    "cli": 10,
+    "private-counts": 24,
+    "comparison": 19,
+    "preservation": 7
+  },
+  "failures": [],
+  "public_artifact_sha256": {
+    "asr-dev-tr": "91d9bc72e8d8eaf9f1abd774dcf7421c0aa5ccca0b456404a53d0cba1895c8c0",
+    "asr-dev-auto": "91d9bc72e8d8eaf9f1abd774dcf7421c0aa5ccca0b456404a53d0cba1895c8c0",
+    "asr-heldout-tr": "305f03fa83e9d7d2a4a9009404adc4f86fae88a62171bf27892ca5093c70609a",
+    "meeting-baseline": "2c233b59250da8928ae491764ca3c07fbf224d8dbd9068ab3a4fb062d06bd643",
+    "meeting-count2": "5a3dc06b51784964fca184c961cbf9c7ac6f26aa435fc898680f4997a03dbf0c",
+    "meeting-comparison": "fbd08bf9ed0e3175009b54ebb91d3d0198933b0457760e3c32a43488ace0bdd4"
+  },
+  "cli_projection_count": 5,
+  "normalized_word_stream_pairs": 6,
+  "unit_tests_run": 0,
+  "browser_tests_run": 0,
+  "model_calls": 0,
+  "limitations": [
+    "Independent arithmetic and provenance checks do not turn weak automatic labels into human ground truth.",
+    "Historical macro F1 is bound to previously audited summaries; it is not newly recomputed from private historical per-person inputs.",
+    "CLI projection normalized the legacy cumulative coverage field only in temporary ledgers; original snapshots were preserved."
+  ]
+}

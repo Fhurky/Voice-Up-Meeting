@@ -32,6 +32,8 @@ build/
 /data/
 /models/
 /outputs/
+/results.md.lock
+/results.md.*.tmp
 *.sqlite*
 *.db
 *.wav

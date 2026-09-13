@@ -5,6 +5,8 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useIntl } from "@/contexts/IntlContext";
 import { errorMessageKey } from "@/lib/speakerErrors";
 import { SpeakerService, type SpeakerProfile } from "@/services/speakers";
+import { Icon } from "@/components/ui/Icon";
+import { SpeakerAvatar } from "@/components/ui/SpeakerAvatar";
 
 export default function SpeakerProfilesPage() {
   const { t, locale } = useIntl();
@@ -73,21 +75,21 @@ export default function SpeakerProfilesPage() {
 
   return <SpeakerLayout titleKey="speaker.profiles.title">
     <p className="page-intro">{t("speaker.profiles.intro")}</p>
-    <div className="pilot-grid">
+    <div className="pilot-grid profiles-workspace">
       <section className="panel profile-list" aria-labelledby="profiles-heading">
-        <div className="section-heading"><h2 id="profiles-heading">{t("speaker.profiles.saved")}</h2><button className="button-quiet" disabled={loading} onClick={refresh}>{t("common.refresh")}</button></div>
+        <div className="section-heading"><h2 id="profiles-heading">{t("speaker.profiles.saved")}</h2><button className="button-quiet" disabled={loading} onClick={refresh}><Icon name="refresh" size={16} />{t("common.refresh")}</button></div>
         {error && <p role="alert" className="error-message">{t(error)}</p>}
         {loading ? <p role="status">{t("common.loading")}</p> : <>
-          {profiles.length === 0 ? <div className="empty-card"><h3>{t("speaker.profiles.empty")}</h3><p>{t("speaker.profiles.emptyHint")}</p></div> : <ul className="profiles">
-            {profiles.map((profile) => <li className="profile-card" key={profile.public_id}>
-              <h3>{profile.name}</h3>
-              <dl className="compact-details">
+          {profiles.length === 0 ? <div className="empty-card"><span className="empty-icon"><Icon name="users" size={28} /></span><h3>{t("speaker.profiles.empty")}</h3><p>{t("speaker.profiles.emptyHint")}</p></div> : <ul className="profiles">
+            {profiles.map((profile, index) => <li className="profile-card" key={profile.public_id}>
+              <div className="profile-identity"><SpeakerAvatar name={profile.name} index={offset + index} /><div className="profile-heading"><h3>{profile.name}</h3></div></div>
+              <dl className="compact-details profile-meta">
                 <div><dt>{t("speaker.profiles.samples")}</dt><dd>{new Intl.NumberFormat(locale).format(profile.sample_count)} / 20</dd></div>
                 <div><dt>{t("common.created")}</dt><dd><time dateTime={profile.created_at}>{new Intl.DateTimeFormat(locale, { dateStyle: "medium" }).format(new Date(profile.created_at))}</time></dd></div>
               </dl>
               <details className="model-details"><summary>{t("speaker.result.model")}</summary><p>{profile.model_id}</p><code>{profile.model_revision}</code></details>
               {canWrite && <div className="action-row">
-                {canEnroll && <button className="button-secondary" disabled={profile.sample_count >= 20} onClick={() => { setTarget(profile); setEditing(null); setDeleting(null); }}>{t("speaker.profiles.add")}</button>}
+                {canEnroll && <button className="button-secondary" disabled={profile.sample_count >= 20} onClick={() => { setTarget(profile); setEditing(null); setDeleting(null); }}><Icon name="plus" size={16} />{t("speaker.profiles.add")}</button>}
                 <button className="button-quiet" onClick={() => { setEditing(profile); setName(profile.name); setDeleting(null); }}>{t("common.rename")}</button>
                 <button className="button-danger-quiet" onClick={() => { setDeleting(profile); setEditing(null); }}>{t("common.delete")}</button>
               </div>}
@@ -113,7 +115,7 @@ export default function SpeakerProfilesPage() {
         </section>}
       </section>
       {canEnroll ? <section className="panel enrollment-panel" aria-labelledby="enroll-heading">
-        <div className="section-heading"><h2 ref={enrollmentHeading} tabIndex={-1} id="enroll-heading">{t(target ? "speaker.profiles.add" : "speaker.profiles.create")}</h2>{target && <button className="button-quiet" onClick={() => setTarget(undefined)}>{t("common.cancel")}</button>}</div>
+        <div className="section-heading"><div className="section-title-group"><span className="section-icon"><Icon name="audio" size={20} /></span><h2 ref={enrollmentHeading} tabIndex={-1} id="enroll-heading">{t(target ? "speaker.profiles.add" : "speaker.profiles.create")}</h2></div>{target && <button className="button-quiet" onClick={() => setTarget(undefined)}>{t("common.cancel")}</button>}</div>
         <AudioJobForm key={target?.public_id ?? "new"} purpose="enroll" profile={target} />
       </section> : <section className="panel"><p>{t("speaker.profiles.readOnly")}</p></section>}
     </div>

@@ -1,0 +1,29 @@
+{
+  "status": "unscored",
+  "observations": {},
+  "http_requests_final": 30,
+  "ordinary_accounts": 2,
+  "http_model_calls_final": 2,
+  "browser_variants_passed": 4,
+  "browser_model_calls_final": 2,
+  "locales": [
+    "tr",
+    "en"
+  ],
+  "css_widths": [
+    1781,
+    469
+  ],
+  "business_data_unchanged": true,
+  "original_text_unchanged": true,
+  "strictmode_single_dispatch_observed": true,
+  "loaded_text_models_after_run": 0,
+  "earlier_failed_or_aborted_attempts_excluded_from_final_counts": true,
+  "whole_session_model_call_count": null,
+  "accuracy_metrics": null,
+  "report_hashes": {
+    "live-http-report.md": "b88ec761cef8bb93743ca0cc0ff2ba472057d432cb5dd2e98aaf827173a03234",
+    "browser-report.md": "7618d58bbbb401f9abc69f1af9ef2b0b7ce77ed4254e62e9f50ac48d7b0652b1",
+    "live-http-aggregate.json": "a1ba9779dc56f6cc09efc230bbf62aa683954fc4f6c25c209da0ed562d0c5835"
+  }
+}

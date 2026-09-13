@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "scope": "Decision 25 retained provider compatibility replay",
+  "technology_profile": "kt-vibecoding-python-web-v2",
+  "source_snapshot_sha256": "d8a714abdc4a9c9bc6a37b7b03dc554e3f5ad8a7fed431d71f20790e31b82e81",
+  "protocol_sha256": "b76d06a80af7b6238b650f2599f9db3b0408e3e806afd7c0e8e7addd465ccf50",
+  "source_audio_sha256": "aee97490f1193da53aaeaa94ef8edae2299c43b5d4c41eed2531ef9f6c2e3fe3",
+  "source_audio_seconds": 2129.659875,
+  "unique_source_recordings": 1,
+  "checkpoint_groups": 2,
+  "unique_provider_checkpoints": 8,
+  "before_after_provider_pairs_equal": 8,
+  "language_runs": 4,
+  "seam_comparisons": 28,
+  "failed": 0,
+  "skipped": 0,
+  "source_before_sha256": "c02e5c9e4bdd20633735367fe5aeb06eb277938bc5b2930aa38caf859a5e0f09",
+  "source_after_sha256": "2a90dd93df19895b4a10f664d25d682bee2d3e34dbba546a9e00cb7c14cc04ac",
+  "checks": [
+    {
+      "checkpoint_group": "before",
+      "language": null,
+      "seam_comparisons": 7,
+      "equal_seams": 7,
+      "raw_context_words": 5914,
+      "source_owned_words": 5732,
+      "complete_words_times_probabilities_uncertainty_equal": true
+    },
+    {
+      "checkpoint_group": "before",
+      "language": "en",
+      "seam_comparisons": 7,
+      "equal_seams": 7,
+      "raw_context_words": 5914,
+      "source_owned_words": 5732,
+      "complete_words_times_probabilities_uncertainty_equal": true
+    },
+    {
+      "checkpoint_group": "after",
+      "language": null,
+      "seam_comparisons": 7,
+      "equal_seams": 7,
+      "raw_context_words": 5914,
+      "source_owned_words": 5732,
+      "complete_words_times_probabilities_uncertainty_equal": true
+    },
+    {
+      "checkpoint_group": "after",
+      "language": "en",
+      "seam_comparisons": 7,
+      "equal_seams": 7,
+      "raw_context_words": 5914,
+      "source_owned_words": 5732,
+      "complete_words_times_probabilities_uncertainty_equal": true
+    }
+  ],
+  "model_calls": 0,
+  "database_reads": 0,
+  "database_writes": 0,
+  "limits": [
+    "The two retained groups contain the same eight provider outputs from one English source; they are not independent meeting samples.",
+    "This replays source-word ownership and equality only; it does not measure Turkish WER or speaker identity accuracy.",
+    "No completed record or provider checkpoint was rewritten."
+  ]
+}

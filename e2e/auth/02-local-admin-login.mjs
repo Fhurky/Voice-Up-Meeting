@@ -1,4 +1,9 @@
 import { baseUrl, withBrowser } from "../shared/harness.mjs";
+import { readFile } from "node:fs/promises";
+
+const catalogues = Object.fromEntries(await Promise.all(["tr", "en"].map(async (locale) => [
+  locale, JSON.parse(await readFile(new URL(`../../app/frontend/src/locales/${locale}.json`, import.meta.url), "utf8")),
+])));
 
 await withBrowser("local admin sign-in, reload and logout in both locales", async ({ page, assert }) => {
   const failures = [];
@@ -19,8 +24,8 @@ await withBrowser("local admin sign-in, reload and logout in both locales", asyn
   });
 
   const labels = {
-    tr: { admin: "Admin olarak giriş yap", username: "Kullanıcı adı", password: "Parola", home: "Sesleri tanımaya başlayın", logout: "Çıkış yap" },
-    en: { admin: "Sign in as admin", username: "Username", password: "Password", home: "Start recognizing voices", logout: "Sign out" },
+    tr: { admin: "Admin olarak giriş yap", username: "Kullanıcı adı", password: "Parola", home: catalogues.tr["home.title"], logout: "Çıkış yap" },
+    en: { admin: "Sign in as admin", username: "Username", password: "Password", home: catalogues.en["home.title"], logout: "Sign out" },
   };
   for (const locale of ["tr", "en"]) {
     const text = labels[locale];

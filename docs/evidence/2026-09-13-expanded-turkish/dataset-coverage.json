@@ -1,0 +1,126 @@
+{
+  "checks_failed": 0,
+  "checks_passed": 19544,
+  "container_duplicate_groups_total": 0,
+  "date": "2026-09-13",
+  "decoded_duplicate_groups_total": 0,
+  "decoder": {
+    "canonicalization": "Little-endian IEEE float32; signed zero normalized to positive zero; finite mono 16000 Hz only. Hash includes sample rate, channels and frame count.",
+    "dtype": "float32",
+    "hash_protocol": "voiceup-decoded-mono-f32le-v1",
+    "libsndfile_version": "1.2.2",
+    "soundfile_version": "0.13.1"
+  },
+  "distinct_container_hashes": 3256,
+  "distinct_decoded_hashes": 3256,
+  "elapsed_seconds": 18.811999999999898,
+  "fleurs_metadata": {
+    "gender_counts": {
+      "MALE": 743
+    },
+    "rows": 743,
+    "samples": 150083520,
+    "tsv_sha256": "52adb452a258976a2428da88fe7ac4d9bce27d4c10f9358ba3acf48a9b59577a",
+    "unique_sentence_ids": 329
+  },
+  "groups": [
+    {
+      "audio_bytes": 600377174,
+      "channels": 1,
+      "clips": 743,
+      "container_duplicate_groups": 0,
+      "decoded_duplicate_groups": 0,
+      "distinct_container_sha256": 743,
+      "distinct_decoded_sha256": 743,
+      "duration_seconds": 9380.22,
+      "formats": {
+        "WAV/FLOAT": 743
+      },
+      "group": "FLEURS-TR-official-test",
+      "manifest_sha256": "77fa49973ee399d0378842ef9697697a54a29fb9a5f71a04ea55f6bf818624f8",
+      "max_duration_seconds": 36.84,
+      "min_duration_seconds": 3.84,
+      "sample_rate": 16000,
+      "samples": 150083520
+    },
+    {
+      "audio_bytes": 618013340,
+      "channels": 1,
+      "clips": 2433,
+      "container_duplicate_groups": 0,
+      "decoded_duplicate_groups": 0,
+      "distinct_container_sha256": 2433,
+      "distinct_decoded_sha256": 2433,
+      "duration_seconds": 34852.1,
+      "formats": {
+        "FLAC/PCM_16": 2433
+      },
+      "group": "MediaSpeech-TR-expanded",
+      "manifest_sha256": "e5439bc09b057af136bac6d85be1a511eea646c6f942fe519f06a7d0db3929ef",
+      "max_duration_seconds": 14.9,
+      "min_duration_seconds": 3.4,
+      "sample_rate": 16000,
+      "samples": 557633600
+    },
+    {
+      "audio_bytes": 20385714,
+      "channels": 1,
+      "clips": 80,
+      "container_duplicate_groups": 0,
+      "decoded_duplicate_groups": 0,
+      "distinct_container_sha256": 80,
+      "distinct_decoded_sha256": 80,
+      "duration_seconds": 1157.2,
+      "formats": {
+        "FLAC/PCM_16": 80
+      },
+      "group": "MediaSpeech-TR-previous",
+      "manifest_sha256": "b7776df4f4744fa364ac358a541b3db056ff8d1d1f9863c00481c713e3ee172e",
+      "max_duration_seconds": 14.9,
+      "min_duration_seconds": 12.6,
+      "sample_rate": 16000,
+      "samples": 18515200
+    }
+  ],
+  "limitations": [
+    "No speaker or session independence claim.",
+    "No near-duplicate, alternate-edit or overlapping-excerpt detection.",
+    "FLEURS test gender labels are entirely MALE; text IDs are sentence IDs."
+  ],
+  "new_clips_this_expansion": 3176,
+  "new_duration_seconds": 44232.32,
+  "pairwise": [
+    {
+      "left": "FLEURS-TR-official-test",
+      "right": "MediaSpeech-TR-expanded",
+      "shared_container_hashes": 0,
+      "shared_decoded_hashes": 0
+    },
+    {
+      "left": "FLEURS-TR-official-test",
+      "right": "MediaSpeech-TR-previous",
+      "shared_container_hashes": 0,
+      "shared_decoded_hashes": 0
+    },
+    {
+      "left": "MediaSpeech-TR-expanded",
+      "right": "MediaSpeech-TR-previous",
+      "shared_container_hashes": 0,
+      "shared_decoded_hashes": 0
+    }
+  ],
+  "per_clip_checks": {
+    "audio_hashes": 3256,
+    "audio_headers": 3256,
+    "finite_samples": 3256,
+    "reference_hashes": 3256,
+    "reference_texts": 3256,
+    "unique_clip_ids": 3256
+  },
+  "schema_version": 1,
+  "scope": "unique-clip-and-exact-decoded-content-only",
+  "status": "complete",
+  "total_clips": 3256,
+  "total_duration_seconds": 45389.52,
+  "total_samples": 726232320
+}

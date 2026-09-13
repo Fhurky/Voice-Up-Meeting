@@ -1,0 +1,35 @@
+{
+  "http_requests": 30,
+  "ordinary_accounts": 2,
+  "tenant_isolation": true,
+  "authorization": true,
+  "business_data_unchanged": true,
+  "source_bound": true,
+  "cache_control": "no-store",
+  "model_calls": 2,
+  "observations": [
+    {
+      "status": "unchanged",
+      "edits": 0,
+      "rejected_count": 0,
+      "elapsed_seconds": 28.92199999999866,
+      "negative": {
+        "missing_tenant": 400,
+        "missing_auth": 401,
+        "foreign_tenant": 404
+      }
+    },
+    {
+      "status": "unchanged",
+      "edits": 0,
+      "rejected_count": 0,
+      "elapsed_seconds": 29.65599999999904,
+      "negative": {
+        "missing_tenant": 400,
+        "missing_auth": 401,
+        "foreign_tenant": 404
+      }
+    }
+  ],
+  "private_report_sha256": "9f48e94122fb1829fafd7d6b53d1ef7767fdb50c22c161c37a42efd6ece2cdd8"
+}

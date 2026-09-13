@@ -12,6 +12,7 @@ from app.domain.models.meeting import (
     MeetingTranscript,
     MeetingUploadPart,
 )
+from app.domain.models.transcript_revision import MeetingTranscriptRevision
 from app.infrastructure.repositories.speaker_repository import SpeakerRepository
 
 TERMINAL_STATUSES = ("succeeded", "failed", "cancelled")
@@ -70,6 +71,16 @@ class MeetingCleanupRepository:
             "props": {},
         }
         for model, payload in (
+            (
+                MeetingTranscriptRevision,
+                {
+                    "corrected_text": "",
+                    "edits": [],
+                    "source_text_sha256": "",
+                    "context_sha256": "",
+                    "deleted_by": meeting.deleted_by,
+                },
+            ),
             (MeetingTranscript, {"text": "", "meeting_speaker_id": None}),
             (MeetingChunk, {"result": {}}),
             (MeetingUploadPart, {"sha256": ""}),

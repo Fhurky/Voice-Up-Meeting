@@ -5,11 +5,13 @@ import { MeetingResults } from "@/components/MeetingResults";
 import { MeetingService } from "@/services/meetings";
 import { meeting, meetingSpeaker, transcript } from "@/test/meetingFixtures";
 import { ApiError } from "@/lib/apiClient";
+import { correctionSuggestion, correctionTurn, reviewModels, savedCorrection } from "@/test/correctionFixtures";
 
-const session = vi.hoisted(() => ({ write: true, run: true }));
-vi.mock("@/contexts/AuthContext", () => ({ useAuth: () => ({ hasPermission: (permission: string) => permission === "speaker_profiles:write" ? session.write : session.run }) }));
-afterEach(() => { cleanup(); vi.restoreAllMocks(); session.write = true; session.run = true; });
+const session = vi.hoisted(() => ({ write: true, read: true, run: true, user: { public_id: "user", tenant_id: "tenant" } as { public_id: string; tenant_id: string } | null }));
+vi.mock("@/contexts/AuthContext", () => ({ useAuth: () => ({ user: session.user, hasPermission: (permission: string) => permission === "speaker_profiles:write" ? session.write : permission === "meeting_analysis:read" ? session.read : session.run }) }));
+afterEach(() => { cleanup(); vi.restoreAllMocks(); session.write = true; session.read = true; session.run = true; session.user = { public_id: "user", tenant_id: "tenant" }; });
 function load() {
+  vi.spyOn(MeetingService, "reviewModels").mockResolvedValue(reviewModels);
   const list = vi.spyOn(MeetingService, "speakers").mockResolvedValue({ items: [meetingSpeaker], total: 1, offset: 0, limit: 20 });
   vi.spyOn(MeetingService, "transcript").mockResolvedValue({ items: [transcript], total: 1, offset: 0, limit: 50, provisional: false });
   return list;
@@ -18,6 +20,110 @@ function setup() { render(<IntlProvider><MeetingResults meeting={meeting} revisi
 function LocaleControl() { const { setLocale } = useIntl(); return <button onClick={() => setLocale("en")}>English</button>; }
 
 describe("meeting result and memory distinctions", () => {
+  it("shows a saved correction to a read-only reader without offering model or save actions", async () => {
+    load(); session.run = false;
+    const correction = await savedCorrection();
+    vi.spyOn(MeetingService, "transcript").mockResolvedValue({ items: [{ ...correctionTurn, correction }], total: 1, offset: 0, limit: 50, provisional: false });
+    setup(); await screen.findByRole("button", { name: "Düzeltilmiş" });
+    expect(document.querySelector("[data-corrected-text]")).toHaveTextContent(correction.corrected_text);
+    expect(screen.queryByRole("button", { name: /Bağlama göre kontrol et/ })).toBeNull();
+    expect(screen.queryByRole("button", { name: "Düzeltilmiş sürümü kaydet" })).toBeNull();
+    fireEvent.click(screen.getByRole("button", { name: "Orijinal" }));
+    expect(document.querySelector("[data-original-text]")).toHaveTextContent(correctionTurn.text);
+  });
+  it("publishes the saved server version in the transcript while leaving source words intact", async () => {
+    load(); const correction = await savedCorrection();
+    vi.spyOn(MeetingService, "transcript").mockResolvedValue({ items: [correctionTurn], total: 1, offset: 0, limit: 50, provisional: false });
+    vi.spyOn(MeetingService, "correctionSuggestion").mockResolvedValue(await correctionSuggestion());
+    vi.spyOn(MeetingService, "saveCorrection").mockResolvedValue(correction);
+    setup(); fireEvent.click(await screen.findByRole("button", { name: /Bağlama göre kontrol et/ }));
+    fireEvent.click(await screen.findByRole("button", { name: "Kontrol et" }));
+    fireEvent.click(await screen.findByRole("button", { name: "Düzeltilmiş sürümü kaydet" }));
+    await screen.findByText("Düzeltilmiş sürüm kaydedildi. Özgün metin korundu.");
+    await screen.findByRole("button", { name: "Düzeltilmiş" });
+    expect(document.querySelector("[data-text-review]")).toBeNull();
+    expect(document.querySelector("[data-corrected-text] ins")).toHaveTextContent("sürümü");
+    fireEvent.click(screen.getByRole("button", { name: "Orijinal" }));
+    expect(document.querySelector("[data-original-text]")).toHaveTextContent(correctionTurn.text);
+  });
+  it("offers contextual review only for a completed result with read and run permissions", async () => {
+    load(); setup();
+    expect(await screen.findByRole("button", { name: /Bağlama göre kontrol et/ })).toBeInTheDocument();
+  });
+  it.each(["read", "run", "provisional", "running"])("does not offer review when %s is unavailable", async (condition) => {
+    load();
+    if (condition === "read") session.read = false;
+    if (condition === "run") session.run = false;
+    if (condition === "provisional") vi.spyOn(MeetingService, "transcript").mockResolvedValue({ items: [transcript], total: 1, offset: 0, limit: 50, provisional: true });
+    render(<IntlProvider><MeetingResults meeting={condition === "running" ? { ...meeting, status: "running" } : meeting} revision={0} /></IntlProvider>);
+    await screen.findByText(transcript.text); expect(screen.queryByRole("button", { name: /Bağlama göre kontrol et/ })).toBeNull();
+  });
+  it("keeps one active review, restores focus on close, and cancels on page and user changes", async () => {
+    load();
+    vi.spyOn(MeetingService, "transcript").mockResolvedValue({ items: [transcript, { ...transcript, public_id: "next", ordinal: 1 }], total: 51, offset: 0, limit: 50, provisional: false });
+    const preview = vi.spyOn(MeetingService, "correctionSuggestion").mockReturnValue(new Promise(() => undefined));
+    const mounted = render(<IntlProvider><MeetingResults meeting={meeting} revision={0} /></IntlProvider>);
+    const buttons = await screen.findAllByRole("button", { name: /Bağlama göre kontrol et/ });
+    fireEvent.click(buttons[0]); fireEvent.click(await screen.findByRole("button", { name: "Kontrol et" })); await waitFor(() => expect(preview).toHaveBeenCalledTimes(1));
+    fireEvent.click(buttons[1]); fireEvent.click(await screen.findByRole("button", { name: "Kontrol et" })); await waitFor(() => expect(preview).toHaveBeenCalledTimes(2));
+    expect(preview.mock.calls[0][3]?.aborted).toBe(true); expect(document.querySelectorAll("[data-text-review]")).toHaveLength(1);
+    fireEvent.click(screen.getByRole("button", { name: "İncelemeyi kapat" }));
+    expect(buttons[1]).toHaveFocus(); expect(preview.mock.calls[1][3]?.aborted).toBe(true);
+    fireEvent.click(buttons[0]); fireEvent.click(await screen.findByRole("button", { name: "Kontrol et" })); await waitFor(() => expect(preview).toHaveBeenCalledTimes(3));
+    fireEvent.click(screen.getByRole("button", { name: "Sonraki" }));
+    expect(preview.mock.calls[2][3]?.aborted).toBe(true); expect(document.querySelector("[data-text-review]")).toBeNull();
+    fireEvent.click(screen.getByRole("button", { name: "Önceki" }));
+    expect(document.querySelector("[data-text-review]")).toBeNull();
+    fireEvent.click((await screen.findAllByRole("button", { name: /Bağlama göre kontrol et/ }))[0]);
+    fireEvent.click(await screen.findByRole("button", { name: "Kontrol et" }));
+    await waitFor(() => expect(preview).toHaveBeenCalledTimes(4));
+    session.user = null; mounted.rerender(<IntlProvider><MeetingResults meeting={meeting} revision={0} /></IntlProvider>);
+    expect(preview.mock.calls[3][3]?.aborted).toBe(true); expect(document.querySelector("[data-text-review]")).toBeNull();
+  });
+  it("displays a safe reason and explains that renaming cannot correct identity", async () => {
+    const list = load();
+    list.mockResolvedValue({ items: [{ ...meetingSpeaker, reason: "inconsistent_audio" }], total: 1, offset: 0, limit: 20 });
+    setup(); await screen.findByText("Seçilen ses bölümlerinde tek ve tutarlı bir konuşmacı doğrulanamadı.");
+    fireEvent.click(screen.getByRole("button", { name: "Adı değiştir" }));
+    expect(screen.getByText("Adı değiştirmek ses kimliğini veya yanlış konuşmacı atamasını düzeltmez.")).toBeInTheDocument();
+  });
+  it("never renders an unknown reason code", async () => {
+    const list = load(); list.mockResolvedValue({ items: [{ ...meetingSpeaker, reason: "private/path" }], total: 1, offset: 0, limit: 20 });
+    setup(); await screen.findByText("Toplantıya başlayabiliriz.");
+    expect(screen.queryByText("private/path")).toBeNull();
+  });
+  it("cleans selected audio on pagination and logout while leaving text readable", async () => {
+    load(); vi.spyOn(MeetingService, "transcript").mockResolvedValue({ items: [transcript], total: 51, offset: 0, limit: 50, provisional: false });
+    const preview = vi.spyOn(MeetingService, "audioPreview").mockResolvedValue(new Blob(["wav"]));
+    vi.spyOn(URL, "createObjectURL").mockReturnValue("blob:selected");
+    vi.spyOn(URL, "revokeObjectURL").mockImplementation(() => undefined);
+    const view = render(<IntlProvider><MeetingResults meeting={meeting} revision={0} /></IntlProvider>);
+    fireEvent.click(await screen.findByRole("button", { name: /Bu bölümü dinle/ }));
+    await waitFor(() => expect(document.querySelector("audio")).toHaveAttribute("src", "blob:selected"));
+    fireEvent.click(screen.getByRole("button", { name: "Sonraki" }));
+    await waitFor(() => expect(document.querySelector("audio")).toBeNull());
+    expect(preview.mock.calls[0][2]?.aborted).toBe(true); expect(URL.revokeObjectURL).toHaveBeenCalledWith("blob:selected");
+    fireEvent.click(screen.getByRole("button", { name: "Önceki" }));
+    await screen.findByRole("button", { name: /Bu bölümü dinle/ });
+    expect(document.querySelector("audio")).toBeNull();
+    fireEvent.click(await screen.findByRole("button", { name: /Bu bölümü dinle/ }));
+    await waitFor(() => expect(document.querySelector("audio")).toHaveAttribute("src", "blob:selected"));
+    session.user = null;
+    view.rerender(<IntlProvider><MeetingResults meeting={meeting} revision={0} /></IntlProvider>);
+    expect(document.querySelector("audio")).toBeNull(); expect(URL.revokeObjectURL).toHaveBeenCalledTimes(2);
+    session.user = { public_id: "user", tenant_id: "tenant" };
+  });
+  it("clears old results and audio when the meeting or user scope changes", async () => {
+    load(); vi.spyOn(MeetingService, "audioPreview").mockResolvedValue(new Blob(["wav"]));
+    vi.spyOn(URL, "createObjectURL").mockReturnValue("blob:selected"); vi.spyOn(URL, "revokeObjectURL").mockImplementation(() => undefined);
+    const view = render(<IntlProvider><MeetingResults meeting={meeting} revision={0} /></IntlProvider>);
+    fireEvent.click(await screen.findByRole("button", { name: /Bu bölümü dinle/ }));
+    await waitFor(() => expect(document.querySelector("audio")).toHaveAttribute("src", "blob:selected"));
+    vi.spyOn(MeetingService, "transcript").mockReturnValue(new Promise(() => undefined));
+    view.rerender(<IntlProvider><MeetingResults meeting={{ ...meeting, public_id: "second-meeting" }} revision={0} /></IntlProvider>);
+    expect(document.querySelector("audio")).toBeNull(); expect(screen.queryByText(transcript.text)).toBeNull();
+    expect(URL.revokeObjectURL).toHaveBeenCalledOnce();
+  });
   it.each(["tr", "en"])("numbers speaker cards, transcript and editor from one in %s without changing API ordinals", async (locale) => {
     const list = load();
     const last = { ...meetingSpeaker, public_id: "de1f4383-a207-45be-b7f4-702f44b784ab", ordinal: 49 };

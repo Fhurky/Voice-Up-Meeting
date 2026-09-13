@@ -296,7 +296,13 @@ def main() -> None:
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--metrics-protocol", choices=["voiceup-open-set-v1"])
     parser.add_argument("--manifest", type=Path)
+    parser.add_argument("--experiment-metadata", type=Path)
+    parser.add_argument("--results-md", type=Path)
     args = parser.parse_args()
+    if args.results_md and not args.experiment_metadata:
+        parser.error("--results-md requires --experiment-metadata")
+    if args.experiment_metadata and not args.metrics_protocol:
+        parser.error("experiment logging requires --metrics-protocol and --manifest")
     if bool(args.metrics_protocol) != bool(args.manifest):
         parser.error("--metrics-protocol and --manifest must be supplied together")
     if (
@@ -327,6 +333,7 @@ def main() -> None:
                 module.strict_json(payload), module.strict_json(manifest_payload)
             )
         except (ValueError, TypeError, KeyError, OverflowError, RecursionError):
+            record_report(args, {"status": "incomplete"})
             raise SystemExit("Invalid manifest-bound metrics evidence") from None
     else:
         report = summarize(json.loads(payload))
@@ -335,7 +342,26 @@ def main() -> None:
     with args.output.open("x", encoding="utf-8") as stream:
         json.dump(report, stream, indent=2, ensure_ascii=False, allow_nan=False)
         stream.write("\n")
+    record_report(args, report)
     print("Aggregate evidence written without audio or profile identities")
+
+
+def record_report(args, report):
+    if args.experiment_metadata is None:
+        return
+    from experiment_ledger import DEFAULT_LEDGER, record_from_metadata_file
+
+    ledger = args.results_md or DEFAULT_LEDGER
+    if ledger.resolve() in {
+        path.resolve() for path in (args.input, args.output, args.manifest) if path
+    }:
+        raise SystemExit("Experiment ledger conflicts with source evidence")
+    try:
+        record_from_metadata_file(ledger, args.experiment_metadata, report=report, kind="identity")
+    except (OSError, ValueError, KeyError, TypeError, OverflowError, RecursionError):
+        raise SystemExit(
+            "Experiment was not recorded; check public metadata and ledger path"
+        ) from None
 
 
 if __name__ == "__main__":

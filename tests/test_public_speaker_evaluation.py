@@ -632,6 +632,35 @@ def test_cli_full_fifty_gallery_records_capacity_and_preserves_complete_scores(
     assert len(api_server["jobs"]) == 202 and len(api_server["profiles"]) == 50
 
 
+def test_cli_records_safe_experiment_and_resume_does_not_duplicate_it(
+    evaluation, tmp_path, api_server
+):
+    args = provenance_cli_fixture(evaluation, tmp_path, api_server, gallery_size=2)
+    metadata_path, ledger_path = tmp_path / "experiment.json", tmp_path / "results.md"
+    metadata_path.write_text(
+        json.dumps(
+            {
+                "experiment_id": "identity-api-test",
+                "date": "2026-09-13",
+                "dataset": "test-corpus",
+                "dataset_revision": "v1",
+                "language": "en",
+                "role": "regression",
+                "pipeline": "speaker-pilot",
+            }
+        )
+    )
+    args += ["--experiment-metadata", str(metadata_path), "--results-md", str(ledger_path)]
+    assert evaluation.main(args) == 0
+    content = ledger_path.read_text(encoding="utf-8")
+    assert "voiceup-open-set-v1" in content
+    assert '"metrics":null' not in content
+    assert "password" not in content and "tenant_id" not in content
+    before = ledger_path.read_bytes()
+    assert evaluation.main(args) == 0
+    assert ledger_path.read_bytes() == before
+
+
 def test_cli_gallery_above_fifty_completes_without_product_quota(evaluation, tmp_path, api_server):
     args = provenance_cli_fixture(evaluation, tmp_path, api_server, gallery_size=51)
     assert evaluation.main(args) == 0

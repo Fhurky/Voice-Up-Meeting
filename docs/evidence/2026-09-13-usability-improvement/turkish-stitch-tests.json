@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "technology_profile": "kt-vibecoding-python-web-v2",
+  "runs": [
+    {
+      "artifact": "turkish-stitch-green-final.xml",
+      "sha256": "4fb4b343d1e4affed86b61767fa5af1d22b0cdb028c054f51ce7193dd23926c8",
+      "tests": 62,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 62
+    },
+    {
+      "artifact": "turkish-stitch-green.xml",
+      "sha256": "19ec694ea6f5843f450b0acbd0d99e5807545c8e572fb88a9512d3be9762251a",
+      "tests": 62,
+      "failures": 5,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 57
+    },
+    {
+      "artifact": "turkish-stitch-integration-red-protocol.xml",
+      "sha256": "cf019070be723efaa561f878ddc6121f4e12949147f70c122f42301774fa177a",
+      "tests": 10,
+      "failures": 5,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 5
+    },
+    {
+      "artifact": "turkish-stitch-integration-red.xml",
+      "sha256": "3e23b7ffcb76e75de1e4f9ba33760d21fd7a138338de32c27dd93bda87580de6",
+      "tests": 10,
+      "failures": 9,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 1
+    },
+    {
+      "artifact": "turkish-stitch-unit-red.xml",
+      "sha256": "a555413e9f5b88f5ff03d7a51461bab1b22d6f6f6930284ee5184af9bdbdb3d2",
+      "tests": 42,
+      "failures": 13,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 29
+    }
+  ],
+  "final_unit_passed": 42,
+  "final_postgresql_passed": 20,
+  "new_unit_tests": 13,
+  "new_postgresql_tests": 10,
+  "browser_passed": 0,
+  "model_runs": 0,
+  "database_name": "voiceup_stitch_d25_a7d296_test",
+  "database_disposable": true,
+  "database_dropped": true,
+  "application_database_migrations": 0,
+  "static_checks": {
+    "ruff": "passed",
+    "black": "passed",
+    "isort": "passed",
+    "mypy": "passed"
+  },
+  "source_sha256": {
+    "app/backend/app/domain/meeting_timeline.py": "2a90dd93df19895b4a10f664d25d682bee2d3e34dbba546a9e00cb7c14cc04ac",
+    "app/backend/app/services/meeting_chunks.py": "0281400bcbb74901e1e356cbd1432dfb5760c007a04b5ef3e581f7a09f6552eb",
+    "app/backend/tests/unit/test_meeting_timeline.py": "d294a4a748d27a5067e8f6696ede45da5cf9501b83f0439bad4cf5e39e080c0c",
+    "app/backend/tests/integration/test_meeting_turkish_stitch.py": "3e1f7c110bc62cfe07787cb8b8f8879a191d0aae8ea92481355d9b0a9f6d334b"
+  },
+  "highest_evidence_tier": "L1-narrow-suite",
+  "full_quality_gate": "parent-owned pending at this report"
+}

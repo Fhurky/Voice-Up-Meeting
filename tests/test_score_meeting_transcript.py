@@ -21,12 +21,12 @@ def document():
     }
 
 
-def run(tmp_path, value):
+def run(tmp_path, value, *arguments):
     source, output = tmp_path / "input.json", tmp_path / "output.json"
     payload = json.dumps(value).encode()
     source.write_bytes(payload)
     result = subprocess.run(
-        [sys.executable, str(SCRIPT), "--input", str(source), "--output", str(output)],
+        [sys.executable, str(SCRIPT), "--input", str(source), "--output", str(output), *arguments],
         capture_output=True,
         text=True,
     )
@@ -44,6 +44,108 @@ def test_real_file_report_includes_hash_and_all_words_but_no_text_or_identity(tm
     assert report["assigned_only"]["errors"] == 3
     assert "hello" not in output.read_text() + result.stdout + result.stderr
     assert "alice-private" not in output.read_text() + result.stdout + result.stderr
+
+
+def test_turkish_cli_scores_real_unicode_input_without_publishing_text(tmp_path):
+    value = document() | {
+        "reference": [{"speaker_id": "private-reference", "text": "IŞIK I\u0307ZMİR"}],
+        "hypothesis": [{"speaker_id": "private-hypothesis", "text": "ışık izmir"}],
+    }
+    result, output, payload = run(tmp_path, value, "--normalization", "turkish-words-v1")
+    assert result.returncode == 0, result.stderr
+    report = json.loads(output.read_text())
+    assert report["normalization"] == "turkish-words-v1"
+    assert report["cpwer"]["errors"] == 0
+    assert report["counts"]["reference_words"] == 2
+    assert report["input_sha256"] == hashlib.sha256(payload).hexdigest()
+    published = output.read_text() + result.stdout + result.stderr
+    assert "private-reference" not in published
+    assert "private-hypothesis" not in published
+    assert "izmir" not in published
+
+
+def test_default_cli_report_keeps_existing_normalization_contract(tmp_path):
+    result, output, _ = run(tmp_path, document())
+    assert result.returncode == 0, result.stderr
+    report = json.loads(output.read_text())
+    assert report["normalization"] == "unicode-words-v1"
+    assert set(report) == {
+        "normalization",
+        "counts",
+        "cpwer",
+        "assigned_only",
+        "unassigned_word_fraction",
+        "note",
+        "input_sha256",
+        "source_sha256",
+        "schema_version",
+    }
+
+
+def test_unknown_normalization_never_creates_evidence(tmp_path):
+    result, output, _ = run(tmp_path, document(), "--normalization", "unknown-v1")
+    assert result.returncode != 0
+    assert not output.exists()
+
+
+def experiment_metadata(tmp_path):
+    metadata = tmp_path / "experiment.json"
+    metadata.write_text(
+        json.dumps(
+            {
+                "experiment_id": "tr-cli-001",
+                "date": "2026-09-13",
+                "dataset": "unit-fixture",
+                "dataset_revision": "v1",
+                "language": "tr",
+                "role": "regression",
+                "pipeline": "meeting-asr",
+            }
+        )
+    )
+    return metadata
+
+
+def test_cli_records_aggregate_experiment_after_scoring(tmp_path):
+    metadata, ledger = experiment_metadata(tmp_path), tmp_path / "results.md"
+    result, output, _ = run(
+        tmp_path, document(), "--experiment-metadata", str(metadata), "--results-md", str(ledger)
+    )
+    assert result.returncode == 0, result.stderr
+    assert output.is_file()
+    published = ledger.read_text(encoding="utf-8")
+    assert "tr-cli-001" in published
+    assert "unicode-words-v1" in published
+    assert "hello" not in published
+    assert "alice-private" not in published
+    assert str(tmp_path) not in published
+
+
+def test_cli_records_invalid_reference_as_incomplete_without_scores(tmp_path):
+    metadata, ledger = experiment_metadata(tmp_path), tmp_path / "results.md"
+    result, output, _ = run(
+        tmp_path,
+        document() | {"reference_complete": False},
+        "--experiment-metadata",
+        str(metadata),
+        "--results-md",
+        str(ledger),
+    )
+    assert result.returncode != 0
+    assert not output.exists()
+    published = ledger.read_text(encoding="utf-8")
+    assert "tr-cli-001" in published
+    assert "incomplete" in published
+    assert "hello" not in published
+    assert "alice-private" not in published
+
+
+def test_results_path_requires_explicit_experiment_metadata(tmp_path):
+    ledger = tmp_path / "results.md"
+    result, output, _ = run(tmp_path, document(), "--results-md", str(ledger))
+    assert result.returncode != 0
+    assert not output.exists()
+    assert not ledger.exists()
 
 
 @pytest.mark.parametrize(

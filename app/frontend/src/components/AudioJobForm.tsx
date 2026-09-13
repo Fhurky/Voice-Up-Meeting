@@ -4,6 +4,7 @@ import { useIntl } from "@/contexts/IntlContext";
 import { ApiError } from "@/lib/apiClient";
 import { errorMessageKey, validateAudioFile } from "@/lib/speakerErrors";
 import { SpeakerService, type SpeakerProfile } from "@/services/speakers";
+import { Icon } from "@/components/ui/Icon";
 
 export function AudioJobForm({ purpose, profile }: { purpose: "enroll" | "identify"; profile?: SpeakerProfile }) {
   const { t } = useIntl();
@@ -55,21 +56,27 @@ export function AudioJobForm({ purpose, profile }: { purpose: "enroll" | "identi
 
   return (
     <form className="audio-form" onSubmit={submit} aria-label={t(purpose === "identify" ? "speaker.analysis.form" : "speaker.profiles.form")}>
-      <p className="notice">{t("speaker.audio.single")}</p>
-      <p className="muted">{t(purpose === "enroll" ? "speaker.audio.enrollHint" : "speaker.audio.identifyHint")}</p>
-      {purpose === "enroll" && (profile ? <p className="target-profile">{t("speaker.profiles.target")} <strong>{profile.name}</strong></p> : <>
+      <div className="form-guidance"><p className="notice"><Icon name="audio" size={18} />{t("speaker.audio.single")}</p>
+      <p className="muted">{t(purpose === "enroll" ? "speaker.audio.enrollHint" : "speaker.audio.identifyHint")}</p></div>
+      {purpose === "enroll" && (profile ? <p className="target-profile">{t("speaker.profiles.target")} <strong>{profile.name}</strong></p> : <div className="field-group">
         <label htmlFor="speaker-name">{t("speaker.profiles.name")}</label>
         <input id="speaker-name" value={name} onChange={(event) => setName(event.target.value)} required maxLength={120} disabled={busy} autoComplete="off" />
-      </>)}
-      <label htmlFor="speaker-audio">{t("speaker.audio.file")}</label>
-      <input id="speaker-audio" type="file" accept=".wav,.flac,audio/wav,audio/flac" required disabled={busy}
-        aria-describedby="audio-limits" onChange={(event) => {
-          setFile(event.target.files?.[0] ?? null); attempt.current = null; setError(null);
-        }} />
-      <p className="field-hint" id="audio-limits">{t("speaker.audio.limits")}</p>
-      <p className="field-hint">{t("speaker.audio.retention")}</p>
+      </div>)}
+      <div className="file-field">
+        <label htmlFor="speaker-audio">{t("speaker.audio.file")}</label>
+        <input id="speaker-audio" type="file" accept=".wav,.flac,audio/wav,audio/flac" required disabled={busy}
+          aria-describedby="audio-limits" onChange={(event) => {
+            setFile(event.target.files?.[0] ?? null); attempt.current = null; setError(null);
+          }} />
+        <p className="field-hint" id="audio-limits">{t("speaker.audio.limits")}</p>
+      </div>
+      <details className="upload-requirements">
+        <summary>{t("speaker.audio.details")}</summary>
+        <p className="field-hint">{t("speaker.audio.retention")}</p>
+      </details>
       {error && <p className="error-message" role="alert">{t(error)}</p>}
-      <button type="submit" disabled={busy || !file}>
+      <button className="form-submit" type="submit" disabled={busy || !file}>
+        <Icon name="upload" size={18} />
         {t(busy ? `speaker.submit.${phase}` : purpose === "identify" ? "speaker.submit.identify" : profile ? "speaker.submit.add" : "speaker.submit.enroll")}
       </button>
       {busy && <p role="status" className="muted">{t("speaker.submit.pending")}</p>}

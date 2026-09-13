@@ -163,6 +163,13 @@ def validate_overlay(name: str, overlay: dict[str, Any]) -> None:
     missing = unresolved(overlay)
     require(not missing, f"{name}: unresolved environment facts: {', '.join(missing)}")
     reject_secret_material(overlay, name)
+    text_review = overlay.get("textReview", {"enabled": False})
+    require(
+        isinstance(text_review, dict)
+        and set(text_review) == {"enabled"}
+        and isinstance(text_review["enabled"], bool),
+        f"{name}: textReview must select only a boolean enabled value",
+    )
     required = (
         "global.registry",
         "global.host",
@@ -242,6 +249,7 @@ def chart_values(chart: str, overlay: dict[str, Any]) -> dict[str, Any]:
     dns = {"namespace": "kube-system", "component": "kube-dns"}
     if chart == "app-backend":
         return {
+            "textReview": overlay.get("textReview", {"enabled": False}),
             "replicaCount": overlay["replicas"]["backend"],
             "audioStorage": {"className": global_values["storageClass"]},
             "image": image_value(overlay, "backend"),

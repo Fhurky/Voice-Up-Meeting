@@ -87,3 +87,16 @@ hedeflerdir. Aynı gün istenen ayrıntılı doğruluk incelemesi 002 Decisions 
 altında kaynak ağırlıklı merkez hesabını, metin hata ölçümünü ve eski örneklerden
 ayrılmış kişi değerlendirmesini ele alır. Tarihsel testler yeni ayar seçiminden
 sonra bağımsız test diye yeniden adlandırılmaz.
+
+11 Eylül sonraki kullanıcı isteği, uygulama içinde doğrudan mikrofon kaydını
+Accepted 007 altında etkin kapsam yaptı. Tarayıcı mono PCM16 sesi sınırlı
+bellekle geçici diske yazar; kayıt durunca mühürlü WAV mevcut 002 aktarımından
+geçer. Bu kaynak seçimi, analiz sırasında model/kişi otoritesini veya hafıza
+eşiklerini değiştirmez; canlı metin ve otomatik toplantı platformu yakalama
+ayrı kalır. Güncel uygulama/cihaz kanıtı 007 görev ve koşumlarında izlenir.
+
+13 Eylül'deki 013 kullanıcı talimatı, kurulu yerel dil modeli seçimini ve
+bütün model kelime önerilerinin görünmesini ekledi. İnsan tarafından açıkça
+kaydedilen düzeltilmiş metin sürümü ham ASR metninden ayrı tutulur; kaynak
+konuşmacı, zaman ve biyometrik hafıza değiştirilmez. Onaylı metin kaydı,
+model önerisinin referansa göre doğru olduğuna dair ölçüm yerine geçmez.

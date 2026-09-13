@@ -191,6 +191,72 @@ def test_source_anchored_stitch_preserves_real_repeated_words() -> None:
     assert not any(word.uncertain for word in result)
 
 
+@pytest.mark.parametrize(
+    "before,after",
+    [
+        ((" IŞIK,", " YENİ!"), (" ışık", " yeni")),
+        ((" I\u0307Z,", " S\u0327EKER!"), (" iz", " şeker")),
+    ],
+)
+def test_turkish_stitch_matches_case_and_canonical_unicode_without_rewriting_words(
+    before: tuple[str, str], after: tuple[str, str]
+) -> None:
+    previous = [SpeechWord(299, 299.4, before[0], 0.95), SpeechWord(299.6, 300, before[1], 0.85)]
+    current = [
+        SpeechWord(299.1, 299.5, after[0], 0.8),
+        SpeechWord(299.7, 300.1, after[1], 0.7),
+    ]
+    assert stitch_words(previous, current, 300, language="tr") == previous
+
+
+@pytest.mark.parametrize("language", [None, "en", "auto", "de"])
+def test_non_turkish_stitch_preserves_legacy_casefold(language: str | None) -> None:
+    previous = [SpeechWord(299, 299.4, " IŞIK", 0.9), SpeechWord(299.6, 300, " YENİ", 0.9)]
+    current = [SpeechWord(299.1, 299.5, " ışık", 0.9), SpeechWord(299.7, 300.1, " yeni", 0.9)]
+    legacy = stitch_words(previous, current, 300)
+    assert len(legacy) == 4 and all(word.uncertain for word in legacy)
+    assert stitch_words(previous, current, 300, language=language) == legacy
+
+
+@pytest.mark.parametrize("before,after", [(" I", " i"), (" ①", " 1"), (" Ａ", " a")])
+def test_turkish_stitch_keeps_distinct_letters_and_compatibility_characters(
+    before: str, after: str
+) -> None:
+    previous = [SpeechWord(299, 299.4, before, 0.9), SpeechWord(299.6, 300, " anchor", 0.9)]
+    current = [SpeechWord(299.1, 299.5, after, 0.9), SpeechWord(299.7, 300.1, " anchor", 0.9)]
+    result = stitch_words(previous, current, 300, language="tr")
+    assert len(result) == 4 and all(word.uncertain for word in result)
+    assert [word.text for word in result] == [before, after, " anchor", " anchor"]
+
+
+def test_turkish_stitch_preserves_three_actual_repetitions_with_case_jitter() -> None:
+    previous = [SpeechWord(299 + i * 0.4, 299.3 + i * 0.4, " IŞIK", 0.9) for i in range(3)]
+    current = [SpeechWord(row.start + 0.1, row.end + 0.1, " ışık", 0.9) for row in previous]
+    result = stitch_words(previous, current, 300, language="tr")
+    assert result == previous
+
+
+def test_turkish_stitch_preserves_disjoint_repetition_and_isolated_uncertain_word() -> None:
+    previous = [SpeechWord(296, 296.3, " IŞIK", 0.9), SpeechWord(296.4, 296.7, " YENİ", 0.9)]
+    current = [SpeechWord(303, 303.3, " ışık", 0.9), SpeechWord(303.4, 303.7, " yeni", 0.9)]
+    result = stitch_words(previous, current, 300, language="tr")
+    assert len(result) == 4 and all(word.uncertain for word in result)
+    isolated = stitch_words(
+        [SpeechWord(299.6, 300, " IŞIK", 0.9)],
+        [SpeechWord(299.7, 300.1, " ışık", 0.9)],
+        300,
+        language="tr",
+    )
+    assert len(isolated) == 2 and all(word.uncertain for word in isolated)
+
+
+@pytest.mark.parametrize("language", [None, "en"])
+def test_english_i_stitch_remains_compatible(language: str | None) -> None:
+    previous = [SpeechWord(299, 299.4, " I", 0.9), SpeechWord(299.6, 300, " agree", 0.9)]
+    current = [SpeechWord(299.1, 299.5, " i", 0.9), SpeechWord(299.7, 300.1, " agree", 0.9)]
+    assert stitch_words(previous, current, 300, language=language) == previous
+
+
 def test_isolated_similar_word_is_not_silently_deleted_without_neighbor_anchor() -> None:
     result = stitch_words(
         [SpeechWord(59.7, 60.1, " yes", 0.9)],

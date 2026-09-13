@@ -1,0 +1,23 @@
+{
+  "protocol": "voiceup-mediaspeech-tr-expanded-v1",
+  "status": "incomplete",
+  "normalization": "turkish-words-v1",
+  "input_sha256": "e5439bc09b057af136bac6d85be1a511eea646c6f942fe519f06a7d0db3929ef",
+  "source_sha256": "c3f8aeebe085553d9fa0baf2fed25613b3d80f07b4d6665e88e0610250fc5b3c",
+  "planned_clips": 2433,
+  "observed_clips": 0,
+  "reference_words": 0,
+  "hypothesis_words": 0,
+  "errors": 0,
+  "substitutions": 0,
+  "deletions": 0,
+  "insertions": 0,
+  "wer": null,
+  "failure_phase": "path-preflight",
+  "failure_reason": "interrupted-redundant-file-metadata-validation",
+  "process_exit_code": 137,
+  "model_compute_started": false,
+  "intended_model_directory_valid": true,
+  "evaluation_source_sha256": "9939cdca3c5916e368b5204e61742f9ac6800894ec878e73d186146cf48ee7d7",
+  "evidence_basis": "Processes stopped during path checking; no binding, inference checkpoint, per-clip shard or private result existed."
+}

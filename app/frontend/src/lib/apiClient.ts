@@ -11,11 +11,11 @@ export class ApiError extends Error {
   }
 }
 
-export async function apiRequest<T>(
+async function requestResponse(
   path: string,
   init: RequestInit = {},
   authenticated = true,
-): Promise<T> {
+): Promise<{ response: Response; signal: AbortSignal }> {
   const headers = new Headers(init.headers);
   if (!(init.body instanceof FormData) && !headers.has("Content-Type")) {
     headers.set("Content-Type", "application/json");
@@ -46,7 +46,56 @@ export async function apiRequest<T>(
       code,
     );
   }
+  return { response, signal };
+}
+
+export async function apiRequest<T>(path: string, init: RequestInit = {}, authenticated = true): Promise<T> {
+  const { response } = await requestResponse(path, init, authenticated);
   if (response.status === 204) return undefined as T;
   try { return (await response.json()) as T; }
   catch { throw new ApiError(response.status, "Invalid API response", "invalid_response"); }
+}
+
+/** Read a bounded binary body through the same authenticated request boundary. */
+export async function apiBlob(
+  path: string,
+  limits: { mediaType: string; maxBytes: number },
+  init: RequestInit = {},
+): Promise<Blob> {
+  const headers = new Headers(init.headers);
+  headers.set("Accept", limits.mediaType);
+  const { response, signal } = await requestResponse(path, { ...init, headers, cache: "no-store" });
+  const invalid = () => new ApiError(response.status, "Invalid API response", "invalid_response");
+  const lengthHeader = response.headers.get("Content-Length");
+  const length = lengthHeader === null ? null : Number(lengthHeader);
+  if (response.status !== 200 || !response.body || response.headers.get("Content-Type")?.split(";")[0].trim().toLowerCase() !== limits.mediaType ||
+    !Number.isSafeInteger(limits.maxBytes) || limits.maxBytes <= 0 ||
+    (lengthHeader !== null && (!/^\d+$/.test(lengthHeader) || !Number.isSafeInteger(length) || length! <= 0 || length! > limits.maxBytes))) {
+    await response.body?.cancel().catch(() => undefined);
+    throw invalid();
+  }
+  const reader = response.body.getReader();
+  const buffer = new Uint8Array(length ?? limits.maxBytes);
+  let bytes = 0;
+  const abort = () => { void reader.cancel().catch(() => undefined); };
+  signal.addEventListener("abort", abort, { once: true });
+  try {
+    for (;;) {
+      signal.throwIfAborted();
+      const { done, value } = await reader.read();
+      signal.throwIfAborted();
+      if (done) break;
+      if (value.byteLength > buffer.byteLength - bytes) throw invalid();
+      buffer.set(value, bytes);
+      bytes += value.byteLength;
+    }
+    if (bytes === 0 || (length !== null && bytes !== length)) throw invalid();
+    return new Blob([buffer.subarray(0, bytes)], { type: limits.mediaType });
+  } catch (error) {
+    await reader.cancel().catch(() => undefined);
+    throw error;
+  } finally {
+    signal.removeEventListener("abort", abort);
+    reader.releaseLock();
+  }
 }

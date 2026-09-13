@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "ledger_observed_sha256": "11bba77d094b28c657abd18b6ea1613a48755bd153dcc499997eebe46357d6d5",
+  "prior_ledger_sha256": "9e0f0e76039e68e04eb0443fa3fba3d4f28299e0a3743c85db654b54e7191f9a",
+  "retained_initial_experiments": 18,
+  "new_experiments": 6,
+  "total_experiments": 24,
+  "prior_ledger_reconstruction_matches": [
+    {
+      "bytes": 48155,
+      "prefix_suffix_bytes": 1,
+      "newline_policy": "original-newlines"
+    },
+    {
+      "bytes": 48155,
+      "prefix_suffix_bytes": 1,
+      "newline_policy": "LF"
+    }
+  ],
+  "removed_only_owner_declared_new_intro_paragraph": true,
+  "removed_intro_bytes": 407,
+  "method": "Take current prefix through snapshot 18, remove only the new introductory report paragraph in memory, compare exact reconstructed bytes with prior recorded ledger SHA256; no file mutation."
+}

@@ -1,5 +1,6 @@
 """Typed application settings; this is the only application environment boundary."""
 
+import re
 from functools import lru_cache
 from pathlib import Path
 from typing import Literal
@@ -93,6 +94,46 @@ class Settings(BaseSettings):
     meeting_result_retention_days: int = Field(default=30, ge=1, le=30)
     meeting_upload_retention_hours: int = Field(default=24, ge=1, le=24)
     meeting_chunk_timeout_seconds: int = Field(default=600, ge=30, le=1800)
+    text_review_enabled: bool = False
+    text_review_url: str = "http://nginx:9081"
+    text_review_model: str = Field(default="qwen3.5:27b", min_length=1, max_length=200)
+    text_review_model_digest: str = ""
+
+    @field_validator("text_review_url")
+    @classmethod
+    def validate_text_review_url(cls, value: str) -> str:
+        try:
+            parsed = urlparse(value)
+            port = parsed.port
+        except ValueError:
+            raise ValueError("text_review_url must be a valid HTTP service origin") from None
+        if (
+            any(character.isspace() or ord(character) < 32 for character in value)
+            or parsed.scheme not in {"http", "https"}
+            or not parsed.hostname
+            or parsed.username is not None
+            or parsed.password is not None
+            or parsed.query
+            or parsed.fragment
+            or parsed.path not in {"", "/"}
+            or port == 0
+        ):
+            raise ValueError("text_review_url must be an HTTP service origin without credentials")
+        return value.rstrip("/")
+
+    @field_validator("text_review_model")
+    @classmethod
+    def validate_text_review_model(cls, value: str) -> str:
+        if re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_.:/-]*", value) is None or "://" in value:
+            raise ValueError("text_review_model must be an explicit model name")
+        return value
+
+    @field_validator("text_review_model_digest")
+    @classmethod
+    def validate_text_review_model_digest(cls, value: str) -> str:
+        if value and re.fullmatch(r"[0-9a-f]{64}", value) is None:
+            raise ValueError("text_review_model_digest must be a lowercase SHA-256 digest")
+        return value
 
     @field_validator("inference_key")
     @classmethod
@@ -166,6 +207,8 @@ class Settings(BaseSettings):
 
     @model_validator(mode="after")
     def reject_development_secret_in_deployed_environments(self) -> "Settings":
+        if self.text_review_enabled and not self.text_review_model_digest:
+            raise ValueError("text_review_model_digest is required when text_review_enabled")
         if self.local_admin_login_enabled and self.environment != "development":
             raise ValueError("local_admin_login_enabled requires the development environment")
         if self.speaker_new_threshold >= self.speaker_match_threshold:

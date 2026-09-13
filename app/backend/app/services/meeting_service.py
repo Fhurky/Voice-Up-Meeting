@@ -11,8 +11,11 @@ from app.core.config import Settings
 from app.core.request_context import RequestContext
 from app.domain.meeting import CORE_SECONDS, UPLOAD_PART_BYTES, window_core_seconds
 from app.domain.models.meeting import Meeting, MeetingSpeaker, MeetingUploadPart
-from app.infrastructure.meeting_audio import MeetingAudioStorage
+from app.infrastructure.meeting_audio import PREVIEW_MAX_SECONDS, MeetingAudioStorage
 from app.infrastructure.repositories.meeting_repository import MeetingRepository
+from app.infrastructure.repositories.transcript_revision_repository import (
+    TranscriptRevisionRepository,
+)
 from app.schemas.meeting import (
     MeetingCreate,
     MeetingPage,
@@ -26,6 +29,7 @@ from app.schemas.meeting import (
     MeetingUploadPartResponse,
 )
 from app.services.speaker_ports import SpeakerError
+from app.services.transcript_suggestions import saved_correction_response
 
 
 class MeetingService:
@@ -141,6 +145,48 @@ class MeetingService:
     async def get(self, context: RequestContext, public_id: str) -> MeetingResponse:
         tenant_id, _ = await self.repository.actor(context)
         return await self.response(await self.required(tenant_id, public_id))
+
+    async def audio_preview(
+        self, context: RequestContext, public_id: str, start_seconds: float, end_seconds: float
+    ) -> bytes:
+        if not context.has_permission("meeting_analysis:read"):
+            raise SpeakerError("forbidden", 403)
+        tenant_id, _ = await self.repository.actor(context)
+        meeting = await self.required(tenant_id, public_id)
+        if meeting.status == "uploading":
+            raise SpeakerError("meeting_state_conflict", 409)
+        if (
+            meeting.source_removed_at is not None
+            or meeting.source_expires_at is None
+            or meeting.source_expires_at <= datetime.now(UTC)
+        ):
+            raise SpeakerError("recording_unavailable", 410)
+        if (
+            meeting.source_sha256 is None
+            or meeting.duration_seconds is None
+            or meeting.sample_rate is None
+            or meeting.channels is None
+            or meeting.uploaded_bytes != meeting.size_bytes
+        ):
+            raise SpeakerError("meeting_state_conflict", 409)
+        if (
+            not all(math.isfinite(value) for value in (start_seconds, end_seconds))
+            or start_seconds < 0
+            or not 0 < end_seconds - start_seconds <= PREVIEW_MAX_SECONDS
+            or end_seconds > meeting.duration_seconds
+        ):
+            raise SpeakerError("invalid_audio_range", 422)
+        return await asyncio.to_thread(
+            self.storage.preview,
+            meeting.storage_key,
+            start_seconds,
+            end_seconds,
+            expected_bytes=meeting.size_bytes,
+            expected_format=meeting.format,
+            sample_rate=meeting.sample_rate,
+            channels=meeting.channels,
+            duration_seconds=meeting.duration_seconds,
+        )
 
     async def list(self, context: RequestContext, offset: int, limit: int) -> MeetingPage:
         tenant_id, _ = await self.repository.actor(context)
@@ -381,6 +427,16 @@ class MeetingService:
         tenant_id, _ = await self.repository.actor(context)
         meeting = await self.required(tenant_id, public_id)
         rows, total = await self.repository.transcript(tenant_id, meeting.meeting_id, offset, limit)
+        corrections = await TranscriptRevisionRepository(
+            self.repository.session
+        ).latest_for_sources(
+            tenant_id,
+            meeting.meeting_id,
+            {
+                row.meeting_transcript_id: hashlib.sha256(row.text.encode("utf-8")).hexdigest()
+                for row in rows
+            },
+        )
         speakers: dict[int, MeetingSpeakerResponse] = {}
         output: list[MeetingTranscriptResponse] = []
         for row in rows:
@@ -410,6 +466,11 @@ class MeetingService:
                         "language": row.language,
                         "overlap": row.overlap,
                         "uncertain": row.uncertain,
+                        "correction": (
+                            saved_correction_response(corrections[row.meeting_transcript_id])
+                            if row.meeting_transcript_id in corrections
+                            else None
+                        ),
                     }
                 )
             )

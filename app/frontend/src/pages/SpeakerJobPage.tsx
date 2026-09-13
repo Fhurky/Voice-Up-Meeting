@@ -6,6 +6,7 @@ import { useIntl } from "@/contexts/IntlContext";
 import { ApiError } from "@/lib/apiClient";
 import { errorMessageKey, jobErrorKey } from "@/lib/speakerErrors";
 import { SpeakerService, type SpeakerJob } from "@/services/speakers";
+import { Icon } from "@/components/ui/Icon";
 
 function JobStatus({ publicId }: { publicId: string }) {
   const { t, locale } = useIntl();
@@ -41,21 +42,21 @@ function JobStatus({ publicId }: { publicId: string }) {
 
   return <>
     <section className="panel job-status" aria-labelledby="job-heading">
-      <h2 id="job-heading">{t(job ? `speaker.purpose.${job.purpose}` : "speaker.jobs.loading")}</h2>
+      <div className="section-heading"><div className="section-title-group"><span className="section-icon"><Icon name="audio" size={20} /></span><h2 id="job-heading">{t(job ? `speaker.purpose.${job.purpose}` : "speaker.jobs.loading")}</h2></div></div>
       {error && <p role="alert" className="error-message">{t(error)}</p>}
       {!job && !error && <p role="status">{t("common.loading")}</p>}
       {job && <>
         <p role="status" aria-live="polite"><span className={`status-badge status-${job.status}`}>{t(`speaker.status.${job.status}`)}</span></p>
         {(job.status === "queued" || job.status === "running") && <p>{t(`speaker.jobs.${job.status}Hint`)}</p>}
-        <p className="muted">{t("common.created")} <time dateTime={job.created_at}>{new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeStyle: "short" }).format(new Date(job.created_at))}</time></p>
+        <p className="muted job-meta"><Icon name="clock" size={16} />{t("common.created")} <time dateTime={job.created_at}>{new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeStyle: "short" }).format(new Date(job.created_at))}</time></p>
         {job.status === "failed" && <p className="error-message" role="alert">{t(jobErrorKey(job.error?.code ?? "unknown"))}</p>}
       </>}
       {paused && <p className="notice">{t("speaker.jobs.pollingPaused")}</p>}
-      {(error || paused) && <button className="button-secondary" onClick={() => { setPaused(false); setError(null); setRevision((value) => value + 1); }}>{t("common.retry")}</button>}
+      {(error || paused) && <button className="button-secondary" onClick={() => { setPaused(false); setError(null); setRevision((value) => value + 1); }}><Icon name="refresh" size={16} />{t("common.retry")}</button>}
       <p className="field-hint">{t("speaker.jobs.resumeHint")}</p>
     </section>
     {job?.status === "succeeded" && job.result && <SpeakerResultCard result={job.result} />}
-    <p><Link className="text-link" to="/speaker-analysis">{t("speaker.jobs.back")}</Link></p>
+    <p><Link className="text-link" to="/speaker-analysis"><Icon name="arrow-left" size={16} />{t("speaker.jobs.back")}</Link></p>
   </>;
 }
 

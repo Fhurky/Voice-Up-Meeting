@@ -46,10 +46,16 @@ awk -v address="$address" '
 END { if (count != 5) exit 1 }
 ' /etc/nginx/spark.conf.template > "$directory/spark.conf" || fail
 
-awk -v private="$directory/spark.conf" '
+text_review=false
+if [ -f /etc/nginx/text-review.conf.template ]; then
+  [ -f /tmp/voiceup-text-review.conf ] && [ ! -L /tmp/voiceup-text-review.conf ] || fail
+  text_review=true
+fi
+awk -v private="$directory/spark.conf" -v text_review="$text_review" '
 $1 == "include" && $2 == "/etc/nginx/conf.d/*.conf;" && NF == 2 {
   print
   print "    include " private ";"
+  if (text_review == "true") print "    include /tmp/voiceup-text-review.conf;"
   count++
   next
 }

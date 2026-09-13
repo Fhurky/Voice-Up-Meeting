@@ -6,6 +6,12 @@ akışı çalışır. İlk toplantıda öğrenilen kişilere isim verilir; farkl
 kayıtta aynı kişiler tanınır ve yeterli temiz sesi bulunan yeni kişi eklenir.
 Tek konuşmacılı profil oluşturma ve karşılaştırma akışı da korunur.
 
+Mevcut düzey insan denetimli yerel pilottur; [kullanılabilirlik ve doğruluk
+planı](plans/USABILITY_AND_ACCURACY.md) ölçülen sonuçları ve 50 kişilik hedefin
+açıklarını ayırır. Metindeki **Bu bölümü dinle** ile ilgili kaynak sesi
+en fazla 30 saniyelik bölümlerle kontrol edebilirsiniz; [kullanım rehberi](docs/tr/meeting-audio-review.md)
+ve [son doğrulama](docs/evidence/2026-09-13-usability-improvement/README.md).
+
 ## Yerel uygulama
 
 MacBook üzerinde tek konuşmacılı pilotun bütün servislerini ve modelini yerel CPU ile çalıştırmak için
@@ -22,7 +28,11 @@ Uygulama: **http://127.0.0.1:8081**. Yerel giriş bilgileri Git dışında
 `outputs/local-pilot-credentials.json` içindedir.
 
 Çok konuşmacılı kayıt için önce [toplantı modelini hazırlayın](docs/MEETING_WORKFLOW.md),
-ardından `Toplantılar` ekranında WAV/FLAC yükleyin. Kişi sayısı isteğe bağlıdır.
+ardından `Toplantılar` ekranında WAV/FLAC yükleyin veya **Mikrofonla kaydet**
+seçeneğini kullanın. Toplantıya ad verip **Kaydı başlat**, bitince **Durdur ve
+analiz et** düğmesine basın; ayrıca dosya seçmeniz gerekmez.
+[Mikrofon rehberi](docs/tr/microphone-recording.md) izin, geçici disk ve cihaz
+sınırlarını açıklar. Kişi sayısı isteğe bağlıdır.
 Kayıt parçalar halinde işlenir; metin, konuşmacılar ve hafıza durumu sonuçta görünür.
 İlk hazırlık seçili model dosyalarını indirir; normal çalışmada ses buluta gönderilmez.
 
@@ -51,6 +61,18 @@ hatasından ayırır ve tam referanslı kayıtlar için çevrimdışı kelime ha
 [11 Eylül doğruluk incelemesi](docs/evidence/2026-09-11-accuracy-audit/README.md)
 uygulanan düzeltmeleri, gerçek elli kişilik sonuçları ve henüz karşılanmayan
 doğruluk hedefini birlikte kaydeder.
+
+Türkçe deneyler [results.md](results.md) günlüğüne otomatik kaydedilir.
+[Veri seti araştırması](plans/TURKISH_DATASET_RESEARCH.md),
+[deneyleri çalıştırma rehberi](docs/TURKISH_EVALUATION.md) ve
+[13 Eylül gerçek ölçümleri](docs/evidence/2026-09-13-turkish-evaluation/README.md)
+kaynakları, skorları ve sınırlamaları açıklar. Küçük Türkçe görüşme deneyinde
+kesin konuşmacı sayısı bilgisi fayda sağladı; bu sonuç 50 kişi başarısı değildir.
+
+[Genişletilmiş Türkçe test raporu](docs/evidence/2026-09-13-expanded-turkish/README.md),
+3.176 yeni kısa kayıt ve 12 yeni beş dakikalık görüşme kesitiyle kapsamı genişletir.
+MediaSpeech haberleri, FLEURS okunmuş cümleleri ve doğal görüşmeler ayrı ölçülür;
+klip sayısı, ses süresi ve gerçek kişi sayısı birbirinin yerine kullanılmaz.
 
 50 kişi kalite hedefidir, kayıt kotası değildir. Temsil edici Türkçe/50 kişilik
 toplantı doğruluğu, native Spark/Apple toplantı ortamı ve bağımsız güvenlik taraması

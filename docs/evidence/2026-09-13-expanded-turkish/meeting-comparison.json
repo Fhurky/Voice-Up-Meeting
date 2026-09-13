@@ -1,0 +1,255 @@
+{
+  "schema_version": 1,
+  "audit": "expanded-turkish-meeting-live-v1",
+  "audited_at_utc": "2026-09-13T12:46:19.392373+00:00",
+  "technology_profile": "kt-vibecoding-python-web-v2",
+  "evidence_tier": "L2",
+  "checks_passed": 274,
+  "checks_failed": 0,
+  "http_observations": {
+    "ordinary_logins": 2,
+    "meeting_reads": 12,
+    "speaker_collection_reads": 12,
+    "transcript_collection_reads": 12,
+    "gallery_reads": 2
+  },
+  "source_files_unchanged": 26,
+  "ledger_snapshots_read": 20,
+  "ledger_sha256_at_start": "ae52f34ed0a3bca8940c8ba451b96037f6f8b73a730c3b4cb4cb99e15adf2734",
+  "ledger_unchanged_during_audit": true,
+  "new_unique_audio_excerpts": 12,
+  "new_audio_seconds": 3600,
+  "unique_source_sessions": 6,
+  "unique_people_across_both_runs": 6,
+  "reference_quality": "automatic-activity-unverified-text-diagnostic",
+  "timeline_policy": "decoded-sample-clock-v1",
+  "timeline_alignment": "unverified-source-timestamps",
+  "experiments": [
+    {
+      "experiment_id": "tr-realturnturk-window300-20260913",
+      "source_protocol_id": "voiceup-real-turnturk-window300-v1",
+      "selection": {
+        "duration_seconds": 300,
+        "start_seconds": 300
+      },
+      "protocol_sha256": "45c468fff29579b2ff2f0b0388300c7871fa1de7d4b026e0fdac10c52e630240",
+      "aggregate_sha256": "0dee53e6fa50c31614bb9228baa05dfc4ba0e4b0dd7b0c00a0ff8c44622204ad",
+      "private_state_sha256": "adc74ed7c99ffc17f2efa4c5007f823db8185818cc2e27261cc7b97b58bfac02",
+      "ledger_snapshot_sha256": "9603cde5a51f6a45bbec9188ec50f435eda78b4a3b5a4068f62cde10fe7866c8",
+      "status": "complete",
+      "ordinary_login_verified": true,
+      "gallery_total": 6,
+      "planned_meetings": 6,
+      "observed_meetings": 6,
+      "audio_seconds": 1800,
+      "unique_speakers": 6,
+      "source_sessions": 6,
+      "known_probes": 6,
+      "unknown_probes": 6,
+      "identity": {
+        "true_positive": 6,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "micro_f1": 1.0,
+        "macro_f1": 1.0
+      },
+      "unknown": {
+        "true_positive": 6,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "voiceup_score": 100.0,
+      "first_enrollment_coverage": 1.0,
+      "minimum_dominant_mapping_share": 0.9658058067365584,
+      "reference_whitespace_words": 4030,
+      "transcript": {
+        "reference_words": 4032,
+        "hypothesis_words": 3668,
+        "unassigned_words": 23,
+        "errors": 1208,
+        "substitutions": 512,
+        "deletions": 530,
+        "insertions": 166,
+        "normalization": "turkish-words-v1",
+        "cpwer": 0.2996031746031746
+      },
+      "meetings": [
+        {
+          "case": "rec01",
+          "status": "succeeded",
+          "observed_tracks": 2,
+          "gallery_total": 2,
+          "mapping_passed": true,
+          "reference_words": 681,
+          "cpwer_errors": 242
+        },
+        {
+          "case": "rec02",
+          "status": "succeeded",
+          "observed_tracks": 2,
+          "gallery_total": 3,
+          "mapping_passed": true,
+          "reference_words": 658,
+          "cpwer_errors": 180
+        },
+        {
+          "case": "rec03",
+          "status": "succeeded",
+          "observed_tracks": 2,
+          "gallery_total": 4,
+          "mapping_passed": true,
+          "reference_words": 657,
+          "cpwer_errors": 189
+        },
+        {
+          "case": "rec04",
+          "status": "succeeded",
+          "observed_tracks": 2,
+          "gallery_total": 5,
+          "mapping_passed": true,
+          "reference_words": 678,
+          "cpwer_errors": 194
+        },
+        {
+          "case": "rec05",
+          "status": "succeeded",
+          "observed_tracks": 2,
+          "gallery_total": 6,
+          "mapping_passed": true,
+          "reference_words": 746,
+          "cpwer_errors": 191
+        },
+        {
+          "case": "rec06",
+          "status": "succeeded",
+          "observed_tracks": 2,
+          "gallery_total": 6,
+          "mapping_passed": true,
+          "reference_words": 612,
+          "cpwer_errors": 212
+        }
+      ]
+    },
+    {
+      "experiment_id": "tr-realturnturk-window600-20260913",
+      "source_protocol_id": "voiceup-real-turnturk-window600-v1",
+      "selection": {
+        "duration_seconds": 300,
+        "start_seconds": 600
+      },
+      "protocol_sha256": "63c2f30133120dd012070d90ea9b36ef9ea8a9550f323b189e79a265bb83a6b7",
+      "aggregate_sha256": "625f2704f29c55b44067a36c066e4b0fded0a390ce5d66e89b9e0880a43d4bcd",
+      "private_state_sha256": "3ff46750ec8433207cc7101d6d8bf78be3506c36fc1b5b653d6d7d88d039a1d3",
+      "ledger_snapshot_sha256": "f6af747214ddb4f90fbc010b3aeea4ccc40dfccc045c55a4ef6573a75b96245b",
+      "status": "complete",
+      "ordinary_login_verified": true,
+      "gallery_total": 6,
+      "planned_meetings": 6,
+      "observed_meetings": 6,
+      "audio_seconds": 1800,
+      "unique_speakers": 6,
+      "source_sessions": 6,
+      "known_probes": 6,
+      "unknown_probes": 6,
+      "identity": {
+        "true_positive": 6,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "micro_f1": 1.0,
+        "macro_f1": 1.0
+      },
+      "unknown": {
+        "true_positive": 6,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "voiceup_score": 100.0,
+      "first_enrollment_coverage": 1.0,
+      "minimum_dominant_mapping_share": 0.9049891645766881,
+      "reference_whitespace_words": 4140,
+      "transcript": {
+        "reference_words": 4143,
+        "hypothesis_words": 3818,
+        "unassigned_words": 33,
+        "errors": 1261,
+        "substitutions": 544,
+        "deletions": 521,
+        "insertions": 196,
+        "normalization": "turkish-words-v1",
+        "cpwer": 0.3043688148684528
+      },
+      "meetings": [
+        {
+          "case": "rec01",
+          "status": "succeeded",
+          "observed_tracks": 2,
+          "gallery_total": 2,
+          "mapping_passed": true,
+          "reference_words": 720,
+          "cpwer_errors": 273
+        },
+        {
+          "case": "rec02",
+          "status": "succeeded",
+          "observed_tracks": 2,
+          "gallery_total": 3,
+          "mapping_passed": true,
+          "reference_words": 642,
+          "cpwer_errors": 206
+        },
+        {
+          "case": "rec03",
+          "status": "succeeded",
+          "observed_tracks": 2,
+          "gallery_total": 4,
+          "mapping_passed": true,
+          "reference_words": 707,
+          "cpwer_errors": 199
+        },
+        {
+          "case": "rec04",
+          "status": "succeeded",
+          "observed_tracks": 2,
+          "gallery_total": 5,
+          "mapping_passed": true,
+          "reference_words": 679,
+          "cpwer_errors": 186
+        },
+        {
+          "case": "rec05",
+          "status": "succeeded",
+          "observed_tracks": 2,
+          "gallery_total": 6,
+          "mapping_passed": true,
+          "reference_words": 759,
+          "cpwer_errors": 201
+        },
+        {
+          "case": "rec06",
+          "status": "succeeded",
+          "observed_tracks": 2,
+          "gallery_total": 6,
+          "mapping_passed": true,
+          "reference_words": 636,
+          "cpwer_errors": 196
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Same six people and source sessions; temporally disjoint excerpts do not establish unseen-person or independent-session generalization.",
+    "Source activity is automatic and transcript/timestamp alignment is unverified; all text and identity outcomes remain diagnostic, not human-gold accuracy.",
+    "Both runs use the known active-speaker count of two; this does not establish automatic speaker counting or 50-person performance.",
+    "Whitespace word counts differ from versioned Turkish tokenization; cpWER uses normalized counts only."
+  ]
+}

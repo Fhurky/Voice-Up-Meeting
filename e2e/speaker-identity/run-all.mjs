@@ -4,3 +4,8 @@ await import("./01-local-pilot.mjs");
 await import("./04-meeting-upload.mjs");
 await import("./05-meeting-memory.mjs");
 await import("./06-meeting-observation.mjs");
+await import("./07-modern-workspace.mjs");
+await import("./08-microphone-capture.mjs");
+await import("./09-meeting-audio-review.mjs");
+await import("./10-contextual-transcript-review.mjs");
+await import("./11-saved-transcript-corrections.mjs");

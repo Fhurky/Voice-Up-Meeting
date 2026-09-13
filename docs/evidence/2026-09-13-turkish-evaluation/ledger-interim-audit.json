@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "scope": "Read-only independent arithmetic, provenance and private-field audit of the first fifteen experiment snapshots",
+  "ledger_sha256": "c2c7f47744b464bf3ad9e4066260a30d1ca99b2ff60f215738c9f0bacbb9e664",
+  "snapshots": 15,
+  "experiments": 15,
+  "checks": 266,
+  "passed": 266,
+  "failures": [],
+  "limitations": [
+    "This snapshot predates the final Turkish held-out and meeting chain experiments.",
+    "Aggregate arithmetic does not independently prove the private acoustic/reference observations.",
+    "Historical macro F1 is preserved from independently audited source summaries; per-person private data were not reopened."
+  ]
+}

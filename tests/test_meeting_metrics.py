@@ -19,6 +19,46 @@ def test_normalization_retains_unicode_words_and_does_not_expand_numbers():
     ]
 
 
+@pytest.mark.parametrize(
+    "text,expected",
+    [
+        ("IĞDIR İZMİR", ["ığdır", "izmir"]),
+        ("I\u0307ZMI\u0307R", ["izmir"]),
+        ("ÇAĞRI ÖĞÜN ŞİŞE", ["çağrı", "öğün", "şişe"]),
+        ("İzmir’in, Iğdır'ın! 25 yirmi beş", ["izmir'in", "ığdır'ın", "25", "yirmi", "beş"]),
+        ("I İ ı i", ["ı", "i", "ı", "i"]),
+    ],
+)
+def test_turkish_normalization_matches_local_case_and_retains_lexical_distinctions(text, expected):
+    assert tokenize(text, normalization="turkish-words-v1") == expected
+
+
+def test_turkish_scoring_is_explicit_and_does_not_rewrite_legacy_results():
+    reference, hypothesis = {"a": "IŞIK İZMİR"}, {"b": "ışık izmir"}
+    legacy = score_transcript(reference, hypothesis)
+    assert legacy["normalization"] == "unicode-words-v1"
+    assert legacy["cpwer"]["substitutions"] == 2
+    assert score_transcript(reference, hypothesis, normalization="unicode-words-v1") == legacy
+    localized = score_transcript(reference, hypothesis, normalization="turkish-words-v1")
+    assert localized["normalization"] == "turkish-words-v1"
+    assert localized["cpwer"]["errors"] == 0
+    assert localized["counts"] == legacy["counts"]
+
+
+@pytest.mark.parametrize("reference,hypothesis", [("I", "i"), ("İ", "ı"), ("Sık", "sik")])
+def test_turkish_normalization_does_not_hide_distinct_words(reference, hypothesis):
+    report = score_transcript({"a": reference}, {"b": hypothesis}, normalization="turkish-words-v1")
+    assert report["cpwer"]["substitutions"] == 1
+
+
+@pytest.mark.parametrize("normalization", ["tr", "unknown-v1", None, False, []])
+def test_unsupported_normalization_fails_even_for_empty_input(normalization):
+    with pytest.raises(ValueError, match="unsupported_text_normalization"):
+        tokenize("", normalization=normalization)
+    with pytest.raises(ValueError, match="unsupported_text_normalization"):
+        score_transcript({}, {}, normalization=normalization)
+
+
 def test_correct_words_with_permuted_speaker_labels_have_no_error():
     result = score_transcript(
         {"a": "hello there", "b": "good day"}, {"x": "good day", "y": "hello there"}
