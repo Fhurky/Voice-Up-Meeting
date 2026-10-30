@@ -54,6 +54,18 @@ async def test_voice_memory_stays_off_unless_requested(meeting_client: AsyncClie
     assert (await post(meeting_client, auto_enroll=True)).json()["auto_enroll"] is True
 
 
+async def test_processing_mode_reports_the_configured_device(
+    meeting_harness: MeetingHarness,
+) -> None:
+    harness = meeting_harness
+    response = await harness.client.get("/meetings/processing-mode")
+    assert response.status_code == 200 and response.json() == {"processing_device": "gpu"}
+    denied = {"Authorization": "Bearer " + harness.token([])}
+    assert (
+        await harness.client.get("/meetings/processing-mode", headers=denied)
+    ).status_code == 403
+
+
 async def test_blank_subject_is_absent(meeting_client: AsyncClient) -> None:
     assert (await post(meeting_client, subject="   ")).json()["subject"] is None
 

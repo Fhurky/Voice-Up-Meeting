@@ -298,3 +298,45 @@ def test_cpu_loader_warms_both_models_without_cuda_metrics(monkeypatch, tmp_path
     )
     assert handles.embedder.warmed and handles.vad.warmed
     assert handles.metrics is None
+
+
+MEETING_CPU = "x86_64-meeting-cpu"
+
+
+def cpu_torch(version: str, cuda: str | None):
+    import torch as real
+
+    return SimpleNamespace(__version__=version, version=SimpleNamespace(cuda=cuda), ones=real.ones)
+
+
+def test_meeting_cpu_profile_requires_the_cpu_device():
+    assert Settings(internal_key=KEY, runtime_profile=MEETING_CPU, device="cpu").device == "cpu"
+    with pytest.raises(ValueError):
+        Settings(internal_key=KEY, runtime_profile=MEETING_CPU, device="cuda:0")
+
+
+@pytest.mark.parametrize("version,cuda", [("2.8.0+cu126", "12.6"), ("2.8.0+cu128", "12.8")])
+def test_meeting_cpu_profile_accepts_the_shared_meeting_image(monkeypatch, version, cuda):
+    monkeypatch.setattr(platform, "system", lambda: "Linux")
+    monkeypatch.setattr(platform, "machine", lambda: "x86_64")
+    models.require_cpu(cpu_torch(version, cuda), "cpu", MEETING_CPU)
+
+
+@pytest.mark.parametrize(
+    "version,cuda,machine",
+    [("2.7.0+cu126", "12.6", "x86_64"), ("2.8.0+cu126", "12.6", "aarch64")],
+)
+def test_meeting_cpu_profile_rejects_other_builds_and_architectures(monkeypatch, version, cuda, machine):
+    monkeypatch.setattr(platform, "system", lambda: "Linux")
+    monkeypatch.setattr(platform, "machine", lambda: machine)
+    with pytest.raises(InferenceError) as error:
+        models.require_cpu(cpu_torch(version, cuda), "cpu", MEETING_CPU)
+    assert error.value.code == "cpu_runtime_mismatch"
+
+
+def test_pilot_cpu_profile_still_rejects_a_cuda_build(monkeypatch):
+    monkeypatch.setattr(platform, "system", lambda: "Linux")
+    monkeypatch.setattr(platform, "machine", lambda: "x86_64")
+    with pytest.raises(InferenceError) as error:
+        models.require_cpu(cpu_torch("2.8.0+cu126", "12.6"), "cpu", "x86_64-cpu")
+    assert error.value.code == "cpu_runtime_mismatch"

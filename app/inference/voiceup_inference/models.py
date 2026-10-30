@@ -25,12 +25,22 @@ RUNTIME_REQUIREMENTS: dict[RuntimeProfile, tuple[str, str]] = {
 }
 CPU_RUNTIME_REQUIREMENTS: dict[RuntimeProfile, str] = {
     "x86_64-cpu": "x86_64",
+    "x86_64-meeting-cpu": "x86_64",
     "aarch64-cpu": "aarch64",
 }
 
 
+# Meetings on CPU reuse the meeting image, whose PyTorch build also carries CUDA libraries.
+SHARED_IMAGE_CPU_PROFILES: frozenset[str] = frozenset({"x86_64-meeting-cpu"})
+
+
 def require_cpu(torch: Any, device: str, runtime_profile: RuntimeProfile) -> None:
     expected_arch = CPU_RUNTIME_REQUIREMENTS.get(runtime_profile)
+    build_matches = (
+        str(torch.__version__).split("+")[0] == "2.8.0"
+        if runtime_profile in SHARED_IMAGE_CPU_PROFILES
+        else str(torch.__version__) == "2.8.0+cpu" and torch.version.cuda is None
+    )
     machine = platform.machine().lower()
     architecture = {"amd64": "x86_64", "arm64": "aarch64"}.get(machine, machine)
     if (
@@ -38,8 +48,7 @@ def require_cpu(torch: Any, device: str, runtime_profile: RuntimeProfile) -> Non
         or expected_arch is None
         or platform.system() != "Linux"
         or architecture != expected_arch
-        or str(torch.__version__) != "2.8.0+cpu"
-        or torch.version.cuda is not None
+        or not build_matches
     ):
         raise InferenceError(
             "cpu_runtime_mismatch",

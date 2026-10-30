@@ -35,6 +35,7 @@ export function MeetingUploadForm({ initialSource = "file", onClose }: { initial
   const [remember, setRemember] = useState(false);
   const [busy, setBusy] = useState(false);
   const [extracting, setExtracting] = useState(false);
+  const [cpuMode, setCpuMode] = useState(false);
   const extracted = useRef<{ source: File; audio: File } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const controller = useRef<AbortController | null>(null);
@@ -43,6 +44,11 @@ export function MeetingUploadForm({ initialSource = "file", onClose }: { initial
   const countOptions = useRef<HTMLDetailsElement>(null);
   const form = useRef<HTMLFormElement>(null);
   useEffect(() => () => controller.current?.abort(), []);
+  useEffect(() => {
+    const reading = new AbortController();
+    MeetingService.processingMode(reading.signal).then((mode) => { if (!reading.signal.aborted) setCpuMode(mode.processing_device === "cpu"); }).catch(() => {});
+    return () => reading.abort();
+  }, []);
   // The add button may have been disabled at the limit until this removal rendered.
   useEffect(() => { if (removedQuestions) addQuestion.current?.focus(); }, [removedQuestions]);
 
@@ -116,6 +122,7 @@ export function MeetingUploadForm({ initialSource = "file", onClose }: { initial
   return <section className="panel meeting-upload-panel" aria-labelledby="meeting-upload-heading">
     <div className="section-heading"><h2 id="meeting-upload-heading">{t("meeting.new")}</h2>
       {onClose && <button type="button" className="button-quiet" disabled={busy} onClick={onClose}>{t("common.cancel")}</button>}</div>
+    {cpuMode && <p className="notice" role="status">{t("meeting.cpuMode")}</p>}
     <div className="recording-source-switch" role="group" aria-label={t("microphone.source")}>
       <button type="button" className="button-secondary" aria-pressed={source === "file"} disabled={busy} onClick={() => { setSource("file"); setError(null); }}><Icon name="upload" size={18} />{t("microphone.fileSource")}</button>
       <button type="button" className="button-secondary" aria-pressed={source === "microphone"} disabled={busy} onClick={() => { setSource("microphone"); setError(null); }}><Icon name="microphone" size={18} />{t("microphone.microphoneSource")}</button>

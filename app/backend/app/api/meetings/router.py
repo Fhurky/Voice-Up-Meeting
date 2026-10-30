@@ -24,6 +24,7 @@ from app.infrastructure.repositories.transcript_revision_repository import (
 from app.schemas.meeting import (
     MeetingCreate,
     MeetingPage,
+    MeetingProcessingMode,
     MeetingResponse,
     MeetingSpeakerPage,
     MeetingSpeakerRename,
@@ -129,6 +130,18 @@ async def list_meetings(
     context: CurrentContext, service: Service, offset: Offset = 0, limit: Limit = 20
 ) -> MeetingPage:
     return await service.list(context, offset, limit)
+
+
+@router.get(
+    "/processing-mode",
+    operation_id="meeting_processing_mode",
+    response_model=MeetingProcessingMode,
+    dependencies=[Depends(require_permission("meeting_analysis:read"))],
+)
+async def meeting_processing_mode(
+    settings: Annotated[Settings, Depends(get_settings)],
+) -> MeetingProcessingMode:
+    return MeetingProcessingMode(processing_device=settings.meeting_processing_device)
 
 
 @router.get(

@@ -90,6 +90,7 @@
   "meeting.uploadForm": "Meeting recording upload",
   "meeting.titleLabel": "Meeting name",
   "meeting.file": "Meeting audio or video file",
+  "meeting.cpuMode": "This installation runs without a GPU. Meetings process much more slowly; a 5–10 minute recording is recommended for a first try.",
   "meeting.extractingAudio": "Extracting audio from the video. Long recordings can take a few minutes; the picture is not uploaded.",
   "meeting.error.media_no_audio": "No audio could be extracted from this file. Check that it has sound; if the problem continues, use WAV or FLAC.",
   "meeting.limits": "WAV, FLAC, MP4 or M4A · up to 2 GiB and 4 hours. Only the audio of a video is uploaded. Contents and duration are validated on the server.",

@@ -88,6 +88,10 @@ class MeetingCreate(BaseModel):
         return self
 
 
+class MeetingProcessingMode(BaseModel):
+    processing_device: Literal["gpu", "cpu"]
+
+
 class MeetingQuestionResponse(BaseModel):
     public_id: UUID
     text: str

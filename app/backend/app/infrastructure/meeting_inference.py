@@ -86,7 +86,7 @@ class HttpMeetingAdapter:
                 or set(document) != {"ready", "device", "model_identity"}
                 or document["ready"] is not True
                 or not isinstance(document["device"], str)
-                or re.fullmatch(r"cuda:[0-9]{1,11}", document["device"]) is None
+                or re.fullmatch(r"cpu|cuda:[0-9]{1,11}", document["device"]) is None
             ):
                 raise ValueError("invalid_meeting_readiness")
             identity = MeetingModelIdentity.model_validate(document["model_identity"])

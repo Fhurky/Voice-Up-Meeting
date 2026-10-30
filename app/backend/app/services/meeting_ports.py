@@ -169,7 +169,7 @@ class MeetingChunkResult(MeetingRecord):
     tracks: list[MeetingTrack] = Field(max_length=1000)
     model_identity: MeetingModelIdentity
     vad: MeetingVad | None = None
-    device: str = Field(pattern=r"^cuda:[0-9]+$", max_length=16)
+    device: str = Field(pattern=r"^(cpu|cuda:[0-9]+)$", max_length=16)
 
     @model_validator(mode="after")
     def source_bound_evidence(self) -> Self:

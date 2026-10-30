@@ -87,6 +87,7 @@ class Settings(BaseSettings):
     speaker_new_threshold: float = Field(default=0.45, ge=-1.0, le=1.0)
     speaker_match_margin: float = Field(default=0.10, ge=0.0, le=2.0)
     meeting_reconciliation_threshold: float = Field(default=0.6, ge=0.0, le=1.0)
+    meeting_processing_device: Literal["gpu", "cpu"] = "gpu"
     meeting_max_bytes: int = Field(default=2147483648, ge=1024, le=2147483648)
     meeting_max_seconds: int = Field(default=14400, ge=1, le=14400)
     meeting_tenant_max_bytes: int = Field(default=10737418240, ge=1024, le=10737418240)

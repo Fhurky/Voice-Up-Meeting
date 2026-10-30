@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import re
 from collections.abc import Iterator, Set
 from contextlib import contextmanager
@@ -50,7 +51,11 @@ ASR_FILES = frozenset(
 )
 # CTranslate2 rejects int8_float16 below compute capability 7.0, so the Pascal
 # profile keeps int8 weights with float32 activations.
-ASR_COMPUTE_TYPES = {"x86_64-cu128": "int8_float16", "x86_64-cu126": "int8"}
+ASR_COMPUTE_TYPES = {
+    "x86_64-cu128": "int8_float16",
+    "x86_64-cu126": "int8",
+    "x86_64-meeting-cpu": "int8",
+}
 
 
 def _checked_path(path: Path) -> Path:
@@ -160,7 +165,7 @@ class LocalMeetingModels:
         if compute_type is None:
             raise InferenceError(
                 "meeting_runtime_unsupported",
-                "Meeting models require the verified CUDA runtime",
+                "Meeting models require a verified meeting runtime",
                 503,
             )
         import torch
@@ -193,16 +198,22 @@ class LocalMeetingModels:
                 "segmentation": {"min_duration_off": 0.0},
             }
         )
+        # On a GPU the ASR weights leave the device between jobs; on the CPU they have nowhere to go.
+        self._asr_moves = settings.device != "cpu"
+        # Physical cores, as PyTorch chooses by default: a 2-minute clip took 310 s with one
+        # thread per logical core but 30 s with one per physical core on a 16-core machine.
+        physical_cores = max(1, (os.cpu_count() or 8) // 2)
         self._asr = WhisperModel(
             str(settings.meeting_asr_dir),
-            device="cuda",
-            device_index=int(settings.device.split(":")[1]),
+            device="cuda" if self._asr_moves else "cpu",
+            device_index=int(settings.device.split(":")[1]) if self._asr_moves else 0,
             compute_type=compute_type,
-            cpu_threads=4,
+            cpu_threads=4 if self._asr_moves else physical_cores,
             num_workers=1,
             local_files_only=True,
         )
-        self._asr.model.unload_model(to_cpu=True)
+        if self._asr_moves:
+            self._asr.model.unload_model(to_cpu=True)
 
     def diarize(
         self,
@@ -317,7 +328,8 @@ class LocalMeetingModels:
         from dataclasses import asdict
 
         try:
-            self._asr.model.load_model()
+            if self._asr_moves:
+                self._asr.model.load_model()
             segments, info = self._asr.transcribe(
                 audio.samples,
                 language=language,
@@ -332,7 +344,8 @@ class LocalMeetingModels:
                 "language_probability": float(info.language_probability),
             }
         finally:
-            self._asr.model.unload_model(to_cpu=True)
+            if self._asr_moves:
+                self._asr.model.unload_model(to_cpu=True)
 
 
 def load_meeting_models(settings: Settings) -> LocalMeetingModels:

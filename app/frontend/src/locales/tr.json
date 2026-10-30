@@ -90,6 +90,7 @@
   "meeting.uploadForm": "Toplantı kaydı yükleme",
   "meeting.titleLabel": "Toplantı adı",
   "meeting.file": "Toplantı ses veya video dosyası",
+  "meeting.cpuMode": "Bu kurulum GPU olmadan çalışıyor. Toplantılar çok daha yavaş işlenir; ilk deneme için 5–10 dakikalık bir kayıt önerilir.",
   "meeting.extractingAudio": "Videodan ses çıkarılıyor. Uzun kayıtlarda birkaç dakika sürebilir; görüntü yüklenmez.",
   "meeting.error.media_no_audio": "Bu dosyadan ses çıkarılamadı. Dosyada ses olduğundan emin olun; sorun sürerse WAV veya FLAC kullanın.",
   "meeting.limits": "WAV, FLAC, MP4 veya M4A · en çok 2 GiB ve 4 saat. Videonun yalnız sesi yüklenir. İçerik ve süre sunucuda doğrulanır.",

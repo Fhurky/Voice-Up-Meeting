@@ -259,7 +259,7 @@ def validate_paths(args, manifest):
     return output, public, cache
 
 
-# Mirrors voiceup_inference.meeting_models.ASR_COMPUTE_TYPES; load_model rejects drift.
+# GPU entries of voiceup_inference.meeting_models.ASR_COMPUTE_TYPES; load_model rejects drift.
 COMPUTE_TYPES = {"x86_64-cu128": "int8_float16", "x86_64-cu126": "int8"}
 DEFAULT_RUNTIME_PROFILE = "x86_64-cu128"
 
@@ -315,7 +315,7 @@ def load_model(args):
     require(
         ASR_ID == MODEL_ID
         and ASR_REVISION == base.MODEL_REVISION
-        and ASR_COMPUTE_TYPES == COMPUTE_TYPES,
+        and COMPUTE_TYPES.items() <= ASR_COMPUTE_TYPES.items(),
         "model_contract_changed",
     )
     verify_meeting_bundle(args.model_dir, args.model_manifest, ASR_ID, ASR_REVISION, ASR_FILES)

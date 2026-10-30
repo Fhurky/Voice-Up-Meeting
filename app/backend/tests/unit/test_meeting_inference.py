@@ -297,3 +297,22 @@ async def test_silence_result_is_typed_without_a_language(observed_payload):
     payload["language"], payload["language_probability"] = None, 0.0
     result = await call(payload)
     assert result.language is None and not result.words
+
+
+@pytest.mark.parametrize("device", ["cpu", "cuda:0"])
+def test_chunk_result_accepts_cpu_and_cuda_devices(device: str) -> None:
+    from app.services.meeting_ports import MeetingChunkResult
+    from tests.integration.test_meeting_worker import result
+
+    payload = result(10).model_dump(mode="json")
+    assert MeetingChunkResult.model_validate({**payload, "device": device}).device == device
+
+
+def test_chunk_result_rejects_an_unknown_device() -> None:
+    from pydantic import ValidationError
+
+    from app.services.meeting_ports import MeetingChunkResult
+    from tests.integration.test_meeting_worker import result
+
+    with pytest.raises(ValidationError):
+        MeetingChunkResult.model_validate({**result(10).model_dump(mode="json"), "device": "gpu"})

@@ -1,5 +1,7 @@
 ﻿param(
     [ValidateSet('Auto', 'Local', 'Spark')][string]$Mode = 'Auto',
+    # Meeting processor; the choice is saved. Cpu suits first trials on a machine without a GPU.
+    [ValidateSet('Keep', 'Gpu', 'Cpu')][string]$Processor = 'Keep',
     [string]$SparkConfigPath = (Join-Path $PSScriptRoot '../outputs/spark-access/connection.json')
 )
 
@@ -59,7 +61,7 @@ function Test-LocalMeetingIdentity {
     param($Ready)
     if ($null -eq $Ready -or $Ready -isnot [pscustomobject] -or
         $Ready.ready -isnot [bool] -or $Ready.ready -ne $true -or
-        $Ready.device -isnot [string] -or $Ready.device -cne 'cuda:0') { return $false }
+        $Ready.device -isnot [string] -or $Ready.device -cne $script:expectedMeetingDevice) { return $false }
     $identity = $Ready.model_identity
     if ($null -eq $identity -or $identity -isnot [pscustomobject]) { return $false }
     $expected = @{
@@ -104,6 +106,7 @@ $infraPath = Join-Path $projectRoot 'app/infra'
 $modePath = Join-Path $projectRoot 'outputs/local-runtime-mode.txt'
 $meetingPath = Join-Path $projectRoot 'outputs/local-meeting-enabled.txt'
 $textReviewPath = Join-Path $projectRoot 'outputs/local-text-review-enabled.txt'
+$processorPath = Join-Path $projectRoot 'outputs/local-meeting-processor.txt'
 if ($Mode -eq 'Auto') {
     $Mode = 'Local'
     if (Test-Path -LiteralPath $modePath) {
@@ -124,6 +127,18 @@ if ($Mode -eq 'Local' -and (Test-Path -LiteralPath $meetingPath)) {
     if (-not (Test-Path -LiteralPath (Join-Path $infraPath 'docker-compose.meeting.yml'))) { throw 'Toplantı çalışma ayarları eksik.' }
     $meetingEnabled = $true
 }
+if ($Processor -ne 'Keep') {
+    if ($Mode -ne 'Local' -or -not $meetingEnabled) { throw 'İşlemci seçimi yalnız yerel toplantı modunda geçerlidir.' }
+    [IO.Directory]::CreateDirectory((Split-Path $processorPath -Parent)) | Out-Null
+    [IO.File]::WriteAllText($processorPath, $Processor.ToLowerInvariant())
+}
+$meetingOnCpu = $false
+if ($meetingEnabled -and (Test-Path -LiteralPath $processorPath)) {
+    $savedProcessor = [IO.File]::ReadAllText($processorPath).Trim()
+    if ($savedProcessor -cnotin @('gpu', 'cpu')) { throw 'Kayıtlı işlemci seçimi geçersiz.' }
+    $meetingOnCpu = $savedProcessor -ceq 'cpu'
+}
+$script:expectedMeetingDevice = if ($meetingOnCpu) { 'cpu' } else { 'cuda:0' }
 if ($Mode -eq 'Spark') {
     if ($env:COMPOSE_PROFILES) { throw 'Spark modunda COMPOSE_PROFILES boş olmalıdır.' }
     if ($env:COMPOSE_PROJECT_NAME) { throw 'Spark modunda COMPOSE_PROJECT_NAME boş olmalıdır.' }
@@ -143,6 +158,7 @@ try {
         '-f', 'app/infra/docker-compose.local.yml', '-f', 'app/infra/docker-compose.observability.yml')
     if ($Mode -eq 'Spark') { $composeArgs += @('-f', 'app/infra/docker-compose.spark.yml') }
     if ($meetingEnabled) { $composeArgs += @('-f', 'app/infra/docker-compose.meeting.yml') }
+    if ($meetingOnCpu) { $composeArgs += @('-f', 'app/infra/docker-compose.meeting-cpu.yml') }
     if ($textReviewEnabled) { $composeArgs += @('-f', 'app/infra/docker-compose.text-review.yml') }
     # Capture resolved configuration without printing its secret-bearing environment blocks.
     $configuration = Invoke-LocalDocker -Arguments ($composeArgs + @('config', '--format', 'json'))

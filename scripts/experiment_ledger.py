@@ -130,7 +130,7 @@ def scores(value, fields):
 
 # Inference runtime profiles; results from different profiles are separate series.
 RUNTIME_PROFILES = frozenset(
-    {"x86_64-cu128", "x86_64-cu126", "aarch64-cu129", "x86_64-cpu", "aarch64-cpu"}
+    {"x86_64-cu128", "x86_64-cu126", "aarch64-cu129", "x86_64-cpu", "x86_64-meeting-cpu", "aarch64-cpu"}
 )
 
 

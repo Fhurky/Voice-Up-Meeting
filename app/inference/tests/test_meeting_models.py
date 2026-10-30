@@ -273,3 +273,43 @@ def test_invalid_native_tracking_centroid_cannot_be_used(change):
         native_tracking_fixture(native, labels).diarize(
             Audio(np.zeros(16000, dtype=np.float32))
         )
+
+
+def test_cpu_profile_keeps_whisper_on_the_cpu_and_never_moves_it(monkeypatch):
+    from types import SimpleNamespace
+
+    import faster_whisper
+    from pyannote.audio import Pipeline
+
+    from voiceup_inference import meeting_models
+    from voiceup_inference.config import Settings
+
+    created, moves = [], []
+
+    class PipelineFixture:
+        def instantiate(self, params):
+            return self
+
+    class Engine:
+        def unload_model(self, *, to_cpu):
+            moves.append("unload")
+
+        def load_model(self):
+            moves.append("load")
+
+    def load_whisper(path, **options):
+        created.append(options)
+        info = SimpleNamespace(language="tr", language_probability=1.0)
+        return SimpleNamespace(model=Engine(), transcribe=lambda samples, **_: (iter(()), info))
+
+    monkeypatch.setattr(meeting_models, "verify_meeting_bundle", lambda *args: None)
+    monkeypatch.setattr(Pipeline, "from_pretrained", lambda path, *, token: PipelineFixture())
+    monkeypatch.setattr(faster_whisper, "WhisperModel", load_whisper)
+    monkeypatch.setattr(meeting_models.os, "cpu_count", lambda: 16)
+    loaded = meeting_models.LocalMeetingModels(
+        Settings(internal_key="x" * 32, device="cpu", runtime_profile="x86_64-meeting-cpu")
+    )
+    assert created[0]["device"] == "cpu" and created[0]["device_index"] == 0
+    assert created[0]["compute_type"] == "int8" and created[0]["cpu_threads"] == 8
+    assert loaded.transcribe(SimpleNamespace(samples=[]), "tr")["language"] == "tr"
+    assert moves == []

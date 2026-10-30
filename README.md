@@ -48,6 +48,17 @@ Gerçek RTX 4060/CUDA çıkarımı ve tarayıcı akışı doğrulandı. Tekrarl�
 teknik örnekle 20 işte işlem p95 0,87 sn, kuyruk dahil p95 2,72 sn ölçüldü.
 Bu ölçüm gerçek kişi doğruluğu veya onlarca konuşmacı kapasitesi kanıtı değildir.
 
+### GPU olmadan ilk deneme
+
+GPU'su olmayan bir makinede toplantıları CPU'da deneyebilirsiniz; seçim kalıcıdır:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/start-local.ps1 -Mode Local -Processor Cpu
+```
+
+Geri dönmek için `-Processor Gpu` kullanın. CPU modu yavaştır ve yalnız ilk deneme içindir; 5–10 dakikalık kayıtlarla başlayın. Ölçülen
+süre [PRD 027 görevlerindedir](specs/speaker-identity/PRDs/027-meeting-cpu-mode/tasks.md).
+
 ## Doğrulanan toplantı akışı ve açık hedefler
 
 Sabit dört gerçek ses kaydında **5 yeni kişi → aynı 5 kişi → kısa altıncı kişi beklemede

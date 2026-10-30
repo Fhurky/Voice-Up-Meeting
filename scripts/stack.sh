@@ -58,6 +58,14 @@ case "$mode" in
     if [ -f "$meeting_file" ]; then
       [ "$(tr -d '\r\n' < "$meeting_file")" = "enabled" ] || { echo "Invalid local meeting selection" >&2; exit 2; }
       [ -f "$root/app/infra/docker-compose.meeting.yml" ] || { echo "Local meeting overlay is missing" >&2; exit 2; }
+      processor_file="$root/outputs/local-meeting-processor.txt"
+      if [ -f "$processor_file" ]; then
+        case "$(tr -d '\r\n' < "$processor_file")" in
+          cpu) set -- -f "$root/app/infra/docker-compose.meeting-cpu.yml" "$@" ;;
+          gpu) ;;
+          *) echo "Invalid local meeting processor selection" >&2; exit 2 ;;
+        esac
+      fi
       set -- -f "$root/app/infra/docker-compose.meeting.yml" "$@"
     fi
     ;;

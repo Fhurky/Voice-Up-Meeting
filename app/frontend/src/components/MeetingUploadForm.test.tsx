@@ -109,6 +109,26 @@ describe("meeting upload form", () => {
     vi.unstubAllGlobals();
   });
 
+  it("warns that processing is slow only when the installation runs on the CPU", async () => {
+    const mode = vi.spyOn(MeetingService, "processingMode").mockResolvedValue({ processing_device: "cpu" });
+    setup();
+    expect(await screen.findByRole("status")).toHaveTextContent("GPU olmadan çalışıyor");
+    expect(mode).toHaveBeenCalledTimes(1);
+    cleanup();
+    mode.mockResolvedValue({ processing_device: "gpu" });
+    setup();
+    await screen.findByLabelText("Toplantı adı");
+    await waitFor(() => expect(mode).toHaveBeenCalledTimes(2));
+    expect(screen.queryByText(/GPU olmadan çalışıyor/)).not.toBeInTheDocument();
+  });
+
+  it("keeps the form usable when the processing mode cannot be read", async () => {
+    vi.spyOn(MeetingService, "processingMode").mockRejectedValue(new Error("offline"));
+    setup();
+    await screen.findByLabelText("Toplantı adı");
+    expect(screen.queryByText(/GPU olmadan çalışıyor/)).not.toBeInTheDocument();
+  });
+
   it("sends empty meeting details when nothing was entered", async () => {
     const create = vi.spyOn(MeetingService, "create").mockRejectedValue(new Error("offline"));
     setup(); await fill();
