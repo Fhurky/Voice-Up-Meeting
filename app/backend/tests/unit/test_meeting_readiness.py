@@ -67,6 +67,16 @@ async def test_transient_readiness_failure_does_not_admit_work(failure):
         assert not await HttpMeetingAdapter(settings(), client).ready()
 
 
+async def test_cpu_device_is_a_ready_meeting_runtime():
+    payload = {**copy.deepcopy(readiness_payload()), "device": "cpu"}
+
+    def producer(request: httpx.Request) -> httpx.Response:
+        return httpx.Response(200, json=payload)
+
+    async with httpx.AsyncClient(transport=httpx.MockTransport(producer)) as client:
+        assert await HttpMeetingAdapter(settings(), client).ready()
+
+
 @pytest.mark.parametrize(
     "change", ["revision", "model", "false", "string", "device", "extra", "recipe_missing"]
 )
@@ -79,7 +89,7 @@ async def test_wrong_readiness_contract_is_visible_as_model_error(change):
     elif change in {"false", "string"}:
         payload["ready"] = False if change == "false" else "true"
     elif change == "device":
-        payload["device"] = "cpu"
+        payload["device"] = "gpu"
     elif change == "recipe_missing":
         payload["model_identity"]["diarization"].pop("recipe")
     else:

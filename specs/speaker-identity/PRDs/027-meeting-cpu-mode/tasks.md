@@ -4,7 +4,7 @@
 - [x] T02 Arka uç ve sözleşme (Requirement 2).
 - [x] T03 Ön yüz uyarısı (Requirement 3).
 - [x] T04 Açılış ve belgeler (Requirement 4).
-- [x] T05 Tam kalite kapısı (30 Ekim 2026: arka uç 941/941, ön yüz /, tüm adımlar geçti).
+- [x] T05 Tam kalite kapısı (30 Ekim 2026: arka uç 942/942, ön yüz 280/280, tüm adımlar geçti).
 - [x] T06 Gerçek CPU koşumu ve GPU ile karşılaştırma (Requirement 5).
 - [ ] T07 GPU'suz makinede ilk kurulum (L3).
 

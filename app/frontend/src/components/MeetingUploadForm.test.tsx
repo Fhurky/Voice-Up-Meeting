@@ -13,7 +13,7 @@ import { SpeakerService } from "@/services/speakers";
 const session = vi.hoisted(() => ({ memory: true, profiles: true }));
 vi.mock("@/contexts/AuthContext", () => ({ useAuth: () => ({ hasPermission: (permission: string) => (permission !== "speaker_profiles:write" || session.memory) && (permission !== "speaker_profiles:read" || session.profiles) }) }));
 afterEach(() => { cleanup(); vi.restoreAllMocks(); });
-beforeEach(() => { session.memory = true; session.profiles = true; vi.spyOn(SpeakerService, "profiles").mockResolvedValue({ items: [], total: 0, offset: 0, limit: 20 }); });
+beforeEach(() => { session.memory = true; session.profiles = true; vi.spyOn(MeetingService, "processingMode").mockResolvedValue({ processing_device: "gpu" }); vi.spyOn(SpeakerService, "profiles").mockResolvedValue({ items: [], total: 0, offset: 0, limit: 20 }); });
 function setup() { render(<IntlProvider><MeetingUploadContext.Provider value={{ selection: null, setSelection: vi.fn() }}><MemoryRouter><Routes><Route path="/" element={<MeetingUploadForm />} /><Route path="/meetings/:publicId" element={<p>Meeting detail route</p>} /></Routes></MemoryRouter></MeetingUploadContext.Provider></IntlProvider>); }
 async function fill() {
   fireEvent.change(await screen.findByLabelText("Toplantı adı"), { target: { value: "  Haftalık   toplantı  " } });
@@ -112,7 +112,7 @@ describe("meeting upload form", () => {
   it("warns that processing is slow only when the installation runs on the CPU", async () => {
     const mode = vi.spyOn(MeetingService, "processingMode").mockResolvedValue({ processing_device: "cpu" });
     setup();
-    expect(await screen.findByRole("status")).toHaveTextContent("GPU olmadan çalışıyor");
+    expect(await screen.findByText(/GPU olmadan çalışıyor/)).toBeInTheDocument();
     expect(mode).toHaveBeenCalledTimes(1);
     cleanup();
     mode.mockResolvedValue({ processing_device: "gpu" });

@@ -13,6 +13,7 @@ const session = vi.hoisted(() => ({ writable: true }));
 vi.mock("@/contexts/AuthContext", () => ({ useAuth: () => ({ hasPermission: (permission: string) => session.writable || permission.endsWith(":read"), logout: vi.fn() }) }));
 afterEach(() => { cleanup(); vi.restoreAllMocks(); session.writable = true; });
 function setup() {
+  vi.spyOn(MeetingService, "processingMode").mockResolvedValue({ processing_device: "gpu" });
   vi.spyOn(MeetingService, "speakers").mockResolvedValue({ items: [], total: 0, offset: 0, limit: 20 });
   vi.spyOn(MeetingService, "transcript").mockResolvedValue({ items: [], total: 0, offset: 0, limit: 50, provisional: false });
   return render(<IntlProvider><MemoryRouter initialEntries={[`/meetings/${meeting.public_id}`]}><Routes>
