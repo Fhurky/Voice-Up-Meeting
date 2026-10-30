@@ -47,3 +47,10 @@ görüldü, adlandırma açık, konsol hatası yok.
 kümenin 12'sini yakalarken 20 temiz kümeyi kaybediyor); bu yüzden o kural eklenmedi. Tanıma puanı da ayıramıyor: kalan yanlış
 eşleşmenin puanı 0,945, doğru eşleşmelerin ortancası 0,85. Profilin içindeki ses eşleşen kişinin sesidir; hata profilin
 başka kişinin baskın olduğu bir kümeden açılmasıdır. Puan eşiği veya küme benzerliği kuralı bu sınıfı çözmez.
+
+30 Ekim 2026 Türkçe toplantı gözlemi (etiketsiz, kesin ölçüm değil): 36 dakikalık, kullanıcıya göre 11 net ve 1–2 arka
+plan konuşmacılı özel kayıt normal GPU akışıyla 396 saniyede işlendi. 15 konuşmacı bulundu; 13'ü en az 10 saniye,
+10'u en az 30 saniye konuşuyor; ilk 11 konuşmacı konuşma süresinin %98,2'si. Birleştirme 16 konuşmacıyı 15'e indirdi,
+yani bu kayıtta kopyalanma sorunu AMI'deki kadar görülmedi. 4540 kelimenin %81'i belirsiz işareti olmayan uzun satırlarda;
+490 satırın 255'i bir veya iki kelimelik, belirsiz satırların çoğu bunlar. Kişi ataması doğruluğu kullanıcı kontrolü
+veya etiket olmadan bilinmiyor. Ses ve metin depoya girmez.
