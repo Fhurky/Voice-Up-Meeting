@@ -11,6 +11,8 @@ export interface MicrophoneCaptureProgress { elapsedSeconds: number; bufferedByt
 export interface RecordedMicrophoneFile { file: File; durationSeconds: number; dispose: () => Promise<void> }
 export interface MicrophoneCaptureOptions {
   deviceId?: string;
+  /** Stops automatically at this duration; meeting capture keeps the global limit. */
+  maxSeconds?: number;
   signal?: AbortSignal;
   onProgress?: (progress: MicrophoneCaptureProgress) => void;
   onError?: (error: MicrophoneCaptureError) => void;
@@ -209,7 +211,7 @@ export function createMicrophoneCapture(options: MicrophoneCaptureOptions): Micr
       node = new AudioWorkletNode(audio, "voiceup-microphone-pcm", {
         numberOfInputs: 1, numberOfOutputs: 1, outputChannelCount: [1], channelCount: 1, channelCountMode: "explicit",
         processorOptions: { sampleRate, partBytes: MICROPHONE_PART_BYTES, creditBytes: MICROPHONE_CREDIT_BYTES,
-          maxSamples: Math.min(sampleRate * MICROPHONE_MAX_SECONDS, Math.floor((MICROPHONE_MAX_BYTES - 44) / 2)) },
+          maxSamples: Math.min(sampleRate * Math.min(options.maxSeconds ?? MICROPHONE_MAX_SECONDS, MICROPHONE_MAX_SECONDS), Math.floor((MICROPHONE_MAX_BYTES - 44) / 2)) },
       });
       node.port.onmessage = receive; node.addEventListener("processorerror", processorError);
       audio.addEventListener("statechange", contextChanged);

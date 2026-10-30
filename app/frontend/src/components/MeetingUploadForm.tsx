@@ -7,9 +7,10 @@ import { meetingErrorKey, validateMeetingFile } from "@/lib/meetingErrors";
 import { MeetingUploadContext } from "@/contexts/meetingUploadSelection";
 import { Icon } from "@/components/ui/Icon";
 import { MeetingMicrophoneRecorder } from "@/components/MeetingMicrophoneRecorder";
+import { MeetingParticipantPicker } from "@/components/MeetingParticipantPicker";
 import { uploadMeeting, type UploadProgress } from "@/services/meetingUpload";
 
-export function MeetingUploadForm() {
+export function MeetingUploadForm({ initialSource = "file", onClose }: { initialSource?: "file" | "microphone"; onClose?: () => void }) {
   const { t } = useIntl();
   const { hasPermission } = useAuth();
   const navigate = useNavigate();
@@ -18,11 +19,19 @@ export function MeetingUploadForm() {
   const { setSelection } = selection;
   const [title, setTitle] = useState("");
   const [file, setFile] = useState<File | null>(null);
-  const [source, setSource] = useState<"file" | "microphone">("file");
+  const [source, setSource] = useState<"file" | "microphone">(initialSource);
   const [language, setLanguage] = useState<NonNullable<MeetingCreate["language"]>>("tr");
   const [participants, setParticipants] = useState("");
   const [speakers, setSpeakers] = useState("");
-  const [remember, setRemember] = useState(true);
+  const [subject, setSubject] = useState("");
+  const [questions, setQuestions] = useState<{ id: number; text: string }[]>([]);
+  const [focusedQuestion, setFocusedQuestion] = useState<number | null>(null);
+  const [removedQuestions, setRemovedQuestions] = useState(0);
+  const nextQuestion = useRef(0);
+  const addQuestion = useRef<HTMLButtonElement>(null);
+  const contextOptions = useRef<HTMLDetailsElement>(null);
+  const [roster, setRoster] = useState<string[]>([]);
+  const [remember, setRemember] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const controller = useRef<AbortController | null>(null);
@@ -31,18 +40,27 @@ export function MeetingUploadForm() {
   const countOptions = useRef<HTMLDetailsElement>(null);
   const form = useRef<HTMLFormElement>(null);
   useEffect(() => () => controller.current?.abort(), []);
+  // The add button may have been disabled at the limit until this removal rendered.
+  useEffect(() => { if (removedQuestions) addQuestion.current?.focus(); }, [removedQuestions]);
+
+  const normalizeText = (value: string) => value.trim().replace(/\s+/g, " ");
+  const enteredQuestions = () => questions.map((question) => normalizeText(question.text)).filter(Boolean);
 
   function validateOptions() {
     const normalizedTitle = title.trim().replace(/\s+/g, " ");
     const validCount = (value: string) => !value || (/^\d+$/.test(value) && Number(value) >= 1 && Number(value) <= 1000);
     if (!normalizedTitle || normalizedTitle.length > 120 || !validCount(participants) || !validCount(speakers)) { if (countOptions.current) countOptions.current.open = true; setError("meeting.error.validation_error"); form.current?.reportValidity(); return false; }
     if (participants && speakers && Number(speakers) > Number(participants)) { if (countOptions.current) countOptions.current.open = true; setError("meeting.error.counts"); return false; }
+    if (participants && roster.length > Number(participants)) { if (countOptions.current) countOptions.current.open = true; setError("meeting.error.rosterCount"); return false; }
+    const entered = enteredQuestions();
+    if (new Set(entered.map((value) => value.toLocaleLowerCase())).size !== entered.length) { if (contextOptions.current) contextOptions.current.open = true; setError("meeting.error.duplicateQuestion"); return false; }
     setError(null); return true;
   }
   async function create(sourceFile: File, signal: AbortSignal) {
     const request: MeetingCreate = { title: title.trim().replace(/\s+/g, " "), format: /\.flac$/i.test(sourceFile.name) ? "FLAC" : "WAV", size_bytes: sourceFile.size,
       language, participant_count: participants ? Number(participants) : null, expected_speakers: speakers ? Number(speakers) : null,
-      auto_enroll: hasPermission("speaker_profiles:write") && remember };
+      auto_enroll: hasPermission("speaker_profiles:write") && remember, participant_profile_ids: roster,
+      subject: normalizeText(subject) || null, questions: enteredQuestions() };
     const fingerprint = JSON.stringify([request, sourceFile.name, sourceFile.lastModified]);
     if (attempt.current?.fingerprint !== fingerprint) attempt.current = { fingerprint, key: crypto.randomUUID() };
     return MeetingService.create(request, attempt.current.key, signal);
@@ -82,18 +100,15 @@ export function MeetingUploadForm() {
     finally { controller.current = null; if (!active.signal.aborted) setBusy(false); }
   }
 
-  return <section className="panel meeting-upload-panel">
-    <p className="eyebrow">{t("meeting.uploadEyebrow")}</p>
-    <h2>{t("meeting.new")}</h2><p className="muted">{t("microphone.sourceHint")}</p>
+  return <section className="panel meeting-upload-panel" aria-labelledby="meeting-upload-heading">
+    <div className="section-heading"><h2 id="meeting-upload-heading">{t("meeting.new")}</h2>
+      {onClose && <button type="button" className="button-quiet" disabled={busy} onClick={onClose}>{t("common.cancel")}</button>}</div>
     <div className="recording-source-switch" role="group" aria-label={t("microphone.source")}>
       <button type="button" className="button-secondary" aria-pressed={source === "file"} disabled={busy} onClick={() => { setSource("file"); setError(null); }}><Icon name="upload" size={18} />{t("microphone.fileSource")}</button>
       <button type="button" className="button-secondary" aria-pressed={source === "microphone"} disabled={busy} onClick={() => { setSource("microphone"); setError(null); }}><Icon name="microphone" size={18} />{t("microphone.microphoneSource")}</button>
     </div>
     <form ref={form} className="audio-form" aria-label={t("meeting.uploadForm")} onSubmit={(event) => void submit(event)}>
       {source === "file" && <><div className="upload-surface">
-        <span className="upload-surface-icon"><Icon name={file ? "file" : "upload"} size={24} /></span>
-        <p className="upload-surface-title">{t("meeting.chooseFile")}</p>
-        <p className="field-hint">{t("meeting.fileTypes")}</p>
         <label htmlFor="meeting-file">{t("meeting.file")}</label>
         <input id="meeting-file" type="file" accept=".wav,.flac,audio/wav,audio/flac" required disabled={busy} aria-describedby="meeting-limits" onChange={(event) => { setFile(event.target.files?.[0] ?? null); attempt.current = null; setError(null); }} />
         {file && <p className="upload-file-name" role="status">{file.name}</p>}
@@ -107,8 +122,26 @@ export function MeetingUploadForm() {
             <option value="tr">{t("meeting.language.tr")}</option><option value="en">{t("meeting.language.en")}</option><option value="auto">{t("meeting.language.auto")}</option>
           </select></div>
       </div>
+      <details ref={contextOptions} className="form-options" onInvalid={(event) => { event.currentTarget.open = true; }}>
+        <summary><span>{t("meeting.context.title")}</span><span>{t("meeting.context.summary")}</span></summary>
+        <div className="form-field"><label htmlFor="meeting-subject">{t("meeting.context.subject")}</label>
+          <textarea id="meeting-subject" rows={2} maxLength={500} value={subject} disabled={busy} onChange={(event) => setSubject(event.target.value)} /></div>
+        <fieldset className="question-list" disabled={busy}>
+          <legend>{t("meeting.context.questions")}</legend>
+          {questions.map((question, index) => <div className="question-row" key={question.id}>
+            <input aria-label={t("meeting.context.question", { number: index + 1 })} maxLength={500} value={question.text} autoFocus={question.id === focusedQuestion}
+              onChange={(event) => { const text = event.target.value; setQuestions((rows) => rows.map((row) => row.id === question.id ? { ...row, text } : row)); setError(null); }} />
+            <button type="button" className="button-quiet" aria-label={t("meeting.context.removeQuestion", { number: index + 1 })}
+              onClick={() => { setQuestions((rows) => rows.filter((row) => row.id !== question.id)); setError(null); setFocusedQuestion(null); setRemovedQuestions((count) => count + 1); }}>{t("meeting.context.remove")}</button>
+          </div>)}
+          <button ref={addQuestion} type="button" className="button-secondary" disabled={questions.length >= 20}
+            onClick={() => { const id = nextQuestion.current++; setFocusedQuestion(id); setQuestions((rows) => [...rows, { id, text: "" }]); }}>{t("meeting.context.addQuestion")}</button>
+        </fieldset>
+        <p className="field-hint">{t("meeting.context.hint")}</p>
+      </details>
       <details ref={countOptions} className="form-options" onInvalid={(event) => { event.currentTarget.open = true; }}>
-        <summary><span>{t("meeting.advancedOptions")}</span><span className="field-hint">{t("meeting.optional")}</span></summary>
+        <summary><span>{t("meeting.advancedOptions")}</span><span>{t("meeting.advancedSummary")}</span></summary>
+        {hasPermission("speaker_profiles:read") ? <MeetingParticipantPicker selected={roster} disabled={busy} onChange={(value) => { setRoster(value); setError(null); }} /> : <p className="field-hint">{t("meeting.roster.permission")}</p>}
         <div className="form-grid">
           <div className="form-field"><label htmlFor="meeting-participants">{t("meeting.participants")}</label>
             <input id="meeting-participants" type="number" min="1" max="1000" step="1" value={participants} disabled={busy} aria-describedby="meeting-count-hint" onChange={(event) => setParticipants(event.target.value)} /></div>
@@ -116,11 +149,11 @@ export function MeetingUploadForm() {
             <input id="meeting-speakers" type="number" min="1" max="1000" step="1" value={speakers} disabled={busy} aria-describedby="meeting-count-hint" onChange={(event) => setSpeakers(event.target.value)} /></div>
         </div>
         <p id="meeting-count-hint" className="field-hint">{t("meeting.countHint")}</p>
+        <div className="memory-option">
+          {hasPermission("speaker_profiles:write") ? <label className="checkbox-label"><input type="checkbox" checked={remember} disabled={busy} aria-describedby="meeting-memory-hint" onChange={(event) => setRemember(event.target.checked)} />{t("meeting.remember")}</label> : <p className="field-hint">{t("meeting.memoryPermission")}</p>}
+          <p id="meeting-memory-hint" className="field-hint">{t("meeting.memoryHint")}</p>
+        </div>
       </details>
-      <div className="memory-option">
-        {hasPermission("speaker_profiles:write") ? <label className="checkbox-label"><input type="checkbox" checked={remember} disabled={busy} aria-describedby="meeting-memory-hint" onChange={(event) => setRemember(event.target.checked)} />{t("meeting.remember")}</label> : <p className="field-hint">{t("meeting.memoryPermission")}</p>}
-        <p id="meeting-memory-hint" className="field-hint">{t("meeting.memoryHint")}</p>
-      </div>
       {error && <p className="error-message" role="alert">{t(error)}</p>}
       {source === "file" ? <button type="submit" disabled={busy || !file || !title.trim()}><Icon name="upload" size={18} />{t(busy ? "meeting.creating" : "meeting.start")}</button> :
         <MeetingMicrophoneRecorder onBeforeStart={validateOptions} onBusyChange={setBusy} onAnalyze={analyzeRecording} onAbandon={abandonRecording} onComplete={(result) => { recordingMeeting.current = null; void navigate(`/meetings/${result.public_id}`); }} />}

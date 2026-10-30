@@ -70,6 +70,7 @@ def cohort(script, tmp_path, count=3):
         experiment_id="expanded-test",
         results_md=tmp_path / "results.md",
         resume=False,
+        runtime_profile="x86_64-cu128",
     )
     return args, manifest
 
@@ -160,7 +161,9 @@ def test_interrupted_resume_skips_exact_durable_clips(script, tmp_path, monkeypa
     assert len(calls) == 2
 
 
-@pytest.mark.parametrize("change", ["manifest", "experiment_id", "model_manifest", "ledger"])
+@pytest.mark.parametrize(
+    "change", ["manifest", "experiment_id", "model_manifest", "ledger", "runtime_profile"]
+)
 def test_resume_rejects_changed_binding(script, tmp_path, monkeypatch, change):
     args, manifest = cohort(script, tmp_path)
     install_model(script, monkeypatch, fail_at=2)
@@ -174,12 +177,21 @@ def test_resume_rejects_changed_binding(script, tmp_path, monkeypatch, change):
         args.model_manifest.write_text('{"changed":true}')
     elif change == "ledger":
         args.results_md = tmp_path / "other.md"
+    elif change == "runtime_profile":
+        args.runtime_profile = "x86_64-cu126"
     else:
         args.experiment_id = "other-run"
     install_model(script, monkeypatch)
     with pytest.raises(ValueError, match="binding"):
         script.evaluate(args)
     script.load_model.assert_not_called()
+
+
+def test_runtime_profile_selects_supported_whisper_compute_type(script):
+    assert script.configuration("x86_64-cu128")["compute_type"] == "int8_float16"
+    assert script.configuration("x86_64-cu126")["compute_type"] == "int8"
+    with pytest.raises(KeyError):
+        script.configuration("aarch64-cu129")
 
 
 def test_resume_rejects_tampered_cached_metrics(script, tmp_path, monkeypatch):
@@ -274,6 +286,7 @@ def test_success_and_incomplete_publish_through_real_ledger(script, tmp_path, mo
     script.evaluate(args)
     complete = args.results_md.read_text(encoding="utf-8")
     assert '"status":"complete"' in complete
+    assert '"runtime_profile":"x86_64-cu128"' in complete
     assert "İstanbul" not in complete
     script.evaluate(args)
     assert args.results_md.read_text(encoding="utf-8") == complete

@@ -12,7 +12,11 @@ from voiceup_inference.config import Settings
 from voiceup_inference.errors import InferenceError
 
 KEY = "test-internal-key-at-least-32-characters"
-PROFILES = [("x86_64-cu128", "x86_64", "12.8"), ("aarch64-cu129", "aarch64", "12.9")]
+PROFILES = [
+    ("x86_64-cu128", "x86_64", "12.8"),
+    ("x86_64-cu126", "x86_64", "12.6"),
+    ("aarch64-cu129", "aarch64", "12.9"),
+]
 CPU_PROFILES = [("x86_64-cpu", "x86_64"), ("aarch64-cpu", "aarch64")]
 
 
@@ -97,6 +101,7 @@ def test_matching_profile_requires_cuda_allocation_kernel_and_synchronization(
 @pytest.mark.parametrize(
     "profile,machine,cuda_version",
     [("x86_64-cu128", "aarch64", "12.8"), ("aarch64-cu129", "x86_64", "12.9")]
+    + [("x86_64-cu126", "aarch64", "12.6")]
     + [("x86_64-cu128", "", "12.8"), ("aarch64-cu129", "ppc64le", "12.9")],
 )
 def test_mismatched_or_unknown_architecture_never_allocates(

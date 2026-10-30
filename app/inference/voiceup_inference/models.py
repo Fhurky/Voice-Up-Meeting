@@ -19,6 +19,8 @@ if TYPE_CHECKING:
 
 RUNTIME_REQUIREMENTS: dict[RuntimeProfile, tuple[str, str]] = {
     "x86_64-cu128": ("x86_64", "12.8"),
+    # PyTorch 2.8 CUDA 12.8 builds omit sm_50-sm_61; CUDA 12.6 keeps Pascal GPUs.
+    "x86_64-cu126": ("x86_64", "12.6"),
     "aarch64-cu129": ("aarch64", "12.9"),
 }
 CPU_RUNTIME_REQUIREMENTS: dict[RuntimeProfile, str] = {

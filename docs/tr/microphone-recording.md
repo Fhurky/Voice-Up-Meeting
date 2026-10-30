@@ -4,10 +4,14 @@
 metin hazırlatabilirsiniz. Analiz için toplantı modellerinin çalışıyor olması
 gerekir; kaydı almak tek başına model hazırlamaz.
 
-1. `Kayıt kaynağı` bölümünde **Mikrofonla kaydet** seçeneğine geçin.
-2. Toplantıya bir ad verin ve konuşma dilini seçin. İsterseniz katılımcı üst
-   sınırını, kesin konuşan kişi sayısını ve yeni kişileri hafızaya kaydetme
-   seçeneğini ayarlayın. Kalıcı hafıza seçeneği profil yazma yetkisi gerektirir.
+1. **Yeni toplantı** düğmesine basın (veya ana sayfadaki **Mikrofonla kaydet**
+   kartını seçin) ve `Kayıt kaynağı` bölümünde **Mikrofonla kaydet** seçeneğine geçin.
+2. Toplantıya bir ad verin ve konuşma dilini seçin. İsterseniz **Toplantı bilgileri**
+   altında konuyu ve cevaplanması beklenen soruları (en çok 20), **Gelişmiş
+   seçenekler** altında katılımcı listesini, en çok kişi sayısını, tahmini konuşan
+   kişi sayısını ve varsayılan olarak kapalı olan otomatik hafıza seçeneğini girin. En çok kişi
+   sayısı konuşmacı ayırmada üst sınırdır; tahmin sonucu etkilemez. Kalıcı hafıza
+   seçeneği profil yazma yetkisi gerektirir.
 3. `Mikrofon` listesinden giriş cihazını seçip **Kaydı başlat** düğmesine basın.
    Tarayıcı istediğinde mikrofon iznini verin. Süre ve ses seviyesi kaydı izler.
 4. Bitirdiğinizde **Durdur ve analiz et** düğmesine basın. Son ses tamamlanır,

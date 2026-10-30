@@ -70,40 +70,27 @@
     {
       "kind": "requirements",
       "path": "app/inference/requirements.meeting-x86_64.in"
+    },
+    {
+      "kind": "requirements",
+      "path": "app/inference/requirements.cu126.in"
     }
   ],
   "decision": {
-    "id": "VOICEUP-MEETING-X86-ARTIFACT-SOURCES-2026-09-10",
-    "reviewed_on": "2026-09-10",
-    "inventory_sha256": "403862bbd150130d09566193560c011863d2ece858028ca2ab5a487c39b14ef6",
-    "spec_path": "specs/speaker-identity/PRDs/002-long-recording-analysis/PRD.md",
-    "review_scope": "Independent official metadata and actual wheel review for the explicit local x86_64 meeting extension. All 63 admitted base pins retained; 68 new packages have exact verified artifacts and satisfied native Python3.13 dependency closure. Two Lightning packages use the mandatory CVE-2026-58659 security fix with immutable upstream code verification. This admits the local build, not native ARM64, physical Mac, full security-gate or end-to-end meeting accuracy.",
+    "id": "VOICEUP-X86-CU126-PASCAL-RUNTIME-2026-10-28",
+    "reviewed_on": "2026-10-28",
+    "inventory_sha256": "0efd2de94a8cebeb524b3f5337695224effc99ba8715cd6c29880ce46674de81",
+    "spec_path": "specs/speaker-identity/PRDs/014-pascal-gpu-runtime/PRD.md",
+    "review_scope": "Explicit local x86_64 CUDA 12.6 variant for Pascal GPUs (compute capability 6.x). Same PyTorch 2.8.0 and torchaudio 2.8.0 releases from the official cu126 index; all 47 non-CUDA base pins are identical to requirements.txt and the meeting extension lock is unchanged. Eleven NVIDIA CUDA 12.6 runtime wheels replace their 12.8 counterparts; nvidia-cudnn-cu12, nvidia-nccl-cu12 and nvidia-cusparselt-cu12 keep the admitted versions. This admits a local development build, not deployment charts or speaker accuracy.",
     "compatibility_evidence": [
-      "docs/evidence/2026-09-08-local-speaker-pilot/package-releases.json: new backend packages released more than30 days ago",
-      "docs/evidence/2026-09-08-local-speaker-pilot/inference-package-releases.json: runtime release dates",
-      "Docker verified pgvector immutable index includes PostgreSQL17.11 and available vector0.8.6; extensionactivation remains reviewed migration",
-      "Inference25 unit tests and fixed-hash model packaging passed; genuineCUDA test pending",
-      "Backend immutable-image installation verified CPython3.13, soundfile0.14.0 and libsndfile1.2.2; runtime role has DML only and no schema CREATE.",
-      "Final full application gate passed59backendtests (44unit,15realPostgreSQL) and21frontendtests; finalcontractregressionreport and JUnit are in docs/evidence/2026-09-08-local-speaker-pilot/.",
-      "Dockerfile.offline reuses the reviewed Python base digest and107uniqueartifactcoordinates. Its62hash-verifiedwheel install passed with network disabled; this is now Compose default. See app/inference/evidence/offline-build.log and wheelhouse-verification.json.",
-      "RealRTX4060CUDA/network-noneHTTPsmoke passed12checks; normalized192dimensionalECAPA on torch2.8.0+cu128; see app/inference/evidence/cuda-smoke.json. This is runtimecompatibility evidence, notspeakeraccuracy orbankadmission.",
-      "docs/evidence/2026-09-09-spark-preflight/arm64-source-review.json: independent metadata closure and exact source review passed for48 artifacts,67active dependency edges;46exact artifacts and all9recent baseline pins retained. No version downgrade or fresh maturity exception.",
-      "docs/evidence/2026-09-09-spark-preflight/python-base-platforms.json: same existing Python3.13.14 OCI index includes linux/arm64/v8; index bytes verified against its pinned digest.",
-      "app/inference/requirements.spark.txt is deterministically generated from spark-wheelhouse-manifest.json by scripts/prepare-spark-wheelhouse.py. All 48 artifacts passed full size/hash verification on Spark; native networking-disabled installation and pip check passed. See docs/evidence/2026-09-09-spark-runtime/native-build.txt.",
-      "docs/evidence/2026-09-09-spark-runtime/cuda-import-probe.json and cuda-smoke.json: real GB10 tensor and 9 HTTP checks passed with CUDA12.9/Torch2.8.0, VAD and normalized 192-dimensional ECAPA. Torch warns its compiled architecture list ends at SM120 while GB10 reports SM121; the observed tests passed, but do not establish all-kernel compatibility or speaker accuracy.",
-      "64inference tests passed including28runtime-profile tests. Explicit architecture/Torch/CUDA guards preserve default x86_64-cu128 and opt-in aarch64-cu129; no CPU fallback. These tests use model doubles, not GPU hardware.",
-      "docs/evidence/2026-09-10-local-cpu-runtime/cpu-artifact-source-review.json: independent official source and closure review, 60 unique artifacts, 47 artifacts and 65 active dependency edges per architecture; 45 common baseline versions retained.",
-      "docs/evidence/2026-09-10-local-cpu-runtime/cpu-wheelhouse-verification.json: full artifact SHA256/size verification for both architectures; generated locks exactly reproduce their manifests.",
-      "docs/evidence/2026-09-10-local-cpu-runtime/cpu-x86_64-http.json: genuine networking-disabled CPU ECAPA/Silero and nine HTTP smoke checks; constructed fixture establishes software compatibility, not speaker accuracy or Mac acceptance.",
-      "CPU ARM64 OpenMP loader alias reuses the exact hash-verified library already inside the admitted Torch wheel; no new package or version. Final Dockerfile binding and independent source review record its SHA256. Runtime evidence is recorded separately.",
-      "docs/evidence/2026-09-10-local-cpu-runtime/cpu-x86_64-final-http.json: final Dockerfile image passed nine real CPU HTTP checks with networking disabled.",
-      "docs/evidence/2026-09-10-local-cpu-runtime/cpu-aarch64-native-verification.json and cpu-aarch64-native-http-smoke.json: the final ARM64 image passed nine real CPU HTTP checks on native Linux ARM64, without GPU access or network and with read-only filesystem, two CPUs and 4 GiB memory. Existing Spark services and model hashes were unchanged. This resolves model runtime compatibility beyond the separately recorded QEMU failure; it is not physical MacBook acceptance or a speaker accuracy benchmark.",
-      "docs/evidence/2026-09-10-meeting-runtime/production-candidate-actual-wheel-audit.json: all68 actual artifacts verified; all63 base pins preserved; native Python3.13 target tags and dependency edges satisfied.",
-      "docs/evidence/2026-09-10-meeting-runtime/proposed-meeting-closure-review.json: independent252 active constraints across131 distributions, zero conflicts.",
-      "The exact extension installed with pip check passing in a network-disabled native Python3.13.14/Torch2.8.0+cu128 RTX4060 probe. Community1 processed the16-second public fixture. ASR execution and full application acceptance are recorded separately after model preparation.",
-      "https://github.com/Lightning-AI/pytorch-lightning/releases/tag/2.6.6 documents both checkpoint code execution fixes. Actual wheel saving.py matches immutable upstream771017e4f39b314b49abd4a1d65905c74268d248 after package namespace normalization; remaining GHSA-qqmf-gpg7-g8gw metadata contradiction is explicitly triaged, not a passing release scanner."
+      "app/inference/requirements.cu126.txt: uv pip compile --torch-backend cu126 constrained by the non-CUDA pins of app/inference/requirements.txt; pin diff limited to torch, torchaudio and eleven nvidia-*-cu12 packages.",
+      "app/inference/provision_wheelhouse.py: torch d08144011e410b9d15914e7256e1b1708a90484cb2c03712199e0291856d4177 and torchaudio 3a7d774faf904ee38c0d70b850db3e9a5847ba10df23b758378ad715108f1ed2 match https://download.pytorch.org/whl/cu126 index digests and the lock hashes.",
+      "PyTorch 2.8.0 release notes: CUDA 12.8/12.9 builds removed Maxwell and Pascal (sm_50-sm_61) support; CUDA 12.6 builds retain it (https://dev-discuss.pytorch.org/t/cuda-toolkit-version-and-architecture-support-update-maxwell-and-pascal-architecture-support-removed-in-cuda-12-8-and-12-9-builds/3128).",
+      "Every newly admitted CUDA 12.6 runtime wheel was first published on PyPI between 2024-10-01 and 2024-11-20, beyond the 30-day maturity window; see release_evidence.",
+      "lightning 2.6.6 and pytorch-lightning 2.6.6 (released 2026-09-10, CVE-2026-58659 fix) passed the 30-day window by 2026-10-28; their security exceptions moved to release_evidence unchanged.",
+      "Six artifact_bindings from the 2026-09-10 meeting decision hashed CRLF working-tree bytes; the repository stores LF (.gitattributes). They are rebound to the identical LF content: app/inference/requirements.meeting-x86_64.in, app/inference/meeting-x86_64-wheelhouse-manifest.json, docs/evidence/2026-09-10-meeting-runtime/mature-production-candidate-replacements.json, docs/evidence/2026-09-10-meeting-runtime/proposed-meeting-closure-review.json, docs/evidence/2026-09-10-meeting-runtime/production-candidate-actual-wheel-audit.json, docs/evidence/2026-09-10-meeting-runtime/independent-osv-findings.json."
     ],
-    "supersedes": "VOICEUP-CPU-ARTIFACT-SOURCES-2026-09-10",
+    "supersedes": "VOICEUP-MEETING-X86-ARTIFACT-SOURCES-2026-09-10",
     "artifact_bindings": {
       "app/inference/requirements.spark.in": "db031496e3b7c1fc6742d7d930f8bbfcf82ebdf76d500b276aa114f33d27c3fe",
       "app/inference/requirements.spark.txt": "6f2880fab78cf65116e0276ff8f1ecef603137760833a7d4744e2cfb17730e8a",
@@ -118,45 +105,21 @@
       "app/inference/cpu-aarch64-wheelhouse-manifest.json": "64a7c7b2888acc8cb519117b29f4302ba23a5db2846a5709659ac49236d40e6b",
       "app/inference/Dockerfile.cpu": "b9d40c42068f56bac77ac700464ad7860b1ba6bffe9c12f0e6ed54a4fd6a1a3c",
       "docs/evidence/2026-09-10-local-cpu-runtime/cpu-artifact-source-review.json": "fc11dc281e2bd30d6a74e6ab5fb5cbd03e0c1ff503589f2727793042443ccaec",
-      "app/inference/requirements.meeting-x86_64.in": "912963062785e00d533f6aa3d50f845f44d72168c982af8f781bf109eaf437f3",
+      "app/inference/requirements.meeting-x86_64.in": "ce4ef261ad3066824e7dcd41ca7f32e94ab4a1bc74e9a5cc0cecf3468ace88b7",
       "app/inference/requirements.meeting-x86_64.txt": "ff025674f9fcda4b8badc94e1463c36bc091d9320d9ea2256e239df9c14ecf35",
-      "app/inference/meeting-x86_64-wheelhouse-manifest.json": "e3d8675559781fad52020147989059675698ea15e6691dee92041e2e1bf30e4a",
-      "app/inference/Dockerfile.meeting": "947291681b932eb834e1d1a2d9650f776ef0b265782e270cee83636a9ada6aee",
+      "app/inference/meeting-x86_64-wheelhouse-manifest.json": "539db4be8b834f70e64fc65c224f92c7da1947109c1ff8d22a629efffca3ebb8",
+      "app/inference/Dockerfile.meeting": "a2873ac5d2620d795be40b70e06e4bafa568dc0e2ccbba80509513fa9cff1edc",
       "docs/evidence/2026-09-10-meeting-runtime/independent-candidate-source-review.json": "d99505122488688fbbcf747caf77ce04c0989251ae06eb4bba0eb48cfd850332",
-      "docs/evidence/2026-09-10-meeting-runtime/mature-production-candidate-replacements.json": "976f3bd90e98ffafa0b7bbe8d250eb024ae44abc94748038a406ec5385d8cb91",
-      "docs/evidence/2026-09-10-meeting-runtime/proposed-meeting-closure-review.json": "306eb541b1c7cff24390af902ca574d8239ebb954ada04d4c219e46cb9b68b2d",
-      "docs/evidence/2026-09-10-meeting-runtime/production-candidate-actual-wheel-audit.json": "606d0b3a826fd7bb1426e4d939122364f9e2b673db3f1cb96eaaf75b62f2452b",
-      "docs/evidence/2026-09-10-meeting-runtime/independent-osv-findings.json": "55f3c37b57ba7195ae22a52db1f765af3d93c32090d476bc59608143e6c728cc"
+      "docs/evidence/2026-09-10-meeting-runtime/mature-production-candidate-replacements.json": "0e23d0d9d9307f4f7304b1101aa726e94935c14f060460da452ab0d93d057d2a",
+      "docs/evidence/2026-09-10-meeting-runtime/proposed-meeting-closure-review.json": "2b91fc1c43cd1f15eb26c5657234dfb91b95d1711bec444ce6bcfd6a3bf9ee53",
+      "docs/evidence/2026-09-10-meeting-runtime/production-candidate-actual-wheel-audit.json": "8c5b5aff80d19f0bb243469b1db08879ef2bfe3fb8e71f35ef3d7304e9e933a6",
+      "docs/evidence/2026-09-10-meeting-runtime/independent-osv-findings.json": "30a47730c7db5ae025e78bbcaefacb20e5bb746085bc4bc82c14814775c08ae8",
+      "app/inference/requirements.cu126.in": "a919c73b04325a345f60ba7175d954581aae33f083729e7c330e262d350a7493",
+      "app/inference/requirements.cu126.txt": "8eeb41004053922e449fc817790c574390296078667102ba698e549762649467",
+      "app/inference/Dockerfile.offline": "8fd8f8228fae5187d7d371b5ec1bc2a601c28cde5cc47988cbfab1e0bc2c08ad"
     }
   },
-  "exceptions": [
-    {
-      "artifact": "lightning",
-      "version": "2.6.6",
-      "released_on": "2026-09-10",
-      "release_evidence": [
-        "https://pypi.org/pypi/lightning/2.6.6/json",
-        "https://github.com/Lightning-AI/pytorch-lightning/releases/tag/2.6.6"
-      ],
-      "reason": "security",
-      "advisory_ids": [
-        "CVE-2026-58659"
-      ]
-    },
-    {
-      "artifact": "pytorch-lightning",
-      "version": "2.6.6",
-      "released_on": "2026-09-10",
-      "release_evidence": [
-        "https://pypi.org/pypi/pytorch-lightning/2.6.6/json",
-        "https://github.com/Lightning-AI/pytorch-lightning/releases/tag/2.6.6"
-      ],
-      "reason": "security",
-      "advisory_ids": [
-        "CVE-2026-58659"
-      ]
-    }
-  ],
+  "exceptions": [],
   "release_evidence": [
     {
       "artifact": "pgvector",
@@ -881,6 +844,125 @@
       "released_on": "2026-07-20",
       "artifact_sha256": "d46b86567dd4e248c6c159fcbcdcce01e0a5c8a7cd2334a0fff759d0fa075b16",
       "requires_python": ">=3.10"
+    },
+    {
+      "artifact": "torch",
+      "version": "2.8.0+cu126",
+      "released_on": "2025-08-06",
+      "release_evidence": "https://pytorch.org/blog/pytorch-2-8/",
+      "source": "https://download.pytorch.org/whl/cu126/torch/",
+      "scope": "CP313 x86_64 CUDA12.6 artifact of the existing stable2.8 release for Pascal GPUs; the lock and provisioner pin exact publisher bytes."
+    },
+    {
+      "artifact": "torchaudio",
+      "version": "2.8.0+cu126",
+      "released_on": "2025-08-06",
+      "release_evidence": "https://pytorch.org/blog/pytorch-2-8/",
+      "source": "https://download.pytorch.org/whl/cu126/torchaudio/",
+      "scope": "CP313 x86_64 CUDA12.6 artifact of the existing stable2.8 release for Pascal GPUs; the lock and provisioner pin exact publisher bytes."
+    },
+    {
+      "artifact": "nvidia-cublas-cu12",
+      "version": "12.6.4.1",
+      "released_on": "2024-11-20",
+      "release_evidence": "https://pypi.org/pypi/nvidia-cublas-cu12/12.6.4.1/json",
+      "scope": "CUDA 12.6 runtime dependency of torch 2.8.0+cu126 in app/inference/requirements.cu126.txt."
+    },
+    {
+      "artifact": "nvidia-cuda-cupti-cu12",
+      "version": "12.6.80",
+      "released_on": "2024-10-01",
+      "release_evidence": "https://pypi.org/pypi/nvidia-cuda-cupti-cu12/12.6.80/json",
+      "scope": "CUDA 12.6 runtime dependency of torch 2.8.0+cu126 in app/inference/requirements.cu126.txt."
+    },
+    {
+      "artifact": "nvidia-cuda-nvrtc-cu12",
+      "version": "12.6.77",
+      "released_on": "2024-10-01",
+      "release_evidence": "https://pypi.org/pypi/nvidia-cuda-nvrtc-cu12/12.6.77/json",
+      "scope": "CUDA 12.6 runtime dependency of torch 2.8.0+cu126 in app/inference/requirements.cu126.txt."
+    },
+    {
+      "artifact": "nvidia-cuda-runtime-cu12",
+      "version": "12.6.77",
+      "released_on": "2024-10-01",
+      "release_evidence": "https://pypi.org/pypi/nvidia-cuda-runtime-cu12/12.6.77/json",
+      "scope": "CUDA 12.6 runtime dependency of torch 2.8.0+cu126 in app/inference/requirements.cu126.txt."
+    },
+    {
+      "artifact": "nvidia-cufft-cu12",
+      "version": "11.3.0.4",
+      "released_on": "2024-10-01",
+      "release_evidence": "https://pypi.org/pypi/nvidia-cufft-cu12/11.3.0.4/json",
+      "scope": "CUDA 12.6 runtime dependency of torch 2.8.0+cu126 in app/inference/requirements.cu126.txt."
+    },
+    {
+      "artifact": "nvidia-cufile-cu12",
+      "version": "1.11.1.6",
+      "released_on": "2024-11-20",
+      "release_evidence": "https://pypi.org/pypi/nvidia-cufile-cu12/1.11.1.6/json",
+      "scope": "CUDA 12.6 runtime dependency of torch 2.8.0+cu126 in app/inference/requirements.cu126.txt."
+    },
+    {
+      "artifact": "nvidia-curand-cu12",
+      "version": "10.3.7.77",
+      "released_on": "2024-10-01",
+      "release_evidence": "https://pypi.org/pypi/nvidia-curand-cu12/10.3.7.77/json",
+      "scope": "CUDA 12.6 runtime dependency of torch 2.8.0+cu126 in app/inference/requirements.cu126.txt."
+    },
+    {
+      "artifact": "nvidia-cusolver-cu12",
+      "version": "11.7.1.2",
+      "released_on": "2024-10-01",
+      "release_evidence": "https://pypi.org/pypi/nvidia-cusolver-cu12/11.7.1.2/json",
+      "scope": "CUDA 12.6 runtime dependency of torch 2.8.0+cu126 in app/inference/requirements.cu126.txt."
+    },
+    {
+      "artifact": "nvidia-cusparse-cu12",
+      "version": "12.5.4.2",
+      "released_on": "2024-10-01",
+      "release_evidence": "https://pypi.org/pypi/nvidia-cusparse-cu12/12.5.4.2/json",
+      "scope": "CUDA 12.6 runtime dependency of torch 2.8.0+cu126 in app/inference/requirements.cu126.txt."
+    },
+    {
+      "artifact": "nvidia-nvjitlink-cu12",
+      "version": "12.6.85",
+      "released_on": "2024-11-20",
+      "release_evidence": "https://pypi.org/pypi/nvidia-nvjitlink-cu12/12.6.85/json",
+      "scope": "CUDA 12.6 runtime dependency of torch 2.8.0+cu126 in app/inference/requirements.cu126.txt."
+    },
+    {
+      "artifact": "nvidia-nvtx-cu12",
+      "version": "12.6.77",
+      "released_on": "2024-10-01",
+      "release_evidence": "https://pypi.org/pypi/nvidia-nvtx-cu12/12.6.77/json",
+      "scope": "CUDA 12.6 runtime dependency of torch 2.8.0+cu126 in app/inference/requirements.cu126.txt."
+    },
+    {
+      "artifact": "lightning",
+      "version": "2.6.6",
+      "released_on": "2026-09-10",
+      "release_evidence": [
+        "https://pypi.org/pypi/lightning/2.6.6/json",
+        "https://github.com/Lightning-AI/pytorch-lightning/releases/tag/2.6.6"
+      ],
+      "advisory_ids": [
+        "CVE-2026-58659"
+      ],
+      "scope": "Former security exception for CVE-2026-58659; 48 days old at the 2026-10-28 review, so it is now an ordinary mature pin."
+    },
+    {
+      "artifact": "pytorch-lightning",
+      "version": "2.6.6",
+      "released_on": "2026-09-10",
+      "release_evidence": [
+        "https://pypi.org/pypi/pytorch-lightning/2.6.6/json",
+        "https://github.com/Lightning-AI/pytorch-lightning/releases/tag/2.6.6"
+      ],
+      "advisory_ids": [
+        "CVE-2026-58659"
+      ],
+      "scope": "Former security exception for CVE-2026-58659; 48 days old at the 2026-10-28 review, so it is now an ordinary mature pin."
     }
   ],
   "retained_existing_pins": [
@@ -940,6 +1022,63 @@
         "app/inference/requirements.cpu-aarch64.in": "512199ff4309e1f19659dd00d629a7ad03fdf48a7d91713bd9226a1bf1e4c53e",
         "app/inference/requirements.cpu-aarch64.txt": "f2aa463aa277df1af6cda7dd41873092ca4fa7a10b20f819500af15c58af0f20",
         "app/inference/cpu-aarch64-wheelhouse-manifest.json": "64a7c7b2888acc8cb519117b29f4302ba23a5db2846a5709659ac49236d40e6b"
+      }
+    },
+    {
+      "id": "VOICEUP-MEETING-X86-ARTIFACT-SOURCES-2026-09-10",
+      "reviewed_on": "2026-09-10",
+      "inventory_sha256": "403862bbd150130d09566193560c011863d2ece858028ca2ab5a487c39b14ef6",
+      "spec_path": "specs/speaker-identity/PRDs/002-long-recording-analysis/PRD.md",
+      "review_scope": "Independent official metadata and actual wheel review for the explicit local x86_64 meeting extension. All 63 admitted base pins retained; 68 new packages have exact verified artifacts and satisfied native Python3.13 dependency closure. Two Lightning packages use the mandatory CVE-2026-58659 security fix with immutable upstream code verification. This admits the local build, not native ARM64, physical Mac, full security-gate or end-to-end meeting accuracy.",
+      "compatibility_evidence": [
+        "docs/evidence/2026-09-08-local-speaker-pilot/package-releases.json: new backend packages released more than30 days ago",
+        "docs/evidence/2026-09-08-local-speaker-pilot/inference-package-releases.json: runtime release dates",
+        "Docker verified pgvector immutable index includes PostgreSQL17.11 and available vector0.8.6; extensionactivation remains reviewed migration",
+        "Inference25 unit tests and fixed-hash model packaging passed; genuineCUDA test pending",
+        "Backend immutable-image installation verified CPython3.13, soundfile0.14.0 and libsndfile1.2.2; runtime role has DML only and no schema CREATE.",
+        "Final full application gate passed59backendtests (44unit,15realPostgreSQL) and21frontendtests; finalcontractregressionreport and JUnit are in docs/evidence/2026-09-08-local-speaker-pilot/.",
+        "Dockerfile.offline reuses the reviewed Python base digest and107uniqueartifactcoordinates. Its62hash-verifiedwheel install passed with network disabled; this is now Compose default. See app/inference/evidence/offline-build.log and wheelhouse-verification.json.",
+        "RealRTX4060CUDA/network-noneHTTPsmoke passed12checks; normalized192dimensionalECAPA on torch2.8.0+cu128; see app/inference/evidence/cuda-smoke.json. This is runtimecompatibility evidence, notspeakeraccuracy orbankadmission.",
+        "docs/evidence/2026-09-09-spark-preflight/arm64-source-review.json: independent metadata closure and exact source review passed for48 artifacts,67active dependency edges;46exact artifacts and all9recent baseline pins retained. No version downgrade or fresh maturity exception.",
+        "docs/evidence/2026-09-09-spark-preflight/python-base-platforms.json: same existing Python3.13.14 OCI index includes linux/arm64/v8; index bytes verified against its pinned digest.",
+        "app/inference/requirements.spark.txt is deterministically generated from spark-wheelhouse-manifest.json by scripts/prepare-spark-wheelhouse.py. All 48 artifacts passed full size/hash verification on Spark; native networking-disabled installation and pip check passed. See docs/evidence/2026-09-09-spark-runtime/native-build.txt.",
+        "docs/evidence/2026-09-09-spark-runtime/cuda-import-probe.json and cuda-smoke.json: real GB10 tensor and 9 HTTP checks passed with CUDA12.9/Torch2.8.0, VAD and normalized 192-dimensional ECAPA. Torch warns its compiled architecture list ends at SM120 while GB10 reports SM121; the observed tests passed, but do not establish all-kernel compatibility or speaker accuracy.",
+        "64inference tests passed including28runtime-profile tests. Explicit architecture/Torch/CUDA guards preserve default x86_64-cu128 and opt-in aarch64-cu129; no CPU fallback. These tests use model doubles, not GPU hardware.",
+        "docs/evidence/2026-09-10-local-cpu-runtime/cpu-artifact-source-review.json: independent official source and closure review, 60 unique artifacts, 47 artifacts and 65 active dependency edges per architecture; 45 common baseline versions retained.",
+        "docs/evidence/2026-09-10-local-cpu-runtime/cpu-wheelhouse-verification.json: full artifact SHA256/size verification for both architectures; generated locks exactly reproduce their manifests.",
+        "docs/evidence/2026-09-10-local-cpu-runtime/cpu-x86_64-http.json: genuine networking-disabled CPU ECAPA/Silero and nine HTTP smoke checks; constructed fixture establishes software compatibility, not speaker accuracy or Mac acceptance.",
+        "CPU ARM64 OpenMP loader alias reuses the exact hash-verified library already inside the admitted Torch wheel; no new package or version. Final Dockerfile binding and independent source review record its SHA256. Runtime evidence is recorded separately.",
+        "docs/evidence/2026-09-10-local-cpu-runtime/cpu-x86_64-final-http.json: final Dockerfile image passed nine real CPU HTTP checks with networking disabled.",
+        "docs/evidence/2026-09-10-local-cpu-runtime/cpu-aarch64-native-verification.json and cpu-aarch64-native-http-smoke.json: the final ARM64 image passed nine real CPU HTTP checks on native Linux ARM64, without GPU access or network and with read-only filesystem, two CPUs and 4 GiB memory. Existing Spark services and model hashes were unchanged. This resolves model runtime compatibility beyond the separately recorded QEMU failure; it is not physical MacBook acceptance or a speaker accuracy benchmark.",
+        "docs/evidence/2026-09-10-meeting-runtime/production-candidate-actual-wheel-audit.json: all68 actual artifacts verified; all63 base pins preserved; native Python3.13 target tags and dependency edges satisfied.",
+        "docs/evidence/2026-09-10-meeting-runtime/proposed-meeting-closure-review.json: independent252 active constraints across131 distributions, zero conflicts.",
+        "The exact extension installed with pip check passing in a network-disabled native Python3.13.14/Torch2.8.0+cu128 RTX4060 probe. Community1 processed the16-second public fixture. ASR execution and full application acceptance are recorded separately after model preparation.",
+        "https://github.com/Lightning-AI/pytorch-lightning/releases/tag/2.6.6 documents both checkpoint code execution fixes. Actual wheel saving.py matches immutable upstream771017e4f39b314b49abd4a1d65905c74268d248 after package namespace normalization; remaining GHSA-qqmf-gpg7-g8gw metadata contradiction is explicitly triaged, not a passing release scanner."
+      ],
+      "supersedes": "VOICEUP-CPU-ARTIFACT-SOURCES-2026-09-10",
+      "artifact_bindings": {
+        "app/inference/requirements.spark.in": "db031496e3b7c1fc6742d7d930f8bbfcf82ebdf76d500b276aa114f33d27c3fe",
+        "app/inference/requirements.spark.txt": "6f2880fab78cf65116e0276ff8f1ecef603137760833a7d4744e2cfb17730e8a",
+        "app/inference/spark-wheelhouse-manifest.json": "9dd28dbad5e2afa38733bf831c5f27e7225285f1d9c261ae2fb2d78ea5d5b807",
+        "app/inference/Dockerfile.spark": "fff98f5b802f3f37bdf11fb5db8818d0e506831facafc807946439761b872ce4",
+        "docs/evidence/2026-09-09-spark-preflight/arm64-source-review.json": "3d270716a25ab24d93db201da394411d09eb9ef547dff3a364d1f177d00b1904",
+        "app/inference/requirements.cpu-x86_64.in": "14730ec53c3a74192ac778128c96d6f04e9eae462796e92bfbdb5f0cd39d6468",
+        "app/inference/requirements.cpu-x86_64.txt": "38eb5001d43ffeac644dfb61a115d784d643b4c1826ed0ba81a582de42055a4b",
+        "app/inference/cpu-x86_64-wheelhouse-manifest.json": "c78d6cf1cb445f15a5a9b3d7c2fd4842a2bf48d32bfcdf27f9d9fc903550c63c",
+        "app/inference/requirements.cpu-aarch64.in": "512199ff4309e1f19659dd00d629a7ad03fdf48a7d91713bd9226a1bf1e4c53e",
+        "app/inference/requirements.cpu-aarch64.txt": "f2aa463aa277df1af6cda7dd41873092ca4fa7a10b20f819500af15c58af0f20",
+        "app/inference/cpu-aarch64-wheelhouse-manifest.json": "64a7c7b2888acc8cb519117b29f4302ba23a5db2846a5709659ac49236d40e6b",
+        "app/inference/Dockerfile.cpu": "b9d40c42068f56bac77ac700464ad7860b1ba6bffe9c12f0e6ed54a4fd6a1a3c",
+        "docs/evidence/2026-09-10-local-cpu-runtime/cpu-artifact-source-review.json": "fc11dc281e2bd30d6a74e6ab5fb5cbd03e0c1ff503589f2727793042443ccaec",
+        "app/inference/requirements.meeting-x86_64.in": "912963062785e00d533f6aa3d50f845f44d72168c982af8f781bf109eaf437f3",
+        "app/inference/requirements.meeting-x86_64.txt": "ff025674f9fcda4b8badc94e1463c36bc091d9320d9ea2256e239df9c14ecf35",
+        "app/inference/meeting-x86_64-wheelhouse-manifest.json": "e3d8675559781fad52020147989059675698ea15e6691dee92041e2e1bf30e4a",
+        "app/inference/Dockerfile.meeting": "947291681b932eb834e1d1a2d9650f776ef0b265782e270cee83636a9ada6aee",
+        "docs/evidence/2026-09-10-meeting-runtime/independent-candidate-source-review.json": "d99505122488688fbbcf747caf77ce04c0989251ae06eb4bba0eb48cfd850332",
+        "docs/evidence/2026-09-10-meeting-runtime/mature-production-candidate-replacements.json": "976f3bd90e98ffafa0b7bbe8d250eb024ae44abc94748038a406ec5385d8cb91",
+        "docs/evidence/2026-09-10-meeting-runtime/proposed-meeting-closure-review.json": "306eb541b1c7cff24390af902ca574d8239ebb954ada04d4c219e46cb9b68b2d",
+        "docs/evidence/2026-09-10-meeting-runtime/production-candidate-actual-wheel-audit.json": "606d0b3a826fd7bb1426e4d939122364f9e2b673db3f1cb96eaaf75b62f2452b",
+        "docs/evidence/2026-09-10-meeting-runtime/independent-osv-findings.json": "55f3c37b57ba7195ae22a52db1f765af3d93c32090d476bc59608143e6c728cc"
       }
     }
   ]

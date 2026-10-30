@@ -188,6 +188,27 @@ def test_metadata_file_helper_uses_only_validated_public_contract(ledger, tmp_pa
     assert ledger.read_snapshots(path)[0]["experiment_id"] == "tr-001"
 
 
+def test_runtime_profile_is_validated_and_shown_in_the_entry_header(ledger, tmp_path):
+    path = tmp_path / "results.md"
+    assert ledger.record_experiment(
+        path,
+        experiment_id="tr-cu126-001",
+        metadata=metadata() | {"runtime_profile": "x86_64-cu126"},
+        report=transcript(),
+        kind="transcript",
+    )
+    assert "`meeting-asr` · `x86_64-cu126` ·" in path.read_text(encoding="utf-8")
+    assert ledger.read_snapshots(path)[0]["metadata"]["runtime_profile"] == "x86_64-cu126"
+    with pytest.raises(ValueError, match="invalid_runtime_profile"):
+        ledger.record_experiment(
+            tmp_path / "other.md",
+            experiment_id="tr-cu126-002",
+            metadata=metadata() | {"runtime_profile": "rtx-gaming"},
+            report=transcript(),
+            kind="transcript",
+        )
+
+
 def test_earlier_v1_snapshot_without_optional_full_record_seal_still_accepts_append(
     ledger, tmp_path
 ):
@@ -642,3 +663,101 @@ def test_canonical_identity_report_cli_logs_validated_aggregate(ledger, tmp_path
     assert result.returncode == 0, result.stderr
     assert len(ledger.read_snapshots(path)) == 1
     assert "private-A" not in path.read_text(encoding="utf-8")
+
+
+def public_benchmark():
+    der = {"der": 0.25, "missed": 0.1, "false_alarm": 0.05, "confusion": 0.1, "jer": 0.3}
+    return {
+        "status": "complete",
+        "protocol": "voiceup-ami-public-benchmark-v1",
+        "protocol_sha256": "c" * 64,
+        "condition": "array1",
+        "rotation": 1,
+        "use_known_speaker_count": False,
+        "reference_quality": "human-annotated-public",
+        "language": "en",
+        "planned_meetings": 2,
+        "observed_meetings": 2,
+        "diarization": {
+            "scored_seconds": 3600.0,
+            "collar_0": der,
+            "collar_0_25": {**der, "der": 0.2, "confusion": 0.05, "jer": 0.28},
+            "collar_0_interval": [0.2, 0.3],
+        },
+        "identity": {
+            "gallery_people": 4,
+            "enrolled_first": 3,
+            "enrolled_cumulative": 4,
+            "known_probes": 10,
+            "correct": 7,
+            "misidentified": 1,
+            "duplicate_profile": 1,
+            "missed": 1,
+            "unknown_probes": 8,
+            "false_accept": 0,
+            "recognition_interval": [0.5, 0.9],
+            "fpir_interval": [0.0, 0.0],
+        },
+        "meetings": [{"meeting": "ES2004a", "outcomes": [{"person": "FEE013"}]}],
+    }
+
+
+def test_public_benchmark_publishes_only_aggregate_rates(ledger, tmp_path):
+    path = tmp_path / "results.md"
+    assert ledger.record_experiment(
+        path,
+        experiment_id="ami-array1-rotation1-baseline",
+        metadata={**metadata(), "language": "en", "pipeline": "meeting-memory"},
+        report=public_benchmark(),
+        kind="public_benchmark",
+    )
+    text = path.read_text(encoding="utf-8")
+    assert "| 25.00% | 10.00% | 5.00% | 10.00% | 30.00% | 0 |" in text
+    assert "| 20.00% | 10.00% | 5.00% | 5.00% | 28.00% | ±0,25 s |" in text
+    assert "Tanıma oranı 70.00%" in text and "FPIR 0.00%" in text
+    assert "FEE013" not in text and "ES2004a" not in text
+
+
+@pytest.mark.parametrize(
+    ("change", "error"),
+    [
+        (lambda report: report["identity"].update(correct=8), "identity_support_mismatch"),
+        (lambda report: report["diarization"]["collar_0"].update(der=0.3), "der_component_mismatch"),
+        (lambda report: report["diarization"]["collar_0"].update(jer=1.2), "invalid_metric"),
+        (lambda report: report["diarization"]["collar_0_25"].pop("jer"), "invalid_metric"),
+        (lambda report: report.update(protocol="other"), "invalid_public_benchmark"),
+        (lambda report: report.update(observed_meetings=1), "meeting_plan_mismatch"),
+    ],
+)
+def test_public_benchmark_rejects_inconsistent_reports(ledger, tmp_path, change, error):
+    report = public_benchmark()
+    change(report)
+    with pytest.raises(ValueError, match=error):
+        ledger.record_experiment(
+            tmp_path / "results.md",
+            experiment_id="ami-array1-rotation1-baseline",
+            metadata={**metadata(), "language": "en", "pipeline": "meeting-memory"},
+            report=report,
+            kind="public_benchmark",
+        )
+    assert not (tmp_path / "results.md").exists()
+
+
+def test_public_benchmark_records_participant_roster_runs(ledger, tmp_path):
+    path = tmp_path / "results.md"
+    assert ledger.record_experiment(
+        path,
+        experiment_id="ami-array1-rotation1-roster",
+        metadata={**metadata(), "language": "en", "pipeline": "meeting-memory"},
+        report={**public_benchmark(), "participant_roster": True},
+        kind="public_benchmark",
+    )
+    assert "profilleri liste olarak verildi" in path.read_text(encoding="utf-8")
+    with pytest.raises(ValueError, match="invalid_public_benchmark"):
+        ledger.record_experiment(
+            tmp_path / "other.md",
+            experiment_id="ami-array1-rotation1-roster",
+            metadata={**metadata(), "language": "en", "pipeline": "meeting-memory"},
+            report={**public_benchmark(), "participant_roster": "yes"},
+            kind="public_benchmark",
+        )

@@ -6,6 +6,8 @@ from app.db.base_class import Base  # noqa: F401
 from app.domain.models.meeting import (  # noqa: F401
     Meeting,
     MeetingChunk,
+    MeetingParticipant,
+    MeetingQuestion,
     MeetingSpeaker,
     MeetingTranscript,
     MeetingUploadPart,

@@ -31,6 +31,28 @@ class TranscriptLine:
     uncertain: bool
 
 
+def committed_turns(turns: list[SpeechTurn], start: float, end: float) -> list[SpeechTurn]:
+    """Clip turns to one chunk's half-open commit window so chunks never repeat source time."""
+    clipped = [
+        SpeechTurn(max(turn.start, start), min(turn.end, end), turn.speaker)
+        for turn in turns
+        if min(turn.end, end) > max(turn.start, start)
+    ]
+    return sorted(clipped, key=lambda turn: (turn.start, turn.end, turn.speaker))
+
+
+def union_turns(turns: list[SpeechTurn]) -> list[SpeechTurn]:
+    """Merge overlapping or touching turns per speaker; chunk contexts repeat seam speech."""
+    merged: list[SpeechTurn] = []
+    for turn in sorted(turns, key=lambda turn: (turn.speaker, turn.start, turn.end)):
+        last = merged[-1] if merged else None
+        if last is not None and last.speaker == turn.speaker and turn.start <= last.end:
+            merged[-1] = SpeechTurn(last.start, max(last.end, turn.end), turn.speaker)
+        else:
+            merged.append(turn)
+    return sorted(merged, key=lambda turn: (turn.start, turn.end, turn.speaker))
+
+
 def _token(word: SpeechWord, language: str | None) -> str:
     value = word.text.strip()
     if language == "tr":

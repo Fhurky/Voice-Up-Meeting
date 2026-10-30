@@ -28,6 +28,7 @@ from app.schemas.meeting import (
     MeetingSpeakerPage,
     MeetingSpeakerRename,
     MeetingSpeakerResponse,
+    MeetingSpeakerTurnPage,
     MeetingTranscriptPage,
     MeetingUploadManifest,
 )
@@ -292,6 +293,22 @@ async def get_transcript(
     limit: Limit = 50,
 ) -> MeetingTranscriptPage:
     return await service.transcript(context, str(public_id), offset, limit)
+
+
+@router.get(
+    "/{public_id}/speaker-turns",
+    response_model=MeetingSpeakerTurnPage,
+    dependencies=[Depends(require_permission("meeting_analysis:read"))],
+    responses={409: {"model": ErrorResponse}},
+)
+async def get_speaker_turns(
+    public_id: UUID,
+    context: CurrentContext,
+    service: Service,
+    offset: Offset = 0,
+    limit: Limit = 100,
+) -> MeetingSpeakerTurnPage:
+    return await service.speaker_turns(context, str(public_id), offset, limit)
 
 
 @router.post(

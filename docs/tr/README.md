@@ -22,3 +22,4 @@ Repo çalışma akışı: [spesifikasyonlar](../../specs/README.md). Platform il
 Uygulama içinden kayıt: [mikrofonla toplantı kaydetme](microphone-recording.md).
 Sonucu inceleme: [toplantı metnini sesle kontrol etme](meeting-audio-review.md).
 Kelime kontrolü: [konuşma kelimelerini bağlamla inceleme](contextual-transcript-review.md).
+Temiz profil: [konuşmacıyı mikrofonla kaydetme](microphone-profile-enrollment.md).

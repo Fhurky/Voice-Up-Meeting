@@ -1409,6 +1409,137 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/voiceup/v1/meetings/{public_id}/speaker-turns": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Speaker Turns */
+        get: {
+            parameters: {
+                query?: {
+                    offset?: number;
+                    limit?: number;
+                };
+                header?: never;
+                path: {
+                    public_id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Successful Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["MeetingSpeakerTurnPage"];
+                    };
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["ErrorResponse"];
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["ErrorResponse"];
+                    };
+                };
+                /** @description Forbidden */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["ErrorResponse"];
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["ErrorResponse"];
+                    };
+                };
+                /** @description Conflict */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["ErrorResponse"];
+                    };
+                };
+                /** @description Gone */
+                410: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["ErrorResponse"];
+                    };
+                };
+                /** @description Content Too Large */
+                413: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["ErrorResponse"];
+                    };
+                };
+                /** @description Unsupported Media Type */
+                415: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["ErrorResponse"];
+                    };
+                };
+                /** @description Unprocessable Content */
+                422: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["ErrorResponse"];
+                    };
+                };
+                /** @description Service Unavailable */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["ErrorResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/voiceup/v1/meetings/{public_id}/speakers": {
         parameters: {
             query?: never;
@@ -3534,7 +3665,7 @@ export interface components {
             new_threshold: number;
         };
         MeetingCreate: {
-            /** @default true */
+            /** @default false */
             auto_enroll: boolean;
             expected_speakers?: number | null;
             /** @enum {string} */
@@ -3545,7 +3676,10 @@ export interface components {
              */
             language: "tr" | "en" | "auto";
             participant_count?: number | null;
+            participant_profile_ids?: string[];
+            questions?: string[];
             size_bytes: number;
+            subject?: string | null;
             title: string;
         };
         MeetingPage: {
@@ -3553,6 +3687,17 @@ export interface components {
             limit: number;
             offset: number;
             total: number;
+        };
+        /** @description A listed profile; the name is hidden once the profile is deleted. */
+        MeetingParticipantResponse: {
+            name: string | null;
+            /** Format: uuid */
+            profile_public_id: string;
+        };
+        MeetingQuestionResponse: {
+            /** Format: uuid */
+            public_id: string;
+            text: string;
         };
         MeetingResponse: {
             auto_enroll: boolean;
@@ -3571,15 +3716,18 @@ export interface components {
             next_upload_index: number;
             observed_speakers: number;
             participant_count: number | null;
+            participants: components["schemas"]["MeetingParticipantResponse"][];
             processed_seconds: number;
             /** Format: uuid */
             public_id: string;
+            questions: components["schemas"]["MeetingQuestionResponse"][];
             sha256: string | null;
             size_bytes: number;
             source_available: boolean;
             started_at: string | null;
             /** @enum {string} */
             status: "uploading" | "queued" | "running" | "finalizing" | "succeeded" | "failed" | "cancelled";
+            subject: string | null;
             title: string;
             total_chunks: number;
             /** @default 4194304 */
@@ -3611,6 +3759,19 @@ export interface components {
             reason: string;
             speech_seconds: number;
             version: number;
+        };
+        MeetingSpeakerTurnPage: {
+            items: components["schemas"]["MeetingSpeakerTurnResponse"][];
+            limit: number;
+            offset: number;
+            provisional: boolean;
+            total: number;
+        };
+        /** @description One attributed speech interval; a null speaker is speech not linked to a meeting speaker. */
+        MeetingSpeakerTurnResponse: {
+            end_seconds: number;
+            speaker_public_id: string | null;
+            start_seconds: number;
         };
         MeetingTranscriptPage: {
             items: components["schemas"]["MeetingTranscriptResponse"][];

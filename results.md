@@ -871,3 +871,317 @@ Kimlik precision/recall/F1, VoiceUp Score ve metin hata skoru: **— (ölçülme
 Gözlenen sayılar: `transcript_segments`=6.
 
 <!-- voiceup-data-v1 {"aggregate_sha256":"57d8e4f51d28f2b89f49e9ba3ea5064ac0c61cbf6bebf3ced5f66bada43a1eba","evidence":"docs/evidence/2026-09-13-saved-transcript-corrections/live-flow-aggregate.json","evidence_sha256":"555f5a395d6a3ec483206281e49c5c358d41eb728ce0689bb67e726e5757655e","experiment_id":"tr-visible-corrections-live-flow-20260913","metadata":{"dataset":"authored-text-http-browser-smoke","dataset_revision":"8c6f82f8215f771d8c324656b2ffb9fa3fb50b92b24852b816fcf89ac7b59d30","date":"2026-09-13","language":"tr","pipeline":"transcript-review","role":"smoke"},"record_sha256":"68a76093d95af0e30747262697b9dee82666eed164d2c2aa255ed0f48bfac053","recorded_at_utc":"2026-09-13T18:09:19.342235+00:00","result":{"kind":"observation","metrics":null,"observations":{"transcript_segments":6},"source_sha256":"8c6f82f8215f771d8c324656b2ffb9fa3fb50b92b24852b816fcf89ac7b59d30","status":"unscored"},"revision":1,"snapshot_sha256":"740e846d86fb0935c3a934dfe3d1c8447ba5155f67f020cb27c9fb5cec3e1ad8"} -->
+
+## eval-ami2-array1-r1 · sürüm 1
+
+2026-10-30 · `ami` / `67c2d539286e89f68952d5dcf83912bd9f01dfae` · en · **regression** · `meeting-memory` · `x86_64-cu126` · **complete**
+
+AMI `array1` ses koşulu, rotasyon 1; toplantı 34/34; puanlanan süre 17.30 saat. Konuşmacı sayısı ipucu verilmedi.
+
+| DER | Kaçırılan | Yanlış alarm | Karışma | JER | Collar |
+|---|---|---|---|---|---|
+| 44.57% | 9.46% | 5.17% | 29.94% | 44.09% | 0 |
+| 36.26% | 6.65% | 2.91% | 26.69% | 37.42% | ±0,25 s |
+
+DER (collar 0) toplantı bootstrap %95 aralığı: 38.36%–51.08%.
+
+| Galeri kişi | İlk görünümde kayıt | Birikimli kayıt | Bilinen görünüm | Doğru | Yanlış kişi | Yinelenen profil | Kaçırılan | Galeri dışı görünüm | Yanlış kabul |
+|---|---|---|---|---|---|---|---|---|---|
+| 16 | 1 | 8 | 15 | 11 | 0 | 0 | 4 | 72 | 0 |
+
+Tanıma oranı 73.33% (kişi bootstrap %95: 42.11%–100.00%); yanlış kişi oranı 0.00%; FPIR 0.00% (0.00%–0.00%).
+
+İnsan etiketli İngilizce AMI toplantıları; konuşmacı ayırma ve toplantılar arası kimlik dilden büyük ölçüde bağımsızdır, ancak bu sonuç Türkçe metin doğruluğu değildir. Aynı kişinin görünümleri bağımsız örnek sayılmaz.
+
+Modeller: `pyannote/speaker-diarization-community-1` @ `3533c8cf8e369892e6b79ff1bf80f7b0286a54ee`; `Systran/faster-whisper-large-v3` @ `edaa852ec7e145841d8ffdb056a99866b5f0a478`; `speechbrain/spkrec-ecapa-voxceleb` @ `0f99f2d0ebe89ac095bcc5903c4dd8f72b367286`.
+
+<!-- voiceup-data-v1 {"aggregate_sha256":"5399818c3e996a642eacd1280bfb33c193fcf9fd7dabb72ac1451caa60666dd3","evidence":null,"evidence_sha256":null,"experiment_id":"eval-ami2-array1-r1","metadata":{"dataset":"ami","dataset_revision":"67c2d539286e89f68952d5dcf83912bd9f01dfae","date":"2026-10-30","language":"en","models":[{"id":"pyannote/speaker-diarization-community-1","revision":"3533c8cf8e369892e6b79ff1bf80f7b0286a54ee"},{"id":"Systran/faster-whisper-large-v3","revision":"edaa852ec7e145841d8ffdb056a99866b5f0a478"},{"id":"speechbrain/spkrec-ecapa-voxceleb","revision":"0f99f2d0ebe89ac095bcc5903c4dd8f72b367286"}],"pipeline":"meeting-memory","protocol_sha256":"ed174630003e3ffc6835ab68d7c5ec0093417c8235f24cfa53d501d05a18a6a5","role":"regression","runtime_profile":"x86_64-cu126"},"record_sha256":"ae432f5da936e842d5eaf077fff974abac301f00526456166cdef6240ab03886","recorded_at_utc":"2026-10-30T12:16:15.296568+00:00","result":{"condition":"array1","kind":"public_benchmark","metrics":{"collar_0":{"confusion":0.29936854209137553,"der":0.4457201379037146,"false_alarm":0.05174858593458882,"jer":0.4409118692399027,"missed":0.09460300987775026},"collar_0_25":{"confusion":0.2669389299220113,"der":0.36255549429314393,"false_alarm":0.0291161224083526,"jer":0.37423466805469985,"missed":0.06650044196278009},"collar_0_interval":[0.38356353339727883,0.5107692834770977],"identity":{"correct":11,"duplicate_profile":0,"enrolled_cumulative":8,"enrolled_first":1,"false_accept":0,"fpir":0.0,"fpir_interval":[0.0,0.0],"gallery_people":16,"known_probes":15,"misidentification_rate":0.0,"misidentified":0,"missed":4,"recognition_interval":[0.42105263157894735,1.0],"recognition_rate":0.7333333333333333,"unknown_probes":72},"observed_meetings":34,"planned_meetings":34,"scored_seconds":62272.57900000001},"participant_roster":false,"protocol":"voiceup-ami-public-benchmark-v1","protocol_sha256":"ed174630003e3ffc6835ab68d7c5ec0093417c8235f24cfa53d501d05a18a6a5","reference_quality":"human-annotated-public","rotation":1,"status":"complete","use_known_speaker_count":false},"revision":1,"snapshot_sha256":"396fe51d00b5a2ccafc5be63d9b10e7c3609e517bdec9c556fed741fa1eca40d"} -->
+
+## eval-ami2-array1-r2 · sürüm 1
+
+2026-10-30 · `ami` / `67c2d539286e89f68952d5dcf83912bd9f01dfae` · en · **regression** · `meeting-memory` · `x86_64-cu126` · **complete**
+
+AMI `array1` ses koşulu, rotasyon 2; toplantı 34/34; puanlanan süre 17.30 saat. Konuşmacı sayısı ipucu verilmedi.
+
+| DER | Kaçırılan | Yanlış alarm | Karışma | JER | Collar |
+|---|---|---|---|---|---|
+| 44.57% | 9.46% | 5.17% | 29.94% | 44.09% | 0 |
+| 36.26% | 6.65% | 2.91% | 26.69% | 37.42% | ±0,25 s |
+
+DER (collar 0) toplantı bootstrap %95 aralığı: 38.67%–50.59%.
+
+| Galeri kişi | İlk görünümde kayıt | Birikimli kayıt | Bilinen görünüm | Doğru | Yanlış kişi | Yinelenen profil | Kaçırılan | Galeri dışı görünüm | Yanlış kabul |
+|---|---|---|---|---|---|---|---|---|---|
+| 21 | 7 | 15 | 28 | 18 | 0 | 0 | 10 | 63 | 0 |
+
+Tanıma oranı 64.29% (kişi bootstrap %95: 44.44%–81.25%); yanlış kişi oranı 0.00%; FPIR 0.00% (0.00%–0.00%).
+
+İnsan etiketli İngilizce AMI toplantıları; konuşmacı ayırma ve toplantılar arası kimlik dilden büyük ölçüde bağımsızdır, ancak bu sonuç Türkçe metin doğruluğu değildir. Aynı kişinin görünümleri bağımsız örnek sayılmaz.
+
+Modeller: `pyannote/speaker-diarization-community-1` @ `3533c8cf8e369892e6b79ff1bf80f7b0286a54ee`; `Systran/faster-whisper-large-v3` @ `edaa852ec7e145841d8ffdb056a99866b5f0a478`; `speechbrain/spkrec-ecapa-voxceleb` @ `0f99f2d0ebe89ac095bcc5903c4dd8f72b367286`.
+
+<!-- voiceup-data-v1 {"aggregate_sha256":"20aa9ef9b95c36d2cf561ca6d659e1bd5da2d19b0154ba2cda965ef7a3e34573","evidence":null,"evidence_sha256":null,"experiment_id":"eval-ami2-array1-r2","metadata":{"dataset":"ami","dataset_revision":"67c2d539286e89f68952d5dcf83912bd9f01dfae","date":"2026-10-30","language":"en","models":[{"id":"pyannote/speaker-diarization-community-1","revision":"3533c8cf8e369892e6b79ff1bf80f7b0286a54ee"},{"id":"Systran/faster-whisper-large-v3","revision":"edaa852ec7e145841d8ffdb056a99866b5f0a478"},{"id":"speechbrain/spkrec-ecapa-voxceleb","revision":"0f99f2d0ebe89ac095bcc5903c4dd8f72b367286"}],"pipeline":"meeting-memory","protocol_sha256":"ed174630003e3ffc6835ab68d7c5ec0093417c8235f24cfa53d501d05a18a6a5","role":"regression","runtime_profile":"x86_64-cu126"},"record_sha256":"8c40236e2440283f7dfa7005045a722c1629c394a45040b60fe2234846636128","recorded_at_utc":"2026-10-30T12:16:15.393584+00:00","result":{"condition":"array1","kind":"public_benchmark","metrics":{"collar_0":{"confusion":0.29936854209137553,"der":0.4457201379037146,"false_alarm":0.05174858593458882,"jer":0.4409118692399027,"missed":0.09460300987775026},"collar_0_25":{"confusion":0.2669389299220113,"der":0.36255549429314393,"false_alarm":0.0291161224083526,"jer":0.37423466805469985,"missed":0.06650044196278009},"collar_0_interval":[0.3866896111870164,0.5059365746334995],"identity":{"correct":18,"duplicate_profile":0,"enrolled_cumulative":15,"enrolled_first":7,"false_accept":0,"fpir":0.0,"fpir_interval":[0.0,0.0],"gallery_people":21,"known_probes":28,"misidentification_rate":0.0,"misidentified":0,"missed":10,"recognition_interval":[0.4444444444444444,0.8125],"recognition_rate":0.6428571428571429,"unknown_probes":63},"observed_meetings":34,"planned_meetings":34,"scored_seconds":62272.57900000001},"participant_roster":false,"protocol":"voiceup-ami-public-benchmark-v1","protocol_sha256":"ed174630003e3ffc6835ab68d7c5ec0093417c8235f24cfa53d501d05a18a6a5","reference_quality":"human-annotated-public","rotation":2,"status":"complete","use_known_speaker_count":false},"revision":1,"snapshot_sha256":"4e019dcb276918c9d345aa7c24ce9b763535c1aef875308bcd884f2546574e6d"} -->
+
+## eval-ami2-headset-r1 · sürüm 1
+
+2026-10-30 · `ami` / `67c2d539286e89f68952d5dcf83912bd9f01dfae` · en · **regression** · `meeting-memory` · `x86_64-cu126` · **complete**
+
+AMI `headset` ses koşulu, rotasyon 1; toplantı 34/34; puanlanan süre 17.30 saat. Konuşmacı sayısı ipucu verilmedi.
+
+| DER | Kaçırılan | Yanlış alarm | Karışma | JER | Collar |
+|---|---|---|---|---|---|
+| 39.49% | 8.01% | 4.98% | 26.50% | 37.55% | 0 |
+| 31.99% | 5.43% | 2.69% | 23.88% | 30.99% | ±0,25 s |
+
+DER (collar 0) toplantı bootstrap %95 aralığı: 33.32%–46.08%.
+
+| Galeri kişi | İlk görünümde kayıt | Birikimli kayıt | Bilinen görünüm | Doğru | Yanlış kişi | Yinelenen profil | Kaçırılan | Galeri dışı görünüm | Yanlış kabul |
+|---|---|---|---|---|---|---|---|---|---|
+| 16 | 7 | 9 | 23 | 19 | 0 | 0 | 4 | 72 | 0 |
+
+Tanıma oranı 82.61% (kişi bootstrap %95: 70.83%–95.00%); yanlış kişi oranı 0.00%; FPIR 0.00% (0.00%–0.00%).
+
+İnsan etiketli İngilizce AMI toplantıları; konuşmacı ayırma ve toplantılar arası kimlik dilden büyük ölçüde bağımsızdır, ancak bu sonuç Türkçe metin doğruluğu değildir. Aynı kişinin görünümleri bağımsız örnek sayılmaz.
+
+Modeller: `pyannote/speaker-diarization-community-1` @ `3533c8cf8e369892e6b79ff1bf80f7b0286a54ee`; `Systran/faster-whisper-large-v3` @ `edaa852ec7e145841d8ffdb056a99866b5f0a478`; `speechbrain/spkrec-ecapa-voxceleb` @ `0f99f2d0ebe89ac095bcc5903c4dd8f72b367286`.
+
+<!-- voiceup-data-v1 {"aggregate_sha256":"73452463c599c2e558c4fd474f001b100f1d2675f320a425f67132160c8fe831","evidence":null,"evidence_sha256":null,"experiment_id":"eval-ami2-headset-r1","metadata":{"dataset":"ami","dataset_revision":"67c2d539286e89f68952d5dcf83912bd9f01dfae","date":"2026-10-30","language":"en","models":[{"id":"pyannote/speaker-diarization-community-1","revision":"3533c8cf8e369892e6b79ff1bf80f7b0286a54ee"},{"id":"Systran/faster-whisper-large-v3","revision":"edaa852ec7e145841d8ffdb056a99866b5f0a478"},{"id":"speechbrain/spkrec-ecapa-voxceleb","revision":"0f99f2d0ebe89ac095bcc5903c4dd8f72b367286"}],"pipeline":"meeting-memory","protocol_sha256":"ed174630003e3ffc6835ab68d7c5ec0093417c8235f24cfa53d501d05a18a6a5","role":"regression","runtime_profile":"x86_64-cu126"},"record_sha256":"35dc1189b9aa030167965e8b2f02629aa80572e749fa6a61688c4143a1e9878e","recorded_at_utc":"2026-10-30T12:16:15.497291+00:00","result":{"condition":"headset","kind":"public_benchmark","metrics":{"collar_0":{"confusion":0.26500895964177124,"der":0.39487916452360144,"false_alarm":0.04975264924791315,"jer":0.3755301879598886,"missed":0.08011755563391706},"collar_0_25":{"confusion":0.23880675961703648,"der":0.3199476103007684,"false_alarm":0.026859538251531572,"jer":0.30993468852734707,"missed":0.05428131243220038},"collar_0_interval":[0.3331965520632238,0.4607914133661692],"identity":{"correct":19,"duplicate_profile":0,"enrolled_cumulative":9,"enrolled_first":7,"false_accept":0,"fpir":0.0,"fpir_interval":[0.0,0.0],"gallery_people":16,"known_probes":23,"misidentification_rate":0.0,"misidentified":0,"missed":4,"recognition_interval":[0.7083333333333334,0.95],"recognition_rate":0.8260869565217391,"unknown_probes":72},"observed_meetings":34,"planned_meetings":34,"scored_seconds":62272.579000000005},"participant_roster":false,"protocol":"voiceup-ami-public-benchmark-v1","protocol_sha256":"ed174630003e3ffc6835ab68d7c5ec0093417c8235f24cfa53d501d05a18a6a5","reference_quality":"human-annotated-public","rotation":1,"status":"complete","use_known_speaker_count":false},"revision":1,"snapshot_sha256":"7a7b8ff9f06bfdd172f8561b9992da96014d63af0ddbed11f33a1aeaa1b1a74e"} -->
+
+## eval-ami2-headset-r2 · sürüm 1
+
+2026-10-30 · `ami` / `67c2d539286e89f68952d5dcf83912bd9f01dfae` · en · **regression** · `meeting-memory` · `x86_64-cu126` · **complete**
+
+AMI `headset` ses koşulu, rotasyon 2; toplantı 34/34; puanlanan süre 17.30 saat. Konuşmacı sayısı ipucu verilmedi.
+
+| DER | Kaçırılan | Yanlış alarm | Karışma | JER | Collar |
+|---|---|---|---|---|---|
+| 39.49% | 8.01% | 4.98% | 26.50% | 37.55% | 0 |
+| 31.99% | 5.43% | 2.69% | 23.88% | 30.99% | ±0,25 s |
+
+DER (collar 0) toplantı bootstrap %95 aralığı: 33.18%–45.60%.
+
+| Galeri kişi | İlk görünümde kayıt | Birikimli kayıt | Bilinen görünüm | Doğru | Yanlış kişi | Yinelenen profil | Kaçırılan | Galeri dışı görünüm | Yanlış kabul |
+|---|---|---|---|---|---|---|---|---|---|
+| 21 | 8 | 14 | 29 | 20 | 0 | 0 | 9 | 63 | 0 |
+
+Tanıma oranı 68.97% (kişi bootstrap %95: 47.83%–86.67%); yanlış kişi oranı 0.00%; FPIR 0.00% (0.00%–0.00%).
+
+İnsan etiketli İngilizce AMI toplantıları; konuşmacı ayırma ve toplantılar arası kimlik dilden büyük ölçüde bağımsızdır, ancak bu sonuç Türkçe metin doğruluğu değildir. Aynı kişinin görünümleri bağımsız örnek sayılmaz.
+
+Modeller: `pyannote/speaker-diarization-community-1` @ `3533c8cf8e369892e6b79ff1bf80f7b0286a54ee`; `Systran/faster-whisper-large-v3` @ `edaa852ec7e145841d8ffdb056a99866b5f0a478`; `speechbrain/spkrec-ecapa-voxceleb` @ `0f99f2d0ebe89ac095bcc5903c4dd8f72b367286`.
+
+<!-- voiceup-data-v1 {"aggregate_sha256":"6a0d1eed6cee2728f309f89c67bb72b60dff8e383a0aa53ae4bd3f78ff9a68c2","evidence":null,"evidence_sha256":null,"experiment_id":"eval-ami2-headset-r2","metadata":{"dataset":"ami","dataset_revision":"67c2d539286e89f68952d5dcf83912bd9f01dfae","date":"2026-10-30","language":"en","models":[{"id":"pyannote/speaker-diarization-community-1","revision":"3533c8cf8e369892e6b79ff1bf80f7b0286a54ee"},{"id":"Systran/faster-whisper-large-v3","revision":"edaa852ec7e145841d8ffdb056a99866b5f0a478"},{"id":"speechbrain/spkrec-ecapa-voxceleb","revision":"0f99f2d0ebe89ac095bcc5903c4dd8f72b367286"}],"pipeline":"meeting-memory","protocol_sha256":"ed174630003e3ffc6835ab68d7c5ec0093417c8235f24cfa53d501d05a18a6a5","role":"regression","runtime_profile":"x86_64-cu126"},"record_sha256":"7d7996637751b346cf3b85e4e14ca9d7d20c0f391049ce770c9ee014aa2ec694","recorded_at_utc":"2026-10-30T12:16:15.594932+00:00","result":{"condition":"headset","kind":"public_benchmark","metrics":{"collar_0":{"confusion":0.26500895964177124,"der":0.39487916452360144,"false_alarm":0.04975264924791315,"jer":0.3755301879598886,"missed":0.08011755563391706},"collar_0_25":{"confusion":0.23880675961703648,"der":0.3199476103007684,"false_alarm":0.026859538251531572,"jer":0.30993468852734707,"missed":0.05428131243220038},"collar_0_interval":[0.33180346120843096,0.4559721233833914],"identity":{"correct":20,"duplicate_profile":0,"enrolled_cumulative":14,"enrolled_first":8,"false_accept":0,"fpir":0.0,"fpir_interval":[0.0,0.0],"gallery_people":21,"known_probes":29,"misidentification_rate":0.0,"misidentified":0,"missed":9,"recognition_interval":[0.4782608695652174,0.8666666666666667],"recognition_rate":0.6896551724137931,"unknown_probes":63},"observed_meetings":34,"planned_meetings":34,"scored_seconds":62272.579000000005},"participant_roster":false,"protocol":"voiceup-ami-public-benchmark-v1","protocol_sha256":"ed174630003e3ffc6835ab68d7c5ec0093417c8235f24cfa53d501d05a18a6a5","reference_quality":"human-annotated-public","rotation":2,"status":"complete","use_known_speaker_count":false},"revision":1,"snapshot_sha256":"85098e995ebc19325d5f09244be97e49b47ac0b1c53b25d218adaa8e42f6cdb1"} -->
+
+## tr-mediaspeech-expanded-cu126-20261029 · sürüm 1
+
+2026-10-30 · `MediaSpeech-TR` / `c3f8aeebe085553d9fa0baf2fed25613b3d80f07b4d6665e88e0610250fc5b3c` · tr · **frozen-test** · `meeting-asr` · `x86_64-cu126` · **incomplete**
+
+Klip 0/2433; koşum tamamlanmadı.
+
+Kimlik precision/recall/F1, VoiceUp Score ve metin hata skoru: **— (ölçülmedi veya deney tamamlanmadı)**.
+
+Modeller: `Systran/faster-whisper-large-v3` @ `edaa852ec7e145841d8ffdb056a99866b5f0a478`.
+
+<!-- voiceup-data-v1 {"aggregate_sha256":"3067b0fe5fb28ece9caea10699312bc84405a69965b3e21b7313b1978c4f3ee3","evidence":null,"evidence_sha256":null,"experiment_id":"tr-mediaspeech-expanded-cu126-20261029","metadata":{"configuration_sha256":"900697661fc7d04d793078970ea88ecd38a7c635a54a23975f4153e355fc56ae","dataset":"MediaSpeech-TR","dataset_revision":"c3f8aeebe085553d9fa0baf2fed25613b3d80f07b4d6665e88e0610250fc5b3c","date":"2026-10-30","elapsed_seconds":59.471117462999246,"language":"tr","models":[{"id":"Systran/faster-whisper-large-v3","revision":"edaa852ec7e145841d8ffdb056a99866b5f0a478"}],"pipeline":"meeting-asr","protocol_sha256":"e5439bc09b057af136bac6d85be1a511eea646c6f942fe519f06a7d0db3929ef","role":"frozen-test","runtime_profile":"x86_64-cu126"},"record_sha256":"09ad14c8e1210f4d3f4f74944e69c70df612e4630d56a0612db7fc700c301f0c","recorded_at_utc":"2026-10-30T12:26:27.125538+00:00","result":{"coverage":{"observed_clips":0,"planned_clips":2433},"input_sha256":"e5439bc09b057af136bac6d85be1a511eea646c6f942fe519f06a7d0db3929ef","kind":"asr_clips","metrics":null,"protocol":"voiceup-mediaspeech-tr-expanded-v1","source_sha256":"c3f8aeebe085553d9fa0baf2fed25613b3d80f07b4d6665e88e0610250fc5b3c","status":"incomplete"},"revision":1,"snapshot_sha256":"8129c56ad121c863716e555d136c9af6888177ac3a97dbe93209a13241921a39"} -->
+
+## tr-fleurs-test-cu126-20261029 · sürüm 1
+
+2026-10-30 · `FLEURS-TR` / `70bb2e84b976b7e960aa89f1c648e09c59f894dd` · tr · **frozen-test** · `meeting-asr` · `x86_64-cu126` · **incomplete**
+
+Klip 0/743; koşum tamamlanmadı.
+
+Kimlik precision/recall/F1, VoiceUp Score ve metin hata skoru: **— (ölçülmedi veya deney tamamlanmadı)**.
+
+Modeller: `Systran/faster-whisper-large-v3` @ `edaa852ec7e145841d8ffdb056a99866b5f0a478`.
+
+<!-- voiceup-data-v1 {"aggregate_sha256":"215adb238be41a2c3db044b98dd9cc218e79359da3b51c86c90098e259fa56eb","evidence":null,"evidence_sha256":null,"experiment_id":"tr-fleurs-test-cu126-20261029","metadata":{"configuration_sha256":"900697661fc7d04d793078970ea88ecd38a7c635a54a23975f4153e355fc56ae","dataset":"FLEURS-TR","dataset_revision":"70bb2e84b976b7e960aa89f1c648e09c59f894dd","date":"2026-10-30","elapsed_seconds":37.00927392899757,"language":"tr","models":[{"id":"Systran/faster-whisper-large-v3","revision":"edaa852ec7e145841d8ffdb056a99866b5f0a478"}],"pipeline":"meeting-asr","protocol_sha256":"77fa49973ee399d0378842ef9697697a54a29fb9a5f71a04ea55f6bf818624f8","role":"frozen-test","runtime_profile":"x86_64-cu126"},"record_sha256":"e004b96125bced1ac2d515727cb0936122327e98b9f5583114d23f037513bf8d","recorded_at_utc":"2026-10-30T12:28:19.895549+00:00","result":{"coverage":{"observed_clips":0,"planned_clips":743},"input_sha256":"77fa49973ee399d0378842ef9697697a54a29fb9a5f71a04ea55f6bf818624f8","kind":"asr_clips","metrics":null,"protocol":"voiceup-fleurs-tr-test-v1","source_sha256":"9e57cfefe7f0e8efb3298bb79fd04fc849e94794f684e43415969a6d7e0cdda6","status":"incomplete"},"revision":1,"snapshot_sha256":"7c650343919218f03cb347a41fe0d4f4681e31ad00448406971292b61a9161c4"} -->
+
+## tr-mediaspeech-expanded-cu126-20261029 · sürüm 2
+
+2026-10-30 · `MediaSpeech-TR` / `c3f8aeebe085553d9fa0baf2fed25613b3d80f07b4d6665e88e0610250fc5b3c` · tr · **frozen-test** · `meeting-asr` · `x86_64-cu126` · **complete**
+
+Klip 2433/2433; 71767 referans kelime / 70191 çıktı kelimesi.
+
+| Kelime hata oranı (WER) | Hata | Değiştirme | Silme | Ekleme |
+|---|---|---|---|---|
+| 14.03% | 10070 | 5318 | 3164 | 1588 |
+
+Normalizasyon `turkish-words-v1`. Her klibin kelime hataları ayrı hesaplanıp bütün referans kelimelerine bölünür; klipler farklı kişiler sayılmaz. Kimlik precision/recall/F1, VoiceUp Score, konuşmacı zaman hatası ve cpWER ölçülmez.
+
+Modeller: `Systran/faster-whisper-large-v3` @ `edaa852ec7e145841d8ffdb056a99866b5f0a478`.
+
+<!-- voiceup-data-v1 {"aggregate_sha256":"ab6ec651f3e7e9580624cc7007c26889086ed813af0ea9a3e95d658deeb1371e","evidence":null,"evidence_sha256":null,"experiment_id":"tr-mediaspeech-expanded-cu126-20261029","metadata":{"configuration_sha256":"900697661fc7d04d793078970ea88ecd38a7c635a54a23975f4153e355fc56ae","dataset":"MediaSpeech-TR","dataset_revision":"c3f8aeebe085553d9fa0baf2fed25613b3d80f07b4d6665e88e0610250fc5b3c","date":"2026-10-30","elapsed_seconds":4227.341975894,"language":"tr","models":[{"id":"Systran/faster-whisper-large-v3","revision":"edaa852ec7e145841d8ffdb056a99866b5f0a478"}],"pipeline":"meeting-asr","protocol_sha256":"e5439bc09b057af136bac6d85be1a511eea646c6f942fe519f06a7d0db3929ef","role":"frozen-test","runtime_profile":"x86_64-cu126"},"record_sha256":"3f2cc80e0c6ca7c4341356f51464579c4a37e9d327c1256a9e76f6711f12d108","recorded_at_utc":"2026-10-30T13:43:55.769205+00:00","result":{"coverage":{"observed_clips":2433,"planned_clips":2433},"input_sha256":"e5439bc09b057af136bac6d85be1a511eea646c6f942fe519f06a7d0db3929ef","kind":"asr_clips","metrics":{"deletions":3164,"errors":10070,"hypothesis_words":70191,"insertions":1588,"normalization":"turkish-words-v1","observed_clips":2433,"planned_clips":2433,"protocol":"voiceup-mediaspeech-tr-expanded-v1","reference_words":71767,"substitutions":5318,"wer":0.1403151866456728},"protocol":"voiceup-mediaspeech-tr-expanded-v1","source_sha256":"c3f8aeebe085553d9fa0baf2fed25613b3d80f07b4d6665e88e0610250fc5b3c","status":"complete"},"revision":2,"snapshot_sha256":"23803f2cba0f0f5063cc6eb0812fd56bf8ef069e5fb0cd9bfcc719a32a8c6c8a"} -->
+
+## tr-fleurs-test-cu126-20261029 · sürüm 2
+
+2026-10-30 · `FLEURS-TR` / `70bb2e84b976b7e960aa89f1c648e09c59f894dd` · tr · **frozen-test** · `meeting-asr` · `x86_64-cu126` · **complete**
+
+Klip 743/743; 12914 referans kelime / 12966 çıktı kelimesi.
+
+| Kelime hata oranı (WER) | Hata | Değiştirme | Silme | Ekleme |
+|---|---|---|---|---|
+| 6.49% | 838 | 674 | 56 | 108 |
+
+Normalizasyon `turkish-words-v1`. Her klibin kelime hataları ayrı hesaplanıp bütün referans kelimelerine bölünür; klipler farklı kişiler sayılmaz. Kimlik precision/recall/F1, VoiceUp Score, konuşmacı zaman hatası ve cpWER ölçülmez.
+
+Modeller: `Systran/faster-whisper-large-v3` @ `edaa852ec7e145841d8ffdb056a99866b5f0a478`.
+
+<!-- voiceup-data-v1 {"aggregate_sha256":"b24c73c28d1ba1e25947a1eef73675b56f5b34cef8a3e6d5f727c73fdc496181","evidence":null,"evidence_sha256":null,"experiment_id":"tr-fleurs-test-cu126-20261029","metadata":{"configuration_sha256":"900697661fc7d04d793078970ea88ecd38a7c635a54a23975f4153e355fc56ae","dataset":"FLEURS-TR","dataset_revision":"70bb2e84b976b7e960aa89f1c648e09c59f894dd","date":"2026-10-30","elapsed_seconds":986.8406283789991,"language":"tr","models":[{"id":"Systran/faster-whisper-large-v3","revision":"edaa852ec7e145841d8ffdb056a99866b5f0a478"}],"pipeline":"meeting-asr","protocol_sha256":"77fa49973ee399d0378842ef9697697a54a29fb9a5f71a04ea55f6bf818624f8","role":"frozen-test","runtime_profile":"x86_64-cu126"},"record_sha256":"9f45864070ba3007199c210fc42503e5b1ffc638d82325b9bf248e1de67701e4","recorded_at_utc":"2026-10-30T14:01:00.468339+00:00","result":{"coverage":{"observed_clips":743,"planned_clips":743},"input_sha256":"77fa49973ee399d0378842ef9697697a54a29fb9a5f71a04ea55f6bf818624f8","kind":"asr_clips","metrics":{"deletions":56,"errors":838,"hypothesis_words":12966,"insertions":108,"normalization":"turkish-words-v1","observed_clips":743,"planned_clips":743,"protocol":"voiceup-fleurs-tr-test-v1","reference_words":12914,"substitutions":674,"wer":0.0648908161684993},"protocol":"voiceup-fleurs-tr-test-v1","source_sha256":"9e57cfefe7f0e8efb3298bb79fd04fc849e94794f684e43415969a6d7e0cdda6","status":"complete"},"revision":2,"snapshot_sha256":"e92920ed52f339403f349cfd9b1376ad821017d49c7e6a1e268a319883af389e"} -->
+
+## eval-ami3-array1-r1 · sürüm 1
+
+2026-10-30 · `ami` / `67c2d539286e89f68952d5dcf83912bd9f01dfae` · en · **regression** · `meeting-memory` · `x86_64-cu126` · **complete**
+
+AMI `array1` ses koşulu, rotasyon 1; toplantı 34/34; puanlanan süre 17.30 saat. Konuşmacı sayısı ipucu verilmedi.
+
+| DER | Kaçırılan | Yanlış alarm | Karışma | JER | Collar |
+|---|---|---|---|---|---|
+| 26.17% | 9.49% | 4.87% | 11.82% | 29.49% | 0 |
+| 18.27% | 6.66% | 2.63% | 8.97% | 21.55% | ±0,25 s |
+
+DER (collar 0) toplantı bootstrap %95 aralığı: 23.30%–29.29%.
+
+| Galeri kişi | İlk görünümde kayıt | Birikimli kayıt | Bilinen görünüm | Doğru | Yanlış kişi | Yinelenen profil | Kaçırılan | Galeri dışı görünüm | Yanlış kabul |
+|---|---|---|---|---|---|---|---|---|---|
+| 16 | 4 | 12 | 23 | 16 | 0 | 0 | 7 | 72 | 0 |
+
+Tanıma oranı 69.57% (kişi bootstrap %95: 53.33%–86.36%); yanlış kişi oranı 0.00%; FPIR 0.00% (0.00%–0.00%).
+
+İnsan etiketli İngilizce AMI toplantıları; konuşmacı ayırma ve toplantılar arası kimlik dilden büyük ölçüde bağımsızdır, ancak bu sonuç Türkçe metin doğruluğu değildir. Aynı kişinin görünümleri bağımsız örnek sayılmaz.
+
+Modeller: `pyannote/speaker-diarization-community-1` @ `3533c8cf8e369892e6b79ff1bf80f7b0286a54ee`; `Systran/faster-whisper-large-v3` @ `edaa852ec7e145841d8ffdb056a99866b5f0a478`; `speechbrain/spkrec-ecapa-voxceleb` @ `0f99f2d0ebe89ac095bcc5903c4dd8f72b367286`.
+
+<!-- voiceup-data-v1 {"aggregate_sha256":"8520ce766a2c9a55e06a1b1af945be95d0f4e97565171301e15c01894c3ddee3","evidence":null,"evidence_sha256":null,"experiment_id":"eval-ami3-array1-r1","metadata":{"dataset":"ami","dataset_revision":"67c2d539286e89f68952d5dcf83912bd9f01dfae","date":"2026-10-30","language":"en","models":[{"id":"pyannote/speaker-diarization-community-1","revision":"3533c8cf8e369892e6b79ff1bf80f7b0286a54ee"},{"id":"Systran/faster-whisper-large-v3","revision":"edaa852ec7e145841d8ffdb056a99866b5f0a478"},{"id":"speechbrain/spkrec-ecapa-voxceleb","revision":"0f99f2d0ebe89ac095bcc5903c4dd8f72b367286"}],"pipeline":"meeting-memory","protocol_sha256":"ed174630003e3ffc6835ab68d7c5ec0093417c8235f24cfa53d501d05a18a6a5","role":"regression","runtime_profile":"x86_64-cu126"},"record_sha256":"33670a50e76a6afade599b43ec8b61a8c5a7895bdbe4849c1d5897d03123a3b1","recorded_at_utc":"2026-10-30T14:46:04.825849+00:00","result":{"condition":"array1","kind":"public_benchmark","metrics":{"collar_0":{"confusion":0.11818363906206629,"der":0.26174925844166447,"false_alarm":0.048704299078410944,"jer":0.2948923252075205,"missed":0.09486132030118721},"collar_0_25":{"confusion":0.0897178787900462,"der":0.18266228999252052,"false_alarm":0.026332659714038725,"jer":0.21548158917891008,"missed":0.0666117514884356},"collar_0_interval":[0.23300361952461468,0.29290246936093484],"identity":{"correct":16,"duplicate_profile":0,"enrolled_cumulative":12,"enrolled_first":4,"false_accept":0,"fpir":0.0,"fpir_interval":[0.0,0.0],"gallery_people":16,"known_probes":23,"misidentification_rate":0.0,"misidentified":0,"missed":7,"recognition_interval":[0.5333333333333333,0.8636363636363636],"recognition_rate":0.6956521739130435,"unknown_probes":72},"observed_meetings":34,"planned_meetings":34,"scored_seconds":62272.57900000001},"participant_roster":false,"protocol":"voiceup-ami-public-benchmark-v1","protocol_sha256":"ed174630003e3ffc6835ab68d7c5ec0093417c8235f24cfa53d501d05a18a6a5","reference_quality":"human-annotated-public","rotation":1,"status":"complete","use_known_speaker_count":false},"revision":1,"snapshot_sha256":"11d4e517846fbcf76b2411cf1680b1baac10fde355b402089fe395e48925065e"} -->
+
+## eval-ami3-headset-r1 · sürüm 1
+
+2026-10-30 · `ami` / `67c2d539286e89f68952d5dcf83912bd9f01dfae` · en · **regression** · `meeting-memory` · `x86_64-cu126` · **complete**
+
+AMI `headset` ses koşulu, rotasyon 1; toplantı 34/34; puanlanan süre 17.30 saat. Konuşmacı sayısı ipucu verilmedi.
+
+| DER | Kaçırılan | Yanlış alarm | Karışma | JER | Collar |
+|---|---|---|---|---|---|
+| 21.42% | 8.04% | 4.67% | 8.70% | 24.91% | 0 |
+| 14.03% | 5.45% | 2.38% | 6.19% | 17.29% | ±0,25 s |
+
+DER (collar 0) toplantı bootstrap %95 aralığı: 18.89%–24.31%.
+
+| Galeri kişi | İlk görünümde kayıt | Birikimli kayıt | Bilinen görünüm | Doğru | Yanlış kişi | Yinelenen profil | Kaçırılan | Galeri dışı görünüm | Yanlış kabul |
+|---|---|---|---|---|---|---|---|---|---|
+| 16 | 11 | 14 | 36 | 30 | 0 | 0 | 6 | 72 | 0 |
+
+Tanıma oranı 83.33% (kişi bootstrap %95: 66.67%–95.00%); yanlış kişi oranı 0.00%; FPIR 0.00% (0.00%–0.00%).
+
+İnsan etiketli İngilizce AMI toplantıları; konuşmacı ayırma ve toplantılar arası kimlik dilden büyük ölçüde bağımsızdır, ancak bu sonuç Türkçe metin doğruluğu değildir. Aynı kişinin görünümleri bağımsız örnek sayılmaz.
+
+Modeller: `pyannote/speaker-diarization-community-1` @ `3533c8cf8e369892e6b79ff1bf80f7b0286a54ee`; `Systran/faster-whisper-large-v3` @ `edaa852ec7e145841d8ffdb056a99866b5f0a478`; `speechbrain/spkrec-ecapa-voxceleb` @ `0f99f2d0ebe89ac095bcc5903c4dd8f72b367286`.
+
+<!-- voiceup-data-v1 {"aggregate_sha256":"444744b45a3b9cfd6ccf9eff252e47dfc97f5eef4d8f094a6ce860406e5dfb5e","evidence":null,"evidence_sha256":null,"experiment_id":"eval-ami3-headset-r1","metadata":{"dataset":"ami","dataset_revision":"67c2d539286e89f68952d5dcf83912bd9f01dfae","date":"2026-10-30","language":"en","models":[{"id":"pyannote/speaker-diarization-community-1","revision":"3533c8cf8e369892e6b79ff1bf80f7b0286a54ee"},{"id":"Systran/faster-whisper-large-v3","revision":"edaa852ec7e145841d8ffdb056a99866b5f0a478"},{"id":"speechbrain/spkrec-ecapa-voxceleb","revision":"0f99f2d0ebe89ac095bcc5903c4dd8f72b367286"}],"pipeline":"meeting-memory","protocol_sha256":"ed174630003e3ffc6835ab68d7c5ec0093417c8235f24cfa53d501d05a18a6a5","role":"regression","runtime_profile":"x86_64-cu126"},"record_sha256":"044babdbdd2a910a3ba8766be1ab081dd5d95864882221b5b871685a9aa3f02b","recorded_at_utc":"2026-10-30T14:46:04.922431+00:00","result":{"condition":"headset","kind":"public_benchmark","metrics":{"collar_0":{"confusion":0.08703023053292855,"der":0.21416336493787994,"false_alarm":0.04674444769663321,"jer":0.24911405783459917,"missed":0.08038868670831818},"collar_0_25":{"confusion":0.06190335802578072,"der":0.14026662880478746,"false_alarm":0.023844629354746263,"jer":0.1728821481111304,"missed":0.05451864142426047},"collar_0_interval":[0.1889373233517002,0.2430560874442406],"identity":{"correct":30,"duplicate_profile":0,"enrolled_cumulative":14,"enrolled_first":11,"false_accept":0,"fpir":0.0,"fpir_interval":[0.0,0.0],"gallery_people":16,"known_probes":36,"misidentification_rate":0.0,"misidentified":0,"missed":6,"recognition_interval":[0.6666666666666666,0.95],"recognition_rate":0.8333333333333334,"unknown_probes":72},"observed_meetings":34,"planned_meetings":34,"scored_seconds":62272.579000000005},"participant_roster":false,"protocol":"voiceup-ami-public-benchmark-v1","protocol_sha256":"ed174630003e3ffc6835ab68d7c5ec0093417c8235f24cfa53d501d05a18a6a5","reference_quality":"human-annotated-public","rotation":1,"status":"complete","use_known_speaker_count":false},"revision":1,"snapshot_sha256":"b39d5e51524317d0ceb9adce18cee0bb0cec84209a9dd1d34719834e81df200f"} -->
+
+## eval-ami3-array1-r2 · sürüm 1
+
+2026-10-30 · `ami` / `67c2d539286e89f68952d5dcf83912bd9f01dfae` · en · **regression** · `meeting-memory` · `x86_64-cu126` · **complete**
+
+AMI `array1` ses koşulu, rotasyon 2; toplantı 34/34; puanlanan süre 17.30 saat. Konuşmacı sayısı ipucu verilmedi.
+
+| DER | Kaçırılan | Yanlış alarm | Karışma | JER | Collar |
+|---|---|---|---|---|---|
+| 26.17% | 9.49% | 4.87% | 11.82% | 29.49% | 0 |
+| 18.27% | 6.66% | 2.63% | 8.97% | 21.55% | ±0,25 s |
+
+DER (collar 0) toplantı bootstrap %95 aralığı: 23.50%–29.01%.
+
+| Galeri kişi | İlk görünümde kayıt | Birikimli kayıt | Bilinen görünüm | Doğru | Yanlış kişi | Yinelenen profil | Kaçırılan | Galeri dışı görünüm | Yanlış kabul |
+|---|---|---|---|---|---|---|---|---|---|
+| 21 | 17 | 21 | 46 | 30 | 2 | 0 | 14 | 63 | 0 |
+
+Tanıma oranı 65.22% (kişi bootstrap %95: 47.06%–79.49%); yanlış kişi oranı 4.35%; FPIR 0.00% (0.00%–0.00%).
+
+İnsan etiketli İngilizce AMI toplantıları; konuşmacı ayırma ve toplantılar arası kimlik dilden büyük ölçüde bağımsızdır, ancak bu sonuç Türkçe metin doğruluğu değildir. Aynı kişinin görünümleri bağımsız örnek sayılmaz.
+
+Modeller: `pyannote/speaker-diarization-community-1` @ `3533c8cf8e369892e6b79ff1bf80f7b0286a54ee`; `Systran/faster-whisper-large-v3` @ `edaa852ec7e145841d8ffdb056a99866b5f0a478`; `speechbrain/spkrec-ecapa-voxceleb` @ `0f99f2d0ebe89ac095bcc5903c4dd8f72b367286`.
+
+<!-- voiceup-data-v1 {"aggregate_sha256":"9d61d0d1eab5a732405acc236ed647f523958511b18be31405904fd836928169","evidence":null,"evidence_sha256":null,"experiment_id":"eval-ami3-array1-r2","metadata":{"dataset":"ami","dataset_revision":"67c2d539286e89f68952d5dcf83912bd9f01dfae","date":"2026-10-30","language":"en","models":[{"id":"pyannote/speaker-diarization-community-1","revision":"3533c8cf8e369892e6b79ff1bf80f7b0286a54ee"},{"id":"Systran/faster-whisper-large-v3","revision":"edaa852ec7e145841d8ffdb056a99866b5f0a478"},{"id":"speechbrain/spkrec-ecapa-voxceleb","revision":"0f99f2d0ebe89ac095bcc5903c4dd8f72b367286"}],"pipeline":"meeting-memory","protocol_sha256":"ed174630003e3ffc6835ab68d7c5ec0093417c8235f24cfa53d501d05a18a6a5","role":"regression","runtime_profile":"x86_64-cu126"},"record_sha256":"e6bdcc4b5ece764eb104e92d83f2f5657a4dd0e87ee5ca456c287d97a4d1bdfc","recorded_at_utc":"2026-10-30T14:46:05.019052+00:00","result":{"condition":"array1","kind":"public_benchmark","metrics":{"collar_0":{"confusion":0.11818363906206629,"der":0.26174925844166447,"false_alarm":0.048704299078410944,"jer":0.2948923252075205,"missed":0.09486132030118721},"collar_0_25":{"confusion":0.0897178787900462,"der":0.18266228999252052,"false_alarm":0.026332659714038725,"jer":0.21548158917891008,"missed":0.0666117514884356},"collar_0_interval":[0.2349601927114419,0.29008394974295243],"identity":{"correct":30,"duplicate_profile":0,"enrolled_cumulative":21,"enrolled_first":17,"false_accept":0,"fpir":0.0,"fpir_interval":[0.0,0.0],"gallery_people":21,"known_probes":46,"misidentification_rate":0.043478260869565216,"misidentified":2,"missed":14,"recognition_interval":[0.47058823529411764,0.7948717948717948],"recognition_rate":0.6521739130434783,"unknown_probes":63},"observed_meetings":34,"planned_meetings":34,"scored_seconds":62272.57900000001},"participant_roster":false,"protocol":"voiceup-ami-public-benchmark-v1","protocol_sha256":"ed174630003e3ffc6835ab68d7c5ec0093417c8235f24cfa53d501d05a18a6a5","reference_quality":"human-annotated-public","rotation":2,"status":"complete","use_known_speaker_count":false},"revision":1,"snapshot_sha256":"7eb9276f273e18a06388fc2568cb1dd031acba48e369fd1061eee4f2ac20802f"} -->
+
+## eval-ami4-array1-r2 · sürüm 1
+
+2026-10-30 · `ami` / `67c2d539286e89f68952d5dcf83912bd9f01dfae` · en · **regression** · `meeting-memory` · `x86_64-cu126` · **complete**
+
+AMI `array1` ses koşulu, rotasyon 2; toplantı 34/34; puanlanan süre 17.30 saat. Konuşmacı sayısı ipucu verilmedi.
+
+| DER | Kaçırılan | Yanlış alarm | Karışma | JER | Collar |
+|---|---|---|---|---|---|
+| 26.17% | 9.49% | 4.87% | 11.82% | 29.49% | 0 |
+| 18.27% | 6.66% | 2.63% | 8.97% | 21.55% | ±0,25 s |
+
+DER (collar 0) toplantı bootstrap %95 aralığı: 23.50%–29.01%.
+
+| Galeri kişi | İlk görünümde kayıt | Birikimli kayıt | Bilinen görünüm | Doğru | Yanlış kişi | Yinelenen profil | Kaçırılan | Galeri dışı görünüm | Yanlış kabul |
+|---|---|---|---|---|---|---|---|---|---|
+| 21 | 17 | 21 | 46 | 33 | 1 | 0 | 12 | 63 | 0 |
+
+Tanıma oranı 71.74% (kişi bootstrap %95: 56.76%–84.21%); yanlış kişi oranı 2.17%; FPIR 0.00% (0.00%–0.00%).
+
+İnsan etiketli İngilizce AMI toplantıları; konuşmacı ayırma ve toplantılar arası kimlik dilden büyük ölçüde bağımsızdır, ancak bu sonuç Türkçe metin doğruluğu değildir. Aynı kişinin görünümleri bağımsız örnek sayılmaz.
+
+Modeller: `pyannote/speaker-diarization-community-1` @ `3533c8cf8e369892e6b79ff1bf80f7b0286a54ee`; `Systran/faster-whisper-large-v3` @ `edaa852ec7e145841d8ffdb056a99866b5f0a478`; `speechbrain/spkrec-ecapa-voxceleb` @ `0f99f2d0ebe89ac095bcc5903c4dd8f72b367286`.
+
+<!-- voiceup-data-v1 {"aggregate_sha256":"4a986a50b2065396a40d75884bd86a3f9738ceba9729000b8bfb3240590f3ebe","evidence":null,"evidence_sha256":null,"experiment_id":"eval-ami4-array1-r2","metadata":{"dataset":"ami","dataset_revision":"67c2d539286e89f68952d5dcf83912bd9f01dfae","date":"2026-10-30","language":"en","models":[{"id":"pyannote/speaker-diarization-community-1","revision":"3533c8cf8e369892e6b79ff1bf80f7b0286a54ee"},{"id":"Systran/faster-whisper-large-v3","revision":"edaa852ec7e145841d8ffdb056a99866b5f0a478"},{"id":"speechbrain/spkrec-ecapa-voxceleb","revision":"0f99f2d0ebe89ac095bcc5903c4dd8f72b367286"}],"pipeline":"meeting-memory","protocol_sha256":"ed174630003e3ffc6835ab68d7c5ec0093417c8235f24cfa53d501d05a18a6a5","role":"regression","runtime_profile":"x86_64-cu126"},"record_sha256":"1092064900a221d0ec269913393b4a55383fc8da25da1310786d274075316451","recorded_at_utc":"2026-10-30T14:59:55.705180+00:00","result":{"condition":"array1","kind":"public_benchmark","metrics":{"collar_0":{"confusion":0.11818363906206629,"der":0.26174925844166447,"false_alarm":0.048704299078410944,"jer":0.2948923252075205,"missed":0.09486132030118721},"collar_0_25":{"confusion":0.0897178787900462,"der":0.18266228999252052,"false_alarm":0.026332659714038725,"jer":0.21548158917891008,"missed":0.0666117514884356},"collar_0_interval":[0.2349601927114419,0.29008394974295243],"identity":{"correct":33,"duplicate_profile":0,"enrolled_cumulative":21,"enrolled_first":17,"false_accept":0,"fpir":0.0,"fpir_interval":[0.0,0.0],"gallery_people":21,"known_probes":46,"misidentification_rate":0.021739130434782608,"misidentified":1,"missed":12,"recognition_interval":[0.5675675675675675,0.8421052631578947],"recognition_rate":0.717391304347826,"unknown_probes":63},"observed_meetings":34,"planned_meetings":34,"scored_seconds":62272.57900000001},"participant_roster":false,"protocol":"voiceup-ami-public-benchmark-v1","protocol_sha256":"ed174630003e3ffc6835ab68d7c5ec0093417c8235f24cfa53d501d05a18a6a5","reference_quality":"human-annotated-public","rotation":2,"status":"complete","use_known_speaker_count":false},"revision":1,"snapshot_sha256":"5c4e451683551c1f54a26838145450e8de3386964430daf2ddc6b82751171349"} -->
+
+## tr-realturnturk-baseline-cu126-20261030 · sürüm 1
+
+2026-10-30 · `Real-TurnTurk` / `db8f20f6eb6b215ec75fb466374fc5cc861b91df` · tr · **regression** · `meeting-memory` · `x86_64-cu126` · **complete**
+
+**Zayıf otomatik referans:** Konuşma etkinliği otomatik etiketlidir; metin referansı ve zaman damgaları insan doğrulamasıyla teyit edilmemiştir. Bu tanı skorları insan doğrulanmış Türkçe kimlik/metin doğruluğu, bağımsız oturum veya 50 kişi kabulü değildir.
+
+Konuşmacı sayısı girdisi: kişi sayısı ipucu verilmedi.
+
+Toplantı 6/6; 6 gerçek kişi; bilinen/yeni kişi görünümleri 6/6.
+
+| Precision | Recall | Micro F1 | Macro F1 | Yeni kişi F1 | VoiceUp /100 |
+|---|---|---|---|---|---|
+| 100.00% | 50.00% | 66.67% | 50.00% | 66.67% | 57.14 |
+
+Koşu sonunda birikimli kayıt kapsamı: 100.00%; ilk görünümde kayıt kapsamı: 66.67%; karar kapsamı: 75.00%.
+
+| Toplantı | Referans kelime | cpWER | Atanmamış akış cezasıyla |
+|---|---|---|---|
+| 1 | 350 | 22.00% | 22.00% |
+| 2 | 390 | 28.72% | 28.72% |
+| 3 | 411 | 30.66% | 30.66% |
+| 4 | 386 | 41.97% | 41.97% |
+| 5 | 431 | 25.99% | 25.99% |
+| 6 | 373 | 41.29% | 41.29% |
+
+Modeller: `pyannote/speaker-diarization-community-1` @ `3533c8cf8e369892e6b79ff1bf80f7b0286a54ee`; `Systran/faster-whisper-large-v3` @ `edaa852ec7e145841d8ffdb056a99866b5f0a478`; `speechbrain/spkrec-ecapa-voxceleb` @ `0f99f2d0ebe89ac095bcc5903c4dd8f72b367286`.
+
+<!-- voiceup-data-v1 {"aggregate_sha256":"7bdb453b4e097ac67d2bbfd063e3f49fc0460e36566e2b2167f97d80f3c8bcd7","evidence":null,"evidence_sha256":null,"experiment_id":"tr-realturnturk-baseline-cu126-20261030","metadata":{"dataset":"Real-TurnTurk","dataset_revision":"db8f20f6eb6b215ec75fb466374fc5cc861b91df","date":"2026-10-30","language":"tr","models":[{"id":"pyannote/speaker-diarization-community-1","revision":"3533c8cf8e369892e6b79ff1bf80f7b0286a54ee"},{"id":"Systran/faster-whisper-large-v3","revision":"edaa852ec7e145841d8ffdb056a99866b5f0a478"},{"id":"speechbrain/spkrec-ecapa-voxceleb","revision":"0f99f2d0ebe89ac095bcc5903c4dd8f72b367286"}],"pipeline":"meeting-memory","protocol_sha256":"36bc2178c9f8da8f7ea22344da5e8ae1b8dbe227d09016735a47c4a99adba295","role":"regression","runtime_profile":"x86_64-cu126"},"record_sha256":"bb5306bf3762c20045683f4d73b1a3d20f6abf254c95882f80c3a7f26479173d","recorded_at_utc":"2026-10-30T15:36:32.074968+00:00","result":{"coverage":{"observed_meetings":6,"planned_meetings":6},"kind":"meeting_identity","metrics":{"cumulative_enrollment_coverage":1.0,"decision_coverage":0.75,"first_enrollment_coverage":0.6666666666666666,"identity":{"false_negative":3,"false_positive":0,"macro_f1":0.5,"micro_f1":0.6666666666666666,"precision":1.0,"recall":0.5,"true_positive":3},"observed_meetings":6,"planned_meetings":6,"protocol":"voiceup-real-turnturk-v1","protocol_sha256":"36bc2178c9f8da8f7ea22344da5e8ae1b8dbe227d09016735a47c4a99adba295","support":{"known_probes":6,"known_speakers":4,"observed_probes":12,"planned_probes":12,"unique_speakers":6,"unknown_probes":6},"transcripts":[{"meeting":1,"metrics":{"assigned_only":{"deletions":24,"errors":77,"insertions":19,"rate":0.22,"substitutions":34},"counts":{"hypothesis_speakers":2,"hypothesis_words":345,"reference_speakers":2,"reference_words":350,"unassigned_words":0},"cpwer":{"deletions":24,"errors":77,"insertions":19,"rate":0.22,"substitutions":34},"normalization":"turkish-words-v1","unassigned_word_fraction":0.0},"source_sha256":"b7ab41dbe32cc12f1305605758ebbfa9e316f110071e75559f34056d396981a8"},{"meeting":2,"metrics":{"assigned_only":{"deletions":39,"errors":112,"insertions":19,"rate":0.28717948717948716,"substitutions":54},"counts":{"hypothesis_speakers":2,"hypothesis_words":370,"reference_speakers":2,"reference_words":390,"unassigned_words":5},"cpwer":{"deletions":39,"errors":112,"insertions":19,"rate":0.28717948717948716,"substitutions":54},"normalization":"turkish-words-v1","unassigned_word_fraction":0.013513513513513514},"source_sha256":"a87cc9b0e24bf4ed4676c80f56857b7b4d5199fc57aab7ed0835f4a1755c1782"},{"meeting":3,"metrics":{"assigned_only":{"deletions":53,"errors":126,"insertions":27,"rate":0.30656934306569344,"substitutions":46},"counts":{"hypothesis_speakers":3,"hypothesis_words":385,"reference_speakers":2,"reference_words":411,"unassigned_words":0},"cpwer":{"deletions":53,"errors":126,"insertions":27,"rate":0.30656934306569344,"substitutions":46},"normalization":"turkish-words-v1","unassigned_word_fraction":0.0},"source_sha256":"3f2aadd8aef92d7d83f2a9589a44f885812a70363283b684b358c188f4b68ef7"},{"meeting":4,"metrics":{"assigned_only":{"deletions":97,"errors":162,"insertions":16,"rate":0.41968911917098445,"substitutions":49},"counts":{"hypothesis_speakers":3,"hypothesis_words":305,"reference_speakers":2,"reference_words":386,"unassigned_words":4},"cpwer":{"deletions":97,"errors":162,"insertions":16,"rate":0.41968911917098445,"substitutions":49},"normalization":"turkish-words-v1","unassigned_word_fraction":0.013114754098360656},"source_sha256":"9ed3a4a6a676a52600b8d5f52fccdcc2458e9bda779444272ea78024a2a2029c"},{"meeting":5,"metrics":{"assigned_only":{"deletions":54,"errors":112,"insertions":13,"rate":0.25986078886310904,"substitutions":45},"counts":{"hypothesis_speakers":2,"hypothesis_words":390,"reference_speakers":2,"reference_words":431,"unassigned_words":4},"cpwer":{"deletions":54,"errors":112,"insertions":13,"rate":0.25986078886310904,"substitutions":45},"normalization":"turkish-words-v1","unassigned_word_fraction":0.010256410256410256},"source_sha256":"449534e59379a56f8b1c23e4f063d864869ab04e55a49bb03854cde734b8808e"},{"meeting":6,"metrics":{"assigned_only":{"deletions":71,"errors":154,"insertions":47,"rate":0.4128686327077748,"substitutions":36},"counts":{"hypothesis_speakers":3,"hypothesis_words":349,"reference_speakers":2,"reference_words":373,"unassigned_words":4},"cpwer":{"deletions":71,"errors":154,"insertions":47,"rate":0.4128686327077748,"substitutions":36},"normalization":"turkish-words-v1","unassigned_word_fraction":0.011461318051575931},"source_sha256":"ffc1d8d518227aff110bb2bfb8d3650d53429e42a05e0c63f0e3c57314a1549d"}],"unknown":{"f1":0.6666666666666666,"false_negative":2,"false_positive":2,"precision":0.6666666666666666,"recall":0.6666666666666666,"true_positive":4},"voiceup_score":57.14285714285714},"reference_quality":"automatic-activity-unverified-text-diagnostic","status":"complete","use_known_speaker_count":false},"revision":1,"snapshot_sha256":"8823446ff4d51e07377ca424c3560857302913546e5b01b0d88ab02f158ea116"} -->
+
+## tr-realturnturk-count2-cu126-20261030 · sürüm 1
+
+2026-10-30 · `Real-TurnTurk` / `db8f20f6eb6b215ec75fb466374fc5cc861b91df` · tr · **regression** · `meeting-memory` · `x86_64-cu126` · **complete**
+
+**Zayıf otomatik referans:** Konuşma etkinliği otomatik etiketlidir; metin referansı ve zaman damgaları insan doğrulamasıyla teyit edilmemiştir. Bu tanı skorları insan doğrulanmış Türkçe kimlik/metin doğruluğu, bağımsız oturum veya 50 kişi kabulü değildir.
+
+Konuşmacı sayısı girdisi: her toplantı için 2 (`expected_speakers=2`, `participant_count=2`).
+
+Toplantı 6/6; 6 gerçek kişi; bilinen/yeni kişi görünümleri 6/6.
+
+| Precision | Recall | Micro F1 | Macro F1 | Yeni kişi F1 | VoiceUp /100 |
+|---|---|---|---|---|---|
+| 100.00% | 83.33% | 90.91% | 75.00% | 83.33% | 78.95 |
+
+Koşu sonunda birikimli kayıt kapsamı: 100.00%; ilk görünümde kayıt kapsamı: 83.33%; karar kapsamı: 91.67%.
+
+| Toplantı | Referans kelime | cpWER | Atanmamış akış cezasıyla |
+|---|---|---|---|
+| 1 | 350 | 22.00% | 22.00% |
+| 2 | 390 | 28.72% | 28.72% |
+| 3 | 411 | 25.55% | 25.55% |
+| 4 | 386 | 37.82% | 37.82% |
+| 5 | 431 | 25.99% | 25.99% |
+| 6 | 373 | 26.01% | 26.01% |
+
+Modeller: `pyannote/speaker-diarization-community-1` @ `3533c8cf8e369892e6b79ff1bf80f7b0286a54ee`; `Systran/faster-whisper-large-v3` @ `edaa852ec7e145841d8ffdb056a99866b5f0a478`; `speechbrain/spkrec-ecapa-voxceleb` @ `0f99f2d0ebe89ac095bcc5903c4dd8f72b367286`.
+
+<!-- voiceup-data-v1 {"aggregate_sha256":"ca7d43bc74b9b6f3b898248104dd89420a3a4a636543a1517bc19cde9f89a608","evidence":null,"evidence_sha256":null,"experiment_id":"tr-realturnturk-count2-cu126-20261030","metadata":{"dataset":"Real-TurnTurk","dataset_revision":"db8f20f6eb6b215ec75fb466374fc5cc861b91df","date":"2026-10-30","language":"tr","models":[{"id":"pyannote/speaker-diarization-community-1","revision":"3533c8cf8e369892e6b79ff1bf80f7b0286a54ee"},{"id":"Systran/faster-whisper-large-v3","revision":"edaa852ec7e145841d8ffdb056a99866b5f0a478"},{"id":"speechbrain/spkrec-ecapa-voxceleb","revision":"0f99f2d0ebe89ac095bcc5903c4dd8f72b367286"}],"pipeline":"meeting-memory","protocol_sha256":"36bc2178c9f8da8f7ea22344da5e8ae1b8dbe227d09016735a47c4a99adba295","role":"regression","runtime_profile":"x86_64-cu126"},"record_sha256":"aebfaec94f4f440cfcf979a2f98ad98e1b96197a547b9c62625c72f09442c70f","recorded_at_utc":"2026-10-30T15:36:32.165485+00:00","result":{"coverage":{"observed_meetings":6,"planned_meetings":6},"kind":"meeting_identity","metrics":{"cumulative_enrollment_coverage":1.0,"decision_coverage":0.9166666666666666,"first_enrollment_coverage":0.8333333333333334,"identity":{"false_negative":1,"false_positive":0,"macro_f1":0.75,"micro_f1":0.9090909090909091,"precision":1.0,"recall":0.8333333333333334,"true_positive":5},"observed_meetings":6,"planned_meetings":6,"protocol":"voiceup-real-turnturk-v1","protocol_sha256":"36bc2178c9f8da8f7ea22344da5e8ae1b8dbe227d09016735a47c4a99adba295","support":{"known_probes":6,"known_speakers":4,"observed_probes":12,"planned_probes":12,"unique_speakers":6,"unknown_probes":6},"transcripts":[{"meeting":1,"metrics":{"assigned_only":{"deletions":24,"errors":77,"insertions":19,"rate":0.22,"substitutions":34},"counts":{"hypothesis_speakers":2,"hypothesis_words":345,"reference_speakers":2,"reference_words":350,"unassigned_words":0},"cpwer":{"deletions":24,"errors":77,"insertions":19,"rate":0.22,"substitutions":34},"normalization":"turkish-words-v1","unassigned_word_fraction":0.0},"source_sha256":"b7ab41dbe32cc12f1305605758ebbfa9e316f110071e75559f34056d396981a8"},{"meeting":2,"metrics":{"assigned_only":{"deletions":39,"errors":112,"insertions":19,"rate":0.28717948717948716,"substitutions":54},"counts":{"hypothesis_speakers":2,"hypothesis_words":370,"reference_speakers":2,"reference_words":390,"unassigned_words":5},"cpwer":{"deletions":39,"errors":112,"insertions":19,"rate":0.28717948717948716,"substitutions":54},"normalization":"turkish-words-v1","unassigned_word_fraction":0.013513513513513514},"source_sha256":"a87cc9b0e24bf4ed4676c80f56857b7b4d5199fc57aab7ed0835f4a1755c1782"},{"meeting":3,"metrics":{"assigned_only":{"deletions":42,"errors":105,"insertions":16,"rate":0.25547445255474455,"substitutions":47},"counts":{"hypothesis_speakers":2,"hypothesis_words":385,"reference_speakers":2,"reference_words":411,"unassigned_words":0},"cpwer":{"deletions":42,"errors":105,"insertions":16,"rate":0.25547445255474455,"substitutions":47},"normalization":"turkish-words-v1","unassigned_word_fraction":0.0},"source_sha256":"3f2aadd8aef92d7d83f2a9589a44f885812a70363283b684b358c188f4b68ef7"},{"meeting":4,"metrics":{"assigned_only":{"deletions":88,"errors":146,"insertions":7,"rate":0.37823834196891193,"substitutions":51},"counts":{"hypothesis_speakers":2,"hypothesis_words":305,"reference_speakers":2,"reference_words":386,"unassigned_words":3},"cpwer":{"deletions":88,"errors":146,"insertions":7,"rate":0.37823834196891193,"substitutions":51},"normalization":"turkish-words-v1","unassigned_word_fraction":0.009836065573770493},"source_sha256":"9ed3a4a6a676a52600b8d5f52fccdcc2458e9bda779444272ea78024a2a2029c"},{"meeting":5,"metrics":{"assigned_only":{"deletions":54,"errors":112,"insertions":13,"rate":0.25986078886310904,"substitutions":45},"counts":{"hypothesis_speakers":2,"hypothesis_words":390,"reference_speakers":2,"reference_words":431,"unassigned_words":4},"cpwer":{"deletions":54,"errors":112,"insertions":13,"rate":0.25986078886310904,"substitutions":45},"normalization":"turkish-words-v1","unassigned_word_fraction":0.010256410256410256},"source_sha256":"449534e59379a56f8b1c23e4f063d864869ab04e55a49bb03854cde734b8808e"},{"meeting":6,"metrics":{"assigned_only":{"deletions":37,"errors":97,"insertions":13,"rate":0.26005361930294907,"substitutions":47},"counts":{"hypothesis_speakers":2,"hypothesis_words":349,"reference_speakers":2,"reference_words":373,"unassigned_words":3},"cpwer":{"deletions":37,"errors":97,"insertions":13,"rate":0.26005361930294907,"substitutions":47},"normalization":"turkish-words-v1","unassigned_word_fraction":0.008595988538681949},"source_sha256":"ffc1d8d518227aff110bb2bfb8d3650d53429e42a05e0c63f0e3c57314a1549d"}],"unknown":{"f1":0.8333333333333334,"false_negative":1,"false_positive":1,"precision":0.8333333333333334,"recall":0.8333333333333334,"true_positive":5},"voiceup_score":78.94736842105263},"reference_quality":"automatic-activity-unverified-text-diagnostic","status":"complete","use_known_speaker_count":true},"revision":1,"snapshot_sha256":"b8ced84ec42b98e50e4ead12302d5a7174413f13580a0f59da8a4b3d5450c01f"} -->

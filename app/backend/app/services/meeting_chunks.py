@@ -1,8 +1,10 @@
 """Persist one source-owned core and reconcile its independently qualified acoustic evidence."""
 
+import asyncio
 import json
 import math
 from dataclasses import asdict
+from datetime import UTC, datetime
 
 from app.core.config import Settings
 from app.domain.meeting import clean_union
@@ -23,12 +25,46 @@ from app.domain.meeting_native_exclusions import (
     link_native_peers,
     separation_score,
 )
-from app.domain.meeting_timeline import SpeechTurn, SpeechWord, align_words, stitch_words
+from app.domain.meeting_reconciliation import (
+    ReconciliationResult,
+    ReconciliationTrack,
+    reconcile_tracks,
+)
+from app.domain.meeting_timeline import (
+    SpeechTurn,
+    SpeechWord,
+    align_words,
+    committed_turns,
+    stitch_words,
+)
 from app.domain.models.meeting import Meeting, MeetingChunk, MeetingSpeaker, MeetingTranscript
 from app.domain.speaker_identity import MODEL_ID, MODEL_REVISION, MatchPolicy
 from app.infrastructure.repositories.meeting_repository import MeetingRepository
 from app.services.meeting_ports import MeetingChunkResult, MeetingTurn
 from app.services.speaker_ports import SpeakerError
+
+RECONCILIATION_VERSION = "meeting-track-reconciliation-v1"
+
+
+class TrackRebuild:
+    """Forced identities for one reconciliation pass; existing rows are reused in ordinal order."""
+
+    def __init__(self, result: ReconciliationResult) -> None:
+        self.result = result
+        self.rows: dict[int, MeetingSpeaker] = {}
+
+    def identity(self, index: int, label: str) -> int | None:
+        row = self.rows.get(self.result.clusters[(index, label)])
+        return row.meeting_speaker_id if row is not None else None
+
+    def adopted(self) -> set[int]:
+        return {row.meeting_speaker_id for row in self.rows.values()}
+
+    def adopt(self, index: int, label: str, row: MeetingSpeaker, reason: str | None) -> None:
+        cluster = self.result.clusters[(index, label)]
+        self.rows[cluster] = row
+        row.reason = reason
+        row.props = {**row.props, "reconciliation_ambiguous": cluster in self.result.ambiguous}
 
 
 def intersections(first: list[tuple[int, int]], second: list[tuple[int, int]]) -> int:
@@ -46,6 +82,105 @@ class MeetingChunkPersistence:
             settings.speaker_new_threshold,
             settings.speaker_match_margin,
         )
+        self.reconciliation_threshold = settings.meeting_reconciliation_threshold
+
+    async def reconcile(self, repository: MeetingRepository, meeting: Meeting) -> None:
+        """Rebuild speakers and lines from durable chunk results with one identity per voice."""
+        if meeting.sample_rate is None or meeting.duration_seconds is None:
+            raise SpeakerError("recording_unavailable", 410)
+        rate = meeting.sample_rate
+        chunks = await repository.chunks(meeting.tenant_id, meeting.meeting_id)
+        results = [
+            (chunk, MeetingChunkResult.model_validate(chunk.result.get("provider")))
+            for chunk in chunks
+        ]
+        tracks: list[ReconciliationTrack] = []
+        conflicts: list[tuple[tuple[int, str], tuple[int, str]]] = []
+        for chunk, result in results:
+            first, last = round(float(chunk.core_start) * rate), round(float(chunk.core_end) * rate)
+            speech = {
+                track.speaker: clean_union(
+                    [
+                        (
+                            round((float(chunk.context_start) + turn.start) * rate),
+                            round((float(chunk.context_start) + turn.end) * rate),
+                        )
+                        for turn in result.turns
+                        if turn.speaker == track.speaker
+                    ],
+                    [],
+                    0,
+                    round(meeting.duration_seconds * rate),
+                )
+                for track in result.tracks
+            }
+            for position, track in enumerate(result.tracks):
+                owned = clean_union(speech[track.speaker], [], first, last)
+                # Simultaneous speech or independent voice evidence proves two different people.
+                for other in result.tracks[:position]:
+                    if intersections(speech[track.speaker], speech[other.speaker]) > 0 or (
+                        track.status == "usable"
+                        and other.status == "usable"
+                        and separation_score(track.embedding, other.embedding, self.policy)
+                        is not None
+                    ):
+                        conflicts.append(
+                            ((chunk.index, other.speaker), (chunk.index, track.speaker))
+                        )
+                tracks.append(
+                    ReconciliationTrack(
+                        chunk.index,
+                        track.speaker,
+                        sum(end - start for start, end in owned) / rate,
+                        (
+                            tuple(normalized_evidence(track.tracking.embedding, dimensions=256))
+                            if track.tracking is not None
+                            else None
+                        ),
+                    )
+                )
+        meeting.props = {**meeting.props, "reconciliation_version": RECONCILIATION_VERSION}
+        if len(chunks) < 2 or all(track.embedding is None for track in tracks):
+            return
+        outcome = await asyncio.to_thread(
+            reconcile_tracks,
+            tracks,
+            self.reconciliation_threshold,
+            self.policy.new_threshold,
+            conflicts,
+        )
+        rows, _ = await repository.speakers(meeting.tenant_id, meeting.meeting_id, 0, 1001)
+        for row in rows:
+            row.display_name, row.profile_id, row.reason = None, None, None
+            row.decision, row.speech_seconds, row.clean_ranges = "profile_pending", 0, []
+            row.embedding, row.model_id, row.model_revision = None, None, None
+            row.tracking_embedding, row.tracking_model_id = None, None
+            row.tracking_model_revision, row.source_sha256 = None, None
+            row.props = {}
+        now = datetime.now(UTC)
+        await repository.retire_transcript(
+            meeting.tenant_id, meeting.meeting_id, meeting.created_by, now
+        )
+        rebuild = TrackRebuild(outcome)
+        for chunk, result in results:
+            await self.persist(
+                repository,
+                meeting,
+                (
+                    chunk.index,
+                    float(chunk.context_start),
+                    float(chunk.core_start),
+                    float(chunk.core_end),
+                    float(chunk.context_end),
+                ),
+                result,
+                rebuild=rebuild,
+            )
+        adopted = rebuild.adopted()
+        for row in rows:
+            if row.meeting_speaker_id not in adopted:
+                row.is_deleted, row.deleted_at, row.deleted_by = True, now, meeting.created_by
+        await repository.session.flush()
 
     async def persist(
         self,
@@ -53,6 +188,8 @@ class MeetingChunkPersistence:
         meeting: Meeting,
         window: tuple[int, float, float, float, float],
         result: MeetingChunkResult,
+        *,
+        rebuild: TrackRebuild | None = None,
     ) -> None:
         index, context_start, core_start, core_end, context_end = window
         if abs(result.input_seconds - (context_end - context_start)) > 1 / 8000:
@@ -123,7 +260,9 @@ class MeetingChunkPersistence:
                             previous_row.meeting_speaker_id, (label, score)
                         )
             overlapping.update(native_differences)
-            if tracking is not None:
+            if rebuild is not None:
+                identity, reason = rebuild.identity(index, track.speaker), "reconciled"
+            elif tracking is not None:
                 candidates = [
                     AcousticCandidate(row.meeting_speaker_id, list(row.tracking_embedding))
                     for row in rows
@@ -148,7 +287,7 @@ class MeetingChunkPersistence:
             # The shared source context can reconnect an otherwise short local track.
             # Require a unique, non-overlapped same-source interval, never a name/count.
             context = clean_union(speech, [], max(0, round(context_start * rate)), first)
-            if identity is None and context:
+            if rebuild is None and identity is None and context:
                 anchors = sorted(
                     [
                         (
@@ -204,6 +343,15 @@ class MeetingChunkPersistence:
             row = next((row for row in rows if row.meeting_speaker_id == identity), None)
             if not owned and row is None:
                 continue
+            if row is None and rebuild is not None:
+                adopted = rebuild.adopted()
+                row = next(
+                    (value for value in rows if value.meeting_speaker_id not in adopted), None
+                )
+                if row is not None:
+                    rebuild.adopt(
+                        index, track.speaker, row, track.status if vector is None else reason
+                    )
             if row is None:
                 if len(rows) >= 1000:
                     raise SpeakerError("audio_limit", 413)
@@ -226,6 +374,8 @@ class MeetingChunkPersistence:
                 rows.append(row)
                 by_id[row.meeting_speaker_id] = row
                 native_graph[row.meeting_speaker_id] = None
+                if rebuild is not None:
+                    rebuild.adopt(index, track.speaker, row, row.reason)
             try:
                 for peer_id, (label, score) in native_differences.items():
                     if meeting.source_sha256 is None:
@@ -511,6 +661,11 @@ class MeetingChunkPersistence:
                 else []
             ),
             "committed_until": commit_end,
+            # Mapped regular turns for this chunk's commit window; local labels alone
+            # cannot be re-attributed to meeting speakers after the chunk is persisted.
+            "speaker_turns": [
+                asdict(turn) for turn in committed_turns(regular, commit_start, commit_end)
+            ],
         }
         if (
             len(json.dumps(checkpoint, separators=(",", ":"), ensure_ascii=False).encode())
@@ -537,19 +692,25 @@ class MeetingChunkPersistence:
                     updated_by=meeting.created_by,
                 )
             )
-        repository.session.add(
-            MeetingChunk(
-                tenant_id=meeting.tenant_id,
-                meeting_id=meeting.meeting_id,
-                index=index,
-                context_start=context_start,
-                core_start=core_start,
-                core_end=core_end,
-                context_end=context_end,
-                status="succeeded",
-                result=checkpoint,
-                created_by=meeting.created_by,
-                updated_by=meeting.created_by,
+        if rebuild is not None:
+            stored = await repository.chunk(meeting.tenant_id, meeting.meeting_id, index)
+            if stored is None:
+                raise SpeakerError("model_mismatch", 502)
+            stored.result = checkpoint
+        else:
+            repository.session.add(
+                MeetingChunk(
+                    tenant_id=meeting.tenant_id,
+                    meeting_id=meeting.meeting_id,
+                    index=index,
+                    context_start=context_start,
+                    core_start=core_start,
+                    core_end=core_end,
+                    context_end=context_end,
+                    status="succeeded",
+                    result=checkpoint,
+                    created_by=meeting.created_by,
+                    updated_by=meeting.created_by,
+                )
             )
-        )
         await repository.session.flush()

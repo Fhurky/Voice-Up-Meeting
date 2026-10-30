@@ -68,35 +68,41 @@ function MeetingDetail({ publicId }: { publicId: string }) {
   }
   const run = hasPermission("meeting_analysis:run");
   const number = new Intl.NumberFormat(locale);
-  return <SpeakerLayout titleKey="meeting.detailTitle">
+  return <SpeakerLayout titleKey="meeting.detailTitle" actions={<button className="button-quiet" onClick={() => setReload((value) => value + 1)}><Icon name="refresh" size={16} />{t("common.refresh")}</button>}>
     <p><Link className="text-link back-link" to="/meetings"><Icon name="arrow-left" size={16} />{t("meeting.back")}</Link></p>
-    <div className="section-heading meeting-detail-heading">
-      <div><h2 className="meeting-name">{meeting?.title}</h2>
-        {meeting && <time className="muted" dateTime={meeting.created_at}>{new Intl.DateTimeFormat(locale, { dateStyle: "long", timeStyle: "short" }).format(new Date(meeting.created_at))}</time>}</div>
-      <button className="button-secondary" onClick={() => setReload((value) => value + 1)}><Icon name="refresh" size={16} />{t("common.refresh")}</button>
-    </div>
     {error && <p className="error-message" role="alert">{t(error)}</p>}
     {paused && <p className="notice">{t("meeting.pollPaused")}</p>}
     {!meeting && !error && <p role="status">{t("common.loading")}</p>}
     {meeting && <>
-      <section className="panel job-status meeting-status-panel" aria-label={t("meeting.detailTitle")}>
-        <div className="meeting-status-top"><p role="status"><span className={`status-badge status-${meeting.status}`} data-meeting-status={meeting.status}>{t(`meeting.status.${meeting.status}`)}</span></p>
-          <span className="muted meeting-format"><Icon name="file" size={16} />{meeting.format}</span></div>
+      <section className="panel meeting-status-panel" aria-label={t("meeting.detailTitle")}>
+        <div className="meeting-summary-top">
+          <div className="meeting-summary-copy"><h2 className="meeting-name">{meeting.title}</h2>
+            <p className="meeting-meta"><span role="status"><span className={`status-badge status-${meeting.status}`} data-meeting-status={meeting.status}>{t(`meeting.status.${meeting.status}`)}</span></span>
+              <time dateTime={meeting.created_at}>{new Intl.DateTimeFormat(locale, { dateStyle: "long", timeStyle: "short" }).format(new Date(meeting.created_at))}</time>
+              <span>{meeting.format}</span></p></div>
+          {run && <div className="action-row">
+            {meeting.status === "failed" && meeting.source_available && (!meeting.auto_enroll || hasPermission("speaker_profiles:write")) && <button disabled={busy} onClick={() => void action("retry")}>{t("common.retry")}</button>}
+            {!["succeeded", "cancelled"].includes(meeting.status) && <button disabled={busy} className="button-secondary" onClick={(event) => { trigger.current = event.currentTarget; setConfirmation("cancel"); }}>{t("meeting.cancel")}</button>}
+            <button disabled={busy} className="button-danger-quiet" onClick={(event) => { trigger.current = event.currentTarget; setConfirmation("delete"); }}>{t("common.delete")}</button>
+          </div>}
+        </div>
         {(["queued", "running", "finalizing"] as string[]).includes(meeting.status) && <p>{t(`meeting.statusHint.${meeting.status}`)}</p>}
         {meeting.error_code && <p className="error-message" role="alert">{t(meetingErrorKey(new ApiError(503, "Meeting analysis failed", meeting.error_code)))}</p>}
         <dl className="meeting-facts">
           <div><dt><Icon name="clock" size={16} />{t("meeting.duration")}</dt><dd>{meeting.duration_seconds == null ? t("meeting.unset") : recordingTime(meeting.duration_seconds)}</dd></div>
-          <div><dt><Icon name="audio" size={16} />{t("meeting.processed")}</dt><dd>{recordingTime(meeting.processed_seconds)}</dd></div>
+          {meeting.status !== "succeeded" && <div><dt><Icon name="audio" size={16} />{t("meeting.processed")}</dt><dd>{recordingTime(meeting.processed_seconds)}</dd></div>}
           <div><dt><Icon name="users" size={16} />{t("meeting.observed")}</dt><dd>{number.format(meeting.observed_speakers)}</dd></div>
         </dl>
+        {meeting.participants.length > 0 && <p className="field-hint">{t("meeting.roster.listed", { names: new Intl.ListFormat(locale, { type: "conjunction" }).format(meeting.participants.map((item) => item.name ?? t("meeting.roster.deleted"))) })}</p>}
         <p className="field-hint">{t("meeting.countSummary", { participants: meeting.participant_count == null ? t("meeting.unset") : number.format(meeting.participant_count), speakers: meeting.expected_speakers == null ? t("meeting.unset") : number.format(meeting.expected_speakers) })}</p>
         {meeting.count_mismatch && <p className="notice" role="alert">{t("meeting.countMismatch")}</p>}
-        {!meeting.source_available && meeting.status !== "uploading" && <p className="field-hint">{t("meeting.sourceUnavailable")}</p>}
-        {run && <div className="action-row">
-          {meeting.status === "failed" && meeting.source_available && (!meeting.auto_enroll || hasPermission("speaker_profiles:write")) && <button disabled={busy} onClick={() => void action("retry")}>{t("common.retry")}</button>}
-          {!["succeeded", "cancelled"].includes(meeting.status) && <button disabled={busy} className="button-secondary" onClick={(event) => { trigger.current = event.currentTarget; setConfirmation("cancel"); }}>{t("meeting.cancel")}</button>}
-          <button disabled={busy} className="button-danger-quiet" onClick={(event) => { trigger.current = event.currentTarget; setConfirmation("delete"); }}>{t("common.delete")}</button>
+        {(meeting.subject || meeting.questions.length > 0) && <div className="meeting-context">
+          <h3>{t("meeting.context.title")}</h3>
+          {meeting.subject && <p><strong>{t("meeting.context.subjectLabel")}:</strong> {meeting.subject}</p>}
+          {meeting.questions.length > 0 && <><p><strong>{t("meeting.context.questionsLabel")}:</strong></p>
+            <ol>{meeting.questions.map((question) => <li key={question.public_id}>{question.text}</li>)}</ol></>}
         </div>}
+        {!meeting.source_available && meeting.status !== "uploading" && <p className="field-hint">{t("meeting.sourceUnavailable")}</p>}
         {confirmation && <div ref={dialog} className="inline-action danger-panel" role="alertdialog" tabIndex={-1} aria-labelledby="meeting-confirm-title" aria-describedby="meeting-confirm-hint" onKeyDown={(event) => {
           if (event.key === "Escape" && !busy) { setConfirmation(null); trigger.current?.focus(); }
         }}>
@@ -106,7 +112,7 @@ function MeetingDetail({ publicId }: { publicId: string }) {
       </section>
       {meeting.status === "uploading" && run && <MeetingSourceUpload meeting={meeting} initialFile={initialFile} onComplete={(updated) => { setInitialFile(null); clearSelection?.(null); setMeeting(updated); setReload((value) => value + 1); }} />}
       {meeting.status !== "uploading" && <MeetingResults key={meeting.public_id} meeting={meeting} revision={revision} />}
-      <p className="retention-note"><Icon name="shield" size={16} />{t("meeting.retention")}</p>
+      <p className="page-footnote"><Icon name="shield" size={15} />{t("meeting.retention")}</p>
     </>}
   </SpeakerLayout>;
 }

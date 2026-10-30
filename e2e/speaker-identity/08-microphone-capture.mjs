@@ -41,7 +41,11 @@ await withBrowser("microphone source controls and optional physical capture", as
 
   async function setLocale(locale) {
     const switcher = page.getByRole("button", { name: catalogues[locale === "tr" ? "en" : "tr"]["common.otherLanguage"], exact: true });
+    const current = page.getByRole("button", { name: catalogues[locale]["common.otherLanguage"], exact: true });
+    // The toggle renders with the page; wait for it in either language before deciding.
+    await switcher.or(current).first().waitFor();
     if (await switcher.count()) await switcher.click();
+    await current.waitFor();
   }
   async function login(user, password) {
     await page.goto(baseUrl + "/login");
@@ -83,6 +87,7 @@ await withBrowser("microphone source controls and optional physical capture", as
     const text = catalogues[locale];
     await page.goto(baseUrl + "/meetings");
     await setLocale(locale);
+    await page.getByRole("button", { name: text["meeting.new"], exact: true }).click();
     const group = page.getByRole("group", { name: text["microphone.source"], exact: true });
     await group.getByRole("button", { name: text["microphone.microphoneSource"], exact: true }).click();
     assert.equal(await group.getByRole("button", { name: text["microphone.microphoneSource"], exact: true }).getAttribute("aria-pressed"), "true");

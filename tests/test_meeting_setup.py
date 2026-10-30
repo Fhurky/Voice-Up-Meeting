@@ -125,9 +125,25 @@ def test_arm_docker_does_not_enable_the_x86_meeting_extension(setup_module, tmp_
     assert run.call_count == 2 and list(tmp_path.iterdir()) == []
 
 
-def test_real_compose_merge_keeps_base_model_and_readonly_gpu_boundary(tmp_path):
+@pytest.mark.parametrize(
+    ("selection", "profile", "requirements"),
+    [
+        ("", "x86_64-cu128", "requirements.txt"),
+        (
+            "INFERENCE_RUNTIME_PROFILE=x86_64-cu126\n"
+            "INFERENCE_REQUIREMENTS=requirements.cu126.txt\n"
+            "INFERENCE_WHEELHOUSE_CONTEXT=../../models/inference-wheelhouse-cu126\n",
+            "x86_64-cu126",
+            "requirements.cu126.txt",
+        ),
+    ],
+    ids=["default-cu128", "pascal-cu126"],
+)
+def test_real_compose_merge_keeps_base_model_and_readonly_gpu_boundary(
+    tmp_path, selection, profile, requirements
+):
     dotenv = tmp_path / ".env"
-    dotenv.write_text("# Explicit non-secret fixture configuration\n")
+    dotenv.write_text("# Explicit non-secret fixture configuration\n" + selection)
     env = {
         **os.environ,
         "COMPOSE_PROFILES": "",
@@ -157,7 +173,8 @@ def test_real_compose_merge_keeps_base_model_and_readonly_gpu_boundary(tmp_path)
     assert service["platform"] == "linux/amd64"
     assert service["image"] == "voiceup-inference-meeting:local"
     assert service["environment"]["VOICEUP_INFERENCE_DEVICE"] == "cuda:0"
-    assert service["environment"]["VOICEUP_INFERENCE_RUNTIME_PROFILE"] == "x86_64-cu128"
+    assert service["environment"]["VOICEUP_INFERENCE_RUNTIME_PROFILE"] == profile
+    assert service["build"]["args"]["INFERENCE_REQUIREMENTS"] == requirements
     assert service["environment"]["VOICEUP_INFERENCE_MEETING_ENABLED"] == "true"
     mounts = {mount["target"]: mount for mount in service["volumes"]}
     assert set(mounts) == {"/models/speaker", "/models/diarization", "/models/asr"}
@@ -191,6 +208,33 @@ def wheel_root(tmp_path):
 
 def test_real_filesystem_wheel_hashes_are_checked_without_installing(setup_module, wheel_root):
     setup_module.verify_wheels(wheel_root)
+
+
+def test_pascal_profile_verifies_the_cuda126_base_wheelhouse(setup_module, wheel_root):
+    (wheel_root / "models/inference-wheelhouse").rename(
+        wheel_root / "models/inference-wheelhouse-cu126"
+    )
+    (wheel_root / "app/inference/requirements.txt").rename(
+        wheel_root / "app/inference/requirements.cu126.txt"
+    )
+    (wheel_root / "app/infra").mkdir(parents=True)
+    (wheel_root / "app/infra/.env").write_text(
+        "INFERENCE_RUNTIME_PROFILE=x86_64-cu126\n"
+        "INFERENCE_REQUIREMENTS=requirements.cu126.txt\n"
+        "INFERENCE_WHEELHOUSE_CONTEXT=../../models/inference-wheelhouse-cu126\n"
+    )
+    assert setup_module.base_wheelhouse(wheel_root) == (
+        "models/inference-wheelhouse-cu126",
+        "app/inference/requirements.cu126.txt",
+    )
+    setup_module.verify_wheels(wheel_root)
+
+
+def test_inconsistent_profile_selection_is_rejected(setup_module, wheel_root):
+    (wheel_root / "app/infra").mkdir(parents=True)
+    (wheel_root / "app/infra/.env").write_text("INFERENCE_RUNTIME_PROFILE=x86_64-cu126\n")
+    with pytest.raises(ValueError, match="INFERENCE_REQUIREMENTS"):
+        setup_module.verify_wheels(wheel_root)
 
 
 @pytest.mark.parametrize(

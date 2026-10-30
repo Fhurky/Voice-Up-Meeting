@@ -53,6 +53,8 @@ ERROR_MESSAGES = {
     "transcript_changed": "The transcript changed during review. Reload it before trying again.",
     "invalid_correction_token": "The correction approval is invalid or expired. Request a new review.",
     "correction_conflict": "Another correction was saved. Reload the transcript before reviewing it again.",
+    "speaker_turns_unavailable": "Speaker turns were not recorded for this meeting's analysis.",
+    "participant_not_found": "A listed participant profile is unavailable.",
 }
 
 

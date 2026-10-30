@@ -51,6 +51,77 @@ def test_invalid_existing_secret_fails_without_rewriting(
     assert path.read_text() == original
 
 
+def test_pascal_gpu_selects_cuda126_profile_once(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.syspath_prepend(str(SCRIPTS))
+    prepare = load_script("prepare-local-config")
+    path = tmp_path / ".env"
+    prepare.prepare_config(path, compute_capability=6.1)
+    values = load_script("local_runtime_config").dotenv_values(path.read_text(encoding="utf-8"))
+    assert values["INFERENCE_RUNTIME_PROFILE"] == "x86_64-cu126"
+    assert values["INFERENCE_REQUIREMENTS"] == "requirements.cu126.txt"
+    assert values["INFERENCE_WHEELHOUSE_CONTEXT"] == "../../models/inference-wheelhouse-cu126"
+    written = path.read_text(encoding="utf-8")
+    prepare.prepare_config(path, compute_capability=6.1)
+    assert path.read_text(encoding="utf-8") == written
+
+
+@pytest.mark.parametrize("compute_capability", [None, 7.0, 8.9])
+def test_supported_or_unknown_gpu_keeps_default_cuda128_profile(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, compute_capability: float | None
+) -> None:
+    monkeypatch.syspath_prepend(str(SCRIPTS))
+    prepare = load_script("prepare-local-config")
+    path = tmp_path / ".env"
+    prepare.prepare_config(path, compute_capability=compute_capability)
+    assert "INFERENCE_RUNTIME_PROFILE" not in path.read_text(encoding="utf-8")
+
+
+def test_pascal_gpu_with_conflicting_wheelhouse_fails_without_rewriting(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.syspath_prepend(str(SCRIPTS))
+    prepare = load_script("prepare-local-config")
+    path = tmp_path / ".env"
+    original = "INFERENCE_WHEELHOUSE_CONTEXT=../../models/inference-wheelhouse\n"
+    path.write_text(original, encoding="utf-8")
+    with pytest.raises(ValueError, match="INFERENCE_WHEELHOUSE_CONTEXT"):
+        prepare.prepare_config(path, compute_capability=6.1)
+    assert path.read_text(encoding="utf-8") == original
+
+
+@pytest.mark.parametrize(
+    ("returncode", "stdout", "expected"),
+    [(0, "6.1\n", 6.1), (0, "8.9\n7.5\n", 8.9), (0, "", None), (9, "6.1\n", None), (0, "[N/A]\n", None)],
+)
+def test_compute_capability_reads_first_gpu_from_driver_output(
+    monkeypatch: pytest.MonkeyPatch, returncode: int, stdout: str, expected: float | None
+) -> None:
+    from types import SimpleNamespace
+
+    monkeypatch.syspath_prepend(str(SCRIPTS))
+    prepare = load_script("prepare-local-config")
+    calls = []
+
+    def runner(command, **kwargs):
+        calls.append(command)
+        return SimpleNamespace(returncode=returncode, stdout=stdout)
+
+    assert prepare.detected_compute_capability(runner) == expected
+    assert calls == [["nvidia-smi", "--query-gpu=compute_cap", "--format=csv,noheader"]]
+
+
+def test_missing_driver_reports_no_compute_capability(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.syspath_prepend(str(SCRIPTS))
+    prepare = load_script("prepare-local-config")
+
+    def runner(command, **kwargs):
+        raise FileNotFoundError(command[0])
+
+    assert prepare.detected_compute_capability(runner) is None
+
+
 def test_runtime_provisioning_parses_quotes_and_pins_project(
     monkeypatch: pytest.MonkeyPatch, tmp_path: Path
 ) -> None:

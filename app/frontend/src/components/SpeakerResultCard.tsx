@@ -13,7 +13,7 @@ export function SpeakerResultCard({ result }: { result: SpeakerResult }) {
   const number = new Intl.NumberFormat(locale, { maximumFractionDigits: 3 });
   const activeIdentity = !result.profile_deleted && (result.decision === "recognized" || result.decision === "enrolled");
   return <section className={`panel result-card decision-${result.profile_deleted ? "deleted" : result.decision}`} aria-labelledby="result-heading">
-    <div className="eyebrow">{t("speaker.result.title")}</div>
+    <p className="field-hint">{t("speaker.result.title")}</p>
     <h2 id="result-heading">{t(result.profile_deleted ? "speaker.result.deleted" : `speaker.decision.${result.decision}`)}</h2>
     {activeIdentity && <div className="result-identity"><SpeakerAvatar name={result.profile_name ?? ""} index={0} /><p className="result-name">{result.profile_name}</p></div>}
     <p>{t(result.profile_deleted ? "speaker.result.deletedHint" : `speaker.reason.${reasons.has(result.reason) ? result.reason : "other"}`)}</p>

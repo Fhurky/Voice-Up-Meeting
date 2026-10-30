@@ -10,7 +10,14 @@ from uuid import UUID, uuid4
 from app.core.config import Settings
 from app.core.request_context import RequestContext
 from app.domain.meeting import CORE_SECONDS, UPLOAD_PART_BYTES, window_core_seconds
-from app.domain.models.meeting import Meeting, MeetingSpeaker, MeetingUploadPart
+from app.domain.meeting_timeline import SpeechTurn, union_turns
+from app.domain.models.meeting import (
+    Meeting,
+    MeetingParticipant,
+    MeetingQuestion,
+    MeetingSpeaker,
+    MeetingUploadPart,
+)
 from app.infrastructure.meeting_audio import PREVIEW_MAX_SECONDS, MeetingAudioStorage
 from app.infrastructure.repositories.meeting_repository import MeetingRepository
 from app.infrastructure.repositories.transcript_revision_repository import (
@@ -23,6 +30,8 @@ from app.schemas.meeting import (
     MeetingSpeakerPage,
     MeetingSpeakerRename,
     MeetingSpeakerResponse,
+    MeetingSpeakerTurnPage,
+    MeetingSpeakerTurnResponse,
     MeetingTranscriptPage,
     MeetingTranscriptResponse,
     MeetingUploadManifest,
@@ -77,6 +86,22 @@ class MeetingService:
                 "participant_count": meeting.participant_count,
                 "expected_speakers": meeting.expected_speakers,
                 "auto_enroll": meeting.auto_enroll,
+                "participants": [
+                    {
+                        "profile_public_id": profile.public_id,
+                        "name": None if profile.is_deleted else profile.name,
+                    }
+                    for profile in await self.repository.participants(
+                        meeting.tenant_id, meeting.meeting_id
+                    )
+                ],
+                "subject": meeting.subject,
+                "questions": [
+                    {"public_id": question.public_id, "text": question.text}
+                    for question in await self.repository.questions(
+                        meeting.tenant_id, meeting.meeting_id
+                    )
+                ],
                 "observed_speakers": observed,
                 "count_mismatch": mismatch,
                 "error_code": meeting.error_code,
@@ -93,6 +118,8 @@ class MeetingService:
     ) -> MeetingResponse:
         tenant_id, actor_id = await self.repository.actor(context)
         if body.auto_enroll and not context.has_permission("speaker_profiles:write"):
+            raise SpeakerError("forbidden", 403)
+        if body.participant_profile_ids and not context.has_permission("speaker_profiles:read"):
             raise SpeakerError("forbidden", 403)
         if body.size_bytes > self.settings.meeting_max_bytes:
             raise SpeakerError("audio_limit", 413)
@@ -117,6 +144,10 @@ class MeetingService:
             > self.settings.meeting_tenant_max_bytes
         ):
             raise SpeakerError("storage_limit", 413)
+        listed = [str(value) for value in body.participant_profile_ids]
+        participants = await self.repository.active_profiles_by_public_id(tenant_id, listed)
+        if len(participants) != len(listed):
+            raise SpeakerError("participant_not_found", 404)
         now = datetime.now(UTC)
         meeting = Meeting(
             tenant_id=tenant_id,
@@ -127,8 +158,10 @@ class MeetingService:
             storage_key=f"{uuid4().hex}.meeting",
             status="uploading",
             language=body.language,
+            # A list holds only saved people; unsaved attendees make its length no count bound.
             participant_count=body.participant_count,
             expected_speakers=body.expected_speakers,
+            subject=body.subject,
             auto_enroll=body.auto_enroll,
             props={"window_core_seconds": CORE_SECONDS},
             idempotency_key=key,
@@ -139,6 +172,28 @@ class MeetingService:
             updated_by=actor_id,
         )
         self.repository.session.add(meeting)
+        await self.repository.session.flush()
+        self.repository.session.add_all(
+            MeetingParticipant(
+                tenant_id=tenant_id,
+                meeting_id=meeting.meeting_id,
+                speaker_profile_id=profile.speaker_profile_id,
+                created_by=actor_id,
+                updated_by=actor_id,
+            )
+            for profile in participants
+        )
+        self.repository.session.add_all(
+            MeetingQuestion(
+                tenant_id=tenant_id,
+                meeting_id=meeting.meeting_id,
+                ordinal=ordinal,
+                text=question,
+                created_by=actor_id,
+                updated_by=actor_id,
+            )
+            for ordinal, question in enumerate(body.questions)
+        )
         await self.repository.session.flush()
         return await self.response(meeting)
 
@@ -401,6 +456,9 @@ class MeetingService:
         row = await self.repository.speaker(tenant_id, meeting.meeting_id, speaker_public_id)
         if row is None:
             raise SpeakerError("not_found", 404)
+        # Speakers are rebuilt at meeting end; a name given earlier would have no stable owner.
+        if meeting.status != "succeeded":
+            raise SpeakerError("meeting_not_ready", 409)
         if row.version != body.version:
             raise SpeakerError("name_conflict", 409)
         profile = (
@@ -477,6 +535,39 @@ class MeetingService:
         return MeetingTranscriptPage(
             items=output,
             total=total,
+            offset=offset,
+            limit=limit,
+            provisional=meeting.status != "succeeded",
+        )
+
+    async def speaker_turns(
+        self, context: RequestContext, public_id: str, offset: int, limit: int
+    ) -> MeetingSpeakerTurnPage:
+        tenant_id, _ = await self.repository.actor(context)
+        meeting = await self.required(tenant_id, public_id)
+        chunks = await self.repository.chunk_speaker_turns(tenant_id, meeting.meeting_id)
+        if any(not isinstance(turns, list) for turns in chunks):
+            raise SpeakerError("speaker_turns_unavailable", 409)
+        speakers = await self.repository.speaker_public_ids(tenant_id, meeting.meeting_id)
+        turns = union_turns(
+            [
+                SpeechTurn(float(turn["start"]), float(turn["end"]), int(turn["speaker"]))
+                for chunk in chunks
+                for turn in chunk
+            ]
+        )
+        return MeetingSpeakerTurnPage(
+            items=[
+                MeetingSpeakerTurnResponse(
+                    start_seconds=turn.start,
+                    end_seconds=turn.end,
+                    speaker_public_id=(
+                        UUID(speakers[turn.speaker]) if turn.speaker in speakers else None
+                    ),
+                )
+                for turn in turns[offset : offset + limit]
+            ],
+            total=len(turns),
             offset=offset,
             limit=limit,
             provisional=meeting.status != "succeeded",

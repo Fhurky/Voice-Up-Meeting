@@ -9,3 +9,7 @@ await import("./08-microphone-capture.mjs");
 await import("./09-meeting-audio-review.mjs");
 await import("./10-contextual-transcript-review.mjs");
 await import("./11-saved-transcript-corrections.mjs");
+await import("./12-meeting-participant-roster.mjs");
+await import("./13-microphone-profile-enrollment.mjs");
+await import("./14-workspace-navigation.mjs");
+await import("./15-meeting-context-inputs.mjs");

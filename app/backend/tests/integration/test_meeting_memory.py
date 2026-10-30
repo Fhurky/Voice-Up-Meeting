@@ -220,6 +220,28 @@ async def test_strict_twenty_second_boundary(
     assert await profile_count(meeting_harness) == expected
 
 
+async def test_a_few_seconds_of_clean_speech_never_receive_a_name(
+    meeting_harness: MeetingHarness,
+) -> None:
+    provider = EvidenceProvider()
+    first, _ = await prepare(meeting_harness, provider, [0], 30)
+    assert await memory(meeting_harness, provider).resolve_next(first, 1)
+    assert await profile_count(meeting_harness) == 1
+    for seconds, decision, reason in (
+        (5, "profile_pending", "insufficient_speech"),
+        (10, "recognized", "matched"),
+    ):
+        meeting_id, _ = await prepare(meeting_harness, provider, [0], seconds)
+        assert await memory(meeting_harness, provider).resolve_next(meeting_id, 1)
+        async with meeting_harness.sessions() as session:
+            track = await session.scalar(
+                select(MeetingSpeaker).where(MeetingSpeaker.meeting_id == meeting_id)
+            )
+        assert (track.decision, track.reason) == (decision, reason)
+        assert (track.profile_id is not None) == (decision == "recognized")
+    assert await profile_count(meeting_harness) == 1
+
+
 async def test_quality_failure_and_stale_claim_never_enroll(
     meeting_harness: MeetingHarness,
 ) -> None:
@@ -561,7 +583,7 @@ async def test_known_short_speech_and_enrollment_quality_failure_keep_identity(
     resolver = memory(meeting_harness, provider)
     initial, _ = await prepare(meeting_harness, provider, [0])
     assert await resolver.resolve_next(initial, 1)
-    short, _ = await prepare(meeting_harness, provider, [0], 3.1)
+    short, _ = await prepare(meeting_harness, provider, [0], 10)
     assert await resolver.resolve_next(short, 1)
     long, _ = await prepare(meeting_harness, provider, [0], 25)
     original = provider.embed

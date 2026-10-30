@@ -28,7 +28,9 @@ Bir deneme için yalnız yayımlanabilir alanlar içeren metadata dosyası hazı
 
 Örnek veri sürümü alanını gerçek sabit revision veya kaynak manifest hashine
 göre doldurun. İsteğe bağlı `protocol_sha256`, `configuration_sha256`,
-`code_commit` ve `elapsed_seconds` eklenebilir. Token, parola, kullanıcı/tenant
+`code_commit`, `elapsed_seconds` ve `runtime_profile` eklenebilir. Model çıkarımı
+yapan yeni koşumlar `runtime_profile` alanına çalışma profilini (`x86_64-cu128`,
+`x86_64-cu126` gibi) yazar; farklı profillerin sonuçları tek seride birleştirilmez. Token, parola, kullanıcı/tenant
 kimliği, kişi adı, ses veya metin eklenmez; beklenmeyen metadata alanı reddedilir.
 
 Tam referanslı, kişi başına birleştirilmiş metin deneyi:

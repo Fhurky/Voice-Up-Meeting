@@ -112,6 +112,33 @@ docker build --network=none --build-context wheelhouse=models/inference-wheelhou
 # Compose inference build de aynı Dockerfile.offline ve wheelhouse yolunu kullanır.
 ```
 
+### Pascal GPU'lu Windows bilgisayar (GTX 10xx)
+
+Windows Home üzerinde Docker Desktop WSL2 ister. Yönetici PowerShell'de
+`wsl --install --no-distribution` çalıştırıp bilgisayarı yeniden başlatın.
+
+PyTorch 2.8'in CUDA 12.8 paketleri compute capability 6.x (Pascal) GPU'ları
+desteklemez. `prepare-local-config.py`, `nvidia-smi` ile ilk GPU'yu okur; değer
+7.0'ın altındaysa `app/infra/.env` dosyasına yalnız eksikse şu seçimi yazar:
+
+```text
+INFERENCE_RUNTIME_PROFILE=x86_64-cu126
+INFERENCE_REQUIREMENTS=requirements.cu126.txt
+INFERENCE_WHEELHOUSE_CONTEXT=../../models/inference-wheelhouse-cu126
+```
+
+Bu bilgisayarda CUDA paketleri ayrı kilitle hazırlanır; Compose aynı Dockerfile'ları
+bu kilitle ağsız derler:
+
+```powershell
+python app/inference/provision_wheelhouse.py --lock app/inference/requirements.cu126.txt `
+  --destination models/inference-wheelhouse-cu126
+```
+
+Toplantı modunda Whisper bu profilde `int8` ile yüklenir; Pascal `int8_float16`
+çalıştıramaz. Model kimlikleri, eşikler ve veri sözleşmeleri değişmez. 7.0 ve üstü
+GPU'larda (ör. RTX 4060) ek ayar yazılmaz. Kapsam: [PRD 014](../specs/speaker-identity/PRDs/014-pascal-gpu-runtime/PRD.md).
+
 Git Bash veya Linux kabuğunda `scripts/db.sh apply` migrasyonu ayrı, kısa ömürlü
 `migrate` sürecinde çalıştırır. `scripts/db.sh validate` ve `scripts/db.sh status`
 ile doğrulayın; sonra uygulamayı başlatıp `scripts/create-super-admin.sh` ile yerel

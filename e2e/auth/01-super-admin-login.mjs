@@ -4,6 +4,11 @@ import {
   username,
   password,
 } from "../shared/harness.mjs";
+import { readFile } from "node:fs/promises";
+
+const english = JSON.parse(
+  await readFile(new URL("../../app/frontend/src/locales/en.json", import.meta.url), "utf8"),
+);
 
 await withBrowser(
   "super-admin login and protected home",
@@ -17,7 +22,7 @@ await withBrowser(
     await page.getByLabel("Password").fill(password);
     await page.getByRole("button", { name: "Sign in", exact: true }).click();
     await page.waitForURL(baseUrl + "/");
-    await page.getByRole("heading", { name: "Start recognizing voices" }).waitFor();
+    await page.getByRole("heading", { name: english["home.title"], exact: true }).waitFor();
     const session = await page.evaluate(() =>
       JSON.parse(localStorage.getItem("voiceup.user") || "null"),
     );

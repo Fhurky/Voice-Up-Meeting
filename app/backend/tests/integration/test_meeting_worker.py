@@ -207,7 +207,7 @@ async def test_incremental_chunks_resume_without_duplicate_evidence_or_forced_co
     state = (await harness.client.get(f"/meetings/{public_id}")).json()
     assert state["status"] == "succeeded" and state["processed_seconds"] == 601
     assert state["completed_chunks"] == 3
-    assert provider.calls == [(1, None)] * 3
+    assert provider.calls == [(5, None)] * 3
     speakers = (await harness.client.get(f"/meetings/{public_id}/speakers")).json()["items"]
     assert len(speakers) == 1 and speakers[0]["speech_seconds"] == 601
     assert speakers[0]["decision"] == "enrolled"
@@ -270,7 +270,7 @@ async def test_legacy_checkpoint_keeps_original_cores_after_upgrade_and_restart(
     assert (
         state["status"] == "succeeded" and state["total_chunks"] == state["completed_chunks"] == 3
     )
-    assert state["processed_seconds"] == 121 and provider.calls == [(1, None)] * 3
+    assert state["processed_seconds"] == 121 and provider.calls == [(5, None)] * 3
     speakers = (await harness.client.get(f"/meetings/{public_id}/speakers")).json()["items"]
     assert len(speakers) == 1 and speakers[0]["speech_seconds"] == 121
 

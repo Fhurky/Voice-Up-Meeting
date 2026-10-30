@@ -42,6 +42,7 @@ class Meeting(AuditSoftDeleteMixin, Base):
             name="meeting_status",
         ),
         CheckConstraint("language IN ('tr', 'en', 'auto')", name="meeting_language"),
+        CheckConstraint("char_length(subject) BETWEEN 1 AND 500", name="meeting_subject"),
         CheckConstraint(
             "participant_count BETWEEN 1 AND 1000 AND expected_speakers BETWEEN 1 AND 1000 AND expected_speakers <= participant_count",
             name="meeting_counts",
@@ -119,9 +120,14 @@ class Meeting(AuditSoftDeleteMixin, Base):
     expected_speakers: Mapped[int | None] = mapped_column(
         Integer,
         nullable=True,
-        comment="Optional actually-speaking count expectation; never forces per-chunk merging.",
+        comment="Optional non-binding estimate of speaking people; only compared with the observed count, never sent to the diarization model and never forces a merge.",
     )
-    auto_enroll: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
+    subject: Mapped[str | None] = mapped_column(
+        Text,
+        nullable=True,
+        comment="Optional meeting subject entered at creation; meeting content, never logged and never sent to speech models.",
+    )
+    auto_enroll: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
     idempotency_key: Mapped[str | None] = mapped_column(
         String(128),
         nullable=True,
@@ -401,6 +407,85 @@ class MeetingSpeaker(AuditSoftDeleteMixin, Base):
         default=1,
         comment="Optimistic local naming version; persistent profile edits also check its own updated_at.",
     )
+
+
+class MeetingParticipant(AuditSoftDeleteMixin, Base):
+    __tablename__ = "meeting_participant"
+    __table_args__ = (
+        ForeignKeyConstraint(
+            ["tenant_id", "meeting_id"],
+            ["meeting.tenant_id", "meeting.meeting_id"],
+            ondelete="RESTRICT",
+        ),
+        ForeignKeyConstraint(
+            ["tenant_id", "speaker_profile_id"],
+            ["speaker_profile.tenant_id", "speaker_profile.speaker_profile_id"],
+            ondelete="RESTRICT",
+        ),
+        Index(
+            "ix_meeting_participant_active_meeting",
+            "tenant_id",
+            "meeting_id",
+            postgresql_where=text("is_deleted = false"),
+        ),
+        Index("ix_meeting_participant_profile", "tenant_id", "speaker_profile_id"),
+        {
+            "comment": "Persistent profiles declared as invited participants when a meeting is created. "
+            "Identity matching searches only these profiles; a better-scoring profile outside the "
+            "list makes the decision ambiguous. Rows are immutable after creation."
+        },
+    )
+    tenant_id: Mapped[int] = mapped_column(
+        BigInteger, ForeignKey("tenant.tenant_id", ondelete="RESTRICT"), primary_key=True
+    )
+    meeting_id: Mapped[int] = mapped_column(
+        BigInteger, primary_key=True, comment="Same-tenant meeting that declared the participant."
+    )
+    speaker_profile_id: Mapped[int] = mapped_column(
+        BigInteger,
+        primary_key=True,
+        comment="Same-tenant persistent profile resolved from its public_id at meeting creation.",
+    )
+
+
+class MeetingQuestion(AuditSoftDeleteMixin, Base):
+    __tablename__ = "meeting_question"
+    __table_args__ = (
+        UniqueConstraint(
+            "tenant_id", "meeting_id", "meeting_question_id", name="uq_meeting_question_identity"
+        ),
+        UniqueConstraint("tenant_id", "meeting_id", "ordinal", name="uq_meeting_question_ordinal"),
+        ForeignKeyConstraint(
+            ["tenant_id", "meeting_id"],
+            ["meeting.tenant_id", "meeting.meeting_id"],
+            ondelete="RESTRICT",
+        ),
+        CheckConstraint(
+            "ordinal BETWEEN 0 AND 19 AND char_length(text) BETWEEN 1 AND 500",
+            name="meeting_question_bounds",
+        ),
+        Index(
+            "ix_meeting_question_active_meeting",
+            "tenant_id",
+            "meeting_id",
+            postgresql_where=text("is_deleted = false"),
+        ),
+        {
+            "comment": "Questions the meeting owner expects the meeting to answer, entered at "
+            "creation in display order. Meeting content under the meeting's tenant, retention and "
+            "deletion rules; never logged and never sent to speech models."
+        },
+    )
+    meeting_question_id: Mapped[int] = mapped_column(BigInteger, Identity(), primary_key=True)
+    public_id: Mapped[str] = mapped_column(Text, default=new_public_id, unique=True, nullable=False)
+    tenant_id: Mapped[int] = mapped_column(
+        BigInteger, ForeignKey("tenant.tenant_id", ondelete="RESTRICT"), nullable=False
+    )
+    meeting_id: Mapped[int] = mapped_column(
+        BigInteger, nullable=False, comment="Same-tenant meeting that owns the question."
+    )
+    ordinal: Mapped[int] = mapped_column(Integer, nullable=False)
+    text: Mapped[str] = mapped_column(Text, nullable=False)
 
 
 class MeetingTranscript(AuditSoftDeleteMixin, Base):

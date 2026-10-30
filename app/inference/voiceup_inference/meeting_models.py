@@ -48,6 +48,9 @@ ASR_FILES = frozenset(
         "vocabulary.json",
     }
 )
+# CTranslate2 rejects int8_float16 below compute capability 7.0, so the Pascal
+# profile keeps int8 weights with float32 activations.
+ASR_COMPUTE_TYPES = {"x86_64-cu128": "int8_float16", "x86_64-cu126": "int8"}
 
 
 def _checked_path(path: Path) -> Path:
@@ -153,7 +156,8 @@ class LocalMeetingModels:
     def __init__(self, settings: Settings):
         from .errors import InferenceError
 
-        if settings.runtime_profile != "x86_64-cu128":
+        compute_type = ASR_COMPUTE_TYPES.get(settings.runtime_profile)
+        if compute_type is None:
             raise InferenceError(
                 "meeting_runtime_unsupported",
                 "Meeting models require the verified CUDA runtime",
@@ -193,7 +197,7 @@ class LocalMeetingModels:
             str(settings.meeting_asr_dir),
             device="cuda",
             device_index=int(settings.device.split(":")[1]),
-            compute_type="int8_float16",
+            compute_type=compute_type,
             cpu_threads=4,
             num_workers=1,
             local_files_only=True,

@@ -83,7 +83,13 @@ def test_unsupported_meeting_profile_fails_before_loading_optional_dependencies(
     assert captured.value.code == "meeting_runtime_unsupported"
 
 
-def test_local_constructor_applies_recorded_clustering_recipe(monkeypatch):
+@pytest.mark.parametrize(
+    ("profile", "expected_compute_type"),
+    [("x86_64-cu128", "int8_float16"), ("x86_64-cu126", "int8")],
+)
+def test_local_constructor_applies_recorded_clustering_recipe(
+    monkeypatch, profile, expected_compute_type
+):
     from types import SimpleNamespace
 
     import faster_whisper
@@ -114,7 +120,7 @@ def test_local_constructor_applies_recorded_clustering_recipe(monkeypatch):
         num_workers,
         local_files_only,
     ):
-        assert local_files_only is True and compute_type == "int8_float16"
+        assert local_files_only is True and compute_type == expected_compute_type
         return SimpleNamespace(
             model=SimpleNamespace(unload_model=lambda *, to_cpu: None)
         )
@@ -123,7 +129,7 @@ def test_local_constructor_applies_recorded_clustering_recipe(monkeypatch):
     monkeypatch.setattr(Pipeline, "from_pretrained", load_pipeline)
     monkeypatch.setattr(faster_whisper, "WhisperModel", load_whisper)
     meeting_models.LocalMeetingModels(
-        Settings(internal_key="x" * 32, device="cuda:0", runtime_profile="x86_64-cu128")
+        Settings(internal_key="x" * 32, device="cuda:0", runtime_profile=profile)
     )
     assert parameters == [
         {

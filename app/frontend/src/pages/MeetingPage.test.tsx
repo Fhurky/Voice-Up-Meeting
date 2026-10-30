@@ -6,6 +6,8 @@ import MeetingPage from "@/pages/MeetingPage";
 import MeetingsPage from "@/pages/MeetingsPage";
 import { MeetingService } from "@/services/meetings";
 import { meeting } from "@/test/meetingFixtures";
+import { SpeakerService } from "@/services/speakers";
+import { MeetingUploadContext } from "@/contexts/meetingUploadSelection";
 
 const session = vi.hoisted(() => ({ writable: true }));
 vi.mock("@/contexts/AuthContext", () => ({ useAuth: () => ({ hasPermission: (permission: string) => session.writable || permission.endsWith(":read"), logout: vi.fn() }) }));
@@ -23,8 +25,44 @@ describe("meeting detail boundaries", () => {
     vi.spyOn(MeetingService, "get").mockResolvedValue({ ...meeting, observed_speakers: 6, count_mismatch: true });
     setup(); await screen.findByText("Weekly meeting");
     if (locale === "en") { fireEvent.click(screen.getByRole("button", { name: "English" })); await screen.findByRole("heading", { name: "Meeting result" }); }
-    expect(screen.getByRole("alert")).toHaveTextContent(locale === "tr" ? "beklentiyle uyuşmuyor" : "differs from your expectation");
+    expect(screen.getByRole("alert")).toHaveTextContent(locale === "tr" ? "sayılarla uyuşmuyor" : "differs from the numbers");
     expect(screen.getByText("6", { selector: "dd" })).toBeInTheDocument();
+  });
+
+  it.each([
+    ["tr", "Katılımcı listesi: Ayşe ve silinmiş profil"],
+    ["en", "Participant list: Ayşe and deleted profile"],
+  ])("lists saved participants with locale list formatting in %s", async (locale, text) => {
+    vi.spyOn(MeetingService, "get").mockResolvedValue({ ...meeting, participants: [
+      { profile_public_id: "8f0e2e5c-6a51-4c3c-9b75-3d2a0b5a1c11", name: "Ayşe" },
+      { profile_public_id: "1c2b3a4d-5e6f-4a7b-8c9d-0e1f2a3b4c5d", name: null },
+    ] });
+    setup(); await screen.findByText("Weekly meeting");
+    if (locale === "en") { fireEvent.click(screen.getByRole("button", { name: "English" })); await screen.findByRole("heading", { name: "Meeting result" }); }
+    expect(screen.getByText(text)).toBeInTheDocument();
+  });
+
+  it.each([
+    ["tr", "Toplantı bilgileri", "Konu:", "Sorular:"],
+    ["en", "Meeting details", "Subject:", "Questions:"],
+  ])("shows the entered subject and questions in order in %s", async (locale, title, subject, questions) => {
+    vi.spyOn(MeetingService, "get").mockResolvedValue({ ...meeting, subject: "Bütçe planı", questions: [
+      { public_id: "8f0e2e5c-6a51-4c3c-9b75-3d2a0b5a1c11", text: "Bütçe onaylandı mı?" },
+      { public_id: "1c2b3a4d-5e6f-4a7b-8c9d-0e1f2a3b4c5d", text: "Kim sorumlu?" },
+    ] });
+    setup(); await screen.findByText("Weekly meeting");
+    if (locale === "en") { fireEvent.click(screen.getByRole("button", { name: "English" })); await screen.findByRole("heading", { name: "Meeting details" }); }
+    expect(screen.getByRole("heading", { name: title })).toBeInTheDocument();
+    expect(screen.getByText(subject)).toBeInTheDocument();
+    expect(screen.getByText("Bütçe planı")).toBeInTheDocument();
+    expect(screen.getByText(questions)).toBeInTheDocument();
+    expect(screen.getAllByRole("listitem").map((item) => item.textContent)).toEqual(expect.arrayContaining(["Bütçe onaylandı mı?", "Kim sorumlu?"]));
+  });
+
+  it("shows no meeting details section when none were entered", async () => {
+    vi.spyOn(MeetingService, "get").mockResolvedValue(meeting);
+    setup(); await screen.findByText("Weekly meeting");
+    expect(screen.queryByRole("heading", { name: "Toplantı bilgileri" })).not.toBeInTheDocument();
   });
 
   it("requires focused confirmation before deletion and returns to the meeting list", async () => {
@@ -58,6 +96,23 @@ describe("meeting detail boundaries", () => {
     await waitFor(() => expect(get).toHaveBeenCalledTimes(2));
     expect(previous?.aborted).toBe(true);
   });
+});
+
+it("opens a new meeting from the list with the requested source and closes it again", async () => {
+  vi.spyOn(MeetingService, "list").mockResolvedValue({ items: [meeting], total: 1, offset: 0, limit: 20 });
+  vi.spyOn(SpeakerService, "profiles").mockResolvedValue({ items: [], total: 0, offset: 0, limit: 20 });
+  render(<IntlProvider><MeetingUploadContext.Provider value={{ selection: null, setSelection: vi.fn() }}><MemoryRouter initialEntries={["/meetings?new=microphone"]}><Routes>
+    <Route path="/meetings" element={<MeetingsPage />} />
+  </Routes></MemoryRouter></MeetingUploadContext.Provider></IntlProvider>);
+  await screen.findByText("Weekly meeting");
+  expect(screen.getByRole("button", { name: "Mikrofonla kaydet" })).toHaveAttribute("aria-pressed", "true");
+  expect(screen.queryByRole("button", { name: "Yeni toplantı" })).not.toBeInTheDocument();
+  fireEvent.click(screen.getByRole("button", { name: "Vazgeç" }));
+  expect(screen.queryByRole("region", { name: "Yeni toplantı" })).not.toBeInTheDocument();
+  fireEvent.click(screen.getByRole("button", { name: "Yeni toplantı" }));
+  expect(screen.getByRole("button", { name: "Dosya yükle" })).toHaveAttribute("aria-pressed", "true");
+  expect(screen.getByLabelText("Toplantı ses dosyası")).toBeInTheDocument();
+  expect(screen.getByText("Gelişmiş seçenekler")).toBeInTheDocument();
 });
 
 it("renders a read-only meeting list in both locales without an upload form", async () => {

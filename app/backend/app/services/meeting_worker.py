@@ -14,7 +14,7 @@ from app.domain.meeting import analysis_windows, window_core_seconds
 from app.domain.models.meeting import Meeting
 from app.infrastructure.meeting_audio import MeetingAudioStorage
 from app.infrastructure.repositories.meeting_repository import MeetingRepository
-from app.services.meeting_chunks import MeetingChunkPersistence
+from app.services.meeting_chunks import RECONCILIATION_VERSION, MeetingChunkPersistence
 from app.services.meeting_memory import MeetingMemory
 from app.services.meeting_ports import MeetingAnalysisPort, MeetingChunkResult
 from app.services.speaker_ports import SpeakerError
@@ -106,8 +106,9 @@ class MeetingWorker:
                 meeting.storage_key,
                 None if finalizing else windows[meeting.next_chunk_index],
                 None if meeting.language == "auto" else meeting.language,
-                meeting.expected_speakers or meeting.participant_count,
-                meeting.expected_speakers if len(windows) == 1 else None,
+                # The speaker estimate is non-binding and never reaches the model.
+                meeting.participant_count,
+                None,
             )
 
     async def process_once(self) -> bool:
@@ -118,6 +119,7 @@ class MeetingWorker:
         try:
             async with asyncio.timeout(self.settings.meeting_chunk_timeout_seconds):
                 if claim.window is None:
+                    await self.reconcile(claim)
                     await self.memory.resolve_next(claim.meeting_id, claim.token)
                     await self.finish_memory(claim)
                 else:
@@ -165,6 +167,25 @@ class MeetingWorker:
             },
         )
         return True
+
+    async def reconcile(self, claim: ClaimedMeeting) -> None:
+        started = time.monotonic()
+        async with self.sessions() as session, session.begin():
+            repository = MeetingRepository(session)
+            meeting = await repository.fenced(claim.meeting_id, claim.token, datetime.now(UTC))
+            if (
+                meeting is None
+                or meeting.status != "finalizing"
+                or meeting.props.get("reconciliation_version") == RECONCILIATION_VERSION
+            ):
+                return
+            if not await repository.current_owner_allowed(meeting):
+                raise SpeakerError("forbidden", 403)
+            await self.chunks.reconcile(repository, meeting)
+        logger.info(
+            "meeting_reconciliation",
+            extra={"structured_fields": {"duration_seconds": round(time.monotonic() - started, 4)}},
+        )
 
     async def save_chunk(self, claim: ClaimedMeeting, result: MeetingChunkResult) -> bool:
         if claim.window is None:

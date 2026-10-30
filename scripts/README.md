@@ -23,6 +23,17 @@ repeats the explicit historical backfill. The shared ledger preserves failed and
 incomplete runs, planned denominators, and idempotent resume without publishing
 private transcripts or identities. See [the experiment guide](../docs/EXPERIMENTS.md).
 
+For the human-annotated meeting benchmark, `prepare-ami-evaluation.py --download`
+acquires the 34 pinned AMI development/test meetings in the headset and array1
+conditions and verifies references by Git blob identity and audio by recorded size and
+SHA-256. It keeps the downloaded source under `raw/` and writes a canonical `fmt`+`data`
+upload copy with byte-identical samples, because some AMI files carry trailing bytes
+that the meeting API rejects. `replay-meeting-reconciliation.py` replays meeting-end speaker clustering over stored chunk results without a GPU or writes and applies the PRD 021 threshold rule. `run-ami-evaluation.py` drives the real meeting API in an empty evaluation
+tenant created with `python -m app.scripts.create_evaluation_account` (development only,
+password on stdin), resumes from its private state file and reports DER, JER and
+cross-meeting identity aggregates; `--roster` adds the participant list. See
+[the meeting accuracy guide](../docs/MEETING_ACCURACY.md).
+
 For the expanded Turkish benchmark, `prepare-fleurs-turkish.py --download`
 prepares all 743 official Turkish test WAVs at a pinned source revision without
 transcoding. `evaluate-expanded-turkish-asr.py prepare-mediaspeech --root

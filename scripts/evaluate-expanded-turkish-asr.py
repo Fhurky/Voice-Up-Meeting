@@ -259,12 +259,17 @@ def validate_paths(args, manifest):
     return output, public, cache
 
 
-def configuration():
+# Mirrors voiceup_inference.meeting_models.ASR_COMPUTE_TYPES; load_model rejects drift.
+COMPUTE_TYPES = {"x86_64-cu128": "int8_float16", "x86_64-cu126": "int8"}
+DEFAULT_RUNTIME_PROFILE = "x86_64-cu128"
+
+
+def configuration(runtime_profile):
     from voiceup import meeting_metrics
 
     return {
         **SETTINGS,
-        "compute_type": "int8_float16",
+        "compute_type": COMPUTE_TYPES[runtime_profile],
         "normalization": "turkish-words-v1",
         "evaluation_source_sha256": base.digest(Path(__file__)),
         "base_source_sha256": base.digest(Path(base.__file__)),
@@ -300,19 +305,25 @@ def metric(reference, hypothesis):
 def load_model(args):
     from faster_whisper import WhisperModel
     from voiceup_inference.meeting_models import (
+        ASR_COMPUTE_TYPES,
         ASR_FILES,
         ASR_ID,
         ASR_REVISION,
         verify_meeting_bundle,
     )
 
-    require(ASR_ID == MODEL_ID and ASR_REVISION == base.MODEL_REVISION, "model_contract_changed")
+    require(
+        ASR_ID == MODEL_ID
+        and ASR_REVISION == base.MODEL_REVISION
+        and ASR_COMPUTE_TYPES == COMPUTE_TYPES,
+        "model_contract_changed",
+    )
     verify_meeting_bundle(args.model_dir, args.model_manifest, ASR_ID, ASR_REVISION, ASR_FILES)
     return WhisperModel(
         str(args.model_dir),
         device="cuda",
         device_index=0,
-        compute_type="int8_float16",
+        compute_type=COMPUTE_TYPES[args.runtime_profile],
         cpu_threads=4,
         num_workers=1,
         local_files_only=True,
@@ -415,6 +426,7 @@ def publish(args, manifest, report, config, public):
             "protocol_sha256": report["manifest_sha256"],
             "configuration_sha256": canonical_hash(config),
             "elapsed_seconds": report["elapsed_seconds"],
+            "runtime_profile": args.runtime_profile,
             "models": [{"id": MODEL_ID, "revision": base.MODEL_REVISION}],
         },
         report=summary,
@@ -434,7 +446,7 @@ def evaluate(args):
         and re.fullmatch(r"[a-z0-9][a-z0-9._-]{0,119}", args.experiment_id) is not None,
         "invalid_experiment_id",
     )
-    config = configuration()
+    config = configuration(args.runtime_profile)
     expected_binding = binding(args, manifest_hash, config)
     with ExitStack() as locks:
         for destination in sorted((output, public), key=str):
@@ -691,6 +703,9 @@ def main():
     parser.add_argument("--experiment-id")
     parser.add_argument("--results-md", type=Path, default=Path("results.md"))
     parser.add_argument("--resume", action="store_true")
+    parser.add_argument(
+        "--runtime-profile", choices=sorted(COMPUTE_TYPES), default=DEFAULT_RUNTIME_PROFILE
+    )
     args = parser.parse_args()
     if args.action == "prepare-mediaspeech":
         prepare_mediaspeech(args.root, args.original_root)

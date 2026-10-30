@@ -27,6 +27,8 @@ alanı, ölçülü mor vurgu ve ses dalgasını çağrıştıran yerel vektör �
 Renk, aralık, yazı, gölge ve odak kararları merkezi anlamsal değişkenlerden gelir.
 Paylaşılan düzen, kart, bölüm, form, durum ve boş sonuç örüntüleri kullanılır.
 Yeni dış bağımlılık, uzak yazı tipi, çalışma anında ağdan görsel veya telemetri eklenmez.
+Renk paleti 30 Ekim 2026'dan itibaren [019](../019-institutional-visual-theme/PRD.md)
+Decision 1–3 ile belirlenir; bu karardaki mor vurgu ve gezinme rengi onun yerine geçer.
 
 Decision 3: Kullanıcının ana akışı yüklenen toplantı kaydıdır. Mikrofon, canlı
 toplantı, otomatik platform bağlantısı veya çalışmayan bir eylem eklenmez.

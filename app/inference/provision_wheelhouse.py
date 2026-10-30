@@ -18,19 +18,29 @@ from packaging.tags import compatible_tags, cpython_tags
 from packaging.utils import parse_wheel_filename
 
 TORCH_WHEELS = {
-    "torch": (
+    ("torch", "2.8.0+cu128"): (
         "https://download.pytorch.org/whl/cu128/torch-2.8.0%2Bcu128-cp313-cp313-manylinux_2_28_x86_64.whl",
         "3a852369a38dec343d45ecd0bc3660f79b88a23e0c878d18707f7c13bf49538f",
     ),
-    "torchaudio": (
+    ("torchaudio", "2.8.0+cu128"): (
         "https://download.pytorch.org/whl/cu128/torchaudio-2.8.0%2Bcu128-cp313-cp313-manylinux_2_28_x86_64.whl",
         "410bb8ea46225efe658e5d27a3802c181a2255913003621a5d25a51aca8018d9",
     ),
-    "triton": (
+    # Pascal-compatible variant locked by requirements.cu126.txt.
+    ("torch", "2.8.0+cu126"): (
+        "https://download.pytorch.org/whl/cu126/torch-2.8.0%2Bcu126-cp313-cp313-manylinux_2_28_x86_64.whl",
+        "d08144011e410b9d15914e7256e1b1708a90484cb2c03712199e0291856d4177",
+    ),
+    ("torchaudio", "2.8.0+cu126"): (
+        "https://download.pytorch.org/whl/cu126/torchaudio-2.8.0%2Bcu126-cp313-cp313-manylinux_2_28_x86_64.whl",
+        "3a7d774faf904ee38c0d70b850db3e9a5847ba10df23b758378ad715108f1ed2",
+    ),
+    ("triton", "3.4.0"): (
         "https://download.pytorch.org/whl/triton-3.4.0-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl",
         "0e582bfd8147afd0e17f410b39ee161df933a2aca9f653e1178daae98f87f601",
     ),
 }
+TORCH_PACKAGES = frozenset(name for name, _ in TORCH_WHEELS)
 
 
 def read_lock(path: Path) -> dict[str, tuple[str, set[str]]]:
@@ -69,12 +79,11 @@ def supported_tags() -> dict:
 
 
 def select_wheel(name: str, version: str, hashes: set[str], tags: dict) -> tuple[str, str]:
-    if name in TORCH_WHEELS:
-        url, digest = TORCH_WHEELS[name]
-        expected_version = "3.4.0" if name == "triton" else "2.8.0+cu128"
-        if digest not in hashes or version != expected_version:
+    if name in TORCH_PACKAGES:
+        artifact = TORCH_WHEELS.get((name, version))
+        if artifact is None or artifact[1] not in hashes:
             raise ValueError("Torch wheel does not match the admitted lock")
-        return url, digest
+        return artifact
     with urlopen(f"https://pypi.org/pypi/{name}/{version}/json", timeout=60) as response:
         metadata = json.load(response)
     candidates = []

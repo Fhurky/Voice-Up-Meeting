@@ -6,7 +6,9 @@ from typing import Literal
 from pydantic import Field, SecretStr, field_validator, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-RuntimeProfile = Literal["x86_64-cu128", "aarch64-cu129", "x86_64-cpu", "aarch64-cpu"]
+RuntimeProfile = Literal[
+    "x86_64-cu128", "x86_64-cu126", "aarch64-cu129", "x86_64-cpu", "aarch64-cpu"
+]
 
 
 class Settings(BaseSettings):

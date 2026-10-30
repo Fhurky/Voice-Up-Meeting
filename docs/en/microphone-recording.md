@@ -4,10 +4,14 @@ Use the `Meetings` page to record with your microphone and prepare a transcript
 with speaker labels without selecting an audio file. Meeting models must be
 running for analysis; starting a recording does not prepare those models.
 
-1. Under `Recording source`, choose **Record with microphone**.
-2. Enter a meeting title and choose the spoken language. You may also set the
-   participant upper bound, exact active speaker count, and automatic memory
-   option. Saving new people requires permission to write speaker profiles.
+1. Select **New meeting** (or the **Record with the microphone** card on the home
+   page), then under `Recording source` choose **Record with microphone**.
+2. Enter a meeting title and choose the spoken language. Under **Meeting details**
+   you may add the subject and up to 20 questions to be answered; under **Advanced
+   options** you may set the participant list, maximum number of people, estimated
+   number of speakers, and the automatic memory option, which is off by default. The maximum is an upper bound
+   for speaker separation; the estimate does not affect the result. Saving new
+   people requires permission to write speaker profiles.
 3. Choose an input under `Microphone`, then click **Start recording**. Allow
    microphone access when the browser asks. Duration and audio level track
    the recording.

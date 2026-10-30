@@ -60,13 +60,29 @@ def test_wrong_hash_never_publishes_completed_wheel(tmp_path):
 
 @pytest.mark.parametrize(
     ("name", "version"),
-    [("torch", "2.8.0+cu128"), ("torchaudio", "2.8.0+cu128"), ("triton", "3.4.0")],
+    [
+        ("torch", "2.8.0+cu128"),
+        ("torchaudio", "2.8.0+cu128"),
+        ("torch", "2.8.0+cu126"),
+        ("torchaudio", "2.8.0+cu126"),
+        ("triton", "3.4.0"),
+    ],
 )
 def test_torch_exact_url_requires_matching_lock_hash(name, version):
-    url, digest = PROVISION.TORCH_WHEELS[name]
+    url, digest = PROVISION.TORCH_WHEELS[(name, version)]
     assert url.startswith("https://download.pytorch.org/")
     assert PROVISION.select_wheel(name, version, {digest}, {}) == (url, digest)
     with pytest.raises(ValueError):
         PROVISION.select_wheel(name, version, {"0" * 64}, {})
     with pytest.raises(ValueError):
         PROVISION.select_wheel(name, "untrusted-version", {digest}, {})
+
+
+@pytest.mark.parametrize("lock", ["requirements.txt", "requirements.cu126.txt"])
+def test_committed_cuda_locks_select_their_admitted_torch_wheels(lock):
+    pins = PROVISION.read_lock(SCRIPT.with_name(lock))
+    for name in sorted(PROVISION.TORCH_PACKAGES):
+        version, hashes = pins[name]
+        url, digest = PROVISION.select_wheel(name, version, hashes, {})
+        assert digest in hashes
+        assert version.replace("+", "%2B") in url

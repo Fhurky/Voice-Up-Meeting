@@ -56,8 +56,8 @@ export function AudioJobForm({ purpose, profile }: { purpose: "enroll" | "identi
 
   return (
     <form className="audio-form" onSubmit={submit} aria-label={t(purpose === "identify" ? "speaker.analysis.form" : "speaker.profiles.form")}>
-      <div className="form-guidance"><p className="notice"><Icon name="audio" size={18} />{t("speaker.audio.single")}</p>
-      <p className="muted">{t(purpose === "enroll" ? "speaker.audio.enrollHint" : "speaker.audio.identifyHint")}</p></div>
+      <p className="field-hint">{t("speaker.audio.single")}</p>
+      <p className="field-hint">{t(purpose === "enroll" ? "speaker.audio.enrollHint" : "speaker.audio.identifyHint")}</p>
       {purpose === "enroll" && (profile ? <p className="target-profile">{t("speaker.profiles.target")} <strong>{profile.name}</strong></p> : <div className="field-group">
         <label htmlFor="speaker-name">{t("speaker.profiles.name")}</label>
         <input id="speaker-name" value={name} onChange={(event) => setName(event.target.value)} required maxLength={120} disabled={busy} autoComplete="off" />

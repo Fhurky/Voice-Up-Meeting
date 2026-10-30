@@ -8,6 +8,8 @@ MAX_SOURCE_SECONDS = 4 * 3600
 CORE_SECONDS = 300
 CONTEXT_SECONDS = 5
 AUTO_ENROLL_SECONDS = 20
+# A few seconds of clean speech cannot carry a person's name, however similar they sound.
+MIN_RECOGNITION_SECONDS = 10
 
 
 def window_core_seconds(props: dict[str, object]) -> int:

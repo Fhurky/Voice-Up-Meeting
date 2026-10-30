@@ -15,6 +15,17 @@ MeetingStatus = Literal[
 ]
 MeetingDecision = Literal["profile_pending", "recognized", "enrolled", "ambiguous"]
 MeetingLanguage = Literal["tr", "en", "auto"]
+MAX_PARTICIPANTS = 50
+MAX_SUBJECT_CHARACTERS = 500
+MAX_QUESTIONS = 20
+MAX_QUESTION_CHARACTERS = 500
+
+
+class MeetingParticipantResponse(BaseModel):
+    """A listed profile; the name is hidden once the profile is deleted."""
+
+    profile_public_id: UUID
+    name: str | None
 
 
 class MeetingCreate(BaseModel):
@@ -25,7 +36,33 @@ class MeetingCreate(BaseModel):
     language: MeetingLanguage = "tr"
     participant_count: int | None = Field(default=None, ge=1, le=1000, strict=True)
     expected_speakers: int | None = Field(default=None, ge=1, le=1000, strict=True)
-    auto_enroll: bool = True
+    auto_enroll: bool = False
+    participant_profile_ids: list[UUID] = Field(default_factory=list, max_length=MAX_PARTICIPANTS)
+    subject: str | None = Field(default=None, max_length=MAX_SUBJECT_CHARACTERS)
+    questions: list[str] = Field(default_factory=list, max_length=MAX_QUESTIONS)
+
+    @field_validator("subject")
+    @classmethod
+    def subject_text(cls, value: str | None) -> str | None:
+        return normalize_name(value) or None if value is not None else None
+
+    @field_validator("questions")
+    @classmethod
+    def distinct_questions(cls, value: list[str]) -> list[str]:
+        questions = [normalize_name(question) for question in value]
+        if any(not 1 <= len(question) <= MAX_QUESTION_CHARACTERS for question in questions):
+            raise ValueError("A question must contain between 1 and 500 characters")
+        if len({question.casefold() for question in questions}) != len(questions):
+            raise ValueError("Questions must be distinct")
+        return questions
+
+    @field_validator("participant_profile_ids")
+    @classmethod
+    def unique_participants(cls, value: list[UUID]) -> list[UUID]:
+        if len(set(value)) != len(value):
+            raise ValueError("Participants must be unique")
+        # A canonical order keeps the idempotency fingerprint independent of selection order.
+        return sorted(value, key=str)
 
     @field_validator("title")
     @classmethod
@@ -43,7 +80,17 @@ class MeetingCreate(BaseModel):
             and self.expected_speakers > self.participant_count
         ):
             raise ValueError("Speaking count cannot exceed participant count")
+        if (
+            self.participant_count is not None
+            and len(self.participant_profile_ids) > self.participant_count
+        ):
+            raise ValueError("Listed participants cannot exceed participant count")
         return self
+
+
+class MeetingQuestionResponse(BaseModel):
+    public_id: UUID
+    text: str
 
 
 class MeetingResponse(BaseModel):
@@ -64,6 +111,9 @@ class MeetingResponse(BaseModel):
     participant_count: int | None
     expected_speakers: int | None
     auto_enroll: bool
+    participants: list[MeetingParticipantResponse]
+    subject: str | None
+    questions: list[MeetingQuestionResponse]
     observed_speakers: int
     count_mismatch: bool
     error_code: str | None
@@ -148,6 +198,22 @@ class MeetingTranscriptResponse(BaseModel):
 
 class MeetingTranscriptPage(BaseModel):
     items: list[MeetingTranscriptResponse]
+    total: int
+    offset: int
+    limit: int
+    provisional: bool
+
+
+class MeetingSpeakerTurnResponse(BaseModel):
+    """One attributed speech interval; a null speaker is speech not linked to a meeting speaker."""
+
+    start_seconds: float
+    end_seconds: float
+    speaker_public_id: UUID | None
+
+
+class MeetingSpeakerTurnPage(BaseModel):
+    items: list[MeetingSpeakerTurnResponse]
     total: int
     offset: int
     limit: int

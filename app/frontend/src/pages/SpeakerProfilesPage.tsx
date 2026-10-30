@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { AudioJobForm } from "@/components/AudioJobForm";
 import { SpeakerLayout } from "@/components/SpeakerLayout";
+import { SpeakerMicrophoneEnrollment } from "@/components/SpeakerMicrophoneEnrollment";
 import { useAuth } from "@/contexts/AuthContext";
 import { useIntl } from "@/contexts/IntlContext";
+import { microphoneSupportError } from "@/lib/microphoneCapture";
 import { errorMessageKey } from "@/lib/speakerErrors";
 import { SpeakerService, type SpeakerProfile } from "@/services/speakers";
 import { Icon } from "@/components/ui/Icon";
@@ -22,13 +24,16 @@ export default function SpeakerProfilesPage() {
   const [deleting, setDeleting] = useState<SpeakerProfile | null>(null);
   const [name, setName] = useState("");
   const [busy, setBusy] = useState(false);
+  const [source, setSource] = useState<"file" | "microphone">(() => microphoneSupportError() ? "file" : "microphone");
+  const [recording, setRecording] = useState(false);
+  const [composing, setComposing] = useState(false);
   const enrollmentHeading = useRef<HTMLHeadingElement>(null);
   const renameInput = useRef<HTMLInputElement>(null);
   const deletePanel = useRef<HTMLElement>(null);
   const mutation = useRef<AbortController | null>(null);
   const canWrite = hasPermission("speaker_profiles:write");
   const canEnroll = canWrite && hasPermission("speaker_analysis:run") && hasPermission("speaker_analysis:read");
-  useEffect(() => { if (target) enrollmentHeading.current?.focus(); }, [target]);
+  useEffect(() => { if (target || composing) enrollmentHeading.current?.focus(); }, [target, composing]);
   useEffect(() => { if (editing) renameInput.current?.focus(); }, [editing]);
   useEffect(() => { if (deleting) deletePanel.current?.focus(); }, [deleting]);
   useEffect(() => () => mutation.current?.abort(), []);
@@ -73,26 +78,35 @@ export default function SpeakerProfilesPage() {
     finally { if (!controller.signal.aborted) setBusy(false); }
   }
 
-  return <SpeakerLayout titleKey="speaker.profiles.title">
+  const panelOpen = canEnroll && (composing || Boolean(target));
+  function closePanel() { setComposing(false); setTarget(undefined); }
+  return <SpeakerLayout titleKey="speaker.profiles.title" actions={canEnroll && !panelOpen ? <button onClick={() => { setComposing(true); setEditing(null); setDeleting(null); }}><Icon name="plus" size={18} />{t("speaker.profiles.create")}</button> : undefined}>
     <p className="page-intro">{t("speaker.profiles.intro")}</p>
-    <div className="pilot-grid profiles-workspace">
+    {!canEnroll && <p className="field-hint">{t("speaker.profiles.readOnly")}</p>}
+    <div className={panelOpen ? "profiles-workspace" : undefined}>
+      {panelOpen && <section className="panel enrollment-panel" aria-labelledby="enroll-heading">
+        <div className="section-heading"><h2 ref={enrollmentHeading} tabIndex={-1} id="enroll-heading">{t(target ? "speaker.profiles.add" : "speaker.profiles.create")}</h2><button className="button-quiet" disabled={recording} onClick={closePanel}>{t("common.cancel")}</button></div>
+        <div className="recording-source-switch" role="group" aria-label={t("microphone.source")}>
+          <button type="button" className="button-secondary" aria-pressed={source === "file"} disabled={recording} onClick={() => setSource("file")}><Icon name="upload" size={18} />{t("microphone.fileSource")}</button>
+          <button type="button" className="button-secondary" aria-pressed={source === "microphone"} disabled={recording} onClick={() => setSource("microphone")}><Icon name="microphone" size={18} />{t("microphone.microphoneSource")}</button>
+        </div>
+        {source === "file" ? <AudioJobForm key={target?.public_id ?? "new"} purpose="enroll" profile={target} />
+          : <SpeakerMicrophoneEnrollment key={target?.public_id ?? "new"} profile={target} onEnrolled={refresh} onBusyChange={setRecording} />}
+      </section>}
       <section className="panel profile-list" aria-labelledby="profiles-heading">
         <div className="section-heading"><h2 id="profiles-heading">{t("speaker.profiles.saved")}</h2><button className="button-quiet" disabled={loading} onClick={refresh}><Icon name="refresh" size={16} />{t("common.refresh")}</button></div>
         {error && <p role="alert" className="error-message">{t(error)}</p>}
         {loading ? <p role="status">{t("common.loading")}</p> : <>
-          {profiles.length === 0 ? <div className="empty-card"><span className="empty-icon"><Icon name="users" size={28} /></span><h3>{t("speaker.profiles.empty")}</h3><p>{t("speaker.profiles.emptyHint")}</p></div> : <ul className="profiles">
+          {profiles.length === 0 ? <div className="empty-card"><h3>{t("speaker.profiles.empty")}</h3><p>{t("speaker.profiles.emptyHint")}</p></div> : <ul className="profiles">
             {profiles.map((profile, index) => <li className="profile-card" key={profile.public_id}>
-              <div className="profile-identity"><SpeakerAvatar name={profile.name} index={offset + index} /><div className="profile-heading"><h3>{profile.name}</h3></div></div>
-              <dl className="compact-details profile-meta">
-                <div><dt>{t("speaker.profiles.samples")}</dt><dd>{new Intl.NumberFormat(locale).format(profile.sample_count)} / 20</dd></div>
-                <div><dt>{t("common.created")}</dt><dd><time dateTime={profile.created_at}>{new Intl.DateTimeFormat(locale, { dateStyle: "medium" }).format(new Date(profile.created_at))}</time></dd></div>
-              </dl>
-              <details className="model-details"><summary>{t("speaker.result.model")}</summary><p>{profile.model_id}</p><code>{profile.model_revision}</code></details>
+              <div className="profile-identity"><SpeakerAvatar name={profile.name} index={offset + index} /><div className="profile-heading"><h3>{profile.name}</h3>
+                <p className="profile-meta">{t("speaker.profiles.samples")}: {new Intl.NumberFormat(locale).format(profile.sample_count)} / 20 · <time dateTime={profile.created_at}>{new Intl.DateTimeFormat(locale, { dateStyle: "medium" }).format(new Date(profile.created_at))}</time></p></div></div>
               {canWrite && <div className="action-row">
-                {canEnroll && <button className="button-secondary" disabled={profile.sample_count >= 20} onClick={() => { setTarget(profile); setEditing(null); setDeleting(null); }}><Icon name="plus" size={16} />{t("speaker.profiles.add")}</button>}
+                {canEnroll && <button className="button-secondary" disabled={profile.sample_count >= 20 || recording} onClick={() => { setTarget(profile); setComposing(false); setEditing(null); setDeleting(null); }}><Icon name="plus" size={16} />{t("speaker.profiles.add")}</button>}
                 <button className="button-quiet" onClick={() => { setEditing(profile); setName(profile.name); setDeleting(null); }}>{t("common.rename")}</button>
                 <button className="button-danger-quiet" onClick={() => { setDeleting(profile); setEditing(null); }}>{t("common.delete")}</button>
               </div>}
+              <details className="model-details"><summary>{t("speaker.result.model")}</summary><p>{profile.model_id}</p><code>{profile.model_revision}</code></details>
               {profile.sample_count >= 20 && <p className="field-hint">{t("speaker.error.sample_limit")}</p>}
             </li>)}
           </ul>}
@@ -114,10 +128,6 @@ export default function SpeakerProfilesPage() {
           <div className="action-row"><button className="button-danger" disabled={busy} onClick={() => { void remove(); }}>{t("speaker.profiles.deleteConfirm")}</button><button className="button-secondary" disabled={busy} onClick={() => setDeleting(null)}>{t("common.cancel")}</button></div>
         </section>}
       </section>
-      {canEnroll ? <section className="panel enrollment-panel" aria-labelledby="enroll-heading">
-        <div className="section-heading"><div className="section-title-group"><span className="section-icon"><Icon name="audio" size={20} /></span><h2 ref={enrollmentHeading} tabIndex={-1} id="enroll-heading">{t(target ? "speaker.profiles.add" : "speaker.profiles.create")}</h2></div>{target && <button className="button-quiet" onClick={() => setTarget(undefined)}>{t("common.cancel")}</button>}</div>
-        <AudioJobForm key={target?.public_id ?? "new"} purpose="enroll" profile={target} />
-      </section> : <section className="panel"><p>{t("speaker.profiles.readOnly")}</p></section>}
     </div>
   </SpeakerLayout>;
 }

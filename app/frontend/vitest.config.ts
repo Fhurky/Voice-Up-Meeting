@@ -9,6 +9,8 @@ export default defineConfig({
     environment: 'happy-dom',
     setupFiles: ['./src/test/setup.ts'],
     coverage: {reporter: ['text', 'json-summary']},
+    // The theme contrast test reads the token sheet as text through `?raw`.
+    css: {include: [/globals\.css/]},
   },
 });
 

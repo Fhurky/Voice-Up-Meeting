@@ -4,7 +4,6 @@ import { useIntl } from "@/contexts/IntlContext";
 import { SpeakerLayout } from "@/components/SpeakerLayout";
 import { Link } from "react-router";
 import { Icon } from "@/components/ui/Icon";
-import { VoiceWave } from "@/components/ui/VoiceWave";
 import { MeetingService } from "@/services/meetings";
 import { SpeakerService } from "@/services/speakers";
 import { meetingErrorKey } from "@/lib/meetingErrors";
@@ -18,7 +17,7 @@ export default function HomePage() {
 }
 
 function HomeOverview() {
-  const { hasPermission } = useAuth();
+  const { user, hasPermission } = useAuth();
   const { t, locale } = useIntl();
   const canReadMeetings = hasPermission("meeting_analysis:read");
   const canReadProfiles = hasPermission("speaker_profiles:read");
@@ -45,36 +44,28 @@ function HomeOverview() {
   function retry() { setLoading(true); setRevision((current) => current + 1); }
   return (
     <SpeakerLayout titleKey="home.title">
-      <p className="page-intro">{t("home.subtitle")}</p>
-      <section className="home-hero" aria-labelledby="home-hero-title">
-        <div className="hero-copy">
-          <span className="hero-kicker"><Icon name="audio" size={16} />{t("home.heroKicker")}</span>
-          <h2 id="home-hero-title">{t("home.heroTitle")}<br /><span>{t("home.heroAccent")}</span></h2>
-          <p>{t("home.heroBody")}</p>
-          {canReadMeetings && <Link className="button-link hero-action" to="/meetings"><Icon name={canUpload ? "plus" : "meetings"} size={18} />{t(canUpload ? "home.upload" : "nav.meetings")}<Icon name="arrow-right" size={18} /></Link>}
-        </div>
-        <div className="hero-art"><div className="wave-orbit" /><VoiceWave /></div>
-      </section>
+      <p className="page-intro">{t("home.greeting", { name: user?.username ?? "" })}</p>
+      {canUpload && <div className="action-cards">
+        <Link className="action-card" to="/meetings?new=file"><span className="section-icon"><Icon name="upload" /></span>
+          <span className="action-copy"><strong>{t("home.upload")}</strong><span>{t("home.uploadHint")}</span></span><Icon name="arrow-right" size={18} /></Link>
+        <Link className="action-card" to="/meetings?new=microphone"><span className="section-icon icon-blue"><Icon name="microphone" /></span>
+          <span className="action-copy"><strong>{t("home.record")}</strong><span>{t("home.recordHint")}</span></span><Icon name="arrow-right" size={18} /></Link>
+      </div>}
       {(canReadMeetings || canReadProfiles) && <div className="overview-stats" aria-busy={loading}>
-        {canReadMeetings && <Link to="/meetings" className="stat-card"><span className="section-icon"><Icon name="meetings" /></span><div><span className="stat-label">{t("home.meetingTotal")}</span><strong>{meetings ? number.format(meetings.total) : t("home.valuePending")}</strong></div><Icon name="arrow-right" size={18} /></Link>}
-        {canReadProfiles && <Link to="/speaker-profiles" className="stat-card"><span className="section-icon icon-teal"><Icon name="users" /></span><div><span className="stat-label">{t("home.profileTotal")}</span><strong>{profileCount == null ? t("home.valuePending") : number.format(profileCount)}</strong></div><Icon name="arrow-right" size={18} /></Link>}
+        {canReadMeetings && <Link to="/meetings" className="stat-card"><span className="stat-label">{t("home.meetingTotal")}</span><strong>{meetings ? number.format(meetings.total) : t("home.valuePending")}</strong></Link>}
+        {canReadProfiles && <Link to="/speaker-profiles" className="stat-card"><span className="stat-label">{t("home.profileTotal")}</span><strong>{profileCount == null ? t("home.valuePending") : number.format(profileCount)}</strong></Link>}
       </div>}
       {(meetingError || profileError) && <div className="error-message" role="alert">{meetingError && <p>{t(meetingError)}</p>}{profileError && <p>{t(profileError)}</p>}<button className="button-secondary" disabled={loading} onClick={retry}>{t("common.retry")}</button></div>}
-      <div className="home-bottom-grid">
-        {canReadMeetings && <section className="panel recent-meetings" aria-busy={loading}>
-          <div className="section-heading"><h2>{t("meeting.history")}</h2><Link className="text-link" to="/meetings">{t("home.viewAll")}<Icon name="arrow-right" size={16} /></Link></div>
-          {loading && !meetings && <p className="loading-state" role="status">{t("common.loading")}</p>}
-          {!loading && !meetingError && meetings?.total === 0 && <div className="empty-card"><span className="empty-icon"><Icon name="meetings" size={28} /></span><h3>{t("meeting.empty")}</h3><p>{t("meeting.emptyHint")}</p>{canUpload && <Link className="text-link" to="/meetings">{t("home.upload")}<Icon name="arrow-right" size={16} /></Link>}</div>}
-          <ul className="job-list home-history">{meetings?.items.slice(0, 4).map((meeting) => <li key={meeting.public_id}>
-            <span className="history-icon"><Icon name="file" /></span><Link to={`/meetings/${meeting.public_id}`}><strong>{meeting.title}</strong><time dateTime={meeting.created_at}>{new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeStyle: "short" }).format(new Date(meeting.created_at))}</time></Link><span className={`status-badge status-${meeting.status}`}>{t(`meeting.status.${meeting.status}`)}</span>
-          </li>)}</ul>
-        </section>}
-        <section className="panel workflow-panel">
-          <div className="section-heading"><h2>{t("home.workflowTitle")}</h2><Icon name="sparkles" /></div>
-          <ol className="workflow-steps">{["upload", "review", "remember"].map((step, index) => <li key={step}><span className="step-number">{number.format(index + 1).padStart(2, "0")}</span><div><h3>{t(`home.step.${step}`)}</h3><p>{t(`home.step.${step}Hint`)}</p></div></li>)}</ol>
-          {hasPermission("speaker_analysis:read") && <Link className="secondary-tool" to="/speaker-analysis"><Icon name="audio" /><span>{t("home.singleVoice")}</span><Icon name="arrow-right" size={16} /></Link>}
-        </section>
-      </div>
+      {canReadMeetings && <section className="panel recent-meetings" aria-busy={loading}>
+        <div className="section-heading"><h2>{t("meeting.history")}</h2>{meetings && meetings.total > 0 && <Link className="text-link" to="/meetings">{t("home.viewAll")}<Icon name="arrow-right" size={16} /></Link>}</div>
+        {loading && !meetings && <p className="loading-state" role="status">{t("common.loading")}</p>}
+        {!loading && !meetingError && meetings?.total === 0 && <div className="empty-card"><h3>{t("meeting.empty")}</h3><p>{t("meeting.emptyHint")}</p>
+          <ol className="workflow-steps" aria-label={t("home.workflowTitle")}>{["upload", "review", "remember"].map((step, index) => <li key={step}><span className="step-number">{number.format(index + 1)}</span><div><h3>{t(`home.step.${step}`)}</h3><p>{t(`home.step.${step}Hint`)}</p></div></li>)}</ol></div>}
+        <ul className="job-list home-history">{meetings?.items.slice(0, 5).map((meeting) => <li key={meeting.public_id}>
+          <Link to={`/meetings/${meeting.public_id}`}><strong>{meeting.title}</strong><time dateTime={meeting.created_at}>{new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeStyle: "short" }).format(new Date(meeting.created_at))}</time></Link><span className={`status-badge status-${meeting.status}`}>{t(`meeting.status.${meeting.status}`)}</span>
+        </li>)}</ul>
+      </section>}
+      <p className="page-footnote"><Icon name="shield" size={15} />{t("brand.assurance")}</p>
     </SpeakerLayout>
   );
 }

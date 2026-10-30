@@ -21,16 +21,16 @@ await withBrowser("real meeting transcript and five-to-six speaker memory", asyn
     }, { path, method });
   }
   async function upload(source, count, label) {
-    await page.goto(baseUrl + "/meetings");
+    await page.goto(baseUrl + "/meetings?new=file");
     // Pin interaction labels even if locale persistence is introduced later.
     const turkish = page.getByRole("button", { name: "Türkçe", exact: true });
     if (await turkish.count()) await turkish.click();
     await page.getByLabel("Toplantı adı", { exact: true }).fill(`E2E ${label} ${randomUUID()}`);
     await page.getByLabel("Toplantı ses dosyası").setInputFiles(source);
     await page.getByLabel("Konuşma dili", { exact: true }).selectOption("en");
-    await page.getByText("Katılımcı bilgileri", { exact: true }).click();
-    await page.getByLabel("Toplam katılımcı sayısı (isteğe bağlı)").fill(String(count));
-    await page.getByLabel("Konuşan kişi sayısı (kesin biliniyorsa)").fill(String(count));
+    await page.getByText("Gelişmiş seçenekler", { exact: true }).click();
+    await page.getByLabel("En çok kişi sayısı (isteğe bağlı)").fill(String(count));
+    await page.getByLabel("Tahmini konuşan kişi sayısı (isteğe bağlı)").fill(String(count));
     await page.getByRole("checkbox").check();
     await page.getByRole("button", { name: "Yüklemeyi başlat", exact: true }).click();
     await page.waitForURL(/\/meetings\/[a-f0-9-]+$/);
@@ -63,6 +63,7 @@ await withBrowser("real meeting transcript and five-to-six speaker memory", asyn
     const initialIds = first.speakers.map((speaker) => speaker.profile_public_id).sort();
     assert.equal(new Set(initialIds).size, 5); assert.equal(await total(), 5);
     const names = new Map();
+    await page.getByRole("tab", { name: /^Konuşmacılar/ }).click();
     for (const [index, speaker] of first.speakers.entries()) {
       const name = `E2E person ${index + 1}`;
       const card = page.locator(`[data-speaker-id="${speaker.public_id}"]`);

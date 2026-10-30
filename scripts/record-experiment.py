@@ -184,6 +184,7 @@ def main():
             "asr_clips",
             "observation",
             "transcript_review",
+            "public_benchmark",
         ),
     )
     parser.add_argument("--results-md", type=Path, default=DEFAULT_LEDGER)

@@ -2,7 +2,36 @@
 
 import pytest
 
-from app.domain.meeting_timeline import SpeechTurn, SpeechWord, align_words, stitch_words
+from app.domain.meeting_timeline import (
+    SpeechTurn,
+    SpeechWord,
+    align_words,
+    committed_turns,
+    stitch_words,
+    union_turns,
+)
+
+
+def test_union_merges_seam_repeats_per_speaker_and_keeps_true_overlap() -> None:
+    turns = [
+        SpeechTurn(295, 305, 1),
+        SpeechTurn(0, 295, 1),
+        SpeechTurn(295, 595, 1),
+        SpeechTurn(300, 310, 2),
+        SpeechTurn(700, 710, 1),
+    ]
+    assert union_turns(turns) == [
+        SpeechTurn(0, 595, 1),
+        SpeechTurn(300, 310, 2),
+        SpeechTurn(700, 710, 1),
+    ]
+
+
+def test_committed_turns_clip_to_half_open_window_and_drop_empty_parts() -> None:
+    turns = [SpeechTurn(290, 302, 2), SpeechTurn(0, 10, 1), SpeechTurn(296, 300, -1)]
+    assert committed_turns(turns, 0, 295) == [SpeechTurn(0, 10, 1), SpeechTurn(290, 295, 2)]
+    assert committed_turns(turns, 295, 600) == [SpeechTurn(295, 302, 2), SpeechTurn(296, 300, -1)]
+    assert committed_turns([SpeechTurn(295, 295, 1), SpeechTurn(600, 610, 1)], 295, 600) == []
 
 
 def test_context_words_are_owned_once_and_short_speaker_is_retained() -> None:

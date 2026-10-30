@@ -7,9 +7,17 @@ import { SpeakerService } from "@/services/speakers";
 import { jobFixture, profileFixture } from "@/test/speakerFixtures";
 
 const session = vi.hoisted(() => ({ writable: true }));
+const microphone = vi.hoisted(() => ({ support: "insecure_context" as string | null, start: vi.fn(async () => {}), cancel: vi.fn(async () => {}) }));
+vi.mock("@/lib/microphoneCapture", () => ({
+  microphoneSupportError: () => microphone.support,
+  listMicrophoneDevices: vi.fn(async () => []),
+  createMicrophoneCapture: () => ({ start: microphone.start, stop: vi.fn(), cancel: microphone.cancel }),
+  MicrophoneCaptureError: class extends Error { constructor(public code: string) { super(code); } },
+}));
 vi.mock("@/contexts/AuthContext", () => ({ useAuth: () => ({ hasPermission: (permission: string) => session.writable || permission.endsWith(":read"), logout: vi.fn() }) }));
-afterEach(() => { cleanup(); vi.restoreAllMocks(); session.writable = true; });
+afterEach(() => { cleanup(); vi.restoreAllMocks(); session.writable = true; microphone.support = "insecure_context"; });
 function setup() { return render(<IntlProvider><MemoryRouter><SpeakerProfilesPage /></MemoryRouter></IntlProvider>); }
+async function openNew(name = "Profil oluştur") { fireEvent.click(await screen.findByRole("button", { name })); }
 function profilePage(total = 1, offset = 0) { return { items: [profileFixture], total, offset, limit: 20 }; }
 function profiles(total = 1) { return vi.spyOn(SpeakerService, "profiles").mockResolvedValue(profilePage(total)); }
 
@@ -52,7 +60,41 @@ describe("speaker profile operations", () => {
     expect(screen.queryByRole("button", { name: "Sil" })).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "Örnek ekle" })).not.toBeInTheDocument();
     expect(screen.queryByLabelText("Ses dosyası")).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Profil oluştur" })).not.toBeInTheDocument();
     await waitFor(() => expect(screen.getByText(/Ses örneği eklemek için profil yazma/)).toBeInTheDocument());
+  });
+});
+
+describe("microphone enrollment on the speakers screen", () => {
+  it("records with the microphone by default when supported and locks the target while recording", async () => {
+    microphone.support = null;
+    profiles();
+    setup();
+    await screen.findByText("Ada");
+    expect(screen.queryByRole("group", { name: "Kayıt kaynağı" })).not.toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "Örnek ekle" }));
+    expect(screen.getByRole("button", { name: "Mikrofonla kaydet" })).toHaveAttribute("aria-pressed", "true");
+    fireEvent.click(await screen.findByRole("button", { name: "Kaydı başlat" }));
+    await screen.findByRole("button", { name: "Durdur ve doğrula" });
+    expect(screen.getByRole("button", { name: "Örnek ekle" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "Vazgeç" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "Dosya yükle" })).toBeDisabled();
+    fireEvent.click(screen.getByRole("button", { name: "Kaydı iptal et" }));
+    await waitFor(() => expect(screen.getByRole("button", { name: "Örnek ekle" })).toBeEnabled());
+    expect(microphone.cancel).toHaveBeenCalled();
+  });
+
+  it("keeps the file path selected when the browser cannot record", async () => {
+    profiles();
+    setup();
+    await screen.findByText("Ada");
+    await openNew();
+    expect(screen.getByRole("button", { name: "Dosya yükle" })).toHaveAttribute("aria-pressed", "true");
+    fireEvent.click(screen.getByRole("button", { name: "Mikrofonla kaydet" }));
+    expect(await screen.findByRole("alert")).toHaveTextContent("localhost");
+    expect(screen.getByRole("button", { name: "Kaydı başlat" })).toBeDisabled();
+    fireEvent.click(screen.getByRole("button", { name: "Dosya yükle" }));
+    expect(screen.getByLabelText("Ses dosyası")).toBeEnabled();
   });
 });
 
@@ -64,6 +106,7 @@ describe("speaker profiles without a count quota", () => {
     setup();
     await screen.findByText(`Toplam profil: ${total}`);
     expect(screen.queryByText(/Aktif profiller \/ kapasite/)).not.toBeInTheDocument();
+    await openNew();
     const name = screen.getByLabelText("Konuşmacı adı veya takma adı");
     const file = screen.getByLabelText("Ses dosyası");
     expect(name).toBeEnabled();
@@ -79,6 +122,7 @@ describe("speaker profiles without a count quota", () => {
     let reject: (reason: unknown) => void = () => {};
     const list = vi.spyOn(SpeakerService, "profiles").mockImplementation(() => new Promise((_, rejectRequest) => { reject = rejectRequest; }));
     setup();
+    await openNew();
     expect(await screen.findByLabelText("Ses dosyası")).toBeEnabled();
     if (locale === "en") {
       fireEvent.click(screen.getByRole("button", { name: "English" }));
@@ -117,7 +161,10 @@ describe("speaker profiles without a count quota", () => {
     await screen.findByRole("alert");
     expect(screen.getByRole("button", { name: "Yükle ve örneği doğrula" })).toBeEnabled();
     fireEvent.click(screen.getByRole("button", { name: "Vazgeç" }));
+    expect(screen.queryByLabelText("Ses dosyası")).not.toBeInTheDocument();
+    await openNew();
     expect(screen.getByLabelText("Ses dosyası")).toBeEnabled();
+    expect(screen.getByLabelText("Konuşmacı adı veya takma adı")).toBeEnabled();
   });
 
   it("refreshes the total after deletion without treating it as room for a new profile", async () => {
@@ -125,6 +172,7 @@ describe("speaker profiles without a count quota", () => {
     vi.spyOn(SpeakerService, "remove").mockResolvedValue(undefined);
     setup();
     await screen.findByText("Toplam profil: 201");
+    await openNew();
     expect(screen.getByLabelText("Ses dosyası")).toBeEnabled();
     fireEvent.click(screen.getByRole("button", { name: "Sil" }));
     list.mockResolvedValue({ ...profilePage(200), items: [] });
@@ -137,6 +185,7 @@ describe("speaker profiles without a count quota", () => {
     const list = profiles(200);
     setup();
     await screen.findByText("Toplam profil: 200");
+    await openNew();
     fireEvent.change(screen.getByLabelText("Konuşmacı adı veya takma adı"), { target: { value: "New speaker" } });
     fireEvent.change(screen.getByLabelText("Ses dosyası"), { target: { files: [new File(["wav"], "voice.wav")] } });
     let resolve: (value: ReturnType<typeof profilePage>) => void = () => {};
@@ -156,6 +205,7 @@ describe("speaker profiles without a count quota", () => {
     fireEvent.click(screen.getByRole("button", { name: "English" }));
     await screen.findByText("Total profiles: 201");
     expect(screen.queryByText(/Profile capacity is full/)).not.toBeInTheDocument();
+    await openNew("Create profile");
     expect(screen.getByLabelText("Audio file")).toBeEnabled();
     fireEvent.click(screen.getByRole("button", { name: "Add sample" }));
     expect(screen.getByLabelText("Audio file")).toBeEnabled();
@@ -167,6 +217,7 @@ describe("speaker profiles without a count quota", () => {
     await screen.findByText("Toplam profil: 201");
     expect(screen.getByRole("button", { name: "Örnek ekle" })).toBeDisabled();
     expect(screen.getByText("Bu profilde 20 örnek sınırına ulaşıldı. Yeni örnek eklenmedi.")).toBeInTheDocument();
+    await openNew();
     expect(screen.getByLabelText("Ses dosyası")).toBeEnabled();
     expect(screen.getByLabelText("Konuşmacı adı veya takma adı")).toBeEnabled();
   });

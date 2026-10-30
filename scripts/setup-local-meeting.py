@@ -14,6 +14,7 @@ import sys
 import tempfile
 
 ROOT = Path(__file__).resolve().parents[1]
+RUNTIME_CONFIG = runpy.run_path(str(ROOT / "scripts/local_runtime_config.py"))
 
 
 def run(command: list[str], *, root: Path, timeout: int = 1800) -> str:
@@ -59,10 +60,22 @@ def locked_hashes(path: Path) -> dict[tuple[str, str], set[str]]:
     return pins
 
 
+def base_wheelhouse(root: Path) -> tuple[str, str]:
+    """Select the base CUDA wheelhouse and lock recorded in the local Compose dotenv."""
+    dotenv = root / "app/infra/.env"
+    values = (
+        RUNTIME_CONFIG["dotenv_values"](dotenv.read_text(encoding="utf-8-sig"))
+        if dotenv.is_file()
+        else {}
+    )
+    selected = RUNTIME_CONFIG["CUDA_PROFILES"][RUNTIME_CONFIG["cuda_profile"](values)]
+    return selected["wheelhouse"], "app/inference/" + selected["requirements"]
+
+
 def verify_wheels(root: Path) -> None:
     helper = runpy.run_path(str(root / "scripts/prepare-spark-wheelhouse.py"))
     for directory, lock in (
-        ("models/inference-wheelhouse", "app/inference/requirements.txt"),
+        base_wheelhouse(root),
         ("models/meeting-inference-wheelhouse", "app/inference/requirements.meeting-x86_64.txt"),
     ):
         expected = locked_hashes(helper["checked_path"](root / lock))

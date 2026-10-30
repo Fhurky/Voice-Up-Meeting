@@ -128,9 +128,16 @@ def scores(value, fields):
     return {field: numeric(value[field], limit=1, nullable=True) for field in fields}
 
 
+# Inference runtime profiles; results from different profiles are separate series.
+RUNTIME_PROFILES = frozenset(
+    {"x86_64-cu128", "x86_64-cu126", "aarch64-cu129", "x86_64-cpu", "aarch64-cpu"}
+)
+
+
 def validate_metadata(value):
     required = {"date", "dataset", "dataset_revision", "language", "role", "pipeline"}
     optional = {
+        "runtime_profile",
         "models",
         "protocol_sha256",
         "configuration_sha256",
@@ -170,6 +177,9 @@ def validate_metadata(value):
         result["code_commit"] = value["code_commit"]
     if "elapsed_seconds" in value:
         result["elapsed_seconds"] = numeric(value["elapsed_seconds"])
+    if "runtime_profile" in value:
+        require(value["runtime_profile"] in RUNTIME_PROFILES, "invalid_runtime_profile")
+        result["runtime_profile"] = value["runtime_profile"]
     if "models" in value:
         require(isinstance(value["models"], list) and len(value["models"]) <= 8, "invalid_models")
         result["models"] = []
@@ -403,6 +413,69 @@ def meeting_identity_metrics(report):
     return result
 
 
+PUBLIC_BENCHMARK_PROTOCOL = "voiceup-ami-public-benchmark-v1"
+
+
+def bounded_interval(value):
+    if value is None:
+        return None
+    require(isinstance(value, list) and len(value) == 2, "invalid_interval")
+    low, high = (numeric(item) for item in value)
+    require(low <= high, "invalid_interval")
+    return [low, high]
+
+
+def public_benchmark_metrics(report):
+    result = counts(report, ("planned_meetings", "observed_meetings"))
+    require(
+        0 < result["observed_meetings"] == result["planned_meetings"], "meeting_plan_mismatch"
+    )
+    diarization = report["diarization"]
+    result["scored_seconds"] = numeric(diarization["scored_seconds"])
+    require(result["scored_seconds"] > 0, "invalid_metric")
+    for collar in ("collar_0", "collar_0_25"):
+        values = diarization[collar]
+        parts = {key: numeric(values[key]) for key in ("der", "missed", "false_alarm", "confusion")}
+        require(
+            abs(parts["der"] - parts["missed"] - parts["false_alarm"] - parts["confusion"]) <= 1e-9,
+            "der_component_mismatch",
+        )
+        parts["jer"] = numeric(values.get("jer"), limit=1)
+        result[collar] = parts
+    result["collar_0_interval"] = bounded_interval(diarization.get("collar_0_interval"))
+    identity = report["identity"]
+    support = counts(
+        identity,
+        (
+            "gallery_people",
+            "enrolled_first",
+            "enrolled_cumulative",
+            "known_probes",
+            "correct",
+            "misidentified",
+            "duplicate_profile",
+            "missed",
+            "unknown_probes",
+            "false_accept",
+        ),
+    )
+    require(
+        support["correct"] + support["misidentified"] + support["duplicate_profile"] + support["missed"]
+        == support["known_probes"]
+        and support["false_accept"] <= support["unknown_probes"]
+        and support["enrolled_first"] <= support["enrolled_cumulative"] <= support["gallery_people"],
+        "identity_support_mismatch",
+    )
+    support["recognition_rate"] = ratio(support["correct"], support["known_probes"])
+    support["misidentification_rate"] = ratio(support["misidentified"], support["known_probes"])
+    support["fpir"] = ratio(support["false_accept"], support["unknown_probes"])
+    for key in ("recognition_interval", "fpir_interval"):
+        support[key] = bounded_interval(identity.get(key))
+        require(support[key] is None or support[key][1] <= 1, "invalid_interval")
+    result["identity"] = support
+    return result
+
+
 def asr_clip_metrics(report):
     require(
         report.get("protocol") in ASR_PROTOCOLS
@@ -576,6 +649,7 @@ def sanitize_result(report, kind):
             "asr_clips",
             "observation",
             "transcript_review",
+            "public_benchmark",
         },
         "unsupported_experiment_kind",
     )
@@ -624,6 +698,26 @@ def sanitize_result(report, kind):
             result["use_known_speaker_count"] = report["use_known_speaker_count"]
         if "source_protocol_id" in report:
             result.update(meeting_window_scope(report))
+    if kind == "public_benchmark":
+        require(
+            report.get("protocol") == PUBLIC_BENCHMARK_PROTOCOL
+            and report.get("condition") in {"headset", "array1"}
+            and report.get("rotation") in {1, 2}
+            and report.get("reference_quality") == "human-annotated-public"
+            and report.get("language") == "en"
+            and type(report.get("use_known_speaker_count")) is bool
+            and type(report.get("participant_roster", False)) is bool,
+            "invalid_public_benchmark",
+        )
+        result.update(
+            protocol=PUBLIC_BENCHMARK_PROTOCOL,
+            condition=report["condition"],
+            rotation=report["rotation"],
+            reference_quality="human-annotated-public",
+            use_known_speaker_count=report["use_known_speaker_count"],
+            participant_roster=report.get("participant_roster", False),
+            protocol_sha256=sha256(report["protocol_sha256"]),
+        )
     if kind == "asr_clips":
         require(
             isinstance(report.get("protocol"), str)
@@ -670,6 +764,8 @@ def sanitize_result(report, kind):
             if kind == "asr_clips"
             else review_metrics(report)
             if kind == "transcript_review"
+            else public_benchmark_metrics(report)
+            if kind == "public_benchmark"
             else transcript_metrics(report)
         )
     if kind == "transcript_review" and result["protocol"] == "voiceup-context-review-visible-v1":
@@ -746,7 +842,9 @@ def render_snapshot(value):
         "",
         f"## {value['experiment_id']} · sürüm {value['revision']}",
         "",
-        f"{meta['date']} · `{meta['dataset']}` / `{meta['dataset_revision']}` · {meta['language']} · **{meta['role']}** · `{meta['pipeline']}` · **{result['status']}**",
+        f"{meta['date']} · `{meta['dataset']}` / `{meta['dataset_revision']}` · {meta['language']} · **{meta['role']}** · `{meta['pipeline']}` · "
+        + (f"`{meta['runtime_profile']}` · " if "runtime_profile" in meta else "")
+        + f"**{result['status']}**",
         "",
     ]
     if result.get("reference_quality") == "automatic-activity-unverified-text-diagnostic":
@@ -827,6 +925,47 @@ def render_snapshot(value):
                 f"| {percent(metric['wer'])} | {metric['errors']} | {metric['substitutions']} | {metric['deletions']} | {metric['insertions']} |",
                 "",
                 f"Normalizasyon `{metric['normalization']}`. Her klibin kelime hataları ayrı hesaplanıp bütün referans kelimelerine bölünür; klipler farklı kişiler sayılmaz. Kimlik precision/recall/F1, VoiceUp Score, konuşmacı zaman hatası ve cpWER ölçülmez.",
+            ]
+        )
+    elif result["kind"] == "public_benchmark":
+        identity = metric["identity"]
+        interval = metric["collar_0_interval"]
+        recognition, fpir = identity["recognition_interval"], identity["fpir_interval"]
+        lines.extend(
+            [
+                f"AMI `{result['condition']}` ses koşulu, rotasyon {result['rotation']}; toplantı {metric['observed_meetings']}/{metric['planned_meetings']}; puanlanan süre {metric['scored_seconds'] / 3600:.2f} saat. "
+                + (
+                    "Konuşmacı sayısı ipucu verildi."
+                    if result["use_known_speaker_count"]
+                    else "Konuşmacı sayısı ipucu verilmedi."
+                )
+                + (
+                    " Galeri toplantılarında daha önce kaydedilmiş katılımcıların profilleri liste olarak verildi."
+                    if result.get("participant_roster")
+                    else ""
+                ),
+                "",
+                "| DER | Kaçırılan | Yanlış alarm | Karışma | JER | Collar |",
+                "|---|---|---|---|---|---|",
+            ]
+        )
+        for key, label in (("collar_0", "0"), ("collar_0_25", "±0,25 s")):
+            parts = metric[key]
+            lines.append(
+                f"| {percent(parts['der'])} | {percent(parts['missed'])} | {percent(parts['false_alarm'])} | {percent(parts['confusion'])} | {percent(parts['jer'])} | {label} |"
+            )
+        lines.extend(
+            [
+                "",
+                f"DER (collar 0) toplantı bootstrap %95 aralığı: {percent(interval[0]) if interval else '—'}–{percent(interval[1]) if interval else '—'}.",
+                "",
+                "| Galeri kişi | İlk görünümde kayıt | Birikimli kayıt | Bilinen görünüm | Doğru | Yanlış kişi | Yinelenen profil | Kaçırılan | Galeri dışı görünüm | Yanlış kabul |",
+                "|---|---|---|---|---|---|---|---|---|---|",
+                f"| {identity['gallery_people']} | {identity['enrolled_first']} | {identity['enrolled_cumulative']} | {identity['known_probes']} | {identity['correct']} | {identity['misidentified']} | {identity['duplicate_profile']} | {identity['missed']} | {identity['unknown_probes']} | {identity['false_accept']} |",
+                "",
+                f"Tanıma oranı {percent(identity['recognition_rate'])} (kişi bootstrap %95: {percent(recognition[0]) if recognition else '—'}–{percent(recognition[1]) if recognition else '—'}); yanlış kişi oranı {percent(identity['misidentification_rate'])}; FPIR {percent(identity['fpir'])} ({percent(fpir[0]) if fpir else '—'}–{percent(fpir[1]) if fpir else '—'}).",
+                "",
+                "İnsan etiketli İngilizce AMI toplantıları; konuşmacı ayırma ve toplantılar arası kimlik dilden büyük ölçüde bağımsızdır, ancak bu sonuç Türkçe metin doğruluğu değildir. Aynı kişinin görünümleri bağımsız örnek sayılmaz.",
             ]
         )
     elif result["kind"] == "meeting_identity":

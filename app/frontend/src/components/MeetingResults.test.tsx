@@ -17,6 +17,7 @@ function load() {
   return list;
 }
 function setup() { render(<IntlProvider><MeetingResults meeting={meeting} revision={0} /></IntlProvider>); }
+async function showSpeakers() { fireEvent.click(await screen.findByRole("tab", { name: /^(Konuşmacılar|Speakers)/ })); }
 function LocaleControl() { const { setLocale } = useIntl(); return <button onClick={() => setLocale("en")}>English</button>; }
 
 describe("meeting result and memory distinctions", () => {
@@ -84,6 +85,7 @@ describe("meeting result and memory distinctions", () => {
     const list = load();
     list.mockResolvedValue({ items: [{ ...meetingSpeaker, reason: "inconsistent_audio" }], total: 1, offset: 0, limit: 20 });
     setup(); await screen.findByText("Seçilen ses bölümlerinde tek ve tutarlı bir konuşmacı doğrulanamadı.");
+    await showSpeakers();
     fireEvent.click(screen.getByRole("button", { name: "Adı değiştir" }));
     expect(screen.getByText("Adı değiştirmek ses kimliğini veya yanlış konuşmacı atamasını düzeltmez.")).toBeInTheDocument();
   });
@@ -132,6 +134,7 @@ describe("meeting result and memory distinctions", () => {
     render(<IntlProvider><LocaleControl /><MeetingResults meeting={meeting} revision={0} /></IntlProvider>);
     if (locale === "en") fireEvent.click(await screen.findByRole("button", { name: "English" }));
     const label = locale === "tr" ? "Konuşmacı" : "Speaker";
+    await showSpeakers();
     await screen.findByRole("heading", { name: `${label} 1` });
     expect(screen.getByRole("heading", { name: `${label} 50` })).toBeInTheDocument();
     const rendered = Array.from(document.querySelectorAll("[data-transcript-id] strong"), (element) => element.textContent);
@@ -146,6 +149,7 @@ describe("meeting result and memory distinctions", () => {
     const rename = vi.spyOn(MeetingService, "rename").mockResolvedValue({ ...meetingSpeaker, display_name: "<b>Ada</b>", version: 2 });
     setup(); await screen.findByText("Toplantıya başlayabiliriz.");
     expect(screen.getByText("Hafızaya kaydedilmedi")).toBeInTheDocument();
+    await showSpeakers();
     fireEvent.click(screen.getByRole("button", { name: "Adı değiştir" }));
     expect(screen.getByLabelText("Konuşmacı adı")).toHaveFocus();
     fireEvent.change(screen.getByLabelText("Konuşmacı adı"), { target: { value: "  <b>Ada</b>  " } });
@@ -160,9 +164,27 @@ describe("meeting result and memory distinctions", () => {
     session.write = false;
     const list = load();
     list.mockResolvedValue({ items: [{ ...meetingSpeaker, decision: "recognized", profile_public_id: "saved-person", profile_name: "Ada" }], total: 1, offset: 0, limit: 20 });
-    setup(); await screen.findByRole("heading", { name: "Ada" });
+    setup(); await showSpeakers(); await screen.findByRole("heading", { name: "Ada" });
     expect(screen.getByText("Önceki toplantılardan tanındı")).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "Adı değiştir" })).not.toBeInTheDocument();
+  });
+
+  it("separates transcript and speakers into keyboard-operable tabs that keep both panels' state", async () => {
+    load(); setup();
+    const transcriptTab = await screen.findByRole("tab", { name: "Konuşma metni" });
+    const speakersTab = await screen.findByRole("tab", { name: /^Konuşmacılar/ });
+    expect(transcriptTab).toHaveAttribute("aria-selected", "true");
+    expect(await screen.findByRole("tabpanel", { name: "Konuşma metni" })).toBeVisible();
+    expect(screen.queryByRole("button", { name: "Adı değiştir" })).toBeNull();
+    fireEvent.keyDown(transcriptTab, { key: "ArrowRight" });
+    expect(speakersTab).toHaveAttribute("aria-selected", "true");
+    expect(speakersTab).toHaveFocus();
+    expect(screen.getByRole("tabpanel", { name: /^Konuşmacılar/ })).toBeVisible();
+    fireEvent.click(screen.getByRole("button", { name: "Adı değiştir" }));
+    fireEvent.keyDown(speakersTab, { key: "Home" });
+    expect(transcriptTab).toHaveAttribute("aria-selected", "true");
+    fireEvent.click(speakersTab);
+    expect(screen.getByLabelText("Konuşmacı adı")).toBeInTheDocument();
   });
 
   it("pages transcript results instead of loading the whole recording", async () => {
@@ -174,10 +196,19 @@ describe("meeting result and memory distinctions", () => {
     await waitFor(() => expect(get).toHaveBeenCalledWith(meeting.public_id, 50, expect.any(AbortSignal)));
   });
 
+  it("offers renaming only after the meeting result is final", async () => {
+    load();
+    render(<IntlProvider><MeetingResults meeting={{ ...meeting, status: "running" }} revision={0} /></IntlProvider>);
+    await screen.findByText("Toplantıya başlayabiliriz.");
+    await showSpeakers();
+    expect(screen.queryByRole("button", { name: "Adı değiştir" })).not.toBeInTheDocument();
+  });
+
   it("refreshes a name conflict before allowing another edit with the current version", async () => {
     const list = load();
     const rename = vi.spyOn(MeetingService, "rename").mockRejectedValueOnce(new ApiError(409, "Conflict", "name_conflict"));
     setup(); await screen.findByText("Toplantıya başlayabiliriz.");
+    await showSpeakers();
     fireEvent.click(screen.getByRole("button", { name: "Adı değiştir" }));
     fireEvent.change(screen.getByLabelText("Konuşmacı adı"), { target: { value: "Ada" } });
     fireEvent.click(screen.getByRole("button", { name: "Kaydet" }));

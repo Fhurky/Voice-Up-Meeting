@@ -101,8 +101,9 @@ await withBrowser("modern workspace navigation and read-only permissions", async
         await page.goto(baseUrl + `/meetings/${meetingId}`);
         await setLocale(locale);
         await page.locator('[data-meeting-status="succeeded"]').waitFor();
-        await page.getByRole("heading", { name: catalogues[locale]["meeting.transcript"], exact: true }).waitFor();
+        await page.getByRole("tab", { name: catalogues[locale]["meeting.transcript"], exact: true, selected: true }).waitFor();
         await page.locator("[data-transcript-id]").first().waitFor();
+        await page.getByRole("tab", { name: new RegExp("^" + catalogues[locale]["meeting.speakers"]) }).click();
         await page.locator("[data-speaker-id]").first().waitFor();
         assert.ok((await page.locator("body").ariaSnapshot()).includes(catalogues[locale]["meeting.detailTitle"]));
         assert.equal(await page.getByRole("button", { name: catalogues[locale]["common.rename"], exact: true }).count(), 0);

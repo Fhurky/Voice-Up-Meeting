@@ -5,7 +5,7 @@ export const meeting: Meeting = {
   status: "succeeded", format: "WAV", size_bytes: 100, uploaded_bytes: 100,
   upload_part_bytes: 4194304, next_upload_index: 1, sha256: "a".repeat(64),
   duration_seconds: 60, processed_seconds: 60, completed_chunks: 1, total_chunks: 1,
-  language: "tr", participant_count: 5, expected_speakers: null, auto_enroll: true,
+  language: "tr", participant_count: 5, expected_speakers: null, auto_enroll: true, participants: [], subject: null, questions: [],
   observed_speakers: 1, count_mismatch: false, error_code: null, source_available: true,
   created_at: "2026-09-10T10:00:00Z", started_at: "2026-09-10T10:01:00Z", finished_at: "2026-09-10T10:02:00Z",
 };

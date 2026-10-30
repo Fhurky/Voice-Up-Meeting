@@ -1,0 +1,898 @@
+{
+  "schema_version": 1,
+  "setup_repository": "pyannote/AMI-diarization-setup",
+  "setup_revision": "67c2d539286e89f68952d5dcf83912bd9f01dfae",
+  "setup_license": "apache-2.0",
+  "audio_base_url": "https://groups.inf.ed.ac.uk/ami/AMICorpusMirror/amicorpus",
+  "audio_license": "cc-by-4.0",
+  "conditions": {
+    "headset": "Mix-Headset",
+    "array1": "Array1-01"
+  },
+  "meetings": [
+    {
+      "meeting": "IS1008a",
+      "split": "dev",
+      "references": {
+        "rttm": {
+          "path": "only_words/rttms/dev/IS1008a.rttm",
+          "size_bytes": 9617,
+          "git_blob_sha1": "6a05417f9871e6de99d8bfa967ca73c2c2557cb5"
+        },
+        "uem": {
+          "path": "uems/dev/IS1008a.uem",
+          "size_bytes": 27,
+          "git_blob_sha1": "7b6a37aacdebc0bd2f174760cd745a8c22ea6b03"
+        }
+      },
+      "audio": {
+        "headset": {
+          "file": "IS1008a.Mix-Headset.wav",
+          "size_bytes": 30204093
+        },
+        "array1": {
+          "file": "IS1008a.Array1-01.wav",
+          "size_bytes": 30208103
+        }
+      }
+    },
+    {
+      "meeting": "IS1008b",
+      "split": "dev",
+      "references": {
+        "rttm": {
+          "path": "only_words/rttms/dev/IS1008b.rttm",
+          "size_bytes": 18524,
+          "git_blob_sha1": "3b968d0f52b7df79c0c659a542c9d3eb5f0c59d3"
+        },
+        "uem": {
+          "path": "uems/dev/IS1008b.uem",
+          "size_bytes": 28,
+          "git_blob_sha1": "ea6deb31847a3f199cbe5e6c6a4f93ff68fa277a"
+        }
+      },
+      "audio": {
+        "headset": {
+          "file": "IS1008b.Mix-Headset.wav",
+          "size_bytes": 56593427
+        },
+        "array1": {
+          "file": "IS1008b.Array1-01.wav",
+          "size_bytes": 56594535
+        }
+      }
+    },
+    {
+      "meeting": "IS1008c",
+      "split": "dev",
+      "references": {
+        "rttm": {
+          "path": "only_words/rttms/dev/IS1008c.rttm",
+          "size_bytes": 14497,
+          "git_blob_sha1": "449e6614806b800f47c4e253bf820c7fa739db44"
+        },
+        "uem": {
+          "path": "uems/dev/IS1008c.uem",
+          "size_bytes": 28,
+          "git_blob_sha1": "060bad5070cdd507b5c35f0780b767ad534ac01b"
+        }
+      },
+      "audio": {
+        "headset": {
+          "file": "IS1008c.Mix-Headset.wav",
+          "size_bytes": 49484093
+        },
+        "array1": {
+          "file": "IS1008c.Array1-01.wav",
+          "size_bytes": 49486609
+        }
+      }
+    },
+    {
+      "meeting": "IS1008d",
+      "split": "dev",
+      "references": {
+        "rttm": {
+          "path": "only_words/rttms/dev/IS1008d.rttm",
+          "size_bytes": 19500,
+          "git_blob_sha1": "2d43220a761ef13c081cfdaa4d46cab87d59f7b5"
+        },
+        "uem": {
+          "path": "uems/dev/IS1008d.uem",
+          "size_bytes": 28,
+          "git_blob_sha1": "29a2d073a0da424c48fb8b032a7c04530cb30bd2"
+        }
+      },
+      "audio": {
+        "headset": {
+          "file": "IS1008d.Mix-Headset.wav",
+          "size_bytes": 47388093
+        },
+        "array1": {
+          "file": "IS1008d.Array1-01.wav",
+          "size_bytes": 47389457
+        }
+      }
+    },
+    {
+      "meeting": "ES2011a",
+      "split": "dev",
+      "references": {
+        "rttm": {
+          "path": "only_words/rttms/dev/ES2011a.rttm",
+          "size_bytes": 12250,
+          "git_blob_sha1": "a7ef2d56bfad8723c025ffd6a3e1f5595dc7235f"
+        },
+        "uem": {
+          "path": "uems/dev/ES2011a.uem",
+          "size_bytes": 28,
+          "git_blob_sha1": "1d63bc6fcd59a1e1ea1bda7d867625e2ae1337b1"
+        }
+      },
+      "audio": {
+        "headset": {
+          "file": "ES2011a.Mix-Headset.wav",
+          "size_bytes": 35643096
+        },
+        "array1": {
+          "file": "ES2011a.Array1-01.wav",
+          "size_bytes": 35643096
+        }
+      }
+    },
+    {
+      "meeting": "ES2011b",
+      "split": "dev",
+      "references": {
+        "rttm": {
+          "path": "only_words/rttms/dev/ES2011b.rttm",
+          "size_bytes": 19138,
+          "git_blob_sha1": "4eadab1af8081414e384396933c1b4c912965c2c"
+        },
+        "uem": {
+          "path": "uems/dev/ES2011b.uem",
+          "size_bytes": 28,
+          "git_blob_sha1": "8a47fef26b0e373e1e8a6b2d06938f01c8dbdafb"
+        }
+      },
+      "audio": {
+        "headset": {
+          "file": "ES2011b.Mix-Headset.wav",
+          "size_bytes": 50600664
+        },
+        "array1": {
+          "file": "ES2011b.Array1-01.wav",
+          "size_bytes": 50600664
+        }
+      }
+    },
+    {
+      "meeting": "ES2011c",
+      "split": "dev",
+      "references": {
+        "rttm": {
+          "path": "only_words/rttms/dev/ES2011c.rttm",
+          "size_bytes": 20798,
+          "git_blob_sha1": "6b99fd9dd04abcef7410ea7dd051d3d1c219d280"
+        },
+        "uem": {
+          "path": "uems/dev/ES2011c.uem",
+          "size_bytes": 28,
+          "git_blob_sha1": "956bac942100293f7e9377ce987ea2ab2fc93e13"
+        }
+      },
+      "audio": {
+        "headset": {
+          "file": "ES2011c.Mix-Headset.wav",
+          "size_bytes": 51714092
+        },
+        "array1": {
+          "file": "ES2011c.Array1-01.wav",
+          "size_bytes": 51714092
+        }
+      }
+    },
+    {
+      "meeting": "ES2011d",
+      "split": "dev",
+      "references": {
+        "rttm": {
+          "path": "only_words/rttms/dev/ES2011d.rttm",
+          "size_bytes": 27391,
+          "git_blob_sha1": "7fce4efc81fcb9a7e10f20e55dfaa44597747e38"
+        },
+        "uem": {
+          "path": "uems/dev/ES2011d.uem",
+          "size_bytes": 28,
+          "git_blob_sha1": "17bba5de19627a94c4659ea595fb70420a363003"
+        }
+      },
+      "audio": {
+        "headset": {
+          "file": "ES2011d.Mix-Headset.wav",
+          "size_bytes": 63434456
+        },
+        "array1": {
+          "file": "ES2011d.Array1-01.wav",
+          "size_bytes": 63434456
+        }
+      }
+    },
+    {
+      "meeting": "TS3004a",
+      "split": "dev",
+      "references": {
+        "rttm": {
+          "path": "only_words/rttms/dev/TS3004a.rttm",
+          "size_bytes": 20502,
+          "git_blob_sha1": "4a642aaab490d602c7bfc410dc8646e152169698"
+        },
+        "uem": {
+          "path": "uems/dev/TS3004a.uem",
+          "size_bytes": 28,
+          "git_blob_sha1": "fa8d48b4f901a69222374aba07913ff18f9bde9c"
+        }
+      },
+      "audio": {
+        "headset": {
+          "file": "TS3004a.Mix-Headset.wav",
+          "size_bytes": 43050368
+        },
+        "array1": {
+          "file": "TS3004a.Array1-01.wav",
+          "size_bytes": 43051390
+        }
+      }
+    },
+    {
+      "meeting": "TS3004b",
+      "split": "dev",
+      "references": {
+        "rttm": {
+          "path": "only_words/rttms/dev/TS3004b.rttm",
+          "size_bytes": 34051,
+          "git_blob_sha1": "e37a537965d1ecf04961155d65b7e08ede63a789"
+        },
+        "uem": {
+          "path": "uems/dev/TS3004b.uem",
+          "size_bytes": 28,
+          "git_blob_sha1": "54b1053aed044ed3f263ca55d3cf65d184dc6de9"
+        }
+      },
+      "audio": {
+        "headset": {
+          "file": "TS3004b.Mix-Headset.wav",
+          "size_bytes": 71873920
+        },
+        "array1": {
+          "file": "TS3004b.Array1-01.wav",
+          "size_bytes": 71874942
+        }
+      }
+    },
+    {
+      "meeting": "TS3004c",
+      "split": "dev",
+      "references": {
+        "rttm": {
+          "path": "only_words/rttms/dev/TS3004c.rttm",
+          "size_bytes": 43477,
+          "git_blob_sha1": "8700a8be925d3bbea25cabd806e333baab2b529a"
+        },
+        "uem": {
+          "path": "uems/dev/TS3004c.uem",
+          "size_bytes": 28,
+          "git_blob_sha1": "ab4336b26a0f2591a65224cdc2632033d05fa8c1"
+        }
+      },
+      "audio": {
+        "headset": {
+          "file": "TS3004c.Mix-Headset.wav",
+          "size_bytes": 95040044
+        },
+        "array1": {
+          "file": "TS3004c.Array1-01.wav",
+          "size_bytes": 95040044
+        }
+      }
+    },
+    {
+      "meeting": "TS3004d",
+      "split": "dev",
+      "references": {
+        "rttm": {
+          "path": "only_words/rttms/dev/TS3004d.rttm",
+          "size_bytes": 51221,
+          "git_blob_sha1": "f582f2b8a6823d2a7500d121bf58ca5ddfd7b948"
+        },
+        "uem": {
+          "path": "uems/dev/TS3004d.uem",
+          "size_bytes": 28,
+          "git_blob_sha1": "9e3d536e0d3fe8f38cbaeffe073aa61dfb9ff9cd"
+        }
+      },
+      "audio": {
+        "headset": {
+          "file": "TS3004d.Mix-Headset.wav",
+          "size_bytes": 88025644
+        },
+        "array1": {
+          "file": "TS3004d.Array1-01.wav",
+          "size_bytes": 88025644
+        }
+      }
+    },
+    {
+      "meeting": "IB4001",
+      "split": "dev",
+      "references": {
+        "rttm": {
+          "path": "only_words/rttms/dev/IB4001.rttm",
+          "size_bytes": 29923,
+          "git_blob_sha1": "53bd21d05b8ae42466144290efaaeb66b8c50ba7"
+        },
+        "uem": {
+          "path": "uems/dev/IB4001.uem",
+          "size_bytes": 27,
+          "git_blob_sha1": "7018d72fdbadb1b3bb7e60ec16f22d4878bfb132"
+        }
+      },
+      "audio": {
+        "headset": {
+          "file": "IB4001.Mix-Headset.wav",
+          "size_bytes": 56980866
+        },
+        "array1": {
+          "file": "IB4001.Array1-01.wav",
+          "size_bytes": 56986418
+        }
+      }
+    },
+    {
+      "meeting": "IB4002",
+      "split": "dev",
+      "references": {
+        "rttm": {
+          "path": "only_words/rttms/dev/IB4002.rttm",
+          "size_bytes": 33457,
+          "git_blob_sha1": "9aa266a5f0e5034a7b264892200183b011e862a8"
+        },
+        "uem": {
+          "path": "uems/dev/IB4002.uem",
+          "size_bytes": 27,
+          "git_blob_sha1": "89ccac797157ecb0b81ffa3c0068489f2378dcff"
+        }
+      },
+      "audio": {
+        "headset": {
+          "file": "IB4002.Mix-Headset.wav",
+          "size_bytes": 60235820
+        },
+        "array1": {
+          "file": "IB4002.Array1-01.wav",
+          "size_bytes": 60237257
+        }
+      }
+    },
+    {
+      "meeting": "IB4003",
+      "split": "dev",
+      "references": {
+        "rttm": {
+          "path": "only_words/rttms/dev/IB4003.rttm",
+          "size_bytes": 22081,
+          "git_blob_sha1": "1824b52a6c0083704c11fb11b63329c4b1e72587"
+        },
+        "uem": {
+          "path": "uems/dev/IB4003.uem",
+          "size_bytes": 27,
+          "git_blob_sha1": "514adc54f9bc2fdc024305606a999d47bed13de5"
+        }
+      },
+      "audio": {
+        "headset": {
+          "file": "IB4003.Mix-Headset.wav",
+          "size_bytes": 64744152
+        },
+        "array1": {
+          "file": "IB4003.Array1-01.wav",
+          "size_bytes": 64749702
+        }
+      }
+    },
+    {
+      "meeting": "IB4004",
+      "split": "dev",
+      "references": {
+        "rttm": {
+          "path": "only_words/rttms/dev/IB4004.rttm",
+          "size_bytes": 31397,
+          "git_blob_sha1": "760c24af95ad3c716fc5a19a64be04f2f8943227"
+        },
+        "uem": {
+          "path": "uems/dev/IB4004.uem",
+          "size_bytes": 27,
+          "git_blob_sha1": "0feb16f1e2583af9d79b4891fdce6ca4ed922ddf"
+        }
+      },
+      "audio": {
+        "headset": {
+          "file": "IB4004.Mix-Headset.wav",
+          "size_bytes": 76570668
+        },
+        "array1": {
+          "file": "IB4004.Array1-01.wav",
+          "size_bytes": 76576220
+        }
+      }
+    },
+    {
+      "meeting": "IB4010",
+      "split": "dev",
+      "references": {
+        "rttm": {
+          "path": "only_words/rttms/dev/IB4010.rttm",
+          "size_bytes": 52066,
+          "git_blob_sha1": "f4ce676a4b99207226526fa2a7ed71deb4e8e3b3"
+        },
+        "uem": {
+          "path": "uems/dev/IB4010.uem",
+          "size_bytes": 27,
+          "git_blob_sha1": "8eb748d2e984392bc3edcc58191ae11d4cace649"
+        }
+      },
+      "audio": {
+        "headset": {
+          "file": "IB4010.Mix-Headset.wav",
+          "size_bytes": 94737794
+        },
+        "array1": {
+          "file": "IB4010.Array1-01.wav",
+          "size_bytes": 94740614
+        }
+      }
+    },
+    {
+      "meeting": "IB4011",
+      "split": "dev",
+      "references": {
+        "rttm": {
+          "path": "only_words/rttms/dev/IB4011.rttm",
+          "size_bytes": 39425,
+          "git_blob_sha1": "e530aa4cf37450bab802fdcbcd5611bd05013bb2"
+        },
+        "uem": {
+          "path": "uems/dev/IB4011.uem",
+          "size_bytes": 27,
+          "git_blob_sha1": "a8586ecd86b3b4674f929cd1f9900d3ebbaa6a60"
+        }
+      },
+      "audio": {
+        "headset": {
+          "file": "IB4011.Mix-Headset.wav",
+          "size_bytes": 77343448
+        },
+        "array1": {
+          "file": "IB4011.Array1-01.wav",
+          "size_bytes": 77346268
+        }
+      }
+    },
+    {
+      "meeting": "IS1009a",
+      "split": "test",
+      "references": {
+        "rttm": {
+          "path": "only_words/rttms/test/IS1009a.rttm",
+          "size_bytes": 11080,
+          "git_blob_sha1": "c8adca810a5564192583d0d3f9a5090401c2ee33"
+        },
+        "uem": {
+          "path": "uems/test/IS1009a.uem",
+          "size_bytes": 27,
+          "git_blob_sha1": "c5f6a2b67c3753e9b9d59bf09bf1d541883aec8d"
+        }
+      },
+      "audio": {
+        "headset": {
+          "file": "IS1009a.Mix-Headset.wav",
+          "size_bytes": 26844093
+        },
+        "array1": {
+          "file": "IS1009a.Array1-01.wav",
+          "size_bytes": 26849383
+        }
+      }
+    },
+    {
+      "meeting": "IS1009b",
+      "split": "test",
+      "references": {
+        "rttm": {
+          "path": "only_words/rttms/test/IS1009b.rttm",
+          "size_bytes": 22363,
+          "git_blob_sha1": "388c095d55d9c46f711b33052d28ab651f893c56"
+        },
+        "uem": {
+          "path": "uems/test/IS1009b.uem",
+          "size_bytes": 28,
+          "git_blob_sha1": "e2f6f4e1399e878ead8c2f5d8ce442f9db5b12ba"
+        }
+      },
+      "audio": {
+        "headset": {
+          "file": "IS1009b.Mix-Headset.wav",
+          "size_bytes": 65676093
+        },
+        "array1": {
+          "file": "IS1009b.Array1-01.wav",
+          "size_bytes": 65679463
+        }
+      }
+    },
+    {
+      "meeting": "IS1009c",
+      "split": "test",
+      "references": {
+        "rttm": {
+          "path": "only_words/rttms/test/IS1009c.rttm",
+          "size_bytes": 16708,
+          "git_blob_sha1": "0c46404d1f0a52759d038a7e121647fb4e0e626c"
+        },
+        "uem": {
+          "path": "uems/test/IS1009c.uem",
+          "size_bytes": 28,
+          "git_blob_sha1": "3e8223456d3ceb2d39a02e22e50cf2c3642993aa"
+        }
+      },
+      "audio": {
+        "headset": {
+          "file": "IS1009c.Mix-Headset.wav",
+          "size_bytes": 58268093
+        },
+        "array1": {
+          "file": "IS1009c.Array1-01.wav",
+          "size_bytes": 58268433
+        }
+      }
+    },
+    {
+      "meeting": "IS1009d",
+      "split": "test",
+      "references": {
+        "rttm": {
+          "path": "only_words/rttms/test/IS1009d.rttm",
+          "size_bytes": 29067,
+          "git_blob_sha1": "60e1229825166cc0cebfd9f4c60dbb8bd4ca4567"
+        },
+        "uem": {
+          "path": "uems/test/IS1009d.uem",
+          "size_bytes": 28,
+          "git_blob_sha1": "7ed8d9ae652928e08c86a705a1d4d678793e29ba"
+        }
+      },
+      "audio": {
+        "headset": {
+          "file": "IS1009d.Mix-Headset.wav",
+          "size_bytes": 62225427
+        },
+        "array1": {
+          "file": "IS1009d.Array1-01.wav",
+          "size_bytes": 62230631
+        }
+      }
+    },
+    {
+      "meeting": "ES2004a",
+      "split": "test",
+      "references": {
+        "rttm": {
+          "path": "only_words/rttms/test/ES2004a.rttm",
+          "size_bytes": 14796,
+          "git_blob_sha1": "a8006e7c9d94cf98eaeb0a4883e910a411d74bee"
+        },
+        "uem": {
+          "path": "uems/test/ES2004a.uem",
+          "size_bytes": 28,
+          "git_blob_sha1": "d8bfa4b6d70fce2e10aa9a18a78c9157a27c5207"
+        }
+      },
+      "audio": {
+        "headset": {
+          "file": "ES2004a.Mix-Headset.wav",
+          "size_bytes": 33579394
+        },
+        "array1": {
+          "file": "ES2004a.Array1-01.wav",
+          "size_bytes": 33579394
+        }
+      }
+    },
+    {
+      "meeting": "ES2004b",
+      "split": "test",
+      "references": {
+        "rttm": {
+          "path": "only_words/rttms/test/ES2004b.rttm",
+          "size_bytes": 26917,
+          "git_blob_sha1": "6b62ce997806c724c051b7470bc38fcca585ccb2"
+        },
+        "uem": {
+          "path": "uems/test/ES2004b.uem",
+          "size_bytes": 28,
+          "git_blob_sha1": "e921a0de5c188843db364c60af5b60e96d5dcd96"
+        }
+      },
+      "audio": {
+        "headset": {
+          "file": "ES2004b.Mix-Headset.wav",
+          "size_bytes": 75055832
+        },
+        "array1": {
+          "file": "ES2004b.Array1-01.wav",
+          "size_bytes": 75055832
+        }
+      }
+    },
+    {
+      "meeting": "ES2004c",
+      "split": "test",
+      "references": {
+        "rttm": {
+          "path": "only_words/rttms/test/ES2004c.rttm",
+          "size_bytes": 28593,
+          "git_blob_sha1": "2f184b299d42b8e247b29daae1ac73dc792c0f78"
+        },
+        "uem": {
+          "path": "uems/test/ES2004c.uem",
+          "size_bytes": 28,
+          "git_blob_sha1": "c48be81c5ce997982a2252e7a058adfb1ff8426a"
+        }
+      },
+      "audio": {
+        "headset": {
+          "file": "ES2004c.Mix-Headset.wav",
+          "size_bytes": 74699820
+        },
+        "array1": {
+          "file": "ES2004c.Array1-01.wav",
+          "size_bytes": 74699820
+        }
+      }
+    },
+    {
+      "meeting": "ES2004d",
+      "split": "test",
+      "references": {
+        "rttm": {
+          "path": "only_words/rttms/test/ES2004d.rttm",
+          "size_bytes": 34545,
+          "git_blob_sha1": "aee4ac5829bf6c9f8639d97afd8ee2976435f1bf"
+        },
+        "uem": {
+          "path": "uems/test/ES2004d.uem",
+          "size_bytes": 28,
+          "git_blob_sha1": "b77befbe485fda8a900869b770c2525f3d0406fd"
+        }
+      },
+      "audio": {
+        "headset": {
+          "file": "ES2004d.Mix-Headset.wav",
+          "size_bytes": 71113346
+        },
+        "array1": {
+          "file": "ES2004d.Array1-01.wav",
+          "size_bytes": 71113346
+        }
+      }
+    },
+    {
+      "meeting": "TS3003a",
+      "split": "test",
+      "references": {
+        "rttm": {
+          "path": "only_words/rttms/test/TS3003a.rttm",
+          "size_bytes": 14427,
+          "git_blob_sha1": "1ace9191da1eae26aa40f6037cb61072cfd401d6"
+        },
+        "uem": {
+          "path": "uems/test/TS3003a.uem",
+          "size_bytes": 28,
+          "git_blob_sha1": "6cb934e3162368879799c4c43d5a83e66ebf7a5e"
+        }
+      },
+      "audio": {
+        "headset": {
+          "file": "TS3003a.Mix-Headset.wav",
+          "size_bytes": 48180608
+        },
+        "array1": {
+          "file": "TS3003a.Array1-01.wav",
+          "size_bytes": 48183678
+        }
+      }
+    },
+    {
+      "meeting": "TS3003b",
+      "split": "test",
+      "references": {
+        "rttm": {
+          "path": "only_words/rttms/test/TS3003b.rttm",
+          "size_bytes": 24207,
+          "git_blob_sha1": "82285362b0d6ad32c6f9148b8611cae401d1e028"
+        },
+        "uem": {
+          "path": "uems/test/TS3003b.uem",
+          "size_bytes": 28,
+          "git_blob_sha1": "d98561094d7eb4c04e25fcc42aff3e2979d29c3c"
+        }
+      },
+      "audio": {
+        "headset": {
+          "file": "TS3003b.Mix-Headset.wav",
+          "size_bytes": 70729772
+        },
+        "array1": {
+          "file": "TS3003b.Array1-01.wav",
+          "size_bytes": 70730794
+        }
+      }
+    },
+    {
+      "meeting": "TS3003c",
+      "split": "test",
+      "references": {
+        "rttm": {
+          "path": "only_words/rttms/test/TS3003c.rttm",
+          "size_bytes": 23142,
+          "git_blob_sha1": "ce0bee068beb2fc3427bf3fec9cc9a3df92e68ad"
+        },
+        "uem": {
+          "path": "uems/test/TS3003c.uem",
+          "size_bytes": 28,
+          "git_blob_sha1": "af1de9b3206acf4b64eb8feba1c8bbb6e27d60cc"
+        }
+      },
+      "audio": {
+        "headset": {
+          "file": "TS3003c.Mix-Headset.wav",
+          "size_bytes": 82240044
+        },
+        "array1": {
+          "file": "TS3003c.Array1-01.wav",
+          "size_bytes": 82240044
+        }
+      }
+    },
+    {
+      "meeting": "TS3003d",
+      "split": "test",
+      "references": {
+        "rttm": {
+          "path": "only_words/rttms/test/TS3003d.rttm",
+          "size_bytes": 41815,
+          "git_blob_sha1": "ff7b6d1823abdd0a313ba23fd9806c2c2ea85572"
+        },
+        "uem": {
+          "path": "uems/test/TS3003d.uem",
+          "size_bytes": 28,
+          "git_blob_sha1": "6992bf85ce8498ab192db83d0145b829277fc6e9"
+        }
+      },
+      "audio": {
+        "headset": {
+          "file": "TS3003d.Mix-Headset.wav",
+          "size_bytes": 83782444
+        },
+        "array1": {
+          "file": "TS3003d.Array1-01.wav",
+          "size_bytes": 83782444
+        }
+      }
+    },
+    {
+      "meeting": "EN2002a",
+      "split": "test",
+      "references": {
+        "rttm": {
+          "path": "only_words/rttms/test/EN2002a.rttm",
+          "size_bytes": 42817,
+          "git_blob_sha1": "95edd0037cef0a29e9f9bbaf81783132c90d3985"
+        },
+        "uem": {
+          "path": "uems/test/EN2002a.uem",
+          "size_bytes": 28,
+          "git_blob_sha1": "83ef13280e3e70207aaeae62f31287479a02f38d"
+        }
+      },
+      "audio": {
+        "headset": {
+          "file": "EN2002a.Mix-Headset.wav",
+          "size_bytes": 68566744
+        },
+        "array1": {
+          "file": "EN2002a.Array1-01.wav",
+          "size_bytes": 68566744
+        }
+      }
+    },
+    {
+      "meeting": "EN2002b",
+      "split": "test",
+      "references": {
+        "rttm": {
+          "path": "only_words/rttms/test/EN2002b.rttm",
+          "size_bytes": 28109,
+          "git_blob_sha1": "b17128e690ba0ceced81b0bcb5c4b2facbb0de2b"
+        },
+        "uem": {
+          "path": "uems/test/EN2002b.uem",
+          "size_bytes": 28,
+          "git_blob_sha1": "159a122c90d782efc3572dc38bc8f32c7147ed2b"
+        }
+      },
+      "audio": {
+        "headset": {
+          "file": "EN2002b.Mix-Headset.wav",
+          "size_bytes": 57179180
+        },
+        "array1": {
+          "file": "EN2002b.Array1-01.wav",
+          "size_bytes": 57179180
+        }
+      }
+    },
+    {
+      "meeting": "EN2002c",
+      "split": "test",
+      "references": {
+        "rttm": {
+          "path": "only_words/rttms/test/EN2002c.rttm",
+          "size_bytes": 36557,
+          "git_blob_sha1": "e3d1c856f10bea532be53916459c954938bc5a4a"
+        },
+        "uem": {
+          "path": "uems/test/EN2002c.uem",
+          "size_bytes": 28,
+          "git_blob_sha1": "4910151123644257555a1408d2d1d6c94bab56bd"
+        }
+      },
+      "audio": {
+        "headset": {
+          "file": "EN2002c.Mix-Headset.wav",
+          "size_bytes": 95112236
+        },
+        "array1": {
+          "file": "EN2002c.Array1-01.wav",
+          "size_bytes": 95112236
+        }
+      }
+    },
+    {
+      "meeting": "EN2002d",
+      "split": "test",
+      "references": {
+        "rttm": {
+          "path": "only_words/rttms/test/EN2002d.rttm",
+          "size_bytes": 39329,
+          "git_blob_sha1": "def5dc78e16c568477f417ce077a625439fed9c9"
+        },
+        "uem": {
+          "path": "uems/test/EN2002d.uem",
+          "size_bytes": 28,
+          "git_blob_sha1": "d6f756ea5ccc38aafc7c8f85da47b8f465e92512"
+        }
+      },
+      "audio": {
+        "headset": {
+          "file": "EN2002d.Mix-Headset.wav",
+          "size_bytes": 70716802
+        },
+        "array1": {
+          "file": "EN2002d.Array1-01.wav",
+          "size_bytes": 70716802
+        }
+      }
+    }
+  ]
+}

@@ -50,11 +50,13 @@ await withBrowser("speaker profile totals without a quota and historical errors 
       navigation: "Ana gezinme", profiles: "Konuşmacılar", total: "Toplam profil:",
       name: "Konuşmacı adı veya takma adı", audio: "Ses dosyası",
       create: "Yükle ve profil oluştur", add: "Örnek ekle", cancel: "Vazgeç", next: "Sonraki", previous: "Önceki",
+      open: "Profil oluştur", file: "Dosya yükle",
       failure: "Bu kayıt, o sırada geçerli olan profil sınırı nedeniyle reddedildi. Yeni profil oluşturulmadı. Artık yeni bir kayıt başlatabilirsiniz.",
     } : {
       navigation: "Main navigation", profiles: "Speakers", total: "Total profiles:",
       name: "Speaker name or nickname", audio: "Audio file",
       create: "Upload and create profile", add: "Add sample", cancel: "Cancel", next: "Next", previous: "Previous",
+      open: "Create profile", file: "Upload a file",
       failure: "This enrollment was rejected under the profile limit in effect at the time. No new profile was created. You can now start a new enrollment.",
     };
     await page.getByRole("navigation", { name: labels.navigation }).getByRole("link", { name: labels.profiles, exact: true }).click();
@@ -62,6 +64,8 @@ await withBrowser("speaker profile totals without a quota and historical errors 
     await page.getByText(total, { exact: true }).waitFor();
     assert.ok((await page.locator("body").ariaSnapshot()).includes(total));
     assert.equal(await page.getByText(/Aktif profiller \/ kapasite|Active profiles \/ capacity/).count(), 0);
+    await page.getByRole("button", { name: labels.open, exact: true }).click();
+    await page.getByRole("button", { name: labels.file, exact: true }).click();
     assert.equal(await page.getByLabel(labels.name).isEnabled(), true);
     await page.getByLabel(labels.name).fill("E2E unsubmitted profile");
     assert.equal(await page.getByLabel(labels.name).inputValue(), "E2E unsubmitted profile");
@@ -76,6 +80,8 @@ await withBrowser("speaker profile totals without a quota and historical errors 
     assert.equal(await page.getByLabel(labels.audio).isEnabled(), true);
     assert.equal(await page.getByLabel(labels.name).count(), 0);
     await page.getByRole("button", { name: labels.cancel, exact: true }).click();
+    assert.equal(await page.getByLabel(labels.audio).count(), 0);
+    await page.getByRole("button", { name: labels.open, exact: true }).click();
     assert.equal(await page.getByLabel(labels.audio).isEnabled(), true);
     assert.equal(await page.getByLabel(labels.name).isEnabled(), true);
     await page.getByRole("button", { name: labels.next, exact: true }).click();

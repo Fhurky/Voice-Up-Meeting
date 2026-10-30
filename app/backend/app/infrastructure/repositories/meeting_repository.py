@@ -1,19 +1,23 @@
 """Tenant-scoped PostgreSQL meeting queries and worker lease fencing."""
 
 from datetime import datetime
+from typing import Any
 
-from sqlalchemy import and_, func, or_, select
+from sqlalchemy import and_, func, or_, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.request_context import RequestContext
 from app.domain.models.meeting import (
     Meeting,
     MeetingChunk,
+    MeetingParticipant,
+    MeetingQuestion,
     MeetingSpeaker,
     MeetingTranscript,
     MeetingUploadPart,
 )
 from app.domain.models.role import SUPER_ADMIN_ROLE
+from app.domain.models.speaker_identity import SpeakerProfile
 from app.domain.models.tenant import Tenant
 from app.domain.models.user import User
 from app.infrastructure.repositories.speaker_repository import SpeakerRepository
@@ -257,6 +261,84 @@ class MeetingRepository:
             )
         ).one_or_none()
 
+    async def chunk_speaker_turns(self, tenant_id: int, meeting_id: int) -> list[Any]:
+        """Return each persisted chunk's committed turns, or None where they were not recorded."""
+        rows = await self.session.execute(
+            select(MeetingChunk.result["speaker_turns"])
+            .where(
+                MeetingChunk.tenant_id == tenant_id,
+                MeetingChunk.meeting_id == meeting_id,
+                MeetingChunk.is_deleted.is_(False),
+            )
+            .order_by(MeetingChunk.index)
+        )
+        return [value for (value,) in rows]
+
+    async def participant_profile_ids(self, tenant_id: int, meeting_id: int) -> frozenset[int]:
+        rows = await self.session.scalars(
+            select(MeetingParticipant.speaker_profile_id).where(
+                MeetingParticipant.tenant_id == tenant_id,
+                MeetingParticipant.meeting_id == meeting_id,
+                MeetingParticipant.is_deleted.is_(False),
+            )
+        )
+        return frozenset(rows)
+
+    async def questions(self, tenant_id: int, meeting_id: int) -> list[MeetingQuestion]:
+        return list(
+            await self.session.scalars(
+                select(MeetingQuestion)
+                .where(
+                    MeetingQuestion.tenant_id == tenant_id,
+                    MeetingQuestion.meeting_id == meeting_id,
+                    MeetingQuestion.is_deleted.is_(False),
+                )
+                .order_by(MeetingQuestion.ordinal)
+            )
+        )
+
+    async def participants(self, tenant_id: int, meeting_id: int) -> list[SpeakerProfile]:
+        """Listed profiles in deterministic order, including later soft-deleted profiles."""
+        rows = await self.session.scalars(
+            select(SpeakerProfile)
+            .join(
+                MeetingParticipant,
+                and_(
+                    MeetingParticipant.tenant_id == SpeakerProfile.tenant_id,
+                    MeetingParticipant.speaker_profile_id == SpeakerProfile.speaker_profile_id,
+                ),
+            )
+            .where(
+                MeetingParticipant.tenant_id == tenant_id,
+                MeetingParticipant.meeting_id == meeting_id,
+                MeetingParticipant.is_deleted.is_(False),
+            )
+            .order_by(SpeakerProfile.name, SpeakerProfile.public_id)
+        )
+        return list(rows)
+
+    async def active_profiles_by_public_id(
+        self, tenant_id: int, public_ids: list[str]
+    ) -> list[SpeakerProfile]:
+        rows = await self.session.scalars(
+            select(SpeakerProfile).where(
+                SpeakerProfile.tenant_id == tenant_id,
+                SpeakerProfile.public_id.in_(public_ids),
+                SpeakerProfile.is_deleted.is_(False),
+            )
+        )
+        return list(rows)
+
+    async def speaker_public_ids(self, tenant_id: int, meeting_id: int) -> dict[int, str]:
+        rows = await self.session.execute(
+            select(MeetingSpeaker.meeting_speaker_id, MeetingSpeaker.public_id).where(
+                MeetingSpeaker.tenant_id == tenant_id,
+                MeetingSpeaker.meeting_id == meeting_id,
+                MeetingSpeaker.is_deleted.is_(False),
+            )
+        )
+        return {speaker_id: public_id for speaker_id, public_id in rows}
+
     async def transcript_for_review(
         self, tenant_id: int, meeting_id: int, public_id: str
     ) -> MeetingTranscript | None:
@@ -346,6 +428,20 @@ class MeetingRepository:
                 .limit(1)
             )
         ).one_or_none()
+
+    async def retire_transcript(
+        self, tenant_id: int, meeting_id: int, actor: int | None, now: datetime
+    ) -> None:
+        await self.session.execute(
+            update(MeetingTranscript)
+            .where(
+                MeetingTranscript.tenant_id == tenant_id,
+                MeetingTranscript.meeting_id == meeting_id,
+                MeetingTranscript.is_deleted.is_(False),
+            )
+            .values(is_deleted=True, deleted_at=now, deleted_by=actor)
+            .execution_options(synchronize_session=False)
+        )
 
     async def next_transcript_ordinal(self, tenant_id: int, meeting_id: int) -> int:
         result = await self.session.scalar(

@@ -53,7 +53,7 @@ await withBrowser("meeting source audio review", async ({ page, assert }) => {
     for (const language of ["tr", "en"]) for (const width of [1440, 390]) {
       await page.setViewportSize({ width, height: 1000 }); await locale(language);
       const text = catalogues[language];
-      await page.getByRole("heading", { name: text["meeting.transcript"], exact: true }).waitFor();
+      await page.getByRole("tab", { name: text["meeting.transcript"], exact: true, selected: true }).waitFor();
       const first = page.locator("[data-transcript-id]").first();
       const button = first.getByRole("button", { name: new RegExp(text["meeting.audio.listen"]) });
       await button.focus();

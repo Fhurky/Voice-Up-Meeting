@@ -79,7 +79,14 @@ await withBrowser("local speaker pilot, both locales and real audio boundaries",
     await access(cleanAudio);
     await access(otherAudio);
     const profileName = "E2E " + randomUUID();
+    // Capable browsers default the enrollment panel to the microphone; these steps use the file source.
+    async function fileSource() {
+      const button = page.getByRole("button", { name: "Dosya yükle", exact: true });
+      if (await button.count()) await button.click();
+    }
     await page.getByRole("navigation", { name: "Ana gezinme" }).getByRole("link", { name: "Konuşmacılar", exact: true }).click();
+    await page.getByRole("button", { name: "Profil oluştur", exact: true }).click();
+    await fileSource();
     await page.getByLabel("Konuşmacı adı veya takma adı").fill(profileName);
     await page.getByLabel("Ses dosyası").setInputFiles(cleanAudio);
     await page.getByRole("button", { name: "Yükle ve profil oluştur" }).click();
@@ -100,6 +107,7 @@ await withBrowser("local speaker pilot, both locales and real audio boundaries",
 
     const renamedCard = page.getByRole("listitem").filter({ has: page.getByRole("heading", { name: profileName + " renamed", exact: true }) });
     await renamedCard.getByRole("button", { name: "Örnek ekle", exact: true }).click();
+    await fileSource();
     await page.getByLabel("Ses dosyası").setInputFiles(cleanAudio);
     await page.getByRole("button", { name: "Yükle ve örneği doğrula" }).click();
     const added = await awaitTerminal();
@@ -110,6 +118,7 @@ await withBrowser("local speaker pilot, both locales and real audio boundaries",
     await page.getByRole("link", { name: "Konuşmacı profillerini gör" }).click();
     const targetCard = page.getByRole("listitem").filter({ has: page.getByRole("heading", { name: profileName + " renamed", exact: true }) });
     await targetCard.getByRole("button", { name: "Örnek ekle", exact: true }).click();
+    await fileSource();
     await page.getByLabel("Ses dosyası").setInputFiles(otherAudio);
     await page.getByRole("button", { name: "Yükle ve örneği doğrula" }).click();
     const rejected = await awaitTerminal();

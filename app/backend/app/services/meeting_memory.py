@@ -14,7 +14,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from app.core.config import Settings
-from app.domain.meeting import AUTO_ENROLL_SECONDS, clean_union
+from app.domain.meeting import AUTO_ENROLL_SECONDS, MIN_RECOGNITION_SECONDS, clean_union
 from app.domain.meeting_memory_trace import build_memory_match_trace
 from app.domain.meeting_native_exclusions import (
     ABSENT_EXCLUSIONS,
@@ -38,6 +38,7 @@ from app.domain.speaker_identity import (
 from app.infrastructure.audio_storage import AudioStorage, StoredAudio
 from app.infrastructure.meeting_audio import MeetingAudioStorage
 from app.infrastructure.repositories.meeting_repository import MeetingRepository
+from app.infrastructure.repositories.speaker_repository import ProfileScope
 from app.schemas.speaker_identity import MatchPolicyResponse, SpeakerResult
 from app.services.meeting_memory_ports import MeetingMemoryPort, MeetingMemoryResult, MemoryContext
 from app.services.meeting_memory_samples import prepare_context_sample, validate_context_result
@@ -53,6 +54,17 @@ class MemoryAudio:
 
     async def read(self, size: int = -1) -> bytes:
         return self.stream.read(size)
+
+
+@dataclass(frozen=True, slots=True)
+class PopulationDecision:
+    """A fused ECAPA/meeting-population decision with the scores its trace records."""
+
+    decision: MatchDecision
+    ranked: list[tuple[SpeakerProfile, float]]
+    ecapa_scores: list[float]
+    community_scores: list[float] | None
+    winner_agreement: bool | None
 
 
 @dataclass(frozen=True, slots=True)
@@ -510,24 +522,43 @@ class MeetingMemory:
                 if result is not None:
                     self.validate_result(result, evidence)
                     vector = self.checked_vector(result.embedding)
-                    ranked = await repository.speaker_repository.ranked(evidence.tenant_id, vector)
-                    ecapa_scores = [score for _, score in ranked]
-                    community_scores = None
-                    winner_agreement = None
-                    decision = decide(ecapa_scores, self.policy)
+                    memory_vector = None
                     if context_result is not None:
                         if context_result.memory_embedding is None:
                             raise SpeakerError("model_mismatch", 502)
-                        meeting_ranked = await repository.speaker_repository.ranked_meeting(
-                            evidence.tenant_id, context_result.memory_embedding.embedding
-                        )
-                        community_scores = [score for _, score in meeting_ranked]
-                        if ranked and meeting_ranked:
-                            winner_agreement = (
-                                ranked[0][0].speaker_profile_id
-                                == meeting_ranked[0][0].speaker_profile_id
+                        memory_vector = context_result.memory_embedding.embedding
+                    roster = await repository.participant_profile_ids(
+                        evidence.tenant_id, meeting.meeting_id
+                    )
+                    population = await self.population_decision(
+                        repository,
+                        evidence.tenant_id,
+                        vector,
+                        memory_vector,
+                        ProfileScope(roster, inside=True) if roster else None,
+                    )
+                    if roster and population.decision.decision == "recognized":
+                        if await self.outside_roster_wins(
+                            repository,
+                            evidence.tenant_id,
+                            vector,
+                            memory_vector,
+                            roster,
+                            population,
+                        ):
+                            population = replace(
+                                population, decision=MatchDecision("ambiguous", "outside_roster")
                             )
-                        decision, ranked = self.fuse_populations(ranked, meeting_ranked)
+                    elif roster and population.decision.decision == "unknown":
+                        # A voice unlike every listed participant is a guest and follows the
+                        # unrestricted flow, so a saved non-listed person is not duplicated.
+                        population = await self.population_decision(
+                            repository, evidence.tenant_id, vector, memory_vector, None
+                        )
+                    decision, ranked = population.decision, population.ranked
+                    ecapa_scores = population.ecapa_scores
+                    community_scores = population.community_scores
+                    winner_agreement = population.winner_agreement
                     try:
                         match_trace = build_memory_match_trace(
                             ecapa_scores,
@@ -541,7 +572,12 @@ class MeetingMemory:
                         raise SpeakerError("model_mismatch", 502) from exc
                     row.props = {**row.props, "memory_match_trace": match_trace}
                     row.reason = decision.reason
-                    if decision.decision == "recognized":
+                    if (
+                        decision.decision == "recognized"
+                        and evidence.speech_seconds < MIN_RECOGNITION_SECONDS
+                    ):
+                        row.reason = "insufficient_speech"
+                    elif decision.decision == "recognized":
                         profile = ranked[0][0]
                         conflict_reason = await self.conflicting_assignment(
                             repository, row, profile.speaker_profile_id, meeting.source_sha256
@@ -676,6 +712,56 @@ class MeetingMemory:
         finally:
             if stored is not None and not keep_file:
                 await self.remove_unreferenced_sample(evidence.tenant_id, stored.key)
+
+    async def population_decision(
+        self,
+        repository: MeetingRepository,
+        tenant_id: int,
+        vector: list[float],
+        memory_vector: list[float] | None,
+        scope: ProfileScope | None,
+    ) -> PopulationDecision:
+        ranked = await repository.speaker_repository.ranked(tenant_id, vector, scope)
+        ecapa_scores = [score for _, score in ranked]
+        if memory_vector is None:
+            return PopulationDecision(
+                decide(ecapa_scores, self.policy), ranked, ecapa_scores, None, None
+            )
+        meeting_ranked = await repository.speaker_repository.ranked_meeting(
+            tenant_id, memory_vector, scope
+        )
+        agreement = None
+        if ranked and meeting_ranked:
+            agreement = ranked[0][0].speaker_profile_id == meeting_ranked[0][0].speaker_profile_id
+        decision, fused = self.fuse_populations(ranked, meeting_ranked)
+        return PopulationDecision(
+            decision,
+            fused,
+            ecapa_scores,
+            [score for _, score in meeting_ranked],
+            agreement,
+        )
+
+    @staticmethod
+    async def outside_roster_wins(
+        repository: MeetingRepository,
+        tenant_id: int,
+        vector: list[float],
+        memory_vector: list[float] | None,
+        roster: frozenset[int],
+        listed: PopulationDecision,
+    ) -> bool:
+        """A non-listed profile scoring above the best listed one blocks a listed match."""
+        outside = ProfileScope(roster, inside=False)
+        ecapa = await repository.speaker_repository.ranked(tenant_id, vector, outside)
+        if ecapa and listed.ecapa_scores and ecapa[0][1] > listed.ecapa_scores[0]:
+            return True
+        if memory_vector is None or not listed.community_scores:
+            return False
+        meeting = await repository.speaker_repository.ranked_meeting(
+            tenant_id, memory_vector, outside
+        )
+        return bool(meeting) and meeting[0][1] > listed.community_scores[0]
 
     def fuse_populations(
         self,

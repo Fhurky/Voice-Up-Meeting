@@ -145,7 +145,13 @@ async def meeting_client(meeting_harness: MeetingHarness) -> AsyncIterator[Async
 async def create(client: AsyncClient, data: bytes, key: str | None = None, **kwargs) -> dict:
     response = await client.post(
         "/meetings",
-        json={"title": "Meeting", "format": "WAV", "size_bytes": len(data), **kwargs},
+        json={
+            "title": "Meeting",
+            "format": "WAV",
+            "size_bytes": len(data),
+            "auto_enroll": True,
+            **kwargs,
+        },
         headers={"Idempotency-Key": key or str(uuid4())},
     )
     assert response.status_code == 201, response.text
@@ -261,12 +267,13 @@ async def test_permissions_and_tenant_do_not_leak_or_mutate(
     path = f"/meetings/{meeting['public_id']}"
     denied = {"Authorization": "Bearer " + harness.token([])}
     assert (await client.get(path, headers=denied)).status_code == 403
+    assert (await client.get(path + "/speaker-turns", headers=denied)).status_code == 403
     assert (await client.post(path + "/cancel", headers=denied)).status_code == 403
     run_only = {
         "Authorization": "Bearer " + harness.token(["meeting_analysis:run"]),
         "Idempotency-Key": str(uuid4()),
     }
-    body = {"title": "No write", "format": "WAV", "size_bytes": len(data)}
+    body = {"title": "No write", "format": "WAV", "size_bytes": len(data), "auto_enroll": True}
     assert (await client.post("/meetings", json=body, headers=run_only)).status_code == 403
     body["auto_enroll"] = False
     assert (await client.post("/meetings", json=body, headers=run_only)).status_code == 201
@@ -278,7 +285,7 @@ async def test_permissions_and_tenant_do_not_leak_or_mutate(
         "Authorization": "Bearer " + harness.token([], super_admin=True),
         harness.settings.tenant_header: other.public_id,
     }
-    for suffix in ("", "/upload-parts", "/speakers", "/transcript"):
+    for suffix in ("", "/upload-parts", "/speakers", "/transcript", "/speaker-turns"):
         assert (await client.get(path + suffix, headers=foreign)).status_code == 404
     assert (await client.post(path + "/cancel", headers=foreign)).status_code == 404
     assert (await client.get(path)).json()["status"] == "uploading"
@@ -339,6 +346,11 @@ async def test_naming_is_versioned_and_does_not_create_or_reembed(
     track_id, profile_id = await seed_named_track(
         harness, meeting["public_id"], persistent=persistent
     )
+    async with harness.sessions() as session, session.begin():
+        stored = await session.scalar(
+            select(Meeting).where(Meeting.public_id == meeting["public_id"])
+        )
+        stored.status = "succeeded"
     path = f"/meetings/{meeting['public_id']}"
     track = (await harness.client.get(path + "/speakers")).json()["items"][0]
     body = {

@@ -1,12 +1,37 @@
 """Create missing local configuration without overwriting existing values."""
 
 import secrets
+import subprocess
 from pathlib import Path
 
-from local_runtime_config import dotenv_values
+from local_runtime_config import (
+    CU128_MINIMUM_COMPUTE_CAPABILITY,
+    cuda_profile,
+    cuda_profile_settings,
+    dotenv_values,
+)
 
 
-def prepare_config(path: Path) -> None:
+def detected_compute_capability(runner=subprocess.run) -> float | None:
+    """Return the first NVIDIA GPU's compute capability, or None without a working driver."""
+    try:
+        result = runner(
+            ["nvidia-smi", "--query-gpu=compute_cap", "--format=csv,noheader"],
+            capture_output=True,
+            text=True,
+            timeout=15,
+            check=False,
+        )
+    except (OSError, subprocess.SubprocessError):
+        return None
+    lines = result.stdout.split() if result.returncode == 0 else []
+    try:
+        return float(lines[0]) if lines else None
+    except ValueError:
+        return None
+
+
+def prepare_config(path: Path, compute_capability: float | None = None) -> None:
     source = path.read_text(encoding="utf-8-sig") if path.exists() else ""
     configured = dotenv_values(source)
     defaults = {"APP_HTTP_PORT": "8081", "GRAFANA_PORT": "3002"}
@@ -30,7 +55,17 @@ def prepare_config(path: Path) -> None:
             not configured[key].isdigit() or not 1 <= int(configured[key]) <= 65535
         ):
             raise ValueError(f"Invalid local port: {key}; existing values were not changed")
+    if (
+        compute_capability is not None
+        and compute_capability < CU128_MINIMUM_COMPUTE_CAPABILITY
+        and "INFERENCE_RUNTIME_PROFILE" not in configured
+    ):
+        defaults.update(cuda_profile_settings("x86_64-cu126"))
     additions = [f"{key}={value}" for key, value in defaults.items() if key not in configured]
+    try:
+        cuda_profile({**defaults, **configured})
+    except ValueError as exc:
+        raise ValueError(f"{exc}; existing values were not changed") from None
     if additions:
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(source.rstrip() + "\n" + "\n".join(additions) + "\n", encoding="utf-8")
@@ -39,7 +74,10 @@ def prepare_config(path: Path) -> None:
 
 def main() -> None:
     try:
-        prepare_config(Path(__file__).resolve().parents[1] / "app/infra/.env")
+        prepare_config(
+            Path(__file__).resolve().parents[1] / "app/infra/.env",
+            detected_compute_capability(),
+        )
     except ValueError as exc:
         raise SystemExit(str(exc)) from None
 

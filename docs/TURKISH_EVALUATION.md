@@ -141,7 +141,9 @@ docker run --rm --pull never --network none --gpus all --entrypoint python --wor
 ```
 
 FLEURS için `--root data/turkish/fleurs-tr-test-v1` seçip **yeni** çıktı yolu
-ve deney kimliği kullanın. Model/çıkarım ayarları sabittir. İki GPU koşumunu
+ve deney kimliği kullanın. Model/çıkarım ayarları sabittir; yalnız Whisper hesaplama türü çalışma
+profilinden gelir. Pascal GPU (`x86_64-cu126`) için komuta `--runtime-profile x86_64-cu126`
+eklenir ve `int8` kullanılır; varsayılan `x86_64-cu128` profili `int8_float16` kullanır. İki GPU koşumunu
 ve toplantı analizini aynı anda başlatmayın.
 
 Kesilen aynı koşuma, aynı komuta `--resume` ekleyerek devam edilir. Klip

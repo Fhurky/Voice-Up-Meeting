@@ -27,7 +27,8 @@ class Node extends EventTarget {
   static latest: Node;
   port = { onmessage: null as ((event: MessageEvent<PcmCaptureMessage>) => void) | null, postMessage: vi.fn(), close: vi.fn() };
   connect = vi.fn(); disconnect = vi.fn();
-  constructor() { super(); Node.latest = this; }
+  options?: AudioWorkletNodeOptions;
+  constructor(_context?: unknown, _name?: string, options?: AudioWorkletNodeOptions) { super(); this.options = options; Node.latest = this; }
   emit(data: PcmCaptureMessage) { this.port.onmessage?.(new MessageEvent("message", { data })); }
 }
 
@@ -99,6 +100,17 @@ describe("microphone capture lifecycle and disk ownership", () => {
     expect(remove).not.toHaveBeenCalled();
     await result.dispose(); await result.dispose();
     expect(remove).toHaveBeenCalledOnce();
+  });
+
+  it("caps captured samples at a caller duration limit and otherwise at the meeting limit", async () => {
+    const limited = createMicrophoneCapture({ maxSeconds: 120 });
+    await limited.start();
+    expect((Node.latest.options?.processorOptions as { maxSamples: number }).maxSamples).toBe(48000 * 120);
+    await limited.cancel();
+    const meeting = createMicrophoneCapture({});
+    await meeting.start();
+    expect((Node.latest.options?.processorOptions as { maxSamples: number }).maxSamples).toBe(48000 * 14400);
+    await meeting.cancel();
   });
 
   it("returns credit only after the disk write resolves", async () => {

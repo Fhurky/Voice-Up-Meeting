@@ -2,7 +2,9 @@
 # Supply the unchanged base wheelhouse and the verified meeting wheelhouse.
 FROM python:3.13.14-slim-bookworm@sha256:67a1e1f215ccda113cfc024e8639049257e88f273898f595b61476d128d387e8
 WORKDIR /srv/inference
-COPY app/inference/requirements.txt /srv/inference/requirements.txt
+# requirements.cu126.txt selects the Pascal-compatible CUDA 12.6 lock.
+ARG INFERENCE_REQUIREMENTS=requirements.txt
+COPY app/inference/${INFERENCE_REQUIREMENTS} /srv/inference/requirements.txt
 COPY app/inference/requirements.meeting-x86_64.txt /srv/inference/requirements.meeting-x86_64.txt
 RUN --mount=type=bind,from=wheelhouse,target=/wheelhouse,readonly \
     python -m pip install --no-cache-dir --no-index --only-binary=:all: \

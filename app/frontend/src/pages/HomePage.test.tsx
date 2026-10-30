@@ -33,13 +33,30 @@ describe("workspace overview", () => {
     await screen.findByRole("heading", { name: "Your workspace", level: 1 });
     expect(MeetingService.list).toHaveBeenCalledTimes(1);
   });
+  it("offers upload and microphone actions to a meeting runner and the guide only while there are no meetings", async () => {
+    vi.spyOn(MeetingService, "list").mockResolvedValue({ items: [], total: 0, offset: 0, limit: 20 });
+    vi.spyOn(SpeakerService, "profiles").mockResolvedValue({ items: [], total: 0, offset: 0, limit: 20 });
+    setup();
+    expect(await screen.findByRole("link", { name: /Toplantı kaydı yükle/ })).toHaveAttribute("href", "/meetings?new=file");
+    expect(screen.getByRole("link", { name: /Mikrofonla kaydet/ })).toHaveAttribute("href", "/meetings?new=microphone");
+    expect(await screen.findByRole("list", { name: "Üç adımda toplantı hafızası" })).toBeInTheDocument();
+    expect(screen.getByText("Merhaba Alex, kaldığınız yerden devam edin.")).toBeInTheDocument();
+    cleanup();
+    vi.spyOn(MeetingService, "list").mockResolvedValue({ items: [meeting], total: 1, offset: 0, limit: 20 });
+    session.permissions = ["meeting_analysis:read"];
+    setup();
+    await screen.findByRole("link", { name: /Weekly meeting/ });
+    expect(screen.queryByRole("link", { name: /Toplantı kaydı yükle/ })).not.toBeInTheDocument();
+    expect(screen.queryByRole("list", { name: "Üç adımda toplantı hafızası" })).not.toBeInTheDocument();
+  });
+
   it("never reads or exposes unauthorized data and creation actions", async () => {
     session.permissions = [];
     const meetings = vi.spyOn(MeetingService, "list");
     const profiles = vi.spyOn(SpeakerService, "profiles");
     setup(); await screen.findByRole("heading", { level: 1 });
     expect(meetings).not.toHaveBeenCalled(); expect(profiles).not.toHaveBeenCalled();
-    expect(screen.queryByRole("link", { name: "Toplantı kaydı yükle" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: /Toplantı kaydı yükle/ })).not.toBeInTheDocument();
     expect(screen.queryByRole("link", { name: /Konuşmacılar/ })).not.toBeInTheDocument();
   });
   it("shows a load failure without a fabricated zero and retries the real service", async () => {

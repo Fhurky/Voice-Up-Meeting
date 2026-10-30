@@ -1,17 +1,17 @@
-import { lazy, Suspense, type ReactNode } from "react";
+import { lazy, type ReactNode } from "react";
 import { PermissionRoute } from "@/components/auth/PermissionRoute";
-import { useIntl } from "@/contexts/IntlContext";
-import { Icon } from "@/components/ui/Icon";
+import { workspacePageLoaders as loaders } from "@/components/workspacePageLoaders";
 
-const ProfilesPage = lazy(() => import("@/pages/SpeakerProfilesPage"));
-const AnalysisPage = lazy(() => import("@/pages/SpeakerAnalysisPage"));
-const JobPage = lazy(() => import("@/pages/SpeakerJobPage"));
-const MeetingsPage = lazy(() => import("@/pages/MeetingsPage"));
-const MeetingPage = lazy(() => import("@/pages/MeetingPage"));
+const ProfilesPage = lazy(loaders.profiles);
+const AnalysisPage = lazy(loaders.analysis);
+const JobPage = lazy(loaders.job);
+const MeetingsPage = lazy(loaders.meetings);
+const MeetingPage = lazy(loaders.meeting);
 
+// Pages suspend into the single application boundary, so navigation keeps the current
+// workspace on screen instead of replacing it with a loading view.
 function DeferredPage({ permission, children }: { permission: string; children: ReactNode }) {
-  const { t } = useIntl();
-  return <PermissionRoute permission={permission}><Suspense fallback={<main className="center route-loading" role="status"><span className="section-icon"><Icon name="audio" size={24} /></span>{t("common.loading")}</main>}>{children}</Suspense></PermissionRoute>;
+  return <PermissionRoute permission={permission}>{children}</PermissionRoute>;
 }
 
 export function SpeakerProfilesRoute() { return <DeferredPage permission="speaker_profiles:read"><ProfilesPage /></DeferredPage>; }

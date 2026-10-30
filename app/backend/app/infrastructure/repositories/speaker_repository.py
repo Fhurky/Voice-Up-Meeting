@@ -1,6 +1,8 @@
 """Tenant-qualified PostgreSQL persistence and exact vector ranking."""
 
+from dataclasses import dataclass
 from datetime import UTC, datetime
+from typing import Any
 
 from sqlalchemy import and_, case, func, or_, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -22,6 +24,23 @@ from app.domain.speaker_identity import (
     MODEL_REVISION,
 )
 from app.services.speaker_ports import SpeakerError
+
+
+@dataclass(frozen=True, slots=True)
+class ProfileScope:
+    """Restrict ranking to (inside=True) or away from (inside=False) a set of profiles."""
+
+    profile_ids: frozenset[int]
+    inside: bool
+
+
+def scoped(scope: ProfileScope | None) -> list[Any]:
+    if scope is None:
+        return []
+    column = SpeakerProfile.speaker_profile_id
+    if scope.inside:
+        return [column.in_(scope.profile_ids)]
+    return [column.not_in(scope.profile_ids)] if scope.profile_ids else []
 
 
 class SpeakerRepository:
@@ -136,7 +155,7 @@ class SpeakerRepository:
         return list(rows), int(total or 0)
 
     async def ranked(
-        self, tenant_id: int, vector: list[float]
+        self, tenant_id: int, vector: list[float], scope: ProfileScope | None = None
     ) -> list[tuple[SpeakerProfile, float]]:
         distance = SpeakerProfile.embedding.cosine_distance(vector)
         rows = await self.session.execute(
@@ -146,6 +165,7 @@ class SpeakerRepository:
                 SpeakerProfile.is_deleted.is_(False),
                 SpeakerProfile.model_id == MODEL_ID,
                 SpeakerProfile.model_revision == MODEL_REVISION,
+                *scoped(scope),
             )
             .order_by(distance, SpeakerProfile.public_id)
             .limit(2)
@@ -153,7 +173,7 @@ class SpeakerRepository:
         return [(profile, max(-1.0, min(1.0, 1.0 - float(value)))) for profile, value in rows]
 
     async def ranked_meeting(
-        self, tenant_id: int, vector: list[float]
+        self, tenant_id: int, vector: list[float], scope: ProfileScope | None = None
     ) -> list[tuple[SpeakerProfile, float]]:
         distance = SpeakerProfile.meeting_embedding.cosine_distance(vector)
         rows = await self.session.execute(
@@ -175,6 +195,7 @@ class SpeakerRepository:
                 Recording.is_deleted.is_(False),
                 Recording.file_removed_at.is_(None),
                 Recording.sha256 == SpeakerProfile.meeting_source_sha256,
+                *scoped(scope),
             )
             .order_by(distance, SpeakerProfile.public_id)
             .limit(2)
