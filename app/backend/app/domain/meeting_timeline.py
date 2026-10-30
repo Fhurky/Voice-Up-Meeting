@@ -21,6 +21,10 @@ class SpeechWord:
     uncertain: bool = False
 
 
+# One flagged word must not split a sentence; a line is flagged only when enough of it is.
+FLAGGED_LINE_SHARE = 0.3
+
+
 @dataclass(frozen=True, slots=True)
 class TranscriptLine:
     start: float
@@ -218,6 +222,7 @@ def align_words(
 ) -> list[TranscriptLine]:
     """Midpoints own words; regular turns retain uncertainty hidden by exclusive output."""
     result: list[TranscriptLine] = []
+    line_words = overlap_words = uncertain_words = 0
     regular_speakers = {turn.speaker for turn in turns}
     observed_exclusive = [turn for turn in exclusive if turn.speaker in regular_speakers]
     for word in sorted(words, key=lambda value: (value.start, value.end)):
@@ -253,8 +258,7 @@ def align_words(
         if result:
             previous = result[-1]
             if (
-                (previous.speaker, previous.overlap, previous.uncertain)
-                == (speaker, overlap, uncertain)
+                previous.speaker == speaker
                 and 0 <= word.start - previous.end <= 1.5
                 and len(previous.text) + len(text) < 500
                 and not any(
@@ -264,14 +268,18 @@ def align_words(
             ):
                 # Whisper carries the original separating space on each word.
                 separator = " " if word.text[:1].isspace() else ""
+                line_words += 1
+                overlap_words += overlap
+                uncertain_words += uncertain
                 result[-1] = TranscriptLine(
                     previous.start,
                     word.end,
                     previous.text + separator + text,
                     speaker,
-                    overlap,
-                    uncertain,
+                    overlap_words >= FLAGGED_LINE_SHARE * line_words,
+                    uncertain_words >= FLAGGED_LINE_SHARE * line_words,
                 )
                 continue
+        line_words, overlap_words, uncertain_words = 1, int(overlap), int(uncertain)
         result.append(TranscriptLine(word.start, word.end, text, speaker, overlap, uncertain))
     return result

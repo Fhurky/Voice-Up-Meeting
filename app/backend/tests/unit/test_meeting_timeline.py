@@ -360,3 +360,58 @@ def test_duplicate_context_turns_do_not_double_weight_one_speaker() -> None:
         60,
     )
     assert result[0].speaker == 2 and result[0].overlap and result[0].uncertain
+
+
+def spoken(count: int, *, low: int = 0, start: float = 0.0) -> list[SpeechWord]:
+    """Consecutive half-second words; the first `low` carry a low model probability."""
+    return [
+        SpeechWord(start + i * 0.5, start + (i + 1) * 0.5, f" w{i}", 0.2 if i < low else 0.9)
+        for i in range(count)
+    ]
+
+
+def test_one_flagged_word_does_not_split_the_same_speaker() -> None:
+    words = [*spoken(3), SpeechWord(1.5, 2, " low", 0.2), *spoken(3, start=2)]
+    rows = align_words(words, [SpeechTurn(0, 4, 1)], [], 0, 60)
+    assert len(rows) == 1
+    assert rows[0].text == "w0 w1 w2 low w0 w1 w2"
+    assert (rows[0].speaker, rows[0].overlap, rows[0].uncertain) == (1, False, False)
+
+
+def test_a_line_is_uncertain_only_when_enough_of_its_words_are() -> None:
+    turns = [SpeechTurn(0, 10, 1)]
+    assert align_words(spoken(10, low=2), turns, [], 0, 60)[0].uncertain is False
+    assert align_words(spoken(10, low=3), turns, [], 0, 60)[0].uncertain is True
+    assert align_words(spoken(1, low=1), turns, [], 0, 60)[0].uncertain is True
+
+
+def test_a_line_shows_overlap_only_when_enough_of_its_words_overlap() -> None:
+    other = SpeechTurn(0, 1, 2)
+    turns = [SpeechTurn(0, 5, 1), other]
+    rows = align_words(spoken(10), turns, [SpeechTurn(0, 5, 1)], 0, 60)
+    assert len(rows) == 1 and rows[0].speaker == 1
+    assert rows[0].overlap is False and rows[0].uncertain is False
+    rows = align_words(spoken(5), turns, [SpeechTurn(0, 5, 1)], 0, 60)
+    assert len(rows) == 1 and rows[0].overlap is True and rows[0].uncertain is True
+
+
+def test_flags_never_merge_across_a_speaker_change_or_a_long_gap() -> None:
+    turns = [SpeechTurn(0, 2, 1), SpeechTurn(2, 4, 2), SpeechTurn(6, 8, 2)]
+    rows = align_words([*spoken(4), *spoken(4, start=2), *spoken(4, start=6)], turns, [], 0, 60)
+    assert [row.speaker for row in rows] == [1, 2, 2]
+
+
+def test_a_word_without_a_speaker_is_never_absorbed_into_a_neighbouring_line() -> None:
+    turns = [SpeechTurn(0, 1, 1), SpeechTurn(1, 2, 2), SpeechTurn(1, 2, 3), SpeechTurn(2, 3, 1)]
+    rows = align_words(
+        [
+            SpeechWord(0, 1, " left", 0.9),
+            SpeechWord(1, 2, " tie", 0.9),
+            SpeechWord(2, 3, " right", 0.9),
+        ],
+        turns,
+        [],
+        0,
+        60,
+    )
+    assert [(row.text, row.speaker) for row in rows] == [("left", 1), ("tie", None), ("right", 1)]
