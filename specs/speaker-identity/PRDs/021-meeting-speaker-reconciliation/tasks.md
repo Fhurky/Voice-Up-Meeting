@@ -54,3 +54,8 @@ plan konuşmacılı özel kayıt normal GPU akışıyla 396 saniyede işlendi. 1
 yani bu kayıtta kopyalanma sorunu AMI'deki kadar görülmedi. 4540 kelimenin %81'i belirsiz işareti olmayan uzun satırlarda;
 490 satırın 255'i bir veya iki kelimelik, belirsiz satırların çoğu bunlar. Kişi ataması doğruluğu kullanıcı kontrolü
 veya etiket olmadan bilinmiyor. Ses ve metin depoya girmez.
+
+30 Ekim 2026 ikinci Türkçe gözlem (etiketsiz, kesin ölçüm değil): kullanıcıya göre 4 konuşmacılı 84 dakikalık özel kayıtta canlı
+kural 24 konuşmacı açtı, birleştirme 7'ye indirdi; 4'ü en az 120 saniye konuşuyor ve konuşma süresinin %98,5'ini alıyor, diğer 3'ü
+56, 16 ve 9 saniye. 11.545 kelimenin %13,5'i belirsiz satırlarda; 1449 satırın 779'u bir veya iki kelimelik. Kişi ataması doğruluğu
+etiket olmadan bilinmiyor. Ses ve metin depoya girmez.

@@ -10,3 +10,6 @@
 `16-meeting-mp4-upload.mjs` Edge ile gerçek bir MP4'te (MPEG-4 video, stereo AAC, 8 saniye) geçti: sunucuya 16 kHz tek
 kanal WAV gitti, süre korundu, ses sessiz değil, video baytı yok. Paketlenmiş Chromium AAC çözmediği için senaryo
 `APP_E2E_BROWSER_CHANNEL` ister. Uzun gerçek MP4 henüz sınanmadı (T05).
+
+30 Ekim 2026 uzun kayıt gözlemi (etiketsiz, kullanıcı kabulü bekliyor): 247 MB, 84 dakikalık MP4 formdan Edge ile yüklendi; ses
+15 saniyede çıkarıldı, 153 MB WAV 15 saniyede yüklendi, toplantı 2129 saniyede işlendi. Görüntü sunucuya gitmedi.
