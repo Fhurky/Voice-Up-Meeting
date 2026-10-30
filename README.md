@@ -59,6 +59,10 @@ powershell -ExecutionPolicy Bypass -File scripts/start-local.ps1 -Mode Local -Pr
 Geri dönmek için `-Processor Gpu` kullanın. CPU modu yavaştır ve yalnız ilk deneme içindir; 5–10 dakikalık kayıtlarla başlayın. Ölçülen
 süre [PRD 027 görevlerindedir](specs/speaker-identity/PRDs/027-meeting-cpu-mode/tasks.md).
 
+GPU'lu kurulumda yönetici, işlemciyi sol menüdeki **Ayarlar** sayfasından da değiştirebilir. Geçiş yaklaşık bir dakika sürer, işlenen toplantı
+varken yapılmaz ve uygulama yeniden başlayınca bu komuttaki seçime döner. Kayıt:
+[PRD 028](specs/speaker-identity/PRDs/028-settings-processor-switch/PRD.md).
+
 ## Doğrulanan toplantı akışı ve açık hedefler
 
 Sabit dört gerçek ses kaydında **5 yeni kişi → aynı 5 kişi → kısa altıncı kişi beklemede

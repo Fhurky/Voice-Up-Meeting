@@ -10,6 +10,8 @@ export type MeetingCorrectionPreview = paths["/api/voiceup/v1/meetings/{public_i
 export type ReviewModelList = paths["/api/voiceup/v1/meetings/review-models"]["get"]["responses"][200]["content"]["application/json"];
 export type ReviewModel = ReviewModelList["items"][number];
 export type MeetingProcessingMode = components["schemas"]["MeetingProcessingMode"];
+export type MeetingProcessor = components["schemas"]["MeetingProcessorState"];
+export type MeetingProcessorChange = components["schemas"]["MeetingProcessorChange"];
 export type CorrectionSelection = paths["/api/voiceup/v1/meetings/{public_id}/transcript/{transcript_id}/correction-suggestion"]["post"]["requestBody"]["content"]["application/json"];
 export type CorrectionSuggestion = paths["/api/voiceup/v1/meetings/{public_id}/transcript/{transcript_id}/correction-suggestion"]["post"]["responses"][200]["content"]["application/json"];
 export type CorrectionSave = paths["/api/voiceup/v1/meetings/{public_id}/transcript/{transcript_id}/corrections"]["post"]["requestBody"]["content"]["application/json"];
@@ -19,6 +21,10 @@ type AudioPreviewQuery = paths["/api/voiceup/v1/meetings/{public_id}/audio-previ
 const path = (id: string) => `/meetings/${encodeURIComponent(id)}`;
 
 export const MeetingService = {
+  processor(signal?: AbortSignal) { return apiRequest<MeetingProcessor>("/meetings/processor", { cache: "no-store", signal }); },
+  changeProcessor(body: MeetingProcessorChange, signal?: AbortSignal) {
+    return apiRequest<MeetingProcessor>("/meetings/processor", { method: "PUT", body: JSON.stringify(body), signal });
+  },
   processingMode(signal?: AbortSignal) { return apiRequest<MeetingProcessingMode>("/meetings/processing-mode", { signal }); },
   reviewModels(signal?: AbortSignal) { return apiRequest<ReviewModelList>("/meetings/review-models", { cache: "no-store", signal }); },
   correctionSuggestion(id: string, transcriptId: string, body: CorrectionSelection, signal?: AbortSignal) {

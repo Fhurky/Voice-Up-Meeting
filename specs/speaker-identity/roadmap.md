@@ -41,6 +41,7 @@ toplantının konuşmacı gruplamasını ve otomatik yeni kişi kaydını kapsam
 | 025 | mp4-meeting-upload | [PRD](PRDs/025-mp4-meeting-upload/PRD.md) | Accepted — MP4 ve M4A kayıtların sesi tarayıcıda çıkarılır, mevcut WAV akışıyla yüklenir; görüntü sunucuya gitmez; sunucu ve bağımlılık değişmez; uzun gerçek kayıt [görevlerde](PRDs/025-mp4-meeting-upload/tasks.md) açık |
 | 026 | readable-transcript-lines | [PRD](PRDs/026-readable-transcript-lines/PRD.md) | Accepted — aynı kişinin satırı işaret farkıyla bölünmez; gerçek kayıtlarda satır sayısı yaklaşık %60 azaldı, metin birebir korundu; kullanıcı kabulü [görevlerde](PRDs/026-readable-transcript-lines/tasks.md) açık |
 | 027 | meeting-cpu-mode | [PRD](PRDs/027-meeting-cpu-mode/PRD.md) | Accepted — ilk denemeler için toplantıları CPU'da çalıştırma; açılışta `-Processor Cpu`, mevcut imaj, yeni paket yok; ekranda yavaşlık uyarısı; [görevler](PRDs/027-meeting-cpu-mode/tasks.md) |
+| 028 | settings-processor-switch | [PRD](PRDs/028-settings-processor-switch/PRD.md) | Accepted — sol menüde Ayarlar; yönetici çalışan serviste GPU ve CPU arasında geçer; seçim kalıcı değil; [görevler](PRDs/028-settings-processor-switch/tasks.md) |
 
 9 Eylül 2026 sıralama kararı: [uzun kayıt ve canlı çalışma](../../docs/LONG_RECORDING_STRATEGY.md).
 001'in gerçek kişi deneyi önce gelir; sonraki model seçimi ölçüme dayanır.

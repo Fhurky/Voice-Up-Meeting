@@ -6,8 +6,11 @@ import pytest
 from httpx import AsyncClient
 from sqlalchemy import select
 
+from app.api.meetings.router import get_meeting_adapter
 from app.domain.models.meeting import Meeting, MeetingQuestion
 from app.domain.models.tenant import Tenant
+from app.main import app
+from app.services.speaker_ports import SpeakerError
 from tests.integration import test_meeting_workflow as workflow_fixtures
 from tests.integration.test_meeting_worker import Provider, worker
 from tests.integration.test_meeting_workflow import MeetingHarness, create, source_bytes, upload
@@ -54,17 +57,90 @@ async def test_voice_memory_stays_off_unless_requested(meeting_client: AsyncClie
     assert (await post(meeting_client, auto_enroll=True)).json()["auto_enroll"] is True
 
 
-async def test_processing_mode_reports_the_configured_device(
-    meeting_harness: MeetingHarness,
+class FakeProcessor:
+    def __init__(self, error: SpeakerError | None = None):
+        self.error, self.requested = error, []
+
+    async def processor(self) -> dict:
+        if self.error:
+            raise self.error
+        return dict(STATE)
+
+    async def switch_processor(self, device: str) -> dict:
+        if self.error:
+            raise self.error
+        self.requested.append(device)
+        return {**STATE, "switching": True}
+
+
+STATE = {
+    "device": "cpu",
+    "gpu_available": False,
+    "cpu_available": True,
+    "switching": False,
+    "last_error": None,
+}
+
+
+@pytest.fixture
+def fake_processor():
+    fake = FakeProcessor()
+    app.dependency_overrides[get_meeting_adapter] = lambda: fake
+    yield fake
+    app.dependency_overrides.pop(get_meeting_adapter, None)
+
+
+async def test_processing_mode_reports_the_running_processor(
+    meeting_harness: MeetingHarness, fake_processor: FakeProcessor
 ) -> None:
     harness = meeting_harness
     response = await harness.client.get("/meetings/processing-mode")
-    assert response.status_code == 200
-    assert response.json() == {"processing_device": harness.settings.meeting_processing_device}
+    assert response.status_code == 200 and response.json() == {"processing_device": "cpu"}
     denied = {"Authorization": "Bearer " + harness.token([])}
     assert (
         await harness.client.get("/meetings/processing-mode", headers=denied)
     ).status_code == 403
+
+
+async def test_processing_mode_is_unknown_when_the_service_cannot_answer(
+    meeting_harness: MeetingHarness, fake_processor: FakeProcessor
+) -> None:
+    fake_processor.error = SpeakerError("inference_unavailable", 503)
+    response = await meeting_harness.client.get("/meetings/processing-mode")
+    assert response.status_code == 200 and response.json() == {"processing_device": "unknown"}
+
+
+async def test_only_a_super_admin_reads_or_changes_the_processor(
+    meeting_harness: MeetingHarness, fake_processor: FakeProcessor
+) -> None:
+    harness = meeting_harness
+    admin = {"Authorization": "Bearer " + harness.token([], super_admin=True)}
+    ordinary = {"Authorization": "Bearer " + harness.token(["meeting_analysis:run"])}
+    assert (await harness.client.get("/meetings/processor", headers=ordinary)).status_code == 403
+    denied = await harness.client.put(
+        "/meetings/processor", json={"device": "gpu"}, headers=ordinary
+    )
+    assert denied.status_code == 403 and fake_processor.requested == []
+    read = await harness.client.get("/meetings/processor", headers=admin)
+    assert read.status_code == 200 and read.json() == STATE
+    changed = await harness.client.put("/meetings/processor", json={"device": "gpu"}, headers=admin)
+    assert changed.status_code == 202 and changed.json()["switching"] is True
+    assert fake_processor.requested == ["gpu"]
+    for body in ({"device": "tpu"}, {}, {"device": "gpu", "extra": 1}):
+        rejected = await harness.client.put("/meetings/processor", json=body, headers=admin)
+        assert rejected.status_code == 422
+
+
+async def test_processor_errors_keep_their_stable_codes(
+    meeting_harness: MeetingHarness, fake_processor: FakeProcessor
+) -> None:
+    harness = meeting_harness
+    admin = {"Authorization": "Bearer " + harness.token([], super_admin=True)}
+    fake_processor.error = SpeakerError("inference_busy", 409)
+    response = await harness.client.put(
+        "/meetings/processor", json={"device": "cpu"}, headers=admin
+    )
+    assert response.status_code == 409 and response.json()["detail"]["code"] == "inference_busy"
 
 
 async def test_blank_subject_is_absent(meeting_client: AsyncClient) -> None:

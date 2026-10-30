@@ -30,7 +30,10 @@ def create_app(settings: Settings, runtime: InferenceRuntime | None = None) -> F
 
     @asynccontextmanager
     async def lifespan(_):
-        await run_in_threadpool(runtime.initialize)
+        if settings.processor_switch:
+            runtime.finish_processor_switch()
+        else:
+            await run_in_threadpool(runtime.initialize)
         yield
 
     app = FastAPI(
@@ -97,7 +100,7 @@ def create_app(settings: Settings, runtime: InferenceRuntime | None = None) -> F
     def meeting_ready():
         return runtime.meeting_readiness()
 
-    def authenticate(request: Request) -> None:
+    def check_internal_key(request: Request) -> None:
         provided = request.headers.get("x-inference-key", "")
         if not compare_digest(
             provided.encode(), settings.internal_key.get_secret_value().encode()
@@ -105,6 +108,9 @@ def create_app(settings: Settings, runtime: InferenceRuntime | None = None) -> F
             raise InferenceError(
                 "unauthorized", "Internal service authentication required", 401
             )
+
+    def authenticate(request: Request) -> None:
+        check_internal_key(request)
         for header in ("x-job-id", "x-tenant-id"):
             try:
                 UUID(request.headers.get(header, ""))
@@ -194,6 +200,23 @@ def create_app(settings: Settings, runtime: InferenceRuntime | None = None) -> F
             return await run_in_threadpool(
                 runtime.meeting_chunk, body, language, **counts
             )
+
+    @app.get("/v1/meeting-processor")
+    def meeting_processor(request: Request):
+        check_internal_key(request)
+        return runtime.processor_state()
+
+    @app.post("/v1/meeting-processor", status_code=202)
+    async def switch_meeting_processor(request: Request):
+        check_internal_key(request)
+        body = await request.body()
+        try:
+            target = json.loads(body).get("device") if len(body) <= 256 else None
+        except (ValueError, AttributeError, RecursionError):
+            target = None
+        if target not in {"gpu", "cpu"}:
+            raise InferenceError("validation_error", "Device must be gpu or cpu", 422)
+        return await run_in_threadpool(runtime.begin_processor_switch, target)
 
     @app.post("/v1/meeting-memory")
     async def meeting_memory(request: Request):

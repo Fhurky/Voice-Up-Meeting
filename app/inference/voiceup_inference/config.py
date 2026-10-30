@@ -25,6 +25,8 @@ class Settings(BaseSettings):
     meeting_asr_manifest: Path = Path("/srv/inference/asr-model-manifest.json")
     device: str = Field(default="cuda:0", pattern=r"^(cpu|cuda:[0-9]+)$")
     runtime_profile: RuntimeProfile = "x86_64-cu128"
+    # Set only by the service when it replaces itself: why this process is starting.
+    processor_switch: Literal["", "selected", "returned"] = ""
     max_upload_bytes: int = Field(default=50 * 1024 * 1024, gt=0, le=50 * 1024 * 1024)
     max_duration_seconds: float = Field(default=120, gt=0, le=120, allow_inf_nan=False)
     host: str = "0.0.0.0"

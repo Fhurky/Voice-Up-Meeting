@@ -5,6 +5,7 @@ import io
 import json
 import math
 import re
+from typing import Any
 
 import httpx
 import soundfile as sf  # type: ignore[import-untyped]
@@ -24,6 +25,52 @@ class HttpMeetingAdapter:
     def __init__(self, settings: Settings, client: httpx.AsyncClient) -> None:
         self.settings = settings
         self.client = client
+
+    async def processor(self) -> dict[str, Any]:
+        return await self._processor_request("GET")
+
+    async def switch_processor(self, device: str) -> dict[str, Any]:
+        return await self._processor_request("POST", {"device": device})
+
+    async def _processor_request(
+        self, method: str, body: dict[str, str] | None = None
+    ) -> dict[str, Any]:
+        if self.settings.inference_key is None:
+            raise SpeakerError("inference_unavailable", 503)
+        try:
+            response = await self.client.request(
+                method,
+                httpx.URL(self.settings.inference_url).join("/v1/meeting-processor"),
+                json=body,
+                headers={"X-Inference-Key": self.settings.inference_key.get_secret_value()},
+                timeout=READINESS_TIMEOUT_SECONDS,
+            )
+        except httpx.HTTPError:
+            raise SpeakerError("inference_unavailable", 503) from None
+        try:
+            document = response.json()
+        except ValueError:
+            document = None
+        if response.status_code not in {200, 202}:
+            detail = document.get("detail") if isinstance(document, dict) else None
+            code = detail.get("code") if isinstance(detail, dict) else None
+            if code in {"inference_busy", "processor_unavailable"}:
+                raise SpeakerError(code, 409)
+            raise SpeakerError("inference_unavailable", 503)
+        if (
+            not isinstance(document, dict)
+            or set(document)
+            != {"device", "gpu_available", "cpu_available", "switching", "last_error"}
+            or not isinstance(document["device"], str)
+            or re.fullmatch(r"cpu|cuda:[0-9]{1,11}", document["device"]) is None
+            or any(
+                type(document[key]) is not bool
+                for key in ("gpu_available", "cpu_available", "switching")
+            )
+            or document["last_error"] not in {None, "processor_switch_failed"}
+        ):
+            raise SpeakerError("model_mismatch", 502)
+        return {**document, "device": "cpu" if document["device"] == "cpu" else "gpu"}
 
     async def ready(self) -> bool:
         """Probe model admission without claiming a tenant job or spending a retry."""

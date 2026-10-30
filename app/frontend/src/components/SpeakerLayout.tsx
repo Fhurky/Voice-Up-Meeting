@@ -22,6 +22,7 @@ export function SpeakerLayout({ titleKey, actions, children }: { titleKey: strin
           {hasPermission("meeting_analysis:read") && <NavLink to="/meetings"><Icon name="meetings" />{t("nav.meetings")}</NavLink>}
           {hasPermission("speaker_profiles:read") && <NavLink to="/speaker-profiles"><Icon name="users" />{t("nav.profiles")}</NavLink>}
           {hasPermission("speaker_analysis:read") && <NavLink to="/speaker-analysis"><Icon name="audio" />{t("nav.analysis")}</NavLink>}
+          {user?.is_super_admin && <NavLink to="/settings"><Icon name="settings" />{t("nav.settings")}</NavLink>}
         </nav>
         <div className="sidebar-account"><SpeakerAvatar name={user?.username || t("workspace.account")} /><div className="account-copy"><strong>{user?.username || t("workspace.account")}</strong><span>{t("workspace.account")}</span></div></div>
         <button className="sidebar-logout" onClick={logout}><Icon name="logout" size={18} />{t("common.signOut")}</button>

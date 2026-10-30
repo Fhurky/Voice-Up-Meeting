@@ -14,6 +14,7 @@ const paths = {
   logout: "M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M9 12h12m-5-5 5 5-5 5",
   shield: "m12 3 9 4v5c0 5-9 9-9 9s-9-4-9-9V7Zm-4 9 3 3 5-5",
   check: "m5 12 4 4L19 6",
+  settings: "M4 6h10M18 6h2M16 4v4M4 12h2M10 12h10M8 10v4M4 18h10M18 18h2M16 16v4",
   file: "M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Zm0 0v6h6M8 13h8M8 17h5",
   clock: "M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM12 7v5l3 2",
   more: "M5 12h.01M12 12h.01M19 12h.01",

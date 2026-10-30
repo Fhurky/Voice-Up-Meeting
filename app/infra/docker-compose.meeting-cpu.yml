@@ -1,14 +1,6 @@
 # Explicit CPU meeting mode for first trials, layered after docker-compose.meeting.yml.
 # It reuses the meeting image and never inherits NVIDIA reservations.
 services:
-  backend:
-    environment:
-      VOICEUP_MEETING_CHUNK_TIMEOUT_SECONDS: "1800"
-      VOICEUP_MEETING_PROCESSING_DEVICE: "cpu"
-  worker:
-    environment:
-      VOICEUP_MEETING_CHUNK_TIMEOUT_SECONDS: "1800"
-      VOICEUP_MEETING_PROCESSING_DEVICE: "cpu"
   inference:
     environment:
       VOICEUP_INFERENCE_DEVICE: cpu

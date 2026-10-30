@@ -85,6 +85,7 @@ function Wait-LocalMeetingReady {
     # HTTP client ignores proxy environment variables and never follows redirects.
     $probeCode = "import http.client,os; c=http.client.HTTPConnection('127.0.0.1',8090,timeout=3); c.request('GET','/meeting-ready',headers={'X-Inference-Key':os.environ['VOICEUP_INFERENCE_INTERNAL_KEY']}); r=c.getresponse(); b=r.read(4097); print(b.decode('utf-8') if r.status==200 and len(b)<=4096 else '{}'); c.close()"
     $timer = [Diagnostics.Stopwatch]::StartNew()
+    $restarted = $false
     do {
         $remaining = [Math]::Min(5, [Math]::Floor($TimeoutSeconds - $timer.Elapsed.TotalSeconds))
         if ($remaining -lt 1) { break }
@@ -93,6 +94,11 @@ function Wait-LocalMeetingReady {
             if ($probe.ExitCode -eq 0 -and $probe.Stdout.Length -le 4096) {
                 $ready = $probe.Stdout | ConvertFrom-Json
                 if (Test-LocalMeetingIdentity -Ready $ready) { return }
+                # A choice made on the Settings page lasts until restart; return to the startup setting.
+                if (-not $restarted -and $ready.ready -eq $true -and $ready.device -cne $script:expectedMeetingDevice) {
+                    $restart = Invoke-LocalDocker -Arguments ($ComposeArguments + @('restart', 'inference')) -TimeoutSeconds 60
+                    $restarted = $restart.ExitCode -eq 0
+                }
             }
         } catch { }
         Start-Sleep -Milliseconds 500

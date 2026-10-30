@@ -4,6 +4,7 @@ export const workspacePageLoaders = {
   job: () => import("@/pages/SpeakerJobPage"),
   meetings: () => import("@/pages/MeetingsPage"),
   meeting: () => import("@/pages/MeetingPage"),
+  settings: () => import("@/pages/SettingsPage"),
 };
 
 let preloaded: Promise<unknown> | null = null;

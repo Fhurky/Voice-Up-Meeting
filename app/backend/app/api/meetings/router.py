@@ -10,12 +10,13 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.routing import APIRoute
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.api.auth.dependencies import CurrentContext, require_permission
+from app.api.auth.dependencies import CurrentContext, require_permission, require_super_admin
 from app.core.config import Settings, get_settings
 from app.db.session import get_db
 from app.domain.meeting import UPLOAD_PART_BYTES
 from app.infrastructure.correction_receipts import CorrectionReceiptSigner
 from app.infrastructure.meeting_audio import PREVIEW_MAX_BYTES, MeetingAudioStorage
+from app.infrastructure.meeting_inference import HttpMeetingAdapter
 from app.infrastructure.ollama_correction import OllamaCorrectionAdapter
 from app.infrastructure.repositories.meeting_repository import MeetingRepository
 from app.infrastructure.repositories.transcript_revision_repository import (
@@ -25,6 +26,8 @@ from app.schemas.meeting import (
     MeetingCreate,
     MeetingPage,
     MeetingProcessingMode,
+    MeetingProcessorChange,
+    MeetingProcessorState,
     MeetingResponse,
     MeetingSpeakerPage,
     MeetingSpeakerRename,
@@ -69,6 +72,16 @@ def get_meeting_service(
 
 
 Service = Annotated[MeetingService, Depends(get_meeting_service)]
+
+
+async def get_meeting_adapter(
+    settings: Annotated[Settings, Depends(get_settings)],
+) -> AsyncIterator[HttpMeetingAdapter]:
+    async with httpx.AsyncClient(trust_env=False, follow_redirects=False) as client:
+        yield HttpMeetingAdapter(settings, client)
+
+
+MeetingAdapter = Annotated[HttpMeetingAdapter, Depends(get_meeting_adapter)]
 
 
 async def get_transcript_correction_service(
@@ -138,10 +151,34 @@ async def list_meetings(
     response_model=MeetingProcessingMode,
     dependencies=[Depends(require_permission("meeting_analysis:read"))],
 )
-async def meeting_processing_mode(
-    settings: Annotated[Settings, Depends(get_settings)],
-) -> MeetingProcessingMode:
-    return MeetingProcessingMode(processing_device=settings.meeting_processing_device)
+async def meeting_processing_mode(adapter: MeetingAdapter) -> MeetingProcessingMode:
+    try:
+        return MeetingProcessingMode(processing_device=(await adapter.processor())["device"])
+    except SpeakerError:
+        return MeetingProcessingMode(processing_device="unknown")
+
+
+@router.get(
+    "/processor",
+    operation_id="meeting_processor",
+    response_model=MeetingProcessorState,
+    dependencies=[Depends(require_super_admin())],
+)
+async def meeting_processor(adapter: MeetingAdapter) -> MeetingProcessorState:
+    return MeetingProcessorState.model_validate(await adapter.processor())
+
+
+@router.put(
+    "/processor",
+    operation_id="change_meeting_processor",
+    response_model=MeetingProcessorState,
+    status_code=202,
+    dependencies=[Depends(require_super_admin())],
+)
+async def change_meeting_processor(
+    body: MeetingProcessorChange, adapter: MeetingAdapter
+) -> MeetingProcessorState:
+    return MeetingProcessorState.model_validate(await adapter.switch_processor(body.device))
 
 
 @router.get(

@@ -89,7 +89,20 @@ class MeetingCreate(BaseModel):
 
 
 class MeetingProcessingMode(BaseModel):
-    processing_device: Literal["gpu", "cpu"]
+    processing_device: Literal["gpu", "cpu", "unknown"]
+
+
+class MeetingProcessorState(BaseModel):
+    device: Literal["gpu", "cpu"]
+    gpu_available: bool
+    cpu_available: bool
+    switching: bool
+    last_error: Literal["processor_switch_failed"] | None
+
+
+class MeetingProcessorChange(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    device: Literal["gpu", "cpu"]
 
 
 class MeetingQuestionResponse(BaseModel):

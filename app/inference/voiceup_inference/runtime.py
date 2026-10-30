@@ -1,9 +1,12 @@
 """One model instance and a nonblocking admission slot for the whole request."""
 
+import os
+import platform
+import sys
 from collections.abc import Callable
 from contextlib import contextmanager
-from threading import Lock
-from time import perf_counter
+from threading import Lock, Thread
+from time import perf_counter, sleep
 
 from voiceup.audio import Turn, validate_turns
 
@@ -18,12 +21,31 @@ from .model_bundle import DIMENSIONS, MODEL_ID, MODEL_REVISION, BundleError
 from .models import ModelHandles, load_models, require_cuda  # noqa: F401
 
 
+RESPONSE_GRACE_SECONDS = 0.5
+
+
+def replace_process(settings: Settings, switch: str) -> None:
+    """Start the service again in this process, on the settings' processor.
+
+    Reloading in place left the old processor's memory behind: the next CPU job was
+    killed for lack of memory in a VM where a freshly started CPU service runs fine.
+    """
+    environment = {
+        **os.environ,
+        "VOICEUP_INFERENCE_DEVICE": settings.device,
+        "VOICEUP_INFERENCE_RUNTIME_PROFILE": settings.runtime_profile,
+        "VOICEUP_INFERENCE_PROCESSOR_SWITCH": switch,
+    }
+    os.execve(sys.executable, sys.orig_argv, environment)
+
+
 class InferenceRuntime:
     def __init__(
         self,
         settings: Settings,
         loader: Callable[[Settings], ModelHandles] = load_models,
         meeting_loader: Callable[[Settings], MeetingModels] = load_meeting_models,
+        replace: Callable[[Settings, str], None] = replace_process,
     ):
         self.settings = settings
         self._loader = loader
@@ -35,6 +57,96 @@ class InferenceRuntime:
         self._meeting_failure = InferenceError(
             "meeting_model_not_ready", "Meeting models are not ready", 503
         )
+        self._replace = replace
+        self._switching = False
+        self._switch_error = (
+            "processor_switch_failed" if settings.processor_switch == "returned" else None
+        )
+        self._switch_thread: Thread | None = None
+        self._gpu_profile: str | None = None
+        self._gpu_checked = False
+
+    def _gpu_settings(self) -> Settings | None:
+        if not self._gpu_checked:
+            import torch
+
+            if torch.cuda.is_available():
+                self._gpu_profile = {"12.6": "x86_64-cu126", "12.8": "x86_64-cu128"}.get(
+                    torch.version.cuda or ""
+                )
+            self._gpu_checked = True
+        if self._gpu_profile is None:
+            return None
+        return self.settings.model_copy(
+            update={"device": "cuda:0", "runtime_profile": self._gpu_profile}
+        )
+
+    def _cpu_settings(self) -> Settings | None:
+        if platform.machine().lower() not in {"x86_64", "amd64"}:
+            return None
+        return self.settings.model_copy(
+            update={"device": "cpu", "runtime_profile": "x86_64-meeting-cpu"}
+        )
+
+    def processor_state(self) -> dict:
+        return {
+            "device": self.settings.device,
+            "gpu_available": self.settings.device != "cpu" or self._gpu_settings() is not None,
+            "cpu_available": self.settings.device == "cpu" or self._cpu_settings() is not None,
+            "switching": self._switching,
+            "last_error": self._switch_error,
+        }
+
+    def begin_processor_switch(self, target: str) -> dict:
+        """Claim the slot and start again on the selected processor."""
+        if (target == "cpu") == (self.settings.device == "cpu"):
+            return self.processor_state()
+        selected = self._cpu_settings() if target == "cpu" else self._gpu_settings()
+        if selected is None:
+            raise InferenceError(
+                "processor_unavailable", "The selected processor is not available", 409
+            )
+        if not self._slot.acquire(blocking=False):
+            raise InferenceError("inference_busy", "Another inference request is active", 503)
+        self._switching, self._switch_error = True, None
+        self._start_switch_thread(self._leave_for, selected)
+        return self.processor_state()
+
+    def finish_processor_switch(self) -> None:
+        """Load in the background after a replacement so the page can follow the progress."""
+        self._slot.acquire()
+        self._switching = True
+        self._start_switch_thread(self._load_selected)
+
+    def join_processor_switch(self) -> None:
+        if self._switch_thread is not None:
+            self._switch_thread.join()
+
+    def _start_switch_thread(self, target: Callable[..., None], *args: object) -> None:
+        self._switch_thread = Thread(target=target, args=args, name="processor-switch", daemon=True)
+        self._switch_thread.start()
+
+    def _leave_for(self, selected: Settings) -> None:
+        sleep(RESPONSE_GRACE_SECONDS)
+        try:
+            self._replace(selected, "selected")
+        except OSError:
+            self._switch_error = "processor_switch_failed"
+            self._switching = False
+            self._slot.release()
+
+    def _load_selected(self) -> None:
+        self.initialize()
+        loaded = self._models is not None and (
+            not self.settings.meeting_enabled or self._meeting_models is not None
+        )
+        if not loaded and self.settings.processor_switch == "selected":
+            previous = self._gpu_settings() if self.settings.device == "cpu" else self._cpu_settings()
+            if previous is not None:
+                self._replace(previous, "returned")
+                return
+        self._switching = False
+        self._slot.release()
 
     def initialize(self) -> None:
         if self._models is not None:
