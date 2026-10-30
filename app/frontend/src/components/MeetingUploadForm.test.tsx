@@ -17,7 +17,7 @@ beforeEach(() => { session.memory = true; session.profiles = true; vi.spyOn(Spea
 function setup() { render(<IntlProvider><MeetingUploadContext.Provider value={{ selection: null, setSelection: vi.fn() }}><MemoryRouter><Routes><Route path="/" element={<MeetingUploadForm />} /><Route path="/meetings/:publicId" element={<p>Meeting detail route</p>} /></Routes></MemoryRouter></MeetingUploadContext.Provider></IntlProvider>); }
 async function fill() {
   fireEvent.change(await screen.findByLabelText("Toplantı adı"), { target: { value: "  Haftalık   toplantı  " } });
-  fireEvent.change(screen.getByLabelText("Toplantı ses dosyası"), { target: { files: [new File(["wav"], "meeting.wav")] } });
+  fireEvent.change(screen.getByLabelText("Toplantı ses veya video dosyası"), { target: { files: [new File(["wav"], "meeting.wav")] } });
 }
 
 describe("meeting upload form", () => {
@@ -75,6 +75,40 @@ describe("meeting upload form", () => {
     expect(create.mock.calls[1]?.[0].auto_enroll).toBe(true);
   });
 
+  it("uploads only extracted audio from an MP4 and does not decode it again on retry", async () => {
+    const decode = vi.fn(async () => ({ length: 2, duration: 2 / 16000, numberOfChannels: 1, getChannelData: () => Float32Array.of(0.5, -0.5) }));
+    vi.stubGlobal("OfflineAudioContext", class { decodeAudioData = decode; });
+    const create = vi.spyOn(MeetingService, "create").mockRejectedValue(new Error("offline"));
+    setup();
+    fireEvent.change(await screen.findByLabelText("Toplantı adı"), { target: { value: "Video toplantı" } });
+    const video = new File([new Uint8Array(8)], "kayit.mp4", { type: "video/mp4", lastModified: 5 });
+    Object.defineProperty(video, "arrayBuffer", { value: async () => new ArrayBuffer(8) });
+    fireEvent.change(screen.getByLabelText("Toplantı ses veya video dosyası"), { target: { files: [video] } });
+    const form = screen.getByRole("form", { name: "Toplantı kaydı yükleme" });
+    fireEvent.submit(form);
+    await screen.findByRole("alert");
+    expect(create.mock.calls[0]?.[0]).toMatchObject({ format: "WAV", size_bytes: 48 });
+    fireEvent.submit(form);
+    await waitFor(() => expect(create).toHaveBeenCalledTimes(2));
+    expect(decode).toHaveBeenCalledTimes(1);
+    expect(create.mock.calls[0]?.[1]).toBe(create.mock.calls[1]?.[1]);
+    vi.unstubAllGlobals();
+  });
+
+  it("explains a video without decodable audio and creates nothing", async () => {
+    vi.stubGlobal("OfflineAudioContext", class { decodeAudioData = async () => { throw new DOMException("bad", "EncodingError"); }; });
+    const create = vi.spyOn(MeetingService, "create");
+    setup();
+    fireEvent.change(await screen.findByLabelText("Toplantı adı"), { target: { value: "Video toplantı" } });
+    const video = new File([new Uint8Array(8)], "kayit.mp4", { type: "video/mp4" });
+    Object.defineProperty(video, "arrayBuffer", { value: async () => new ArrayBuffer(8) });
+    fireEvent.change(screen.getByLabelText("Toplantı ses veya video dosyası"), { target: { files: [video] } });
+    fireEvent.submit(screen.getByRole("form", { name: "Toplantı kaydı yükleme" }));
+    expect(await screen.findByRole("alert")).toHaveTextContent("Bu dosyadan ses çıkarılamadı");
+    expect(create).not.toHaveBeenCalled();
+    vi.unstubAllGlobals();
+  });
+
   it("sends empty meeting details when nothing was entered", async () => {
     const create = vi.spyOn(MeetingService, "create").mockRejectedValue(new Error("offline"));
     setup(); await fill();
@@ -125,7 +159,7 @@ describe("meeting upload form", () => {
     const create = vi.spyOn(MeetingService, "create").mockResolvedValue({ ...meeting, size_bytes: file.size, status: "uploading" });
     const upload = vi.spyOn(uploader, "uploadMeeting").mockRejectedValueOnce(new Error("lost acknowledgement")).mockResolvedValueOnce({ ...meeting, status: "queued" });
     setup(); fireEvent.click(await screen.findByRole("button", { name: "Mikrofonla kaydet" }));
-    expect(screen.queryByLabelText("Toplantı ses dosyası")).not.toBeInTheDocument();
+    expect(screen.queryByLabelText("Toplantı ses veya video dosyası")).not.toBeInTheDocument();
     fireEvent.change(screen.getByLabelText("Toplantı adı"), { target: { value: "Mikrofon denemesi" } });
     fireEvent.change(screen.getByLabelText("En çok kişi sayısı (isteğe bağlı)"), { target: { value: "5" } });
     fireEvent.change(screen.getByLabelText("Tahmini konuşan kişi sayısı (isteğe bağlı)"), { target: { value: "4" } });

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import { useAuth } from "@/contexts/AuthContext";
 import { useIntl } from "@/contexts/IntlContext";
 import { MeetingService, type MeetingCreate } from "@/services/meetings";
+import { extractMeetingAudio, isMediaContainer } from "@/lib/mediaAudio";
 import { meetingErrorKey, validateMeetingFile } from "@/lib/meetingErrors";
 import { MeetingUploadContext } from "@/contexts/meetingUploadSelection";
 import { Icon } from "@/components/ui/Icon";
@@ -33,6 +34,8 @@ export function MeetingUploadForm({ initialSource = "file", onClose }: { initial
   const [roster, setRoster] = useState<string[]>([]);
   const [remember, setRemember] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [extracting, setExtracting] = useState(false);
+  const extracted = useRef<{ source: File; audio: File } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const controller = useRef<AbortController | null>(null);
   const attempt = useRef<{ fingerprint: string; key: string } | null>(null);
@@ -91,13 +94,23 @@ export function MeetingUploadForm({ initialSource = "file", onClose }: { initial
     const active = new AbortController(); controller.current = active;
     setBusy(true); setError(null);
     try {
-      const result = await create(file, active.signal);
+      let upload = file;
+      if (isMediaContainer(file)) {
+        // A retry after a lost response keeps the same audio instead of decoding the video again.
+        if (extracted.current?.source !== file) {
+          setExtracting(true);
+          extracted.current = { source: file, audio: await extractMeetingAudio(file) };
+        }
+        upload = extracted.current.audio;
+      }
+      setExtracting(false);
+      const result = await create(upload, active.signal);
       if (!active.signal.aborted) {
-        setSelection({ meetingId: result.public_id, file });
+        setSelection({ meetingId: result.public_id, file: upload });
         void navigate(`/meetings/${result.public_id}`);
       }
     } catch (failure) { if (!active.signal.aborted) setError(meetingErrorKey(failure)); }
-    finally { controller.current = null; if (!active.signal.aborted) setBusy(false); }
+    finally { controller.current = null; setExtracting(false); if (!active.signal.aborted) setBusy(false); }
   }
 
   return <section className="panel meeting-upload-panel" aria-labelledby="meeting-upload-heading">
@@ -110,7 +123,7 @@ export function MeetingUploadForm({ initialSource = "file", onClose }: { initial
     <form ref={form} className="audio-form" aria-label={t("meeting.uploadForm")} onSubmit={(event) => void submit(event)}>
       {source === "file" && <><div className="upload-surface">
         <label htmlFor="meeting-file">{t("meeting.file")}</label>
-        <input id="meeting-file" type="file" accept=".wav,.flac,audio/wav,audio/flac" required disabled={busy} aria-describedby="meeting-limits" onChange={(event) => { setFile(event.target.files?.[0] ?? null); attempt.current = null; setError(null); }} />
+        <input id="meeting-file" type="file" accept=".wav,.flac,.mp4,.m4a,audio/wav,audio/flac,video/mp4,audio/mp4" required disabled={busy} aria-describedby="meeting-limits" onChange={(event) => { setFile(event.target.files?.[0] ?? null); attempt.current = null; setError(null); }} />
         {file && <p className="upload-file-name" role="status">{file.name}</p>}
       </div>
       <p id="meeting-limits" className="field-hint">{t("meeting.limits")}</p></>}
@@ -154,6 +167,7 @@ export function MeetingUploadForm({ initialSource = "file", onClose }: { initial
           <p id="meeting-memory-hint" className="field-hint">{t("meeting.memoryHint")}</p>
         </div>
       </details>
+      {extracting && <p className="field-hint" role="status">{t("meeting.extractingAudio")}</p>}
       {error && <p className="error-message" role="alert">{t(error)}</p>}
       {source === "file" ? <button type="submit" disabled={busy || !file || !title.trim()}><Icon name="upload" size={18} />{t(busy ? "meeting.creating" : "meeting.start")}</button> :
         <MeetingMicrophoneRecorder onBeforeStart={validateOptions} onBusyChange={setBusy} onAnalyze={analyzeRecording} onAbandon={abandonRecording} onComplete={(result) => { recordingMeeting.current = null; void navigate(`/meetings/${result.public_id}`); }} />}

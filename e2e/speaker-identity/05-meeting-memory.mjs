@@ -26,7 +26,7 @@ await withBrowser("real meeting transcript and five-to-six speaker memory", asyn
     const turkish = page.getByRole("button", { name: "Türkçe", exact: true });
     if (await turkish.count()) await turkish.click();
     await page.getByLabel("Toplantı adı", { exact: true }).fill(`E2E ${label} ${randomUUID()}`);
-    await page.getByLabel("Toplantı ses dosyası").setInputFiles(source);
+    await page.getByLabel("Toplantı ses veya video dosyası").setInputFiles(source);
     await page.getByLabel("Konuşma dili", { exact: true }).selectOption("en");
     await page.getByText("Gelişmiş seçenekler", { exact: true }).click();
     await page.getByLabel("En çok kişi sayısı (isteğe bağlı)").fill(String(count));

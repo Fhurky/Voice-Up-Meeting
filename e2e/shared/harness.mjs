@@ -11,7 +11,9 @@ export async function withBrowser(name, scenario, {requireCredentials = true} = 
     assert.ok(username, 'APP_E2E_SUPER_ADMIN_USER is required');
     assert.ok(password, 'APP_E2E_SUPER_ADMIN_PASS is required');
   }
-  const browser = await chromium.launch({headless: true});
+  // The bundled Chromium has no AAC decoder; video scenarios select an installed browser channel.
+  const channel = process.env.APP_E2E_BROWSER_CHANNEL;
+  const browser = await chromium.launch({headless: true, ...(channel ? {channel} : {})});
   const context = await browser.newContext();
   const allowedOrigin = new URL(baseUrl).origin;
   const externalRequests = [];

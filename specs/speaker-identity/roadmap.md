@@ -38,6 +38,7 @@ toplantının konuşmacı gruplamasını ve otomatik yeni kişi kaydını kapsam
 | 022 | meeting-context-inputs | [PRD](PRDs/022-meeting-context-inputs/PRD.md) | Accepted — isteğe bağlı toplantı konusu ve sorular; en çok ve bağlayıcı olmayan tahmini kişi sayısı; yapay zekâ çağrısı yok; uygulandı, kullanıcı ekranları kabul etti; [görevler](PRDs/022-meeting-context-inputs/tasks.md) |
 | 023 | meeting-effectiveness-analysis | [PRD](PRDs/023-meeting-effectiveness-analysis/PRD.md) | Draft — dayanaklı soru cevapları, konu uygunluğu ve sabit formüllü 100 üzerinden verimlilik puanı; toplantı düzeyinde, kişi puanı yok; 022'ye ve etiketli Türkçe toplantılara bağlı; kabul bekliyor |
 | 024 | turkish-meeting-measurement | [PRD](PRDs/024-turkish-meeting-measurement/PRD.md) | Draft — izinli 3–5 gerçek Türkçe toplantıda insan etiketine karşı konuşmacı, metin ve kimlik ölçümü; ürün davranışı değişmez; kayıt yeri ve etiketleyici kararı bekliyor |
+| 025 | mp4-meeting-upload | [PRD](PRDs/025-mp4-meeting-upload/PRD.md) | Accepted — MP4 ve M4A kayıtların sesi tarayıcıda çıkarılır, mevcut WAV akışıyla yüklenir; görüntü sunucuya gitmez; sunucu ve bağımlılık değişmez; uzun gerçek kayıt [görevlerde](PRDs/025-mp4-meeting-upload/tasks.md) açık |
 
 9 Eylül 2026 sıralama kararı: [uzun kayıt ve canlı çalışma](../../docs/LONG_RECORDING_STRATEGY.md).
 001'in gerçek kişi deneyi önce gelir; sonraki model seçimi ölçüme dayanır.

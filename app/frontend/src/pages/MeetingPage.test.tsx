@@ -84,7 +84,7 @@ describe("meeting detail boundaries", () => {
     setup(); await screen.findByText("Weekly meeting");
     expect(screen.queryByRole("button", { name: "Sil" })).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "Analizi iptal et" })).not.toBeInTheDocument();
-    expect(screen.queryByLabelText("Toplantı ses dosyası")).not.toBeInTheDocument();
+    expect(screen.queryByLabelText("Toplantı ses veya video dosyası")).not.toBeInTheDocument();
   });
 
   it("aborts an older status request when refreshing", async () => {
@@ -111,7 +111,7 @@ it("opens a new meeting from the list with the requested source and closes it ag
   expect(screen.queryByRole("region", { name: "Yeni toplantı" })).not.toBeInTheDocument();
   fireEvent.click(screen.getByRole("button", { name: "Yeni toplantı" }));
   expect(screen.getByRole("button", { name: "Dosya yükle" })).toHaveAttribute("aria-pressed", "true");
-  expect(screen.getByLabelText("Toplantı ses dosyası")).toBeInTheDocument();
+  expect(screen.getByLabelText("Toplantı ses veya video dosyası")).toBeInTheDocument();
   expect(screen.getByText("Gelişmiş seçenekler")).toBeInTheDocument();
 });
 

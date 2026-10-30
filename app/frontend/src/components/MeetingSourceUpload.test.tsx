@@ -22,7 +22,7 @@ describe("meeting source lifetime", () => {
     render(<IntlProvider><MeetingSourceUpload meeting={{ ...meeting, status: "uploading" }} initialFile={null} onComplete={vi.fn()} /></IntlProvider>);
     expect(await screen.findByRole("button", { name: "Yüklemeye devam et" })).toBeDisabled();
     expect(run).not.toHaveBeenCalled();
-    fireEvent.change(screen.getByLabelText("Toplantı ses dosyası"), { target: { files: [new File(["wav"], "meeting.wav")] } });
+    fireEvent.change(screen.getByLabelText("Toplantı ses veya video dosyası"), { target: { files: [new File(["wav"], "meeting.wav")] } });
     fireEvent.click(screen.getByRole("button", { name: "Yüklemeye devam et" }));
     await screen.findByRole("button", { name: "Aktarımı duraklat" });
     fireEvent.click(screen.getByRole("button", { name: "Aktarımı duraklat" }));

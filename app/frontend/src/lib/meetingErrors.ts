@@ -5,7 +5,7 @@ const codes = new Set([
   "idempotency_conflict", "recording_expired", "recording_unavailable", "upload_limit", "storage_limit",
   "source_mismatch", "upload_ack_invalid", "upload_incomplete", "upload_order_conflict", "chunk_hash_mismatch",
   "meeting_state_conflict", "meeting_not_ready", "name_conflict", "inference_unavailable", "job_timeout", "worker_interrupted",
-  "participant_not_found",
+  "participant_not_found", "media_no_audio",
 ]);
 export function meetingErrorKey(error: unknown): string {
   if (error instanceof ApiError) {
@@ -20,7 +20,7 @@ export function meetingErrorKey(error: unknown): string {
 export function validateMeetingFile(file: File): string | null {
   if (file.size === 0) return "meeting.error.invalid_audio";
   if (file.size > 2 * 1024 ** 3) return "meeting.error.audio_limit";
-  if (!/\.(wav|flac)$/i.test(file.name)) return "meeting.error.unsupported_audio";
+  if (!/\.(wav|flac|mp4|m4a)$/i.test(file.name)) return "meeting.error.unsupported_audio";
   return null;
 }
 export function recordingTime(seconds: number): string {

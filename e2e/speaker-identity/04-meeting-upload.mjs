@@ -38,7 +38,7 @@ await withBrowser("meeting upload, resume and ordinary permissions in both local
     await page.goto(baseUrl + "/meetings");
     await page.getByRole("button", { name: "Yeni toplantı", exact: true }).click();
     await page.getByLabel("Toplantı adı", { exact: true }).fill("E2E meeting " + randomUUID());
-    await page.getByLabel("Toplantı ses dosyası").setInputFiles({ name: "invalid.wav", mimeType: "audio/wav", buffer: Buffer.from("invalid audio") });
+    await page.getByLabel("Toplantı ses veya video dosyası").setInputFiles({ name: "invalid.wav", mimeType: "audio/wav", buffer: Buffer.from("invalid audio") });
     await page.getByText("Gelişmiş seçenekler", { exact: true }).click();
     await page.getByLabel("En çok kişi sayısı (isteğe bağlı)").fill("5");
     await page.getByLabel("Tahmini konuşan kişi sayısı (isteğe bağlı)").fill("6");
@@ -81,11 +81,11 @@ await withBrowser("meeting upload, resume and ordinary permissions in both local
     const append = await request(`/meetings/${resumeId}/upload-parts/0`, "PUT", [...prefix], { "Content-Type": "application/octet-stream", "X-Chunk-SHA256": createHash("sha256").update(prefix).digest("hex") });
     assert.equal(append.status, 200); assert.equal(append.body.next_index, 1);
     await page.goto(baseUrl + `/meetings/${resumeId}`);
-    await page.getByLabel("Toplantı ses dosyası").setInputFiles({ name: "source.wav", mimeType: "audio/wav", buffer: Buffer.alloc(buffer.length, 1) });
+    await page.getByLabel("Toplantı ses veya video dosyası").setInputFiles({ name: "source.wav", mimeType: "audio/wav", buffer: Buffer.alloc(buffer.length, 1) });
     await page.getByRole("button", { name: "Yüklemeye devam et", exact: true }).click();
     await page.getByRole("alert").filter({ hasText: "Seçilen dosya kaydedilmiş parçalarla eşleşmiyor" }).waitFor();
     assert.equal((await request(`/meetings/${resumeId}/upload-parts`)).body.next_index, 1);
-    await page.getByLabel("Toplantı ses dosyası").setInputFiles({ name: "source.wav", mimeType: "audio/wav", buffer });
+    await page.getByLabel("Toplantı ses veya video dosyası").setInputFiles({ name: "source.wav", mimeType: "audio/wav", buffer });
     await page.getByRole("button", { name: "Yüklemeye devam et", exact: true }).click();
     await page.getByRole("alert").filter({ hasText: "Yalnız WAV ve FLAC kayıtları desteklenir" }).waitFor();
     const completedParts = await request(`/meetings/${resumeId}/upload-parts`);

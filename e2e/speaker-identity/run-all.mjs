@@ -13,3 +13,4 @@ await import("./12-meeting-participant-roster.mjs");
 await import("./13-microphone-profile-enrollment.mjs");
 await import("./14-workspace-navigation.mjs");
 await import("./15-meeting-context-inputs.mjs");
+await import("./16-meeting-mp4-upload.mjs");
