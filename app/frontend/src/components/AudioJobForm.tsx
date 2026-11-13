@@ -2,19 +2,24 @@ import { useEffect, useRef, useState, type FormEvent } from "react";
 import { useNavigate } from "react-router";
 import { useIntl } from "@/contexts/IntlContext";
 import { ApiError } from "@/lib/apiClient";
+import { extractAudio, isMediaContainer } from "@/lib/mediaAudio";
 import { errorMessageKey, validateAudioFile } from "@/lib/speakerErrors";
 import { SpeakerService, type SpeakerProfile } from "@/services/speakers";
 import { Icon } from "@/components/ui/Icon";
+
+// The server's limit for one speaker sample, checked before a video's audio is uploaded.
+const SAMPLE_MAX_SECONDS = 120;
 
 export function AudioJobForm({ purpose, profile }: { purpose: "enroll" | "identify"; profile?: SpeakerProfile }) {
   const { t } = useIntl();
   const navigate = useNavigate();
   const [file, setFile] = useState<File | null>(null);
   const [name, setName] = useState("");
-  const [phase, setPhase] = useState<"idle" | "uploading" | "creating">("idle");
+  const [phase, setPhase] = useState<"idle" | "extracting" | "uploading" | "creating">("idle");
   const [error, setError] = useState<string | null>(null);
   const attempt = useRef<{ signature: string; uploadKey: string; jobKey: string; recordingId?: string } | null>(null);
   const controller = useRef<AbortController | null>(null);
+  const extracted = useRef<{ source: File; audio: File } | null>(null);
   useEffect(() => () => controller.current?.abort(), []);
   const busy = phase !== "idle";
 
@@ -35,8 +40,18 @@ export function AudioJobForm({ purpose, profile }: { purpose: "enroll" | "identi
     setError(null);
     try {
       if (!current.recordingId) {
+        let upload = file;
+        if (isMediaContainer(file)) {
+          // A retry after a lost response keeps the same audio instead of decoding the video again.
+          if (extracted.current?.source !== file) {
+            setPhase("extracting");
+            extracted.current = { source: file, audio: await extractAudio(file, SAMPLE_MAX_SECONDS) };
+          }
+          upload = extracted.current.audio;
+        }
+        if (abort.signal.aborted) return;
         setPhase("uploading");
-        const recording = await SpeakerService.upload(file, current.uploadKey, abort.signal);
+        const recording = await SpeakerService.upload(upload, current.uploadKey, abort.signal);
         current.recordingId = recording.public_id;
       }
       if (abort.signal.aborted) return;
@@ -64,7 +79,7 @@ export function AudioJobForm({ purpose, profile }: { purpose: "enroll" | "identi
       </div>)}
       <div className="file-field">
         <label htmlFor="speaker-audio">{t("speaker.audio.file")}</label>
-        <input id="speaker-audio" type="file" accept=".wav,.flac,audio/wav,audio/flac" required disabled={busy}
+        <input id="speaker-audio" type="file" accept=".wav,.flac,.mp4,.m4a,audio/wav,audio/flac,video/mp4,audio/mp4" required disabled={busy}
           aria-describedby="audio-limits" onChange={(event) => {
             setFile(event.target.files?.[0] ?? null); attempt.current = null; setError(null);
           }} />

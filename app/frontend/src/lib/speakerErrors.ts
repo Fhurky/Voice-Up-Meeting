@@ -1,11 +1,12 @@
 import { ApiError } from "@/lib/apiClient";
+import { isMediaContainer } from "@/lib/mediaAudio";
 
 const knownCodes = new Set([
   "validation_error", "invalid_audio", "unsupported_audio", "audio_limit", "not_found",
   "idempotency_conflict", "recording_expired", "recording_in_use", "sample_limit", "forbidden",
   "insufficient_speech", "inconsistent_audio", "clipped_audio", "target_mismatch",
   "profile_unavailable", "model_mismatch", "inference_unavailable", "job_timeout",
-  "worker_interrupted", "recording_unavailable", "profile_limit",
+  "worker_interrupted", "recording_unavailable", "profile_limit", "media_no_audio",
 ]);
 
 export function errorMessageKey(error: unknown): string {
@@ -25,7 +26,8 @@ export function jobErrorKey(code: string): string {
 
 export function validateAudioFile(file: File): string | null {
   if (file.size === 0) return "speaker.error.invalid_audio";
-  if (file.size > 50 * 1024 * 1024) return "speaker.error.audio_limit";
-  if (!/\.(wav|flac)$/i.test(file.name)) return "speaker.error.unsupported_audio";
+  // Only a video's audio is uploaded, so the 50 MiB upload limit applies after extraction.
+  if (file.size > (isMediaContainer(file) ? 2 * 1024 ** 3 : 50 * 1024 * 1024)) return "speaker.error.audio_limit";
+  if (!/\.(wav|flac|mp4|m4a)$/i.test(file.name)) return "speaker.error.unsupported_audio";
   return null;
 }

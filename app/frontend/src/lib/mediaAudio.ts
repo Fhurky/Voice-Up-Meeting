@@ -2,7 +2,7 @@ import { ApiError } from "@/lib/apiClient";
 import { encodeWavHeader } from "@/lib/microphonePcm";
 
 const SAMPLE_RATE = 16000;
-const MAX_SECONDS = 4 * 3600;
+const MEETING_MAX_SECONDS = 4 * 3600;
 
 export function isMediaContainer(file: File): boolean {
   return /\.(mp4|m4a)$/i.test(file.name);
@@ -21,7 +21,7 @@ export function monoPcm(channels: Float32Array[]): Int16Array {
 }
 
 /** Only the audio leaves the browser: the picture is never uploaded or stored. */
-export async function extractMeetingAudio(file: File): Promise<File> {
+export async function extractAudio(file: File, maxSeconds = MEETING_MAX_SECONDS): Promise<File> {
   let decoded: AudioBuffer;
   try {
     decoded = await new OfflineAudioContext(1, 1, SAMPLE_RATE).decodeAudioData(await file.arrayBuffer());
@@ -29,7 +29,7 @@ export async function extractMeetingAudio(file: File): Promise<File> {
     throw new ApiError(422, "No decodable audio", "media_no_audio");
   }
   if (decoded.length === 0) throw new ApiError(422, "No decodable audio", "media_no_audio");
-  if (decoded.duration > MAX_SECONDS) throw new ApiError(413, "Audio too long", "audio_limit");
+  if (decoded.duration > maxSeconds) throw new ApiError(413, "Audio too long", "audio_limit");
   const channels = Array.from({ length: decoded.numberOfChannels }, (_, index) => decoded.getChannelData(index));
   const pcm = monoPcm(channels);
   return new File([encodeWavHeader(SAMPLE_RATE, pcm.length), pcm.buffer as ArrayBuffer], file.name.replace(/\.[^.]+$/, ".wav"), {

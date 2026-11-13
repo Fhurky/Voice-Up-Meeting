@@ -16,6 +16,7 @@ Gerekli yerel test ayarları:
 - `APP_E2E_CAPACITY_JOB`: aynı tenant'ta son işler sayfasında bulunan, terminal `failed/profile_limit` durumundaki mevcut test işinin public kimliği.
 - `APP_E2E_ROSTER_USER` / `APP_E2E_ROSTER_PASS`: `meeting_analysis:run` ve `speaker_profiles:read` izinli, tenant'ında en az bir kayıtlı profil bulunan sıradan hesap (`12-meeting-participant-roster.mjs`).
 - `APP_E2E_ENROLL_USER` / `APP_E2E_ENROLL_PASS`: profil okuma/yazma ve analiz okuma/başlatma izinli sıradan hesap (`13-microphone-profile-enrollment.mjs`). `APP_E2E_MICROPHONE_LIVE=1` verilmedikçe senaryo kayıt, iş veya profil oluşturmaz; verildiğinde gerçek mikrofonla `APP_E2E_MICROPHONE_SECONDS` (varsayılan 45) saniye kayıt alır, doğrulama sonucunu bekler ve oluşturduğu profilleri `finally` yolunda public API ile siler.
+- `APP_E2E_SPEAKER_MP4` / `APP_E2E_SPEAKER_MP4_QUERY`: aynı kişinin tek başına konuştuğu, 10–120 saniyelik iki ayrı MP4 videosunun mutlak yolları; ses AAC olduğundan `APP_E2E_BROWSER_CHANNEL` (ör. `msedge`) de gerekir.
 
 `02-read-only.mjs` gerçek girişle iki dilde salt okunur sayfaları, gizli yazma alanlarını,
 yenilemeyi ve çıkışı doğrular. `01-local-pilot.mjs` gerçek yükleme, bozuk/sessiz ses,

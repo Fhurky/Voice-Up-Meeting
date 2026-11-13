@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import { useAuth } from "@/contexts/AuthContext";
 import { useIntl } from "@/contexts/IntlContext";
 import { MeetingService, type MeetingCreate } from "@/services/meetings";
-import { extractMeetingAudio, isMediaContainer } from "@/lib/mediaAudio";
+import { extractAudio, isMediaContainer } from "@/lib/mediaAudio";
 import { meetingErrorKey, validateMeetingFile } from "@/lib/meetingErrors";
 import { MeetingUploadContext } from "@/contexts/meetingUploadSelection";
 import { Icon } from "@/components/ui/Icon";
@@ -105,7 +105,7 @@ export function MeetingUploadForm({ initialSource = "file", onClose }: { initial
         // A retry after a lost response keeps the same audio instead of decoding the video again.
         if (extracted.current?.source !== file) {
           setExtracting(true);
-          extracted.current = { source: file, audio: await extractMeetingAudio(file) };
+          extracted.current = { source: file, audio: await extractAudio(file) };
         }
         upload = extracted.current.audio;
       }
