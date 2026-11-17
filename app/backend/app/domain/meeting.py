@@ -10,6 +10,22 @@ CONTEXT_SECONDS = 5
 AUTO_ENROLL_SECONDS = 20
 # A few seconds of clean speech cannot carry a person's name, however similar they sound.
 MIN_RECOGNITION_SECONDS = 10
+# Longest recording diarized in one pass (PRD 030); 84 minutes measured, longer meetings use chunks.
+WHOLE_RECORDING_MAX_SECONDS = 90 * 60
+# A turn shorter than a millisecond after clipping to a window carries no speech.
+MIN_WINDOW_TURN_SECONDS = 0.001
+
+
+def window_turns(
+    turns: list[tuple[float, float, str]], start: float, end: float
+) -> list[dict[str, float | str]]:
+    """Meeting turns inside one analysis window, in seconds from the window start."""
+    rows: list[dict[str, float | str]] = []
+    for first, last, speaker in turns:
+        begin, finish = max(first, start), min(last, end)
+        if finish - begin >= MIN_WINDOW_TURN_SECONDS:
+            rows.append({"start": begin - start, "end": finish - start, "speaker": speaker})
+    return rows
 
 
 def window_core_seconds(props: dict[str, object]) -> int:

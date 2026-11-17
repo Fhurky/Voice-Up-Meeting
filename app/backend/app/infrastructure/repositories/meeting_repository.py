@@ -10,6 +10,7 @@ from app.core.request_context import RequestContext
 from app.domain.models.meeting import (
     Meeting,
     MeetingChunk,
+    MeetingDiarization,
     MeetingParticipant,
     MeetingQuestion,
     MeetingSpeaker,
@@ -156,6 +157,17 @@ class MeetingRepository:
                 .limit(240)
             )
         )
+
+    async def diarization(self, tenant_id: int, meeting_id: int) -> MeetingDiarization | None:
+        return (
+            await self.session.scalars(
+                select(MeetingDiarization).where(
+                    MeetingDiarization.tenant_id == tenant_id,
+                    MeetingDiarization.meeting_id == meeting_id,
+                    MeetingDiarization.is_deleted.is_(False),
+                )
+            )
+        ).one_or_none()
 
     async def chunk(self, tenant_id: int, meeting_id: int, index: int) -> MeetingChunk | None:
         return (

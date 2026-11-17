@@ -35,6 +35,10 @@ class Provider:
         self.calls = []
         self.error = None
 
+    async def processor(self) -> dict:
+        # Chunked separation, as on the CPU; whole-recording tests override this.
+        return {"device": "cpu"}
+
     async def analyze(
         self,
         audio: bytes,

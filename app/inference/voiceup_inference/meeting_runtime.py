@@ -19,6 +19,7 @@ from .meeting_models import (
     DIARIZATION_ID,
     DIARIZATION_RECIPE,
     DIARIZATION_REVISION,
+    WHOLE_RECORDING_RECIPE,
 )
 from .model_bundle import DIMENSIONS, FILES, MODEL_ID, MODEL_REVISION, SILERO_VERSION
 from .models import ModelHandles
@@ -31,18 +32,24 @@ class MeetingModels(Protocol):
         *,
         max_speakers: int | None = None,
         num_speakers: int | None = None,
+        recipe: str = DIARIZATION_RECIPE,
     ) -> dict: ...
     def transcribe(self, audio: Audio, language: str | None) -> dict: ...
     def voice_embedding(self, samples: np.ndarray) -> np.ndarray: ...
     def voice_embedding_session(self) -> AbstractContextManager[VoiceMemoryModels]: ...
 
 
-def model_identity() -> dict:
+# A chunk holds at most a few hundred turns; a four-hour meeting can hold tens of thousands.
+CHUNK_TURNS = 4096
+RECORDING_TURNS = 200_000
+
+
+def model_identity(recipe: str = DIARIZATION_RECIPE) -> dict:
     return {
         "diarization": {
             "model_id": DIARIZATION_ID,
             "revision": DIARIZATION_REVISION,
-            "recipe": DIARIZATION_RECIPE,
+            "recipe": recipe,
         },
         "asr": {"model_id": ASR_ID, "revision": ASR_REVISION},
         "embedding": {
@@ -69,8 +76,8 @@ def _interval(row: dict, duration: float) -> tuple[float, float] | None:
     return (float(first), float(last)) if first < last else None
 
 
-def _turns(rows: list, duration: float) -> list[Turn]:
-    if not isinstance(rows, list) or len(rows) > 4096:
+def _turns(rows: list, duration: float, limit: int = CHUNK_TURNS) -> list[Turn]:
+    if not isinstance(rows, list) or len(rows) > limit:
         raise ValueError("invalid_meeting_turns")
     turns = []
     for row in rows:
@@ -128,6 +135,97 @@ def _tracking(diarization: dict) -> dict[str, dict | None]:
     return result
 
 
+def _serialize(sequence: list[Turn]) -> list[dict]:
+    return [{"start": turn.start, "end": turn.end, "speaker": turn.speaker} for turn in sequence]
+
+
+def analyze_meeting_recording(
+    audio: Audio, models: MeetingModels, *, max_speakers: int | None = None
+) -> dict:
+    """Separate speakers once over the whole recording; chunks later reuse these labels."""
+    diarization = models.diarize(audio, max_speakers=max_speakers, recipe=WHOLE_RECORDING_RECIPE)
+    turns = _turns(diarization["speaker_diarization"], audio.duration, RECORDING_TURNS)
+    exclusive = _turns(
+        diarization["exclusive_speaker_diarization"], audio.duration, RECORDING_TURNS
+    )
+    tracking = _tracking(diarization)
+    if not {turn.speaker for turn in exclusive} <= set(tracking):
+        raise ValueError("invalid_meeting_tracking_labels")
+    first: dict[str, float] = {}
+    for turn in sorted(turns, key=lambda value: (value.start, value.end)):
+        first.setdefault(turn.speaker, turn.start)
+    return {
+        "input_seconds": audio.duration,
+        "sample_rate": audio.sample_rate,
+        "turns": _serialize(turns),
+        "exclusive_turns": _serialize(exclusive),
+        "speakers": [
+            {"speaker": label, "tracking": tracking[label]}
+            for label in sorted(first, key=lambda label: (first[label], label))
+        ],
+        "model_identity": model_identity(WHOLE_RECORDING_RECIPE),
+    }
+
+
+def _speech(audio: Audio, pilot: ModelHandles) -> list[tuple[float, float]]:
+    speech = pilot.vad.speech_spans(audio.samples, audio.sample_rate)
+    speech_turns = validate_turns(
+        [Turn(start, end, "vad") for start, end in speech], audio.duration
+    )
+    return [(turn.start, turn.end) for turn in speech_turns]
+
+
+def provided_turns(turn_rows: object, exclusive_rows: object, duration: float) -> tuple[list[Turn], list[Turn]]:
+    """Turns sent by the caller are input: out-of-window values are refused, never clipped."""
+
+    def parse(rows: object) -> list[Turn]:
+        if not isinstance(rows, list) or len(rows) > CHUNK_TURNS:
+            raise ValueError("invalid_meeting_turns")
+        turns = []
+        for row in rows:
+            if not isinstance(row, dict) or set(row) != {"start", "end", "speaker"}:
+                raise ValueError("invalid_meeting_turns")
+            start, end, label = row["start"], row["end"], row["speaker"]
+            if (
+                not all(isinstance(value, Real) and not isinstance(value, bool) for value in (start, end))
+                or not all(math.isfinite(value) for value in (start, end))
+                or not 0 <= start < end <= duration + 0.02
+                or not isinstance(label, str)
+                or not 0 < len(label.strip()) <= 128
+            ):
+                raise ValueError("invalid_meeting_turns")
+            turns.append(Turn(float(start), float(end), label))
+        return validate_turns(turns, duration)
+
+    turns, exclusive = parse(turn_rows), parse(exclusive_rows)
+    if not {turn.speaker for turn in exclusive} <= {turn.speaker for turn in turns}:
+        raise ValueError("invalid_meeting_turns")
+    return turns, exclusive
+
+
+def analyze_attributed_chunk(
+    audio: Audio,
+    models: MeetingModels,
+    pilot: ModelHandles,
+    language: str | None,
+    turns: list[Turn],
+    exclusive: list[Turn],
+) -> dict:
+    """Transcribe and collect voice evidence under speakers already separated for the meeting."""
+    labels = {turn.speaker for turn in turns}
+    return _chunk_result(
+        audio,
+        models,
+        pilot,
+        language,
+        _speech(audio, pilot),
+        turns,
+        exclusive,
+        dict.fromkeys(labels),
+        WHOLE_RECORDING_RECIPE,
+    )
+
+
 def analyze_meeting_chunk(
     audio: Audio,
     models: MeetingModels,
@@ -137,11 +235,7 @@ def analyze_meeting_chunk(
     max_speakers: int | None = None,
     num_speakers: int | None = None,
 ) -> dict:
-    speech = pilot.vad.speech_spans(audio.samples, audio.sample_rate)
-    speech_turns = validate_turns(
-        [Turn(start, end, "vad") for start, end in speech], audio.duration
-    )
-    speech = [(turn.start, turn.end) for turn in speech_turns]
+    speech = _speech(audio, pilot)
     diarization = (
         models.diarize(audio, max_speakers=max_speakers, num_speakers=num_speakers)
         if speech
@@ -154,6 +248,22 @@ def analyze_meeting_chunk(
     turns = _turns(diarization["speaker_diarization"], audio.duration)
     exclusive = _turns(diarization["exclusive_speaker_diarization"], audio.duration)
     tracking = _tracking(diarization)
+    return _chunk_result(
+        audio, models, pilot, language, speech, turns, exclusive, tracking, DIARIZATION_RECIPE
+    )
+
+
+def _chunk_result(
+    audio: Audio,
+    models: MeetingModels,
+    pilot: ModelHandles,
+    language: str | None,
+    speech: list[tuple[float, float]],
+    turns: list[Turn],
+    exclusive: list[Turn],
+    tracking: dict[str, dict | None],
+    recipe: str,
+) -> dict:
     # Whisper must not invent speech for a chunk for which VAD found none.
     transcript = (
         models.transcribe(audio, language)
@@ -225,17 +335,11 @@ def analyze_meeting_chunk(
         for label in sorted({turn.speaker for turn in turns})
     ]
 
-    def serialize(sequence: list[Turn]) -> list[dict]:
-        return [
-            {"start": turn.start, "end": turn.end, "speaker": turn.speaker}
-            for turn in sequence
-        ]
-
     return {
         "input_seconds": audio.duration,
         "sample_rate": audio.sample_rate,
-        "turns": serialize(turns),
-        "exclusive_turns": serialize(exclusive),
+        "turns": _serialize(turns),
+        "exclusive_turns": _serialize(exclusive),
         "segments": segments,
         "words": words,
         "language": detected,
@@ -247,5 +351,5 @@ def analyze_meeting_chunk(
             "model_sha256": FILES["silero/silero_vad.jit"],
             "ranges": [{"start": start, "end": end} for start, end in speech],
         },
-        "model_identity": model_identity(),
+        "model_identity": model_identity(recipe),
     }

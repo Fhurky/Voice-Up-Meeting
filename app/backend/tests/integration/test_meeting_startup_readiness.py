@@ -25,6 +25,16 @@ def ready_payload():
     }
 
 
+# A CPU service keeps chunked separation, so these retry rules see the chunk request (PRD 030).
+CPU_PROCESSOR = {
+    "device": "cpu",
+    "gpu_available": False,
+    "cpu_available": True,
+    "switching": False,
+    "last_error": None,
+}
+
+
 async def state(harness, public_id):
     async with harness.sessions() as session:
         row = await session.scalar(select(Meeting).where(Meeting.public_id == public_id))
@@ -46,6 +56,8 @@ async def test_queued_job_survives_model_startup_then_processes_when_ready(meeti
                     raise httpx.ConnectError("service is starting", request=request)
                 return httpx.Response(503, json={"detail": {"code": "meeting_model_not_ready"}})
             return httpx.Response(200, json=ready_payload())
+        if request.url.path == "/v1/meeting-processor":
+            return httpx.Response(200, json=CPU_PROCESSOR)
         assert request.url.path == "/v1/meeting-chunks"
         return httpx.Response(200, json=fixtures.result(10).model_dump())
 
@@ -61,7 +73,7 @@ async def test_queued_job_survives_model_startup_then_processes_when_ready(meeti
         assert await state(harness, public_id) == ("queued", 0, 0, 0)
         available = True
         assert await process_ready_meeting(adapter, worker)
-        assert requests[-2:] == ["/meeting-ready", "/v1/meeting-chunks"]
+        assert requests[-3:] == ["/meeting-ready", "/v1/meeting-processor", "/v1/meeting-chunks"]
         status, attempts, token, chunks = await state(harness, public_id)
         assert status == "finalizing" and attempts == 0 and token == 1 and chunks == 1
 
@@ -73,6 +85,8 @@ async def test_real_post_admission_model_failures_still_exhaust_bounded_retries(
     def producer(request: httpx.Request):
         if request.url.path == "/meeting-ready":
             return httpx.Response(200, json=ready_payload())
+        if request.url.path == "/v1/meeting-processor":
+            return httpx.Response(200, json=CPU_PROCESSOR)
         assert request.url.path == "/v1/meeting-chunks"
         return httpx.Response(503, json={"detail": {"code": "meeting_inference_failed"}})
 

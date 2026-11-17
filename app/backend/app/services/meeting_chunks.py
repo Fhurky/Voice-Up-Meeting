@@ -214,6 +214,16 @@ class MeetingChunkPersistence:
             raise SpeakerError("model_mismatch", 502) from exc
         native_tracks = {track.speaker: track for track in result.tracks}
         by_id = {row.meeting_speaker_id: row for row in rows}
+        # After one pass over the recording each label names a meeting speaker (PRD 030).
+        diarized = (
+            {
+                row.props["diarization_label"]: row
+                for row in rows
+                if "diarization_label" in row.props
+            }
+            if meeting.props.get("diarization_flow") == "whole"
+            else None
+        )
         mapped: dict[str, MeetingSpeaker] = {}
         local_ranges = {
             track.speaker: clean_union(
@@ -262,6 +272,10 @@ class MeetingChunkPersistence:
             overlapping.update(native_differences)
             if rebuild is not None:
                 identity, reason = rebuild.identity(index, track.speaker), "reconciled"
+            elif diarized is not None:
+                if track.speaker not in diarized:
+                    raise SpeakerError("model_mismatch", 502)
+                identity, reason = diarized[track.speaker].meeting_speaker_id, "diarized"
             elif tracking is not None:
                 candidates = [
                     AcousticCandidate(row.meeting_speaker_id, list(row.tracking_embedding))

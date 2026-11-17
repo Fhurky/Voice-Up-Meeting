@@ -718,9 +718,22 @@ def test_public_benchmark_publishes_only_aggregate_rates(ledger, tmp_path):
     assert "FEE013" not in text and "ES2004a" not in text
 
 
+def test_public_benchmark_names_a_single_split(ledger, tmp_path):
+    path = tmp_path / "results.md"
+    assert ledger.record_experiment(
+        path,
+        experiment_id="ami-headset-test-split",
+        metadata={**metadata(), "language": "en", "pipeline": "meeting-memory"},
+        report={**public_benchmark(), "split": "test"},
+        kind="public_benchmark",
+    )
+    assert "rotasyon 1, yalnız `test` bölümü; toplantı 2/2" in path.read_text(encoding="utf-8")
+
+
 @pytest.mark.parametrize(
     ("change", "error"),
     [
+        (lambda report: report.update(split="half"), "invalid_public_benchmark"),
         (lambda report: report["identity"].update(correct=8), "identity_support_mismatch"),
         (lambda report: report["diarization"]["collar_0"].update(der=0.3), "der_component_mismatch"),
         (lambda report: report["diarization"]["collar_0"].update(jer=1.2), "invalid_metric"),

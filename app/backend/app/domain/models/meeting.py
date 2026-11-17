@@ -271,6 +271,63 @@ class MeetingChunk(AuditSoftDeleteMixin, Base):
     )
 
 
+class MeetingDiarization(AuditSoftDeleteMixin, Base):
+    """A meeting-internal side table: it has no public identity and never leaves the backend."""
+
+    __tablename__ = "meeting_diarization"
+    __table_args__ = (
+        UniqueConstraint("tenant_id", "meeting_id", name="uq_meeting_diarization_meeting"),
+        ForeignKeyConstraint(
+            ["tenant_id", "meeting_id"],
+            ["meeting.tenant_id", "meeting.meeting_id"],
+            ondelete="RESTRICT",
+        ),
+        CheckConstraint(
+            "recipe IN ('community-default-whole-v1')", name="meeting_diarization_recipe"
+        ),
+        CheckConstraint(
+            "speaker_count BETWEEN 0 AND 1000 AND char_length(source_sha256) = 64",
+            name="meeting_diarization_bounds",
+        ),
+        CheckConstraint(
+            "jsonb_typeof(result) = 'object' AND octet_length(result::text) <= 67108864",
+            name="meeting_diarization_result",
+        ),
+        Index(
+            "ix_meeting_diarization_active_meeting",
+            "tenant_id",
+            "meeting_id",
+            postgresql_where=text("is_deleted = false"),
+        ),
+        {
+            "comment": "Speaker turns from one diarization pass over a whole meeting recording; analysis chunks attribute speech to these speakers."
+        },
+    )
+    meeting_diarization_id: Mapped[int] = mapped_column(BigInteger, Identity(), primary_key=True)
+    tenant_id: Mapped[int] = mapped_column(
+        BigInteger, ForeignKey("tenant.tenant_id", ondelete="RESTRICT"), nullable=False
+    )
+    meeting_id: Mapped[int] = mapped_column(
+        BigInteger, nullable=False, comment="Same-tenant meeting; at most one pass per meeting."
+    )
+    recipe: Mapped[str] = mapped_column(
+        String(64),
+        nullable=False,
+        comment="Versioned clustering configuration. community-default-whole-v1: the model's own settings (threshold 0.6, Fa 0.07, Fb 0.8), applied once to the whole recording.",
+    )
+    model_id: Mapped[str] = mapped_column(String(120), nullable=False)
+    model_revision: Mapped[str] = mapped_column(String(64), nullable=False)
+    source_sha256: Mapped[str] = mapped_column(
+        String(64), nullable=False, comment="Digest of the source audio these turns describe."
+    )
+    speaker_count: Mapped[int] = mapped_column(Integer, nullable=False)
+    result: Mapped[dict[str, Any]] = mapped_column(
+        JSONB,
+        nullable=False,
+        comment="Private turns and exclusive turns in source seconds under model labels; each label is stored on its meeting_speaker row as props.diarization_label. Never returned by the public HTTP contract.",
+    )
+
+
 class MeetingSpeaker(AuditSoftDeleteMixin, Base):
     __tablename__ = "meeting_speaker"
     __table_args__ = (

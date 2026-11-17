@@ -14,6 +14,8 @@ from app.domain.speaker_identity import (
 )
 
 ABSENT_EXCLUSIONS = object()
+# Two labels of one diarization pass are different voices under either recipe.
+DIARIZATION_RECIPES = frozenset({"community-vbx-fa015-v1", "community-default-whole-v1"})
 MODEL_FIELDS = {
     "ecapa_model_id": MODEL_ID,
     "ecapa_model_revision": MODEL_REVISION,
@@ -70,7 +72,7 @@ class NativePeer:
                 for label in labels
             )
             or labels[0] >= labels[1]
-            or (recipe is not None and recipe != "community-vbx-fa015-v1")
+            or (recipe is not None and recipe not in DIARIZATION_RECIPES)
         ):
             raise ValueError("invalid_native_exclusions")
         similarity, threshold = _number(value["similarity"]), _number(value["new_threshold"])

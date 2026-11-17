@@ -7,10 +7,12 @@ import os
 import re
 import shutil
 import stat
+from collections.abc import Iterator
 from dataclasses import dataclass
 from pathlib import Path
 from typing import BinaryIO
 
+import numpy as np
 import soundfile as sf  # type: ignore[import-untyped]
 
 from app.domain.meeting import (
@@ -142,6 +144,29 @@ class MeetingAudioStorage:
             offset += 8 + size + size % 2
             if offset > expected_bytes:
                 raise SpeakerError("invalid_audio", 400)
+
+    def recording_info(self, key: str) -> tuple[int, int]:
+        """Sample rate and frame count of a stored source, for streaming the whole recording."""
+        try:
+            info = sf.info(self.path(key))
+        except (OSError, RuntimeError, ValueError) as exc:
+            raise SpeakerError("recording_unavailable", 410) from exc
+        return int(info.samplerate), int(info.frames)
+
+    def recording_blocks(self, key: str, *, block_frames: int = 1 << 20) -> Iterator[bytes]:
+        """The whole source as mono PCM16 at its own rate, one bounded block at a time."""
+        try:
+            with sf.SoundFile(self.path(key)) as source:
+                while True:
+                    block = source.read(block_frames, dtype="float32", always_2d=True)
+                    if not len(block):
+                        return
+                    mono = block.mean(axis=1)
+                    if not np.isfinite(mono).all():
+                        raise SpeakerError("invalid_audio", 400)
+                    yield (np.clip(np.round(mono * 32768), -32768, 32767).astype("<i2").tobytes())
+        except (OSError, RuntimeError, ValueError) as exc:
+            raise SpeakerError("recording_unavailable", 410) from exc
 
     def window(self, key: str, start: float, end: float) -> bytes:
         if (

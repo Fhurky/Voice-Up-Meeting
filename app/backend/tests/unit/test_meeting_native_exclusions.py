@@ -31,6 +31,23 @@ def pair():
     return graph
 
 
+def test_whole_recording_labels_are_proof_of_different_voices() -> None:
+    graph = {1: None, 2: None}
+    link_native_peers(
+        graph,
+        1,
+        2,
+        source_sha256="a" * 64,
+        chunk_index=0,
+        labels=("SPEAKER_01", "SPEAKER_00"),
+        recipe="community-default-whole-v1",
+        similarity=0.2,
+        new_threshold=0.45,
+    )
+    record = graph[1].to_record()
+    assert read_exclusions(record, "a" * 64, 1).to_record() == record
+
+
 def test_same_native_label_does_not_prove_difference_without_independent_vector() -> None:
     unit = [1.0] + [0.0] * 191
     different = [0.433, math.sqrt(1 - 0.433**2)] + [0.0] * 190

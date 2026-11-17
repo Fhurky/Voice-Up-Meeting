@@ -185,6 +185,15 @@ def test_aggregate_pools_counts_and_bounds_rates(ami):
     assert low == high == pytest.approx(0.10)
 
 
+def test_split_selects_only_its_meetings_and_all_keeps_every_meeting(ami):
+    meetings = [
+        {"meeting": "ES2004a", "split": "dev", "speakers": ["A"]},
+        {"meeting": "IS1009a", "split": "test", "speakers": ["B"]},
+    ]
+    assert [row["meeting"] for row in ami.select_split(meetings, "test")] == ["IS1009a"]
+    assert ami.select_split(meetings, "all") == meetings
+
+
 def test_roster_lists_only_saved_profiles_of_attending_people(ami):
     owners = {"pA": "A", "pB": "B", "pX": None, "pC": "C"}
     gallery = {"meeting": "ES2004b", "speakers": ["A", "B", "D"], "role": "gallery"}

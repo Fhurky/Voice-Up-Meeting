@@ -14,6 +14,7 @@ from starlette.concurrency import run_in_threadpool
 from .config import Settings
 from .errors import InferenceError
 from .meeting_memory import MAX_MEMORY_JSON_BYTES
+from .recording_audio import PcmRecordingReader
 from .runtime import InferenceRuntime
 
 _CONTENT_TYPES = {
@@ -23,6 +24,8 @@ _CONTENT_TYPES = {
     "audio/flac",
     "audio/x-flac",
 }
+# Turns of one five-minute window; a few hundred rows in practice.
+MAX_TURN_DOCUMENT_BYTES = 4 * 1024 * 1024
 
 
 def create_app(settings: Settings, runtime: InferenceRuntime | None = None) -> FastAPI:
@@ -119,6 +122,24 @@ def create_app(settings: Settings, runtime: InferenceRuntime | None = None) -> F
                     "validation_error", "Valid job and tenant context required"
                 ) from None
 
+    def speaker_count(request: Request, name: str) -> int | None:
+        raw = request.query_params.get(name)
+        if raw is None:
+            return None
+        if len(raw) > 4 or not raw.isascii() or not raw.isdecimal() or not 1 <= int(raw) <= 1000:
+            raise InferenceError(
+                "validation_error", "Speaker counts must be integers from 1 to 1000"
+            )
+        return int(raw)
+
+    def meeting_language(request: Request) -> str | None:
+        language = request.query_params.get("language")
+        if language not in {None, "tr", "en"}:
+            raise InferenceError(
+                "validation_error", "Language must be tr, en, or omitted"
+            )
+        return language
+
     async def read_audio(request: Request, *, maximum: int | None = None) -> bytes:
         maximum = settings.max_upload_bytes if maximum is None else maximum
         content_type = (
@@ -165,27 +186,8 @@ def create_app(settings: Settings, runtime: InferenceRuntime | None = None) -> F
     @app.post("/v1/meeting-chunks")
     async def meeting_chunks(request: Request):
         authenticate(request)
-        language = request.query_params.get("language")
-        if language not in {None, "tr", "en"}:
-            raise InferenceError(
-                "validation_error", "Language must be tr, en, or omitted"
-            )
-        counts = {}
-        for name in ("max_speakers", "num_speakers"):
-            raw = request.query_params.get(name)
-            if raw is None:
-                counts[name] = None
-                continue
-            if (
-                len(raw) > 4
-                or not raw.isascii()
-                or not raw.isdecimal()
-                or not 1 <= int(raw) <= 1000
-            ):
-                raise InferenceError(
-                    "validation_error", "Speaker counts must be integers from 1 to 1000"
-                )
-            counts[name] = int(raw)
+        language = meeting_language(request)
+        counts = {name: speaker_count(request, name) for name in ("max_speakers", "num_speakers")}
         if (
             counts["max_speakers"] is not None
             and counts["num_speakers"] is not None
@@ -199,6 +201,56 @@ def create_app(settings: Settings, runtime: InferenceRuntime | None = None) -> F
             body = await read_audio(request, maximum=120 * 1024 * 1024)
             return await run_in_threadpool(
                 runtime.meeting_chunk, body, language, **counts
+            )
+
+    @app.post("/v1/meeting-recording")
+    async def meeting_recording(request: Request):
+        authenticate(request)
+        max_speakers = speaker_count(request, "max_speakers")
+        content_type = request.headers.get("content-type", "").split(";", 1)[0].strip().lower()
+        if content_type != "application/octet-stream":
+            raise InferenceError("unsupported_audio", "Recordings are raw mono PCM16", 415)
+        rate, declared = (request.headers.get(name, "") for name in ("x-sample-rate", "content-length"))
+        if not all(value.isascii() and value.isdecimal() and len(value) <= 12 for value in (rate, declared)):
+            raise InferenceError("validation_error", "Sample rate and length are required", 400)
+        reader = PcmRecordingReader(int(rate), int(declared))
+        runtime.meeting_readiness()
+        with runtime.claim():
+            async for chunk in request.stream():
+                reader.push(chunk)
+            audio = await run_in_threadpool(reader.finish)
+            return await run_in_threadpool(runtime.meeting_recording, audio, max_speakers)
+
+    @app.post("/v1/meeting-chunks/attributed")
+    async def meeting_attributed_chunk(request: Request):
+        authenticate(request)
+        language = meeting_language(request)
+        raw = request.headers.get("x-turns-bytes", "")
+        if (
+            not raw.isascii()
+            or not raw.isdecimal()
+            or len(raw) > 8
+            or not 0 < int(raw) <= MAX_TURN_DOCUMENT_BYTES
+        ):
+            raise InferenceError("validation_error", "A bounded turn document is required", 400)
+        size = int(raw)
+        runtime.meeting_readiness()
+        with runtime.claim():
+            body = await read_audio(request, maximum=120 * 1024 * 1024 + size)
+            if len(body) <= size:
+                raise InferenceError("validation_error", "Audio is missing", 400)
+            try:
+                document = json.loads(body[:size])
+            except (ValueError, RecursionError):
+                document = None
+            if not isinstance(document, dict) or set(document) != {"turns", "exclusive_turns"}:
+                raise InferenceError("validation_error", "Invalid meeting turns", 422)
+            return await run_in_threadpool(
+                runtime.meeting_attributed_chunk,
+                body[size:],
+                language,
+                document["turns"],
+                document["exclusive_turns"],
             )
 
     @app.get("/v1/meeting-processor")
