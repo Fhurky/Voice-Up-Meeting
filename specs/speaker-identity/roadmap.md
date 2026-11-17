@@ -43,6 +43,7 @@ toplantının konuşmacı gruplamasını ve otomatik yeni kişi kaydını kapsam
 | 027 | meeting-cpu-mode | [PRD](PRDs/027-meeting-cpu-mode/PRD.md) | Accepted — ilk denemeler için toplantıları CPU'da çalıştırma; açılışta `-Processor Cpu`, mevcut imaj, yeni paket yok; ekranda yavaşlık uyarısı; [görevler](PRDs/027-meeting-cpu-mode/tasks.md) |
 | 028 | settings-processor-switch | [PRD](PRDs/028-settings-processor-switch/PRD.md) | Accepted — sol menüde Ayarlar; yönetici çalışan serviste GPU ve CPU arasında geçer; seçim kalıcı değil; [görevler](PRDs/028-settings-processor-switch/tasks.md) |
 | 029 | mp4-speaker-and-resume-upload | [PRD](PRDs/029-mp4-speaker-and-resume-upload/PRD.md) | Accepted — profil, örnek ekleme, Sesi tanı ve yüklemeyi sürdürme de MP4/M4A kabul eder; ses tarayıcıda çıkarılır, görüntü gönderilmez; [görevler](PRDs/029-mp4-speaker-and-resume-upload/tasks.md) |
+| 030 | whole-recording-diarization | [PRD](PRDs/030-whole-recording-diarization/PRD.md) | Accepted — konuşmacılar tüm kayıtta tek geçişte, modelin kendi ayarıyla ayrılır; parçalar yalnız yazıya çevirme ve ses kanıtı için; ölçülen model kazanımı DER %27,6→%19,9 ve %22,4→%17,1; [görevler](PRDs/030-whole-recording-diarization/tasks.md) |
 
 9 Eylül 2026 sıralama kararı: [uzun kayıt ve canlı çalışma](../../docs/LONG_RECORDING_STRATEGY.md).
 001'in gerçek kişi deneyi önce gelir; sonraki model seçimi ölçüme dayanır.
