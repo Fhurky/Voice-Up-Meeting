@@ -7,7 +7,9 @@
 - [x] T05 Arka uç: adaptör, worker adımı, etiketle bağlama, geri dönüş, temizlik; birim ve entegrasyon testleri (Requirement 3): `test_meeting_whole_recording.py` (birim ve entegrasyon).
 - [x] T06 Gözlemlenebilirlik olayı ve testi (Requirement 5).
 - [x] T07 Tam kalite kapısı (17 Kasım 2026: arka uç 984/984, ön yüz 295/295, tüm adımlar geçti; çıkarım testleri 288/288).
-- [ ] T08 Süre ve bellek ölçümü (90, 120, 240 dakika); süre sınırı ve dağıtım belleği (Requirement 6a).
+- [x] T08 Süre ve bellek ölçümü (Requirement 6a): çalışan servisin kendi sürecinde, AMI kayıtları uç uca eklenerek; boştayken
+  2,9 GiB. 90 dakika 142 sn ve en çok 3,8 GiB; 120 dakika 235 sn ve 4,3 GiB; 240 dakika 498 sn ve 6,6 GiB. Süre sınırı 120 dakika
+  oldu; dağıtım sınırı (8 GiB) değişmedi.
 - [ ] T09 AMI test, iki koşul, ürün akışıyla DER (Requirement 6b).
 - [ ] T10 AMI uzak mikrofon, rotasyon 2, kişi tanıma (Requirement 6c).
 - [ ] T11 İki gerçek Türkçe toplantıda konuşmacı sayısı ve MP4 tarayıcı senaryosu (Requirement 6d).

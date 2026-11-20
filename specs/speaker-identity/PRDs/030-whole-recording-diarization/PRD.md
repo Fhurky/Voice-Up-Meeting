@@ -47,8 +47,9 @@ sonu birleştirme (021) bu yolda çalışmaz. Kelime–konuşmacı eşlemesi, pa
 (026), kişi hafızası, katılımcı listesi (016) ve 10 saniye kuralı değişmez.
 
 Decision 6: Geri dönüş: CPU modu, ölçülen süre sınırını aşan kayıt ve iki denemede de başarısız olan tek geçiş bugünkü
-parçalı akışı kullanır. Neden toplantı kaydında tutulur ve günlüğe yazılır; ekranda gösterilmez. İlk süre sınırı
-90 dakikadır (84 dakika ölçüldü); 120 ve 240 dakikalık ölçümle güncellenir (Requirement 6).
+parçalı akışı kullanır. Neden toplantı kaydında tutulur ve günlüğe yazılır; ekranda gösterilmez. Süre sınırı 120 dakikadır
+(Requirement 6a ölçümü: 120 dakika 235 saniye ve 4,3 GiB; 240 dakika 498 saniye ve 6,6 GiB). 240 dakika kurum dağıtımının 8 GiB
+sınırına sığar, ancak 7,35 GB'lık yerel Docker belleğine yığınla birlikte sığmaz; sınır bu yüzden 120 dakikadır.
 
 Decision 7: Akış toplantı işleme başlarken seçilir ve o toplantı boyunca değişmez. Bu sürümden önce işlenmiş
 toplantılar yeniden işlenmez; sonuçları olduğu gibi kalır.

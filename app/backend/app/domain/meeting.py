@@ -10,8 +10,9 @@ CONTEXT_SECONDS = 5
 AUTO_ENROLL_SECONDS = 20
 # A few seconds of clean speech cannot carry a person's name, however similar they sound.
 MIN_RECOGNITION_SECONDS = 10
-# Longest recording diarized in one pass (PRD 030); 84 minutes measured, longer meetings use chunks.
-WHOLE_RECORDING_MAX_SECONDS = 90 * 60
+# Longest recording diarized in one pass (PRD 030). Two hours peaked at 4.3 GiB in the speech
+# service; four hours need 6.6 GiB, more than a 7.35 GB local Docker VM holds beside the stack.
+WHOLE_RECORDING_MAX_SECONDS = 120 * 60
 # A turn shorter than a millisecond after clipping to a window carries no speech.
 MIN_WINDOW_TURN_SECONDS = 0.001
 
