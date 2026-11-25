@@ -109,7 +109,7 @@ sistem sesini vermesi doğrulanmadan sunucu işi yapılmaz.
 
 ## 5. Tarayıcı senaryosu ve ölçüm (Requirement 8–9)
 
-- `e2e/speaker-identity/17-meeting-two-channel-capture.mjs` (yeni):
+- `e2e/speaker-identity/19-meeting-two-channel-capture.mjs` (yeni):
   - Edge'de `--use-fake-device-for-media-stream`, `--use-fake-ui-for-media-stream` ve
     `--auto-select-desktop-capture-source` ile çalışır.
   - Gerçek giriş formunu kullanır, kayıt başlatır, en az 10 saniye kaydeder, "Bitir"e basar, işlenmeyi bekler.
