@@ -6,6 +6,8 @@ const codes = new Set([
   "source_mismatch", "upload_ack_invalid", "upload_incomplete", "upload_order_conflict", "chunk_hash_mismatch",
   "meeting_state_conflict", "meeting_not_ready", "name_conflict", "inference_unavailable", "job_timeout", "worker_interrupted",
   "participant_not_found", "media_no_audio",
+  "meeting_not_capturing", "capture_gap", "capture_conflict", "capture_part_unaligned", "capture_incomplete",
+  "capture_chain_mismatch", "capture_empty", "capture_active",
 ]);
 export function meetingErrorKey(error: unknown): string {
   if (error instanceof ApiError) {

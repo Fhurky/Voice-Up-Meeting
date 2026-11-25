@@ -158,16 +158,30 @@ class MeetingRepository:
             )
         )
 
-    async def diarization(self, tenant_id: int, meeting_id: int) -> MeetingDiarization | None:
+    async def diarization(
+        self, tenant_id: int, meeting_id: int, channel: int = 0
+    ) -> MeetingDiarization | None:
         return (
             await self.session.scalars(
                 select(MeetingDiarization).where(
                     MeetingDiarization.tenant_id == tenant_id,
                     MeetingDiarization.meeting_id == meeting_id,
+                    MeetingDiarization.channel == channel,
                     MeetingDiarization.is_deleted.is_(False),
                 )
             )
         ).one_or_none()
+
+    async def diarized_channels(self, tenant_id: int, meeting_id: int) -> set[int]:
+        return set(
+            await self.session.scalars(
+                select(MeetingDiarization.channel).where(
+                    MeetingDiarization.tenant_id == tenant_id,
+                    MeetingDiarization.meeting_id == meeting_id,
+                    MeetingDiarization.is_deleted.is_(False),
+                )
+            )
+        )
 
     async def chunk(self, tenant_id: int, meeting_id: int, index: int) -> MeetingChunk | None:
         return (
@@ -462,6 +476,22 @@ class MeetingRepository:
             )
         )
         return int(result) + 1 if result is not None else 0
+
+    async def order_transcript_by_time(self, tenant_id: int, meeting_id: int) -> None:
+        """Renumber active lines by start time; new ordinals follow every existing one, so none collide."""
+        base = await self.next_transcript_ordinal(tenant_id, meeting_id)
+        rows = await self.session.scalars(
+            select(MeetingTranscript)
+            .where(
+                MeetingTranscript.tenant_id == tenant_id,
+                MeetingTranscript.meeting_id == meeting_id,
+                MeetingTranscript.is_deleted.is_(False),
+            )
+            .order_by(MeetingTranscript.start, MeetingTranscript.ordinal)
+        )
+        for position, row in enumerate(list(rows)):
+            row.ordinal = base + position
+        await self.session.flush()
 
     async def speaker_profile_assignments(
         self, tenant_id: int, meeting_id: int, profile_id: int

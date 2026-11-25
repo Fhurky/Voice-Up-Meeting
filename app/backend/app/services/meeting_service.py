@@ -3,13 +3,30 @@
 import asyncio
 import hashlib
 import json
+import logging
 import math
 from datetime import UTC, datetime, timedelta
 from uuid import UUID, uuid4
 
 from app.core.config import Settings
 from app.core.request_context import RequestContext
-from app.domain.meeting import CORE_SECONDS, UPLOAD_PART_BYTES, window_core_seconds
+from app.domain.meeting import (
+    CAPTURE_CHAIN_START,
+    CAPTURE_CHANNELS,
+    CAPTURE_FRAME_BYTES,
+    CAPTURE_HEADER_BYTES,
+    CAPTURE_IDLE_SECONDS,
+    CAPTURE_PART_MAX_SECONDS,
+    CHANNEL_NAMES,
+    CORE_SECONDS,
+    UPLOAD_PART_BYTES,
+    capture_frames,
+    capture_max_frames,
+    capture_wav_header,
+    meeting_tracks,
+    next_capture_chain,
+    window_core_seconds,
+)
 from app.domain.meeting_timeline import SpeechTurn, union_turns
 from app.domain.models.meeting import (
     Meeting,
@@ -24,7 +41,11 @@ from app.infrastructure.repositories.transcript_revision_repository import (
     TranscriptRevisionRepository,
 )
 from app.schemas.meeting import (
+    MeetingCaptureAck,
+    MeetingCaptureComplete,
+    MeetingCaptureCreate,
     MeetingCreate,
+    MeetingOptions,
     MeetingPage,
     MeetingResponse,
     MeetingSpeakerPage,
@@ -39,6 +60,8 @@ from app.schemas.meeting import (
 )
 from app.services.speaker_ports import SpeakerError
 from app.services.transcript_suggestions import saved_correction_response
+
+capture_logger = logging.getLogger("app.meeting_capture")
 
 
 class MeetingService:
@@ -79,6 +102,7 @@ class MeetingService:
                 "completed_chunks": meeting.next_chunk_index,
                 "total_chunks": (
                     math.ceil(meeting.duration_seconds / window_core_seconds(meeting.props))
+                    * len(meeting_tracks(meeting.capture_mode))
                     if meeting.duration_seconds
                     else 0
                 ),
@@ -110,21 +134,87 @@ class MeetingService:
                 "created_at": meeting.created_at,
                 "started_at": meeting.started_at,
                 "finished_at": meeting.finished_at,
+                **self.capture_fields(meeting),
             }
         )
 
+    @staticmethod
+    def capture_fields(meeting: Meeting) -> dict[str, object]:
+        if meeting.capture_mode != "two_channel" or not meeting.sample_rate:
+            return {
+                "capture_mode": meeting.capture_mode,
+                "captured_frames": None,
+                "captured_seconds": None,
+                "capture_idle": False,
+            }
+        frames = capture_frames(meeting.uploaded_bytes)
+        last = meeting.capture_part_at or meeting.created_at
+        return {
+            "capture_mode": meeting.capture_mode,
+            "captured_frames": frames,
+            "captured_seconds": frames / meeting.sample_rate,
+            "capture_idle": meeting.status == "uploading"
+            and last is not None
+            and datetime.now(UTC) - last >= timedelta(seconds=CAPTURE_IDLE_SECONDS),
+        }
+
     async def create(
         self, context: RequestContext, key: str, body: MeetingCreate
+    ) -> MeetingResponse:
+        return await self._create(
+            context,
+            key,
+            body,
+            body.model_dump(mode="json"),
+            size_bytes=body.size_bytes,
+            fields={"format": body.format},
+        )
+
+    async def create_capture(
+        self, context: RequestContext, key: str, body: MeetingCaptureCreate
+    ) -> MeetingResponse:
+        # The final size is unknown while the meeting runs; the source limit is reserved until sealing.
+        reserved = (
+            CAPTURE_HEADER_BYTES
+            + capture_max_frames(
+                body.sample_rate, self.settings.meeting_max_seconds, self.settings.meeting_max_bytes
+            )
+            * CAPTURE_FRAME_BYTES
+        )
+        return await self._create(
+            context,
+            key,
+            body,
+            {"capture_mode": "two_channel", **body.model_dump(mode="json")},
+            size_bytes=reserved,
+            fields={
+                "format": "WAV",
+                "sample_rate": body.sample_rate,
+                "channels": CAPTURE_CHANNELS,
+                "capture_mode": "two_channel",
+                "capture_chain": CAPTURE_CHAIN_START,
+            },
+        )
+
+    async def _create(
+        self,
+        context: RequestContext,
+        key: str,
+        body: MeetingOptions,
+        canonical: dict[str, object],
+        *,
+        size_bytes: int,
+        fields: dict[str, object],
     ) -> MeetingResponse:
         tenant_id, actor_id = await self.repository.actor(context)
         if body.auto_enroll and not context.has_permission("speaker_profiles:write"):
             raise SpeakerError("forbidden", 403)
         if body.participant_profile_ids and not context.has_permission("speaker_profiles:read"):
             raise SpeakerError("forbidden", 403)
-        if body.size_bytes > self.settings.meeting_max_bytes:
+        if size_bytes > self.settings.meeting_max_bytes:
             raise SpeakerError("audio_limit", 413)
         fingerprint = hashlib.sha256(
-            json.dumps(body.model_dump(mode="json"), sort_keys=True, separators=(",", ":")).encode()
+            json.dumps(canonical, sort_keys=True, separators=(",", ":")).encode()
         ).hexdigest()
         await self.repository.lock_tenant(tenant_id)
         existing = await self.repository.by_key(tenant_id, key)
@@ -140,7 +230,7 @@ class MeetingService:
         ):
             raise SpeakerError("upload_limit", 409)
         if (
-            await self.repository.retained_bytes(tenant_id) + body.size_bytes
+            await self.repository.retained_bytes(tenant_id) + size_bytes
             > self.settings.meeting_tenant_max_bytes
         ):
             raise SpeakerError("storage_limit", 413)
@@ -152,8 +242,7 @@ class MeetingService:
         meeting = Meeting(
             tenant_id=tenant_id,
             title=body.title,
-            format=body.format,
-            size_bytes=body.size_bytes,
+            size_bytes=size_bytes,
             uploaded_bytes=0,
             storage_key=f"{uuid4().hex}.meeting",
             status="uploading",
@@ -170,6 +259,7 @@ class MeetingService:
             upload_expires_at=now + timedelta(hours=self.settings.meeting_upload_retention_hours),
             created_by=actor_id,
             updated_by=actor_id,
+            **fields,
         )
         self.repository.session.add(meeting)
         await self.repository.session.flush()
@@ -285,7 +375,7 @@ class MeetingService:
             raise SpeakerError("chunk_hash_mismatch", 409)
         await self.repository.lock_tenant(tenant_id)
         meeting = await self.required(tenant_id, public_id)
-        if meeting.status != "uploading":
+        if meeting.status != "uploading" or meeting.capture_mode != "file":
             raise SpeakerError("meeting_state_conflict", 409)
         if meeting.upload_expires_at <= datetime.now(UTC):
             raise SpeakerError("recording_expired", 410)
@@ -329,12 +419,16 @@ class MeetingService:
             raise SpeakerError("forbidden", 403)
         if meeting.status in {"queued", "running", "finalizing", "succeeded"}:
             return await self.response(meeting)
-        if meeting.status != "uploading":
+        if meeting.status != "uploading" or meeting.capture_mode != "file":
             raise SpeakerError("meeting_state_conflict", 409)
         if meeting.upload_expires_at <= datetime.now(UTC):
             raise SpeakerError("recording_expired", 410)
         if meeting.uploaded_bytes != meeting.size_bytes:
             raise SpeakerError("upload_incomplete", 409)
+        await self.queue_source(meeting, actor_id)
+        return await self.response(meeting)
+
+    async def queue_source(self, meeting: Meeting, actor_id: int) -> None:
         info = await asyncio.to_thread(
             self.storage.validate,
             meeting.storage_key,
@@ -350,7 +444,142 @@ class MeetingService:
         meeting.status = "queued"
         meeting.updated_by = actor_id
         await self.repository.session.flush()
+
+    async def capture_append(
+        self,
+        context: RequestContext,
+        public_id: str,
+        start_frame: int,
+        data: bytes,
+        sha256: str,
+    ) -> MeetingCaptureAck:
+        tenant_id, actor_id = await self.repository.actor(context)
+        if hashlib.sha256(data).hexdigest() != sha256:
+            raise SpeakerError("chunk_hash_mismatch", 409)
+        await self.repository.lock_tenant(tenant_id)
+        meeting = await self.required(tenant_id, public_id)
+        if meeting.capture_mode != "two_channel" or meeting.status != "uploading":
+            raise SpeakerError("meeting_not_capturing", 409)
+        if meeting.upload_expires_at <= datetime.now(UTC):
+            raise SpeakerError("recording_expired", 410)
+        rate = meeting.sample_rate or 0
+        if not data or len(data) % CAPTURE_FRAME_BYTES:
+            raise SpeakerError("capture_part_unaligned", 422)
+        frames = len(data) // CAPTURE_FRAME_BYTES
+        if frames > rate * CAPTURE_PART_MAX_SECONDS:
+            raise SpeakerError("audio_limit", 413)
+        received = capture_frames(meeting.uploaded_bytes)
+        counts = dict(meeting.props.get("capture", {}))
+        if start_frame == received:
+            limit = capture_max_frames(
+                rate, self.settings.meeting_max_seconds, self.settings.meeting_max_bytes
+            )
+            if received + frames > limit:
+                raise SpeakerError("audio_limit", 413)
+            # The first part also writes the header space that sealing fills in.
+            payload = data if received else bytes(CAPTURE_HEADER_BYTES) + data
+            offset = meeting.uploaded_bytes if received else 0
+            await asyncio.to_thread(
+                self.storage.append,
+                meeting.storage_key,
+                offset,
+                payload,
+                hashlib.sha256(payload).hexdigest(),
+            )
+            meeting.uploaded_bytes = offset + len(payload)
+            meeting.capture_chain = next_capture_chain(
+                meeting.capture_chain or CAPTURE_CHAIN_START, sha256
+            )
+            meeting.capture_part_at = datetime.now(UTC)
+            counts["parts"] = int(counts.get("parts", 0)) + 1
+        elif start_frame + frames <= received:
+            # A retried part whose acknowledgement was lost: the stored bytes must be identical.
+            stored = await asyncio.to_thread(
+                self.storage.read_range,
+                meeting.storage_key,
+                CAPTURE_HEADER_BYTES + start_frame * CAPTURE_FRAME_BYTES,
+                len(data),
+            )
+            if hashlib.sha256(stored).hexdigest() != sha256:
+                raise SpeakerError("capture_conflict", 409)
+            counts["duplicates"] = int(counts.get("duplicates", 0)) + 1
+        else:
+            capture_logger.info(
+                "meeting_capture_gap",
+                extra={"structured_fields": {"missing_frames": start_frame - received}},
+            )
+            raise SpeakerError("capture_gap", 409)
+        meeting.props = {**meeting.props, "capture": counts}
+        meeting.updated_by = actor_id
+        await self.repository.session.flush()
+        return MeetingCaptureAck(received_frames=capture_frames(meeting.uploaded_bytes))
+
+    async def capture_complete(
+        self, context: RequestContext, public_id: str, body: MeetingCaptureComplete
+    ) -> MeetingResponse:
+        tenant_id, actor_id = await self.repository.actor(context)
+        await self.repository.lock_tenant(tenant_id)
+        meeting = await self.required(tenant_id, public_id)
+        if meeting.auto_enroll and not context.has_permission("speaker_profiles:write"):
+            raise SpeakerError("forbidden", 403)
+        if meeting.capture_mode != "two_channel":
+            raise SpeakerError("meeting_state_conflict", 409)
+        if meeting.status in {"queued", "running", "finalizing", "succeeded"}:
+            return await self.response(meeting)
+        if meeting.status != "uploading":
+            raise SpeakerError("meeting_state_conflict", 409)
+        if meeting.upload_expires_at <= datetime.now(UTC):
+            raise SpeakerError("recording_expired", 410)
+        if capture_frames(meeting.uploaded_bytes) != body.frames:
+            raise SpeakerError("capture_incomplete", 409)
+        if meeting.capture_chain != body.chain_sha256:
+            raise SpeakerError("capture_chain_mismatch", 422)
+        await self.seal_capture(meeting, actor_id, "completed")
         return await self.response(meeting)
+
+    async def capture_seal(self, context: RequestContext, public_id: str) -> MeetingResponse:
+        """Processes what arrived from a recording whose browser stopped sending."""
+        tenant_id, actor_id = await self.repository.actor(context)
+        await self.repository.lock_tenant(tenant_id)
+        meeting = await self.required(tenant_id, public_id)
+        if meeting.auto_enroll and not context.has_permission("speaker_profiles:write"):
+            raise SpeakerError("forbidden", 403)
+        if meeting.capture_mode != "two_channel":
+            raise SpeakerError("meeting_state_conflict", 409)
+        if meeting.status in {"queued", "running", "finalizing", "succeeded"}:
+            return await self.response(meeting)
+        if meeting.status != "uploading":
+            raise SpeakerError("meeting_state_conflict", 409)
+        if meeting.upload_expires_at <= datetime.now(UTC):
+            raise SpeakerError("recording_expired", 410)
+        if not capture_frames(meeting.uploaded_bytes):
+            raise SpeakerError("capture_empty", 409)
+        if not self.capture_fields(meeting)["capture_idle"]:
+            raise SpeakerError("capture_active", 409)
+        await self.seal_capture(meeting, actor_id, "sealed")
+        return await self.response(meeting)
+
+    async def seal_capture(self, meeting: Meeting, actor_id: int, outcome: str) -> None:
+        frames = capture_frames(meeting.uploaded_bytes)
+        await asyncio.to_thread(
+            self.storage.write_header,
+            meeting.storage_key,
+            capture_wav_header(meeting.sample_rate or 0, frames),
+        )
+        meeting.size_bytes = meeting.uploaded_bytes
+        await self.queue_source(meeting, actor_id)
+        counts = meeting.props.get("capture", {})
+        capture_logger.info(
+            "meeting_capture",
+            extra={
+                "structured_fields": {
+                    "outcome": outcome,
+                    "seconds": round(frames / (meeting.sample_rate or 1), 3),
+                    "parts": int(counts.get("parts", 0)),
+                    "duplicates": int(counts.get("duplicates", 0)),
+                }
+            },
+        )
 
     async def cancel(self, context: RequestContext, public_id: str) -> MeetingResponse:
         tenant_id, actor_id = await self.repository.actor(context)
@@ -418,6 +647,7 @@ class MeetingService:
             {
                 "public_id": row.public_id,
                 "ordinal": row.ordinal,
+                "channel": CHANNEL_NAMES[row.channel] if row.channel is not None else None,
                 "display_name": row.display_name,
                 "profile_public_id": profile.public_id if profile else None,
                 "profile_name": profile.name if profile else None,

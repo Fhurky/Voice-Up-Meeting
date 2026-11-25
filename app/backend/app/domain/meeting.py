@@ -1,5 +1,6 @@
 """Source-time ownership and unique clean evidence for uploaded meetings."""
 
+import hashlib
 import math
 
 UPLOAD_PART_BYTES = 4 * 1024 * 1024
@@ -15,6 +16,53 @@ MIN_RECOGNITION_SECONDS = 10
 WHOLE_RECORDING_MAX_SECONDS = 120 * 60
 # A turn shorter than a millisecond after clipping to a window carries no speech.
 MIN_WINDOW_TURN_SECONDS = 0.001
+
+# Two-channel capture (PRD 037): channel 0 is the recording computer's microphone, channel 1 the
+# system audio of its shared screen. The browser streams interleaved PCM16 parts during the meeting.
+CAPTURE_MODES = ("file", "two_channel")
+CAPTURE_CHANNELS = 2
+CAPTURE_FRAME_BYTES = CAPTURE_CHANNELS * 2
+CAPTURE_HEADER_BYTES = 44
+# Browser parts are two seconds; four seconds of audio bounds any accepted part.
+CAPTURE_PART_MAX_SECONDS = 4
+# Without a part for this long, the owner may process what arrived.
+CAPTURE_IDLE_SECONDS = 120
+CAPTURE_CHAIN_START = "0" * 64
+CHANNEL_NAMES = {0: "microphone", 1: "system"}
+
+
+def capture_max_frames(sample_rate: int, max_seconds: int, max_bytes: int) -> int:
+    """Frames a capture may hold under the duration and source byte limits."""
+    return min(sample_rate * max_seconds, (max_bytes - CAPTURE_HEADER_BYTES) // CAPTURE_FRAME_BYTES)
+
+
+def capture_frames(stored_bytes: int) -> int:
+    """Frames received so far; the header space is reserved from the first byte."""
+    return max(0, (stored_bytes - CAPTURE_HEADER_BYTES) // CAPTURE_FRAME_BYTES)
+
+
+def next_capture_chain(chain: str, part_sha256: str) -> str:
+    """`chain_n = SHA-256(chain_{n-1} || SHA-256(part_n))`; the browser computes the same value."""
+    return hashlib.sha256(bytes.fromhex(chain) + bytes.fromhex(part_sha256)).hexdigest()
+
+
+def capture_wav_header(sample_rate: int, frames: int) -> bytes:
+    """Canonical 44-byte header for interleaved two-channel PCM16."""
+    data = frames * CAPTURE_FRAME_BYTES
+    return (
+        b"RIFF"
+        + (36 + data).to_bytes(4, "little")
+        + b"WAVEfmt "
+        + (16).to_bytes(4, "little")
+        + (1).to_bytes(2, "little")
+        + CAPTURE_CHANNELS.to_bytes(2, "little")
+        + sample_rate.to_bytes(4, "little")
+        + (sample_rate * CAPTURE_FRAME_BYTES).to_bytes(4, "little")
+        + CAPTURE_FRAME_BYTES.to_bytes(2, "little")
+        + (16).to_bytes(2, "little")
+        + b"data"
+        + data.to_bytes(4, "little")
+    )
 
 
 def window_turns(
@@ -54,6 +102,42 @@ def analysis_windows(
         )
         for index in range(math.ceil(duration / core_seconds))
     ]
+
+
+Window = tuple[int, float, float, float, float]
+
+
+def meeting_tracks(capture_mode: str) -> tuple[int | None, ...]:
+    """Source channels analysed separately: both channels of a capture, else one mixed track."""
+    return (0, 1) if capture_mode == "two_channel" else (None,)
+
+
+def track_windows(
+    duration: float, tracks: tuple[int | None, ...], *, core_seconds: int = CORE_SECONDS
+) -> list[tuple[Window, int | None]]:
+    """Analysis chunks in processing order with their channel.
+
+    Channels alternate inside each time window, so the transcript fills in time order and the
+    chunk index stays a single durable progress counter.
+    """
+    chunks: list[tuple[Window, int | None]] = []
+    for _, context_start, core_start, core_end, context_end in analysis_windows(
+        duration, core_seconds=core_seconds
+    ):
+        for channel in tracks:
+            chunks.append(
+                ((len(chunks), context_start, core_start, core_end, context_end), channel)
+            )
+    return chunks
+
+
+def previous_track_chunk(chunks: list[tuple[Window, int | None]], index: int) -> int | None:
+    """The preceding chunk of the same channel, whose pending words continue into this one."""
+    channel = chunks[index][1]
+    return next(
+        (position for position in range(index - 1, -1, -1) if chunks[position][1] == channel),
+        None,
+    )
 
 
 def clean_union(

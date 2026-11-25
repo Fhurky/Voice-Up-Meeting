@@ -3,6 +3,9 @@ import type { components, paths } from "@/types/api";
 
 export type Meeting = components["schemas"]["MeetingResponse"];
 export type MeetingCreate = components["schemas"]["MeetingCreate"];
+export type MeetingCaptureCreate = components["schemas"]["MeetingCaptureCreate"];
+export type MeetingCaptureAck = components["schemas"]["MeetingCaptureAck"];
+export type MeetingCaptureComplete = components["schemas"]["MeetingCaptureComplete"];
 export type MeetingSpeaker = components["schemas"]["MeetingSpeakerResponse"];
 export type MeetingTranscript = components["schemas"]["MeetingTranscriptResponse"];
 export type MeetingUploadManifest = components["schemas"]["MeetingUploadManifest"];
@@ -56,6 +59,18 @@ export const MeetingService = {
     });
   },
   complete(id: string, signal?: AbortSignal) { return apiRequest<Meeting>(`${path(id)}/complete`, { method: "POST", signal }); },
+  createCapture(request: MeetingCaptureCreate, key: string, signal?: AbortSignal) {
+    return apiRequest<Meeting>("/meetings/captures", { method: "POST", headers: { "Idempotency-Key": key }, body: JSON.stringify(request), signal });
+  },
+  appendCapture(id: string, startFrame: number, body: ArrayBuffer, sha256: string, signal?: AbortSignal) {
+    return apiRequest<MeetingCaptureAck>(`${path(id)}/capture-frames/${startFrame}`, {
+      method: "PUT", headers: { "Content-Type": "application/octet-stream", "X-Chunk-SHA256": sha256 }, body, signal,
+    });
+  },
+  completeCapture(id: string, request: MeetingCaptureComplete, signal?: AbortSignal) {
+    return apiRequest<Meeting>(`${path(id)}/capture/complete`, { method: "POST", body: JSON.stringify(request), signal });
+  },
+  sealCapture(id: string, signal?: AbortSignal) { return apiRequest<Meeting>(`${path(id)}/capture/seal`, { method: "POST", signal }); },
   cancel(id: string, signal?: AbortSignal) { return apiRequest<Meeting>(`${path(id)}/cancel`, { method: "POST", signal }); },
   retry(id: string, signal?: AbortSignal) { return apiRequest<Meeting>(`${path(id)}/retry`, { method: "POST", signal }); },
   remove(id: string, signal?: AbortSignal) { return apiRequest<void>(path(id), { method: "DELETE", signal }); },

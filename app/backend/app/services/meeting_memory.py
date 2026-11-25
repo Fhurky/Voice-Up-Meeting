@@ -86,6 +86,8 @@ class MemoryEvidence:
     tracking: MeetingTracking | None = None
     competitors: list[MeetingTracking] = field(default_factory=list)
     allow_context_enroll: bool = False
+    # A two-channel capture's speaker is heard on one channel; samples come from it alone.
+    channel: int | None = None
 
 
 class MeetingMemory:
@@ -299,6 +301,7 @@ class MeetingMemory:
             tracking,
             competitors or [],
             meeting.auto_enroll and not bool(row.props.get("reconciliation_ambiguous", False)),
+            channel=row.channel,
         )
 
     @staticmethod
@@ -328,6 +331,7 @@ class MeetingMemory:
                     evidence.storage_key,
                     evidence.clean_ranges,
                     evidence.sample_rate,
+                    channel=evidence.channel,
                 )
                 result = await self.embedding.embed(
                     payload,
@@ -398,6 +402,7 @@ class MeetingMemory:
                 evidence.storage_key,
                 evidence.candidate_contexts,
                 evidence.sample_rate,
+                evidence.channel,
             )
             quality = await self.context_quality.verify(
                 sample.data,
@@ -411,7 +416,11 @@ class MeetingMemory:
             if quality.status != "usable":
                 return await self.persist(unqualified, token, None, None, False, quality.status)
             payload = await asyncio.to_thread(
-                self.storage.sample, evidence.storage_key, ranges, evidence.sample_rate
+                self.storage.sample,
+                evidence.storage_key,
+                ranges,
+                evidence.sample_rate,
+                channel=evidence.channel,
             )
             if hashlib.sha256(payload).hexdigest() != quality.retained_sha256:
                 raise SpeakerError("model_mismatch", 502)

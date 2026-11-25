@@ -14,7 +14,9 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 from app.core.config import Settings
 from app.domain.meeting import (
     WHOLE_RECORDING_MAX_SECONDS,
-    analysis_windows,
+    meeting_tracks,
+    previous_track_chunk,
+    track_windows,
     window_core_seconds,
     window_turns,
 )
@@ -53,6 +55,20 @@ class ClaimedMeeting:
     num_speakers: int | None
     phase: Phase = "chunk"
     flow: Flow = "chunked"
+    # The source channel of a two-channel capture this step reads; None mixes all channels.
+    channel: int | None = None
+
+
+def meeting_chunks(
+    meeting: Meeting,
+) -> list[tuple[tuple[int, float, float, float, float], int | None]]:
+    if meeting.duration_seconds is None:
+        raise SpeakerError("recording_unavailable", 410)
+    return track_windows(
+        meeting.duration_seconds,
+        meeting_tracks(meeting.capture_mode),
+        core_seconds=window_core_seconds(meeting.props),
+    )
 
 
 def log_flow(flow: Flow, reason: str | None, **fields: float) -> None:
@@ -118,11 +134,8 @@ class MeetingWorker:
             ):
                 self.terminal_failure(meeting, "recording_unavailable", now)
                 return None
-            windows = analysis_windows(
-                meeting.duration_seconds,
-                core_seconds=window_core_seconds(meeting.props),
-            )
-            finalizing = meeting.next_chunk_index == len(windows)
+            chunks = meeting_chunks(meeting)
+            finalizing = meeting.next_chunk_index == len(chunks)
             flow = meeting.props.get("diarization_flow")
             if flow is None and (finalizing or meeting.next_chunk_index > 0):
                 # Meetings already underway keep the flow they started with (Decision 7).
@@ -139,6 +152,20 @@ class MeetingWorker:
                 if finalizing
                 else "diarize" if meeting.props.get("diarization_flow") is None else "chunk"
             )
+            channel: int | None = None
+            if phase == "diarize":
+                # One pass per claim: a two-channel capture diarizes its channels in turn.
+                done = await repository.diarized_channels(meeting.tenant_id, meeting.meeting_id)
+                channel = next(
+                    (
+                        track
+                        for track in meeting_tracks(meeting.capture_mode)
+                        if (track or 0) not in done
+                    ),
+                    None,
+                )
+            elif phase == "chunk":
+                channel = chunks[meeting.next_chunk_index][1]
             meeting.status = "finalizing" if finalizing else "running"
             meeting.attempt_count += 1
             meeting.claim_token += 1
@@ -158,13 +185,14 @@ class MeetingWorker:
                 tenant_public_id,
                 meeting.claim_token,
                 meeting.storage_key,
-                None if finalizing else windows[meeting.next_chunk_index],
+                None if finalizing else chunks[meeting.next_chunk_index][0],
                 None if meeting.language == "auto" else meeting.language,
                 # The speaker estimate is non-binding and never reaches the model.
                 meeting.participant_count,
                 None,
                 phase,
                 "whole" if meeting.props.get("diarization_flow") == "whole" else "chunked",
+                channel,
             )
 
     @staticmethod
@@ -189,6 +217,7 @@ class MeetingWorker:
             async with asyncio.timeout(self.settings.meeting_chunk_timeout_seconds):
                 if claim.phase == "finalize":
                     await self.reconcile(claim)
+                    await self.order_transcript(claim)
                     await self.memory.resolve_next(claim.meeting_id, claim.token)
                     await self.finish_memory(claim)
                     return self.log_attempt(claim, state, started)
@@ -240,7 +269,11 @@ class MeetingWorker:
             raise SpeakerError("model_mismatch", 502)
         _, context_start, _, _, context_end = claim.window
         audio = await asyncio.to_thread(
-            self.storage.window, claim.storage_key, context_start, context_end
+            self.storage.window,
+            claim.storage_key,
+            context_start,
+            context_end,
+            channel=claim.channel,
         )
         if claim.flow == "whole":
             result = await self.analysis.analyze_attributed(
@@ -267,7 +300,7 @@ class MeetingWorker:
     ) -> dict[str, list[dict[str, float | str]]]:
         async with self.sessions() as session:
             diarization = await MeetingRepository(session).diarization(
-                claim.tenant_id, claim.meeting_id
+                claim.tenant_id, claim.meeting_id, claim.channel or 0
             )
         if diarization is None:
             raise SpeakerError("model_mismatch", 502)
@@ -297,7 +330,7 @@ class MeetingWorker:
         started = time.monotonic()
         rate, frames = await asyncio.to_thread(self.storage.recording_info, claim.storage_key)
         result = await self.analysis.diarize_recording(
-            stream_blocks(self.storage.recording_blocks(claim.storage_key)),
+            stream_blocks(self.storage.recording_blocks(claim.storage_key, channel=claim.channel)),
             sample_rate=rate,
             size_bytes=frames * 2,
             job_public_id=claim.public_id,
@@ -311,6 +344,7 @@ class MeetingWorker:
             None,
             speakers=len(result.speakers),
             duration_seconds=round(time.monotonic() - started, 4),
+            **({} if claim.channel is None else {"channel": claim.channel}),
         )
         return None
 
@@ -326,9 +360,12 @@ class MeetingWorker:
                 return False
             if not await repository.current_owner_allowed(meeting):
                 raise SpeakerError("forbidden", 403)
-            _, existing = await repository.speakers(meeting.tenant_id, meeting.meeting_id, 0, 1)
+            earlier, _ = await repository.speakers(meeting.tenant_id, meeting.meeting_id, 0, 1001)
+            channel_number = claim.channel or 0
+            previously = await repository.diarized_channels(meeting.tenant_id, meeting.meeting_id)
             if (
-                existing
+                any(row.channel == claim.channel for row in earlier)
+                or channel_number in previously
                 or meeting.duration_seconds is None
                 or meeting.source_sha256 is None
                 or abs(result.input_seconds - meeting.duration_seconds) > 0.001
@@ -342,6 +379,7 @@ class MeetingWorker:
                 MeetingDiarization(
                     tenant_id=meeting.tenant_id,
                     meeting_id=meeting.meeting_id,
+                    channel=channel_number,
                     recipe=result.model_identity.diarization.recipe,
                     model_id=result.model_identity.diarization.model_id,
                     model_revision=result.model_identity.diarization.revision,
@@ -359,39 +397,66 @@ class MeetingWorker:
                 )
             )
             # Speakers are numbered by first speech, so the transcript reads in order.
+            base = max((row.ordinal for row in earlier), default=-1) + 1
+            created: list[MeetingSpeaker] = []
             for ordinal, label in enumerate(sorted(first, key=lambda value: (first[value], value))):
                 vector = tracking[label]
-                session.add(
-                    MeetingSpeaker(
-                        tenant_id=meeting.tenant_id,
-                        meeting_id=meeting.meeting_id,
-                        ordinal=ordinal,
-                        speech_seconds=0,
-                        clean_ranges=[],
-                        props={"diarization_label": label},
-                        tracking_embedding=(
-                            normalized_evidence(vector.embedding, dimensions=256)
-                            if vector is not None
-                            else None
-                        ),
-                        tracking_model_id=vector.model_id if vector is not None else None,
-                        tracking_model_revision=(
-                            vector.model_revision if vector is not None else None
-                        ),
-                        created_by=meeting.created_by,
-                        updated_by=meeting.created_by,
-                    )
+                speaker = MeetingSpeaker(
+                    tenant_id=meeting.tenant_id,
+                    meeting_id=meeting.meeting_id,
+                    ordinal=base + ordinal,
+                    channel=claim.channel,
+                    speech_seconds=0,
+                    clean_ranges=[],
+                    props={"diarization_label": label, "first_speech": first[label]},
+                    tracking_embedding=(
+                        normalized_evidence(vector.embedding, dimensions=256)
+                        if vector is not None
+                        else None
+                    ),
+                    tracking_model_id=vector.model_id if vector is not None else None,
+                    tracking_model_revision=(vector.model_revision if vector is not None else None),
+                    created_by=meeting.created_by,
+                    updated_by=meeting.created_by,
                 )
-            meeting.props = {
-                **meeting.props,
-                "diarization_flow": "whole",
-                "diarization_fallback": None,
-            }
+                session.add(speaker)
+                created.append(speaker)
+            tracks = meeting_tracks(meeting.capture_mode)
+            # A silent channel is diarized too; it simply has no speakers.
+            done = {channel_number, *previously}
+            if all((track or 0) in done for track in tracks):
+                if len(tracks) > 1:
+                    await self.number_by_first_speech(session, [*earlier, *created])
+                meeting.props = {
+                    **meeting.props,
+                    "diarization_flow": "whole",
+                    "diarization_fallback": None,
+                }
             if meeting.lease_expires_at is None or meeting.lease_expires_at <= datetime.now(UTC):
                 raise SpeakerError("job_timeout", 503)
             meeting.attempt_count = 0
             meeting.lease_expires_at = datetime.now(UTC)
             return True
+
+    @staticmethod
+    async def number_by_first_speech(session: AsyncSession, rows: list[MeetingSpeaker]) -> None:
+        """Both channels' speakers in one order of first speech; ordinals stay unique throughout."""
+        await session.flush()
+        offset = max((row.ordinal for row in rows), default=0) + 1
+        for row in rows:
+            row.ordinal += offset
+        await session.flush()
+        ordered = sorted(
+            rows,
+            key=lambda row: (
+                float(row.props.get("first_speech", 0.0)),
+                row.channel or 0,
+                str(row.props.get("diarization_label", "")),
+            ),
+        )
+        for ordinal, row in enumerate(ordered):
+            row.ordinal = ordinal
+        await session.flush()
 
     async def reconcile(self, claim: ClaimedMeeting) -> None:
         started = time.monotonic()
@@ -414,6 +479,21 @@ class MeetingWorker:
             extra={"structured_fields": {"duration_seconds": round(time.monotonic() - started, 4)}},
         )
 
+    async def order_transcript(self, claim: ClaimedMeeting) -> None:
+        """A capture's channels are analysed window by window; its lines read in time order."""
+        async with self.sessions() as session, session.begin():
+            repository = MeetingRepository(session)
+            meeting = await repository.fenced(claim.meeting_id, claim.token, datetime.now(UTC))
+            if (
+                meeting is None
+                or meeting.status != "finalizing"
+                or meeting.capture_mode != "two_channel"
+                or meeting.props.get("transcript_order") == "time"
+            ):
+                return
+            await repository.order_transcript_by_time(meeting.tenant_id, meeting.meeting_id)
+            meeting.props = {**meeting.props, "transcript_order": "time"}
+
     async def save_chunk(self, claim: ClaimedMeeting, result: MeetingChunkResult) -> bool:
         if claim.window is None:
             return False
@@ -424,15 +504,21 @@ class MeetingWorker:
                 return False
             if not await repository.current_owner_allowed(meeting):
                 raise SpeakerError("forbidden", 403)
-            await self.chunks.persist(repository, meeting, claim.window, result)
+            chunks = meeting_chunks(meeting)
+            await self.chunks.persist(
+                repository,
+                meeting,
+                claim.window,
+                result,
+                channel=claim.channel,
+                previous_index=previous_track_chunk(chunks, claim.window[0]),
+            )
             if meeting.lease_expires_at is None or meeting.lease_expires_at <= datetime.now(UTC):
                 raise SpeakerError("job_timeout", 503)
             meeting.next_chunk_index += 1
             meeting.processed_seconds = claim.window[3]
             meeting.attempt_count = 0
-            meeting.status = (
-                "finalizing" if meeting.processed_seconds == meeting.duration_seconds else "running"
-            )
+            meeting.status = "finalizing" if meeting.next_chunk_index == len(chunks) else "running"
             meeting.lease_expires_at = datetime.now(UTC)
             return True
 
