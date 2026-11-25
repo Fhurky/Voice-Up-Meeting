@@ -16,3 +16,4 @@ await import("./15-meeting-context-inputs.mjs");
 await import("./16-meeting-mp4-upload.mjs");
 await import("./17-settings-processor.mjs");
 await import("./18-speaker-mp4-upload.mjs");
+await import("./19-meeting-two-channel-capture.mjs");

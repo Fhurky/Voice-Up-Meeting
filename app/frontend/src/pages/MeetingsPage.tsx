@@ -14,9 +14,9 @@ export default function MeetingsPage() {
   const { user, hasPermission } = useAuth();
   const [params, setParams] = useSearchParams();
   const requested = params.get("new");
-  const initialSource = requested === "microphone" ? "microphone" : "file";
+  const initialSource = requested === "microphone" || requested === "teams" ? requested : "file";
   const canRun = hasPermission("meeting_analysis:run");
-  const composing = canRun && (requested === "file" || requested === "microphone");
+  const composing = canRun && (requested === "file" || requested === "microphone" || requested === "teams");
   const captureScope = JSON.stringify([user?.public_id, user?.tenant_id, hasPermission("speaker_profiles:write"), initialSource]);
   const [page, setPage] = useState<Awaited<ReturnType<typeof MeetingService.list>> | null>(null);
   const [offset, setOffset] = useState(0);

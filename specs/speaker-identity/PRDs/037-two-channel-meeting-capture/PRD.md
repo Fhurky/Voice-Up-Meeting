@@ -149,8 +149,10 @@ kesilen kaydın işlenmesi, 4 saat sınırı, tek kanallı toplantıların deği
 
 Requirement 6: Çıkarım servisi değişmez: her kanal bugünkü tek kanallı uç noktalara ayrı ayrı gönderilir.
 
-Requirement 7: Worker günlüğüne `meeting_capture` olayı yazılır: alınan süre, parça sayısı, tekrar, reddedilen boşluk
-ve kesinti bilgisi. Ses, metin, kişi ve kiracı bilgisi yazılmaz.
+Requirement 7: Kayıt tamamlanınca veya mühürlenince API günlüğüne `meeting_capture` olayı yazılır: sonuç (`completed`
+ya da kesintiden sonra `sealed`), alınan süre, parça sayısı ve tekrar sayısı. Reddedilen her boşluk, eksik çerçeve
+sayısıyla ayrı bir `meeting_capture_gap` olayıdır; reddedilen istek kalıcı sayaç yazamaz. Ses, metin, kişi ve kiracı
+bilgisi yazılmaz.
 
 Requirement 8: `e2e/` altında kalıcı bir tarayıcı senaryosu bulunur. Senaryo gerçek giriş formunu ve Edge'in sahte
 cihaz ile otomatik ekran seçimi ayarlarını kullanarak iki kaynaklı kaydı uçtan uca sürer. `e2e/QUALITY_MANIFEST.md`'ye

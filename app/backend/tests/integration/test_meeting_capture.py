@@ -9,15 +9,85 @@ from uuid import uuid4
 import numpy as np
 import pytest
 import soundfile as sf
-from sqlalchemy import select, update
+from sqlalchemy import select, text, update
+from sqlalchemy.exc import IntegrityError
 
 from app.domain.models.meeting import Meeting
 from app.domain.models.tenant import Tenant
+from tests.integration import test_meeting_repository as database_fixtures
 from tests.integration import test_meeting_workflow as workflow
 
 meeting_harness = workflow.meeting_harness
+migrated_meeting_database = database_fixtures.migrated_meeting_database
 pytestmark = pytest.mark.integration
 RATE = 16000
+
+
+async def test_the_migrated_schema_carries_capture_and_channel_semantics(
+    meeting_harness, migrated_meeting_database: None
+) -> None:
+    async with meeting_harness.sessions() as session:
+        comments = dict(
+            (
+                await session.execute(
+                    text(
+                        "SELECT c.relname || '.' || a.attname, col_description(c.oid, a.attnum) "
+                        "FROM pg_attribute a JOIN pg_class c ON c.oid = a.attrelid "
+                        "WHERE (c.relname, a.attname) IN (('meeting', 'capture_mode'), "
+                        "('meeting', 'capture_chain'), ('meeting', 'capture_part_at'), "
+                        "('meeting_speaker', 'channel'), ('meeting_diarization', 'channel'))"
+                    )
+                )
+            ).all()
+        )
+        constraints = set(
+            await session.scalars(
+                text(
+                    "SELECT conname FROM pg_constraint WHERE conrelid IN "
+                    "('meeting'::regclass, 'meeting_speaker'::regclass, 'meeting_diarization'::regclass)"
+                )
+            )
+        )
+        defaults = dict(
+            (
+                await session.execute(
+                    text(
+                        "SELECT table_name || '.' || column_name, column_default "
+                        "FROM information_schema.columns WHERE (table_name, column_name) IN "
+                        "(('meeting', 'capture_mode'), ('meeting_diarization', 'channel'))"
+                    )
+                )
+            ).all()
+        )
+    assert set(comments) == {
+        "meeting.capture_mode",
+        "meeting.capture_chain",
+        "meeting.capture_part_at",
+        "meeting_speaker.channel",
+        "meeting_diarization.channel",
+    }
+    assert all(comments.values()), "every capture column is described in the database"
+    assert "channel 0 is the recording computer's microphone" in comments["meeting.capture_mode"]
+    assert {
+        "ck_meeting_meeting_capture_mode",
+        "ck_meeting_speaker_meeting_speaker_channel",
+        "ck_meeting_diarization_meeting_diarization_channel",
+        "uq_meeting_diarization_channel",
+    } <= constraints
+    assert "uq_meeting_diarization_meeting" not in constraints
+    assert "file" in defaults["meeting.capture_mode"]
+    assert defaults["meeting_diarization.channel"].split("::")[0].strip("'") == "0"
+    # A capture row must stay a two-channel WAV with a running chain.
+    created = await create_capture(meeting_harness.client, auto_enroll=False)
+    for change in ({"capture_chain": None}, {"channels": 1}, {"capture_mode": "stereo"}):
+        async with meeting_harness.sessions() as session:
+            with pytest.raises(IntegrityError):
+                async with session.begin():
+                    await session.execute(
+                        update(Meeting)
+                        .where(Meeting.public_id == created["public_id"])
+                        .values(**change)
+                    )
 
 
 def stereo_part(seconds: float, microphone: float, system: float) -> bytes:

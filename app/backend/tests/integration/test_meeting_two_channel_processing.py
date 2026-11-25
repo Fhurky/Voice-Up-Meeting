@@ -97,7 +97,8 @@ async def captured(harness: MeetingHarness) -> str:
         assert response.status_code == 200, response.text
         chain = hashlib.sha256(chain + hashlib.sha256(part).digest()).digest()
     completed = await harness.client.post(
-        f"/meetings/{public_id}/capture/complete", json={"frames": frames, "chain_sha256": chain.hex()}
+        f"/meetings/{public_id}/capture/complete",
+        json={"frames": frames, "chain_sha256": chain.hex()},
     )
     assert completed.status_code == 202, completed.text
     return public_id
@@ -118,7 +119,9 @@ async def test_each_channel_is_diarized_and_read_on_its_own(
         assert meeting.props.get("diarization_flow") is None
     assert await worker(harness, provider).process_once()
     assert provider.levels == [MICROPHONE_LEVEL, SYSTEM_LEVEL]
-    assert all(size == received == SECONDS * RATE * 2 for _, size, received, _ in provider.recordings)
+    assert all(
+        size == received == SECONDS * RATE * 2 for _, size, received, _ in provider.recordings
+    )
 
     final = await run(harness, provider, public_id)
     assert final["status"] == "succeeded"
@@ -131,8 +134,16 @@ async def test_each_channel_is_diarized_and_read_on_its_own(
         [],
         ["SPEAKER_01"],
     ]
-    assert provider.attributed[0]["turns"][0] == {"start": 5.0, "end": 60.0, "speaker": "SPEAKER_00"}
-    assert provider.attributed[1]["turns"][0] == {"start": 0.0, "end": 100.0, "speaker": "SPEAKER_00"}
+    assert provider.attributed[0]["turns"][0] == {
+        "start": 5.0,
+        "end": 60.0,
+        "speaker": "SPEAKER_00",
+    }
+    assert provider.attributed[1]["turns"][0] == {
+        "start": 0.0,
+        "end": 100.0,
+        "speaker": "SPEAKER_00",
+    }
 
     async with harness.sessions() as session:
         meeting = await session.scalar(select(Meeting).where(Meeting.public_id == public_id))
