@@ -1,10 +1,11 @@
 # PRD — Teams masaüstü toplantısını iki kanalla kaydetme
 
-Status: Draft
+Status: Accepted
 
 Domain: [speaker-identity](../../DOMAIN.md)
 Roadmap: [037 — two-channel-meeting-capture](../../roadmap.md)
 Profil: `kt-vibecoding-python-web-v2`; şema profili `sqlalchemy-alembic`.
+Kabul: 25 Kasım 2026, kullanıcı (003 ile birlikte). Uygulama planı: [plan](plan.md), [görevler](tasks.md).
 Kaynak (25 Kasım 2026): Kullanıcı, Teams masaüstü uygulamasıyla katıldığı toplantılarda bir tuşla kayda başlamak,
 hem kendi sesinin hem toplantıdaki diğer kişilerin sesinin algılanmasını ve toplantı sürerken sonuç üretilmesini istedi.
 Teams botu istenmedi. Kurumda tarayıcı Edge'dir; ekran ve sistem sesi paylaşımı kurum politikasıyla kapatılmamıştır.

@@ -1,10 +1,11 @@
 # PRD — Toplantı sürerken canlı ara sonuç
 
-Status: Draft
+Status: Accepted
 
 Domain: [speaker-identity](../../DOMAIN.md)
 Roadmap: [003 — live-speaker-analysis](../../roadmap.md)
 Profil: `kt-vibecoding-python-web-v2`; şema profili `sqlalchemy-alembic`.
+Kabul: 25 Kasım 2026, kullanıcı (037 ile birlikte; 037 tamamlandıktan sonra uygulanır). Uygulama planı: [plan](plan.md), [görevler](tasks.md).
 Bağımlılık: [037](../037-two-channel-meeting-capture/PRD.md) iki kanallı Teams kaydı ve kesintisiz aktarım,
 [030](../030-whole-recording-diarization/PRD.md) kesin konuşmacı ayırma.
 Kaynak (25 Kasım 2026): Kullanıcı, Teams masaüstü toplantısında kayda başladığında mümkün olduğunca gerçek zamanlı sonuç
