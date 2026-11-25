@@ -16,7 +16,7 @@ toplantının konuşmacı gruplamasını ve otomatik yeni kişi kaydını kapsam
 |---:|---|---|---|
 | 001 | local-speaker-pilot | [PRD](PRDs/001-local-speaker-pilot/PRD.md) | Accepted — guarded speech recovery and fresh public holdout measured; quality target and Turkish acceptance incomplete |
 | 002 | long-recording-analysis | [PRD](PRDs/002-long-recording-analysis/PRD.md) | Accepted — uploaded-recording five-return/sixth-new memory verified through real local RTX API/browser and restart; native Spark/Apple, representative 50-person quality and release evidence remain incomplete |
-| 003 | live-speaker-analysis | [PRD](PRDs/003-live-speaker-analysis/PRD.md) | Draft — selected after 002 identity continuity |
+| 003 | live-speaker-analysis | [PRD](PRDs/003-live-speaker-analysis/PRD.md) | Draft — 25 Kasım 2026 yeniden yazıldı: 037 kaydı sürerken birkaç saniye gecikmeli geçici metin, konuşmacı ve ön tahmin; kesin sonuç 037 ile gelir |
 | 004 | spark-remote-inference | [PRD](PRDs/004-spark-remote-inference/PRD.md) | Accepted — Spark application path live; security release evidence unavailable |
 | 005 | local-cpu-runtime | [PRD](PRDs/005-local-cpu-runtime/PRD.md) | Accepted — fully local MacBook CPU environment requested; implementation and device evidence tracked in tasks |
 | 006 | local-admin-login | [PRD](PRDs/006-local-admin-login/PRD.md) | Accepted — local one-click login verified and published; environment evidence limits recorded |
@@ -44,6 +44,7 @@ toplantının konuşmacı gruplamasını ve otomatik yeni kişi kaydını kapsam
 | 028 | settings-processor-switch | [PRD](PRDs/028-settings-processor-switch/PRD.md) | Accepted — sol menüde Ayarlar; yönetici çalışan serviste GPU ve CPU arasında geçer; seçim kalıcı değil; [görevler](PRDs/028-settings-processor-switch/tasks.md) |
 | 029 | mp4-speaker-and-resume-upload | [PRD](PRDs/029-mp4-speaker-and-resume-upload/PRD.md) | Accepted — profil, örnek ekleme, Sesi tanı ve yüklemeyi sürdürme de MP4/M4A kabul eder; ses tarayıcıda çıkarılır, görüntü gönderilmez; [görevler](PRDs/029-mp4-speaker-and-resume-upload/tasks.md) |
 | 030 | whole-recording-diarization | [PRD](PRDs/030-whole-recording-diarization/PRD.md) | Accepted — konuşmacılar tüm kayıtta tek geçişte, modelin kendi ayarıyla ayrılır; parçalar yalnız yazıya çevirme ve ses kanıtı için; ölçülen model kazanımı DER %27,6→%19,9 ve %22,4→%17,1; [görevler](PRDs/030-whole-recording-diarization/tasks.md) |
+| 037 | two-channel-meeting-capture | [PRD](PRDs/037-two-channel-meeting-capture/PRD.md) | Draft — Teams masaüstü toplantısı Edge'de mikrofon ve sistem sesiyle iki kanal kaydedilir, toplantı sürerken aktarılır, kanallar ayrı işlenir; 031–036 numaraları doğruluk rotasında ayrılmıştır |
 
 9 Eylül 2026 sıralama kararı: [uzun kayıt ve canlı çalışma](../../docs/LONG_RECORDING_STRATEGY.md).
 001'in gerçek kişi deneyi önce gelir; sonraki model seçimi ölçüme dayanır.
