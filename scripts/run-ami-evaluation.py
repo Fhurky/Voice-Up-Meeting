@@ -90,6 +90,11 @@ def components(meetings: list[dict]) -> list[list[dict]]:
     )
 
 
+def select_split(meetings: list[dict], split: str) -> list[dict]:
+    """Diarization can be scored on one protocol split; identity needs every meeting."""
+    return meetings if split == "all" else [row for row in meetings if row["split"] == split]
+
+
 def plan(meetings: list[dict], rotation: int) -> list[dict]:
     """Gallery components first (automatic memory on), then non-gallery (memory off)."""
     groups = components(meetings)
@@ -488,9 +493,11 @@ def run(args: argparse.Namespace) -> dict:
         "rotation": args.rotation,
         "use_known_speaker_count": args.known_speaker_count,
         "participant_roster": args.roster,
+        "split": args.split,
     }
-    # States written before the roster option existed resumed without a roster.
+    # States written before these options existed resumed without a roster, on every meeting.
     state.get("configuration", {}).setdefault("participant_roster", False)
+    state.get("configuration", {}).setdefault("split", "all")
     if state.setdefault("configuration", configuration) != configuration:
         raise EvaluationError("resume_configuration_mismatch")
     state.setdefault("meetings", {})
@@ -498,7 +505,7 @@ def run(args: argparse.Namespace) -> dict:
     runner = Runner(args, credentials, state)
     runner.login()
     runner.ensure_empty_gallery()
-    steps = plan(protocol["meetings"], args.rotation)
+    steps = plan(select_split(protocol["meetings"], args.split), args.rotation)
     results = []
     for number, step in enumerate(steps, start=1):
         results.append(runner.process(step))
@@ -511,6 +518,7 @@ def run(args: argparse.Namespace) -> dict:
         "rotation": args.rotation,
         "use_known_speaker_count": args.known_speaker_count,
         "participant_roster": args.roster,
+        "split": args.split,
         "reference_quality": "human-annotated-public",
         "language": "en",
         "planned_meetings": len(steps),
@@ -532,6 +540,12 @@ def main() -> int:
     parser.add_argument("--known-speaker-count", action="store_true")
     parser.add_argument(
         "--roster", action="store_true", help="List attending people's saved profiles (PRD 016)"
+    )
+    parser.add_argument(
+        "--split",
+        choices=("all", "dev", "test"),
+        default="all",
+        help="Score one protocol split; identity results need all meetings",
     )
     parser.add_argument("--base-url")
     parser.add_argument("--api-prefix", default="/api/voiceup/v1")

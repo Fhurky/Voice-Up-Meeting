@@ -22,7 +22,11 @@ class ContextSample:
 
 
 def prepare_context_sample(
-    storage: MeetingAudioStorage, storage_key: str, source_contexts: list[MemoryContext], rate: int
+    storage: MeetingAudioStorage,
+    storage_key: str,
+    source_contexts: list[MemoryContext],
+    rate: int,
+    channel: int | None = None,
 ) -> ContextSample:
     selected: list[MemoryContext] = []
     remaining, previous = 60 * rate, 0
@@ -37,7 +41,7 @@ def prepare_context_sample(
     if not selected:
         raise SpeakerError("insufficient_speech", 422)
     sample = storage.sample_with_manifest(
-        storage_key, [(item.start, item.end) for item in selected], rate
+        storage_key, [(item.start, item.end) for item in selected], rate, channel=channel
     )
     if sample.manifest.frames != sum(item.end - item.start for item in selected):
         raise SpeakerError("model_mismatch", 502)

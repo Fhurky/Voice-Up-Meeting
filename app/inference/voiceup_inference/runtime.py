@@ -8,7 +8,7 @@ from contextlib import contextmanager
 from threading import Lock, Thread
 from time import perf_counter, sleep
 
-from voiceup.audio import Turn, validate_turns
+from voiceup.audio import Audio, Turn, validate_turns
 
 from .audio import decode_audio
 from .config import Settings
@@ -16,7 +16,14 @@ from .errors import InferenceError
 from .evidence import extract_pilot_evidence
 from .meeting_memory import verify_memory
 from .meeting_models import load_meeting_models
-from .meeting_runtime import MeetingModels, analyze_meeting_chunk, model_identity
+from .meeting_runtime import (
+    MeetingModels,
+    analyze_attributed_chunk,
+    analyze_meeting_chunk,
+    analyze_meeting_recording,
+    model_identity,
+    provided_turns,
+)
 from .model_bundle import DIMENSIONS, MODEL_ID, MODEL_REVISION, BundleError
 from .models import ModelHandles, load_models, require_cuda  # noqa: F401
 
@@ -219,6 +226,48 @@ class InferenceRuntime:
                 language,
                 max_speakers=max_speakers,
                 num_speakers=num_speakers,
+            )
+        except Exception:
+            raise InferenceError(
+                "meeting_inference_failed", "Local meeting analysis failed", 503
+            ) from None
+        result["device"] = self.settings.device
+        return result
+
+    def meeting_recording(self, audio: Audio, max_speakers: int | None) -> dict:
+        self.meeting_readiness()
+        assert self._meeting_models is not None
+        try:
+            result = analyze_meeting_recording(
+                audio, self._meeting_models, max_speakers=max_speakers
+            )
+        except Exception:
+            raise InferenceError(
+                "meeting_inference_failed", "Local meeting analysis failed", 503
+            ) from None
+        result["device"] = self.settings.device
+        return result
+
+    def meeting_attributed_chunk(
+        self, payload: bytes, language: str | None, turns: list, exclusive: list
+    ) -> dict:
+        self.meeting_readiness()
+        audio = decode_audio(
+            payload,
+            self.settings.model_copy(
+                update={"max_duration_seconds": 310.0, "max_upload_bytes": 120 * 1024 * 1024}
+            ),
+            max_decoded_samples=310 * 192000,
+            require_mono_pcm16_wav=True,
+        )
+        assert self._models is not None and self._meeting_models is not None
+        try:
+            checked, checked_exclusive = provided_turns(turns, exclusive, audio.duration)
+        except ValueError:
+            raise InferenceError("validation_error", "Invalid meeting turns", 422) from None
+        try:
+            result = analyze_attributed_chunk(
+                audio, self._meeting_models, self._models, language, checked, checked_exclusive
             )
         except Exception:
             raise InferenceError(

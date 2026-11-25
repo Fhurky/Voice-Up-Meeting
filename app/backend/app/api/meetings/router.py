@@ -23,6 +23,9 @@ from app.infrastructure.repositories.transcript_revision_repository import (
     TranscriptRevisionRepository,
 )
 from app.schemas.meeting import (
+    MeetingCaptureAck,
+    MeetingCaptureComplete,
+    MeetingCaptureCreate,
     MeetingCreate,
     MeetingPage,
     MeetingProcessingMode,
@@ -132,6 +135,22 @@ async def create_meeting(
     body: MeetingCreate, context: CurrentContext, service: Service, idempotency_key: IdempotencyKey
 ) -> MeetingResponse:
     return await service.create(context, idempotency_key, body)
+
+
+@router.post(
+    "/captures",
+    operation_id="create_meeting_capture",
+    status_code=201,
+    response_model=MeetingResponse,
+    dependencies=[Depends(require_permission("meeting_analysis:run"))],
+)
+async def create_meeting_capture(
+    body: MeetingCaptureCreate,
+    context: CurrentContext,
+    service: Service,
+    idempotency_key: IdempotencyKey,
+) -> MeetingResponse:
+    return await service.create_capture(context, idempotency_key, body)
 
 
 @router.get(
@@ -265,6 +284,67 @@ async def complete_upload(
     public_id: UUID, context: CurrentContext, service: Service
 ) -> MeetingResponse:
     return await service.complete(context, str(public_id))
+
+
+@router.put(
+    "/{public_id}/capture-frames/{start_frame}",
+    operation_id="append_meeting_capture",
+    response_model=MeetingCaptureAck,
+    dependencies=[Depends(require_permission("meeting_analysis:run"))],
+    openapi_extra={
+        "requestBody": {
+            "required": True,
+            "content": {
+                "application/octet-stream": {"schema": {"type": "string", "format": "binary"}}
+            },
+        }
+    },
+)
+async def append_meeting_capture(
+    public_id: UUID,
+    start_frame: Annotated[int, Path(ge=0, le=192000 * 14400)],
+    request: Request,
+    context: CurrentContext,
+    service: Service,
+    sha256: Annotated[str, Header(alias="X-Chunk-SHA256", pattern=r"^[a-f0-9]{64}$")],
+) -> MeetingCaptureAck:
+    if (
+        request.headers.get("content-type", "").split(";", 1)[0].strip().lower()
+        != "application/octet-stream"
+    ):
+        raise SpeakerError("unsupported_audio", 415)
+    data = bytearray()
+    async for chunk in request.stream():
+        if len(data) + len(chunk) > UPLOAD_PART_BYTES:
+            raise SpeakerError("audio_limit", 413)
+        data.extend(chunk)
+    return await service.capture_append(context, str(public_id), start_frame, bytes(data), sha256)
+
+
+@router.post(
+    "/{public_id}/capture/complete",
+    operation_id="complete_meeting_capture",
+    status_code=202,
+    response_model=MeetingResponse,
+    dependencies=[Depends(require_permission("meeting_analysis:run"))],
+)
+async def complete_meeting_capture(
+    public_id: UUID, body: MeetingCaptureComplete, context: CurrentContext, service: Service
+) -> MeetingResponse:
+    return await service.capture_complete(context, str(public_id), body)
+
+
+@router.post(
+    "/{public_id}/capture/seal",
+    operation_id="seal_meeting_capture",
+    status_code=202,
+    response_model=MeetingResponse,
+    dependencies=[Depends(require_permission("meeting_analysis:run"))],
+)
+async def seal_meeting_capture(
+    public_id: UUID, context: CurrentContext, service: Service
+) -> MeetingResponse:
+    return await service.capture_seal(context, str(public_id))
 
 
 @router.post(

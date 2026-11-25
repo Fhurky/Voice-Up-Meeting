@@ -7,10 +7,12 @@ import os
 import re
 import shutil
 import stat
+from collections.abc import Iterator
 from dataclasses import dataclass
 from pathlib import Path
 from typing import BinaryIO
 
+import numpy as np
 import soundfile as sf  # type: ignore[import-untyped]
 
 from app.domain.meeting import (
@@ -79,6 +81,29 @@ class MeetingAudioStorage:
             destination.flush()
             os.fsync(destination.fileno())
 
+    def read_range(self, key: str, offset: int, length: int) -> bytes:
+        """Acknowledged bytes of a source still being received, to compare a retried part."""
+        if offset < 0 or not 0 < length <= UPLOAD_PART_BYTES:
+            raise SpeakerError("audio_limit", 413)
+        path = self.path(key)
+        if not path.exists() or path.stat().st_size < offset + length:
+            raise SpeakerError("recording_unavailable", 410)
+        with path.open("rb") as source:
+            source.seek(offset)
+            return source.read(length)
+
+    def write_header(self, key: str, header: bytes) -> None:
+        """Fills the reserved header space of a streamed recording without touching its samples."""
+        if len(header) != 44:
+            raise SpeakerError("invalid_audio", 400)
+        path = self.path(key)
+        if not path.exists() or path.stat().st_size < len(header):
+            raise SpeakerError("recording_unavailable", 410)
+        with path.open("r+b") as destination:
+            destination.write(header)
+            destination.flush()
+            os.fsync(destination.fileno())
+
     def validate(self, key: str, expected_bytes: int, expected_format: str) -> MeetingSourceInfo:
         path = self.path(key)
         if not path.exists() or path.stat().st_size != expected_bytes:
@@ -143,7 +168,36 @@ class MeetingAudioStorage:
             if offset > expected_bytes:
                 raise SpeakerError("invalid_audio", 400)
 
-    def window(self, key: str, start: float, end: float) -> bytes:
+    def recording_info(self, key: str) -> tuple[int, int]:
+        """Sample rate and frame count of a stored source, for streaming the whole recording."""
+        try:
+            info = sf.info(self.path(key))
+        except (OSError, RuntimeError, ValueError) as exc:
+            raise SpeakerError("recording_unavailable", 410) from exc
+        return int(info.samplerate), int(info.frames)
+
+    def recording_blocks(
+        self, key: str, *, block_frames: int = 1 << 20, channel: int | None = None
+    ) -> Iterator[bytes]:
+        """The whole source as mono PCM16 at its own rate, one bounded block at a time.
+
+        `channel` selects one source channel; None mixes all of them.
+        """
+        try:
+            with sf.SoundFile(self.path(key)) as source:
+                self._check_channel(source, channel)
+                while True:
+                    block = source.read(block_frames, dtype="float32", always_2d=True)
+                    if not len(block):
+                        return
+                    mono = block.mean(axis=1) if channel is None else block[:, channel]
+                    if not np.isfinite(mono).all():
+                        raise SpeakerError("invalid_audio", 400)
+                    yield (np.clip(np.round(mono * 32768), -32768, 32767).astype("<i2").tobytes())
+        except (OSError, RuntimeError, ValueError) as exc:
+            raise SpeakerError("recording_unavailable", 410) from exc
+
+    def window(self, key: str, start: float, end: float, *, channel: int | None = None) -> bytes:
         if (
             not all(math.isfinite(value) for value in (start, end))
             or start < 0
@@ -162,9 +216,15 @@ class MeetingAudioStorage:
                             round(end * source.samplerate),
                         )
                     ],
+                    channel=channel,
                 )
         except (OSError, RuntimeError, ValueError) as exc:
             raise SpeakerError("recording_unavailable", 410) from exc
+
+    @staticmethod
+    def _check_channel(source: sf.SoundFile, channel: int | None) -> None:
+        if channel is not None and not 0 <= channel < source.channels:
+            raise SpeakerError("invalid_audio", 400)
 
     def preview(
         self,
@@ -265,11 +325,23 @@ class MeetingAudioStorage:
             value.st_ctime_ns,
         )
 
-    def sample(self, key: str, ranges: list[tuple[int, int]], sample_rate: int) -> bytes:
-        return self.sample_with_manifest(key, ranges, sample_rate).data
+    def sample(
+        self,
+        key: str,
+        ranges: list[tuple[int, int]],
+        sample_rate: int,
+        *,
+        channel: int | None = None,
+    ) -> bytes:
+        return self.sample_with_manifest(key, ranges, sample_rate, channel=channel).data
 
     def sample_with_manifest(
-        self, key: str, ranges: list[tuple[int, int]], sample_rate: int
+        self,
+        key: str,
+        ranges: list[tuple[int, int]],
+        sample_rate: int,
+        *,
+        channel: int | None = None,
     ) -> MeetingAudioSample:
         try:
             with sf.SoundFile(self.path(key)) as source:
@@ -283,15 +355,22 @@ class MeetingAudioStorage:
                 if not selected:
                     raise SpeakerError("insufficient_speech", 422)
                 manifest = SourceFrameManifest(sample_rate, source.frames, selected)
-                data = self._extract(source, list(selected))
+                data = self._extract(source, list(selected), channel=channel)
                 return MeetingAudioSample(data, manifest, hashlib.sha256(data).hexdigest())
         except (OSError, RuntimeError, ValueError) as exc:
             raise SpeakerError("recording_unavailable", 410) from exc
 
-    @staticmethod
+    @classmethod
     def _extract(
-        source: sf.SoundFile, ranges: list[tuple[int, int]], *, allow_clipped: bool = False
+        cls,
+        source: sf.SoundFile,
+        ranges: list[tuple[int, int]],
+        *,
+        allow_clipped: bool = False,
+        channel: int | None = None,
     ) -> bytes:
+        """Mono PCM16 WAV of the ranges: one source channel, or all channels mixed when None."""
+        cls._check_channel(source, channel)
         output = io.BytesIO()
         clipped, samples = 0, 0
         with sf.SoundFile(
@@ -309,13 +388,16 @@ class MeetingAudioStorage:
                     block = source.read(min(65536, remaining), dtype="float32", always_2d=True)
                     if not len(block):
                         raise SpeakerError("invalid_audio", 400)
+                    read = len(block)
+                    if channel is not None:
+                        block = block[:, channel : channel + 1]
                     peak = float(abs(block).max())
                     if not math.isfinite(peak) or peak > 1:
                         raise SpeakerError("invalid_audio", 400)
                     clipped += int((abs(block) >= 0.999).sum())
                     samples += block.size
                     destination.write(block.mean(axis=1))
-                    remaining -= len(block)
+                    remaining -= read
         if not allow_clipped and samples and clipped / samples > 0.05:
             raise SpeakerError("clipped_audio", 422)
         return output.getvalue()

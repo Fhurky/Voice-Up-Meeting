@@ -35,6 +35,10 @@ class Provider:
         self.calls = []
         self.error = None
 
+    async def processor(self) -> dict:
+        # Chunked separation, as on the CPU; whole-recording tests override this.
+        return {"device": "cpu"}
+
     async def analyze(
         self,
         audio: bytes,
@@ -306,8 +310,8 @@ async def test_lease_expiring_during_persistence_rolls_back_the_entire_core(
         row.lease_expires_at = datetime.now(UTC) + timedelta(seconds=2)
     persist = service.chunks.persist
 
-    async def delayed(repository, meeting, window, payload):
-        await persist(repository, meeting, window, payload)
+    async def delayed(repository, meeting, window, payload, **options):
+        await persist(repository, meeting, window, payload, **options)
         await asyncio.sleep(2.1)
 
     monkeypatch.setattr(service.chunks, "persist", delayed)

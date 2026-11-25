@@ -706,7 +706,8 @@ def sanitize_result(report, kind):
             and report.get("reference_quality") == "human-annotated-public"
             and report.get("language") == "en"
             and type(report.get("use_known_speaker_count")) is bool
-            and type(report.get("participant_roster", False)) is bool,
+            and type(report.get("participant_roster", False)) is bool
+            and report.get("split", "all") in {"all", "dev", "test"},
             "invalid_public_benchmark",
         )
         result.update(
@@ -718,6 +719,9 @@ def sanitize_result(report, kind):
             participant_roster=report.get("participant_roster", False),
             protocol_sha256=sha256(report["protocol_sha256"]),
         )
+        # Earlier entries scored every meeting; only a one-split run records its split.
+        if report.get("split", "all") != "all":
+            result["split"] = report["split"]
     if kind == "asr_clips":
         require(
             isinstance(report.get("protocol"), str)
@@ -933,7 +937,9 @@ def render_snapshot(value):
         recognition, fpir = identity["recognition_interval"], identity["fpir_interval"]
         lines.extend(
             [
-                f"AMI `{result['condition']}` ses koşulu, rotasyon {result['rotation']}; toplantı {metric['observed_meetings']}/{metric['planned_meetings']}; puanlanan süre {metric['scored_seconds'] / 3600:.2f} saat. "
+                f"AMI `{result['condition']}` ses koşulu, rotasyon {result['rotation']}"
+                + (f", yalnız `{result['split']}` bölümü" if result.get("split") else "")
+                + f"; toplantı {metric['observed_meetings']}/{metric['planned_meetings']}; puanlanan süre {metric['scored_seconds'] / 3600:.2f} saat. "
                 + (
                     "Konuşmacı sayısı ipucu verildi."
                     if result["use_known_speaker_count"]

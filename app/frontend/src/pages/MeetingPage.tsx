@@ -52,7 +52,7 @@ function MeetingDetail({ publicId }: { publicId: string }) {
     return () => { controller.abort(); clearTimeout(timer); };
   }, [publicId, reload]);
 
-  async function action(kind: "cancel" | "delete" | "retry") {
+  async function action(kind: "cancel" | "delete" | "retry" | "seal") {
     if (mutation.current) return;
     const controller = new AbortController(); mutation.current = controller; setBusy(true); setError(null);
     try {
@@ -60,7 +60,7 @@ function MeetingDetail({ publicId }: { publicId: string }) {
         await MeetingService.remove(publicId, controller.signal);
         if (!controller.signal.aborted) void navigate("/meetings", { replace: true });
       } else {
-        const updated = await MeetingService[kind](publicId, controller.signal);
+        const updated = kind === "seal" ? await MeetingService.sealCapture(publicId, controller.signal) : await MeetingService[kind](publicId, controller.signal);
         if (!controller.signal.aborted) { setMeeting(updated); setConfirmation(null); setReload((value) => value + 1); trigger.current?.focus(); }
       }
     } catch (failure) { if (!controller.signal.aborted) setError(meetingErrorKey(failure)); }
@@ -110,7 +110,14 @@ function MeetingDetail({ publicId }: { publicId: string }) {
           <div className="action-row"><button disabled={busy} className="button-danger" onClick={() => void action(confirmation)}>{t(`meeting.${confirmation}Confirm`)}</button><button disabled={busy} className="button-secondary" onClick={() => { setConfirmation(null); trigger.current?.focus(); }}>{t("common.cancel")}</button></div>
         </div>}
       </section>
-      {meeting.status === "uploading" && run && <MeetingSourceUpload meeting={meeting} initialFile={initialFile} onComplete={(updated) => { setInitialFile(null); clearSelection?.(null); setMeeting(updated); setReload((value) => value + 1); }} />}
+      {meeting.status === "uploading" && run && meeting.capture_mode === "two_channel" && <section className="panel" aria-labelledby="meeting-capture-heading" data-capture-idle={meeting.capture_idle}>
+        <h2 id="meeting-capture-heading">{t("meeting.capture.title")}</h2>
+        <p role="status">{t(meeting.capture_idle ? "meeting.capture.idle" : "meeting.capture.active", { duration: recordingTime(meeting.captured_seconds ?? 0) })}</p>
+        {meeting.capture_idle && <div className="action-row">
+          <button disabled={busy || !meeting.captured_frames || (meeting.auto_enroll && !hasPermission("speaker_profiles:write"))} onClick={() => void action("seal")}>{t("meeting.capture.seal")}</button>
+        </div>}
+      </section>}
+      {meeting.status === "uploading" && run && meeting.capture_mode !== "two_channel" && <MeetingSourceUpload meeting={meeting} initialFile={initialFile} onComplete={(updated) => { setInitialFile(null); clearSelection?.(null); setMeeting(updated); setReload((value) => value + 1); }} />}
       {meeting.status !== "uploading" && <MeetingResults key={meeting.public_id} meeting={meeting} revision={revision} />}
       <p className="page-footnote"><Icon name="shield" size={15} />{t("meeting.retention")}</p>
     </>}

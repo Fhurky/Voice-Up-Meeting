@@ -6,14 +6,15 @@ export const baseUrl = (process.env.APP_E2E_BASE || 'http://127.0.0.1:8081').rep
 export const username = process.env.APP_E2E_SUPER_ADMIN_USER || process.env.VOICEUP_SUPER_ADMIN_USER;
 export const password = process.env.APP_E2E_SUPER_ADMIN_PASS || process.env.VOICEUP_SUPER_ADMIN_PASS;
 
-export async function withBrowser(name, scenario, {requireCredentials = true} = {}) {
+export async function withBrowser(name, scenario, {requireCredentials = true, launchArgs = [], headless = true} = {}) {
   if (requireCredentials) {
     assert.ok(username, 'APP_E2E_SUPER_ADMIN_USER is required');
     assert.ok(password, 'APP_E2E_SUPER_ADMIN_PASS is required');
   }
   // The bundled Chromium has no AAC decoder; video scenarios select an installed browser channel.
   const channel = process.env.APP_E2E_BROWSER_CHANNEL;
-  const browser = await chromium.launch({headless: true, ...(channel ? {channel} : {})});
+  // Capture scenarios pass browser switches, for example automatic screen selection.
+  const browser = await chromium.launch({headless, args: launchArgs, ...(channel ? {channel} : {})});
   const context = await browser.newContext();
   const allowedOrigin = new URL(baseUrl).origin;
   const externalRequests = [];

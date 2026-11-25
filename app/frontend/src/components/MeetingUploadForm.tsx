@@ -3,15 +3,18 @@ import { useNavigate } from "react-router";
 import { useAuth } from "@/contexts/AuthContext";
 import { useIntl } from "@/contexts/IntlContext";
 import { MeetingService, type MeetingCreate } from "@/services/meetings";
-import { extractMeetingAudio, isMediaContainer } from "@/lib/mediaAudio";
+import { extractAudio, isMediaContainer } from "@/lib/mediaAudio";
 import { meetingErrorKey, validateMeetingFile } from "@/lib/meetingErrors";
 import { MeetingUploadContext } from "@/contexts/meetingUploadSelection";
 import { Icon } from "@/components/ui/Icon";
+import { MeetingCaptureRecorder } from "@/components/MeetingCaptureRecorder";
 import { MeetingMicrophoneRecorder } from "@/components/MeetingMicrophoneRecorder";
 import { MeetingParticipantPicker } from "@/components/MeetingParticipantPicker";
 import { uploadMeeting, type UploadProgress } from "@/services/meetingUpload";
 
-export function MeetingUploadForm({ initialSource = "file", onClose }: { initialSource?: "file" | "microphone"; onClose?: () => void }) {
+type MeetingSource = "file" | "microphone" | "teams";
+
+export function MeetingUploadForm({ initialSource = "file", onClose }: { initialSource?: MeetingSource; onClose?: () => void }) {
   const { t } = useIntl();
   const { hasPermission } = useAuth();
   const navigate = useNavigate();
@@ -20,7 +23,7 @@ export function MeetingUploadForm({ initialSource = "file", onClose }: { initial
   const { setSelection } = selection;
   const [title, setTitle] = useState("");
   const [file, setFile] = useState<File | null>(null);
-  const [source, setSource] = useState<"file" | "microphone">(initialSource);
+  const [source, setSource] = useState<MeetingSource>(initialSource);
   const [language, setLanguage] = useState<NonNullable<MeetingCreate["language"]>>("tr");
   const [participants, setParticipants] = useState("");
   const [speakers, setSpeakers] = useState("");
@@ -65,11 +68,14 @@ export function MeetingUploadForm({ initialSource = "file", onClose }: { initial
     if (new Set(entered.map((value) => value.toLocaleLowerCase())).size !== entered.length) { if (contextOptions.current) contextOptions.current.open = true; setError("meeting.error.duplicateQuestion"); return false; }
     setError(null); return true;
   }
-  async function create(sourceFile: File, signal: AbortSignal) {
-    const request: MeetingCreate = { title: title.trim().replace(/\s+/g, " "), format: /\.flac$/i.test(sourceFile.name) ? "FLAC" : "WAV", size_bytes: sourceFile.size,
+  function options() {
+    return { title: title.trim().replace(/\s+/g, " "),
       language, participant_count: participants ? Number(participants) : null, expected_speakers: speakers ? Number(speakers) : null,
       auto_enroll: hasPermission("speaker_profiles:write") && remember, participant_profile_ids: roster,
       subject: normalizeText(subject) || null, questions: enteredQuestions() };
+  }
+  async function create(sourceFile: File, signal: AbortSignal) {
+    const request: MeetingCreate = { ...options(), format: /\.flac$/i.test(sourceFile.name) ? "FLAC" : "WAV", size_bytes: sourceFile.size };
     const fingerprint = JSON.stringify([request, sourceFile.name, sourceFile.lastModified]);
     if (attempt.current?.fingerprint !== fingerprint) attempt.current = { fingerprint, key: crypto.randomUUID() };
     return MeetingService.create(request, attempt.current.key, signal);
@@ -105,7 +111,7 @@ export function MeetingUploadForm({ initialSource = "file", onClose }: { initial
         // A retry after a lost response keeps the same audio instead of decoding the video again.
         if (extracted.current?.source !== file) {
           setExtracting(true);
-          extracted.current = { source: file, audio: await extractMeetingAudio(file) };
+          extracted.current = { source: file, audio: await extractAudio(file) };
         }
         upload = extracted.current.audio;
       }
@@ -126,6 +132,7 @@ export function MeetingUploadForm({ initialSource = "file", onClose }: { initial
     <div className="recording-source-switch" role="group" aria-label={t("microphone.source")}>
       <button type="button" className="button-secondary" aria-pressed={source === "file"} disabled={busy} onClick={() => { setSource("file"); setError(null); }}><Icon name="upload" size={18} />{t("microphone.fileSource")}</button>
       <button type="button" className="button-secondary" aria-pressed={source === "microphone"} disabled={busy} onClick={() => { setSource("microphone"); setError(null); }}><Icon name="microphone" size={18} />{t("microphone.microphoneSource")}</button>
+      <button type="button" className="button-secondary" aria-pressed={source === "teams"} disabled={busy} onClick={() => { setSource("teams"); setError(null); }}><Icon name="audio" size={18} />{t("capture.source")}</button>
     </div>
     <form ref={form} className="audio-form" aria-label={t("meeting.uploadForm")} onSubmit={(event) => void submit(event)}>
       {source === "file" && <><div className="upload-surface">
@@ -176,8 +183,9 @@ export function MeetingUploadForm({ initialSource = "file", onClose }: { initial
       </details>
       {extracting && <p className="field-hint" role="status">{t("meeting.extractingAudio")}</p>}
       {error && <p className="error-message" role="alert">{t(error)}</p>}
-      {source === "file" ? <button type="submit" disabled={busy || !file || !title.trim()}><Icon name="upload" size={18} />{t(busy ? "meeting.creating" : "meeting.start")}</button> :
-        <MeetingMicrophoneRecorder onBeforeStart={validateOptions} onBusyChange={setBusy} onAnalyze={analyzeRecording} onAbandon={abandonRecording} onComplete={(result) => { recordingMeeting.current = null; void navigate(`/meetings/${result.public_id}`); }} />}
+      {source === "file" && <button type="submit" disabled={busy || !file || !title.trim()}><Icon name="upload" size={18} />{t(busy ? "meeting.creating" : "meeting.start")}</button>}
+      {source === "microphone" && <MeetingMicrophoneRecorder onBeforeStart={validateOptions} onBusyChange={setBusy} onAnalyze={analyzeRecording} onAbandon={abandonRecording} onComplete={(result) => { recordingMeeting.current = null; void navigate(`/meetings/${result.public_id}`); }} />}
+      {source === "teams" && <MeetingCaptureRecorder onBeforeStart={validateOptions} request={options} onBusyChange={setBusy} onComplete={(result) => { void navigate(`/meetings/${result.public_id}`); }} />}
     </form>
   </section>;
 }

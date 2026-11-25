@@ -5,7 +5,7 @@ import { IntlProvider } from "@/contexts/IntlContext";
 import MeetingPage from "@/pages/MeetingPage";
 import MeetingsPage from "@/pages/MeetingsPage";
 import { MeetingService } from "@/services/meetings";
-import { meeting } from "@/test/meetingFixtures";
+import { meeting, meetingSpeaker, transcript } from "@/test/meetingFixtures";
 import { SpeakerService } from "@/services/speakers";
 import { MeetingUploadContext } from "@/contexts/meetingUploadSelection";
 
@@ -64,6 +64,36 @@ describe("meeting detail boundaries", () => {
     vi.spyOn(MeetingService, "get").mockResolvedValue(meeting);
     setup(); await screen.findByText("Weekly meeting");
     expect(screen.queryByRole("heading", { name: "Toplantı bilgileri" })).not.toBeInTheDocument();
+  });
+
+  it("offers to process what arrived from an interrupted two-channel recording", async () => {
+    const capturing = { ...meeting, status: "uploading" as const, capture_mode: "two_channel" as const, captured_frames: 960000, captured_seconds: 60, capture_idle: false };
+    const get = vi.spyOn(MeetingService, "get").mockResolvedValue(capturing);
+    const seal = vi.spyOn(MeetingService, "sealCapture").mockResolvedValue({ ...capturing, status: "queued", capture_idle: false });
+    const { unmount } = setup(); await screen.findByText("Weekly meeting");
+    expect(screen.getByText("Kayıt sürüyor; şu ana kadar 00:01:00 alındı.")).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Gelen kısmı işle" })).not.toBeInTheDocument();
+    expect(screen.queryByLabelText("Toplantı ses veya video dosyası")).not.toBeInTheDocument();
+    unmount();
+    get.mockResolvedValue({ ...capturing, capture_idle: true });
+    setup(); await screen.findByText("Kayıt kesildi. Sunucuya ulaşan 00:01:00 işlenebilir.");
+    fireEvent.click(screen.getByRole("button", { name: "Gelen kısmı işle" }));
+    await waitFor(() => expect(seal).toHaveBeenCalledWith(meeting.public_id, expect.any(AbortSignal)));
+  });
+
+  it("labels speakers and lines by the channel they were heard on", async () => {
+    const remote = { ...meetingSpeaker, public_id: "0c8f3f0e-9d1b-4f4e-8a39-5b0c7b1f2a33", ordinal: 1, channel: "system" as const };
+    vi.spyOn(MeetingService, "get").mockResolvedValue({ ...meeting, capture_mode: "two_channel" });
+    vi.spyOn(MeetingService, "processingMode").mockResolvedValue({ processing_device: "gpu" });
+    vi.spyOn(MeetingService, "speakers").mockResolvedValue({ items: [{ ...meetingSpeaker, channel: "microphone" }, remote], total: 2, offset: 0, limit: 20 });
+    vi.spyOn(MeetingService, "transcript").mockResolvedValue({ items: [transcript], total: 1, offset: 0, limit: 50, provisional: false });
+    render(<IntlProvider><MemoryRouter initialEntries={[`/meetings/${meeting.public_id}`]}><Routes>
+      <Route path="/meetings/:publicId" element={<MeetingPage />} />
+    </Routes></MemoryRouter></IntlProvider>);
+    await screen.findByText("Toplantıya başlayabiliriz.");
+    // The line's own speaker is the microphone voice; the speaker list names both channels.
+    expect(screen.getAllByText("Bu bilgisayar")).toHaveLength(2);
+    expect(screen.getByText("Toplantı sesi")).toBeInTheDocument();
   });
 
   it("requires focused confirmation before deletion and returns to the meeting list", async () => {

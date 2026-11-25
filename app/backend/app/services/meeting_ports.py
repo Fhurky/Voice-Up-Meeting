@@ -1,7 +1,8 @@
 """Typed, source-bounded application boundary for the local meeting provider."""
 
 import math
-from typing import Literal, Protocol, Self
+from collections.abc import AsyncIterable
+from typing import Any, Literal, Protocol, Self
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
@@ -121,7 +122,7 @@ class MeetingTrack(MeetingRecord):
 class DiarizationIdentity(MeetingRecord):
     model_id: Literal["pyannote/speaker-diarization-community-1"]
     revision: Literal["3533c8cf8e369892e6b79ff1bf80f7b0286a54ee"]
-    recipe: Literal["community-vbx-fa015-v1"] | None = None
+    recipe: Literal["community-vbx-fa015-v1", "community-default-whole-v1"] | None = None
 
 
 class MeetingVad(MeetingRecord):
@@ -181,7 +182,7 @@ class MeetingChunkResult(MeetingRecord):
         ]
         ranges.extend(interval for track in self.tracks for interval in track.validated_ranges)
         if self.vad is not None:
-            if self.model_identity.diarization.recipe != "community-vbx-fa015-v1":
+            if self.model_identity.diarization.recipe is None:
                 raise ValueError("meeting_candidate_recipe_missing")
             ranges.extend(self.vad.ranges)
         ranges.extend(
@@ -230,7 +231,75 @@ class MeetingChunkResult(MeetingRecord):
         return self
 
 
+class RecordingRange(MeetingRecord):
+    start: float = Field(ge=0, le=14400)
+    end: float = Field(gt=0, le=14400)
+
+    @model_validator(mode="after")
+    def positive_interval(self) -> Self:
+        if self.end <= self.start:
+            raise ValueError("invalid_meeting_interval")
+        return self
+
+
+class RecordingTurn(RecordingRange):
+    speaker: str = Field(min_length=1, max_length=128)
+
+
+class RecordingSpeaker(MeetingRecord):
+    speaker: str = Field(min_length=1, max_length=128)
+    tracking: MeetingTracking | None
+
+
+class MeetingRecordingResult(MeetingRecord):
+    """Speakers separated once over the whole recording; chunks reuse these labels."""
+
+    input_seconds: float = Field(gt=0, le=14400)
+    sample_rate: Literal[16000]
+    turns: list[RecordingTurn] = Field(max_length=200000)
+    exclusive_turns: list[RecordingTurn] = Field(max_length=200000)
+    speakers: list[RecordingSpeaker] = Field(max_length=1000)
+    model_identity: MeetingModelIdentity
+    device: str = Field(pattern=r"^cuda:[0-9]+$", max_length=16)
+
+    @model_validator(mode="after")
+    def consistent_speakers(self) -> Self:
+        labels = [speaker.speaker for speaker in self.speakers]
+        if (
+            len(set(labels)) != len(labels)
+            or {turn.speaker for turn in self.turns} != set(labels)
+            or not {turn.speaker for turn in self.exclusive_turns} <= set(labels)
+            or self.model_identity.diarization.recipe != "community-default-whole-v1"
+            or any(turn.end > self.input_seconds + 0.02 for turn in self.turns)
+        ):
+            raise ValueError("invalid_meeting_recording")
+        return self
+
+
 class MeetingAnalysisPort(Protocol):
+    async def processor(self) -> dict[str, Any]: ...
+
+    async def diarize_recording(
+        self,
+        blocks: AsyncIterable[bytes],
+        *,
+        sample_rate: int,
+        size_bytes: int,
+        job_public_id: str,
+        tenant_public_id: str,
+        max_speakers: int | None,
+    ) -> MeetingRecordingResult: ...
+
+    async def analyze_attributed(
+        self,
+        audio: bytes,
+        turns: dict[str, list[dict[str, float | str]]],
+        *,
+        job_public_id: str,
+        tenant_public_id: str,
+        language: str | None,
+    ) -> MeetingChunkResult: ...
+
     async def analyze(
         self,
         audio: bytes,

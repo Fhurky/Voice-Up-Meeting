@@ -256,7 +256,7 @@ powershell -ExecutionPolicy Bypass -File scripts/start-local.ps1 -Mode Local
 Uygulama: **http://127.0.0.1:8081**. Yönetici hesabı kurulumda oluşturulur.
 
 Çok konuşmacılı kayıt için önce [toplantı modelini hazırlayın](docs/MEETING_WORKFLOW.md),
-ardından `Toplantılar` ekranında WAV/FLAC yükleyin veya **Mikrofonla kaydet**
+ardından `Toplantılar` ekranında WAV, FLAC veya MP4 yükleyin ya da **Mikrofonla kaydet**
 seçeneğini kullanın. Toplantıya ad verip **Kaydı başlat**, bitince **Durdur ve
 analiz et** düğmesine basın; ayrıca dosya seçmeniz gerekmez.
 [Mikrofon rehberi](docs/tr/microphone-recording.md) izin, geçici disk ve cihaz

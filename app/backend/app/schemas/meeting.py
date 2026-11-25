@@ -1,7 +1,7 @@
 """Public uploaded-meeting contracts contain no source paths or biometric vectors."""
 
 from datetime import datetime
-from typing import Literal
+from typing import Literal, Self
 from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
@@ -15,6 +15,8 @@ MeetingStatus = Literal[
 ]
 MeetingDecision = Literal["profile_pending", "recognized", "enrolled", "ambiguous"]
 MeetingLanguage = Literal["tr", "en", "auto"]
+MeetingCaptureMode = Literal["file", "two_channel"]
+MeetingChannel = Literal["microphone", "system"]
 MAX_PARTICIPANTS = 50
 MAX_SUBJECT_CHARACTERS = 500
 MAX_QUESTIONS = 20
@@ -28,11 +30,11 @@ class MeetingParticipantResponse(BaseModel):
     name: str | None
 
 
-class MeetingCreate(BaseModel):
+class MeetingOptions(BaseModel):
+    """Settings shared by an uploaded file and a two-channel capture."""
+
     model_config = ConfigDict(extra="forbid")
     title: str = Field(min_length=1, max_length=120)
-    format: Literal["WAV", "FLAC"]
-    size_bytes: int = Field(gt=0, le=MAX_SOURCE_BYTES, strict=True)
     language: MeetingLanguage = "tr"
     participant_count: int | None = Field(default=None, ge=1, le=1000, strict=True)
     expected_speakers: int | None = Field(default=None, ge=1, le=1000, strict=True)
@@ -73,7 +75,7 @@ class MeetingCreate(BaseModel):
         return value
 
     @model_validator(mode="after")
-    def count_relationship(self) -> "MeetingCreate":
+    def count_relationship(self) -> Self:
         if (
             self.participant_count is not None
             and self.expected_speakers is not None
@@ -86,6 +88,29 @@ class MeetingCreate(BaseModel):
         ):
             raise ValueError("Listed participants cannot exceed participant count")
         return self
+
+
+class MeetingCreate(MeetingOptions):
+    format: Literal["WAV", "FLAC"]
+    size_bytes: int = Field(gt=0, le=MAX_SOURCE_BYTES, strict=True)
+
+
+class MeetingCaptureCreate(MeetingOptions):
+    """A two-channel recording that the browser streams while the meeting runs (PRD 037)."""
+
+    sample_rate: int = Field(ge=8000, le=192000, strict=True)
+
+
+class MeetingCaptureAck(BaseModel):
+    """Frames the server holds; the next part must start here."""
+
+    received_frames: int
+
+
+class MeetingCaptureComplete(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    frames: int = Field(ge=1, strict=True)
+    chain_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
 
 
 class MeetingProcessingMode(BaseModel):
@@ -138,6 +163,10 @@ class MeetingResponse(BaseModel):
     created_at: datetime
     started_at: datetime | None
     finished_at: datetime | None
+    capture_mode: MeetingCaptureMode
+    captured_frames: int | None
+    captured_seconds: float | None
+    capture_idle: bool
 
 
 class MeetingPage(BaseModel):
@@ -163,6 +192,7 @@ class MeetingUploadManifest(BaseModel):
 class MeetingSpeakerResponse(BaseModel):
     public_id: UUID
     ordinal: int
+    channel: MeetingChannel | None
     display_name: str | None
     profile_public_id: UUID | None
     profile_name: str | None

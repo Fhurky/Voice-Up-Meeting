@@ -5,9 +5,16 @@ import json
 import math
 from dataclasses import asdict
 from datetime import UTC, datetime
+from types import EllipsisType
 
 from app.core.config import Settings
-from app.domain.meeting import clean_union
+from app.domain.meeting import (
+    clean_union,
+    meeting_tracks,
+    previous_track_chunk,
+    track_windows,
+    window_core_seconds,
+)
 from app.domain.meeting_candidates import (
     CandidateTurn,
     build_candidate_contexts,
@@ -139,6 +146,20 @@ class MeetingChunkPersistence:
                         ),
                     )
                 )
+        layout = track_windows(
+            meeting.duration_seconds,
+            meeting_tracks(meeting.capture_mode),
+            core_seconds=window_core_seconds(meeting.props),
+        )
+        channel_of = {window[0]: channel for window, channel in layout}
+        # Two channels never share a voice: every cross-channel pair is a proven difference.
+        if len(set(channel_of.values())) > 1:
+            for position, later in enumerate(tracks):
+                for earlier in tracks[:position]:
+                    if channel_of.get(later.chunk) != channel_of.get(earlier.chunk):
+                        conflicts.append(
+                            ((earlier.chunk, earlier.label), (later.chunk, later.label))
+                        )
         meeting.props = {**meeting.props, "reconciliation_version": RECONCILIATION_VERSION}
         if len(chunks) < 2 or all(track.embedding is None for track in tracks):
             return
@@ -175,6 +196,10 @@ class MeetingChunkPersistence:
                 ),
                 result,
                 rebuild=rebuild,
+                channel=channel_of.get(chunk.index),
+                previous_index=(
+                    previous_track_chunk(layout, chunk.index) if chunk.index < len(layout) else None
+                ),
             )
         adopted = rebuild.adopted()
         for row in rows:
@@ -190,8 +215,16 @@ class MeetingChunkPersistence:
         result: MeetingChunkResult,
         *,
         rebuild: TrackRebuild | None = None,
+        channel: int | None = None,
+        previous_index: int | None | EllipsisType = ...,
     ) -> None:
+        """`channel` is the source channel of a two-channel capture, None for a mixed track.
+
+        `previous_index` is the preceding chunk of the same channel; by default the one before.
+        """
         index, context_start, core_start, core_end, context_end = window
+        if previous_index is ...:
+            previous_index = index - 1 if index else None
         if abs(result.input_seconds - (context_end - context_start)) > 1 / 8000:
             raise SpeakerError("model_mismatch", 502)
         if meeting.sample_rate is None or meeting.duration_seconds is None:
@@ -199,9 +232,11 @@ class MeetingChunkPersistence:
         rate = meeting.sample_rate
         first, last = round(core_start * rate), round(core_end * rate)
         source_end = round(meeting.duration_seconds * rate)
-        rows, total = await repository.speakers(meeting.tenant_id, meeting.meeting_id, 0, 1001)
+        all_rows, total = await repository.speakers(meeting.tenant_id, meeting.meeting_id, 0, 1001)
         if total > 1000:
             raise SpeakerError("audio_limit", 413)
+        # A voice on one channel is never the same meeting speaker as a voice on the other.
+        rows = [row for row in all_rows if row.channel == channel]
         try:
             native_graph = check_exclusion_graph(
                 [
@@ -214,6 +249,16 @@ class MeetingChunkPersistence:
             raise SpeakerError("model_mismatch", 502) from exc
         native_tracks = {track.speaker: track for track in result.tracks}
         by_id = {row.meeting_speaker_id: row for row in rows}
+        # After one pass over the recording each label names a meeting speaker (PRD 030).
+        diarized = (
+            {
+                row.props["diarization_label"]: row
+                for row in rows
+                if "diarization_label" in row.props
+            }
+            if meeting.props.get("diarization_flow") == "whole"
+            else None
+        )
         mapped: dict[str, MeetingSpeaker] = {}
         local_ranges = {
             track.speaker: clean_union(
@@ -262,6 +307,10 @@ class MeetingChunkPersistence:
             overlapping.update(native_differences)
             if rebuild is not None:
                 identity, reason = rebuild.identity(index, track.speaker), "reconciled"
+            elif diarized is not None:
+                if track.speaker not in diarized:
+                    raise SpeakerError("model_mismatch", 502)
+                identity, reason = diarized[track.speaker].meeting_speaker_id, "diarized"
             elif tracking is not None:
                 candidates = [
                     AcousticCandidate(row.meeting_speaker_id, list(row.tracking_embedding))
@@ -353,12 +402,13 @@ class MeetingChunkPersistence:
                         index, track.speaker, row, track.status if vector is None else reason
                     )
             if row is None:
-                if len(rows) >= 1000:
+                if len(all_rows) >= 1000:
                     raise SpeakerError("audio_limit", 413)
                 row = MeetingSpeaker(
                     tenant_id=meeting.tenant_id,
                     meeting_id=meeting.meeting_id,
-                    ordinal=max((value.ordinal for value in rows), default=-1) + 1,
+                    ordinal=max((value.ordinal for value in all_rows), default=-1) + 1,
+                    channel=channel,
                     reason=track.status if vector is None else reason,
                     speech_seconds=0,
                     props={
@@ -372,6 +422,7 @@ class MeetingChunkPersistence:
                 repository.session.add(row)
                 await repository.session.flush()
                 rows.append(row)
+                all_rows.append(row)
                 by_id[row.meeting_speaker_id] = row
                 native_graph[row.meeting_speaker_id] = None
                 if rebuild is not None:
@@ -618,8 +669,8 @@ class MeetingChunkPersistence:
             for word in result.words
         ]
         regular, exclusive = turns(result.turns), turns(result.exclusive_turns)
-        if index:
-            previous = await repository.chunk(meeting.tenant_id, meeting.meeting_id, index - 1)
+        if previous_index is not None:
+            previous = await repository.chunk(meeting.tenant_id, meeting.meeting_id, previous_index)
             if previous is None or previous.result.get("checkpoint_version") != 1:
                 raise SpeakerError("model_mismatch", 502)
             previous_words = [SpeechWord(**value) for value in previous.result["pending_words"]]

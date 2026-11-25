@@ -65,6 +65,8 @@ function MeetingResultsContent({ meeting, revision }: { meeting: Meeting; revisi
   }, [meeting.public_id, revision, speakerOffset, textOffset, refresh]);
 
   const label = (speaker: MeetingSpeaker) => speaker.profile_name || speaker.display_name || t("meeting.speakerLabel", { number: new Intl.NumberFormat(locale).format(speaker.ordinal + 1) });
+  // Two-channel captures name the channel each voice was heard on (PRD 037).
+  const channels = new Map((speakerPage?.items ?? []).flatMap((speaker) => speaker.channel ? [[speaker.public_id, speaker.channel] as const] : []));
   function closeEditor() { setEditing(null); setSaveError(null); renameTrigger.current?.focus(); }
   async function save(event: FormEvent) {
     event.preventDefault();
@@ -99,10 +101,12 @@ function MeetingResultsContent({ meeting, revision }: { meeting: Meeting; revisi
       {transcriptPage?.items.length === 0 && <p className="empty-card">{t("meeting.transcriptEmpty")}</p>}
       <ol className="meeting-transcript">{transcriptPage?.items.map((turn) => {
         const speakerName = turn.speaker_name || (turn.speaker_ordinal != null ? t("meeting.speakerLabel", { number: new Intl.NumberFormat(locale).format(turn.speaker_ordinal + 1) }) : t("meeting.unknownSpeaker"));
+        const channel = turn.speaker_public_id ? channels.get(turn.speaker_public_id) : undefined;
         return <li key={turn.public_id} className="transcript-turn" data-transcript-id={turn.public_id}>
           <SpeakerAvatar name={speakerName} index={turn.speaker_ordinal ?? -1} />
           <div className="transcript-turn-body">
             <div className="transcript-turn-heading"><strong>{speakerName}</strong>
+              {channel && <span className="muted meeting-channel">{t(`meeting.channel.${channel}`)}</span>}
               <span className="muted meeting-timestamp">{recordingTime(turn.start_seconds)}–{recordingTime(turn.end_seconds)}</span></div>
             <CorrectedTranscriptText turn={turn} />
             {(turn.overlap || turn.uncertain) && <div className="action-row">{turn.overlap && <span className="status-badge status-queued">{t("meeting.overlap")}</span>}{turn.uncertain && <span className="status-badge status-queued">{t("meeting.uncertain")}</span>}</div>}
@@ -128,6 +132,7 @@ function MeetingResultsContent({ meeting, revision }: { meeting: Meeting; revisi
       {speakerPage?.items.length === 0 && <p className="empty-card">{t("meeting.speakersEmpty")}</p>}
       <ul className="profiles">{speakerPage?.items.map((speaker) => <li key={speaker.public_id} className="profile-card meeting-speaker-card" data-speaker-id={speaker.public_id} data-profile-id={speaker.profile_public_id ?? ""}>
         <div className="speaker-card-heading"><SpeakerAvatar name={label(speaker)} index={speaker.ordinal} /><div className="speaker-card-copy"><h3>{label(speaker)}</h3>
+          {speaker.channel && <p className="field-hint meeting-channel">{t(`meeting.channel.${speaker.channel}`)}</p>}
           <p className="field-hint">{t("meeting.speech", { seconds: new Intl.NumberFormat(locale, { maximumFractionDigits: 1 }).format(speaker.speech_seconds) })}</p></div>
           <p className={`status-badge status-${speaker.decision === "profile_pending" || speaker.decision === "ambiguous" ? "queued" : "succeeded"}`}>{t(`meeting.decision.${speaker.decision}`)}</p></div>
         {speaker.profile_deleted && <p className="notice">{t("meeting.profileDeleted")}</p>}

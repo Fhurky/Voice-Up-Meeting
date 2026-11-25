@@ -8,9 +8,10 @@ export const meeting: Meeting = {
   language: "tr", participant_count: 5, expected_speakers: null, auto_enroll: true, participants: [], subject: null, questions: [],
   observed_speakers: 1, count_mismatch: false, error_code: null, source_available: true,
   created_at: "2026-09-10T10:00:00Z", started_at: "2026-09-10T10:01:00Z", finished_at: "2026-09-10T10:02:00Z",
+  capture_mode: "file", captured_frames: null, captured_seconds: null, capture_idle: false,
 };
 export const meetingSpeaker: MeetingSpeaker = {
-  public_id: "32b625b1-51ab-44da-920c-c6849c7b1fd1", ordinal: 0, display_name: null,
+  public_id: "32b625b1-51ab-44da-920c-c6849c7b1fd1", ordinal: 0, channel: null, display_name: null,
   profile_public_id: null, profile_name: null, profile_deleted: false, decision: "profile_pending",
   reason: "insufficient_speech", speech_seconds: 12, version: 1, profile_updated_at: null,
 };

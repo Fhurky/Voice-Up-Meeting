@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { ApiError } from "@/lib/apiClient";
-import { extractMeetingAudio, isMediaContainer, monoPcm } from "@/lib/mediaAudio";
+import { extractAudio, isMediaContainer, monoPcm } from "@/lib/mediaAudio";
 
 afterEach(() => { vi.unstubAllGlobals(); });
 
@@ -30,7 +30,7 @@ describe("meeting audio from MP4 containers", () => {
 
   it("produces a 16 kHz mono WAV named after the source, keeping its timestamp", async () => {
     const created = stubDecoder(async () => decoded([[0.5, -0.5], [0.5, -0.5]]));
-    const audio = await extractMeetingAudio(mp4());
+    const audio = await extractAudio(mp4());
     expect(created[0]).toEqual([1, 1, 16000]);
     expect(audio.name).toBe("toplanti.kayit.wav");
     expect(audio.lastModified).toBe(1234);
@@ -45,17 +45,24 @@ describe("meeting audio from MP4 containers", () => {
 
   it("reports a file the browser cannot decode without creating anything", async () => {
     stubDecoder(async () => { throw new DOMException("bad", "EncodingError"); });
-    await expect(extractMeetingAudio(mp4())).rejects.toMatchObject({ code: "media_no_audio" });
-    await expect(extractMeetingAudio(mp4())).rejects.toBeInstanceOf(ApiError);
+    await expect(extractAudio(mp4())).rejects.toMatchObject({ code: "media_no_audio" });
+    await expect(extractAudio(mp4())).rejects.toBeInstanceOf(ApiError);
   });
 
   it("reports a file without audio", async () => {
     stubDecoder(async () => decoded([[]]));
-    await expect(extractMeetingAudio(mp4())).rejects.toMatchObject({ code: "media_no_audio" });
+    await expect(extractAudio(mp4())).rejects.toMatchObject({ code: "media_no_audio" });
   });
 
   it("rejects audio longer than the meeting limit", async () => {
     stubDecoder(async () => ({ ...decoded([[0]]), duration: 4 * 3600 + 1 }));
-    await expect(extractMeetingAudio(mp4())).rejects.toMatchObject({ code: "audio_limit" });
+    await expect(extractAudio(mp4())).rejects.toMatchObject({ code: "audio_limit" });
+  });
+
+  it("applies the caller's limit, inclusive", async () => {
+    stubDecoder(async () => ({ ...decoded([[0]]), duration: 120 }));
+    await expect(extractAudio(mp4(), 120)).resolves.toBeInstanceOf(File);
+    stubDecoder(async () => ({ ...decoded([[0]]), duration: 120.5 }));
+    await expect(extractAudio(mp4(), 120)).rejects.toMatchObject({ code: "audio_limit", status: 413 });
   });
 });

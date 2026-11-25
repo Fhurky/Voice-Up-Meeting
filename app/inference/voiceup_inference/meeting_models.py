@@ -25,6 +25,18 @@ if TYPE_CHECKING:
 DIARIZATION_ID = "pyannote/speaker-diarization-community-1"
 DIARIZATION_REVISION = "3533c8cf8e369892e6b79ff1bf80f7b0286a54ee"
 DIARIZATION_RECIPE = "community-vbx-fa015-v1"
+# The model's own configuration, applied once to a whole recording (PRD 030).
+WHOLE_RECORDING_RECIPE = "community-default-whole-v1"
+DIARIZATION_RECIPES = {
+    DIARIZATION_RECIPE: {
+        "clustering": {"threshold": 0.6, "Fa": 0.15, "Fb": 0.8},
+        "segmentation": {"min_duration_off": 0.0},
+    },
+    WHOLE_RECORDING_RECIPE: {
+        "clustering": {"threshold": 0.6, "Fa": 0.07, "Fb": 0.8},
+        "segmentation": {"min_duration_off": 0.0},
+    },
+}
 ASR_ID = "Systran/faster-whisper-large-v3"
 ASR_REVISION = "edaa852ec7e145841d8ffdb056a99866b5f0a478"
 DIARIZATION_FILES = frozenset(
@@ -192,12 +204,8 @@ class LocalMeetingModels:
         self._pipeline = Pipeline.from_pretrained(
             str(settings.meeting_diarization_dir), token=False
         )
-        self._pipeline.instantiate(
-            {
-                "clustering": {"threshold": 0.6, "Fa": 0.15, "Fb": 0.8},
-                "segmentation": {"min_duration_off": 0.0},
-            }
-        )
+        self._pipeline.instantiate(DIARIZATION_RECIPES[DIARIZATION_RECIPE])
+        self._recipe = DIARIZATION_RECIPE
         # On a GPU the ASR weights leave the device between jobs; on the CPU they have nowhere to go.
         self._asr_moves = settings.device != "cpu"
         # Physical cores, as PyTorch chooses by default: a 2-minute clip took 310 s with one
@@ -221,8 +229,12 @@ class LocalMeetingModels:
         *,
         max_speakers: int | None = None,
         num_speakers: int | None = None,
+        recipe: str = DIARIZATION_RECIPE,
     ) -> dict:
         torch = self._torch
+        if recipe != self._recipe:
+            self._pipeline.instantiate(DIARIZATION_RECIPES[recipe])
+            self._recipe = recipe
         matmul_tf32 = torch.backends.cuda.matmul.allow_tf32
         matmul_precision = torch.get_float32_matmul_precision()
         cudnn_tf32 = torch.backends.cudnn.allow_tf32

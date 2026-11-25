@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
 import { useIntl } from "@/contexts/IntlContext";
+import { extractAudio, isMediaContainer } from "@/lib/mediaAudio";
 import { meetingErrorKey, validateMeetingFile } from "@/lib/meetingErrors";
 import { uploadMeeting, type UploadProgress } from "@/services/meetingUpload";
 import type { Meeting } from "@/services/meetings";
@@ -11,7 +12,9 @@ export function MeetingSourceUpload({ meeting, initialFile, onComplete }: { meet
   const [progress, setProgress] = useState<UploadProgress | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [extracting, setExtracting] = useState(false);
   const controller = useRef<AbortController | null>(null);
+  const extracted = useRef<{ source: File; audio: File } | null>(null);
   const activeMeeting = useRef(meeting);
   const completed = useRef(onComplete);
   useEffect(() => { activeMeeting.current = meeting; completed.current = onComplete; }, [meeting, onComplete]);
@@ -24,10 +27,21 @@ export function MeetingSourceUpload({ meeting, initialFile, onComplete }: { meet
     const active = new AbortController(); controller.current = active;
     setBusy(true); setError(null);
     try {
-      const result = await uploadMeeting(activeMeeting.current, source, (value) => { if (!active.signal.aborted) setProgress(value); }, active.signal);
+      let upload = source;
+      if (isMediaContainer(source)) {
+        // The same video yields the same audio, so it must match the parts already stored.
+        if (extracted.current?.source !== source) {
+          setExtracting(true);
+          extracted.current = { source, audio: await extractAudio(source) };
+        }
+        upload = extracted.current.audio;
+      }
+      setExtracting(false);
+      if (active.signal.aborted) return;
+      const result = await uploadMeeting(activeMeeting.current, upload, (value) => { if (!active.signal.aborted) setProgress(value); }, active.signal);
       if (!active.signal.aborted) completed.current(result);
     } catch (failure) { if (!active.signal.aborted) setError(meetingErrorKey(failure)); }
-    finally { if (controller.current === active) { controller.current = null; setBusy(false); } }
+    finally { setExtracting(false); if (controller.current === active) { controller.current = null; setBusy(false); } }
   }, []);
   // Keep a source File reference only; audio bytes are read by the bounded uploader.
   useEffect(() => {
@@ -46,7 +60,7 @@ export function MeetingSourceUpload({ meeting, initialFile, onComplete }: { meet
       <div className="upload-surface">
         <span className="upload-surface-icon"><Icon name="file" size={24} /></span>
         <label htmlFor="meeting-source">{t("meeting.file")}</label>
-        <input id="meeting-source" type="file" accept=".wav,.flac,audio/wav,audio/flac" disabled={busy} aria-describedby="meeting-source-limits" onChange={(event) => { setFile(event.target.files?.[0] ?? null); setError(null); }} />
+        <input id="meeting-source" type="file" accept=".wav,.flac,.mp4,.m4a,audio/wav,audio/flac,video/mp4,audio/mp4" disabled={busy} aria-describedby="meeting-source-limits" onChange={(event) => { setFile(event.target.files?.[0] ?? null); setError(null); }} />
         {file && <p className="upload-file-name">{file.name}</p>}
       </div>
       <p id="meeting-source-limits" className="field-hint">{t("meeting.limits")}</p>
@@ -54,6 +68,7 @@ export function MeetingSourceUpload({ meeting, initialFile, onComplete }: { meet
         <label htmlFor="meeting-upload-progress">{t("meeting.uploadProgress", { uploaded: number.format(uploaded / 1024 ** 2), total: number.format(meeting.size_bytes / 1024 ** 2) })}</label>
         <progress id="meeting-upload-progress" value={uploaded} max={meeting.size_bytes} />
       </div>
+      {extracting && <p className="field-hint" role="status">{t("meeting.extractingAudio")}</p>}
       {busy && progress && <p role="status">{t(`meeting.upload.${progress.phase}`)}</p>}
       {error && <p className="error-message" role="alert">{t(error)}</p>}
       <div className="action-row">{busy ? <button type="button" className="button-secondary" onClick={pause}>{t("meeting.pauseUpload")}</button> : <button type="submit" disabled={!file}>{t("meeting.resume")}</button>}</div>

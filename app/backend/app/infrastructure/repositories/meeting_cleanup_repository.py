@@ -8,6 +8,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.domain.models.meeting import (
     Meeting,
     MeetingChunk,
+    MeetingDiarization,
     MeetingSpeaker,
     MeetingTranscript,
     MeetingUploadPart,
@@ -83,6 +84,7 @@ class MeetingCleanupRepository:
             ),
             (MeetingTranscript, {"text": "", "meeting_speaker_id": None}),
             (MeetingChunk, {"result": {}}),
+            (MeetingDiarization, {"result": {}}),
             (MeetingUploadPart, {"sha256": ""}),
             (
                 MeetingSpeaker,

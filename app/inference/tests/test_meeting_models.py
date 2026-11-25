@@ -147,7 +147,7 @@ def test_diarization_restores_the_existing_pilot_precision_flags(monkeypatch):
     import torch
 
     from voiceup.audio import Audio
-    from voiceup_inference.meeting_models import LocalMeetingModels
+    from voiceup_inference.meeting_models import DIARIZATION_RECIPE, LocalMeetingModels
 
     monkeypatch.setattr(torch.backends.cuda.matmul, "allow_tf32", True)
     monkeypatch.setattr(torch.backends.cudnn, "allow_tf32", True)
@@ -174,6 +174,7 @@ def test_diarization_restores_the_existing_pilot_precision_flags(monkeypatch):
     models._torch = torch
     models._device = torch.device("cpu")
     models._pipeline = PipelineFixture()
+    models._recipe = DIARIZATION_RECIPE
     assert (
         models.diarize(Audio(np.zeros(16000, dtype=np.float32)))["speaker_diarization"]
         == []
@@ -183,11 +184,32 @@ def test_diarization_restores_the_existing_pilot_precision_flags(monkeypatch):
     assert torch.get_float32_matmul_precision() == "medium"
 
 
+def test_recipe_changes_only_when_another_one_is_requested():
+    import numpy as np
+
+    from voiceup.audio import Audio
+    from voiceup_inference import meeting_models
+
+    models = native_tracking_fixture(np.array([[1.0] + [0.0] * 255]), ["SPEAKER_00"])
+    applied = []
+    models._pipeline.instantiate = lambda params: applied.append(params)
+    audio = Audio(np.zeros(16000, dtype=np.float32))
+    models.diarize(audio)
+    models.diarize(audio, recipe=meeting_models.WHOLE_RECORDING_RECIPE)
+    models.diarize(audio, recipe=meeting_models.WHOLE_RECORDING_RECIPE)
+    models.diarize(audio)
+    assert applied == [
+        {"clustering": {"threshold": 0.6, "Fa": 0.07, "Fb": 0.8}, "segmentation": {"min_duration_off": 0.0}},
+        {"clustering": {"threshold": 0.6, "Fa": 0.15, "Fb": 0.8}, "segmentation": {"min_duration_off": 0.0}},
+    ]
+
+
 def native_tracking_fixture(embeddings, labels):
     from types import SimpleNamespace
 
     import torch
 
+    from voiceup_inference import meeting_models
     from voiceup_inference.meeting_models import LocalMeetingModels
 
     annotation = SimpleNamespace(
@@ -215,6 +237,7 @@ def native_tracking_fixture(embeddings, labels):
     models._torch = torch
     models._device = torch.device("cpu")
     models._pipeline = PipelineFixture()
+    models._recipe = meeting_models.DIARIZATION_RECIPE
     return models
 
 

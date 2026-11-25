@@ -50,7 +50,7 @@ await withBrowser("meeting upload, resume and ordinary permissions in both local
     await page.getByRole("button", { name: "Yüklemeyi başlat", exact: true }).click();
     await page.waitForURL(/\/meetings\/[a-f0-9-]+$/);
     const invalidId = new URL(page.url()).pathname.split("/").at(-1); meetings.add(invalidId);
-    await page.getByRole("alert").filter({ hasText: "Yalnız WAV ve FLAC kayıtları desteklenir" }).waitFor();
+    await page.getByRole("alert").filter({ hasText: "Yalnız WAV, FLAC, MP4 ve M4A kayıtları desteklenir" }).waitFor();
     const invalid = await request(`/meetings/${invalidId}`);
     assert.equal(invalid.body.status, "uploading");
     assert.equal(invalid.body.participant_count, 5); assert.equal(invalid.body.expected_speakers, 3);
@@ -87,7 +87,7 @@ await withBrowser("meeting upload, resume and ordinary permissions in both local
     assert.equal((await request(`/meetings/${resumeId}/upload-parts`)).body.next_index, 1);
     await page.getByLabel("Toplantı ses veya video dosyası").setInputFiles({ name: "source.wav", mimeType: "audio/wav", buffer });
     await page.getByRole("button", { name: "Yüklemeye devam et", exact: true }).click();
-    await page.getByRole("alert").filter({ hasText: "Yalnız WAV ve FLAC kayıtları desteklenir" }).waitFor();
+    await page.getByRole("alert").filter({ hasText: "Yalnız WAV, FLAC, MP4 ve M4A kayıtları desteklenir" }).waitFor();
     const completedParts = await request(`/meetings/${resumeId}/upload-parts`);
     assert.equal(completedParts.body.next_index, 2); assert.equal(completedParts.body.uploaded_bytes, buffer.length);
     await request(`/meetings/${resumeId}`, "DELETE"); meetings.delete(resumeId);

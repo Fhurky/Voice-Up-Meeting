@@ -15,6 +15,7 @@ from sqlalchemy import (
     Identity,
     Index,
     Integer,
+    SmallInteger,
     String,
     Text,
     UniqueConstraint,
@@ -37,6 +38,10 @@ class Meeting(AuditSoftDeleteMixin, Base):
             name="meeting_size",
         ),
         CheckConstraint("format IN ('WAV', 'FLAC')", name="meeting_format"),
+        CheckConstraint(
+            "capture_mode IN ('file', 'two_channel') AND (capture_mode = 'file' OR (format = 'WAV' AND channels = 2 AND capture_chain IS NOT NULL))",
+            name="meeting_capture_mode",
+        ),
         CheckConstraint(
             "status IN ('uploading', 'queued', 'running', 'finalizing', 'succeeded', 'failed', 'cancelled')",
             name="meeting_status",
@@ -176,6 +181,23 @@ class Meeting(AuditSoftDeleteMixin, Base):
     source_removed_at: Mapped[datetime | None] = mapped_column(
         DateTime(timezone=True), nullable=True
     )
+    capture_mode: Mapped[str] = mapped_column(
+        String(16),
+        nullable=False,
+        default="file",
+        server_default="file",
+        comment="file: a complete uploaded source of declared size. two_channel: a browser recording streamed during the meeting; channel 0 is the recording computer's microphone, channel 1 the system audio of its shared screen; size_bytes reserves the source limit until the recording is sealed. Mirrored by MeetingResponse.capture_mode.",
+    )
+    capture_chain: Mapped[str | None] = mapped_column(
+        String(64),
+        nullable=True,
+        comment="two_channel only: running SHA-256 chain over accepted parts, chain = SHA-256(previous chain || part SHA-256) from 64 zeros; the browser sends the same value when it completes the recording.",
+    )
+    capture_part_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True),
+        nullable=True,
+        comment="two_channel only: time of the last accepted part; a recording idle for two minutes may be processed as received.",
+    )
 
 
 class MeetingUploadPart(AuditSoftDeleteMixin, Base):
@@ -271,6 +293,75 @@ class MeetingChunk(AuditSoftDeleteMixin, Base):
     )
 
 
+class MeetingDiarization(AuditSoftDeleteMixin, Base):
+    """A meeting-internal side table: it has no public identity and never leaves the backend."""
+
+    __tablename__ = "meeting_diarization"
+    __table_args__ = (
+        UniqueConstraint(
+            "tenant_id", "meeting_id", "channel", name="uq_meeting_diarization_channel"
+        ),
+        CheckConstraint("channel IN (0, 1)", name="meeting_diarization_channel"),
+        ForeignKeyConstraint(
+            ["tenant_id", "meeting_id"],
+            ["meeting.tenant_id", "meeting.meeting_id"],
+            ondelete="RESTRICT",
+        ),
+        CheckConstraint(
+            "recipe IN ('community-default-whole-v1')", name="meeting_diarization_recipe"
+        ),
+        CheckConstraint(
+            "speaker_count BETWEEN 0 AND 1000 AND char_length(source_sha256) = 64",
+            name="meeting_diarization_bounds",
+        ),
+        CheckConstraint(
+            "jsonb_typeof(result) = 'object' AND octet_length(result::text) <= 67108864",
+            name="meeting_diarization_result",
+        ),
+        Index(
+            "ix_meeting_diarization_active_meeting",
+            "tenant_id",
+            "meeting_id",
+            postgresql_where=text("is_deleted = false"),
+        ),
+        {
+            "comment": "Speaker turns from one diarization pass over one channel of a whole meeting recording; analysis chunks attribute speech to these speakers."
+        },
+    )
+    meeting_diarization_id: Mapped[int] = mapped_column(BigInteger, Identity(), primary_key=True)
+    tenant_id: Mapped[int] = mapped_column(
+        BigInteger, ForeignKey("tenant.tenant_id", ondelete="RESTRICT"), nullable=False
+    )
+    meeting_id: Mapped[int] = mapped_column(
+        BigInteger,
+        nullable=False,
+        comment="Same-tenant meeting; at most one pass per meeting and channel.",
+    )
+    channel: Mapped[int] = mapped_column(
+        SmallInteger,
+        nullable=False,
+        default=0,
+        server_default="0",
+        comment="Source channel the turns describe: 0 for a single-channel meeting (its channels mixed) and for a two_channel capture's microphone, 1 for a two_channel capture's system audio.",
+    )
+    recipe: Mapped[str] = mapped_column(
+        String(64),
+        nullable=False,
+        comment="Versioned clustering configuration. community-default-whole-v1: the model's own settings (threshold 0.6, Fa 0.07, Fb 0.8), applied once to the whole recording.",
+    )
+    model_id: Mapped[str] = mapped_column(String(120), nullable=False)
+    model_revision: Mapped[str] = mapped_column(String(64), nullable=False)
+    source_sha256: Mapped[str] = mapped_column(
+        String(64), nullable=False, comment="Digest of the source audio these turns describe."
+    )
+    speaker_count: Mapped[int] = mapped_column(Integer, nullable=False)
+    result: Mapped[dict[str, Any]] = mapped_column(
+        JSONB,
+        nullable=False,
+        comment="Private turns and exclusive turns in source seconds under model labels; each label is stored on its meeting_speaker row as props.diarization_label. Never returned by the public HTTP contract.",
+    )
+
+
 class MeetingSpeaker(AuditSoftDeleteMixin, Base):
     __tablename__ = "meeting_speaker"
     __table_args__ = (
@@ -318,6 +409,7 @@ class MeetingSpeaker(AuditSoftDeleteMixin, Base):
         CheckConstraint(
             "jsonb_typeof(clean_ranges) = 'array'", name="meeting_speaker_clean_ranges"
         ),
+        CheckConstraint("channel IS NULL OR channel IN (0, 1)", name="meeting_speaker_channel"),
         Index(
             "ix_meeting_speaker_active_meeting",
             "tenant_id",
@@ -340,6 +432,11 @@ class MeetingSpeaker(AuditSoftDeleteMixin, Base):
         comment="Same-tenant meeting acoustic cluster scope.",
     )
     ordinal: Mapped[int] = mapped_column(Integer, nullable=False)
+    channel: Mapped[int | None] = mapped_column(
+        SmallInteger,
+        nullable=True,
+        comment="two_channel captures only: 0 when the speaker was heard on the recording computer's microphone, 1 on its system audio; evidence and memory samples come from this channel. NULL for single-channel meetings. Mirrored by MeetingSpeakerResponse.channel (microphone, system).",
+    )
     display_name: Mapped[str | None] = mapped_column(
         String(120),
         nullable=True,
